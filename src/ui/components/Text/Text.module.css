@@ -1,0 +1,90 @@
+.text {
+  margin: 0;
+  font-family: var(--text-body-family);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line);
+  font-weight: var(--text-body-weight);
+  font-style: var(--text-body-style);
+  letter-spacing: var(--text-body-tracking);
+}
+
+.body-lg {
+  font-family: var(--text-body-lg-family);
+  font-size: var(--text-body-lg-size);
+  line-height: var(--text-body-lg-line);
+  font-weight: var(--text-body-lg-weight);
+  font-style: var(--text-body-lg-style);
+  letter-spacing: var(--text-body-lg-tracking);
+}
+
+.body {
+  /* defaults live on .text */
+}
+
+.body-sm {
+  font-family: var(--text-body-sm-family);
+  font-size: var(--text-body-sm-size);
+  line-height: var(--text-body-sm-line);
+  font-weight: var(--text-body-sm-weight);
+  font-style: var(--text-body-sm-style);
+  letter-spacing: var(--text-body-sm-tracking);
+}
+
+.label {
+  font-family: var(--text-label-family);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-line);
+  font-weight: var(--text-label-weight);
+  font-style: var(--text-label-style);
+  letter-spacing: var(--text-label-tracking);
+}
+
+.caption {
+  font-family: var(--text-caption-family);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line);
+  font-weight: var(--text-caption-weight);
+  font-style: var(--text-caption-style);
+  letter-spacing: var(--text-caption-tracking);
+}
+
+.emphasis {
+  font-family: var(--text-emphasis-family);
+  font-size: var(--text-emphasis-size);
+  line-height: var(--text-emphasis-line);
+  font-weight: var(--text-emphasis-weight);
+  font-style: var(--text-emphasis-style);
+  letter-spacing: var(--text-emphasis-tracking);
+}
+
+.code {
+  font-family: var(--text-code-family);
+  font-size: var(--text-code-size);
+  line-height: var(--text-code-line);
+  font-weight: var(--text-code-weight);
+  font-style: var(--text-code-style);
+  letter-spacing: var(--text-code-tracking);
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}
+
+.tone-default {
+  color: var(--color-fg);
+}
+
+.tone-muted {
+  color: var(--color-fg-muted);
+}
+
+.tone-subtle {
+  color: var(--color-fg-subtle);
+}
+
+.tone-danger {
+  color: var(--color-danger);
+}
+
+.tone-success {
+  color: var(--color-success);
+}

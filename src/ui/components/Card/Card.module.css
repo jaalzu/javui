@@ -1,0 +1,15 @@
+.card {
+  box-sizing: border-box;
+  min-width: 0;
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  color: var(--color-fg);
+}
+
+.outline {
+  background: transparent;
+}
+
+.surface {
+  background: var(--color-surface-2);
+}

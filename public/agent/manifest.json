@@ -1,0 +1,2032 @@
+{
+  "name": "ui-lib",
+  "description": "React component library. Next.js, TypeScript, CSS variables + CSS Modules. Controls are built on Base UI.",
+  "principles": [
+    "HTML first: use the semantic element for the job. Own components render correct HTML; Base UI components handle behavior and ARIA.",
+    "Use semantic tokens only; never hardcode colors, spacing or fonts.",
+    "Every control needs an accessible name: Field `label`, the component's `label`/`legend`, or `aria-label`.",
+    "One way to do each thing: links are Link, actions are Button, headings are Heading, body text is Text.",
+    "Keep heading levels in order, one h1 per page."
+  ],
+  "categories": [
+    "typography",
+    "layout",
+    "utility",
+    "feedback",
+    "controls",
+    "overlays",
+    "navigation"
+  ],
+  "components": [
+    {
+      "name": "Text",
+      "category": "typography",
+      "base": "Own component",
+      "description": "Body-level text: paragraphs, labels, captions and inline code.\nFor headings use `Heading`; for links use `Link`.",
+      "import": "import { Text } from \"@/ui\";",
+      "renders": "p (body variants), span (label, caption), code (code); or the element in `as`",
+      "composition": "`as` accepts only: p, span, label, strong, em, small, div, code. No links or buttons.",
+      "whenToUse": "Any paragraph, label, caption or inline code that is not a heading.",
+      "avoid": [
+        "Headings: use Heading.",
+        "Links: use Link.",
+        "Actions: use Button.",
+        "Setting font-size or color by hand."
+      ],
+      "accessibility": "Use `as=\"label\"` with `htmlFor` for form labels when not using Field. Do not use tone=\"subtle\" for required text.",
+      "props": [
+        {
+          "name": "as",
+          "type": "\"div\" | \"code\" | \"em\" | \"label\" | \"p\" | \"small\" | \"span\" | \"strong\"",
+          "required": false,
+          "description": "HTML element to render. Defaults by variant: `p` for body variants, `span` for\n`label` and `caption`, `code` for `code`. Use `label` with `htmlFor` for form labels."
+        },
+        {
+          "name": "tone",
+          "type": "\"danger\" | \"default\" | \"muted\" | \"success\" | \"subtle\"",
+          "required": false,
+          "default": "default",
+          "description": "Text color from the semantic color tokens."
+        },
+        {
+          "name": "variant",
+          "type": "\"body\" | \"caption\" | \"code\" | \"label\" | \"body-lg\" | \"body-sm\" | \"emphasis\"",
+          "required": false,
+          "default": "body",
+          "description": "Which text style to apply. Appearance only; it does not change the element."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<Text>Default paragraph.</Text>\n<Text variant=\"caption\" tone=\"muted\">Helper text</Text>\n<Text as=\"label\" htmlFor=\"email\" variant=\"label\">Email</Text>"
+      ],
+      "source": "src/ui/components/Text/Text.tsx"
+    },
+    {
+      "name": "Heading",
+      "category": "typography",
+      "base": "Own component",
+      "description": "A heading. Separates semantics (`as`) from appearance (`size`).",
+      "import": "import { Heading } from \"@/ui\";",
+      "renders": "h1-h6 from `as` (default h2)",
+      "composition": "`as` sets the outline level (h1-h6 only); `size` sets only the look.",
+      "whenToUse": "Page and section titles.",
+      "avoid": [
+        "Skipping levels (h1 then h3).",
+        "More than one h1 per page.",
+        "Choosing a level for its look: change `size` instead."
+      ],
+      "accessibility": "Heading order is part of the page structure for screen reader users.",
+      "props": [
+        {
+          "name": "as",
+          "type": "\"h1\" | \"h2\" | \"h3\" | \"h4\" | \"h5\" | \"h6\"",
+          "required": false,
+          "default": "h2",
+          "description": "Heading level in the document outline. Keep one `h1` per page and do not skip levels."
+        },
+        {
+          "name": "size",
+          "type": "\"h1\" | \"h2\" | \"h3\" | \"h4\" | \"display\"",
+          "required": false,
+          "description": "Visual text style, independent from the level. Defaults to the style that matches `as`\n(`h5` and `h6` use `h4`). Use it to get an `h2` that looks like an `h4`."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<Heading as=\"h1\">Page title</Heading>\n<Heading as=\"h2\" size=\"h4\">Small-looking section title</Heading>"
+      ],
+      "source": "src/ui/components/Heading/Heading.tsx"
+    },
+    {
+      "name": "Link",
+      "category": "typography",
+      "base": "Own component",
+      "description": "A link for navigation. It renders an `a`, or the component given to `LinkProvider` (such as `next/link`).\nLinks always show an underline so they do not rely on color alone. For actions that do not navigate, use `Button`.",
+      "import": "import { Link } from \"@/ui\";",
+      "renders": "a",
+      "composition": "Native anchor props pass through. `href` is required.",
+      "whenToUse": "Navigation to another page, section or resource.",
+      "avoid": [
+        "Actions that do not navigate: use Button.",
+        "Links without visible text."
+      ],
+      "accessibility": "Always underlined so it does not rely on color (the underline gets stronger on hover). Use `target=\"_blank\"` only with `rel=\"noopener noreferrer\"`.",
+      "props": [
+        {
+          "name": "href",
+          "type": "string",
+          "required": true,
+          "description": "Where the link goes. Required: a link without `href` is not a link."
+        },
+        {
+          "name": "tone",
+          "type": "\"inherit\" | \"default\" | \"muted\"",
+          "required": false,
+          "default": "default",
+          "description": "`default` uses the text color, `muted` the secondary text color, `inherit` the surrounding color. The underline is always there."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<Link href=\"/docs\">Read the docs</Link>"
+      ],
+      "source": "src/ui/components/Link/Link.tsx"
+    },
+    {
+      "name": "Kbd",
+      "category": "typography",
+      "base": "Own component",
+      "description": "A keyboard key or shortcut. Renders a native `kbd`. Use one `Kbd` per key and join keys with text.",
+      "import": "import { Kbd } from \"@/ui\";",
+      "renders": "kbd",
+      "composition": "One Kbd per key; join keys with text such as +.",
+      "whenToUse": "Keyboard shortcuts in docs and UI.",
+      "avoid": [
+        "Using it as a button."
+      ],
+      "accessibility": "Native kbd semantics. Spell out symbols that screen readers read poorly, for example add VisuallyHidden text.",
+      "props": [],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<Kbd>⌘</Kbd> + <Kbd>K</Kbd>"
+      ],
+      "source": "src/ui/components/Kbd/Kbd.tsx"
+    },
+    {
+      "name": "Badge",
+      "category": "typography",
+      "base": "Own component",
+      "description": "Small status label. Text is always the primary signal; the tone is reinforcement.",
+      "import": "import { Badge } from \"@/ui\";",
+      "renders": "span",
+      "composition": "Plain children.",
+      "whenToUse": "Short status or count labels next to other content.",
+      "avoid": [
+        "Using color as the only signal: always include text.",
+        "Interactive badges: use Button."
+      ],
+      "accessibility": "Meaning must be in the text; the tone only reinforces it.",
+      "props": [
+        {
+          "name": "tone",
+          "type": "\"accent\" | \"danger\" | \"info\" | \"success\" | \"warning\" | \"neutral\"",
+          "required": false,
+          "default": "neutral",
+          "description": "Meaning of the badge. Conveyed by tint and border, never by color alone: always include text."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<Badge tone=\"success\">Active</Badge>"
+      ],
+      "source": "src/ui/components/Badge/Badge.tsx"
+    },
+    {
+      "name": "Box",
+      "category": "layout",
+      "base": "Own component",
+      "description": "Generic block container with token-based padding, surface, border and radius.\nUse it when no more specific component fits.",
+      "import": "import { Box } from \"@/ui\";",
+      "renders": "div, or the container element in `as`",
+      "composition": "`as` accepts: div, section, article, main, nav, aside, header, footer, ul, ol, li.",
+      "whenToUse": "A generic container with token padding, surface, border and radius.",
+      "avoid": [
+        "Pixel values: use the spacing scale keys.",
+        "Using div for something that has a semantic element."
+      ],
+      "accessibility": "Landmark elements (nav, main, aside) need an accessible name if there is more than one of the same kind.",
+      "props": [
+        {
+          "name": "as",
+          "type": "\"div\" | \"article\" | \"aside\" | \"footer\" | \"header\" | \"li\" | \"main\" | \"nav\" | \"ol\" | \"section\" | \"ul\"",
+          "required": false,
+          "default": "\"div\"",
+          "description": "Element to render. Pick the one that matches the meaning of the content (`section`, `nav`, `li`...)."
+        },
+        {
+          "name": "bordered",
+          "type": "boolean",
+          "required": false,
+          "description": "Draws a 1px border using the `border` color."
+        },
+        {
+          "name": "padding",
+          "type": "\"0\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\" | \"6\" | \"8\" | \"10\" | \"12\" | \"16\"",
+          "required": false,
+          "description": "Padding on all sides, from the spacing scale."
+        },
+        {
+          "name": "paddingX",
+          "type": "\"0\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\" | \"6\" | \"8\" | \"10\" | \"12\" | \"16\"",
+          "required": false,
+          "description": "Horizontal padding. Overrides `padding` on the inline axis."
+        },
+        {
+          "name": "paddingY",
+          "type": "\"0\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\" | \"6\" | \"8\" | \"10\" | \"12\" | \"16\"",
+          "required": false,
+          "description": "Vertical padding. Overrides `padding` on the block axis."
+        },
+        {
+          "name": "radius",
+          "type": "\"none\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"full\"",
+          "required": false,
+          "description": "Corner radius from the radius scale."
+        },
+        {
+          "name": "surface",
+          "type": "boolean",
+          "required": false,
+          "description": "Draws the `surface` background."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<Box as=\"section\" padding=\"6\" surface bordered radius=\"lg\">...</Box>"
+      ],
+      "source": "src/ui/components/Box/Box.tsx"
+    },
+    {
+      "name": "Stack",
+      "category": "layout",
+      "base": "Own component",
+      "description": "One-dimensional layout: children in a row or column with a token-based gap.",
+      "import": "import { Stack } from \"@/ui\";",
+      "renders": "div (or `as`) with display:flex",
+      "composition": "`as=\"ul\"` or `\"ol\"` requires `li` children.",
+      "whenToUse": "Arranging children in one direction with a consistent gap.",
+      "avoid": [
+        "Two-dimensional layouts: use Grid.",
+        "Margins between children: use `gap`."
+      ],
+      "accessibility": "List semantics are restored with role=\"list\" because removing markers drops them in some screen readers.",
+      "props": [
+        {
+          "name": "align",
+          "type": "\"center\" | \"start\" | \"end\" | \"stretch\" | \"baseline\"",
+          "required": false,
+          "default": "stretch",
+          "description": "Alignment on the cross axis."
+        },
+        {
+          "name": "as",
+          "type": "\"div\" | \"article\" | \"aside\" | \"footer\" | \"header\" | \"li\" | \"main\" | \"nav\" | \"ol\" | \"section\" | \"ul\"",
+          "required": false,
+          "default": "\"div\"",
+          "description": "Element to render. With `ul` or `ol`, children must be `li` elements."
+        },
+        {
+          "name": "direction",
+          "type": "\"row\" | \"column\"",
+          "required": false,
+          "default": "column",
+          "description": "Main axis. `column` stacks vertically."
+        },
+        {
+          "name": "gap",
+          "type": "\"0\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\" | \"6\" | \"8\" | \"10\" | \"12\" | \"16\"",
+          "required": false,
+          "default": "4",
+          "description": "Space between children, from the spacing scale."
+        },
+        {
+          "name": "justify",
+          "type": "\"center\" | \"start\" | \"end\" | \"between\"",
+          "required": false,
+          "default": "start",
+          "description": "Distribution on the main axis."
+        },
+        {
+          "name": "wrap",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Lets children wrap onto new lines."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<Stack gap=\"3\">\n  <Heading as=\"h2\">Title</Heading>\n  <Text>Body</Text>\n</Stack>\n<Stack as=\"ul\" gap=\"2\"><li>One</li><li>Two</li></Stack>"
+      ],
+      "source": "src/ui/components/Stack/Stack.tsx"
+    },
+    {
+      "name": "Grid",
+      "category": "layout",
+      "base": "Own component",
+      "description": "Two-dimensional layout using CSS grid with a token-based gap.",
+      "import": "import { Grid } from \"@/ui\";",
+      "renders": "div (or `as`) with display:grid",
+      "composition": "`columns` is a number (equal columns) or a full grid-template-columns string.",
+      "whenToUse": "Two-dimensional layouts and card grids.",
+      "avoid": [
+        "One-dimensional layouts: use Stack."
+      ],
+      "accessibility": "Visual order should match DOM order.",
+      "props": [
+        {
+          "name": "align",
+          "type": "\"center\" | \"start\" | \"end\" | \"stretch\"",
+          "required": false,
+          "default": "stretch",
+          "description": "Alignment of items inside their cells on the block axis."
+        },
+        {
+          "name": "as",
+          "type": "\"div\" | \"article\" | \"aside\" | \"footer\" | \"header\" | \"li\" | \"main\" | \"nav\" | \"ol\" | \"section\" | \"ul\"",
+          "required": false,
+          "default": "\"div\"",
+          "description": "Element to render. With `ul` or `ol`, children must be `li` elements."
+        },
+        {
+          "name": "columnGap",
+          "type": "\"0\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\" | \"6\" | \"8\" | \"10\" | \"12\" | \"16\"",
+          "required": false,
+          "description": "Column gap override."
+        },
+        {
+          "name": "columns",
+          "type": "string | number",
+          "required": false,
+          "default": "1",
+          "description": "Number of equal columns (`3`), or a full `grid-template-columns` value\n(`\"2fr 1fr\"`, `\"repeat(auto-fit, minmax(16rem, 1fr))\"`)."
+        },
+        {
+          "name": "gap",
+          "type": "\"0\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\" | \"6\" | \"8\" | \"10\" | \"12\" | \"16\"",
+          "required": false,
+          "default": "4",
+          "description": "Space between rows and columns, from the spacing scale."
+        },
+        {
+          "name": "rowGap",
+          "type": "\"0\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\" | \"6\" | \"8\" | \"10\" | \"12\" | \"16\"",
+          "required": false,
+          "description": "Row gap override."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<Grid columns={3} gap=\"4\">...</Grid>\n<Grid columns=\"repeat(auto-fit, minmax(16rem, 1fr))\">...</Grid>"
+      ],
+      "source": "src/ui/components/Grid/Grid.tsx"
+    },
+    {
+      "name": "Container",
+      "category": "layout",
+      "base": "Own component",
+      "description": "Centers content and limits its width, with side padding from the spacing scale.",
+      "import": "import { Container } from \"@/ui\";",
+      "renders": "div (or `as`), centered with a max width",
+      "composition": "`size` is one of sm, md, lg, xl (container tokens).",
+      "whenToUse": "Page-level width limit and side padding.",
+      "avoid": [
+        "Nesting containers."
+      ],
+      "accessibility": "Use `as=\"main\"` once per page for the primary content.",
+      "props": [
+        {
+          "name": "as",
+          "type": "\"div\" | \"article\" | \"aside\" | \"footer\" | \"header\" | \"main\" | \"nav\" | \"section\"",
+          "required": false,
+          "default": "\"div\"",
+          "description": "Element to render. Use `main` once per page for the primary content."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+          "required": false,
+          "default": "lg",
+          "description": "Maximum content width: `sm` 40rem, `md` 48rem, `lg` 64rem, `xl` 80rem."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<Container as=\"main\" size=\"md\">...</Container>"
+      ],
+      "source": "src/ui/components/Container/Container.tsx"
+    },
+    {
+      "name": "Divider",
+      "category": "layout",
+      "base": "Own component",
+      "description": "A thematic break between groups of content. Renders a native `hr`.\nDo not use it for pure decoration; use spacing instead.",
+      "import": "import { Divider } from \"@/ui\";",
+      "renders": "hr",
+      "composition": "Native hr props pass through; no children.",
+      "whenToUse": "A thematic break between groups of content.",
+      "avoid": [
+        "Pure decoration: use spacing."
+      ],
+      "accessibility": "Exposed as a separator. Vertical sets aria-orientation.",
+      "props": [
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "default": "horizontal",
+          "description": "Direction of the line. A vertical divider is still an `hr` and sets `aria-orientation`."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<Divider />"
+      ],
+      "source": "src/ui/components/Divider/Divider.tsx"
+    },
+    {
+      "name": "VisuallyHidden",
+      "category": "utility",
+      "base": "Own component",
+      "description": "Hides content visually but keeps it in the accessibility tree, so screen readers still read it.\nNever use `display: none` or `aria-hidden` for this purpose.",
+      "import": "import { VisuallyHidden } from \"@/ui\";",
+      "renders": "span (or div)",
+      "composition": "Children only.",
+      "whenToUse": "Text that screen readers must read but sighted users should not see, such as the name of an icon-only button.",
+      "avoid": [
+        "display:none or aria-hidden for this purpose: they remove the content from the accessibility tree."
+      ],
+      "accessibility": "Stays in the accessibility tree by design.",
+      "props": [
+        {
+          "name": "as",
+          "type": "\"div\" | \"span\"",
+          "required": false,
+          "default": "span",
+          "description": "Element to render."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<button><Icon .../><VisuallyHidden>Close</VisuallyHidden></button>"
+      ],
+      "source": "src/ui/components/VisuallyHidden/VisuallyHidden.tsx"
+    },
+    {
+      "name": "Icon",
+      "category": "utility",
+      "base": "Own component",
+      "description": "SVG icon wrapper. Pass the glyph paths as children; it uses `currentColor`.",
+      "import": "import { Icon } from \"@/ui\";",
+      "renders": "svg",
+      "composition": "Pass the SVG paths as children; it uses currentColor and a 24x24 viewBox.",
+      "whenToUse": "Any glyph. Decorative by default.",
+      "avoid": [
+        "Meaningful icons without a label."
+      ],
+      "accessibility": "Without `label` it is aria-hidden. With `label` it is role=\"img\" with that name.",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible name. Provide it when the icon carries meaning on its own (no visible text next to it).\nWithout `label` the icon is decorative and hidden from assistive technology."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "default": "md",
+          "description": "Size relative to the surrounding text: `sm` 1em, `md` 1.25em, `lg` 1.5em."
+        },
+        {
+          "name": "viewBox",
+          "type": "string",
+          "required": false,
+          "default": "0 0 24 24",
+          "description": "SVG viewBox of the glyph."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<Icon><path d=\"M5 12l5 5L20 7\" /></Icon>\n<Icon label=\"Success\"><path d=\"M5 12l5 5L20 7\" /></Icon>"
+      ],
+      "source": "src/ui/components/Icon/Icon.tsx"
+    },
+    {
+      "name": "Spinner",
+      "category": "feedback",
+      "base": "Own component",
+      "description": "Indeterminate loading indicator. Announces `label` through a status region.\nRespects `prefers-reduced-motion` through the global styles.",
+      "import": "import { Spinner } from \"@/ui\";",
+      "renders": "span with role=\"status\" containing an svg and VisuallyHidden text",
+      "composition": "No children. Use `label` to describe what is loading.",
+      "whenToUse": "Indeterminate loading of an action or small region.",
+      "avoid": [
+        "Several spinners announcing at once.",
+        "Page-level loading of content shape: use Skeleton."
+      ],
+      "accessibility": "Announces `label` through a status live region. Motion follows prefers-reduced-motion.",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "default": "Loading",
+          "description": "Text announced to screen readers."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "default": "md",
+          "description": "Size relative to the surrounding text."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<Spinner label=\"Saving changes\" />"
+      ],
+      "source": "src/ui/components/Spinner/Spinner.tsx"
+    },
+    {
+      "name": "Skeleton",
+      "category": "feedback",
+      "base": "Own component",
+      "description": "Placeholder for content that is loading. Purely decorative: it is hidden from assistive technology.\nMark the region that is loading with `aria-busy=\"true\"` on its container and announce completion yourself.",
+      "import": "import { Skeleton } from \"@/ui\";",
+      "renders": "span (aria-hidden)",
+      "composition": "Shape is text, rect or circle; set width and height with CSS values.",
+      "whenToUse": "Placeholder for content whose layout is known while it loads.",
+      "avoid": [
+        "Using it as the only loading signal."
+      ],
+      "accessibility": "Hidden from assistive technology. Put aria-busy=\"true\" on the container that is loading.",
+      "props": [
+        {
+          "name": "height",
+          "type": "string",
+          "required": false,
+          "description": "CSS height. Defaults depend on `shape`."
+        },
+        {
+          "name": "shape",
+          "type": "\"circle\" | \"rect\" | \"text\"",
+          "required": false,
+          "default": "text",
+          "description": "Shape of the placeholder. `text` matches one line of body text."
+        },
+        {
+          "name": "width",
+          "type": "string",
+          "required": false,
+          "description": "CSS width, for example `\"12rem\"` or `\"100%\"`."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<section aria-busy=\"true\"><Skeleton width=\"60%\" /><Skeleton shape=\"rect\" height=\"8rem\" /></section>"
+      ],
+      "source": "src/ui/components/Skeleton/Skeleton.tsx"
+    },
+    {
+      "name": "Button",
+      "category": "controls",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "Displays an action button. It is built on Base UI Button, so keyboard, focus and disabled behavior come from there.\nIt defaults to `type=\"button\"` so it never submits a form by accident; set `type=\"submit\"` explicitly.\nFor navigation use `Link`.",
+      "import": "import { Button } from \"@/ui\";",
+      "renders": "button",
+      "composition": "Defaults to type=\"button\"; pass type=\"submit\" explicitly. Base UI props such as `render` and `nativeButton` are available but not needed for normal use.",
+      "whenToUse": "Any action: submit, open, confirm, cancel. Pass `loading` while the action runs.",
+      "avoid": [
+        "Navigation: use Link.",
+        "More than one primary button per view.",
+        "Disabling the button to show progress: use `loading`, it keeps the label and focus."
+      ],
+      "accessibility": "Icon-only buttons need `aria-label`. `loading` sets `aria-busy`. Keyboard and disabled behavior come from Base UI.",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Shows a spinner and ignores clicks while an action is running. The button keeps its label and stays\nfocusable, and `aria-busy` tells assistive technology it is working."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "default": "md",
+          "description": "Control height: `sm` 2rem, `md` 2.5rem, `lg` 3rem."
+        },
+        {
+          "name": "variant",
+          "type": "\"primary\" | \"secondary\" | \"ghost\" | \"accent\" | \"danger\"",
+          "required": false,
+          "default": "primary",
+          "description": "Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions,\n`ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Button>Save</Button>\n<Button variant=\"secondary\" size=\"sm\">Cancel</Button>\n<Button type=\"submit\">Send</Button>\n<Button loading>Saving</Button>\n<Button variant=\"secondary\"><Icon><path d=\"M5 12.5l4.5 4.5L19 7.5\" /></Icon>Done</Button>"
+      ],
+      "source": "src/ui/components/Button/Button.tsx"
+    },
+    {
+      "name": "Field",
+      "category": "controls",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "Wraps one control with its label, description and error, wired for accessibility by Base UI Field\n(`label` association, `aria-describedby`, `aria-invalid`). For groups of checkboxes or radios use `RadioGroup`\nor one `Checkbox` per option instead.",
+      "import": "import { Field } from \"@/ui\";",
+      "renders": "div containing a label, the control, a description and an error",
+      "composition": "Wrap exactly one Input, Textarea or Select. `label` is required.",
+      "whenToUse": "Every text-like form control.",
+      "avoid": [
+        "Wrapping Checkbox, Switch or RadioGroup: they carry their own label or legend."
+      ],
+      "accessibility": "Base UI wires the label, aria-describedby and aria-invalid. Passing `error` marks the field invalid.",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "The control: `Input`, `Textarea` or `Select`."
+        },
+        {
+          "name": "label",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Visible label. Required: every control needs an accessible name."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Help text shown under the control and linked with `aria-describedby`."
+        },
+        {
+          "name": "error",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Error message. When set, the field is marked invalid and the message is linked to the control."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Field label=\"Email\" description=\"We never share it.\" error={errors.email}>\n  <Input type=\"email\" autoComplete=\"email\" />\n</Field>"
+      ],
+      "source": "src/ui/components/Field/Field.tsx"
+    },
+    {
+      "name": "Input",
+      "category": "controls",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "A native text input built on Base UI Input. Inside `Field` it is labelled and wired to its\ndescription and error automatically. Outside `Field` it needs an accessible name\n(`aria-label` or an associated `label`).",
+      "import": "import { Input } from \"@/ui\";",
+      "renders": "input",
+      "composition": "Native input props pass through (type, autoComplete, name, required...).",
+      "whenToUse": "Single-line text entry.",
+      "avoid": [
+        "Using it without Field or aria-label.",
+        "Multi-line text: use Textarea."
+      ],
+      "accessibility": "Needs an accessible name. Set `autoComplete` for personal data fields.",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "default": "md",
+          "description": "Control height: `sm` 2rem, `md` 2.5rem, `lg` 3rem."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Field label=\"Email\"><Input type=\"email\" autoComplete=\"email\" /></Field>"
+      ],
+      "source": "src/ui/components/Input/Input.tsx"
+    },
+    {
+      "name": "Textarea",
+      "category": "controls",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "A native `textarea` that works with `Field` the same way `Input` does.\nNeeds an accessible name inside or outside `Field`.",
+      "import": "import { Textarea } from \"@/ui\";",
+      "renders": "textarea",
+      "composition": "Native textarea props pass through; `rows` defaults to 3.",
+      "whenToUse": "Multi-line text entry.",
+      "avoid": [
+        "Using it without Field or aria-label."
+      ],
+      "accessibility": "Needs an accessible name.",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Field label=\"Message\"><Textarea rows={4} /></Field>"
+      ],
+      "source": "src/ui/components/Textarea/Textarea.tsx"
+    },
+    {
+      "name": "Checkbox",
+      "category": "controls",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "A checkbox with its label, built on Base UI Checkbox (keyboard, focus, form value and\nindeterminate state come from there). The whole label is clickable.",
+      "import": "import { Checkbox } from \"@/ui\";",
+      "renders": "span role=\"checkbox\" with a hidden native input, inside a label",
+      "composition": "`label` is required. Use `indeterminate` for a partial parent state.",
+      "whenToUse": "Independent yes/no choices, especially ones submitted with a form.",
+      "avoid": [
+        "Mutually exclusive options: use RadioGroup.",
+        "Settings that apply instantly: use Switch."
+      ],
+      "accessibility": "The whole label is clickable. Base UI handles keyboard and the mixed state.",
+      "props": [
+        {
+          "name": "label",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Visible label, rendered next to the box. Required: every control needs an accessible name."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Checkbox label=\"Send me product updates\" defaultChecked />\n<Checkbox label=\"Select all\" indeterminate />"
+      ],
+      "source": "src/ui/components/Checkbox/Checkbox.tsx"
+    },
+    {
+      "name": "Radio",
+      "category": "controls",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "One option inside a `RadioGroup`, built on Base UI Radio. The whole label is clickable.",
+      "import": "import { Radio } from \"@/ui\";",
+      "renders": "span role=\"radio\" with a hidden native input, inside a label",
+      "composition": "Only inside RadioGroup. `value` and `label` are required.",
+      "whenToUse": "One option of a RadioGroup.",
+      "avoid": [
+        "Using it outside a RadioGroup."
+      ],
+      "accessibility": "The whole label is clickable.",
+      "props": [
+        {
+          "name": "label",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Visible label for this option."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": true,
+          "description": "Value submitted and reported when this option is selected."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [],
+      "source": "src/ui/components/Radio/Radio.tsx"
+    },
+    {
+      "name": "RadioGroup",
+      "category": "controls",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "A group of mutually exclusive options. Renders a `fieldset` with a `legend`, driven by Base UI RadioGroup.",
+      "import": "import { RadioGroup } from \"@/ui\";",
+      "renders": "fieldset with a legend and a radiogroup",
+      "composition": "`legend` is required. Children are Radio elements.",
+      "whenToUse": "Choosing exactly one option from a short list.",
+      "avoid": [
+        "Long lists: use Select."
+      ],
+      "accessibility": "Arrow keys move the selection. The legend names the group.",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "The `Radio` options."
+        },
+        {
+          "name": "legend",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Visible group label, rendered as the `legend` of a `fieldset`. Required: the group needs a name."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "default": "vertical",
+          "description": "Layout of the options."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<RadioGroup legend=\"Plan\" defaultValue=\"free\">\n  <Radio value=\"free\" label=\"Free\" />\n  <Radio value=\"pro\" label=\"Pro\" />\n</RadioGroup>"
+      ],
+      "source": "src/ui/components/Radio/Radio.tsx"
+    },
+    {
+      "name": "Switch",
+      "category": "controls",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "An on/off switch for a setting that applies immediately, built on Base UI Switch.\nFor choices that are submitted with a form, prefer `Checkbox`.",
+      "import": "import { Switch } from \"@/ui\";",
+      "renders": "span role=\"switch\" with a hidden native input, inside a label",
+      "composition": "`label` is required.",
+      "whenToUse": "A setting that turns on or off immediately.",
+      "avoid": [
+        "Choices that need a Save button: use Checkbox."
+      ],
+      "accessibility": "Announced as a switch with on/off state.",
+      "props": [
+        {
+          "name": "label",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Visible label, rendered next to the switch. Required: every control needs an accessible name."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Switch label=\"Dark mode\" />"
+      ],
+      "source": "src/ui/components/Switch/Switch.tsx"
+    },
+    {
+      "name": "Select",
+      "category": "controls",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).\nPass `items` instead of composing parts.",
+      "import": "import { Select } from \"@/ui\";",
+      "renders": "button role=\"combobox\" with a listbox popup in a portal",
+      "composition": "Pass `items` ({ value, label, disabled? }). Give it `label`, `aria-label` or wrap it in Field.",
+      "whenToUse": "Choosing one option from a longer list.",
+      "avoid": [
+        "Two or three options: use RadioGroup.",
+        "Free text: use Input."
+      ],
+      "accessibility": "Keyboard, typeahead and focus come from Base UI. Needs an accessible name.",
+      "props": [
+        {
+          "name": "items",
+          "type": "SelectItem[]",
+          "required": true,
+          "description": "The options. Each has a machine `value` and a visible `label`."
+        },
+        {
+          "name": "aria-label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible name when there is no visible label."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Visible label. Provide it, or `aria-label`, or put the Select inside `Field`:\nevery control needs an accessible name."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "description": "Text shown when nothing is selected."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "default": "md",
+          "description": "Control height: `sm` 2rem, `md` 2.5rem, `lg` 3rem."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Select label=\"Country\" placeholder=\"Choose one\" items={[{ value: \"ar\", label: \"Argentina\" }]} />"
+      ],
+      "source": "src/ui/components/Select/Select.tsx"
+    },
+    {
+      "name": "Dialog",
+      "category": "overlays",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "Root of a modal dialog. Holds the open state; use `open` and `onOpenChange` to control it,\nor `defaultOpen` to leave it uncontrolled. Built on Base UI Dialog (focus trap, Escape to close,\nfocus return and scroll lock come from there).",
+      "import": "import { Dialog } from \"@/ui\";",
+      "renders": "no element: it only holds the open state (Base UI Dialog.Root)",
+      "composition": "Structure: Dialog > DialogTrigger + DialogContent (title, description, DialogClose buttons).",
+      "whenToUse": "Interrupting the user for a decision or focused task.",
+      "avoid": [
+        "Non-essential information: use inline content or Tooltip.",
+        "Dialogs without a title."
+      ],
+      "accessibility": "Focus is trapped and returned, Escape closes, the page behind is inert. Title is the accessible name.",
+      "props": [],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Dialog>\n  <DialogTrigger>Delete project</DialogTrigger>\n  <DialogContent title=\"Delete project?\" description=\"This cannot be undone.\">\n    <DialogClose>Cancel</DialogClose>\n  </DialogContent>\n</Dialog>"
+      ],
+      "source": "src/ui/components/Dialog/Dialog.tsx"
+    },
+    {
+      "name": "DialogTrigger",
+      "category": "overlays",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "The button that opens the dialog. It is rendered as a `Button`.",
+      "import": "import { DialogTrigger } from \"@/ui\";",
+      "renders": "button (a Button)",
+      "composition": "Direct child of Dialog. Accepts Button `variant` and `size`.",
+      "whenToUse": "The button that opens the dialog.",
+      "avoid": [
+        "Using a plain Button to open it."
+      ],
+      "accessibility": "Gets aria-haspopup and expanded state from Base UI.",
+      "props": [
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "default": "md",
+          "description": "Button size of the trigger."
+        },
+        {
+          "name": "variant",
+          "type": "\"primary\" | \"secondary\" | \"ghost\" | \"accent\" | \"danger\"",
+          "required": false,
+          "default": "primary",
+          "description": "Button style of the trigger."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [],
+      "source": "src/ui/components/Dialog/Dialog.tsx"
+    },
+    {
+      "name": "DialogContent",
+      "category": "overlays",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "The dialog panel with its backdrop, title and description.\nPlace it inside `Dialog`.",
+      "import": "import { DialogContent } from \"@/ui\";",
+      "renders": "div role=\"dialog\" in a portal, plus a backdrop",
+      "composition": "`title` is required; `description` is recommended. Children are the actions, usually DialogClose.",
+      "whenToUse": "The panel of the dialog.",
+      "avoid": [
+        "Omitting `title`."
+      ],
+      "accessibility": "title is the accessible name; description is the accessible description.",
+      "props": [
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Dialog title. Required: it is the accessible name of the dialog."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Body and actions. Put `DialogClose` buttons here."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Short explanation, announced as the accessible description."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [],
+      "source": "src/ui/components/Dialog/Dialog.tsx"
+    },
+    {
+      "name": "DialogClose",
+      "category": "overlays",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "A button that closes the dialog. It is rendered as a `Button`.",
+      "import": "import { DialogClose } from \"@/ui\";",
+      "renders": "button (a Button)",
+      "composition": "Inside DialogContent. Accepts Button `variant` and `size`.",
+      "whenToUse": "Cancel and close actions.",
+      "avoid": [
+        "Closing by custom onClick state when DialogClose is enough."
+      ],
+      "accessibility": "Closing returns focus to the trigger.",
+      "props": [
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "default": "md",
+          "description": "Button size."
+        },
+        {
+          "name": "variant",
+          "type": "\"primary\" | \"secondary\" | \"ghost\" | \"accent\" | \"danger\"",
+          "required": false,
+          "default": "secondary",
+          "description": "Button style."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [],
+      "source": "src/ui/components/Dialog/Dialog.tsx"
+    },
+    {
+      "name": "Tooltip",
+      "category": "overlays",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "A small label that appears on hover or keyboard focus, built on Base UI Tooltip.\nTooltips do not appear on touch devices and are not a reliable way to describe a control, so use\nthem only to add clarity (for example the name of an icon button) and never for critical information.",
+      "import": "import { Tooltip } from \"@/ui\";",
+      "renders": "the child element as trigger; a popup div in a portal",
+      "composition": "`content` is the text. The single child must be focusable and have its own accessible name.",
+      "whenToUse": "Extra clarity for sighted mouse and keyboard users, such as naming an icon button.",
+      "avoid": [
+        "Essential information: it does not appear on touch and is not linked to the trigger for screen readers.",
+        "Interactive content in the tooltip."
+      ],
+      "accessibility": "Shows on hover and keyboard focus, hides on Escape. The trigger needs aria-label when it has no text.",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactElement<unknown, string | JSXElementConstructor<any>>",
+          "required": true,
+          "description": "The element that triggers the tooltip. It must be focusable and already have its own\naccessible name (visible text or `aria-label`)."
+        },
+        {
+          "name": "content",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Short supplementary text. Never put essential information only here."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "side",
+          "type": "\"top\" | \"bottom\" | \"left\" | \"right\"",
+          "required": false,
+          "default": "top",
+          "description": "Preferred side of the trigger."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Tooltip content=\"Bold\"><Button aria-label=\"Bold\" variant=\"ghost\">B</Button></Tooltip>"
+      ],
+      "source": "src/ui/components/Tooltip/Tooltip.tsx"
+    },
+    {
+      "name": "TooltipProvider",
+      "category": "overlays",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "Optional wrapper that shares open delay between tooltips, so moving from one to the next feels instant.\nPut it once near the root of the app.",
+      "import": "import { TooltipProvider } from \"@/ui\";",
+      "renders": "no element",
+      "composition": "Place once near the app root. Optional.",
+      "whenToUse": "Shared open delay across tooltips.",
+      "avoid": [
+        "Nesting several providers."
+      ],
+      "accessibility": "No effect on semantics.",
+      "props": [],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [],
+      "source": "src/ui/components/Tooltip/Tooltip.tsx"
+    },
+    {
+      "name": "Tabs",
+      "category": "navigation",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "Tabs that switch between panels, built on Base UI Tabs (arrow-key navigation, roles and\n`aria-controls` come from there). Pass `items` instead of composing parts.",
+      "import": "import { Tabs } from \"@/ui\";",
+      "renders": "div with a tablist, tab buttons and tabpanels",
+      "composition": "Pass `items` ({ value, label, content, disabled? }) and an `aria-label`.",
+      "whenToUse": "Switching between related panels in the same place.",
+      "avoid": [
+        "Navigation between pages: use Link.",
+        "Hiding content users must read."
+      ],
+      "accessibility": "Arrow keys move between tabs; roles and aria-controls come from Base UI.",
+      "props": [
+        {
+          "name": "items",
+          "type": "TabItem[]",
+          "required": true,
+          "description": "The tabs and their panels, in order."
+        },
+        {
+          "name": "aria-label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible name of the tab list, for example \"Account sections\". Required when there is no visible heading for it."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Tabs aria-label=\"Account\" items={[\n  { value: \"profile\", label: \"Profile\", content: <p>Profile</p> },\n  { value: \"billing\", label: \"Billing\", content: <p>Billing</p> },\n]} />"
+      ],
+      "source": "src/ui/components/Tabs/Tabs.tsx"
+    },
+    {
+      "name": "LinkProvider",
+      "category": "utility",
+      "base": "Own component",
+      "description": "Wires navigation once for the whole app. In Next.js pass `next/link` so every library link gets\nclient-side navigation and prefetching, with no `render` prop on each one. Without it links are plain `a` elements.",
+      "import": "import { LinkProvider } from \"@/ui\";",
+      "renders": "no element: it provides the link component through context",
+      "composition": "Place once near the app root: `<LinkProvider component={NextLink}>`. Link, ButtonLink, Menu link items, Breadcrumb and Pagination then render with it.",
+      "whenToUse": "Making every link in the library use `next/link` (or another router link) from a single place.",
+      "avoid": [
+        "Passing a `render` prop to individual links.",
+        "Nesting several providers."
+      ],
+      "accessibility": "No effect on semantics; the provided component must render an `a`.",
+      "props": [
+        {
+          "name": "component",
+          "type": "LinkComponent",
+          "required": true,
+          "description": "The component every `Link`, `ButtonLink`, `Breadcrumb`, `Pagination` and `Menu` link renders with. Pass `next/link` in a Next.js app."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "\"use client\";\nimport NextLink from \"next/link\";\n<LinkProvider component={NextLink}>{children}</LinkProvider>"
+      ],
+      "source": "src/ui/components/Link/LinkContext.tsx"
+    },
+    {
+      "name": "useLinkComponent",
+      "category": "utility",
+      "base": "Own component",
+      "description": "The anchor component to render links with: the one from `LinkProvider`, or `a`.",
+      "import": "import { useLinkComponent } from \"@/ui\";",
+      "renders": "hook, renders nothing",
+      "composition": "`const LinkEl = useLinkComponent()` returns the provided link component, or `\"a\"`.",
+      "whenToUse": "Building your own navigation component that should follow LinkProvider.",
+      "avoid": [
+        "Calling it in Server Components: it needs a client component."
+      ],
+      "accessibility": "The returned component must render an `a`.",
+      "props": [],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [],
+      "source": "src/ui/components/Link/LinkContext.tsx"
+    },
+    {
+      "name": "ButtonLink",
+      "category": "navigation",
+      "base": "Own component",
+      "description": "A link that looks like a `Button`. It renders an `a` (or the component given to `LinkProvider`, such as\n`next/link`), because something that navigates is a link, not a button. For actions use `Button`.",
+      "import": "import { ButtonLink } from \"@/ui\";",
+      "renders": "a (rendered by the LinkProvider component, `next/link` in this app) styled like a Button",
+      "composition": "Pass `href`, `variant` and `size`. Children are the visible label.",
+      "whenToUse": "A call to action that goes to another page, such as Get started or Docs.",
+      "avoid": [
+        "Actions that do not navigate: use Button.",
+        "Inline links inside text: use Link."
+      ],
+      "accessibility": "It is a real link (role link), so middle-click, open in new tab and prefetch work. Do not give it role button.",
+      "props": [
+        {
+          "name": "href",
+          "type": "string",
+          "required": true,
+          "description": "Where the link goes. Required."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "default": "md",
+          "description": "Control height: `sm` 2rem, `md` 2.5rem, `lg` 3rem."
+        },
+        {
+          "name": "variant",
+          "type": "\"primary\" | \"secondary\" | \"ghost\" | \"accent\" | \"danger\"",
+          "required": false,
+          "default": "primary",
+          "description": "Visual emphasis, the same as `Button`. `primary` is the main call to action (one per view)."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<ButtonLink href=\"/docs/installation\">Get started</ButtonLink>\n<ButtonLink href=\"/docs\" variant=\"secondary\">Docs</ButtonLink>"
+      ],
+      "source": "src/ui/components/ButtonLink/ButtonLink.tsx"
+    },
+    {
+      "name": "Card",
+      "category": "layout",
+      "base": "Own component",
+      "description": "A bordered container that groups related content. Compose its content with `Stack`, `Heading` and `Text`.",
+      "import": "import { Card } from \"@/ui\";",
+      "renders": "div by default; `as` can be article, section or li",
+      "composition": "Children go inside. Use `padding` (a Space key) and `variant` (outline or surface).",
+      "whenToUse": "Grouping related content in a bordered surface.",
+      "avoid": [
+        "Making the whole card clickable: put a Link inside and keep the card as a container.",
+        "Nesting cards."
+      ],
+      "accessibility": "A plain container with no role. Use `as=\"article\"` for self-contained content and give it a heading.",
+      "props": [
+        {
+          "name": "as",
+          "type": "\"div\" | \"article\" | \"li\" | \"section\"",
+          "required": false,
+          "default": "\"div\"",
+          "description": "Element to render. `article` for self-contained content, `section` for a named group."
+        },
+        {
+          "name": "padding",
+          "type": "\"0\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\" | \"6\" | \"8\" | \"10\" | \"12\" | \"16\"",
+          "required": false,
+          "default": "6",
+          "description": "Inner padding from the spacing scale."
+        },
+        {
+          "name": "variant",
+          "type": "\"surface\" | \"outline\"",
+          "required": false,
+          "default": "outline",
+          "description": "`outline` draws only a soft border; `surface` adds the surface fill."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<Card as=\"article\" variant=\"surface\">\n  <Stack gap=\"2\"><Heading as=\"h3\">Title</Heading><Text>Body</Text></Stack>\n</Card>"
+      ],
+      "source": "src/ui/components/Card/Card.tsx"
+    },
+    {
+      "name": "Alert",
+      "category": "feedback",
+      "base": "Own component",
+      "description": "An inline message about the state of the page or a form. `danger` and `warning` use `role=\"alert\"`\n(announced immediately); `info` and `success` use `role=\"status\"` (announced politely).\nFor short-lived feedback after an action, use `useToast` instead.",
+      "import": "import { Alert } from \"@/ui\";",
+      "renders": "div with role alert (danger, warning) or role status (info, success)",
+      "composition": "Pass `tone`, optional `title`, and the message as children.",
+      "whenToUse": "A message that stays on the page and the user must notice, such as a failed save or a warning.",
+      "avoid": [
+        "Short-lived confirmations: use Toast.",
+        "Using color alone: the tone also changes the icon and you should say it in the text."
+      ],
+      "accessibility": "Announced by screen readers on render. The icon is decorative and each tone has a different shape.",
+      "props": [
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Short heading of the message."
+        },
+        {
+          "name": "tone",
+          "type": "\"danger\" | \"info\" | \"success\" | \"warning\"",
+          "required": false,
+          "default": "info",
+          "description": "Meaning of the message. It changes the icon shape as well as the color, so it never relies on color alone."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<Alert tone=\"danger\" title=\"Payment failed\">Check your card details and try again.</Alert>"
+      ],
+      "source": "src/ui/components/Alert/Alert.tsx"
+    },
+    {
+      "name": "Avatar",
+      "category": "utility",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "A round image of a person with an initials fallback, built on Base UI Avatar.\nThe whole avatar is one image with the person's name as its label.",
+      "import": "import { Avatar } from \"@/ui\";",
+      "renders": "span with role img and the name as aria-label",
+      "composition": "Pass `name` (required), optional `src` and `size`. Initials are the fallback.",
+      "whenToUse": "Showing who a person or account is.",
+      "avoid": [
+        "Using it as a button: wrap it in a Button or Link.",
+        "Omitting `name`."
+      ],
+      "accessibility": "The name is the accessible name. The initials are hidden from assistive technology.",
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "Full name of the person or entity. It is the accessible name and the source of the initials. Required."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "default": "md",
+          "description": "Diameter: `sm` 2rem, `md` 2.5rem, `lg` 3.5rem."
+        },
+        {
+          "name": "src",
+          "type": "string",
+          "required": false,
+          "description": "Image URL. If it is missing or fails to load, the initials are shown."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Avatar name=\"Ada Lovelace\" src=\"/ada.png\" />"
+      ],
+      "source": "src/ui/components/Avatar/Avatar.tsx"
+    },
+    {
+      "name": "Popover",
+      "category": "overlays",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "Root of a popover: a small panel anchored to a button, for extra controls or details the user asked for.\nBuilt on Base UI Popover (focus management, Escape to close, outside click and positioning come from there).\nFor decisions that must interrupt the user use `Dialog`; for a list of actions use `Menu`.",
+      "import": "import { Popover } from \"@/ui\";",
+      "renders": "no element: it only holds the open state (Base UI Popover.Root)",
+      "composition": "Structure: Popover > PopoverTrigger + PopoverContent (title required, description optional, PopoverClose).",
+      "whenToUse": "Small interactive content tied to a button, such as a form or extra options.",
+      "avoid": [
+        "Plain hints: use Tooltip.",
+        "Blocking decisions: use Dialog."
+      ],
+      "accessibility": "Focus moves into the popup and Escape closes it. Title is the accessible name.",
+      "props": [],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Popover>\n  <PopoverTrigger variant=\"secondary\">Filters</PopoverTrigger>\n  <PopoverContent title=\"Filters\" description=\"Narrow the results.\">...</PopoverContent>\n</Popover>"
+      ],
+      "source": "src/ui/components/Popover/Popover.tsx"
+    },
+    {
+      "name": "PopoverTrigger",
+      "category": "overlays",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "The button that opens the popover. It is rendered as a `Button`.",
+      "import": "import { PopoverTrigger } from \"@/ui\";",
+      "renders": "button",
+      "composition": "Child of Popover. Accepts Button props.",
+      "whenToUse": "The button that opens a Popover.",
+      "avoid": [
+        "Using it outside Popover."
+      ],
+      "accessibility": "A real button with aria-expanded and aria-controls.",
+      "props": [
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "default": "md",
+          "description": "Button size of the trigger."
+        },
+        {
+          "name": "variant",
+          "type": "\"primary\" | \"secondary\" | \"ghost\" | \"accent\" | \"danger\"",
+          "required": false,
+          "default": "secondary",
+          "description": "Button style of the trigger."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [],
+      "source": "src/ui/components/Popover/Popover.tsx"
+    },
+    {
+      "name": "PopoverContent",
+      "category": "overlays",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "The popover panel with its title and description. Place it inside `Popover`.",
+      "import": "import { PopoverContent } from \"@/ui\";",
+      "renders": "div with role dialog in a portal, with a title",
+      "composition": "Child of Popover. Requires `title`; `description`, `side` and `align` are optional.",
+      "whenToUse": "The panel shown by a Popover.",
+      "avoid": [
+        "Leaving out the title."
+      ],
+      "accessibility": "Labelled by its title. Focus is returned to the trigger on close.",
+      "props": [
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Heading of the panel. Required: it is the accessible name of the popover."
+        },
+        {
+          "name": "align",
+          "type": "\"center\" | \"start\" | \"end\"",
+          "required": false,
+          "default": "center",
+          "description": "Alignment against the trigger."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "The content: text, a form, or `PopoverClose` buttons."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Short explanation, announced as the accessible description."
+        },
+        {
+          "name": "side",
+          "type": "\"top\" | \"bottom\" | \"left\" | \"right\"",
+          "required": false,
+          "default": "bottom",
+          "description": "Preferred side of the trigger."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [],
+      "source": "src/ui/components/Popover/Popover.tsx"
+    },
+    {
+      "name": "PopoverClose",
+      "category": "overlays",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "A button that closes the popover. It is rendered as a `Button`.",
+      "import": "import { PopoverClose } from \"@/ui\";",
+      "renders": "button",
+      "composition": "Inside PopoverContent. Children are the label.",
+      "whenToUse": "A button that closes the Popover.",
+      "avoid": [
+        "Icon-only without a label."
+      ],
+      "accessibility": "A real button.",
+      "props": [
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "default": "sm",
+          "description": "Button size."
+        },
+        {
+          "name": "variant",
+          "type": "\"primary\" | \"secondary\" | \"ghost\" | \"accent\" | \"danger\"",
+          "required": false,
+          "default": "secondary",
+          "description": "Button style."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [],
+      "source": "src/ui/components/Popover/Popover.tsx"
+    },
+    {
+      "name": "Menu",
+      "category": "overlays",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "A dropdown list of actions or links, built on Base UI Menu (arrow keys, typeahead, focus return and\nEscape come from there). Items with `href` are real links; items with `onSelect` are actions.\nDo not put form controls in a menu: use `Popover`.",
+      "import": "import { Menu } from \"@/ui\";",
+      "renders": "button that opens a role menu with menuitems",
+      "composition": "Pass `label` (the button text) and `items`: `{ label, onSelect?, href?, disabled?, destructive? }` or `{ type: \"separator\" }`.",
+      "whenToUse": "A list of actions or links behind one button, such as account actions.",
+      "avoid": [
+        "Navigation between sections of the site: use links.",
+        "Form choices: use Select."
+      ],
+      "accessibility": "Arrow keys, Home, End, typeahead and Escape come from Base UI. Items with `href` are real links.",
+      "props": [
+        {
+          "name": "items",
+          "type": "MenuEntry[]",
+          "required": true,
+          "description": "Items in order. Use `{ type: \"separator\" }` to group them."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Text of the button that opens the menu."
+        },
+        {
+          "name": "align",
+          "type": "\"center\" | \"start\" | \"end\"",
+          "required": false,
+          "default": "start",
+          "description": "Alignment of the menu against the trigger."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "default": "md",
+          "description": "Button size of the trigger."
+        },
+        {
+          "name": "variant",
+          "type": "\"primary\" | \"secondary\" | \"ghost\" | \"accent\" | \"danger\"",
+          "required": false,
+          "default": "secondary",
+          "description": "Button style of the trigger."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Menu label=\"Account\" items={[\n  { label: \"Profile\", href: \"/profile\" },\n  { type: \"separator\" },\n  { label: \"Sign out\", onSelect: signOut },\n]} />"
+      ],
+      "source": "src/ui/components/Menu/Menu.tsx"
+    },
+    {
+      "name": "ToastProvider",
+      "category": "feedback",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "Place once near the root of the app (inside `Providers`). It renders the stack of toasts and makes\n`useToast` available. Built on Base UI Toast (live-region announcements, F6 to reach the toasts, swipe to\ndismiss, pause on hover and focus come from there).",
+      "import": "import { ToastProvider } from \"@/ui\";",
+      "renders": "no visible element until a toast is shown; renders a viewport in a portal",
+      "composition": "Place once near the app root, inside Providers. Then call `useToast()` anywhere below it.",
+      "whenToUse": "Short-lived feedback after an action.",
+      "avoid": [
+        "Messages that must stay: use Alert.",
+        "Several providers."
+      ],
+      "accessibility": "Live-region announcements, F6 to reach toasts, pause on hover and focus. The dismiss button is labelled.",
+      "props": [],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<ToastProvider>{children}</ToastProvider>"
+      ],
+      "source": "src/ui/components/Toast/Toast.tsx"
+    },
+    {
+      "name": "useToast",
+      "category": "feedback",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "Show short-lived feedback after an action (saved, copied, failed). Returns `show` and `close`.\nFor messages that must stay on the page, use `Alert`.",
+      "import": "import { useToast } from \"@/ui\";",
+      "renders": "hook, renders nothing",
+      "composition": "`const { show, close } = useToast(); show({ title, description?, tone?, timeout? })`.",
+      "whenToUse": "Showing a toast after an action finishes.",
+      "avoid": [
+        "Calling it outside ToastProvider.",
+        "Putting the only copy of important information in a toast."
+      ],
+      "accessibility": "The tone is never the only signal: write it in the title.",
+      "props": [],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "const { show } = useToast();\nshow({ title: \"Saved\", tone: \"success\" });"
+      ],
+      "source": "src/ui/components/Toast/Toast.tsx"
+    },
+    {
+      "name": "Accordion",
+      "category": "navigation",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "Collapsible sections built on Base UI Accordion. Each title is a button inside an `h3`\n(`aria-expanded` and `aria-controls` come from Base UI). Pass `items` instead of composing parts.",
+      "import": "import { Accordion } from \"@/ui\";",
+      "renders": "div with a heading (h3) and button per item and a region per panel",
+      "composition": "Pass `items` ({ value, title, content, disabled? }). Use `multiple` to allow several open.",
+      "whenToUse": "Showing long content in short sections, such as FAQs.",
+      "avoid": [
+        "Hiding content users must read.",
+        "Navigation between pages."
+      ],
+      "accessibility": "Each title is a button in a heading with aria-expanded and aria-controls.",
+      "props": [
+        {
+          "name": "items",
+          "type": "AccordionItem[]",
+          "required": true,
+          "description": "The items, in order."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string[]",
+          "required": false,
+          "description": "Ids of the panels open at first."
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Allow several panels open at once."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string[]) => void)",
+          "required": false
+        },
+        {
+          "name": "value",
+          "type": "string[]",
+          "required": false,
+          "description": "Ids of the open panels, when you control it."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Accordion items={[\n  { value: \"a\", title: \"Is it accessible?\", content: <p>Yes.</p> },\n  { value: \"b\", title: \"Is it themeable?\", content: <p>Yes.</p> },\n]} />"
+      ],
+      "source": "src/ui/components/Accordion/Accordion.tsx"
+    },
+    {
+      "name": "Table",
+      "category": "layout",
+      "base": "Own component",
+      "description": "Data table with a real `table`, `caption`, `th scope=\"col\"` and a first-column row header. The wrapper\nscrolls horizontally on small screens and is focusable so keyboard users can scroll it.\nFor layout, use `Grid` or `Stack`, never a table.",
+      "import": "import { Table } from \"@/ui\";",
+      "renders": "table with caption, thead, tbody, th scope and a focusable scroll region",
+      "composition": "Pass `caption`, `columns` ({ key, header, align? }) and `rows` (objects by key).",
+      "whenToUse": "Comparing data across rows and columns.",
+      "avoid": [
+        "Page layout: use Grid or Stack.",
+        "Missing caption."
+      ],
+      "accessibility": "Real table semantics. The first column is a row header. The scroll wrapper is focusable and named.",
+      "props": [
+        {
+          "name": "caption",
+          "type": "string",
+          "required": true,
+          "description": "Describes the table. Required: it is the accessible name and the visible caption."
+        },
+        {
+          "name": "columns",
+          "type": "TableColumn[]",
+          "required": true,
+          "description": "Column definitions, in order."
+        },
+        {
+          "name": "rows",
+          "type": "Record<string, ReactNode>[]",
+          "required": true,
+          "description": "One object per row, keyed by `columns[].key`."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "hideCaption",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Visually hide the caption (it stays available to screen readers)."
+        },
+        {
+          "name": "rowKey",
+          "type": "string",
+          "required": false,
+          "description": "Key of the row value that is unique per row. Falls back to the row index."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<Table caption=\"Plans\" columns={[{ key: \"name\", header: \"Plan\" }, { key: \"price\", header: \"Price\", align: \"end\" }]}\n  rows={[{ name: \"Free\", price: \"$0\" }, { name: \"Pro\", price: \"$12\" }]} />"
+      ],
+      "source": "src/ui/components/Table/Table.tsx"
+    },
+    {
+      "name": "Breadcrumb",
+      "category": "navigation",
+      "base": "Own component",
+      "description": "Where the current page sits in the site. Renders `nav > ol` and marks the last item with\n`aria-current=\"page\"`. Links use whatever `LinkProvider` provides (`next/link` in this app).",
+      "import": "import { Breadcrumb } from \"@/ui\";",
+      "renders": "nav with an ordered list; the last item has aria-current page",
+      "composition": "Pass `items` ({ label, href? }) from root to current page.",
+      "whenToUse": "Showing where the page sits in the site.",
+      "avoid": [
+        "Primary navigation.",
+        "Linking the last item."
+      ],
+      "accessibility": "nav labelled Breadcrumb; the current page is marked with aria-current.",
+      "props": [
+        {
+          "name": "items",
+          "type": "BreadcrumbItem[]",
+          "required": true,
+          "description": "The trail from the root to the current page. The last item is marked as the current page."
+        },
+        {
+          "name": "aria-label",
+          "type": "string",
+          "required": false,
+          "default": "Breadcrumb",
+          "description": "Accessible name of the navigation. Change it when a page has more than one breadcrumb."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<Breadcrumb items={[{ label: \"Docs\", href: \"/docs\" }, { label: \"Components\", href: \"/docs/components\" }, { label: \"Button\" }]} />"
+      ],
+      "source": "src/ui/components/Breadcrumb/Breadcrumb.tsx"
+    },
+    {
+      "name": "Pagination",
+      "category": "navigation",
+      "base": "Own component",
+      "description": "Page links for content split across URLs. Every page is a real link, so it works without JavaScript and\nwith `next/link` through `LinkProvider`. Previous and next are left out (not disabled) when unavailable.",
+      "import": "import { Pagination } from \"@/ui\";",
+      "renders": "nav with a list of links",
+      "composition": "Pass `page`, `pageCount` and `hrefTemplate` such as `/blog?page={page}`.",
+      "whenToUse": "Moving through content split across URLs.",
+      "avoid": [
+        "Passing a function for the href (it breaks in Server Components).",
+        "Infinite lists."
+      ],
+      "accessibility": "Every page is a link; the current one has aria-current. Previous and Next are removed, not disabled, when unavailable.",
+      "props": [
+        {
+          "name": "hrefTemplate",
+          "type": "string",
+          "required": true,
+          "description": "URL of a page, with `{page}` where the number goes, for example `\"/blog?page={page}\"`. A string (not a function) so it works from Server Components."
+        },
+        {
+          "name": "page",
+          "type": "number",
+          "required": true,
+          "description": "Current page, starting at 1."
+        },
+        {
+          "name": "pageCount",
+          "type": "number",
+          "required": true,
+          "description": "Total number of pages."
+        },
+        {
+          "name": "aria-label",
+          "type": "string",
+          "required": false,
+          "default": "Pagination",
+          "description": "Accessible name of the navigation."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<Pagination page={2} pageCount={9} hrefTemplate=\"/blog?page={page}\" />"
+      ],
+      "source": "src/ui/components/Pagination/Pagination.tsx"
+    },
+    {
+      "name": "Progress",
+      "category": "feedback",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "Progress of a task, built on Base UI Progress (`role=\"progressbar\"` with `aria-valuenow`).\nFor a quick wait with no known end, prefer `Spinner`; for a value the user sets, use `Slider`.",
+      "import": "import { Progress } from \"@/ui\";",
+      "renders": "div with role progressbar",
+      "composition": "Pass `label` and `value` (number, or null when unknown). Optional `max`.",
+      "whenToUse": "Showing how far a task has got.",
+      "avoid": [
+        "Values the user sets: use Slider.",
+        "Short unknown waits: use Spinner."
+      ],
+      "accessibility": "role progressbar with aria-valuenow; the label is the accessible name.",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "What is progressing. Required: it is the accessible name."
+        },
+        {
+          "name": "value",
+          "type": "number | null",
+          "required": true,
+          "description": "Current value. Use `null` when the amount is unknown (indeterminate)."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false,
+          "default": "100",
+          "description": "Maximum value."
+        },
+        {
+          "name": "showValue",
+          "type": "boolean",
+          "required": false,
+          "default": "true",
+          "description": "Show the percentage next to the label."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Progress label=\"Uploading\" value={40} />"
+      ],
+      "source": "src/ui/components/Progress/Progress.tsx"
+    },
+    {
+      "name": "Slider",
+      "category": "controls",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "Pick a number, or a range, by dragging or with arrow keys. Built on Base UI Slider (each thumb is an\n`input type=\"range\"`). For a short list of exact choices use `Select`; for typing a number, use `Input`.",
+      "import": "import { Slider } from \"@/ui\";",
+      "renders": "div with one input type range per thumb",
+      "composition": "Pass `label` and `defaultValue` (number or [min, max]). Use `thumbLabels` for ranges.",
+      "whenToUse": "Choosing a number or range by dragging.",
+      "avoid": [
+        "Exact entry: use Input.",
+        "A few named options: use Select."
+      ],
+      "accessibility": "Each thumb is a native range input with arrow-key support. The label is the accessible name.",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "What the slider sets. Required: it is the accessible name."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "number | number[]",
+          "required": false,
+          "description": "Initial value, or `[min, max]` for a range."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: number | number[]) => void)",
+          "required": false
+        },
+        {
+          "name": "showValue",
+          "type": "boolean",
+          "required": false,
+          "default": "true",
+          "description": "Show the current value next to the label."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "thumbLabels",
+          "type": "string[]",
+          "required": false,
+          "description": "Names of the thumbs of a range, for example `[\"Minimum price\", \"Maximum price\"]`."
+        },
+        {
+          "name": "value",
+          "type": "number | number[]",
+          "required": false,
+          "description": "Controlled value, or `[min, max]` for a range."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Slider label=\"Volume\" defaultValue={40} />\n<Slider label=\"Price\" defaultValue={[20, 80]} thumbLabels={[\"Minimum price\", \"Maximum price\"]} />"
+      ],
+      "source": "src/ui/components/Slider/Slider.tsx"
+    },
+    {
+      "name": "CodeBlock",
+      "category": "typography",
+      "base": "Own component",
+      "description": "Preformatted code with an icon-only copy button. Pass `tabs` to switch between alternatives such as\nbun, pnpm, npm and yarn inside the same box. The code region can be focused so long lines scroll with the\nkeyboard, the scrollbar is hidden, and the copy result is announced politely.\nThere is no syntax highlighting on purpose (less weight, more contrast).",
+      "import": "import { CodeBlock } from \"@/ui\";",
+      "renders": "div with an icon-only copy button, optional tabs and a focusable region containing pre and code",
+      "composition": "Pass `code`, optional `language` and `label`. For alternatives such as package managers pass `tabs` ({ label, code }[]) instead of `code`.",
+      "whenToUse": "Showing code or commands the user will copy.",
+      "avoid": [
+        "Inline code: use Kbd or a code element.",
+        "Long documents."
+      ],
+      "accessibility": "The code region is focusable and named; the copy result is announced via role status.",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "required": false,
+          "default": "",
+          "description": "The code to show, as plain text. Use `tabs` instead when there are alternatives (bun, npm, pnpm)."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "default": "Code",
+          "description": "Accessible name of the scrollable code region."
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "Language name. `bash`, `sh` and `shell` show a small terminal icon instead of the word. No syntax highlighting."
+        },
+        {
+          "name": "tabs",
+          "type": "CodeTab[]",
+          "required": false,
+          "description": "Alternative versions of the same code, usually one command per package manager. The first tab is selected first."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<CodeBlock language=\"tsx\" label=\"Example\" code={'<Button>Save</Button>'} />\n<CodeBlock language=\"bash\" label=\"Install\" tabs={[\n  { label: \"bun\", code: \"bun add"
+      ],
+      "source": "src/ui/components/CodeBlock/CodeBlock.tsx"
+    }
+  ]
+}

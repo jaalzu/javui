@@ -1,0 +1,23 @@
+.positioner {
+  z-index: var(--z-tooltip);
+}
+
+.popup {
+  box-sizing: border-box;
+  max-width: 16rem;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  /* Inverted colors so the tooltip stands out in both themes. */
+  background: var(--color-fg);
+  color: var(--color-bg);
+  font-family: var(--text-caption-family);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line);
+  opacity: 1;
+  transition: opacity var(--motion-duration-fast) var(--motion-easing-standard);
+}
+
+.popup[data-starting-style],
+.popup[data-ending-style] {
+  opacity: 0;
+}

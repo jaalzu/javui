@@ -1,0 +1,113 @@
+.root {
+  overflow: hidden;
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-2);
+  color: var(--color-fg);
+}
+
+.bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-1) var(--space-2) var(--space-1) var(--space-4);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
+}
+
+.lead,
+.language {
+  flex-shrink: 0;
+  color: var(--color-fg-muted);
+}
+
+.language {
+  font-family: var(--font-family-mono);
+  font-size: var(--text-body-sm-size);
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.tab {
+  min-height: var(--size-target-min);
+  padding: 0 var(--space-2);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-fg-muted);
+  font: inherit;
+  font-size: var(--text-body-sm-size);
+  cursor: pointer;
+}
+
+.tab:hover {
+  color: var(--color-fg);
+}
+
+.tab[data-active] {
+  background: var(--color-surface);
+  color: var(--color-fg);
+  font-weight: var(--font-weight-medium);
+}
+
+.copy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-target-min);
+  height: var(--size-target-min);
+  margin-inline-start: auto;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-fg-muted);
+  cursor: pointer;
+}
+
+.copy:hover {
+  background: var(--color-surface);
+  color: var(--color-fg);
+}
+
+.copy:focus-visible,
+.tab:focus-visible,
+.scroll:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: -3px;
+}
+
+.status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.panel {
+  outline: none;
+}
+
+.scroll {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.pre {
+  margin: 0;
+  padding: var(--space-6) var(--space-5);
+  font-family: var(--text-code-family);
+  font-size: var(--text-code-size);
+  line-height: var(--text-code-line);
+  tab-size: 2;
+}

@@ -1,0 +1,81 @@
+# ui-lib
+
+> React component library. Next.js, TypeScript, CSS variables + CSS Modules. Controls are built on Base UI.
+
+## Principles
+- HTML first: use the semantic element for the job. Own components render correct HTML; Base UI components handle behavior and ARIA.
+- Use semantic tokens only; never hardcode colors, spacing or fonts.
+- Every control needs an accessible name: Field `label`, the component's `label`/`legend`, or `aria-label`.
+- One way to do each thing: links are Link, actions are Button, headings are Heading, body text is Text.
+- Keep heading levels in order, one h1 per page.
+
+## Machine-readable
+- [Component manifest](/agent/manifest.json): every component with props, examples and accessibility notes
+- [Design tokens](/agent/tokens.json): every CSS variable with its meaning
+- [Full documentation](/llms-full.txt): everything above in one Markdown file
+
+## Components
+### typography
+- **Text**: Any paragraph, label, caption or inline code that is not a heading.
+- **Heading**: Page and section titles.
+- **Link**: Navigation to another page, section or resource.
+- **Kbd**: Keyboard shortcuts in docs and UI.
+- **Badge**: Short status or count labels next to other content.
+- **CodeBlock**: Showing code or commands the user will copy.
+
+### layout
+- **Box**: A generic container with token padding, surface, border and radius.
+- **Stack**: Arranging children in one direction with a consistent gap.
+- **Grid**: Two-dimensional layouts and card grids.
+- **Container**: Page-level width limit and side padding.
+- **Divider**: A thematic break between groups of content.
+- **Card**: Grouping related content in a bordered surface.
+- **Table**: Comparing data across rows and columns.
+
+### utility
+- **VisuallyHidden**: Text that screen readers must read but sighted users should not see, such as the name of an icon-only button.
+- **Icon**: Any glyph. Decorative by default.
+- **LinkProvider**: Making every link in the library use `next/link` (or another router link) from a single place.
+- **useLinkComponent**: Building your own navigation component that should follow LinkProvider.
+- **Avatar**: Showing who a person or account is.
+
+### feedback
+- **Spinner**: Indeterminate loading of an action or small region.
+- **Skeleton**: Placeholder for content whose layout is known while it loads.
+- **Alert**: A message that stays on the page and the user must notice, such as a failed save or a warning.
+- **ToastProvider**: Short-lived feedback after an action.
+- **useToast**: Showing a toast after an action finishes.
+- **Progress**: Showing how far a task has got.
+
+### controls
+- **Button**: Any action: submit, open, confirm, cancel. Pass `loading` while the action runs.
+- **Field**: Every text-like form control.
+- **Input**: Single-line text entry.
+- **Textarea**: Multi-line text entry.
+- **Checkbox**: Independent yes/no choices, especially ones submitted with a form.
+- **Radio**: One option of a RadioGroup.
+- **RadioGroup**: Choosing exactly one option from a short list.
+- **Switch**: A setting that turns on or off immediately.
+- **Select**: Choosing one option from a longer list.
+- **Slider**: Choosing a number or range by dragging.
+
+### overlays
+- **Dialog**: Interrupting the user for a decision or focused task.
+- **DialogTrigger**: The button that opens the dialog.
+- **DialogContent**: The panel of the dialog.
+- **DialogClose**: Cancel and close actions.
+- **Tooltip**: Extra clarity for sighted mouse and keyboard users, such as naming an icon button.
+- **TooltipProvider**: Shared open delay across tooltips.
+- **Popover**: Small interactive content tied to a button, such as a form or extra options.
+- **PopoverTrigger**: The button that opens a Popover.
+- **PopoverContent**: The panel shown by a Popover.
+- **PopoverClose**: A button that closes the Popover.
+- **Menu**: A list of actions or links behind one button, such as account actions.
+
+### navigation
+- **Tabs**: Switching between related panels in the same place.
+- **ButtonLink**: A call to action that goes to another page, such as Get started or Docs.
+- **Accordion**: Showing long content in short sections, such as FAQs.
+- **Breadcrumb**: Showing where the page sits in the site.
+- **Pagination**: Moving through content split across URLs.
+

@@ -1,0 +1,150 @@
+{
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "sans": {
+        "$value": "'DM Sans Variable', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+        "$description": "The only text family. Used for everything except code."
+      },
+      "emphasis": {
+        "$value": "'Newsreader Variable', ui-serif, Georgia, 'Times New Roman', serif",
+        "$description": "Serif for emphasis only: a lead sentence or a short quote. Never for UI controls or long text."
+      },
+      "mono": {
+        "$value": "'Commit Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+        "$description": "Code and keyboard keys only."
+      }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "regular": { "$value": 400 },
+      "medium": { "$value": 500 },
+      "semibold": { "$value": 600 },
+      "bold": { "$value": 700 }
+    },
+    "style": {
+      "heading": {
+        "$value": "normal",
+        "$description": "Headings are upright. Set it to italic to make every heading italic."
+      },
+      "body": { "$value": "normal" }
+    },
+    "size": {
+      "$type": "dimension",
+      "$description": "Modular scale, ratio 1.25 from a 0.9375rem (15px) base.",
+      "sm": { "$value": "0.78rem" },
+      "base": { "$value": "0.9375rem" },
+      "md": { "$value": "1.1875rem" },
+      "lg": { "$value": "1.4688rem" },
+      "xl": { "$value": "1.8359rem" },
+      "2xl": { "$value": "2.2949rem" },
+      "3xl": { "$value": "2.8691rem" },
+      "4xl": { "$value": "3.5859rem" }
+    }
+  },
+  "text": {
+    "$description": "Text styles. Text and Heading components consume only these. Each style has size, line, weight, tracking, style and family.",
+    "display": {
+      "size": {
+        "$value": "clamp({font.size.2xl}, 1.4rem + 4.4vw, {font.size.4xl})"
+      },
+      "line": { "$value": "1.05" },
+      "weight": { "$value": "{font.weight.semibold}" },
+      "tracking": { "$value": "-0.03em" },
+      "style": { "$value": "{font.style.heading}" },
+      "family": { "$value": "{font.family.sans}" }
+    },
+    "h1": {
+      "size": {
+        "$value": "clamp({font.size.xl}, 1.3rem + 2.8vw, {font.size.3xl})"
+      },
+      "line": { "$value": "1.1" },
+      "weight": { "$value": "{font.weight.semibold}" },
+      "tracking": { "$value": "-0.025em" },
+      "style": { "$value": "{font.style.heading}" },
+      "family": { "$value": "{font.family.sans}" }
+    },
+    "h2": {
+      "size": {
+        "$value": "clamp({font.size.lg}, 1.2rem + 1.6vw, {font.size.2xl})"
+      },
+      "line": { "$value": "1.15" },
+      "weight": { "$value": "{font.weight.semibold}" },
+      "tracking": { "$value": "-0.02em" },
+      "style": { "$value": "{font.style.heading}" },
+      "family": { "$value": "{font.family.sans}" }
+    },
+    "h3": {
+      "size": { "$value": "{font.size.md}" },
+      "line": { "$value": "1.25" },
+      "weight": { "$value": "{font.weight.semibold}" },
+      "tracking": { "$value": "-0.01em" },
+      "style": { "$value": "{font.style.heading}" },
+      "family": { "$value": "{font.family.sans}" }
+    },
+    "h4": {
+      "size": { "$value": "{font.size.base}" },
+      "line": { "$value": "1.3" },
+      "weight": { "$value": "{font.weight.semibold}" },
+      "tracking": { "$value": "0em" },
+      "style": { "$value": "{font.style.heading}" },
+      "family": { "$value": "{font.family.sans}" }
+    },
+    "body-lg": {
+      "size": { "$value": "{font.size.md}" },
+      "line": { "$value": "1.6" },
+      "weight": { "$value": "{font.weight.regular}" },
+      "tracking": { "$value": "0em" },
+      "style": { "$value": "{font.style.body}" },
+      "family": { "$value": "{font.family.sans}" }
+    },
+    "body": {
+      "size": { "$value": "{font.size.base}" },
+      "line": { "$value": "1.6" },
+      "weight": { "$value": "{font.weight.regular}" },
+      "tracking": { "$value": "0em" },
+      "style": { "$value": "{font.style.body}" },
+      "family": { "$value": "{font.family.sans}" }
+    },
+    "body-sm": {
+      "size": { "$value": "{font.size.sm}" },
+      "line": { "$value": "1.5" },
+      "weight": { "$value": "{font.weight.regular}" },
+      "tracking": { "$value": "0.005em" },
+      "style": { "$value": "{font.style.body}" },
+      "family": { "$value": "{font.family.sans}" }
+    },
+    "label": {
+      "size": { "$value": "{font.size.sm}" },
+      "line": { "$value": "1.4" },
+      "weight": { "$value": "{font.weight.medium}" },
+      "tracking": { "$value": "0.01em" },
+      "style": { "$value": "{font.style.body}" },
+      "family": { "$value": "{font.family.sans}" }
+    },
+    "caption": {
+      "size": { "$value": "{font.size.sm}" },
+      "line": { "$value": "1.4" },
+      "weight": { "$value": "{font.weight.regular}" },
+      "tracking": { "$value": "0.01em" },
+      "style": { "$value": "{font.style.body}" },
+      "family": { "$value": "{font.family.sans}" }
+    },
+    "emphasis": {
+      "size": { "$value": "{font.size.lg}" },
+      "line": { "$value": "1.4" },
+      "weight": { "$value": "{font.weight.regular}" },
+      "tracking": { "$value": "-0.005em" },
+      "style": { "$value": "italic" },
+      "family": { "$value": "{font.family.emphasis}" }
+    },
+    "code": {
+      "size": { "$value": "0.9em" },
+      "line": { "$value": "1.5" },
+      "weight": { "$value": "{font.weight.regular}" },
+      "tracking": { "$value": "0em" },
+      "style": { "$value": "{font.style.body}" },
+      "family": { "$value": "{font.family.mono}" }
+    }
+  }
+}

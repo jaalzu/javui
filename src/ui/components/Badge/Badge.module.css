@@ -1,0 +1,109 @@
+.badge {
+  --badge-bg: color-mix(in oklab, var(--color-fg) 9%, transparent);
+  --badge-fg: var(--color-fg);
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  width: fit-content;
+  height: 1.4rem;
+  padding: 0 var(--space-2);
+  border: var(--border-width-thin) solid transparent;
+  border-radius: var(--radius-full);
+  background: var(--badge-bg);
+  color: var(--badge-fg);
+  font-family: var(--text-label-family);
+  font-size: var(--font-size-sm);
+  line-height: 1;
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  padding-block: 1px 0;
+  overflow: hidden;
+}
+
+/* Icons and spinners placed next to the text. */
+.badge > svg {
+  flex-shrink: 0;
+  width: 0.75rem;
+  height: 0.75rem;
+  pointer-events: none;
+}
+
+.badge:has(> svg:first-child) {
+  padding-inline-start: var(--space-1);
+}
+
+.badge:has(> svg:last-child) {
+  padding-inline-end: var(--space-1);
+}
+
+/* Tones (subtle by default) */
+.neutral {
+  --badge-tone: var(--color-fg);
+}
+.accent {
+  --badge-bg: var(
+    --color-accent-subtle,
+    color-mix(in oklab, var(--color-accent) 12%, transparent)
+  );
+  --badge-fg: color-mix(
+    in oklab,
+    var(--color-accent-text, var(--color-accent)) 62%,
+    var(--color-fg)
+  );
+  --badge-solid: var(--color-accent);
+  --badge-on-solid: var(--color-accent-fg);
+}
+
+.success {
+  --badge-bg: var(
+    --color-success-subtle,
+    color-mix(in oklab, var(--color-success) 12%, transparent)
+  );
+  --badge-fg: color-mix(in oklab, var(--color-success) 62%, var(--color-fg));
+  --badge-solid: var(--color-success);
+  --badge-on-solid: var(--color-on-success, var(--color-bg));
+}
+
+.warning {
+  --badge-bg: var(
+    --color-warning-subtle,
+    color-mix(in oklab, var(--color-warning) 12%, transparent)
+  );
+  --badge-fg: color-mix(in oklab, var(--color-warning) 62%, var(--color-fg));
+  --badge-solid: var(--color-warning);
+  --badge-on-solid: var(--color-on-warning, var(--color-bg));
+}
+
+.info {
+  --badge-bg: var(
+    --color-info-subtle,
+    color-mix(in oklab, var(--color-info) 12%, transparent)
+  );
+  --badge-fg: color-mix(in oklab, var(--color-info) 62%, var(--color-fg));
+  --badge-solid: var(--color-info);
+  --badge-on-solid: var(--color-on-info, var(--color-bg));
+}
+
+.danger {
+  --badge-bg: var(
+    --color-danger-subtle,
+    color-mix(in oklab, var(--color-danger) 12%, transparent)
+  );
+  --badge-fg: color-mix(in oklab, var(--color-danger) 62%, var(--color-fg));
+  --badge-solid: var(--color-danger);
+  --badge-on-solid: var(--color-on-danger, var(--color-bg));
+}
+
+/* Variants */
+.solid {
+  --badge-bg: var(--badge-solid, var(--color-button));
+  --badge-fg: var(--badge-on-solid, var(--color-button-fg));
+}
+
+.outline {
+  --badge-bg: transparent;
+  border-color: var(--color-border-strong);
+  color: var(--badge-fg);
+}

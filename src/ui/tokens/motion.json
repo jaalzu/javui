@@ -1,0 +1,15 @@
+{
+  "motion": {
+    "duration": {
+      "fast": { "$value": "100ms" },
+      "base": { "$value": "160ms" },
+      "slow": { "$value": "240ms" }
+    },
+    "easing": {
+      "$description": "Components must also respect prefers-reduced-motion (see global styles).",
+      "standard": { "$value": "cubic-bezier(0.2, 0, 0, 1)" },
+      "in": { "$value": "cubic-bezier(0.4, 0, 1, 1)" },
+      "out": { "$value": "cubic-bezier(0, 0, 0.2, 1)" }
+    }
+  }
+}

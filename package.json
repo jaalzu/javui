@@ -1,0 +1,70 @@
+{
+  "name": "ui-lib",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "bun scripts/dev.mjs",
+    "build": "bun run tokens && bun run agent-docs && next build",
+    "start": "next start",
+    "lint": "eslint",
+    "storybook": "bun run tokens && storybook dev -p 6006",
+    "build-storybook": "bun run tokens && storybook build",
+    "tokens": "bun scripts/build-tokens.mjs",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "vitest run --project unit",
+    "agent-docs": "bun scripts/build-agent-docs.mjs",
+    "mcp": "bun mcp/server.mjs",
+    "mcp:test": "bun mcp/smoke-test.mjs"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.9.0",
+    "@fontsource-variable/dm-sans": "^5.3.0",
+    "@fontsource-variable/newsreader": "^5.3.0",
+    "@fontsource/commit-mono": "^5.3.0",
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "next": "16.4.0",
+    "next-themes": "^0.4.6",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "zod": "^4.6.6"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "latest",
+    "@storybook/addon-a11y": "^10.6.1",
+    "@storybook/addon-docs": "^10.6.1",
+    "@storybook/addon-mcp": "^10.6.1",
+    "@storybook/addon-vitest": "^10.6.1",
+    "@storybook/nextjs-vite": "^10.6.1",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/culori": "^4.0.1",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitest/browser-playwright": "5.0.3",
+    "@vitest/coverage-v8": "5.0.3",
+    "culori": "^4.0.2",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "jsdom": "^30.1.2",
+    "playwright": "latest",
+    "react-docgen-typescript": "^2.4.0",
+    "storybook": "^10.6.1",
+    "style-dictionary": "^5.6.1",
+    "typescript": "^5",
+    "vite": "latest",
+    "vitest": "^5.0.3",
+    "vitest-axe": "^0.1.0"
+  },
+  "packageManager": "bun@1.4.2",
+  "ignoreScripts": [
+    "sharp",
+    "unrs-resolver"
+  ],
+  "trustedDependencies": [
+    "sharp",
+    "unrs-resolver"
+  ]
+}

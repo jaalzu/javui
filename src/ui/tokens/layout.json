@@ -1,0 +1,31 @@
+{
+  "size": {
+    "$type": "dimension",
+    "target": {
+      "min": { "$value": "1.5rem", "$description": "WCAG 2.2 minimum pointer target (24px)." },
+      "comfortable": { "$value": "2.75rem", "$description": "Recommended touch target (44px)." }
+    },
+    "control": {
+      "sm": { "$value": "2rem" },
+      "md": { "$value": "2.5rem" },
+      "lg": { "$value": "3rem" }
+    }
+  },
+  "container": {
+    "$type": "dimension",
+    "$description": "Max content widths used by the Container component.",
+    "sm": { "$value": "40rem" },
+    "md": { "$value": "48rem" },
+    "lg": { "$value": "64rem" },
+    "xl": { "$value": "80rem" }
+  },
+  "z": {
+    "base": { "$value": "0" },
+    "dropdown": { "$value": "1000" },
+    "sticky": { "$value": "1100" },
+    "overlay": { "$value": "1200" },
+    "modal": { "$value": "1300" },
+    "popover": { "$value": "1400" },
+    "tooltip": { "$value": "1500" }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "radius": {
+    "$type": "dimension",
+    "none": { "$value": "0" },
+    "sm": { "$value": "0.25rem" },
+    "md": { "$value": "0.5rem" },
+    "lg": { "$value": "0.75rem" },
+    "xl": { "$value": "1rem" },
+    "full": { "$value": "9999px" }
+  },
+  "border": {
+    "width": {
+      "$type": "dimension",
+      "thin": { "$value": "1px" },
+      "thick": { "$value": "2px" }
+    }
+  },
+  "focus": {
+    "ring": {
+      "$type": "dimension",
+      "$description": "Focus ring: outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset). Never remove it without a replacement.",
+      "width": { "$value": "3px" },
+      "offset": { "$value": "2px" }
+    }
+  },
+  "opacity": {
+    "disabled": { "$value": "0.5" }
+  },
+  "shadow": {
+    "sm": { "$value": "0 1px 2px oklch(0 0 0 / 0.12)" },
+    "md": { "$value": "0 4px 12px oklch(0 0 0 / 0.16)" },
+    "lg": { "$value": "0 12px 32px oklch(0 0 0 / 0.24)" }
+  }
+}

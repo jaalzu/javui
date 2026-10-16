@@ -1,0 +1,41 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logo img {
+  display: block;
+  width: auto;
+  border-radius: 6px;
+}
+
+/* Icon (mobile): square-ish, 24px tall. */
+.mark img {
+  height: 24px;
+}
+
+/* Wordmark (desktop): wide, 22px tall. */
+.wordmark img {
+  height: 22px;
+}
+
+/* Theme switching: light by default (also first paint without JS). */
+.dark {
+  display: none;
+}
+:root[data-theme="dark"] .light {
+  display: none;
+}
+:root[data-theme="dark"] .dark {
+  display: block;
+}
+/* System preference when next-themes hasn't set an explicit light theme. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .light {
+    display: none;
+  }
+  :root:not([data-theme="light"]) .dark {
+    display: block;
+  }
+}

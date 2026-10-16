@@ -1,0 +1,115 @@
+{
+  "primitive": {
+    "color": {
+      "$description": "Primitive palette. Components never use these directly; use semantic tokens (color.bg, color.fg, ...).",
+      "neutral": {
+        "50": {
+          "$value": "oklch(0.985 0.0188 100.14)",
+          "$type": "color"
+        },
+        "100": {
+          "$value": "oklch(0.9257 0.0188 100.14)",
+          "$type": "color"
+        },
+        "200": {
+          "$value": "oklch(0.852 0.0205 100.63)",
+          "$type": "color"
+        },
+        "300": {
+          "$value": "oklch(0.7459 0.0157 100.14)",
+          "$type": "color"
+        },
+        "400": {
+          "$value": "oklch(0.6662 0.0147 100.14)",
+          "$type": "color"
+        },
+        "500": {
+          "$value": "oklch(0.5865 0.0136 100.14)",
+          "$type": "color"
+        },
+        "600": {
+          "$value": "oklch(0.5067 0.0126 100.14)",
+          "$type": "color"
+        },
+        "700": {
+          "$value": "oklch(0.427 0.0116 100.14)",
+          "$type": "color"
+        },
+        "800": {
+          "$value": "oklch(0.3473 0.0105 100.14)",
+          "$type": "color"
+        },
+        "900": {
+          "$value": "oklch(0.2676 0.0095 100.14)",
+          "$type": "color"
+        },
+        "950": {
+          "$value": "oklch(0.1879 0.0016 17.3)",
+          "$type": "color"
+        }
+      },
+      "accent": {
+        "400": {
+          "$value": "oklch(0.5969 0.1602 250.35)",
+          "$type": "color"
+        },
+        "500": {
+          "$value": "oklch(0.568 0.1708 252.61)",
+          "$type": "color"
+        },
+        "700": {
+          "$value": "oklch(0.55 0.1571 250.35)",
+          "$type": "color"
+        }
+      },
+      "success": {
+        "400": {
+          "$value": "oklch(0.7318 0.1205 157.36)",
+          "$type": "color"
+        },
+        "700": {
+          "$value": "oklch(0.51 0.1205 157.36)",
+          "$type": "color"
+        }
+      },
+      "warning": {
+        "400": {
+          "$value": "oklch(0.7629 0.1275 76.12)",
+          "$type": "color"
+        },
+        "700": {
+          "$value": "oklch(0.53 0.1176 76.12)",
+          "$type": "color"
+        }
+      },
+      "info": {
+        "400": {
+          "$value": "oklch(0.7414 0.0995 250.16)",
+          "$type": "color"
+        },
+        "700": {
+          "$value": "oklch(0.52 0.0995 250.16)",
+          "$type": "color"
+        }
+      },
+      "danger": {
+        "400": {
+          "$value": "oklch(0.7054 0.1871 30.37)",
+          "$type": "color"
+        },
+        "700": {
+          "$value": "oklch(0.54 0.1874 30.37)",
+          "$type": "color"
+        }
+      },
+      "white": {
+        "$value": "oklch(1 0 0)",
+        "$type": "color"
+      },
+      "black": {
+        "$value": "oklch(0 0 0)",
+        "$type": "color"
+      }
+    }
+  }
+}

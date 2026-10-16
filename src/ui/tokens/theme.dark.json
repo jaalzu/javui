@@ -1,0 +1,94 @@
+{
+  "color": {
+    "$description": "Semantic color tokens, dark theme. Components use only these.",
+    "bg": {
+      "$value": "color-mix(in oklab, {primitive.color.neutral.950} 70%, {primitive.color.black})",
+      "$type": "color",
+      "$description": "Page background."
+    },
+    "surface": {
+      "$value": "oklch(1 0 0 / 0.102)",
+      "$type": "color",
+      "$description": "Raised areas (cards, inputs) drawn over bg."
+    },
+    "surface-2": {
+      "$value": "color-mix(in oklab, {color.fg} 8%, {color.bg})",
+      "$type": "color",
+      "$description": "Second surface level for cards and example areas: whiter than bg in light, lighter gray than bg in dark. Opaque, so it can sit on any background."
+    },
+    "surface-raised": {
+      "$value": "color-mix(in oklab, {color.fg} 6%, {color.bg})",
+      "$type": "color",
+      "$description": "Opaque surface for floating panels (dialogs, select popups, menus). Mixed in oklab because the near-neutral fg has no meaningful hue in oklch."
+    },
+    "fg": {
+      "$value": "color-mix(in oklab, {primitive.color.white} 80%, {primitive.color.neutral.100})",
+      "$type": "color",
+      "$description": "Primary text."
+    },
+    "fg-muted": {
+      "$value": "color-mix(in oklch, {color.fg} 70%, transparent)",
+      "$type": "color",
+      "$description": "Secondary text."
+    },
+    "fg-subtle": {
+      "$value": "color-mix(in oklch, {color.fg} 54%, transparent)",
+      "$type": "color",
+      "$description": "Tertiary, non-essential text. Over the translucent surface it can fall below 4.5:1, so do not use it for placeholders or required information."
+    },
+    "border": {
+      "$value": "color-mix(in oklch, {color.fg} 7%, transparent)",
+      "$type": "color",
+      "$description": "Decorative dividers and card edges. Very soft on purpose."
+    },
+    "border-strong": {
+      "$value": "color-mix(in oklch, {color.fg} 18%, transparent)",
+      "$type": "color",
+      "$description": "Boundary of interactive controls (inputs, secondary button, kbd). Soft by design: below the 3:1 non-text contrast of WCAG 1.4.11, so the control also keeps its surface fill and the focus ring stays strong."
+    },
+    "button": {
+      "$value": "{primitive.color.neutral.100}",
+      "$type": "color",
+      "$description": "Primary (neutral) button background."
+    },
+    "button-fg": {
+      "$value": "{primitive.color.neutral.950}",
+      "$type": "color",
+      "$description": "Text on the primary button."
+    },
+    "accent": {
+      "$value": "{primitive.color.accent.500}",
+      "$type": "color",
+      "$description": "Accent fill."
+    },
+    "accent-fg": {
+      "$value": "{primitive.color.white}",
+      "$type": "color",
+      "$description": "Text on accent fill."
+    },
+    "accent-text": {
+      "$value": "{primitive.color.accent.400}",
+      "$type": "color",
+      "$description": "Accent used as text or icon on bg."
+    },
+    "focus": {
+      "$value": "{color.fg}",
+      "$type": "color",
+      "$description": "Focus ring color. Same as the text color (black on light, white on dark) so the ring is always the strongest contrast on the page."
+    },
+    "success": { "$value": "{primitive.color.success.400}", "$type": "color" },
+    "warning": { "$value": "{primitive.color.warning.400}", "$type": "color" },
+    "info": { "$value": "{primitive.color.info.400}", "$type": "color" },
+    "danger": { "$value": "{primitive.color.danger.400}", "$type": "color" },
+    "on-danger": {
+      "$value": "{color.bg}",
+      "$type": "color",
+      "$description": "Text on a solid danger background."
+    },
+    "overlay": {
+      "$value": "oklch(0 0 0 / 0.6)",
+      "$type": "color",
+      "$description": "Backdrop behind dialogs."
+    }
+  }
+}

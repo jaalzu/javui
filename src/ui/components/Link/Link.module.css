@@ -1,0 +1,28 @@
+.link {
+  color: var(--color-fg);
+  text-decoration: underline;
+  text-decoration-color: var(--color-fg-subtle);
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.2em;
+  border-radius: var(--radius-sm);
+  transition:
+    text-decoration-color var(--motion-duration-fast) var(--motion-easing-standard),
+    text-decoration-thickness var(--motion-duration-fast) var(--motion-easing-standard);
+}
+
+.link:hover {
+  text-decoration-color: currentColor;
+  text-decoration-thickness: var(--border-width-thick);
+}
+
+.muted {
+  color: var(--color-fg-muted);
+}
+
+.muted:hover {
+  color: var(--color-fg);
+}
+
+.inherit {
+  color: inherit;
+}

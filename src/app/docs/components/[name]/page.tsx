@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import manifest from "../../../../../public/agent/manifest.json";
 import { CodeBlock, Heading, Table } from "@/ui";
-import { noDemo } from "../../../demo-names";
-import { Examples, Preview } from "../../../Examples";
-import styles from "../../../site.module.css";
-import { DocPage } from "../../DocPage";
+import { noDemo } from "@/app/_examples/demo-names";
+import { Examples, Preview } from "@/app/_examples/Examples";
+import shell from "../../../_shell/shell.module.css";
+import { DocPage } from "@/app/docs/_page/DocPage";
 
 type Prop = { name: string; type: string; required: boolean; default?: string; description?: string };
 type Entry = {
@@ -44,7 +44,7 @@ export default async function ComponentPage({ params }: PageProps<"/docs/compone
     <DocPage href={`/docs/components/${c.name}`} title={c.name} description={<Inline text={lead} />}>
       {!noDemo.has(c.name) && (
         <>
-          <Heading as="h2" className={styles.srOnly}>Preview</Heading>
+          <Heading as="h2" className={shell.srOnly}>Preview</Heading>
           <Preview name={c.name} code={c.examples[0]} />
         </>
       )}

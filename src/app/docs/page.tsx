@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ButtonLink, Heading, Link } from "@/ui";
-import styles from "../site.module.css";
-import { DocPage } from "./DocPage";
+import landing from "../_landing/landing.module.css";
+import { DocPage } from "@/app/docs/_page/DocPage";
 
 export const metadata: Metadata = { title: "Introduction" };
 
@@ -16,7 +16,7 @@ export default function Introduction() {
       <ul>
         <li><strong>HTML first.</strong> Each component renders the right element: a heading is a heading, a link is an <code>a</code>, an action is a <code>button</code>.</li>
         <li><strong>Accessible behavior.</strong> Dialog, Select, Tabs, Menu, Toast and the form controls are built on Base UI, so focus, keyboard and ARIA are handled.</li>
-        <li><strong>Themeable.</strong> Components read semantic tokens such as <code>--color-bg</code>. Light and dark switch with <code>data-theme</code>.</li>
+        <li><strong>Themeable.</strong> Components read semantic tokens such as <code>--color-page</code>. Light and dark switch with <code>data-theme</code>.</li>
         <li><strong>Agent friendly.</strong> A manifest, <code>llms.txt</code> and an MCP server describe every component from the real types.</li>
         <li><strong>Fast navigation.</strong> Every link renders with <code>next/link</code> through one <code>LinkProvider</code>.</li>
       </ul>
@@ -27,7 +27,7 @@ export default function Introduction() {
         <li><Link href="/docs/usage">Usage</Link>: the rules and a first screen.</li>
         <li><Link href="/docs/components">Components</Link>: every component with a live preview, code and notes.</li>
       </ul>
-      <div className={styles.heroActions} style={{ justifyContent: "flex-start" }}>
+      <div className={landing.heroActions} style={{ justifyContent: "flex-start" }}>
         <ButtonLink href="/docs/installation">Get started</ButtonLink>
         <ButtonLink href="/docs/components" variant="secondary">Browse components</ButtonLink>
       </div>

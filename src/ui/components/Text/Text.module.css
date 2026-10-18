@@ -66,25 +66,25 @@
   letter-spacing: var(--text-code-tracking);
   padding: 0.1em 0.35em;
   border-radius: var(--radius-sm);
-  background: var(--color-surface);
+  background: var(--color-component);
 }
 
 .tone-default {
-  color: var(--color-fg);
+  color: var(--color-primary-foreground);
 }
 
 .tone-muted {
-  color: var(--color-fg-muted);
+  color: var(--color-secondary-foreground);
 }
 
 .tone-subtle {
-  color: var(--color-fg-subtle);
+  color: var(--color-tertiary-foreground);
 }
 
 .tone-danger {
-  color: var(--color-danger);
+  color: var(--color-danger-solid);
 }
 
 .tone-success {
-  color: var(--color-success);
+  color: var(--color-positive-solid);
 }

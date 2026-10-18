@@ -1,0 +1,62 @@
+/* ---------- Landing ---------- */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-block: clamp(var(--space-12), 9vw, 6rem) var(--space-12);
+  text-align: center;
+}
+
+.heroTitle {
+  max-width: 20ch;
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  line-height: 1.08;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.heroLead {
+  max-width: 42rem;
+  margin: var(--space-5) 0 0;
+  color: var(--color-primary-foreground);
+  font-size: var(--text-body-lg-size);
+  line-height: var(--text-body-lg-line);
+  text-wrap: balance;
+}
+
+.heroMuted {
+  color: var(--color-secondary-foreground);
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-8);
+}
+
+.showcase {
+  position: relative;
+  max-height: 56rem;
+  overflow: hidden;
+  padding-bottom: var(--space-4);
+}
+
+.showcaseFade {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 13rem;
+  background: linear-gradient(to bottom, transparent, var(--color-page) 95%);
+  pointer-events: none;
+}
+
+.showcaseCta {
+  position: absolute;
+  inset: auto 0 var(--space-6) 0;
+  display: flex;
+  justify-content: center;
+  gap: var(--space-8);
+}

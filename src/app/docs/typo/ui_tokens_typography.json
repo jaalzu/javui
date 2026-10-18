@@ -1,0 +1,419 @@
+{
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "sans": {
+        "$value": "'DM Sans Variable', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+        "$description": "The only family for UI and reading text. Used for headings, body, labels and captions."
+      },
+      "emphasis": {
+        "$value": "'Newsreader Variable', ui-serif, Georgia, 'Times New Roman', serif",
+        "$description": "Serif, used rarely: one lead sentence or a short quote. Never for headings, controls or long text."
+      },
+      "mono": {
+        "$value": "'Commit Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+        "$description": "Code and keyboard keys only."
+      }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "regular": {
+        "$value": 400,
+        "$description": "Body text. Do not use lighter weights; soften text with a muted color instead."
+      },
+      "medium": {
+        "$value": 500,
+        "$description": "Labels and controls."
+      },
+      "semibold": {
+        "$value": 600,
+        "$description": "Headings and emphasis."
+      }
+    },
+    "style": {
+      "body": {
+        "$value": "normal"
+      }
+    },
+    "size": {
+      "$type": "dimension",
+      "$description": "Every font size in the system, named by its pixel value. Text tokens use only these.",
+      "10": {
+        "$value": "0.625rem"
+      },
+      "11": {
+        "$value": "0.6875rem"
+      },
+      "12": {
+        "$value": "0.75rem"
+      },
+      "13": {
+        "$value": "0.8125rem"
+      },
+      "14": {
+        "$value": "0.875rem"
+      },
+      "15": {
+        "$value": "0.9375rem"
+      },
+      "18": {
+        "$value": "1.125rem"
+      },
+      "20": {
+        "$value": "1.25rem"
+      },
+      "24": {
+        "$value": "1.5rem"
+      },
+      "28": {
+        "$value": "1.75rem"
+      },
+      "36": {
+        "$value": "2.25rem"
+      },
+      "44": {
+        "$value": "2.75rem"
+      },
+      "56": {
+        "$value": "3.5rem"
+      }
+    }
+  },
+  "text": {
+    "$description": "Text styles. Text and Heading components consume only these. Each style has size, line, weight, tracking, style and family.",
+    "heading-1": {
+      "size": {
+        "$value": "clamp(2.25rem, 1.8333rem + 2.0833vw, 3.5rem)"
+      },
+      "line": {
+        "$value": "1.05"
+      },
+      "weight": {
+        "$value": "{font.weight.semibold}"
+      },
+      "tracking": {
+        "$value": "-0.03em"
+      },
+      "family": {
+        "$value": "{font.family.sans}"
+      },
+      "$description": "Heading 1. 56px on wide screens, 36px on phones, resized smoothly in between."
+    },
+    "heading-2": {
+      "size": {
+        "$value": "clamp(2rem, 1.7500rem + 1.2500vw, 2.75rem)"
+      },
+      "line": {
+        "$value": "1.1"
+      },
+      "weight": {
+        "$value": "{font.weight.semibold}"
+      },
+      "tracking": {
+        "$value": "-0.025em"
+      },
+      "family": {
+        "$value": "{font.family.sans}"
+      },
+      "$description": "Heading 2. 44px on wide screens, 32px on phones, resized smoothly in between."
+    },
+    "heading-3": {
+      "size": {
+        "$value": "clamp(1.75rem, 1.5833rem + 0.8333vw, 2.25rem)"
+      },
+      "line": {
+        "$value": "1.15"
+      },
+      "weight": {
+        "$value": "{font.weight.semibold}"
+      },
+      "tracking": {
+        "$value": "-0.02em"
+      },
+      "family": {
+        "$value": "{font.family.sans}"
+      },
+      "$description": "Heading 3. 36px on wide screens, 28px on phones, resized smoothly in between."
+    },
+    "heading-4": {
+      "size": {
+        "$value": "clamp(1.5rem, 1.4167rem + 0.4167vw, 1.75rem)"
+      },
+      "line": {
+        "$value": "1.2"
+      },
+      "weight": {
+        "$value": "{font.weight.semibold}"
+      },
+      "tracking": {
+        "$value": "-0.015em"
+      },
+      "family": {
+        "$value": "{font.family.sans}"
+      },
+      "$description": "Heading 4. 28px on wide screens, 24px on phones, resized smoothly in between."
+    },
+    "heading-5": {
+      "size": {
+        "$value": "clamp(1.25rem, 1.1667rem + 0.4167vw, 1.5rem)"
+      },
+      "line": {
+        "$value": "1.25"
+      },
+      "weight": {
+        "$value": "{font.weight.semibold}"
+      },
+      "tracking": {
+        "$value": "-0.01em"
+      },
+      "family": {
+        "$value": "{font.family.sans}"
+      },
+      "$description": "Heading 5. 24px on wide screens, 20px on phones, resized smoothly in between."
+    },
+    "heading-6": {
+      "size": {
+        "$value": "clamp(1.125rem, 1.0833rem + 0.2083vw, 1.25rem)"
+      },
+      "line": {
+        "$value": "1.3"
+      },
+      "weight": {
+        "$value": "{font.weight.semibold}"
+      },
+      "tracking": {
+        "$value": "-0.005em"
+      },
+      "family": {
+        "$value": "{font.family.sans}"
+      },
+      "$description": "Heading 6. 20px on wide screens, 18px on phones, resized smoothly in between."
+    },
+    "body-lg": {
+      "size": {
+        "$value": "{font.size.18}"
+      },
+      "line": {
+        "$value": "1.6"
+      },
+      "weight": {
+        "$value": "{font.weight.regular}"
+      },
+      "tracking": {
+        "$value": "0em"
+      },
+      "style": {
+        "$value": "{font.style.body}"
+      },
+      "family": {
+        "$value": "{font.family.sans}"
+      }
+    },
+    "body": {
+      "size": {
+        "$value": "{font.size.15}"
+      },
+      "line": {
+        "$value": "1.6"
+      },
+      "weight": {
+        "$value": "{font.weight.regular}"
+      },
+      "tracking": {
+        "$value": "0em"
+      },
+      "style": {
+        "$value": "{font.style.body}"
+      },
+      "family": {
+        "$value": "{font.family.sans}"
+      }
+    },
+    "body-sm": {
+      "size": {
+        "$value": "{font.size.13}"
+      },
+      "line": {
+        "$value": "1.5"
+      },
+      "weight": {
+        "$value": "{font.weight.regular}"
+      },
+      "tracking": {
+        "$value": "0.005em"
+      },
+      "style": {
+        "$value": "{font.style.body}"
+      },
+      "family": {
+        "$value": "{font.family.sans}"
+      }
+    },
+    "label": {
+      "size": {
+        "$value": "{font.size.13}"
+      },
+      "line": {
+        "$value": "1.4"
+      },
+      "weight": {
+        "$value": "{font.weight.medium}"
+      },
+      "tracking": {
+        "$value": "0.01em"
+      },
+      "style": {
+        "$value": "{font.style.body}"
+      },
+      "family": {
+        "$value": "{font.family.sans}"
+      }
+    },
+    "caption-lg": {
+      "size": {
+        "$value": "{font.size.12}"
+      },
+      "line": {
+        "$value": "1.4"
+      },
+      "weight": {
+        "$value": "{font.weight.regular}"
+      },
+      "tracking": {
+        "$value": "0.01em"
+      },
+      "style": {
+        "$value": "{font.style.body}"
+      },
+      "family": {
+        "$value": "{font.family.sans}"
+      }
+    },
+    "caption": {
+      "size": {
+        "$value": "{font.size.11}"
+      },
+      "line": {
+        "$value": "1.4"
+      },
+      "weight": {
+        "$value": "{font.weight.regular}"
+      },
+      "tracking": {
+        "$value": "0.01em"
+      },
+      "style": {
+        "$value": "{font.style.body}"
+      },
+      "family": {
+        "$value": "{font.family.sans}"
+      }
+    },
+    "caption-sm": {
+      "size": {
+        "$value": "{font.size.10}"
+      },
+      "line": {
+        "$value": "1.4"
+      },
+      "weight": {
+        "$value": "{font.weight.regular}"
+      },
+      "tracking": {
+        "$value": "0.015em"
+      },
+      "style": {
+        "$value": "{font.style.body}"
+      },
+      "family": {
+        "$value": "{font.family.sans}"
+      }
+    },
+    "caption-uppercase": {
+      "tracking": {
+        "$value": "0.06em",
+        "$description": "Extra letter spacing for uppercase captions."
+      }
+    },
+    "emphasis": {
+      "size": {
+        "$value": "{font.size.24}"
+      },
+      "line": {
+        "$value": "1.4"
+      },
+      "weight": {
+        "$value": "{font.weight.regular}"
+      },
+      "tracking": {
+        "$value": "-0.005em"
+      },
+      "style": {
+        "$value": "italic"
+      },
+      "family": {
+        "$value": "{font.family.emphasis}"
+      }
+    },
+    "code": {
+      "size": {
+        "$value": "{font.size.14}"
+      },
+      "line": {
+        "$value": "1.5"
+      },
+      "weight": {
+        "$value": "{font.weight.regular}"
+      },
+      "tracking": {
+        "$value": "0em"
+      },
+      "style": {
+        "$value": "{font.style.body}"
+      },
+      "family": {
+        "$value": "{font.family.mono}"
+      }
+    },
+    "code-sm": {
+      "size": {
+        "$value": "{font.size.13}"
+      },
+      "line": {
+        "$value": "1.5"
+      },
+      "weight": {
+        "$value": "{font.weight.regular}"
+      },
+      "tracking": {
+        "$value": "0em"
+      },
+      "style": {
+        "$value": "{font.style.body}"
+      },
+      "family": {
+        "$value": "{font.family.mono}"
+      }
+    },
+    "code-xs": {
+      "size": {
+        "$value": "{font.size.12}"
+      },
+      "line": {
+        "$value": "1.5"
+      },
+      "weight": {
+        "$value": "{font.weight.regular}"
+      },
+      "tracking": {
+        "$value": "0em"
+      },
+      "style": {
+        "$value": "{font.style.body}"
+      },
+      "family": {
+        "$value": "{font.family.mono}"
+      }
+    }
+  }
+}

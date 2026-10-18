@@ -1,6 +1,6 @@
 .heading {
   margin: 0;
-  color: var(--color-fg);
+  color: var(--color-primary-foreground);
   text-wrap: balance;
 }
 

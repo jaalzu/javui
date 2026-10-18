@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { CodeBlock, Heading, Link, Table } from "@/ui";
-import { DocPage } from "../DocPage";
+import { DocPage } from "@/app/docs/_page/DocPage";
 
 export const metadata: Metadata = { title: "For agents" };
 

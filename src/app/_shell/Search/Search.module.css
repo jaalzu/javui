@@ -1,0 +1,204 @@
+/* Search */
+.searchButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  height: var(--size-control-sm);
+  width: var(--size-control-sm);
+  margin: 0 var(--space-1) 0 0;
+  padding: 0;
+  border: var(--border-width-thin) solid transparent;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-secondary-foreground);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.searchButton:hover {
+  background: var(--color-transparent-active);
+  color: var(--color-primary-foreground);
+}
+
+.searchText {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.searchButton {
+  position: relative;
+}
+
+.searchKeys {
+  display: none;
+}
+
+@media (min-width: 48rem) {
+  .searchButton {
+    width: 17rem;
+    justify-content: flex-start;
+    padding: 0 var(--space-2);
+    border-color: var(--color-border-strong);
+    background: var(--color-component);
+  }
+  .searchIcon {
+    display: none;
+  }
+  .searchText {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip-path: none;
+    flex: 1;
+    text-align: left;
+  }
+  .searchKeys {
+    display: inline-flex;
+    gap: 2px;
+  }
+}
+
+.searchDialog {
+  position: fixed;
+  inset: 12vh auto auto 50%;
+  transform: translateX(-50%);
+  box-sizing: border-box;
+  width: min(32rem, calc(100vw - 2rem));
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--color-modal);
+  color: var(--color-primary-foreground);
+  box-shadow: var(--shadow-extra-large, var(--shadow-md));
+}
+
+.searchDialog:not([open]) {
+  display: none;
+}
+
+.searchDialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.searchDialog::backdrop {
+  background: var(--color-overlay);
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
+  border-bottom: var(--border-width-thin) solid var(--color-border-default);
+}
+
+.searchGlyph {
+  color: var(--color-secondary-foreground);
+  flex-shrink: 0;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 0;
+  height: var(--size-control-md);
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--color-primary-foreground);
+  font: inherit;
+  font-size: var(--font-size-base);
+}
+
+.searchInput::placeholder {
+  color: var(--color-secondary-foreground);
+}
+
+.searchInput::-webkit-search-cancel-button {
+  display: none;
+}
+
+.searchList {
+  flex: 1;
+  max-height: 15rem;
+  margin: 0;
+  padding: var(--space-2);
+  overflow-y: auto;
+  list-style: none;
+  scrollbar-width: none;
+}
+
+.searchList::-webkit-scrollbar {
+  display: none;
+}
+
+.searchItem {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.searchItem:hover,
+.searchItem[data-active] {
+  background: var(--color-transparent-active);
+}
+
+.searchLabel {
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+}
+
+.searchHint {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--color-secondary-foreground);
+  font-size: var(--font-size-sm);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.searchGroup {
+  margin-inline-start: auto;
+  padding: 0.15rem var(--space-2);
+  border-radius: var(--radius-full);
+  background: color-mix(in oklab, var(--color-primary-foreground) 9%, transparent);
+  color: var(--color-primary-foreground);
+  font-size: var(--font-size-sm);
+}
+
+.searchEmpty {
+  margin: 0;
+  padding: var(--space-6) var(--space-4);
+  color: var(--color-secondary-foreground);
+  text-align: center;
+}
+
+.searchStatus {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.closeButton {
+  padding-inline: 0;
+  width: var(--size-control-sm);
+}

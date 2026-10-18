@@ -1,25 +1,25 @@
 .wrapper {
   overflow-x: auto;
-  border: var(--border-width-thin) solid var(--color-border);
+  border: var(--border-width-thin) solid var(--color-border-default);
   border-radius: var(--radius-lg);
 }
 
 .wrapper:focus-visible {
-  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
   outline-offset: 2px;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  color: var(--color-fg);
+  color: var(--color-primary-foreground);
   font-size: var(--text-body-sm-size);
   line-height: var(--text-body-sm-line);
 }
 
 .caption {
   padding: var(--space-3) var(--space-4);
-  color: var(--color-fg-muted);
+  color: var(--color-secondary-foreground);
   text-align: start;
   caption-side: top;
 }
@@ -37,14 +37,14 @@
 
 .cell {
   padding: var(--space-3) var(--space-4);
-  border-top: var(--border-width-thin) solid var(--color-border);
+  border-top: var(--border-width-thin) solid var(--color-border-default);
   text-align: start;
   vertical-align: top;
 }
 
 .head {
-  background: var(--color-surface);
-  color: var(--color-fg-muted);
+  background: var(--color-component);
+  color: var(--color-secondary-foreground);
   font-weight: var(--font-weight-medium);
   white-space: nowrap;
 }

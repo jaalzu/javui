@@ -1,7 +1,7 @@
 .link {
-  color: var(--color-fg);
+  color: var(--color-primary-foreground);
   text-decoration: underline;
-  text-decoration-color: var(--color-fg-subtle);
+  text-decoration-color: var(--color-tertiary-foreground);
   text-decoration-thickness: var(--border-width-thin);
   text-underline-offset: 0.2em;
   border-radius: var(--radius-sm);
@@ -16,11 +16,11 @@
 }
 
 .muted {
-  color: var(--color-fg-muted);
+  color: var(--color-secondary-foreground);
 }
 
 .muted:hover {
-  color: var(--color-fg);
+  color: var(--color-primary-foreground);
 }
 
 .inherit {

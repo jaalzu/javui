@@ -25,7 +25,8 @@
   --shrink: calc(1 - var(--scale));
   --height: var(--toast-frontmost-height, var(--toast-height));
   --offset-y: calc(
-    var(--toast-offset-y) * -1 + (var(--toast-index) * var(--gap) * -1) + var(--toast-swipe-movement-y)
+    var(--toast-offset-y) * -1 + (var(--toast-index) * var(--gap) * -1) +
+      var(--toast-swipe-movement-y)
   );
   position: absolute;
   right: 0;
@@ -37,15 +38,20 @@
   border: var(--border-width-thin) solid var(--color-border-strong);
   border-left: 3px solid var(--toast-tone);
   border-radius: var(--radius-lg);
-  background: var(--color-surface-raised);
-  color: var(--color-fg);
-  box-shadow: var(--shadow-md);
+  background: var(--color-modal);
+  color: var(--color-primary-foreground);
+  box-shadow: var(--shadow-large);
   transform-origin: bottom center;
   cursor: default;
   user-select: none;
   z-index: calc(1000 - var(--toast-index));
   transform: translateX(var(--toast-swipe-movement-x))
-    translateY(calc(var(--toast-swipe-movement-y) - (var(--toast-index) * var(--peek)) - (var(--shrink) * var(--height))))
+    translateY(
+      calc(
+        var(--toast-swipe-movement-y) - (var(--toast-index) * var(--peek)) -
+          (var(--shrink) * var(--height))
+      )
+    )
     scale(var(--scale));
   transition:
     transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
@@ -54,23 +60,24 @@
 }
 
 .toast[data-type="success"] {
-  --toast-tone: var(--color-success);
+  --toast-tone: var(--color-positive-solid);
 }
 
 .toast[data-type="info"] {
-  --toast-tone: var(--color-info);
+  --toast-tone: var(--color-info-solid);
 }
 
 .toast[data-type="warning"] {
-  --toast-tone: var(--color-warning);
+  --toast-tone: var(--color-warning-solid);
 }
 
 .toast[data-type="danger"] {
-  --toast-tone: var(--color-danger);
+  --toast-tone: var(--color-danger-solid);
 }
 
 .toast[data-expanded] {
-  transform: translateX(var(--toast-swipe-movement-x)) translateY(var(--offset-y));
+  transform: translateX(var(--toast-swipe-movement-x))
+    translateY(var(--offset-y));
   height: var(--toast-height);
 }
 
@@ -132,7 +139,7 @@
 
 .description {
   margin: 0;
-  color: var(--color-fg-muted);
+  color: var(--color-secondary-foreground);
   font-size: var(--text-body-sm-size);
   line-height: var(--text-body-sm-line);
 }
@@ -149,11 +156,11 @@
   border: 0;
   border-radius: var(--radius-sm);
   background: transparent;
-  color: var(--color-fg-muted);
+  color: var(--color-secondary-foreground);
   cursor: pointer;
 }
 
 .close:hover {
-  color: var(--color-fg);
-  background: color-mix(in oklch, var(--color-fg) 10%, transparent);
+  color: var(--color-primary-foreground);
+  background: color-mix(in oklch, var(--color-primary-foreground) 10%, transparent);
 }

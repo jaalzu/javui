@@ -8,8 +8,8 @@
   padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-sm);
   /* Inverted colors so the tooltip stands out in both themes. */
-  background: var(--color-fg);
-  color: var(--color-bg);
+  background: var(--color-primary-foreground);
+  color: var(--color-page);
   font-family: var(--text-caption-family);
   font-size: var(--text-caption-size);
   line-height: var(--text-caption-line);

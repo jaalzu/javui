@@ -7,7 +7,7 @@
 }
 
 .label {
-  color: var(--color-fg);
+  color: var(--color-primary-foreground);
   font-family: var(--text-label-family);
   font-size: var(--text-label-size);
   line-height: var(--text-label-line);
@@ -17,13 +17,13 @@
 
 .description {
   margin: 0;
-  color: var(--color-fg-muted);
+  color: var(--color-secondary-foreground);
   font-size: var(--text-caption-size);
   line-height: var(--text-caption-line);
 }
 
 .error {
-  color: var(--color-danger);
+  color: var(--color-danger-solid);
   font-size: var(--text-caption-size);
   line-height: var(--text-caption-line);
 }

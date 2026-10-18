@@ -1,0 +1,74 @@
+/* ---------- Docs layout ---------- */
+.docs, .docsSingle {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
+  padding-block: var(--space-6) var(--space-8);
+}
+
+.content { min-width: 0; }
+
+.docsSingle .content { width: 100%; }
+
+@media (min-width: 56rem) {
+  .docs { grid-template-columns: 15rem minmax(0, 1fr); column-gap: var(--space-8); }
+  .side {
+    position: sticky;
+    top: 5rem;
+    align-self: start;
+    display: flex;
+    height: calc(100vh - 9rem);
+    max-height: 42rem;
+  }
+  /* The fading divider: a line that is not drawn at its ends. */
+  .side::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--color-border-default) 18%, var(--color-border-default) 82%, transparent);
+  }
+}
+
+.side { min-width: 0; }
+
+@media (max-width: 55.99rem) {
+  .side { display: none; }
+}
+
+.sideScroll {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  padding: var(--space-8) var(--space-4) var(--space-8) var(--space-1);
+  scrollbar-width: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 var(--space-8), #000 calc(100% - var(--space-8)), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 var(--space-8), #000 calc(100% - var(--space-8)), transparent 100%);
+}
+
+.sideScroll::-webkit-scrollbar { display: none; }
+
+.sideGroup + .sideGroup { margin-top: var(--space-8); }
+
+.sideTitle {
+  margin: 0 0 var(--space-3) var(--space-3);
+  color: var(--color-secondary-foreground);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--font-weight-regular);
+}
+
+.sideList { display: flex; flex-direction: column; gap: var(--space-1); margin: 0; padding: 0; list-style: none; }
+
+a.sideLink {
+  display: block;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--color-primary-foreground);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+}
+
+a.sideLink:hover { background: var(--color-component); text-decoration: none; }
+
+a.sideLink[aria-current="page"] { background: var(--color-component); }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { CodeBlock, Heading, Link } from "@/ui";
-import { DocPage } from "../DocPage";
+import { DocPage } from "@/app/docs/_page/DocPage";
 
 export const metadata: Metadata = { title: "Usage" };
 
@@ -44,7 +44,7 @@ export default function Usage() {
       <Heading as="h2" size="h3">Rules</Heading>
       <ol>
         <li><strong>Use the component for the job.</strong> <code>Heading</code> for headings, <code>Text</code> for body text, <code>Link</code> for navigation, <code>Button</code> for actions. Never a <code>div</code> with <code>onClick</code>.</li>
-        <li><strong>Semantic tokens only.</strong> <code>--color-bg</code>, <code>--space-4</code>, <code>--text-body-size</code>. Never hex colors, pixel values or <code>--primitive-*</code>.</li>
+        <li><strong>Semantic tokens only.</strong> <code>--color-page</code>, <code>--space-4</code>, <code>--text-body-size</code>. Never hex colors, pixel values or <code>--primitive-*</code>.</li>
         <li><strong>Every control has a name.</strong> Use <code>Field label</code>, the component&apos;s own <code>label</code> or <code>legend</code>, or <code>aria-label</code>.</li>
         <li><strong>Keep heading order.</strong> One <code>h1</code> per page and no skipped levels. Change the look with <code>size</code>, not the level.</li>
         <li><strong>Do not rebuild behavior.</strong> Focus, keyboard and ARIA of Dialog, Select, Menu and the rest come from Base UI.</li>

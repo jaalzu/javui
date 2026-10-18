@@ -19,27 +19,27 @@
   display: inline-flex;
   align-items: center;
   min-height: var(--size-target-min);
-  color: var(--color-fg-muted);
+  color: var(--color-secondary-foreground);
   text-decoration: none;
 }
 
 .link:hover {
-  color: var(--color-fg);
+  color: var(--color-primary-foreground);
   text-decoration: underline;
 }
 
 .link:focus-visible {
-  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
 
 .current {
-  color: var(--color-fg);
+  color: var(--color-primary-foreground);
   font-weight: var(--font-weight-medium);
 }
 
 .sep {
-  color: var(--color-fg-subtle);
+  color: var(--color-tertiary-foreground);
   user-select: none;
 }

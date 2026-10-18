@@ -1,0 +1,54 @@
+/* Components index: cells separated by 1px dotted lines in both directions. */
+.nameGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: var(--border-width-thin) dotted var(--color-border-strong);
+  border-left: var(--border-width-thin) dotted var(--color-border-strong);
+}
+
+@media (min-width: 40rem) {
+  .nameGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (min-width: 72rem) {
+  .nameGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+.nameGrid > li {
+  border-right: var(--border-width-thin) dotted var(--color-border-strong);
+  border-bottom: var(--border-width-thin) dotted var(--color-border-strong);
+}
+
+a.nameLink {
+  display: block;
+  padding: var(--space-4) var(--space-4);
+  color: var(--color-primary-foreground);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+}
+
+a.nameLink:hover { background: var(--color-component); text-decoration: none; }
+
+/* Choose-a-setup cards */
+.chooser { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+
+a.chooseLink {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-5);
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  color: var(--color-primary-foreground);
+  text-decoration: none;
+}
+
+a.chooseLink:hover { background: var(--color-component); text-decoration: none; }
+
+.chooseTitle { font-weight: var(--font-weight-semibold); }
+
+.chooseText { color: var(--color-secondary-foreground); font-size: var(--text-body-sm-size); }

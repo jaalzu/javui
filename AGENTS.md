@@ -11,7 +11,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## ui-lib conventions
 
 - Library code lives in `src/ui`. Tokens are DTCG JSON in `src/ui/tokens/*.json`; `bun run tokens` generates `tokens.css`. Never edit `tokens.css` by hand.
-- Components use only semantic tokens (`--color-bg`, `--color-fg`, `--space-4`, `--text-body-size`, ...). Never use `--primitive-*` or hardcoded colors, sizes or fonts.
+- Components use only semantic tokens (`--color-page`, `--color-primary-foreground`, `--space-4`, `--text-body-size`, ...). Never use `--primitive-*` or hardcoded colors, sizes or fonts.
 - Typography goes through text styles (`--text-<style>-<property>`). One sans family; mono only for code. Headings are italic via `--font-style-heading`.
 - Controls with behavior (Button, Input, Checkbox, Radio, Switch, Select, Dialog, Tooltip, Tabs, Field) are built on Base UI (`@base-ui/react`); do not reimplement its keyboard, focus or ARIA logic.
 - Own components (Text, Heading, Box, Stack, Grid, Container, ...) render correct semantic HTML. `as` only accepts elements valid for that component. Add `render` to a Base UI wrapper only when a real use case needs it.
@@ -31,7 +31,7 @@ Rules that matter when using them:
 - `Heading as` sets the outline level, `size` only the look. One `h1` per page, no skipped levels.
 - `Stack`/`Grid` with `as="ul"` or `"ol"` require `li` children.
 - `Tooltip` content is supplementary: Base UI does not link it to the trigger, so the trigger needs its own accessible name.
-- Do not use `--color-fg-subtle` for placeholders or required text (contrast).
+- Do not use `--color-tertiary-foreground` for placeholders or required text (contrast).
 - Verification: `bun run typecheck && bun run lint && bun run test`; stories (axe, light and dark) run with `bunx vitest run --project storybook` (needs Playwright Chromium: `bunx playwright install chromium`).
 
 ## Agent layer
@@ -43,7 +43,7 @@ Rules that matter when using them:
 ## Theming and color gotchas
 
 - The demo app uses `next-themes` with `attribute="data-theme"` (see `src/app/providers.tsx`). The library itself does not depend on it: tokens only read `data-theme` or the OS preference.
-- Opaque floating surfaces (dialogs, popups) use `--color-surface-raised`. Do not build them with `color-mix(in oklch, var(--color-fg) ...)`: `fg` is almost neutral, its oklch hue is meaningless and renders pink. Use `in oklab`, or mix with `transparent`.
+- Opaque floating surfaces (dialogs, popups) use `--color-modal`. Do not build them with `color-mix(in oklch, var(--color-primary-foreground) ...)`: `primary-foreground` is almost neutral, its oklch hue is meaningless and renders pink. Use `in oklab`, or mix with `transparent`.
 
 ## Navigation (LinkProvider)
 

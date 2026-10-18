@@ -3,7 +3,7 @@
   align-items: flex-start;
   gap: var(--space-3);
   min-height: var(--size-target-min);
-  color: var(--color-fg);
+  color: var(--color-primary-foreground);
   font-family: var(--text-body-family);
   font-size: var(--text-body-size);
   line-height: var(--text-body-line);
@@ -22,15 +22,15 @@
   padding: 0;
   border: var(--border-width-thin) solid var(--color-border-strong);
   border-radius: var(--radius-sm);
-  background: var(--color-surface);
-  color: var(--color-button-fg);
+  background: var(--color-component);
+  color: var(--color-on-inverted-foreground);
   cursor: pointer;
 }
 
 .box[data-checked],
 .box[data-indeterminate] {
-  border-color: var(--color-button);
-  background: var(--color-button);
+  border-color: var(--color-inverted-solid);
+  background: var(--color-inverted-solid);
 }
 
 .box[data-disabled] {

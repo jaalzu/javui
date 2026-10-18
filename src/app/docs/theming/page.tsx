@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Alert, CodeBlock, Heading, Table } from "@/ui";
-import { DocPage } from "../DocPage";
+import { DocPage } from "@/app/docs/_page/DocPage";
 
 export const metadata: Metadata = { title: "Theming" };
 
 const override = `/* app/globals.css, after importing @/ui/styles/global.css */
 :root[data-theme="light"] {
-  --color-accent: oklch(0.55 0.2 260);
+  --color-brand-solid: oklch(0.55 0.2 260);
 }`;
 
 const lock = `<html lang="en" data-theme="dark">`;
@@ -23,16 +23,16 @@ export default function Theming() {
         caption="Colors you will use most"
         columns={[{ key: "token", header: "Token" }, { key: "use", header: "Use" }]}
         rows={[
-          { token: <code>--color-bg</code>, use: "Page background." },
-          { token: <code>--color-fg</code>, use: "Primary text." },
-          { token: <code>--color-fg-muted</code>, use: "Secondary text." },
-          { token: <code>--color-surface</code>, use: "Cards and inputs drawn over the background." },
-          { token: <code>--color-border</code>, use: "Soft dividers and card edges." },
+          { token: <code>--color-page</code>, use: "Page background." },
+          { token: <code>--color-primary-foreground</code>, use: "Primary text." },
+          { token: <code>--color-secondary-foreground</code>, use: "Secondary text." },
+          { token: <code>--color-component</code>, use: "Cards and inputs drawn over the background." },
+          { token: <code>--color-border-default</code>, use: "Soft dividers and card edges." },
           { token: <code>--color-border-strong</code>, use: "Edges of interactive controls." },
-          { token: <><code>--color-button</code> and <code>--color-button-fg</code></>, use: "Primary button, checkbox, radio and switch: black on white, white on black." },
-          { token: <code>--color-danger</code>, use: "Destructive actions and errors." },
-          { token: <code>--color-focus</code>, use: "Focus ring: the same color as the text, drawn thick." },
-          { token: <code>--color-accent</code>, use: "Your brand. Change this one to rebrand the library." },
+          { token: <><code>--color-inverted-solid</code> and <code>--color-on-inverted-foreground</code></>, use: "Primary button, checkbox, radio and switch: black on white, white on black." },
+          { token: <code>--color-danger-solid</code>, use: "Destructive actions and errors." },
+          { token: <code>--color-brand-border-focus</code>, use: "Focus ring: the same color as the text, drawn thick." },
+          { token: <code>--color-brand-solid</code>, use: "Your brand. Change this one to rebrand the library." },
         ]}
       />
 

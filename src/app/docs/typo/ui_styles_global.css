@@ -1,0 +1,53 @@
+@import "@fontsource-variable/dm-sans/opsz.css";
+@import "@fontsource/commit-mono/400.css";
+@import "@fontsource/commit-mono/500.css";
+@import "@fontsource/commit-mono/600.css";
+@import "@fontsource-variable/newsreader/wght-italic.css";
+@import "../tokens/tokens.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-page);
+  color: var(--color-primary-foreground);
+  font-family: var(--text-body-family);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line);
+  font-weight: var(--text-body-weight);
+  font-style: var(--text-body-style);
+  letter-spacing: var(--text-body-tracking);
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Visible keyboard focus everywhere. Components may refine it but must not remove it. */
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+::selection {
+  background: color-mix(in oklch, var(--color-brand-solid) 35%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

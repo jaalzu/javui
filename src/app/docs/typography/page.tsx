@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Heading, Stack, Text } from "@/ui";
-import styles from "../../site.module.css";
-import { DocPage } from "../DocPage";
+import doc from "../_page/DocPage.module.css";
+import { DocPage } from "@/app/docs/_page/DocPage";
 
 export const metadata: Metadata = { title: "Typography" };
 
@@ -11,7 +11,7 @@ export default function Typography() {
 
       <Heading as="h2" size="h3">Headings</Heading>
       <p>The element sets the outline and <code>size</code> sets the look, so an <code>h2</code> can look like an <code>h4</code>.</p>
-      <div className={styles.preview}>
+      <div className={doc.preview}>
         <Stack gap="3">
           <Heading as="h2" size="display">Display</Heading>
           <Heading as="h2" size="h1">Heading 1</Heading>
@@ -22,7 +22,7 @@ export default function Typography() {
       </div>
 
       <Heading as="h2" size="h3">Text</Heading>
-      <div className={styles.preview}>
+      <div className={doc.preview}>
         <Stack gap="3">
           <Text variant="body-lg">Large body text for introductions.</Text>
           <Text>Regular body text for most content.</Text>
@@ -31,7 +31,7 @@ export default function Typography() {
           <Text variant="code">const code = &quot;monospace&quot;;</Text>
         </Stack>
       </div>
-      <p>Use <code>tone=&quot;muted&quot;</code> for secondary text. Do not put required information in <code>--color-fg-subtle</code>.</p>
+      <p>Use <code>tone=&quot;muted&quot;</code> for secondary text. Do not put required information in <code>--color-tertiary-foreground</code>.</p>
     </DocPage>
   );
 }

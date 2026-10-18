@@ -1,7 +1,7 @@
 .divider {
   margin: 0;
   border: 0;
-  background: var(--color-border);
+  background: var(--color-border-default);
   flex-shrink: 0;
 }
 

@@ -1,9 +1,9 @@
 .root {
   overflow: hidden;
-  border: var(--border-width-thin) solid var(--color-border);
+  border: var(--border-width-thin) solid var(--color-border-default);
   border-radius: var(--radius-lg);
-  background: var(--color-surface-2);
-  color: var(--color-fg);
+  background: var(--color-card);
+  color: var(--color-primary-foreground);
 }
 
 .bar {
@@ -12,13 +12,13 @@
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-1) var(--space-2) var(--space-1) var(--space-4);
-  border-bottom: var(--border-width-thin) solid var(--color-border);
+  border-bottom: var(--border-width-thin) solid var(--color-border-default);
 }
 
 .lead,
 .language {
   flex-shrink: 0;
-  color: var(--color-fg-muted);
+  color: var(--color-secondary-foreground);
 }
 
 .language {
@@ -38,19 +38,19 @@
   border: 0;
   border-radius: var(--radius-md);
   background: transparent;
-  color: var(--color-fg-muted);
+  color: var(--color-secondary-foreground);
   font: inherit;
   font-size: var(--text-body-sm-size);
   cursor: pointer;
 }
 
 .tab:hover {
-  color: var(--color-fg);
+  color: var(--color-primary-foreground);
 }
 
 .tab[data-active] {
-  background: var(--color-surface);
-  color: var(--color-fg);
+  background: var(--color-component);
+  color: var(--color-primary-foreground);
   font-weight: var(--font-weight-medium);
 }
 
@@ -65,19 +65,19 @@
   border: 0;
   border-radius: var(--radius-md);
   background: transparent;
-  color: var(--color-fg-muted);
+  color: var(--color-secondary-foreground);
   cursor: pointer;
 }
 
 .copy:hover {
-  background: var(--color-surface);
-  color: var(--color-fg);
+  background: var(--color-component);
+  color: var(--color-primary-foreground);
 }
 
 .copy:focus-visible,
 .tab:focus-visible,
 .scroll:focus-visible {
-  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
   outline-offset: -3px;
 }
 

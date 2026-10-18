@@ -43,7 +43,7 @@
         },
         {
           "name": "tone",
-          "type": "\"danger\" | \"default\" | \"muted\" | \"success\" | \"subtle\"",
+          "type": "\"success\" | \"danger\" | \"subtle\" | \"default\" | \"muted\"",
           "required": false,
           "default": "default",
           "description": "Text color from the semantic color tokens."
@@ -60,7 +60,7 @@
       "examples": [
         "<Text>Default paragraph.</Text>\n<Text variant=\"caption\" tone=\"muted\">Helper text</Text>\n<Text as=\"label\" htmlFor=\"email\" variant=\"label\">Email</Text>"
       ],
-      "source": "src/ui/components/Text/Text.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Text/Text.tsx"
     },
     {
       "name": "Heading",
@@ -96,7 +96,7 @@
       "examples": [
         "<Heading as=\"h1\">Page title</Heading>\n<Heading as=\"h2\" size=\"h4\">Small-looking section title</Heading>"
       ],
-      "source": "src/ui/components/Heading/Heading.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Heading/Heading.tsx"
     },
     {
       "name": "Link",
@@ -131,7 +131,7 @@
       "examples": [
         "<Link href=\"/docs\">Read the docs</Link>"
       ],
-      "source": "src/ui/components/Link/Link.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Link/Link.tsx"
     },
     {
       "name": "Kbd",
@@ -151,16 +151,16 @@
       "examples": [
         "<Kbd>⌘</Kbd> + <Kbd>K</Kbd>"
       ],
-      "source": "src/ui/components/Kbd/Kbd.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Kbd/Kbd.tsx"
     },
     {
       "name": "Badge",
       "category": "typography",
       "base": "Own component",
-      "description": "Small status label. Text is always the primary signal; the tone is reinforcement.",
+      "description": "Small status label. Text is always the primary signal; the tone is reinforcement.\nPut an `<svg>` icon as the first or last child to add an icon.",
       "import": "import { Badge } from \"@/ui\";",
       "renders": "span",
-      "composition": "Plain children.",
+      "composition": "Plain children. Put an `<svg>` as first or last child for an icon; `loading` adds a spinner before the text. `variant`: subtle, solid or outline.",
       "whenToUse": "Short status or count labels next to other content.",
       "avoid": [
         "Using color as the only signal: always include text.",
@@ -169,18 +169,32 @@
       "accessibility": "Meaning must be in the text; the tone only reinforces it.",
       "props": [
         {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Shows a spinner before the text, for statuses that are still in progress."
+        },
+        {
           "name": "tone",
-          "type": "\"accent\" | \"danger\" | \"info\" | \"success\" | \"warning\" | \"neutral\"",
+          "type": "\"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\" | \"accent\"",
           "required": false,
           "default": "neutral",
-          "description": "Meaning of the badge. Conveyed by tint and border, never by color alone: always include text."
+          "description": "Meaning of the badge. Conveyed by tint, never by color alone: always include text."
+        },
+        {
+          "name": "variant",
+          "type": "\"subtle\" | \"solid\" | \"outline\"",
+          "required": false,
+          "default": "subtle",
+          "description": "Visual weight. `subtle` is a tinted pill, `solid` a filled one, `outline` only a border."
         }
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Badge tone=\"success\">Active</Badge>"
+        "<Badge tone=\"success\">Active</Badge>\n<Badge tone=\"info\" loading>Syncing</Badge>"
       ],
-      "source": "src/ui/components/Badge/Badge.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Badge/Badge.tsx"
     },
     {
       "name": "Box",
@@ -245,7 +259,7 @@
       "examples": [
         "<Box as=\"section\" padding=\"6\" surface bordered radius=\"lg\">...</Box>"
       ],
-      "source": "src/ui/components/Box/Box.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Box/Box.tsx"
     },
     {
       "name": "Stack",
@@ -309,7 +323,7 @@
       "examples": [
         "<Stack gap=\"3\">\n  <Heading as=\"h2\">Title</Heading>\n  <Text>Body</Text>\n</Stack>\n<Stack as=\"ul\" gap=\"2\"><li>One</li><li>Two</li></Stack>"
       ],
-      "source": "src/ui/components/Stack/Stack.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Stack/Stack.tsx"
     },
     {
       "name": "Grid",
@@ -370,7 +384,7 @@
       "examples": [
         "<Grid columns={3} gap=\"4\">...</Grid>\n<Grid columns=\"repeat(auto-fit, minmax(16rem, 1fr))\">...</Grid>"
       ],
-      "source": "src/ui/components/Grid/Grid.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Grid/Grid.tsx"
     },
     {
       "name": "Container",
@@ -405,7 +419,7 @@
       "examples": [
         "<Container as=\"main\" size=\"md\">...</Container>"
       ],
-      "source": "src/ui/components/Container/Container.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Container/Container.tsx"
     },
     {
       "name": "Divider",
@@ -433,7 +447,7 @@
       "examples": [
         "<Divider />"
       ],
-      "source": "src/ui/components/Divider/Divider.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Divider/Divider.tsx"
     },
     {
       "name": "VisuallyHidden",
@@ -461,7 +475,7 @@
       "examples": [
         "<button><Icon .../><VisuallyHidden>Close</VisuallyHidden></button>"
       ],
-      "source": "src/ui/components/VisuallyHidden/VisuallyHidden.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/VisuallyHidden/VisuallyHidden.tsx"
     },
     {
       "name": "Icon",
@@ -502,7 +516,7 @@
       "examples": [
         "<Icon><path d=\"M5 12l5 5L20 7\" /></Icon>\n<Icon label=\"Success\"><path d=\"M5 12l5 5L20 7\" /></Icon>"
       ],
-      "source": "src/ui/components/Icon/Icon.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Icon/Icon.tsx"
     },
     {
       "name": "Spinner",
@@ -538,7 +552,7 @@
       "examples": [
         "<Spinner label=\"Saving changes\" />"
       ],
-      "source": "src/ui/components/Spinner/Spinner.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Spinner/Spinner.tsx"
     },
     {
       "name": "Skeleton",
@@ -578,7 +592,7 @@
       "examples": [
         "<section aria-busy=\"true\"><Skeleton width=\"60%\" /><Skeleton shape=\"rect\" height=\"8rem\" /></section>"
       ],
-      "source": "src/ui/components/Skeleton/Skeleton.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Skeleton/Skeleton.tsx"
     },
     {
       "name": "Button",
@@ -617,7 +631,7 @@
         },
         {
           "name": "variant",
-          "type": "\"primary\" | \"secondary\" | \"ghost\" | \"accent\" | \"danger\"",
+          "type": "\"danger\" | \"accent\" | \"primary\" | \"secondary\" | \"ghost\"",
           "required": false,
           "default": "primary",
           "description": "Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions,\n`ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions."
@@ -627,7 +641,7 @@
       "examples": [
         "<Button>Save</Button>\n<Button variant=\"secondary\" size=\"sm\">Cancel</Button>\n<Button type=\"submit\">Send</Button>\n<Button loading>Saving</Button>\n<Button variant=\"secondary\"><Icon><path d=\"M5 12.5l4.5 4.5L19 7.5\" /></Icon>Done</Button>"
       ],
-      "source": "src/ui/components/Button/Button.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Button/Button.tsx"
     },
     {
       "name": "Field",
@@ -677,7 +691,7 @@
       "examples": [
         "<Field label=\"Email\" description=\"We never share it.\" error={errors.email}>\n  <Input type=\"email\" autoComplete=\"email\" />\n</Field>"
       ],
-      "source": "src/ui/components/Field/Field.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Field/Field.tsx"
     },
     {
       "name": "Input",
@@ -711,7 +725,7 @@
       "examples": [
         "<Field label=\"Email\"><Input type=\"email\" autoComplete=\"email\" /></Field>"
       ],
-      "source": "src/ui/components/Input/Input.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Input/Input.tsx"
     },
     {
       "name": "Textarea",
@@ -737,7 +751,7 @@
       "examples": [
         "<Field label=\"Message\"><Textarea rows={4} /></Field>"
       ],
-      "source": "src/ui/components/Textarea/Textarea.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Textarea/Textarea.tsx"
     },
     {
       "name": "Checkbox",
@@ -770,7 +784,7 @@
       "examples": [
         "<Checkbox label=\"Send me product updates\" defaultChecked />\n<Checkbox label=\"Select all\" indeterminate />"
       ],
-      "source": "src/ui/components/Checkbox/Checkbox.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Checkbox/Checkbox.tsx"
     },
     {
       "name": "Radio",
@@ -806,7 +820,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [],
-      "source": "src/ui/components/Radio/Radio.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Radio/Radio.tsx"
     },
     {
       "name": "RadioGroup",
@@ -851,7 +865,7 @@
       "examples": [
         "<RadioGroup legend=\"Plan\" defaultValue=\"free\">\n  <Radio value=\"free\" label=\"Free\" />\n  <Radio value=\"pro\" label=\"Pro\" />\n</RadioGroup>"
       ],
-      "source": "src/ui/components/Radio/Radio.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Radio/Radio.tsx"
     },
     {
       "name": "Switch",
@@ -883,7 +897,7 @@
       "examples": [
         "<Switch label=\"Dark mode\" />"
       ],
-      "source": "src/ui/components/Switch/Switch.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Switch/Switch.tsx"
     },
     {
       "name": "Select",
@@ -941,7 +955,7 @@
       "examples": [
         "<Select label=\"Country\" placeholder=\"Choose one\" items={[{ value: \"ar\", label: \"Argentina\" }]} />"
       ],
-      "source": "src/ui/components/Select/Select.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Select/Select.tsx"
     },
     {
       "name": "Dialog",
@@ -962,7 +976,7 @@
       "examples": [
         "<Dialog>\n  <DialogTrigger>Delete project</DialogTrigger>\n  <DialogContent title=\"Delete project?\" description=\"This cannot be undone.\">\n    <DialogClose>Cancel</DialogClose>\n  </DialogContent>\n</Dialog>"
       ],
-      "source": "src/ui/components/Dialog/Dialog.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Dialog/Dialog.tsx"
     },
     {
       "name": "DialogTrigger",
@@ -987,7 +1001,7 @@
         },
         {
           "name": "variant",
-          "type": "\"primary\" | \"secondary\" | \"ghost\" | \"accent\" | \"danger\"",
+          "type": "\"danger\" | \"accent\" | \"primary\" | \"secondary\" | \"ghost\"",
           "required": false,
           "default": "primary",
           "description": "Button style of the trigger."
@@ -995,7 +1009,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [],
-      "source": "src/ui/components/Dialog/Dialog.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Dialog/Dialog.tsx"
     },
     {
       "name": "DialogContent",
@@ -1037,7 +1051,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [],
-      "source": "src/ui/components/Dialog/Dialog.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Dialog/Dialog.tsx"
     },
     {
       "name": "DialogClose",
@@ -1062,7 +1076,7 @@
         },
         {
           "name": "variant",
-          "type": "\"primary\" | \"secondary\" | \"ghost\" | \"accent\" | \"danger\"",
+          "type": "\"danger\" | \"accent\" | \"primary\" | \"secondary\" | \"ghost\"",
           "required": false,
           "default": "secondary",
           "description": "Button style."
@@ -1070,7 +1084,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [],
-      "source": "src/ui/components/Dialog/Dialog.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Dialog/Dialog.tsx"
     },
     {
       "name": "Tooltip",
@@ -1116,7 +1130,7 @@
       "examples": [
         "<Tooltip content=\"Bold\"><Button aria-label=\"Bold\" variant=\"ghost\">B</Button></Tooltip>"
       ],
-      "source": "src/ui/components/Tooltip/Tooltip.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Tooltip/Tooltip.tsx"
     },
     {
       "name": "TooltipProvider",
@@ -1134,7 +1148,7 @@
       "props": [],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [],
-      "source": "src/ui/components/Tooltip/Tooltip.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Tooltip/Tooltip.tsx"
     },
     {
       "name": "Tabs",
@@ -1173,7 +1187,7 @@
       "examples": [
         "<Tabs aria-label=\"Account\" items={[\n  { value: \"profile\", label: \"Profile\", content: <p>Profile</p> },\n  { value: \"billing\", label: \"Billing\", content: <p>Billing</p> },\n]} />"
       ],
-      "source": "src/ui/components/Tabs/Tabs.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Tabs/Tabs.tsx"
     },
     {
       "name": "LinkProvider",
@@ -1201,7 +1215,7 @@
       "examples": [
         "\"use client\";\nimport NextLink from \"next/link\";\n<LinkProvider component={NextLink}>{children}</LinkProvider>"
       ],
-      "source": "src/ui/components/Link/LinkContext.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Link/LinkContext.tsx"
     },
     {
       "name": "useLinkComponent",
@@ -1219,7 +1233,7 @@
       "props": [],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [],
-      "source": "src/ui/components/Link/LinkContext.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Link/LinkContext.tsx"
     },
     {
       "name": "ButtonLink",
@@ -1251,7 +1265,7 @@
         },
         {
           "name": "variant",
-          "type": "\"primary\" | \"secondary\" | \"ghost\" | \"accent\" | \"danger\"",
+          "type": "\"danger\" | \"accent\" | \"primary\" | \"secondary\" | \"ghost\"",
           "required": false,
           "default": "primary",
           "description": "Visual emphasis, the same as `Button`. `primary` is the main call to action (one per view)."
@@ -1261,7 +1275,7 @@
       "examples": [
         "<ButtonLink href=\"/docs/installation\">Get started</ButtonLink>\n<ButtonLink href=\"/docs\" variant=\"secondary\">Docs</ButtonLink>"
       ],
-      "source": "src/ui/components/ButtonLink/ButtonLink.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ButtonLink/ButtonLink.tsx"
     },
     {
       "name": "Card",
@@ -1294,7 +1308,7 @@
         },
         {
           "name": "variant",
-          "type": "\"surface\" | \"outline\"",
+          "type": "\"outline\" | \"surface\"",
           "required": false,
           "default": "outline",
           "description": "`outline` draws only a soft border; `surface` adds the surface fill."
@@ -1304,7 +1318,7 @@
       "examples": [
         "<Card as=\"article\" variant=\"surface\">\n  <Stack gap=\"2\"><Heading as=\"h3\">Title</Heading><Text>Body</Text></Stack>\n</Card>"
       ],
-      "source": "src/ui/components/Card/Card.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Card/Card.tsx"
     },
     {
       "name": "Alert",
@@ -1329,7 +1343,7 @@
         },
         {
           "name": "tone",
-          "type": "\"danger\" | \"info\" | \"success\" | \"warning\"",
+          "type": "\"info\" | \"success\" | \"warning\" | \"danger\"",
           "required": false,
           "default": "info",
           "description": "Meaning of the message. It changes the icon shape as well as the color, so it never relies on color alone."
@@ -1339,7 +1353,7 @@
       "examples": [
         "<Alert tone=\"danger\" title=\"Payment failed\">Check your card details and try again.</Alert>"
       ],
-      "source": "src/ui/components/Alert/Alert.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Alert/Alert.tsx"
     },
     {
       "name": "Avatar",
@@ -1385,7 +1399,7 @@
       "examples": [
         "<Avatar name=\"Ada Lovelace\" src=\"/ada.png\" />"
       ],
-      "source": "src/ui/components/Avatar/Avatar.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Avatar/Avatar.tsx"
     },
     {
       "name": "Popover",
@@ -1406,7 +1420,7 @@
       "examples": [
         "<Popover>\n  <PopoverTrigger variant=\"secondary\">Filters</PopoverTrigger>\n  <PopoverContent title=\"Filters\" description=\"Narrow the results.\">...</PopoverContent>\n</Popover>"
       ],
-      "source": "src/ui/components/Popover/Popover.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Popover/Popover.tsx"
     },
     {
       "name": "PopoverTrigger",
@@ -1431,7 +1445,7 @@
         },
         {
           "name": "variant",
-          "type": "\"primary\" | \"secondary\" | \"ghost\" | \"accent\" | \"danger\"",
+          "type": "\"danger\" | \"accent\" | \"primary\" | \"secondary\" | \"ghost\"",
           "required": false,
           "default": "secondary",
           "description": "Button style of the trigger."
@@ -1439,7 +1453,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [],
-      "source": "src/ui/components/Popover/Popover.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Popover/Popover.tsx"
     },
     {
       "name": "PopoverContent",
@@ -1495,7 +1509,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [],
-      "source": "src/ui/components/Popover/Popover.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Popover/Popover.tsx"
     },
     {
       "name": "PopoverClose",
@@ -1520,7 +1534,7 @@
         },
         {
           "name": "variant",
-          "type": "\"primary\" | \"secondary\" | \"ghost\" | \"accent\" | \"danger\"",
+          "type": "\"danger\" | \"accent\" | \"primary\" | \"secondary\" | \"ghost\"",
           "required": false,
           "default": "secondary",
           "description": "Button style."
@@ -1528,7 +1542,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [],
-      "source": "src/ui/components/Popover/Popover.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Popover/Popover.tsx"
     },
     {
       "name": "Menu",
@@ -1578,7 +1592,7 @@
         },
         {
           "name": "variant",
-          "type": "\"primary\" | \"secondary\" | \"ghost\" | \"accent\" | \"danger\"",
+          "type": "\"danger\" | \"accent\" | \"primary\" | \"secondary\" | \"ghost\"",
           "required": false,
           "default": "secondary",
           "description": "Button style of the trigger."
@@ -1588,7 +1602,7 @@
       "examples": [
         "<Menu label=\"Account\" items={[\n  { label: \"Profile\", href: \"/profile\" },\n  { type: \"separator\" },\n  { label: \"Sign out\", onSelect: signOut },\n]} />"
       ],
-      "source": "src/ui/components/Menu/Menu.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Menu/Menu.tsx"
     },
     {
       "name": "ToastProvider",
@@ -1609,7 +1623,7 @@
       "examples": [
         "<ToastProvider>{children}</ToastProvider>"
       ],
-      "source": "src/ui/components/Toast/Toast.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Toast/Toast.tsx"
     },
     {
       "name": "useToast",
@@ -1630,7 +1644,7 @@
       "examples": [
         "const { show } = useToast();\nshow({ title: \"Saved\", tone: \"success\" });"
       ],
-      "source": "src/ui/components/Toast/Toast.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Toast/Toast.tsx"
     },
     {
       "name": "Accordion",
@@ -1687,7 +1701,7 @@
       "examples": [
         "<Accordion items={[\n  { value: \"a\", title: \"Is it accessible?\", content: <p>Yes.</p> },\n  { value: \"b\", title: \"Is it themeable?\", content: <p>Yes.</p> },\n]} />"
       ],
-      "source": "src/ui/components/Accordion/Accordion.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Accordion/Accordion.tsx"
     },
     {
       "name": "Table",
@@ -1745,7 +1759,7 @@
       "examples": [
         "<Table caption=\"Plans\" columns={[{ key: \"name\", header: \"Plan\" }, { key: \"price\", header: \"Price\", align: \"end\" }]}\n  rows={[{ name: \"Free\", price: \"$0\" }, { name: \"Pro\", price: \"$12\" }]} />"
       ],
-      "source": "src/ui/components/Table/Table.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Table/Table.tsx"
     },
     {
       "name": "Breadcrumb",
@@ -1785,7 +1799,7 @@
       "examples": [
         "<Breadcrumb items={[{ label: \"Docs\", href: \"/docs\" }, { label: \"Components\", href: \"/docs/components\" }, { label: \"Button\" }]} />"
       ],
-      "source": "src/ui/components/Breadcrumb/Breadcrumb.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Breadcrumb/Breadcrumb.tsx"
     },
     {
       "name": "Pagination",
@@ -1837,7 +1851,7 @@
       "examples": [
         "<Pagination page={2} pageCount={9} hrefTemplate=\"/blog?page={page}\" />"
       ],
-      "source": "src/ui/components/Pagination/Pagination.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Pagination/Pagination.tsx"
     },
     {
       "name": "Progress",
@@ -1890,7 +1904,7 @@
       "examples": [
         "<Progress label=\"Uploading\" value={40} />"
       ],
-      "source": "src/ui/components/Progress/Progress.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Progress/Progress.tsx"
     },
     {
       "name": "Slider",
@@ -1973,7 +1987,7 @@
       "examples": [
         "<Slider label=\"Volume\" defaultValue={40} />\n<Slider label=\"Price\" defaultValue={[20, 80]} thumbLabels={[\"Minimum price\", \"Maximum price\"]} />"
       ],
-      "source": "src/ui/components/Slider/Slider.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Slider/Slider.tsx"
     },
     {
       "name": "CodeBlock",
@@ -2026,7 +2040,7 @@
       "examples": [
         "<CodeBlock language=\"tsx\" label=\"Example\" code={'<Button>Save</Button>'} />\n<CodeBlock language=\"bash\" label=\"Install\" tabs={[\n  { label: \"bun\", code: \"bun add"
       ],
-      "source": "src/ui/components/CodeBlock/CodeBlock.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/CodeBlock/CodeBlock.tsx"
     }
   ]
 }

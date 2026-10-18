@@ -17,8 +17,8 @@ html {
 
 body {
   margin: 0;
-  background: var(--color-bg);
-  color: var(--color-fg);
+  background: var(--color-page);
+  color: var(--color-primary-foreground);
   font-family: var(--text-body-family);
   font-size: var(--text-body-size);
   line-height: var(--text-body-line);
@@ -31,12 +31,12 @@ body {
 
 /* Visible keyboard focus everywhere. Components may refine it but must not remove it. */
 :focus-visible {
-  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
   outline-offset: var(--focus-ring-offset);
 }
 
 ::selection {
-  background: color-mix(in oklch, var(--color-accent) 35%, transparent);
+  background: color-mix(in oklch, var(--color-brand-solid) 35%, transparent);
 }
 
 @media (prefers-reduced-motion: reduce) {

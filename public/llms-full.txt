@@ -104,7 +104,7 @@ For headings use `Heading`; for links use `Link`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `as` | `"div" \| "code" \| "em" \| "label" \| "p" \| "small" \| "span" \| "strong"` | no |  | HTML element to render. Defaults by variant: `p` for body variants, `span` for `label` and `caption`, `code` for `code`. Use `label` with `htmlFor` for form labels. |
-| `tone` | `"danger" \| "default" \| "muted" \| "success" \| "subtle"` | no | default | Text color from the semantic color tokens. |
+| `tone` | `"success" \| "danger" \| "subtle" \| "default" \| "muted"` | no | default | Text color from the semantic color tokens. |
 | `variant` | `"body" \| "caption" \| "code" \| "label" \| "body-lg" \| "body-sm" \| "emphasis"` | no | body | Which text style to apply. Appearance only; it does not change the element. |
 
 Also accepts the native props of the element it renders; they pass through.
@@ -202,12 +202,13 @@ Also accepts the native props of the element it renders; they pass through.
 ## Badge
 
 Small status label. Text is always the primary signal; the tone is reinforcement.
+Put an `<svg>` icon as the first or last child to add an icon.
 
 - Category: typography
 - Base: Own component
 - Import: `import { Badge } from "@/ui";`
 - Renders: span
-- Composition: Plain children.
+- Composition: Plain children. Put an `<svg>` as first or last child for an icon; `loading` adds a spinner before the text. `variant`: subtle, solid or outline.
 - Use when: Short status or count labels next to other content.
 - Avoid:
   - Using color as the only signal: always include text.
@@ -217,13 +218,16 @@ Small status label. Text is always the primary signal; the tone is reinforcement
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `tone` | `"accent" \| "danger" \| "info" \| "success" \| "warning" \| "neutral"` | no | neutral | Meaning of the badge. Conveyed by tint and border, never by color alone: always include text. |
+| `loading` | `boolean` | no | false | Shows a spinner before the text, for statuses that are still in progress. |
+| `tone` | `"info" \| "success" \| "warning" \| "danger" \| "neutral" \| "accent"` | no | neutral | Meaning of the badge. Conveyed by tint, never by color alone: always include text. |
+| `variant` | `"subtle" \| "solid" \| "outline"` | no | subtle | Visual weight. `subtle` is a tinted pill, `solid` a filled one, `outline` only a border. |
 
 Also accepts the native props of the element it renders; they pass through.
 
 ### Example
 ```tsx
 <Badge tone="success">Active</Badge>
+<Badge tone="info" loading>Syncing</Badge>
 ```
 
 ## Box
@@ -520,7 +524,7 @@ For navigation use `Link`.
 | `className` | `string` | no |  |  |
 | `loading` | `boolean` | no | false | Shows a spinner and ignores clicks while an action is running. The button keeps its label and stays focusable, and `aria-busy` tells assistive technology it is working. |
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 2rem, `md` 2.5rem, `lg` 3rem. |
-| `variant` | `"primary" \| "secondary" \| "ghost" \| "accent" \| "danger"` | no | primary | Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions, `ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions. |
+| `variant` | `"danger" \| "accent" \| "primary" \| "secondary" \| "ghost"` | no | primary | Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions, `ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -820,7 +824,7 @@ The button that opens the dialog. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
-| `variant` | `"primary" \| "secondary" \| "ghost" \| "accent" \| "danger"` | no | primary | Button style of the trigger. |
+| `variant` | `"danger" \| "accent" \| "primary" \| "secondary" \| "ghost"` | no | primary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -867,7 +871,7 @@ A button that closes the dialog. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size. |
-| `variant` | `"primary" \| "secondary" \| "ghost" \| "accent" \| "danger"` | no | secondary | Button style. |
+| `variant` | `"danger" \| "accent" \| "primary" \| "secondary" \| "ghost"` | no | secondary | Button style. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1026,7 +1030,7 @@ A link that looks like a `Button`. It renders an `a` (or the component given to 
 |---|---|---|---|---|
 | `href` | `string` | yes |  | Where the link goes. Required. |
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 2rem, `md` 2.5rem, `lg` 3rem. |
-| `variant` | `"primary" \| "secondary" \| "ghost" \| "accent" \| "danger"` | no | primary | Visual emphasis, the same as `Button`. `primary` is the main call to action (one per view). |
+| `variant` | `"danger" \| "accent" \| "primary" \| "secondary" \| "ghost"` | no | primary | Visual emphasis, the same as `Button`. `primary` is the main call to action (one per view). |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -1056,7 +1060,7 @@ A bordered container that groups related content. Compose its content with `Stac
 |---|---|---|---|---|
 | `as` | `"div" \| "article" \| "li" \| "section"` | no | "div" | Element to render. `article` for self-contained content, `section` for a named group. |
 | `padding` | `"0" \| "1" \| "2" \| "3" \| "4" \| "5" \| "6" \| "8" \| "10" \| "12" \| "16"` | no | 6 | Inner padding from the spacing scale. |
-| `variant` | `"surface" \| "outline"` | no | outline | `outline` draws only a soft border; `surface` adds the surface fill. |
+| `variant` | `"outline" \| "surface"` | no | outline | `outline` draws only a soft border; `surface` adds the surface fill. |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -1088,7 +1092,7 @@ For short-lived feedback after an action, use `useToast` instead.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `title` | `ReactNode` | no |  | Short heading of the message. |
-| `tone` | `"danger" \| "info" \| "success" \| "warning"` | no | info | Meaning of the message. It changes the icon shape as well as the color, so it never relies on color alone. |
+| `tone` | `"info" \| "success" \| "warning" \| "danger"` | no | info | Meaning of the message. It changes the icon shape as well as the color, so it never relies on color alone. |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -1176,7 +1180,7 @@ The button that opens the popover. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
-| `variant` | `"primary" \| "secondary" \| "ghost" \| "accent" \| "danger"` | no | secondary | Button style of the trigger. |
+| `variant` | `"danger" \| "accent" \| "primary" \| "secondary" \| "ghost"` | no | secondary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1224,7 +1228,7 @@ A button that closes the popover. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | sm | Button size. |
-| `variant` | `"primary" \| "secondary" \| "ghost" \| "accent" \| "danger"` | no | secondary | Button style. |
+| `variant` | `"danger" \| "accent" \| "primary" \| "secondary" \| "ghost"` | no | secondary | Button style. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1253,7 +1257,7 @@ Do not put form controls in a menu: use `Popover`.
 | `align` | `"center" \| "start" \| "end"` | no | start | Alignment of the menu against the trigger. |
 | `className` | `string` | no |  |  |
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
-| `variant` | `"primary" \| "secondary" \| "ghost" \| "accent" \| "danger"` | no | secondary | Button style of the trigger. |
+| `variant` | `"danger" \| "accent" \| "primary" \| "secondary" \| "ghost"` | no | secondary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1562,14 +1566,14 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## Design tokens
 
-- Components and pages use semantic tokens only (--color-bg, --color-fg, --space-4, --text-body-size ...).
+- Components and pages use semantic tokens only (--color-page, --color-primary-foreground, --space-4, --text-body-size ...).
 - Never use --primitive-* tokens or hardcoded colors, sizes or fonts.
 - Light/dark is switched by data-theme="light|dark" on <html>; without it the OS preference applies.
 - Text styles are sets of variables named --text-<style>-<size|line|weight|tracking|style|family>.
 
 | Variable | Type | Value |
 |---|---|---|
-| `--font-family-sans` | fontFamily | `'Inter Variable', Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif` |
+| `--font-family-sans` | fontFamily | `'DM Sans Variable', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif` |
 | `--font-family-emphasis` | fontFamily | `'Newsreader Variable', ui-serif, Georgia, 'Times New Roman', serif` |
 | `--font-family-mono` | fontFamily | `'Commit Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace` |
 | `--font-weight-regular` | fontWeight | `400` |
@@ -1705,24 +1709,73 @@ Also accepts the native props of the element it renders; they pass through.
 | `--motion-easing-standard` |  | `cubic-bezier(0.2, 0, 0, 1)` |
 | `--motion-easing-in` |  | `cubic-bezier(0.4, 0, 1, 1)` |
 | `--motion-easing-out` |  | `cubic-bezier(0, 0, 0.2, 1)` |
-| `--color-bg` | color | light `color-mix(in oklab, var(--primitive-color-neutral-50) 66%, var(--primitive-color-neutral-100))` / dark `color-mix(in oklab, var(--primitive-color-neutral-950) 70%, var(--primitive-color-black))` |
-| `--color-surface` | color | light `oklch(0 0 0 / 0.05)` / dark `oklch(1 0 0 / 0.102)` |
-| `--color-surface-2` | color | light `var(--primitive-color-white)` / dark `color-mix(in oklab, var(--color-fg) 8%, var(--color-bg))` |
-| `--color-surface-raised` | color | light `color-mix(in oklab, var(--color-fg) 6%, var(--color-bg))` / dark `color-mix(in oklab, var(--color-fg) 6%, var(--color-bg))` |
-| `--color-fg` | color | light `var(--primitive-color-neutral-950)` / dark `var(--primitive-color-neutral-100)` |
-| `--color-fg-muted` | color | light `color-mix(in oklch, var(--color-fg) 70%, transparent)` / dark `color-mix(in oklch, var(--color-fg) 70%, transparent)` |
-| `--color-fg-subtle` | color | light `color-mix(in oklch, var(--color-fg) 62%, transparent)` / dark `color-mix(in oklch, var(--color-fg) 54%, transparent)` |
-| `--color-border` | color | light `color-mix(in oklch, var(--color-fg) 7%, transparent)` / dark `color-mix(in oklch, var(--color-fg) 7%, transparent)` |
-| `--color-border-strong` | color | light `color-mix(in oklch, var(--color-fg) 18%, transparent)` / dark `color-mix(in oklch, var(--color-fg) 18%, transparent)` |
-| `--color-button` | color | light `var(--primitive-color-neutral-950)` / dark `var(--primitive-color-neutral-200)` |
-| `--color-button-fg` | color | light `var(--primitive-color-neutral-50)` / dark `var(--primitive-color-neutral-950)` |
-| `--color-accent` | color | light `var(--primitive-color-accent-500)` / dark `var(--primitive-color-accent-500)` |
-| `--color-accent-fg` | color | light `var(--primitive-color-white)` / dark `var(--primitive-color-white)` |
-| `--color-accent-text` | color | light `var(--primitive-color-accent-700)` / dark `var(--primitive-color-accent-400)` |
-| `--color-focus` | color | light `var(--color-fg)` / dark `var(--color-fg)` |
-| `--color-success` | color | light `var(--primitive-color-success-700)` / dark `var(--primitive-color-success-400)` |
-| `--color-warning` | color | light `var(--primitive-color-warning-700)` / dark `var(--primitive-color-warning-400)` |
-| `--color-info` | color | light `var(--primitive-color-info-700)` / dark `var(--primitive-color-info-400)` |
-| `--color-danger` | color | light `var(--primitive-color-danger-700)` / dark `var(--primitive-color-danger-400)` |
-| `--color-on-danger` | color | light `var(--primitive-color-white)` / dark `var(--color-bg)` |
+| `--color-page` | color | light `color-mix(in oklab, var(--primitive-color-white) 60%, var(--primitive-color-neutral-100))` / dark `color-mix(in oklab, var(--primitive-color-neutral-950) 70%, var(--primitive-color-black))` |
+| `--color-shell` | color | light `color-mix(in oklab, var(--color-primary-foreground) 3%, var(--color-page))` / dark `color-mix(in oklab, var(--color-primary-foreground) 3%, var(--color-page))` |
+| `--color-container` | color | light `color-mix(in oklab, var(--color-primary-foreground) 5%, var(--color-page))` / dark `color-mix(in oklab, var(--color-primary-foreground) 5%, var(--color-page))` |
+| `--color-card` | color | light `var(--primitive-color-white)` / dark `color-mix(in oklab, var(--color-primary-foreground) 8%, var(--color-page))` |
+| `--color-sunken` | color | light `color-mix(in oklab, var(--color-primary-foreground) 4%, var(--color-page))` / dark `color-mix(in oklab, var(--primitive-color-black) 40%, var(--color-page))` |
+| `--color-modal` | color | light `var(--primitive-color-white)` / dark `color-mix(in oklab, var(--color-primary-foreground) 6%, var(--color-page))` |
+| `--color-standout` | color | light `var(--color-primary-foreground)` / dark `var(--color-primary-foreground)` |
+| `--color-component` | color | light `oklch(0 0 0 / 0.05)` / dark `oklch(1 0 0 / 0.102)` |
+| `--color-component-hover` | color | light `color-mix(in oklab, var(--color-primary-foreground) 8%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 14%, transparent)` |
+| `--color-component-active` | color | light `color-mix(in oklab, var(--color-primary-foreground) 12%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 18%, transparent)` |
+| `--color-component-on-sunken` | color | light `var(--color-card)` / dark `var(--color-card)` |
+| `--color-component-on-inverted` | color | light `color-mix(in oklab, var(--color-on-inverted-foreground) 14%, transparent)` / dark `color-mix(in oklab, var(--color-on-inverted-foreground) 14%, transparent)` |
+| `--color-transparent` | color | light `transparent` / dark `transparent` |
+| `--color-transparent-hover` | color | light `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` |
+| `--color-transparent-active` | color | light `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` |
+| `--color-primary-foreground` | color | light `var(--primitive-color-neutral-950)` / dark `color-mix(in oklab, var(--primitive-color-white) 60%, var(--primitive-color-neutral-100))` |
+| `--color-secondary-foreground` | color | light `color-mix(in oklch, var(--color-primary-foreground) 70%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 70%, transparent)` |
+| `--color-tertiary-foreground` | color | light `color-mix(in oklch, var(--color-primary-foreground) 62%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 54%, transparent)` |
+| `--color-disabled-foreground` | color | light `color-mix(in oklab, var(--color-primary-foreground) 38%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 38%, transparent)` |
+| `--color-inverted-solid` | color | light `var(--primitive-color-neutral-950)` / dark `var(--primitive-color-neutral-200)` |
+| `--color-inverted-solid-hover` | color | light `color-mix(in oklab, var(--color-inverted-solid) 82%, var(--color-page))` / dark `color-mix(in oklab, var(--color-inverted-solid) 88%, var(--color-page))` |
+| `--color-inverted-solid-active` | color | light `color-mix(in oklab, var(--color-inverted-solid) 72%, var(--color-page))` / dark `color-mix(in oklab, var(--color-inverted-solid) 72%, var(--color-page))` |
+| `--color-on-inverted-foreground` | color | light `var(--primitive-color-neutral-50)` / dark `var(--primitive-color-neutral-950)` |
+| `--color-on-standout-primary-foreground` | color | light `var(--color-page)` / dark `var(--color-page)` |
+| `--color-on-standout-secondary-foreground` | color | light `color-mix(in oklab, var(--color-page) 70%, transparent)` / dark `color-mix(in oklab, var(--color-page) 70%, transparent)` |
+| `--color-brand-solid` | color | light `var(--primitive-color-accent-500)` / dark `var(--primitive-color-accent-500)` |
+| `--color-brand-solid-hover` | color | light `color-mix(in oklab, var(--color-brand-solid) 88%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-brand-solid) 88%, var(--color-primary-foreground))` |
+| `--color-brand-subtle` | color | light `color-mix(in oklab, var(--color-brand-solid) 12%, transparent)` / dark `color-mix(in oklab, var(--color-brand-solid) 12%, transparent)` |
+| `--color-brand-foreground` | color | light `var(--primitive-color-accent-700)` / dark `var(--primitive-color-accent-400)` |
+| `--color-on-brand-solid-foreground` | color | light `var(--primitive-color-white)` / dark `var(--primitive-color-white)` |
+| `--color-positive-solid` | color | light `var(--primitive-color-success-700)` / dark `var(--primitive-color-success-400)` |
+| `--color-positive-solid-hover` | color | light `color-mix(in oklab, var(--color-positive-solid) 88%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-positive-solid) 88%, var(--color-primary-foreground))` |
+| `--color-positive-subtle` | color | light `color-mix(in oklab, var(--color-positive-solid) 12%, transparent)` / dark `color-mix(in oklab, var(--color-positive-solid) 12%, transparent)` |
+| `--color-positive-foreground` | color | light `var(--color-positive-solid)` / dark `var(--color-positive-solid)` |
+| `--color-on-positive-solid-foreground` | color | light `var(--primitive-color-white)` / dark `var(--color-page)` |
+| `--color-warning-solid` | color | light `var(--primitive-color-warning-700)` / dark `var(--primitive-color-warning-400)` |
+| `--color-warning-solid-hover` | color | light `color-mix(in oklab, var(--color-warning-solid) 88%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-warning-solid) 88%, var(--color-primary-foreground))` |
+| `--color-warning-subtle` | color | light `color-mix(in oklab, var(--color-warning-solid) 12%, transparent)` / dark `color-mix(in oklab, var(--color-warning-solid) 12%, transparent)` |
+| `--color-warning-foreground` | color | light `var(--color-warning-solid)` / dark `var(--color-warning-solid)` |
+| `--color-on-warning-solid-foreground` | color | light `var(--primitive-color-white)` / dark `var(--color-page)` |
+| `--color-info-solid` | color | light `var(--primitive-color-info-700)` / dark `var(--primitive-color-info-400)` |
+| `--color-info-solid-hover` | color | light `color-mix(in oklab, var(--color-info-solid) 88%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-info-solid) 88%, var(--color-primary-foreground))` |
+| `--color-info-subtle` | color | light `color-mix(in oklab, var(--color-info-solid) 12%, transparent)` / dark `color-mix(in oklab, var(--color-info-solid) 12%, transparent)` |
+| `--color-info-foreground` | color | light `var(--color-info-solid)` / dark `var(--color-info-solid)` |
+| `--color-on-info-solid-foreground` | color | light `var(--primitive-color-white)` / dark `var(--color-page)` |
+| `--color-danger-solid` | color | light `var(--primitive-color-danger-700)` / dark `var(--primitive-color-danger-400)` |
+| `--color-danger-solid-hover` | color | light `color-mix(in oklab, var(--color-danger-solid) 88%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-danger-solid) 88%, var(--color-primary-foreground))` |
+| `--color-danger-solid-active` | color | light `color-mix(in oklab, var(--color-danger-solid) 78%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-danger-solid) 78%, var(--color-primary-foreground))` |
+| `--color-danger-subtle` | color | light `color-mix(in oklab, var(--color-danger-solid) 12%, transparent)` / dark `color-mix(in oklab, var(--color-danger-solid) 12%, transparent)` |
+| `--color-danger-subtle-hover` | color | light `color-mix(in oklab, var(--color-danger-solid) 20%, transparent)` / dark `color-mix(in oklab, var(--color-danger-solid) 20%, transparent)` |
+| `--color-danger-foreground` | color | light `var(--color-danger-solid)` / dark `var(--color-danger-solid)` |
+| `--color-on-danger-solid-foreground` | color | light `var(--primitive-color-white)` / dark `var(--color-page)` |
+| `--color-border-default` | color | light `color-mix(in oklch, var(--color-primary-foreground) 7%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 7%, transparent)` |
+| `--color-border-subtle` | color | light `color-mix(in oklab, var(--color-primary-foreground) 4%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 4%, transparent)` |
+| `--color-border-strong` | color | light `color-mix(in oklch, var(--color-primary-foreground) 18%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 18%, transparent)` |
+| `--color-border-inverted` | color | light `color-mix(in oklab, var(--color-page) 20%, transparent)` / dark `color-mix(in oklab, var(--color-page) 20%, transparent)` |
+| `--color-border-disabled` | color | light `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` |
+| `--color-brand-border-default` | color | light `color-mix(in oklab, var(--color-brand-solid) 40%, transparent)` / dark `color-mix(in oklab, var(--color-brand-solid) 40%, transparent)` |
+| `--color-brand-border-focus` | color | light `var(--color-primary-foreground)` / dark `var(--color-primary-foreground)` |
+| `--color-positive-border-default` | color | light `color-mix(in oklab, var(--color-positive-solid) 40%, transparent)` / dark `color-mix(in oklab, var(--color-positive-solid) 40%, transparent)` |
+| `--color-warning-border-default` | color | light `color-mix(in oklab, var(--color-warning-solid) 40%, transparent)` / dark `color-mix(in oklab, var(--color-warning-solid) 40%, transparent)` |
+| `--color-info-border-default` | color | light `color-mix(in oklab, var(--color-info-solid) 40%, transparent)` / dark `color-mix(in oklab, var(--color-info-solid) 40%, transparent)` |
+| `--color-danger-border-default` | color | light `color-mix(in oklab, var(--color-danger-solid) 40%, transparent)` / dark `color-mix(in oklab, var(--color-danger-solid) 40%, transparent)` |
+| `--color-danger-border-subtle` | color | light `color-mix(in oklab, var(--color-danger-solid) 22%, transparent)` / dark `color-mix(in oklab, var(--color-danger-solid) 22%, transparent)` |
+| `--color-disabled` | color | light `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` |
 | `--color-overlay` | color | light `oklch(0 0 0 / 0.4)` / dark `oklch(0 0 0 / 0.6)` |
+| `--shadow-border` | shadow | light `0 0 0 1px #00000014` / dark `0 0 0 1px #ffffff14` |
+| `--shadow-default` | shadow | light `0 0 0 1px #0000000f, 0 1px 2px #0000001a` / dark `0 0 0 1px #ffffff12, 0 1px 2px #00000066` |
+| `--shadow-large` | shadow | light `0 0 0 1px #00000014, 0 2px 3px -2px #0000001a, 0 3px 8px -2px #00000014, 0 4px 12px -4px #0000001f` / dark `0 0 0 1px color-mix(in oklab, #ffffff12, #3a3a3a 25%), 0 2px 3px -2px #00000026, 0 3px 8px -2px #0006, 0 4px 12px -4px #00000080` |
+| `--shadow-extra-large` | shadow | light `0 0 0 .5px #00000014, 0 8px 40px 0px #0000001a, 0 12px 32px -16px #00000040` / dark `0 0 0 .5px #ffffff12 inset, 0 0 0 .5px #0000, 0 8px 40px 0px #0000000d, 0 12px 32px -16px #00000026` |

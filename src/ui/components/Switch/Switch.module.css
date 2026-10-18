@@ -3,7 +3,7 @@
   align-items: center;
   gap: var(--space-3);
   min-height: var(--size-target-min);
-  color: var(--color-fg);
+  color: var(--color-primary-foreground);
   font-family: var(--text-body-family);
   font-size: var(--text-body-size);
   line-height: var(--text-body-line);
@@ -21,14 +21,14 @@
   padding: 2px;
   border: var(--border-width-thin) solid var(--color-border-strong);
   border-radius: var(--radius-full);
-  background: var(--color-surface);
+  background: var(--color-component);
   cursor: pointer;
   transition: background-color var(--motion-duration-base) var(--motion-easing-standard);
 }
 
 .track[data-checked] {
-  border-color: var(--color-button);
-  background: var(--color-button);
+  border-color: var(--color-inverted-solid);
+  background: var(--color-inverted-solid);
 }
 
 .track[data-disabled] {
@@ -41,12 +41,12 @@
   width: 1.125rem;
   height: 1.125rem;
   border-radius: var(--radius-full);
-  background: var(--color-fg);
+  background: var(--color-primary-foreground);
   transition: transform var(--motion-duration-base) var(--motion-easing-standard);
 }
 
 .track[data-checked] .thumb {
-  background: var(--color-button-fg);
+  background: var(--color-on-inverted-foreground);
   transform: translateX(1rem);
 }
 

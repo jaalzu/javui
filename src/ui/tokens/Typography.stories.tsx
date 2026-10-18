@@ -19,20 +19,24 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const textStyles = [
-  { name: "display", sample: "Interfaces that explain themselves", note: "Hero headlines. Fluid." },
-  { name: "h1", sample: "Page title for the whole screen", note: "Fluid." },
-  { name: "h2", sample: "Section title that groups content", note: "Fluid." },
-  { name: "h3", sample: "Subsection title", note: "" },
-  { name: "h4", sample: "Small group title", note: "" },
+  { name: "heading-1", sample: "Interfaces that explain themselves", note: "Hero headline. Fluid." },
+  { name: "heading-2", sample: "Page title for the whole screen", note: "Fluid." },
+  { name: "heading-3", sample: "Section title that groups content", note: "Fluid." },
+  { name: "heading-4", sample: "Subsection title", note: "Fluid." },
+  { name: "heading-5", sample: "Small group title", note: "" },
+  { name: "heading-6", sample: "Smallest group title", note: "" },
   { name: "body-lg", sample: "Lead paragraph. Larger body text for introductions and summaries.", note: "" },
   { name: "body", sample: "Default paragraph text. Quick brown foxes jump over lazy dogs, and the line height keeps long reading comfortable.", note: "" },
   { name: "body-sm", sample: "Smaller supporting text for dense interfaces and secondary content.", note: "" },
   { name: "label", sample: "Form label or control text", note: "" },
-  { name: "caption", sample: "Caption, helper text and metadata", note: "" },
+  { name: "caption-lg", sample: "Large caption, helper text and metadata", note: "" },
+  { name: "caption", sample: "Base caption, helper text and metadata", note: "" },
+  { name: "caption-sm", sample: "Small caption and metadata", note: "" },
+  { name: "emphasis", sample: "A serif line that deserves attention", note: "Serif italic." },
   { name: "code", sample: "const theme = document.documentElement.dataset.theme;", note: "Mono." },
 ] as const;
 
-const sizes = ["sm", "base", "md", "lg", "xl", "2xl", "3xl", "4xl"] as const;
+const sizes = ["10", "11", "12", "13", "14", "15", "18", "20", "24", "28", "36", "44", "56"] as const;
 
 function styleFor(name: string): CSSProperties {
   return {
@@ -41,7 +45,7 @@ function styleFor(name: string): CSSProperties {
     lineHeight: `var(--text-${name}-line)`,
     fontWeight: `var(--text-${name}-weight)` as unknown as number,
     letterSpacing: `var(--text-${name}-tracking)`,
-    fontStyle: `var(--text-${name}-style)`,
+    ...(name.startsWith("heading") ? {} : { fontStyle: `var(--text-${name}-style)` }),
   };
 }
 
@@ -58,7 +62,7 @@ function Page() {
       <section aria-labelledby="families">
         <h2 id="families" className={styles.sectionTitle}>Families</h2>
         <p className={styles.note}>
-          Inter Variable for all text, Newsreader Variable for emphasis, Commit Mono for code and keys. Both are self-hosted
+          DM Sans Variable for all text, Newsreader Variable for emphasis, Commit Mono for code and keys. All are self-hosted
           through Fontsource, so there is no network request to a font service.
         </p>
         <div className={styles.families}>
@@ -91,7 +95,7 @@ function Page() {
       <section aria-labelledby="weights">
         <h2 id="weights" className={styles.sectionTitle}>Weights</h2>
         <ul className={styles.weights}>
-          {(["regular", "medium", "semibold", "bold"] as const).map((w) => (
+          {(["regular", "medium", "semibold"] as const).map((w) => (
             <li key={w} style={{ fontWeight: `var(--font-weight-${w})` as unknown as number }}>
               {w}
             </li>
@@ -101,7 +105,7 @@ function Page() {
 
       <section aria-labelledby="scale">
         <h2 id="scale" className={styles.sectionTitle}>Size scale</h2>
-        <p className={styles.note}>Modular scale, ratio 1.25, base 1rem. Used through text styles, not directly.</p>
+        <p className={styles.note}>Every font size in the system, named by its pixel value. Used through text styles, not directly.</p>
         {sizes.map((s) => (
           <div className={styles.row} key={s}>
             <p className={styles.meta}>

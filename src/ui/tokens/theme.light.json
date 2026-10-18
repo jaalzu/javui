@@ -2,7 +2,7 @@
   "color": {
     "$description": "Semantic color tokens, light theme. Same keys as the dark theme. Components use only these.",
     "page": {
-      "$value": "color-mix(in oklab, {primitive.color.white} 60%, {primitive.color.neutral.100})",
+      "$value": "color-mix(in oklab, {primitive.color.white} 70%, {primitive.color.neutral.50})",
       "$type": "color",
       "$description": "The page itself. Everything sits on it."
     },
@@ -51,6 +51,7 @@
       "$type": "color",
       "$description": "Component pressed."
     },
+
     "component-on-sunken": {
       "$value": "{color.card}",
       "$type": "color",

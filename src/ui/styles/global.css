@@ -1,5 +1,6 @@
-@import "@fontsource-variable/dm-sans/wght.css";
+@import "@fontsource-variable/dm-sans/opsz.css";
 @import "@fontsource/commit-mono/400.css";
+@import "@fontsource/commit-mono/500.css";
 @import "@fontsource/commit-mono/600.css";
 @import "@fontsource-variable/newsreader/wght-italic.css";
 @import "../tokens/tokens.css";
@@ -25,6 +26,7 @@ body {
   font-weight: var(--text-body-weight);
   font-style: var(--text-body-style);
   letter-spacing: var(--text-body-tracking);
+  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }

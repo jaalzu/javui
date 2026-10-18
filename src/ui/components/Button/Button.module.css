@@ -1,7 +1,6 @@
 .button {
   --btn-bg: var(--color-inverted-solid);
   --btn-fg: var(--color-on-inverted-foreground);
-  --btn-border: transparent;
   --btn-bg-hover: var(--color-inverted-solid-hover);
   --btn-bg-active: var(--btn-bg-hover);
 
@@ -9,10 +8,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
+  --btn-px: var(--space-4);
+  --btn-gap: var(--space-2);
+  gap: var(--btn-gap);
   min-width: var(--size-target-min);
   margin: 0;
-  padding: 0 var(--space-4);
+  padding: 0 var(--btn-px);
   border: var(--border-width-thin) solid transparent;
   border-radius: var(--radius-md);
   background: none;
@@ -35,12 +36,15 @@
   inset: calc(-1 * var(--border-width-thin));
   z-index: -1;
   box-sizing: border-box;
-  border: var(--border-width-thin) solid var(--btn-border);
   border-radius: inherit;
+  box-shadow: var(--btn-ring, none);
+  -webkit-backdrop-filter: blur(var(--btn-blur, 0));
+  backdrop-filter: blur(var(--btn-blur, 0));
   background-color: var(--btn-bg);
   transition:
     background-color var(--motion-duration-fast) var(--motion-easing-standard),
-    transform 200ms var(--motion-easing-standard);
+    box-shadow var(--motion-duration-fast) var(--motion-easing-standard),
+    transform 100ms var(--motion-easing-standard);
 }
 
 .button:hover:not([data-disabled])::before {
@@ -64,8 +68,15 @@
 .secondary {
   --btn-bg: var(--color-component);
   --btn-fg: var(--color-primary-foreground);
-  --btn-border: var(--color-border-default);
-  --btn-bg-hover: var(--color-transparent-active);
+  --btn-bg-hover: var(--color-component-hover);
+  --btn-bg-active: var(--color-component-active);
+  /* Dark: inner hairline, top highlight, dark outer edge and a soft drop. Light: same layers with light-theme values. */
+  --btn-ring:
+    inset 0 0 0 1px light-dark(transparent, #ffffff08),
+    inset 0 1px light-dark(#ffffffcc, #ffffff0a),
+    0 0 0 1px light-dark(#00000014, #0009),
+    0 4px 4px light-dark(#0000000d, #0000001a);
+  --btn-blur: 4px;
 }
 
 .ghost {
@@ -88,9 +99,10 @@
 }
 
 .sm {
+  --btn-px: var(--space-3);
+  --btn-gap: calc(var(--space-2) * 0.75);
   height: var(--size-control-sm);
-  padding: 0 var(--space-3);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-13);
 }
 
 .md {
@@ -98,12 +110,38 @@
 }
 
 .lg {
+  --btn-px: var(--space-6);
   height: var(--size-control-lg);
-  padding: 0 var(--space-6);
+}
+
+/* Optical balance: an icon carries its own empty space and looks heavier than a letter, so the side with the icon
+   gets less padding (about three quarters). Material uses 16 against 24, the same idea. `data-icon` is set by the component. */
+.button[data-icon="start"],
+.button[data-icon="both"] {
+  padding-inline-start: calc(var(--btn-px) * 0.75);
+}
+
+.button[data-icon="end"],
+.button[data-icon="both"] {
+  padding-inline-end: calc(var(--btn-px) * 0.75);
+}
+
+/* Icon only: a square, no side padding. */
+.button[data-icon="only"] {
+  padding-inline: 0;
+  aspect-ratio: 1;
 }
 
 /* While loading the button is disabled for clicks but should not look dimmed. */
 .button[data-loading][data-disabled] {
   opacity: 1;
   cursor: progress;
+}
+
+/* Filled buttons only: nudge the label 1px down. The box keeps its height, only the content shifts. Ghost is left alone (nav links, icon buttons). Keep this last so the size classes do not reset it. */
+.primary,
+.secondary,
+.accent,
+.danger {
+  padding-top: 1px;
 }

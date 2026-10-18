@@ -104,21 +104,25 @@ For headings use `Heading`; for links use `Link`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `as` | `"div" \| "code" \| "em" \| "label" \| "p" \| "small" \| "span" \| "strong"` | no |  | HTML element to render. Defaults by variant: `p` for body variants, `span` for `label` and `caption`, `code` for `code`. Use `label` with `htmlFor` for form labels. |
-| `tone` | `"success" \| "danger" \| "subtle" \| "default" \| "muted"` | no | default | Text color from the semantic color tokens. |
-| `variant` | `"body" \| "caption" \| "code" \| "label" \| "body-lg" \| "body-sm" \| "emphasis"` | no | body | Which text style to apply. Appearance only; it does not change the element. |
+| `casing` | `"normal" \| "uppercase"` | no | normal | Set to `uppercase` for small uppercase captions. |
+| `size` | `"base" \| "sm" \| "lg" \| "xs"` | no | base | Size within the variant: body is 18px (`lg`), 15px (`base`) or 13px (`sm`); caption is 12px, 11px or 10px; code is 14px (`base`), 13px (`sm`) or 12px (`xs`). Ignored by `label` and `emphasis`. |
+| `tone` | `"info" \| "success" \| "warning" \| "danger" \| "subtle" \| "default" \| "muted" \| "brand"` | no | default | Text color from the semantic color tokens. |
+| `variant` | `"body" \| "caption" \| "code" \| "label" \| "emphasis"` | no | body | Which text style to apply. Appearance only; it does not change the element. |
+| `weight` | `"regular" \| "medium" \| "semibold"` | no |  | Font weight. Only three exist; there is no light. Defaults to the variant's own weight. |
 
 Also accepts the native props of the element it renders; they pass through.
 
 ### Example
 ```tsx
 <Text>Default paragraph.</Text>
+<Text size="lg">Large body text</Text>
 <Text variant="caption" tone="muted">Helper text</Text>
 <Text as="label" htmlFor="email" variant="label">Email</Text>
 ```
 
 ## Heading
 
-A heading. Separates semantics (`as`) from appearance (`size`).
+A heading. Separates semantics (`as`) from appearance (`size`). Headings are always upright and semibold.
 
 - Category: typography
 - Base: Own component
@@ -136,14 +140,15 @@ A heading. Separates semantics (`as`) from appearance (`size`).
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `as` | `"h1" \| "h2" \| "h3" \| "h4" \| "h5" \| "h6"` | no | h2 | Heading level in the document outline. Keep one `h1` per page and do not skip levels. |
-| `size` | `"h1" \| "h2" \| "h3" \| "h4" \| "display"` | no |  | Visual text style, independent from the level. Defaults to the style that matches `as` (`h5` and `h6` use `h4`). Use it to get an `h2` that looks like an `h4`. |
+| `size` | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | no |  | Visual size from 1 (56px) to 6 (20px) on wide screens. Defaults to the size that matches `as`. Use it to get an `h2` that looks like a size 4. |
+| `weight` | `"regular" \| "medium" \| "semibold"` | no | "semibold" | Font weight. There is no light; headings are semibold unless you set another. |
 
 Also accepts the native props of the element it renders; they pass through.
 
 ### Example
 ```tsx
 <Heading as="h1">Page title</Heading>
-<Heading as="h2" size="h4">Small-looking section title</Heading>
+<Heading as="h2" size={4}>Smaller-looking section title</Heading>
 ```
 
 ## Link
@@ -1579,89 +1584,117 @@ Also accepts the native props of the element it renders; they pass through.
 | `--font-weight-regular` | fontWeight | `400` |
 | `--font-weight-medium` | fontWeight | `500` |
 | `--font-weight-semibold` | fontWeight | `600` |
-| `--font-weight-bold` | fontWeight | `700` |
-| `--font-style-heading` |  | `normal` |
 | `--font-style-body` |  | `normal` |
-| `--font-size-sm` | dimension | `0.78rem` |
-| `--font-size-base` | dimension | `0.9375rem` |
-| `--font-size-md` | dimension | `1.1875rem` |
-| `--font-size-lg` | dimension | `1.4688rem` |
-| `--font-size-xl` | dimension | `1.8359rem` |
-| `--font-size-2xl` | dimension | `2.2949rem` |
-| `--font-size-3xl` | dimension | `2.8691rem` |
-| `--font-size-4xl` | dimension | `3.5859rem` |
-| `--text-display-size` |  | `clamp(var(--font-size-2xl), 1.4rem + 4.4vw, var(--font-size-4xl))` |
-| `--text-display-line` |  | `1.05` |
-| `--text-display-weight` |  | `var(--font-weight-semibold)` |
-| `--text-display-tracking` |  | `-0.03em` |
-| `--text-display-style` |  | `var(--font-style-heading)` |
-| `--text-display-family` |  | `var(--font-family-sans)` |
-| `--text-h1-size` |  | `clamp(var(--font-size-xl), 1.3rem + 2.8vw, var(--font-size-3xl))` |
-| `--text-h1-line` |  | `1.1` |
-| `--text-h1-weight` |  | `var(--font-weight-semibold)` |
-| `--text-h1-tracking` |  | `-0.025em` |
-| `--text-h1-style` |  | `var(--font-style-heading)` |
-| `--text-h1-family` |  | `var(--font-family-sans)` |
-| `--text-h2-size` |  | `clamp(var(--font-size-lg), 1.2rem + 1.6vw, var(--font-size-2xl))` |
-| `--text-h2-line` |  | `1.15` |
-| `--text-h2-weight` |  | `var(--font-weight-semibold)` |
-| `--text-h2-tracking` |  | `-0.02em` |
-| `--text-h2-style` |  | `var(--font-style-heading)` |
-| `--text-h2-family` |  | `var(--font-family-sans)` |
-| `--text-h3-size` |  | `var(--font-size-md)` |
-| `--text-h3-line` |  | `1.25` |
-| `--text-h3-weight` |  | `var(--font-weight-semibold)` |
-| `--text-h3-tracking` |  | `-0.01em` |
-| `--text-h3-style` |  | `var(--font-style-heading)` |
-| `--text-h3-family` |  | `var(--font-family-sans)` |
-| `--text-h4-size` |  | `var(--font-size-base)` |
-| `--text-h4-line` |  | `1.3` |
-| `--text-h4-weight` |  | `var(--font-weight-semibold)` |
-| `--text-h4-tracking` |  | `0em` |
-| `--text-h4-style` |  | `var(--font-style-heading)` |
-| `--text-h4-family` |  | `var(--font-family-sans)` |
-| `--text-body-lg-size` |  | `var(--font-size-md)` |
+| `--font-size-10` | dimension | `0.625rem` |
+| `--font-size-11` | dimension | `0.6875rem` |
+| `--font-size-12` | dimension | `0.75rem` |
+| `--font-size-13` | dimension | `0.8125rem` |
+| `--font-size-14` | dimension | `0.875rem` |
+| `--font-size-15` | dimension | `0.9375rem` |
+| `--font-size-18` | dimension | `1.125rem` |
+| `--font-size-20` | dimension | `1.25rem` |
+| `--font-size-24` | dimension | `1.5rem` |
+| `--font-size-28` | dimension | `1.75rem` |
+| `--font-size-36` | dimension | `2.25rem` |
+| `--font-size-44` | dimension | `2.75rem` |
+| `--font-size-56` | dimension | `3.5rem` |
+| `--text-heading-1-size` |  | `clamp(2.25rem, 1.8333rem + 2.0833vw, 3.5rem)` |
+| `--text-heading-1-line` |  | `1.05` |
+| `--text-heading-1-weight` |  | `var(--font-weight-semibold)` |
+| `--text-heading-1-tracking` |  | `-0.03em` |
+| `--text-heading-1-family` |  | `var(--font-family-sans)` |
+| `--text-heading-2-size` |  | `clamp(2rem, 1.7500rem + 1.2500vw, 2.75rem)` |
+| `--text-heading-2-line` |  | `1.1` |
+| `--text-heading-2-weight` |  | `var(--font-weight-semibold)` |
+| `--text-heading-2-tracking` |  | `-0.025em` |
+| `--text-heading-2-family` |  | `var(--font-family-sans)` |
+| `--text-heading-3-size` |  | `clamp(1.75rem, 1.5833rem + 0.8333vw, 2.25rem)` |
+| `--text-heading-3-line` |  | `1.15` |
+| `--text-heading-3-weight` |  | `var(--font-weight-semibold)` |
+| `--text-heading-3-tracking` |  | `-0.02em` |
+| `--text-heading-3-family` |  | `var(--font-family-sans)` |
+| `--text-heading-4-size` |  | `clamp(1.5rem, 1.4167rem + 0.4167vw, 1.75rem)` |
+| `--text-heading-4-line` |  | `1.2` |
+| `--text-heading-4-weight` |  | `var(--font-weight-semibold)` |
+| `--text-heading-4-tracking` |  | `-0.015em` |
+| `--text-heading-4-family` |  | `var(--font-family-sans)` |
+| `--text-heading-5-size` |  | `clamp(1.25rem, 1.1667rem + 0.4167vw, 1.5rem)` |
+| `--text-heading-5-line` |  | `1.25` |
+| `--text-heading-5-weight` |  | `var(--font-weight-semibold)` |
+| `--text-heading-5-tracking` |  | `-0.01em` |
+| `--text-heading-5-family` |  | `var(--font-family-sans)` |
+| `--text-heading-6-size` |  | `clamp(1.125rem, 1.0833rem + 0.2083vw, 1.25rem)` |
+| `--text-heading-6-line` |  | `1.3` |
+| `--text-heading-6-weight` |  | `var(--font-weight-semibold)` |
+| `--text-heading-6-tracking` |  | `-0.005em` |
+| `--text-heading-6-family` |  | `var(--font-family-sans)` |
+| `--text-body-lg-size` |  | `var(--font-size-18)` |
 | `--text-body-lg-line` |  | `1.6` |
 | `--text-body-lg-weight` |  | `var(--font-weight-regular)` |
 | `--text-body-lg-tracking` |  | `0em` |
 | `--text-body-lg-style` |  | `var(--font-style-body)` |
 | `--text-body-lg-family` |  | `var(--font-family-sans)` |
-| `--text-body-size` |  | `var(--font-size-base)` |
+| `--text-body-size` |  | `var(--font-size-15)` |
 | `--text-body-line` |  | `1.6` |
 | `--text-body-weight` |  | `var(--font-weight-regular)` |
 | `--text-body-tracking` |  | `0em` |
 | `--text-body-style` |  | `var(--font-style-body)` |
 | `--text-body-family` |  | `var(--font-family-sans)` |
-| `--text-body-sm-size` |  | `var(--font-size-sm)` |
+| `--text-body-sm-size` |  | `var(--font-size-13)` |
 | `--text-body-sm-line` |  | `1.5` |
 | `--text-body-sm-weight` |  | `var(--font-weight-regular)` |
 | `--text-body-sm-tracking` |  | `0.005em` |
 | `--text-body-sm-style` |  | `var(--font-style-body)` |
 | `--text-body-sm-family` |  | `var(--font-family-sans)` |
-| `--text-label-size` |  | `var(--font-size-sm)` |
+| `--text-label-size` |  | `var(--font-size-13)` |
 | `--text-label-line` |  | `1.4` |
 | `--text-label-weight` |  | `var(--font-weight-medium)` |
 | `--text-label-tracking` |  | `0.01em` |
 | `--text-label-style` |  | `var(--font-style-body)` |
 | `--text-label-family` |  | `var(--font-family-sans)` |
-| `--text-caption-size` |  | `var(--font-size-sm)` |
+| `--text-caption-lg-size` |  | `var(--font-size-12)` |
+| `--text-caption-lg-line` |  | `1.4` |
+| `--text-caption-lg-weight` |  | `var(--font-weight-regular)` |
+| `--text-caption-lg-tracking` |  | `0.01em` |
+| `--text-caption-lg-style` |  | `var(--font-style-body)` |
+| `--text-caption-lg-family` |  | `var(--font-family-sans)` |
+| `--text-caption-size` |  | `var(--font-size-11)` |
 | `--text-caption-line` |  | `1.4` |
 | `--text-caption-weight` |  | `var(--font-weight-regular)` |
 | `--text-caption-tracking` |  | `0.01em` |
 | `--text-caption-style` |  | `var(--font-style-body)` |
 | `--text-caption-family` |  | `var(--font-family-sans)` |
-| `--text-emphasis-size` |  | `var(--font-size-lg)` |
+| `--text-caption-sm-size` |  | `var(--font-size-10)` |
+| `--text-caption-sm-line` |  | `1.4` |
+| `--text-caption-sm-weight` |  | `var(--font-weight-regular)` |
+| `--text-caption-sm-tracking` |  | `0.015em` |
+| `--text-caption-sm-style` |  | `var(--font-style-body)` |
+| `--text-caption-sm-family` |  | `var(--font-family-sans)` |
+| `--text-caption-uppercase-tracking` |  | `0.06em` |
+| `--text-emphasis-size` |  | `var(--font-size-24)` |
 | `--text-emphasis-line` |  | `1.4` |
 | `--text-emphasis-weight` |  | `var(--font-weight-regular)` |
 | `--text-emphasis-tracking` |  | `-0.005em` |
 | `--text-emphasis-style` |  | `italic` |
 | `--text-emphasis-family` |  | `var(--font-family-emphasis)` |
-| `--text-code-size` |  | `0.9em` |
+| `--text-code-size` |  | `var(--font-size-14)` |
 | `--text-code-line` |  | `1.5` |
 | `--text-code-weight` |  | `var(--font-weight-regular)` |
 | `--text-code-tracking` |  | `0em` |
 | `--text-code-style` |  | `var(--font-style-body)` |
 | `--text-code-family` |  | `var(--font-family-mono)` |
+| `--text-code-sm-size` |  | `var(--font-size-13)` |
+| `--text-code-sm-line` |  | `1.5` |
+| `--text-code-sm-weight` |  | `var(--font-weight-regular)` |
+| `--text-code-sm-tracking` |  | `0em` |
+| `--text-code-sm-style` |  | `var(--font-style-body)` |
+| `--text-code-sm-family` |  | `var(--font-family-mono)` |
+| `--text-code-xs-size` |  | `var(--font-size-12)` |
+| `--text-code-xs-line` |  | `1.5` |
+| `--text-code-xs-weight` |  | `var(--font-weight-regular)` |
+| `--text-code-xs-tracking` |  | `0em` |
+| `--text-code-xs-style` |  | `var(--font-style-body)` |
+| `--text-code-xs-family` |  | `var(--font-family-mono)` |
 | `--space-0` | dimension | `0` |
 | `--space-1` | dimension | `0.25rem` |
 | `--space-2` | dimension | `0.5rem` |
@@ -1709,7 +1742,7 @@ Also accepts the native props of the element it renders; they pass through.
 | `--motion-easing-standard` |  | `cubic-bezier(0.2, 0, 0, 1)` |
 | `--motion-easing-in` |  | `cubic-bezier(0.4, 0, 1, 1)` |
 | `--motion-easing-out` |  | `cubic-bezier(0, 0, 0.2, 1)` |
-| `--color-page` | color | light `color-mix(in oklab, var(--primitive-color-white) 60%, var(--primitive-color-neutral-100))` / dark `color-mix(in oklab, var(--primitive-color-neutral-950) 70%, var(--primitive-color-black))` |
+| `--color-page` | color | light `color-mix(in oklab, var(--primitive-color-white) 100%, var(--primitive-color-neutral-50))` / dark `color-mix(in oklab, var(--primitive-color-neutral-950) 70%, var(--primitive-color-black))` |
 | `--color-shell` | color | light `color-mix(in oklab, var(--color-primary-foreground) 3%, var(--color-page))` / dark `color-mix(in oklab, var(--color-primary-foreground) 3%, var(--color-page))` |
 | `--color-container` | color | light `color-mix(in oklab, var(--color-primary-foreground) 5%, var(--color-page))` / dark `color-mix(in oklab, var(--color-primary-foreground) 5%, var(--color-page))` |
 | `--color-card` | color | light `var(--primitive-color-white)` / dark `color-mix(in oklab, var(--color-primary-foreground) 8%, var(--color-page))` |
@@ -1728,7 +1761,7 @@ Also accepts the native props of the element it renders; they pass through.
 | `--color-secondary-foreground` | color | light `color-mix(in oklch, var(--color-primary-foreground) 70%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 70%, transparent)` |
 | `--color-tertiary-foreground` | color | light `color-mix(in oklch, var(--color-primary-foreground) 62%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 54%, transparent)` |
 | `--color-disabled-foreground` | color | light `color-mix(in oklab, var(--color-primary-foreground) 38%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 38%, transparent)` |
-| `--color-inverted-solid` | color | light `var(--primitive-color-neutral-950)` / dark `var(--primitive-color-neutral-200)` |
+| `--color-inverted-solid` | color | light `var(--primitive-color-neutral-950)` / dark `var(--primitive-color-neutral-50)` |
 | `--color-inverted-solid-hover` | color | light `color-mix(in oklab, var(--color-inverted-solid) 82%, var(--color-page))` / dark `color-mix(in oklab, var(--color-inverted-solid) 88%, var(--color-page))` |
 | `--color-inverted-solid-active` | color | light `color-mix(in oklab, var(--color-inverted-solid) 72%, var(--color-page))` / dark `color-mix(in oklab, var(--color-inverted-solid) 72%, var(--color-page))` |
 | `--color-on-inverted-foreground` | color | light `var(--primitive-color-neutral-50)` / dark `var(--primitive-color-neutral-950)` |
@@ -1763,7 +1796,7 @@ Also accepts the native props of the element it renders; they pass through.
 | `--color-on-danger-solid-foreground` | color | light `var(--primitive-color-white)` / dark `var(--color-page)` |
 | `--color-border-default` | color | light `color-mix(in oklch, var(--color-primary-foreground) 7%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 7%, transparent)` |
 | `--color-border-subtle` | color | light `color-mix(in oklab, var(--color-primary-foreground) 4%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 4%, transparent)` |
-| `--color-border-strong` | color | light `color-mix(in oklch, var(--color-primary-foreground) 18%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 18%, transparent)` |
+| `--color-border-strong` | color | light `color-mix(in oklch, var(--color-primary-foreground) 9%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 9%, transparent)` |
 | `--color-border-inverted` | color | light `color-mix(in oklab, var(--color-page) 20%, transparent)` / dark `color-mix(in oklab, var(--color-page) 20%, transparent)` |
 | `--color-border-disabled` | color | light `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` |
 | `--color-brand-border-default` | color | light `color-mix(in oklab, var(--color-brand-solid) 40%, transparent)` / dark `color-mix(in oklab, var(--color-brand-solid) 40%, transparent)` |

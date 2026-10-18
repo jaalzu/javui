@@ -90,7 +90,7 @@ function Block({
       <Stack gap="4">
         <div className={styles.blockHead}>
           <Stack gap="1">
-            <Heading as="h3" size="h3" id={id}>
+            <Heading as="h3" size={6} id={id}>
               {title}
             </Heading>
             {description && <Text tone="muted">{description}</Text>}
@@ -130,35 +130,6 @@ const nav: { title: string; items: [string, string][] }[] = [
         "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z",
       ],
       ["Calendar", "M5 6h14v14H5zM5 10h14M9 3v4M15 3v4"],
-    ],
-  },
-  {
-    title: "Support",
-    items: [
-      [
-        "Help Center",
-        "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 17v.5M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7",
-      ],
-      ["Docs", "M6 4h10l3 3v13H6zM9 11h7M9 15h7"],
-      ["Contact Us", "M4 6h16v12H4zM4 7l8 6 8-6"],
-      ["Status", "M3 12h4l3-7 4 14 3-7h4"],
-      [
-        "Community",
-        "M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM3 20a6 6 0 0 1 12 0M17 11a2.5 2.5 0 1 0 0-5M17 14a5 5 0 0 1 4 6",
-      ],
-    ],
-  },
-  {
-    title: "Account",
-    items: [
-      ["Profile", "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 20a8 8 0 0 1 16 0"],
-      ["Billing", "M3 6h18v12H3zM3 10h18"],
-      ["Notifications", "M6 17V11a6 6 0 1 1 12 0v6l2 2H4zM10 21h4"],
-      ["Security", "M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"],
-      [
-        "Appearance",
-        "M12 4v2M12 18v2M4 12h2M18 12h2M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z",
-      ],
     ],
   },
 ];
@@ -204,7 +175,7 @@ function Sidebar() {
           ))}
         </nav>
         <Divider />
-        <Person name="shadcn" email="m@example.com" />
+        <Person name="java" email="m@example.com" />
       </Stack>
     </Card>
   );
@@ -233,7 +204,7 @@ function SavingsTargets() {
             </div>
             <Progress label={`${g.name} progress`} value={g.pct} />
             <div className={styles.goalHead}>
-              <Text variant="caption" tone="muted">
+              <Text variant="caption" size="lg" tone="muted">
                 {g.pct}% achieved
               </Text>
               <span className={styles.amount}>{g.got}</span>
@@ -348,7 +319,7 @@ function Claimable() {
           <dd>$1,211.29 USD</dd>
         </div>
       </dl>
-      <Text variant="caption" tone="muted">
+      <Text variant="caption" size="lg" tone="muted">
         Once your bank is connected, balances over $10.00 are automatically
         eligible for monthly distribution on the 15th of each month.
       </Text>
@@ -377,7 +348,7 @@ function Dividends() {
             <Avatar name={name} size="sm" />
             <span className={styles.holdingText}>
               <span className={styles.personName}>{name}</span>
-              <Text variant="caption" tone="muted">
+              <Text variant="caption" size="lg" tone="muted">
                 {shares}
               </Text>
             </span>
@@ -532,7 +503,7 @@ function Chat() {
       >
         {msgs.length === 0 ? (
           <div className={styles.empty}>
-            <p className={styles.lead}>Morning, shadcn!</p>
+            <p className={styles.lead}>Morning, java!</p>
             <Text tone="muted">
               What are we working on today? Press send to start a new
               conversation.
@@ -557,10 +528,7 @@ function Chat() {
                 key={i}
                 className={`${styles.msg} ${m.from === "user" ? styles.msgUser : ""}`}
               >
-                <Avatar
-                  name={m.from === "user" ? "shadcn" : "Agent"}
-                  size="sm"
-                />
+                <Avatar name={m.from === "user" ? "java" : "Agent"} size="sm" />
                 <div
                   className={`${styles.bubble} ${m.from === "user" ? styles.bubbleUser : ""}`}
                 >
@@ -649,7 +617,7 @@ function Usage() {
           ["Cost", "$38"],
         ].map(([k, v]) => (
           <div key={k} className={styles.metric}>
-            <Text variant="caption" tone="muted">
+            <Text variant="caption" size="lg" tone="muted">
               {k}
             </Text>
             <span className={styles.metricValue}>{v}</span>
@@ -990,7 +958,7 @@ function ApiAccess() {
           },
         ]}
       />
-      <Text variant="caption" tone="muted">
+      <Text variant="caption" size="lg" tone="muted">
         Press <Kbd>⌘</Kbd> + <Kbd>K</Kbd> to search the docs.
       </Text>
     </Block>
@@ -1036,7 +1004,7 @@ function Answer() {
         >
           {down}
         </Button>
-        <Text variant="caption" tone="muted">
+        <Text variant="caption" size="lg" tone="muted">
           {vote ? "Thanks for the feedback." : "Was this useful?"}
         </Text>
       </Stack>
@@ -1124,7 +1092,7 @@ function SignIn() {
           <Button type="submit">Sign in</Button>
         </Stack>
       </form>
-      <Text variant="caption" tone="muted">
+      <Text variant="caption" size="lg" tone="muted">
         Forgot it? <Link href="/docs">Reset your password</Link>
       </Text>
     </Block>

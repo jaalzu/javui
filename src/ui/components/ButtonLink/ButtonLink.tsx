@@ -2,6 +2,7 @@
 
 import type { ComponentProps, ElementType } from "react";
 import { cx } from "../../utils/cx";
+import { iconPosition } from "../../utils/iconPosition";
 import { useLinkComponent } from "../Link/LinkContext";
 import type { ButtonSize, ButtonVariant } from "../Button";
 import buttonStyles from "../Button/Button.module.css";
@@ -27,10 +28,26 @@ export type ButtonLinkProps = {
  * <ButtonLink href="/docs/installation">Get started</ButtonLink>
  * <ButtonLink href="/docs" variant="secondary">Docs</ButtonLink>
  */
-export function ButtonLink({ variant = "primary", size = "md", className, children, ...rest }: ButtonLinkProps) {
+export function ButtonLink({
+  variant = "primary",
+  size = "md",
+  className,
+  children,
+  ...rest
+}: ButtonLinkProps) {
   const Component = useLinkComponent() as ElementType<ComponentProps<"a">>;
   return (
-    <Component className={cx(buttonStyles.button, buttonStyles[variant], buttonStyles[size], styles.link, className)} {...rest}>
+    <Component
+      className={cx(
+        buttonStyles.button,
+        buttonStyles[variant],
+        buttonStyles[size],
+        styles.link,
+        className,
+      )}
+      data-icon={iconPosition(children)}
+      {...rest}
+    >
       {children}
     </Component>
   );

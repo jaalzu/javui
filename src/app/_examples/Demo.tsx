@@ -26,7 +26,7 @@ const countries = [
 /** Live example of each public component, keyed by export name. Parts of a composite point at their parent in `demoAlias`. */
 const demos: Record<string, () => ReactNode> = {
   Text: () => <Text>Body text with <Text as="span" variant="code">inline code</Text>.</Text>,
-  Heading: () => <Heading as="h3" size="h1">A quiet heading</Heading>,
+  Heading: () => <Heading as="h3" size={2}>A quiet heading</Heading>,
   Link: () => <Text>Read the <Link href="/docs">documentation</Link>.</Text>,
   Kbd: () => <Text>Press <Kbd>Tab</Kbd> to move on.</Text>,
   Badge: () => (
@@ -61,12 +61,12 @@ const demos: Record<string, () => ReactNode> = {
   ),
   Grid: () => (
     <Grid columns="repeat(3, 1fr)" gap="3">
-      <Box bordered padding="3"><Text variant="caption">A</Text></Box>
-      <Box bordered padding="3"><Text variant="caption">B</Text></Box>
-      <Box bordered padding="3"><Text variant="caption">C</Text></Box>
+      <Box bordered padding="3"><Text variant="caption" size="lg">A</Text></Box>
+      <Box bordered padding="3"><Text variant="caption" size="lg">B</Text></Box>
+      <Box bordered padding="3"><Text variant="caption" size="lg">C</Text></Box>
     </Grid>
   ),
-  Container: () => <Container size="sm"><Text variant="caption" tone="muted">Content centered and limited in width.</Text></Container>,
+  Container: () => <Container size="sm"><Text variant="caption" size="lg" tone="muted">Content centered and limited in width.</Text></Container>,
   Divider: () => <Divider />,
   VisuallyHidden: () => (
     <Button variant="secondary">
@@ -154,7 +154,7 @@ const demos: Record<string, () => ReactNode> = {
   ),
   Card: () => (
     <Card padding="5">
-      <Stack gap="1"><Heading as="h3" size="h3">Card title</Heading><Text tone="muted">Related content in one surface.</Text></Stack>
+      <Stack gap="1"><Heading as="h3" size={6}>Card title</Heading><Text tone="muted">Related content in one surface.</Text></Stack>
     </Card>
   ),
   Alert: () => (

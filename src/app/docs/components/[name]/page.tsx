@@ -49,11 +49,11 @@ export default async function ComponentPage({ params }: PageProps<"/docs/compone
         </>
       )}
 
-      <Heading as="h2" size="h3">Installation</Heading>
+      <Heading as="h2" size={6}>Installation</Heading>
       <p>Add the library first (see the installation guide), then import the component.</p>
       <CodeBlock language="tsx" label="Import" code={c.import} />
 
-      <Heading as="h2" size="h3">Usage</Heading>
+      <Heading as="h2" size={6}>Usage</Heading>
       {more && <p><Inline text={more} /></p>}
       <p><Inline text={c.composition} /></p>
       {c.examples.map((code, i) => (
@@ -63,14 +63,14 @@ export default async function ComponentPage({ params }: PageProps<"/docs/compone
 
       <Examples name={c.name} />
 
-      <Heading as="h2" size="h3">When to use it</Heading>
+      <Heading as="h2" size={6}>When to use it</Heading>
       <p><Inline text={c.whenToUse} /></p>
-      <Heading as="h3" size="h4">Avoid</Heading>
+      <Heading as="h3" size={6}>Avoid</Heading>
       <ul>{c.avoid.map((a) => <li key={a}><Inline text={a} /></li>)}</ul>
 
       {c.props.length > 0 && (
         <>
-          <Heading as="h2" size="h3">Props</Heading>
+          <Heading as="h2" size={6}>Props</Heading>
           <Table
             caption={`${c.name} props`}
             hideCaption
@@ -86,7 +86,7 @@ export default async function ComponentPage({ params }: PageProps<"/docs/compone
         </>
       )}
 
-      <Heading as="h2" size="h3">Accessibility</Heading>
+      <Heading as="h2" size={6}>Accessibility</Heading>
       <p><Inline text={c.accessibility} /></p>
     </DocPage>
   );

@@ -99,34 +99,34 @@ export default function Installation() {
         </li>
       </ul>
 
-      <Heading as="h2" size="h2" id="copy-the-folder">Copy the folder</Heading>
-      <Heading as="h3" size="h4">1. Copy the library</Heading>
+      <Heading as="h2" size={3} id="copy-the-folder">Copy the folder</Heading>
+      <Heading as="h3" size={6}>1. Copy the library</Heading>
       <p>Copy the whole <code>src/ui</code> folder from the ui-lib repository into <code>src/ui</code> in your app. It has the components, the tokens (<code>tokens.css</code> is already generated) and the global styles. Your <code>tsconfig.json</code> needs the alias <code>@/*</code> pointing to <code>./src/*</code>, which is the Next.js default.</p>
 
-      <Heading as="h3" size="h4">2. Install the dependencies</Heading>
+      <Heading as="h3" size={6}>2. Install the dependencies</Heading>
       <CodeBlock language="bash" label="Install dependencies" tabs={installCommands("@base-ui/react next-themes @fontsource-variable/inter @fontsource-variable/newsreader @fontsource/commit-mono")} />
 
-      <Heading as="h3" size="h4">3. Add the providers</Heading>
+      <Heading as="h3" size={6}>3. Add the providers</Heading>
       <p>Create <code>src/app/providers.tsx</code>. It sets the theme, makes every link use <code>next/link</code>, and enables tooltips and toasts.</p>
       <CodeBlock language="tsx" label="providers.tsx" code={providers} />
 
-      <Heading as="h3" size="h4">4. Load the styles</Heading>
+      <Heading as="h3" size={6}>4. Load the styles</Heading>
       <p>Import the global styles and the providers in your root layout. Keep <code>suppressHydrationWarning</code> on <code>html</code>: next-themes sets <code>data-theme</code> before React hydrates.</p>
       <CodeBlock language="tsx" label="layout.tsx" code={layout} />
 
-      <Heading as="h3" size="h4">5. Use a component</Heading>
+      <Heading as="h3" size={6}>5. Use a component</Heading>
       <CodeBlock language="tsx" label="page.tsx" code={first} />
 
-      <Heading as="h2" size="h2" id="use-an-agent">Use an agent</Heading>
+      <Heading as="h2" size={3} id="use-an-agent">Use an agent</Heading>
       <p>Agents do not need to know ui-lib in advance: they read it. Deploy the site (or open the repository) and paste a prompt like this into Claude Code, Cursor or any coding agent. Replace the address with yours.</p>
       <CodeBlock language="text" label="Prompt for an agent" code={prompt} />
       <p>If you add the MCP server, the agent can ask for guidelines, components and tokens instead of reading files. See <Link href="/docs/agents">For agents</Link>.</p>
 
-      <Heading as="h2" size="h2" id="tailwind">Tailwind (optional)</Heading>
+      <Heading as="h2" size={3} id="tailwind">Tailwind (optional)</Heading>
       <p>ui-lib does not need Tailwind. If your app uses Tailwind v4, the tokens are also available as utilities such as <code>bg-page</code>, <code>text-primary-foreground</code> and <code>border-border-default</code>. Import the generated bridge after Tailwind and the global styles, and keep <code>tokens.css</code> out of any <code>@layer</code>.</p>
       <CodeBlock language="css" label="Tailwind setup" code={tailwind} />
 
-      <Heading as="h2" size="h2" id="rebuild-tokens">Rebuild tokens and agent docs</Heading>
+      <Heading as="h2" size={3} id="rebuild-tokens">Rebuild tokens and agent docs</Heading>
       <p>Only needed if you change tokens or add components. Copy the <code>scripts</code> folder too and install <code>style-dictionary</code>, <code>culori</code> and <code>react-docgen-typescript</code> as dev dependencies. <code>bun run dev</code> rebuilds the CSS when you save a token file; <code>bun run build</code> rebuilds the CSS and the agent files.</p>
     </DocPage>
   );

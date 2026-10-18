@@ -15,7 +15,7 @@ describe("Heading", () => {
   });
 
   it("keeps the level when `size` changes the look", () => {
-    render(<Heading as="h2" size="display">Looks big</Heading>);
+    render(<Heading as="h2" size={1}>Looks big</Heading>);
     expect(screen.getByRole("heading", { level: 2 })).toBeInTheDocument();
   });
 
@@ -30,7 +30,7 @@ describe("Heading", () => {
     const { container } = render(
       <main>
         <Heading as="h1">Page</Heading>
-        <Heading as="h2" size="h4">Section</Heading>
+        <Heading as="h2" size={6}>Section</Heading>
       </main>,
     );
     expect(await axe(container)).toHaveNoViolations();

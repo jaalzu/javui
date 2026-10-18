@@ -15,10 +15,10 @@ export default function Theming() {
   return (
     <DocPage href="/docs/theming" title="Theming" description="Components never contain colors. They read semantic tokens, and the theme decides what those tokens mean.">
 
-      <Heading as="h2" size="h3">How light and dark work</Heading>
+      <Heading as="h2" size={6}>How light and dark work</Heading>
       <p>Tokens live as JSON in <code>src/ui/tokens</code> and are compiled to <code>tokens.css</code>. The same semantic names exist in both themes. <code>next-themes</code> sets <code>data-theme=&quot;light&quot;</code> or <code>&quot;dark&quot;</code> on <code>html</code>. With no choice made, the operating system preference applies.</p>
 
-      <Heading as="h2" size="h3">Semantic tokens</Heading>
+      <Heading as="h2" size={6}>Semantic tokens</Heading>
       <Table
         caption="Colors you will use most"
         columns={[{ key: "token", header: "Token" }, { key: "use", header: "Use" }]}
@@ -36,11 +36,11 @@ export default function Theming() {
         ]}
       />
 
-      <Heading as="h2" size="h3">Change a color</Heading>
+      <Heading as="h2" size={6}>Change a color</Heading>
       <p>Override the token for the theme you want. Components follow, since none of them hardcode a value.</p>
       <CodeBlock language="css" label="Override a token" code={override} />
 
-      <Heading as="h2" size="h3">Force a theme</Heading>
+      <Heading as="h2" size={6}>Force a theme</Heading>
       <CodeBlock language="tsx" label="Fixed dark theme" code={lock} />
 
       <Alert tone="warning" title="Borders are soft on purpose">

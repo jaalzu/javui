@@ -14,7 +14,7 @@
   background: var(--badge-bg);
   color: var(--badge-fg);
   font-family: var(--text-label-family);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-13);
   line-height: 1;
   font-weight: var(--font-weight-medium);
   white-space: nowrap;

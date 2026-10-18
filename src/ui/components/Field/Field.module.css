@@ -18,12 +18,12 @@
 .description {
   margin: 0;
   color: var(--color-secondary-foreground);
-  font-size: var(--text-caption-size);
-  line-height: var(--text-caption-line);
+  font-size: var(--text-caption-lg-size);
+  line-height: var(--text-caption-lg-line);
 }
 
 .error {
   color: var(--color-danger-solid);
-  font-size: var(--text-caption-size);
-  line-height: var(--text-caption-line);
+  font-size: var(--text-caption-lg-size);
+  line-height: var(--text-caption-lg-line);
 }

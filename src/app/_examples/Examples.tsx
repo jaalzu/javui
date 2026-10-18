@@ -106,7 +106,7 @@ const registry: Record<string, Example[]> = {
   Card: [
     ex("Outline", `<Card padding="5">\n  <Text>Related content.</Text>\n</Card>`, <Card padding="5"><Text>Related content.</Text></Card>),
     ex("Surface", `<Card variant="surface" padding="5">\n  <Text>Related content.</Text>\n</Card>`, <Card variant="surface" padding="5"><Text>Related content.</Text></Card>),
-    ex("As an article", `<Card as="article" padding="5">\n  <Heading as="h3" size="h3">Title</Heading>\n  <Text>Self-contained content.</Text>\n</Card>`, <Card as="article" padding="5"><Heading as="h3" size="h3">Title</Heading><Text>Self-contained content.</Text></Card>, "Use article for content that makes sense on its own."),
+    ex("As an article", `<Card as="article" padding="5">\n  <Heading as="h3" size={6}>Title</Heading>\n  <Text>Self-contained content.</Text>\n</Card>`, <Card as="article" padding="5"><Heading as="h3" size={6}>Title</Heading><Text>Self-contained content.</Text></Card>, "Use article for content that makes sense on its own."),
   ],
   Progress: [
     ex("Determinate", `<Progress label="Uploading" value={40} />`, <Progress label="Uploading" value={40} />),
@@ -134,10 +134,10 @@ export function Examples({ name }: { name: string }) {
   if (!items) return null;
   return (
     <>
-      <Heading as="h2" size="h3">Examples</Heading>
+      <Heading as="h2" size={6}>Examples</Heading>
       {items.map((e) => (
         <section key={e.title} aria-labelledby={`ex-${e.title.replace(/\W+/g, "-")}`}>
-          <Heading as="h3" size="h4" id={`ex-${e.title.replace(/\W+/g, "-")}`}>{e.title}</Heading>
+          <Heading as="h3" size={6} id={`ex-${e.title.replace(/\W+/g, "-")}`}>{e.title}</Heading>
           {e.description && <p className={styles.exampleNote}>{e.description}</p>}
           <ExampleFrame code={e.code}>{e.node}</ExampleFrame>
         </section>

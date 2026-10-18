@@ -13,7 +13,7 @@ describe("Text", () => {
     render(
       <>
         <Text variant="label">Label</Text>
-        <Text variant="caption">Caption</Text>
+        <Text variant="caption" size="lg">Caption</Text>
         <Text variant="code">code</Text>
       </>,
     );
@@ -52,7 +52,7 @@ describe("Text", () => {
     const { container } = render(
       <main>
         <Text>Body</Text>
-        <Text tone="muted" variant="caption">Muted</Text>
+        <Text tone="muted" variant="caption" size="lg">Muted</Text>
       </main>,
     );
     expect(await axe(container)).toHaveNoViolations();

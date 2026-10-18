@@ -65,7 +65,7 @@
   font-weight: var(--font-weight-medium);
 }
 .personMail {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-13);
   color: var(--color-secondary-foreground);
 }
 
@@ -76,11 +76,11 @@
   gap: var(--space-2);
 }
 .priceNumber {
-  font-family: var(--text-h1-family);
-  font-size: var(--text-h1-size);
-  font-weight: var(--text-h1-weight);
-  line-height: var(--text-h1-line);
-  letter-spacing: var(--text-h1-tracking);
+  font-family: var(--text-heading-2-family);
+  font-size: var(--text-heading-2-size);
+  font-weight: var(--text-heading-2-weight);
+  line-height: var(--text-heading-2-line);
+  letter-spacing: var(--text-heading-2-tracking);
 }
 .priceUnit {
   color: var(--color-secondary-foreground);
@@ -176,11 +176,11 @@
   color: var(--color-danger-solid);
 }
 .bigNumber {
-  font-family: var(--text-h1-family);
-  font-size: var(--text-h1-size);
-  font-weight: var(--text-h1-weight);
-  line-height: var(--text-h1-line);
-  letter-spacing: var(--text-h1-tracking);
+  font-family: var(--text-heading-2-family);
+  font-size: var(--text-heading-2-size);
+  font-weight: var(--text-heading-2-weight);
+  line-height: var(--text-heading-2-line);
+  letter-spacing: var(--text-heading-2-tracking);
   font-variant-numeric: tabular-nums;
 }
 
@@ -201,7 +201,7 @@
 }
 .barValue,
 .barLabel {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-13);
   color: var(--color-secondary-foreground);
   font-variant-numeric: tabular-nums;
 }
@@ -367,11 +367,11 @@
   gap: var(--space-1);
 }
 .metricValue {
-  font-family: var(--text-h3-family);
-  font-size: var(--text-h3-size);
-  font-weight: var(--text-h3-weight);
-  line-height: var(--text-h3-line);
-  letter-spacing: var(--text-h3-tracking);
+  font-family: var(--text-heading-6-family);
+  font-size: var(--text-heading-6-size);
+  font-weight: var(--text-heading-6-weight);
+  line-height: var(--text-heading-6-line);
+  letter-spacing: var(--text-heading-6-tracking);
   font-variant-numeric: tabular-nums;
 }
 

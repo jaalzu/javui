@@ -1,17 +1,37 @@
 /* ---------- Doc pages ---------- */
-.prose { max-width: 52rem; min-width: 0; margin-inline: auto; }
+.prose {
+  max-width: 64rem;
+  min-width: 0;
+  margin-inline: auto;
+}
 
-.prose > * + * { margin-top: var(--space-4); }
+.prose > * + * {
+  margin-top: var(--space-4);
+}
 
-.prose h2 { margin-top: var(--space-12); scroll-margin-top: var(--space-6); }
+.prose h2 {
+  margin-top: var(--space-12);
+  scroll-margin-top: var(--space-6);
+}
 
-.prose h3 { margin-top: var(--space-8); }
+.prose h3 {
+  margin-top: var(--space-8);
+}
 
-.prose p, .prose li { line-height: var(--text-body-line); }
+.prose p,
+.prose li {
+  line-height: var(--text-body-line);
+}
 
-.prose > ul:not([class]), .prose > ol:not([class]) { padding-left: var(--space-6); }
+.prose > ul:not([class]),
+.prose > ol:not([class]) {
+  padding-left: var(--space-6);
+}
 
-.prose > ul:not([class]) > li + li, .prose > ol:not([class]) > li + li { margin-top: var(--space-2); }
+.prose > ul:not([class]) > li + li,
+.prose > ol:not([class]) > li + li {
+  margin-top: var(--space-2);
+}
 
 .prose code:not(pre code) {
   padding: 0.1em 0.35em;
@@ -21,17 +41,41 @@
   font-size: 0.9em;
 }
 
-.docHeader { display: flex; flex-direction: column; gap: var(--space-3); }
+.docHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
 
-.docTitleRow { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; }
+.docTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
 
-.docTitleRow > h1 { margin: 0; }
+.docTitleRow > h1 {
+  margin: 0;
+}
 
-.docActions { display: flex; align-items: center; gap: var(--space-2); }
+.docActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
 
-a.iconBtn { padding-inline: 0; width: var(--size-control-sm); }
+a.iconBtn {
+  padding-inline: 0;
+  width: var(--size-control-sm);
+}
 
-.lead { margin: 0; color: var(--color-secondary-foreground); font-size: var(--text-body-lg-size); line-height: var(--text-body-lg-line); }
+.lead {
+  margin: 0;
+  color: var(--color-secondary-foreground);
+  font-size: var(--text-body-lg-size);
+  line-height: var(--text-body-lg-line);
+}
 
 .preview {
   background: var(--color-card);
@@ -40,7 +84,12 @@ a.iconBtn { padding-inline: 0; width: var(--size-control-sm); }
   border-radius: var(--radius-lg);
 }
 
-.pager { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-top: var(--space-12); }
+.pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin-top: var(--space-12);
+}
 
 a.pagerLink {
   display: flex;
@@ -51,12 +100,20 @@ a.pagerLink {
   border-radius: var(--radius-lg);
   color: var(--color-primary-foreground);
   text-decoration: none;
-  transition: background-color var(--motion-duration-fast) var(--motion-easing-standard);
+  transition: background-color var(--motion-duration-fast)
+    var(--motion-easing-standard);
 }
 
-a.pagerLink:hover { background: var(--color-component); text-decoration: none; }
+a.pagerLink:hover {
+  background: var(--color-component);
+  text-decoration: none;
+}
 
-a.pagerNext { grid-column: 2; align-items: flex-end; text-align: end; }
+a.pagerNext {
+  grid-column: 2;
+  align-items: flex-end;
+  text-align: end;
+}
 
 .pagerLabel {
   display: inline-flex;
@@ -66,13 +123,25 @@ a.pagerNext { grid-column: 2; align-items: flex-end; text-align: end; }
   font-size: var(--text-body-sm-size);
 }
 
-.pagerTitle { font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); letter-spacing: -0.01em; }
-
-@media (max-width: 30rem) {
-  .pager { grid-template-columns: 1fr; }
-  a.pagerNext { grid-column: 1; }
+.pagerTitle {
+  font-size: var(--font-size-18);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.01em;
 }
 
-.prose section + section { margin-top: var(--space-8); }
+@media (max-width: 30rem) {
+  .pager {
+    grid-template-columns: 1fr;
+  }
+  a.pagerNext {
+    grid-column: 1;
+  }
+}
 
-.prose section > h3 { margin-top: 0; }
+.prose section + section {
+  margin-top: var(--space-8);
+}
+
+.prose section > h3 {
+  margin-top: 0;
+}

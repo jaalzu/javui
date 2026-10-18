@@ -42,23 +42,43 @@
           "description": "HTML element to render. Defaults by variant: `p` for body variants, `span` for\n`label` and `caption`, `code` for `code`. Use `label` with `htmlFor` for form labels."
         },
         {
+          "name": "casing",
+          "type": "\"normal\" | \"uppercase\"",
+          "required": false,
+          "default": "normal",
+          "description": "Set to `uppercase` for small uppercase captions."
+        },
+        {
+          "name": "size",
+          "type": "\"base\" | \"sm\" | \"lg\" | \"xs\"",
+          "required": false,
+          "default": "base",
+          "description": "Size within the variant: body is 18px (`lg`), 15px (`base`) or 13px (`sm`); caption is 12px, 11px or 10px;\ncode is 14px (`base`), 13px (`sm`) or 12px (`xs`). Ignored by `label` and `emphasis`."
+        },
+        {
           "name": "tone",
-          "type": "\"success\" | \"danger\" | \"subtle\" | \"default\" | \"muted\"",
+          "type": "\"info\" | \"success\" | \"warning\" | \"danger\" | \"subtle\" | \"default\" | \"muted\" | \"brand\"",
           "required": false,
           "default": "default",
           "description": "Text color from the semantic color tokens."
         },
         {
           "name": "variant",
-          "type": "\"body\" | \"caption\" | \"code\" | \"label\" | \"body-lg\" | \"body-sm\" | \"emphasis\"",
+          "type": "\"body\" | \"caption\" | \"code\" | \"label\" | \"emphasis\"",
           "required": false,
           "default": "body",
           "description": "Which text style to apply. Appearance only; it does not change the element."
+        },
+        {
+          "name": "weight",
+          "type": "\"regular\" | \"medium\" | \"semibold\"",
+          "required": false,
+          "description": "Font weight. Only three exist; there is no light. Defaults to the variant's own weight."
         }
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Text>Default paragraph.</Text>\n<Text variant=\"caption\" tone=\"muted\">Helper text</Text>\n<Text as=\"label\" htmlFor=\"email\" variant=\"label\">Email</Text>"
+        "<Text>Default paragraph.</Text>\n<Text size=\"lg\">Large body text</Text>\n<Text variant=\"caption\" tone=\"muted\">Helper text</Text>\n<Text as=\"label\" htmlFor=\"email\" variant=\"label\">Email</Text>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Text/Text.tsx"
     },
@@ -66,7 +86,7 @@
       "name": "Heading",
       "category": "typography",
       "base": "Own component",
-      "description": "A heading. Separates semantics (`as`) from appearance (`size`).",
+      "description": "A heading. Separates semantics (`as`) from appearance (`size`). Headings are always upright and semibold.",
       "import": "import { Heading } from \"@/ui\";",
       "renders": "h1-h6 from `as` (default h2)",
       "composition": "`as` sets the outline level (h1-h6 only); `size` sets only the look.",
@@ -87,14 +107,21 @@
         },
         {
           "name": "size",
-          "type": "\"h1\" | \"h2\" | \"h3\" | \"h4\" | \"display\"",
+          "type": "1 | 2 | 3 | 4 | 5 | 6",
           "required": false,
-          "description": "Visual text style, independent from the level. Defaults to the style that matches `as`\n(`h5` and `h6` use `h4`). Use it to get an `h2` that looks like an `h4`."
+          "description": "Visual size from 1 (56px) to 6 (20px) on wide screens. Defaults to the size that matches `as`.\nUse it to get an `h2` that looks like a size 4."
+        },
+        {
+          "name": "weight",
+          "type": "\"regular\" | \"medium\" | \"semibold\"",
+          "required": false,
+          "default": "\"semibold\"",
+          "description": "Font weight. There is no light; headings are semibold unless you set another."
         }
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Heading as=\"h1\">Page title</Heading>\n<Heading as=\"h2\" size=\"h4\">Small-looking section title</Heading>"
+        "<Heading as=\"h1\">Page title</Heading>\n<Heading as=\"h2\" size={4}>Smaller-looking section title</Heading>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Heading/Heading.tsx"
     },

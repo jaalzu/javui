@@ -19,7 +19,7 @@
 .sm {
   width: 2rem;
   height: 2rem;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-13);
 }
 
 .md {
@@ -31,7 +31,7 @@
 .lg {
   width: 3.5rem;
   height: 3.5rem;
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-18);
 }
 
 .image {

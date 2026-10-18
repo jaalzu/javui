@@ -12,7 +12,7 @@ export default function Introduction() {
       title="Introduction"
       description="ui-lib is a small, calm set of React components for Next.js, made for two readers: people who use the interface and agents that build with it."
     >
-      <Heading as="h2" size="h3">What you get</Heading>
+      <Heading as="h2" size={6}>What you get</Heading>
       <ul>
         <li><strong>HTML first.</strong> Each component renders the right element: a heading is a heading, a link is an <code>a</code>, an action is a <code>button</code>.</li>
         <li><strong>Accessible behavior.</strong> Dialog, Select, Tabs, Menu, Toast and the form controls are built on Base UI, so focus, keyboard and ARIA are handled.</li>
@@ -21,7 +21,7 @@ export default function Introduction() {
         <li><strong>Fast navigation.</strong> Every link renders with <code>next/link</code> through one <code>LinkProvider</code>.</li>
       </ul>
 
-      <Heading as="h2" size="h3">Where to go next</Heading>
+      <Heading as="h2" size={6}>Where to go next</Heading>
       <ul>
         <li><Link href="/docs/installation">Installation</Link>: add the library to your app and wire it up.</li>
         <li><Link href="/docs/usage">Usage</Link>: the rules and a first screen.</li>

@@ -10,9 +10,9 @@
   /* Inverted colors so the tooltip stands out in both themes. */
   background: var(--color-primary-foreground);
   color: var(--color-page);
-  font-family: var(--text-caption-family);
-  font-size: var(--text-caption-size);
-  line-height: var(--text-caption-line);
+  font-family: var(--text-caption-lg-family);
+  font-size: var(--text-caption-lg-size);
+  line-height: var(--text-caption-lg-line);
   opacity: 1;
   transition: opacity var(--motion-duration-fast) var(--motion-easing-standard);
 }

@@ -1,26 +1,15 @@
-Migrá el uso de typography al sistema nuevo. Los archivos nuevos ya están en el proyecto: `typography.json`, `Heading`, `Text`, `global.css` y la página `docs/typography`. Cambiá solo nombres y props, sin tocar estilos de otros componentes.
+Aplicá el ajuste de padding de los botones con ícono. Ya tenés los 4 archivos nuevos en el proyecto:
 
-**1. `Heading`: `size` ahora es un número del 1 al 6**
-- `size="display"` pasa a `{1}`, `"h1"` a `{2}`, `"h2"` a `{3}`, `"h3"` a `{6}` y `"h4"` a `{6}`.
-- Aplicalo también dentro de los strings de código de `Examples.tsx`.
-- Sin `size`, el tamaño sigue a `as`: h1 = 1, h2 = 2, … h6 = 6. Revisá los títulos que antes dependían del default y decime si alguno quedó demasiado grande.
+- src/ui/utils/iconPosition.ts (nuevo)
+- src/ui/components/Button/Button.tsx
+- src/ui/components/Button/Button.module.css
+- src/ui/components/ButtonLink/ButtonLink.tsx
 
-**2. `Text`**
-- `variant="body-lg"` pasa a `size="lg"`, y `variant="body-sm"` a `size="sm"`.
-- `variant="caption"` pasa a `variant="caption" size="lg"`, para conservar los 12px de antes. El caption base ahora es 11px.
-- Nuevas props opcionales: `weight` ("regular", "medium" o "semibold"), `casing` ("uppercase") y `tone` con más valores (brand, warning, info).
-- `variant="code"` acepta `size` base, sm o xs.
+Qué hacen: Button y ButtonLink marcan `data-icon="start|end|both|only"` según dónde está el ícono (un `Icon` o un `svg`). El CSS le da al lado del ícono 0.75 del padding normal. Si es solo ícono, el botón queda cuadrado con padding lateral 0. El spinner de `loading` cuenta como ícono al inicio.
 
-**3. CSS**
-- `--font-size-sm|base|md|lg|xl|2xl|3xl|4xl` pasan a `--font-size-13|15|18|24|28|36|44|56`.
-- `--text-caption-*` pasa a `--text-caption-lg-*`.
-- `--text-h3-*` (por ejemplo en Dialog) pasa a `--text-heading-6-*`, sin `-style`.
-- `--text-h4-*` (Popover) pasa a `--text-body-*` con `font-weight: var(--font-weight-semibold)`.
-- `--text-display-*` y `--text-h1..h2-*` pasan a `--text-heading-1..3-*`.
-- Ya no existen `--font-style-heading` ni `--font-weight-bold`.
+Después hacé esto:
 
-**4. Stories y docs**
-- Actualizá `Heading.stories`, `Text.stories` y `tokens/Typography.stories` + `Typography.module.css` a los nombres nuevos.
-- Tailwind y la doc de agentes: corré `bun run tokens` y el build de `public/agent`.
-
-Al final corré `bun run tokens`, `bun run typecheck` y `bun run lint`, y buscá que no quede ningún `--text-h`, `--text-display`, `--font-size-md` ni `size="h` sin migrar.
+1. Revisá todos los lugares donde hay botones o links con ícono: el header, el menú mobile, el ThemeSwitcher, el buscador, los ejemplos de `Examples.tsx` y los componentes que usan Button por dentro. Buscá los que tienen una clase propia con `padding` o `width` para el ícono (por ejemplo `iconButton`). Si chocan con `aspect-ratio: 1` o con `padding-inline: 0`, ajustalos para que no queden dobles. No cambies cómo se ven.
+2. Agregá a `Button.stories.tsx` una story "WithIcon" con: ícono al inicio, al final, en los dos lados, solo ícono y `loading`, en los tamaños sm, md y lg, para primary y secondary.
+3. Agregá a la doc del botón (la que lee `public/agent`) un ejemplo de `<Button><Icon>…</Icon>Label</Button>` y otro de solo ícono con `aria-label`. Anotá que el ícono tiene que ser hijo directo y primero o último, no envuelto en otro componente.
+4. Corré `bun run typecheck`, `bun run lint` y el build de `public/agent`. No toques valores de colores ni de tipografía.

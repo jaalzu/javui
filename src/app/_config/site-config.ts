@@ -2,4 +2,4 @@
 export const repoUrl = "https://github.com/";
 
 /** Name shown in the header next to the logo and read by screen readers as the home link. */
-export const siteName = "ui-lib";
+export const siteName = "JavUI";

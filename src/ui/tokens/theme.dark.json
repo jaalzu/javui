@@ -51,6 +51,7 @@
       "$type": "color",
       "$description": "Component pressed."
     },
+
     "component-on-sunken": {
       "$value": "{color.card}",
       "$type": "color",
@@ -97,12 +98,12 @@
       "$description": "Text and icons of disabled controls."
     },
     "inverted-solid": {
-      "$value": "{primitive.color.neutral.200}",
+      "$value": "#e5e5e6",
       "$type": "color",
       "$description": "Primary action background: the main button."
     },
     "inverted-solid-hover": {
-      "$value": "color-mix(in oklab, {color.inverted-solid} 88%, {color.page})",
+      "$value": "color-mix(in oklab, {color.inverted-solid} 40%, {primitive.color.white})",
       "$type": "color",
       "$description": "Inverted solid hovered."
     },

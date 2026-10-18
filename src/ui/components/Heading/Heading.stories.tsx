@@ -8,7 +8,8 @@ const meta = {
   parameters: { layout: "padded" },
   argTypes: {
     as: { control: "select", options: ["h1", "h2", "h3", "h4", "h5", "h6"] },
-    size: { control: "select", options: [undefined, "display", "h1", "h2", "h3", "h4"] },
+    size: { control: "select", options: [undefined, 1, 2, 3, 4, 5, 6] },
+    weight: { control: "select", options: ["regular", "medium", "semibold"] },
   },
   args: { children: "A heading that explains the section" },
 } satisfies Meta<typeof Heading>;
@@ -33,8 +34,8 @@ export const SemanticsVsLook: Story = {
   name: "Level and look are independent",
   render: () => (
     <div style={{ display: "grid", gap: "var(--space-4)" }}>
-      <Heading as="h1" size="display">h1 element, display look</Heading>
-      <Heading as="h2" size="h4">h2 element, h4 look</Heading>
+      <Heading as="h1" size={1}>h1 element, size 1 look</Heading>
+      <Heading as="h2" size={6}>h2 element, size 6 look</Heading>
     </div>
   ),
 };

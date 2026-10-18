@@ -13,7 +13,7 @@ const meta = {
     as: "article",
     children: (
       <Stack gap="2">
-        <Heading as="h3" size="h4">Quiet by default</Heading>
+        <Heading as="h3" size={6}>Quiet by default</Heading>
         <Text tone="muted">A card groups related content without adding noise.</Text>
       </Stack>
     ),

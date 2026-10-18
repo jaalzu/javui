@@ -6,7 +6,7 @@
 .menuOpen {
   padding-inline: var(--space-2);
   gap: var(--space-1);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-15);
 }
 
 .menuOpen svg {
@@ -59,7 +59,7 @@
 }
 
 .menuBrand {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-13);
 }
 
 .menuSpacer {
@@ -99,7 +99,7 @@ a.menuLink {
   display: block;
   padding: var(--space-2) 0;
   color: var(--color-primary-foreground);
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-18);
   font-weight: var(--font-weight-medium);
   text-decoration: none;
 }

@@ -42,12 +42,11 @@
 
 .title {
   margin: 0;
-  font-family: var(--text-h3-family);
-  font-size: var(--text-h3-size);
-  line-height: var(--text-h3-line);
-  font-weight: var(--text-h3-weight);
-  font-style: var(--text-h3-style);
-  letter-spacing: var(--text-h3-tracking);
+  font-family: var(--text-heading-6-family);
+  font-size: var(--text-heading-6-size);
+  line-height: var(--text-heading-6-line);
+  font-weight: var(--text-heading-6-weight);
+  letter-spacing: var(--text-heading-6-tracking);
 }
 
 .description {

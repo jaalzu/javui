@@ -8,7 +8,8 @@ type LogoImageProps = Omit<
 >;
 
 /**
- * Isotipo para pantallas pequeñas (mobile + diálogo del menú móvil).
+ * Isotipo visible en todas las pantallas por debajo de 90rem (1440px),
+ * además del diálogo del menú móvil.
  * Alterna entre `/logo/logo-white.svg` (tinta oscura, para tema claro)
  * y `/logo/logo-dark.svg` (tinta blanca, para tema oscuro) solo con CSS,
  * así no hay flash ni desajuste de hidratación con `next-themes`.
@@ -42,10 +43,11 @@ export function Mark({ className, ...props }: LogoImageProps) {
 }
 
 /**
- * Logotipo completo para tablet/desktop (icono + texto).
- * Usa `wordmark-dark.svg` en tema claro y `wordmark-light.svg` en oscuro.
- * La visibilidad mobile/desktop la sigue controlando `SiteHeader.module.css`
- * (`brandMark` / `brandWord` con breakpoint `48rem`).
+ * Logotipo completo (icono + texto) solo en pantallas muy anchas.
+ * Usa `bold1.svg` en tema claro y `bold.svg` en oscuro.
+ * La visibilidad la sigue controlando `SiteHeader.module.css`
+ * (`brandMark` / `brandWord` con breakpoint `90rem` = 1440px); por debajo
+ * solo se muestra el isotipo.
  */
 export function Wordmark({ className, ...props }: LogoImageProps) {
   const cls = [styles.wordmark, className].filter(Boolean).join(" ");

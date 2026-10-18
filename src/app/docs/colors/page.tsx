@@ -235,7 +235,7 @@ export default function Colors() {
     >
       {groups.map((g) => (
         <section key={g.title}>
-          <Heading as="h2" size="h3">
+          <Heading as="h2" size={6}>
             {g.title}
           </Heading>
           {g.note ? <p>{g.note}</p> : null}
@@ -254,7 +254,7 @@ export default function Colors() {
         </section>
       ))}
 
-      <Heading as="h2" size="h3">
+      <Heading as="h2" size={6}>
         Shadows
       </Heading>
       <p>

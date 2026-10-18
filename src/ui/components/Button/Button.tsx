@@ -1,9 +1,11 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import { cx } from "../../utils/cx";
+import { iconPosition } from "../../utils/iconPosition";
 import { Spinner } from "../Spinner";
 import styles from "./Button.module.css";
 
-export type ButtonVariant = "primary" | "secondary" | "ghost" | "accent" | "danger";
+export type ButtonVariant =
+  "primary" | "secondary" | "ghost" | "accent" | "danger";
 export type ButtonSize = "sm" | "md" | "lg";
 
 export type ButtonProps = {
@@ -34,8 +36,18 @@ export type ButtonProps = {
  * <Button type="submit">Send</Button>
  * <Button loading>Saving</Button>
  * <Button variant="secondary"><Icon><path d="M5 12.5l4.5 4.5L19 7.5" /></Icon>Done</Button>
+ * <Button variant="ghost" aria-label="Close"><Icon><path d="M6 6l12 12M18 6L6 18" /></Icon></Button>
  */
-export function Button({ variant = "primary", size = "md", type = "button", loading = false, className, disabled, children, ...rest }: ButtonProps) {
+export function Button({
+  variant = "primary",
+  size = "md",
+  type = "button",
+  loading = false,
+  className,
+  disabled,
+  children,
+  ...rest
+}: ButtonProps) {
   return (
     <BaseButton
       type={type}
@@ -44,9 +56,12 @@ export function Button({ variant = "primary", size = "md", type = "button", load
       focusableWhenDisabled={loading || rest.focusableWhenDisabled}
       aria-busy={loading || undefined}
       data-loading={loading ? "" : undefined}
+      data-icon={iconPosition(children, loading)}
       {...rest}
     >
-      {loading && <Spinner size="sm" label="" role="presentation" aria-hidden="true" />}
+      {loading && (
+        <Spinner size="sm" label="" role="presentation" aria-hidden="true" />
+      )}
       {children}
     </BaseButton>
   );

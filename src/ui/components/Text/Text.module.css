@@ -17,8 +17,13 @@
   letter-spacing: var(--text-body-lg-tracking);
 }
 
-.body {
-  /* defaults live on .text */
+.body-base {
+  font-family: var(--text-body-family);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line);
+  font-weight: var(--text-body-weight);
+  font-style: var(--text-body-style);
+  letter-spacing: var(--text-body-tracking);
 }
 
 .body-sm {
@@ -39,13 +44,31 @@
   letter-spacing: var(--text-label-tracking);
 }
 
-.caption {
+.caption-lg {
+  font-family: var(--text-caption-lg-family);
+  font-size: var(--text-caption-lg-size);
+  line-height: var(--text-caption-lg-line);
+  font-weight: var(--text-caption-lg-weight);
+  font-style: var(--text-caption-lg-style);
+  letter-spacing: var(--text-caption-lg-tracking);
+}
+
+.caption-base {
   font-family: var(--text-caption-family);
   font-size: var(--text-caption-size);
   line-height: var(--text-caption-line);
   font-weight: var(--text-caption-weight);
   font-style: var(--text-caption-style);
   letter-spacing: var(--text-caption-tracking);
+}
+
+.caption-sm {
+  font-family: var(--text-caption-sm-family);
+  font-size: var(--text-caption-sm-size);
+  line-height: var(--text-caption-sm-line);
+  font-weight: var(--text-caption-sm-weight);
+  font-style: var(--text-caption-sm-style);
+  letter-spacing: var(--text-caption-sm-tracking);
 }
 
 .emphasis {
@@ -57,34 +80,80 @@
   letter-spacing: var(--text-emphasis-tracking);
 }
 
-.code {
+.code-base {
   font-family: var(--text-code-family);
   font-size: var(--text-code-size);
   line-height: var(--text-code-line);
   font-weight: var(--text-code-weight);
   font-style: var(--text-code-style);
   letter-spacing: var(--text-code-tracking);
+}
+
+.code-sm {
+  font-family: var(--text-code-sm-family);
+  font-size: var(--text-code-sm-size);
+  line-height: var(--text-code-sm-line);
+  font-weight: var(--text-code-sm-weight);
+  font-style: var(--text-code-sm-style);
+  letter-spacing: var(--text-code-sm-tracking);
+}
+
+.code-xs {
+  font-family: var(--text-code-xs-family);
+  font-size: var(--text-code-xs-size);
+  line-height: var(--text-code-xs-line);
+  font-weight: var(--text-code-xs-weight);
+  font-style: var(--text-code-xs-style);
+  letter-spacing: var(--text-code-xs-tracking);
+}
+
+/* Inline code gets a soft chip. */
+.code-base,
+.code-sm,
+.code-xs {
   padding: 0.1em 0.35em;
   border-radius: var(--radius-sm);
-  background: var(--color-surface);
+  background: var(--color-component);
+}
+
+/* Weight overrides come after the variants so they win. Only three weights exist. */
+.weight-regular { font-weight: var(--font-weight-regular); }
+.weight-medium { font-weight: var(--font-weight-medium); }
+.weight-semibold { font-weight: var(--font-weight-semibold); }
+
+.uppercase {
+  text-transform: uppercase;
+  letter-spacing: var(--text-caption-uppercase-tracking);
 }
 
 .tone-default {
-  color: var(--color-fg);
+  color: var(--color-primary-foreground);
 }
 
 .tone-muted {
-  color: var(--color-fg-muted);
+  color: var(--color-secondary-foreground);
 }
 
 .tone-subtle {
-  color: var(--color-fg-subtle);
+  color: var(--color-tertiary-foreground);
 }
 
-.tone-danger {
-  color: var(--color-danger);
+.tone-brand {
+  color: var(--color-brand-foreground);
 }
 
 .tone-success {
-  color: var(--color-success);
+  color: var(--color-positive-foreground);
+}
+
+.tone-warning {
+  color: var(--color-warning-foreground);
+}
+
+.tone-info {
+  color: var(--color-info-foreground);
+}
+
+.tone-danger {
+  color: var(--color-danger-foreground);
 }

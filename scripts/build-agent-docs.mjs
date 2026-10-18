@@ -176,7 +176,7 @@ merged.push(...byVar.values());
 
 const tokensOut = {
   usage: [
-    "Components and pages use semantic tokens only (--color-bg, --color-fg, --space-4, --text-body-size ...).",
+    "Components and pages use semantic tokens only (--color-page, --color-primary-foreground, --space-4, --text-body-size ...).",
     "Never use --primitive-* tokens or hardcoded colors, sizes or fonts.",
     "Light/dark is switched by data-theme=\"light|dark\" on <html>; without it the OS preference applies.",
     "Text styles are sets of variables named --text-<style>-<size|line|weight|tracking|style|family>.",

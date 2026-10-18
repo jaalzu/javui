@@ -5,16 +5,10 @@ import styles from "./Heading.module.css";
 /** Heading elements. The element sets the document outline; `size` sets only the look. */
 export type HeadingElement = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
-export type HeadingSize = "display" | "h1" | "h2" | "h3" | "h4";
+/** Visual size, 1 (largest) to 6 (smallest). Sizes shrink on small screens. */
+export type HeadingSize = 1 | 2 | 3 | 4 | 5 | 6;
 
-const defaultSize: Record<HeadingElement, HeadingSize> = {
-  h1: "h1",
-  h2: "h2",
-  h3: "h3",
-  h4: "h4",
-  h5: "h4",
-  h6: "h4",
-};
+const defaultSize: Record<HeadingElement, HeadingSize> = { h1: 1, h2: 2, h3: 3, h4: 4, h5: 5, h6: 6 };
 
 export type HeadingProps = {
   /**
@@ -23,19 +17,21 @@ export type HeadingProps = {
    */
   as?: HeadingElement;
   /**
-   * Visual text style, independent from the level. Defaults to the style that matches `as`
-   * (`h5` and `h6` use `h4`). Use it to get an `h2` that looks like an `h4`.
+   * Visual size from 1 (56px) to 6 (20px) on wide screens. Defaults to the size that matches `as`.
+   * Use it to get an `h2` that looks like a size 4.
    */
   size?: HeadingSize;
+  /** Font weight. There is no light; headings are semibold unless you set another. @default "semibold" */
+  weight?: "regular" | "medium" | "semibold";
 } & Omit<ComponentProps<"h2">, "as" | "color">;
 
 /**
- * A heading. Separates semantics (`as`) from appearance (`size`).
+ * A heading. Separates semantics (`as`) from appearance (`size`). Headings are always upright and semibold.
  *
  * @example
  * <Heading as="h1">Page title</Heading>
- * <Heading as="h2" size="h4">Small-looking section title</Heading>
+ * <Heading as="h2" size={4}>Smaller-looking section title</Heading>
  */
-export function Heading({ as: Component = "h2", size, className, ...rest }: HeadingProps) {
-  return <Component className={cx(styles.heading, styles[size ?? defaultSize[Component]], className)} {...rest} />;
+export function Heading({ as: Component = "h2", size, weight, className, ...rest }: HeadingProps) {
+  return <Component className={cx(styles.heading, styles[`s${size ?? defaultSize[Component]}`], weight && styles[`weight-${weight}`], className)} {...rest} />;
 }

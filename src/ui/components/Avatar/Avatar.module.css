@@ -7,10 +7,10 @@
   flex-shrink: 0;
   overflow: hidden;
   vertical-align: middle;
-  border: var(--border-width-thin) solid var(--color-border);
+  border: var(--border-width-thin) solid var(--color-border-default);
   border-radius: var(--radius-full);
-  background: var(--color-surface);
-  color: var(--color-fg);
+  background: var(--color-component);
+  color: var(--color-primary-foreground);
   font-family: var(--text-label-family);
   font-weight: var(--font-weight-medium);
   user-select: none;
@@ -19,7 +19,7 @@
 .sm {
   width: 2rem;
   height: 2rem;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-13);
 }
 
 .md {
@@ -31,7 +31,7 @@
 .lg {
   width: 3.5rem;
   height: 3.5rem;
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-18);
 }
 
 .image {

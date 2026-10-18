@@ -1,5 +1,5 @@
 .alert {
-  --alert-tone: var(--color-info);
+  --alert-tone: var(--color-info-solid);
   display: flex;
   align-items: flex-start;
   gap: var(--space-3);
@@ -7,23 +7,23 @@
   border: var(--border-width-thin) solid color-mix(in oklch, var(--alert-tone) 40%, transparent);
   border-radius: var(--radius-lg);
   background: color-mix(in oklch, var(--alert-tone) 10%, transparent);
-  color: var(--color-fg);
+  color: var(--color-primary-foreground);
 }
 
 .info {
-  --alert-tone: var(--color-info);
+  --alert-tone: var(--color-info-solid);
 }
 
 .success {
-  --alert-tone: var(--color-success);
+  --alert-tone: var(--color-positive-solid);
 }
 
 .warning {
-  --alert-tone: var(--color-warning);
+  --alert-tone: var(--color-warning-solid);
 }
 
 .danger {
-  --alert-tone: var(--color-danger);
+  --alert-tone: var(--color-danger-solid);
 }
 
 .icon {
@@ -48,7 +48,7 @@
 }
 
 .text {
-  color: var(--color-fg-muted);
+  color: var(--color-secondary-foreground);
   font-size: var(--text-body-size);
   line-height: var(--text-body-line);
 }

@@ -2,7 +2,7 @@
 
 // Typography and content
 export { Text } from "./components/Text";
-export type { TextProps, TextElement, TextVariant, TextTone } from "./components/Text";
+export type { TextProps, TextElement, TextVariant, TextSize, TextWeight, TextTone } from "./components/Text";
 export { Heading } from "./components/Heading";
 export type { HeadingProps, HeadingElement, HeadingSize } from "./components/Heading";
 export { Link } from "./components/Link";

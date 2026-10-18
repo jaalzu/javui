@@ -45,13 +45,18 @@ r = await call("get_examples", { name: "Heading" });
 check("examples are returned as tsx", /```tsx/.test(r.text) && /Heading/.test(r.text));
 
 r = await call("search_tokens", { query: "focus" });
-check("search_tokens finds focus tokens", /--focus-ring-width/.test(r.text) && /--color-focus/.test(r.text));
+check("search_tokens finds focus tokens", /--focus-ring-width/.test(r.text) && /--color-brand-border-focus/.test(r.text));
 
-r = await call("search_tokens", { query: "neutral" });
-check("primitives hidden by default", !r.error && JSON.parse(r.text).every((t) => !t.cssVar.startsWith("--primitive-")), r.text.slice(0, 200));
+r = await call("search_tokens", { query: "danger" });
+const dangerDefault = JSON.parse(r.text);
+check(
+  "primitives hidden by default",
+  !r.error && Array.isArray(dangerDefault) && dangerDefault.length > 0 && dangerDefault.every((t) => !t.cssVar.startsWith("--primitive-")),
+  r.text.slice(0, 200),
+);
 
-r = await call("search_tokens", { query: "neutral", includePrimitives: true });
-check("primitives available on request", !r.error && /--primitive-color-neutral/.test(r.text));
+r = await call("search_tokens", { query: "danger", includePrimitives: true });
+check("primitives available on request", !r.error && /--primitive-color-danger/.test(r.text));
 
 await client.close();
 console.log(failures ? `\n${failures} check(s) failed` : "\nall checks passed");

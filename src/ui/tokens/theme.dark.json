@@ -1,94 +1,359 @@
 {
   "color": {
-    "$description": "Semantic color tokens, dark theme. Components use only these.",
-    "bg": {
+    "$description": "Semantic color tokens, dark theme. Same keys as the light theme. Components use only these.",
+    "page": {
       "$value": "color-mix(in oklab, {primitive.color.neutral.950} 70%, {primitive.color.black})",
       "$type": "color",
-      "$description": "Page background."
+      "$description": "The page itself. Everything sits on it."
     },
-    "surface": {
+    "shell": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 3%, {color.page})",
+      "$type": "color",
+      "$description": "App chrome around the content: header, sidebar, footer."
+    },
+    "container": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 5%, {color.page})",
+      "$type": "color",
+      "$description": "A region that groups several cards, like a settings section or a table wrapper."
+    },
+    "card": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 8%, {color.page})",
+      "$type": "color",
+      "$description": "Content blocks on the page: cards, panels, table rows."
+    },
+    "sunken": {
+      "$value": "color-mix(in oklab, {primitive.color.black} 40%, {color.page})",
+      "$type": "color",
+      "$description": "Recessed areas: code blocks, wells, inset fields."
+    },
+    "modal": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 6%, {color.page})",
+      "$type": "color",
+      "$description": "Layers above the page: dialog, menu, select list, popover."
+    },
+    "standout": {
+      "$value": "{color.primary-foreground}",
+      "$type": "color",
+      "$description": "High contrast surface, inverted from the page: tooltip, toast, callout."
+    },
+    "component": {
       "$value": "oklch(1 0 0 / 0.102)",
       "$type": "color",
-      "$description": "Raised areas (cards, inputs) drawn over bg."
+      "$description": "Background of interactive controls at rest: inputs, secondary buttons, toggles."
     },
-    "surface-2": {
-      "$value": "color-mix(in oklab, {color.fg} 8%, {color.bg})",
+    "component-hover": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 14%, transparent)",
       "$type": "color",
-      "$description": "Second surface level for cards and example areas: whiter than bg in light, lighter gray than bg in dark. Opaque, so it can sit on any background."
+      "$description": "Component hovered."
     },
-    "surface-raised": {
-      "$value": "color-mix(in oklab, {color.fg} 6%, {color.bg})",
+    "component-active": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 18%, transparent)",
       "$type": "color",
-      "$description": "Opaque surface for floating panels (dialogs, select popups, menus). Mixed in oklab because the near-neutral fg has no meaningful hue in oklch."
+      "$description": "Component pressed."
     },
-    "fg": {
-      "$value": "color-mix(in oklab, {primitive.color.white} 80%, {primitive.color.neutral.100})",
+
+    "component-on-sunken": {
+      "$value": "{color.card}",
       "$type": "color",
-      "$description": "Primary text."
+      "$description": "Component placed on a sunken area, so it still stands out."
     },
-    "fg-muted": {
-      "$value": "color-mix(in oklch, {color.fg} 70%, transparent)",
+    "component-on-inverted": {
+      "$value": "color-mix(in oklab, {color.on-inverted-foreground} 14%, transparent)",
       "$type": "color",
-      "$description": "Secondary text."
+      "$description": "Component placed on a standout or inverted surface."
     },
-    "fg-subtle": {
-      "$value": "color-mix(in oklch, {color.fg} 54%, transparent)",
+    "transparent": {
+      "$value": "transparent",
       "$type": "color",
-      "$description": "Tertiary, non-essential text. Over the translucent surface it can fall below 4.5:1, so do not use it for placeholders or required information."
+      "$description": "Ghost controls and list items at rest."
     },
-    "border": {
-      "$value": "color-mix(in oklch, {color.fg} 7%, transparent)",
+    "transparent-hover": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 6%, transparent)",
       "$type": "color",
-      "$description": "Decorative dividers and card edges. Very soft on purpose."
+      "$description": "Ghost control or list item hovered."
     },
-    "border-strong": {
-      "$value": "color-mix(in oklch, {color.fg} 18%, transparent)",
+    "transparent-active": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 10%, transparent)",
       "$type": "color",
-      "$description": "Boundary of interactive controls (inputs, secondary button, kbd). Soft by design: below the 3:1 non-text contrast of WCAG 1.4.11, so the control also keeps its surface fill and the focus ring stays strong."
+      "$description": "Ghost control pressed, or list item selected or highlighted."
     },
-    "button": {
-      "$value": "{primitive.color.neutral.100}",
+    "primary-foreground": {
+      "$value": "color-mix(in oklab, {primitive.color.white} 60%, {primitive.color.neutral.100})",
       "$type": "color",
-      "$description": "Primary (neutral) button background."
+      "$description": "Main text and icons."
     },
-    "button-fg": {
+    "secondary-foreground": {
+      "$value": "color-mix(in oklch, {color.primary-foreground} 70%, transparent)",
+      "$type": "color",
+      "$description": "Supporting text."
+    },
+    "tertiary-foreground": {
+      "$value": "color-mix(in oklch, {color.primary-foreground} 54%, transparent)",
+      "$type": "color",
+      "$description": "Hints, placeholders, metadata."
+    },
+    "disabled-foreground": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 38%, transparent)",
+      "$type": "color",
+      "$description": "Text and icons of disabled controls."
+    },
+    "inverted-solid": {
+      "$value": "#e5e5e6",
+      "$type": "color",
+      "$description": "Primary action background: the main button."
+    },
+    "inverted-solid-hover": {
+      "$value": "color-mix(in oklab, {color.inverted-solid} 40%, {primitive.color.white})",
+      "$type": "color",
+      "$description": "Inverted solid hovered."
+    },
+    "inverted-solid-active": {
+      "$value": "color-mix(in oklab, {color.inverted-solid} 72%, {color.page})",
+      "$type": "color",
+      "$description": "Inverted solid pressed."
+    },
+    "on-inverted-foreground": {
       "$value": "{primitive.color.neutral.950}",
       "$type": "color",
-      "$description": "Text on the primary button."
+      "$description": "Text on inverted solid surfaces."
     },
-    "accent": {
+    "on-standout-primary-foreground": {
+      "$value": "{color.page}",
+      "$type": "color",
+      "$description": "Main text on a standout surface."
+    },
+    "on-standout-secondary-foreground": {
+      "$value": "color-mix(in oklab, {color.page} 70%, transparent)",
+      "$type": "color",
+      "$description": "Supporting text on a standout surface."
+    },
+    "brand-solid": {
       "$value": "{primitive.color.accent.500}",
       "$type": "color",
-      "$description": "Accent fill."
+      "$description": "Brand background for key actions and selected states."
     },
-    "accent-fg": {
-      "$value": "{primitive.color.white}",
+    "brand-solid-hover": {
+      "$value": "color-mix(in oklab, {color.brand-solid} 88%, {color.primary-foreground})",
       "$type": "color",
-      "$description": "Text on accent fill."
+      "$description": "Brand solid hovered."
     },
-    "accent-text": {
+    "brand-subtle": {
+      "$value": "color-mix(in oklab, {color.brand-solid} 12%, transparent)",
+      "$type": "color",
+      "$description": "Soft brand tint behind text or icons."
+    },
+    "brand-foreground": {
       "$value": "{primitive.color.accent.400}",
       "$type": "color",
-      "$description": "Accent used as text or icon on bg."
+      "$description": "Brand colored text and icons on the page."
     },
-    "focus": {
-      "$value": "{color.fg}",
+    "on-brand-solid-foreground": {
+      "$value": "{primitive.color.white}",
       "$type": "color",
-      "$description": "Focus ring color. Same as the text color (black on light, white on dark) so the ring is always the strongest contrast on the page."
+      "$description": "Text on brand solid."
     },
-    "success": { "$value": "{primitive.color.success.400}", "$type": "color" },
-    "warning": { "$value": "{primitive.color.warning.400}", "$type": "color" },
-    "info": { "$value": "{primitive.color.info.400}", "$type": "color" },
-    "danger": { "$value": "{primitive.color.danger.400}", "$type": "color" },
-    "on-danger": {
-      "$value": "{color.bg}",
+    "positive-solid": {
+      "$value": "{primitive.color.success.400}",
       "$type": "color",
-      "$description": "Text on a solid danger background."
+      "$description": "Positive background for strong feedback."
+    },
+    "positive-solid-hover": {
+      "$value": "color-mix(in oklab, {color.positive-solid} 88%, {color.primary-foreground})",
+      "$type": "color",
+      "$description": "Positive solid hovered."
+    },
+    "positive-subtle": {
+      "$value": "color-mix(in oklab, {color.positive-solid} 12%, transparent)",
+      "$type": "color",
+      "$description": "Soft positive tint behind text or icons."
+    },
+    "positive-foreground": {
+      "$value": "{color.positive-solid}",
+      "$type": "color",
+      "$description": "Positive colored text and icons."
+    },
+    "on-positive-solid-foreground": {
+      "$value": "{color.page}",
+      "$type": "color",
+      "$description": "Text on positive solid."
+    },
+    "warning-solid": {
+      "$value": "{primitive.color.warning.400}",
+      "$type": "color",
+      "$description": "Warning background for strong feedback."
+    },
+    "warning-solid-hover": {
+      "$value": "color-mix(in oklab, {color.warning-solid} 88%, {color.primary-foreground})",
+      "$type": "color",
+      "$description": "Warning solid hovered."
+    },
+    "warning-subtle": {
+      "$value": "color-mix(in oklab, {color.warning-solid} 12%, transparent)",
+      "$type": "color",
+      "$description": "Soft warning tint behind text or icons."
+    },
+    "warning-foreground": {
+      "$value": "{color.warning-solid}",
+      "$type": "color",
+      "$description": "Warning colored text and icons."
+    },
+    "on-warning-solid-foreground": {
+      "$value": "{color.page}",
+      "$type": "color",
+      "$description": "Text on warning solid."
+    },
+    "info-solid": {
+      "$value": "{primitive.color.info.400}",
+      "$type": "color",
+      "$description": "Info background for strong feedback."
+    },
+    "info-solid-hover": {
+      "$value": "color-mix(in oklab, {color.info-solid} 88%, {color.primary-foreground})",
+      "$type": "color",
+      "$description": "Info solid hovered."
+    },
+    "info-subtle": {
+      "$value": "color-mix(in oklab, {color.info-solid} 12%, transparent)",
+      "$type": "color",
+      "$description": "Soft info tint behind text or icons."
+    },
+    "info-foreground": {
+      "$value": "{color.info-solid}",
+      "$type": "color",
+      "$description": "Info colored text and icons."
+    },
+    "on-info-solid-foreground": {
+      "$value": "{color.page}",
+      "$type": "color",
+      "$description": "Text on info solid."
+    },
+    "danger-solid": {
+      "$value": "{primitive.color.danger.400}",
+      "$type": "color",
+      "$description": "Danger background for strong feedback."
+    },
+    "danger-solid-hover": {
+      "$value": "color-mix(in oklab, {color.danger-solid} 88%, {color.primary-foreground})",
+      "$type": "color",
+      "$description": "Danger solid hovered."
+    },
+    "danger-solid-active": {
+      "$value": "color-mix(in oklab, {color.danger-solid} 78%, {color.primary-foreground})",
+      "$type": "color",
+      "$description": "Danger solid pressed."
+    },
+    "danger-subtle": {
+      "$value": "color-mix(in oklab, {color.danger-solid} 12%, transparent)",
+      "$type": "color",
+      "$description": "Soft danger tint behind text or icons."
+    },
+    "danger-subtle-hover": {
+      "$value": "color-mix(in oklab, {color.danger-solid} 20%, transparent)",
+      "$type": "color",
+      "$description": "Danger subtle hovered, e.g. destructive menu item."
+    },
+    "danger-foreground": {
+      "$value": "{color.danger-solid}",
+      "$type": "color",
+      "$description": "Danger colored text and icons."
+    },
+    "on-danger-solid-foreground": {
+      "$value": "{color.page}",
+      "$type": "color",
+      "$description": "Text on danger solid."
+    },
+    "border-default": {
+      "$value": "color-mix(in oklch, {color.primary-foreground} 7%, transparent)",
+      "$type": "color",
+      "$description": "Default borders: inputs, cards, dividers you can see."
+    },
+    "border-subtle": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 4%, transparent)",
+      "$type": "color",
+      "$description": "Faint dividers."
+    },
+    "border-strong": {
+      "$value": "color-mix(in oklch, {color.primary-foreground} 9%, transparent)",
+      "$type": "color",
+      "$description": "Emphasized borders and hover."
+    },
+    "border-inverted": {
+      "$value": "color-mix(in oklab, {color.page} 20%, transparent)",
+      "$type": "color",
+      "$description": "Borders on standout or inverted surfaces."
+    },
+    "border-disabled": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 10%, transparent)",
+      "$type": "color",
+      "$description": "Borders of disabled controls."
+    },
+    "brand-border-default": {
+      "$value": "color-mix(in oklab, {color.brand-solid} 40%, transparent)",
+      "$type": "color",
+      "$description": "Brand border: selected card, active field."
+    },
+    "brand-border-focus": {
+      "$value": "{color.primary-foreground}",
+      "$type": "color",
+      "$description": "Focus ring."
+    },
+    "positive-border-default": {
+      "$value": "color-mix(in oklab, {color.positive-solid} 40%, transparent)",
+      "$type": "color",
+      "$description": "Positive border."
+    },
+    "warning-border-default": {
+      "$value": "color-mix(in oklab, {color.warning-solid} 40%, transparent)",
+      "$type": "color",
+      "$description": "Warning border."
+    },
+    "info-border-default": {
+      "$value": "color-mix(in oklab, {color.info-solid} 40%, transparent)",
+      "$type": "color",
+      "$description": "Info border."
+    },
+    "danger-border-default": {
+      "$value": "color-mix(in oklab, {color.danger-solid} 40%, transparent)",
+      "$type": "color",
+      "$description": "Danger border."
+    },
+    "danger-border-subtle": {
+      "$value": "color-mix(in oklab, {color.danger-solid} 22%, transparent)",
+      "$type": "color",
+      "$description": "Quiet danger border."
+    },
+    "disabled": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 6%, transparent)",
+      "$type": "color",
+      "$description": "Background of disabled controls."
     },
     "overlay": {
       "$value": "oklch(0 0 0 / 0.6)",
       "$type": "color",
       "$description": "Backdrop behind dialogs."
+    }
+  },
+  "shadow": {
+    "$description": "Elevation, four levels. Each one starts with a 1px ring so the edge reads on any surface. Dark values are the reference; light values are the same shapes with dark alphas.",
+    "border": {
+      "$value": "0 0 0 1px #ffffff14",
+      "$type": "shadow",
+      "$description": "A 1px outline drawn as a shadow. Use it instead of a border on cards, inputs and anything at rest, so the edge needs no extra layout space."
+    },
+    "default": {
+      "$value": "0 0 0 1px #ffffff12, 0 1px 2px #00000066",
+      "$type": "shadow",
+      "$description": "A small lift for controls at rest that should feel pressable: slider thumbs, raised buttons, tabs."
+    },
+    "large": {
+      "$value": "0 0 0 1px color-mix(in oklab, #ffffff12, #3a3a3a 25%), 0 2px 3px -2px #00000026, 0 3px 8px -2px #0006, 0 4px 12px -4px #00000080",
+      "$type": "shadow",
+      "$description": "Floating panels anchored to a trigger: menus, select lists, popovers, tooltips and toasts."
+    },
+    "extra-large": {
+      "$value": "0 0 0 .5px #ffffff12 inset, 0 0 0 .5px #0000, 0 8px 40px 0px #0000000d, 0 12px 32px -16px #00000026",
+      "$type": "shadow",
+      "$description": "Surfaces that sit above the whole page: dialogs and the search palette."
     }
   }
 }

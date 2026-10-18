@@ -1,0 +1,37 @@
+/* Example frames: live preview plus expandable code */
+.example { border: var(--border-width-thin) solid var(--color-border-default); border-radius: var(--radius-lg); overflow: hidden; }
+
+.exampleStage { background: var(--color-card); padding: var(--space-8) var(--space-6); display: flex; align-items: center; justify-content: center; min-height: 8rem; }
+
+.exampleStage > * { max-width: 100%; }
+
+.exampleStageFull { display: block; }
+
+.exampleCode { border-top: var(--border-width-thin) solid var(--color-border-default); }
+
+.exampleCode summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  color: var(--color-secondary-foreground);
+  font-size: var(--text-body-sm-size);
+  cursor: pointer;
+  list-style: none;
+}
+
+.exampleCode summary::-webkit-details-marker { display: none; }
+
+.exampleCode summary:hover { color: var(--color-primary-foreground); }
+
+.exampleCode[open] summary { color: var(--color-primary-foreground); }
+
+.exampleCode summary:focus-visible { outline-offset: -3px; }
+
+.exampleCode[open] .chev { transform: rotate(180deg); }
+
+.chev { transition: transform var(--motion-duration-fast); }
+
+.exampleCode > div { border-radius: 0; border: 0; border-top: var(--border-width-thin) solid var(--color-border-default); }
+
+.exampleNote { margin: var(--space-1) 0 var(--space-3); color: var(--color-secondary-foreground); font-size: var(--text-body-sm-size); }

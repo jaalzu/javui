@@ -1,0 +1,285 @@
+import type { Metadata } from "next";
+import { Heading } from "@/ui";
+import { DocPage } from "@/app/docs/_page/DocPage";
+import s from "./color.module.css";
+
+export const metadata: Metadata = { title: "Colors" };
+
+type Token = [name: string, description: string];
+
+const groups: { title: string; note?: string; tokens: Token[] }[] = [
+  {
+    title: "Surfaces",
+    note: "Backgrounds for the page and the blocks on it.",
+    tokens: [
+      ["page", "The page itself. Everything sits on it."],
+      ["shell", "App chrome around the content: header, sidebar, footer."],
+      [
+        "container",
+        "A region that groups several cards, like a settings section or a table wrapper.",
+      ],
+      ["card", "Content blocks on the page: cards, panels, table rows."],
+      ["sunken", "Recessed areas: code blocks, wells, inset fields."],
+      ["modal", "Layers above the page: dialog, menu, select list, popover."],
+      [
+        "standout",
+        "High contrast surface, inverted from the page: tooltip, toast, callout.",
+      ],
+    ],
+  },
+  {
+    title: "Component",
+    note: "Controls at rest and their states.",
+    tokens: [
+      [
+        "component",
+        "Background of interactive controls at rest: inputs, secondary buttons, toggles.",
+      ],
+      ["component-hover", "Component hovered."],
+      ["component-active", "Component pressed."],
+      [
+        "component-on-sunken",
+        "Component placed on a sunken area, so it still stands out.",
+      ],
+      [
+        "component-on-inverted",
+        "Component placed on a standout or inverted surface.",
+      ],
+    ],
+  },
+  {
+    title: "Transparent",
+    note: "Ghost controls and list items. No background until you interact.",
+    tokens: [
+      ["transparent", "Ghost controls and list items at rest."],
+      ["transparent-hover", "Ghost control or list item hovered."],
+      [
+        "transparent-active",
+        "Ghost control pressed, or list item selected or highlighted.",
+      ],
+    ],
+  },
+  {
+    title: "Foreground",
+    note: "Text and icons.",
+    tokens: [
+      ["primary-foreground", "Main text and icons."],
+      ["secondary-foreground", "Supporting text."],
+      ["tertiary-foreground", "Hints, placeholders, metadata."],
+      ["disabled-foreground", "Text and icons of disabled controls."],
+    ],
+  },
+  {
+    title: "Inverted",
+    note: "The main button and text on standout surfaces.",
+    tokens: [
+      ["inverted-solid", "Primary action background: the main button."],
+      ["inverted-solid-hover", "Inverted solid hovered."],
+      ["inverted-solid-active", "Inverted solid pressed."],
+      ["on-inverted-foreground", "Text on inverted solid surfaces."],
+      ["on-standout-primary-foreground", "Main text on a standout surface."],
+      [
+        "on-standout-secondary-foreground",
+        "Supporting text on a standout surface.",
+      ],
+    ],
+  },
+  {
+    title: "Brand",
+    tokens: [
+      ["brand-solid", "Brand background for key actions and selected states."],
+      ["brand-solid-hover", "Brand solid hovered."],
+      ["brand-subtle", "Soft brand tint behind text or icons."],
+      ["brand-foreground", "Brand colored text and icons on the page."],
+      ["on-brand-solid-foreground", "Text on brand solid."],
+    ],
+  },
+  {
+    title: "Positive",
+    tokens: [
+      ["positive-solid", "Positive background for strong feedback."],
+      ["positive-solid-hover", "Positive solid hovered."],
+      ["positive-subtle", "Soft positive tint behind text or icons."],
+      ["positive-foreground", "Positive colored text and icons."],
+      ["on-positive-solid-foreground", "Text on positive solid."],
+    ],
+  },
+  {
+    title: "Warning",
+    tokens: [
+      ["warning-solid", "Warning background for strong feedback."],
+      ["warning-solid-hover", "Warning solid hovered."],
+      ["warning-subtle", "Soft warning tint behind text or icons."],
+      ["warning-foreground", "Warning colored text and icons."],
+      ["on-warning-solid-foreground", "Text on warning solid."],
+    ],
+  },
+  {
+    title: "Info",
+    tokens: [
+      ["info-solid", "Info background for strong feedback."],
+      ["info-solid-hover", "Info solid hovered."],
+      ["info-subtle", "Soft info tint behind text or icons."],
+      ["info-foreground", "Info colored text and icons."],
+      ["on-info-solid-foreground", "Text on info solid."],
+    ],
+  },
+  {
+    title: "Danger",
+    tokens: [
+      ["danger-solid", "Danger background for strong feedback."],
+      ["danger-solid-hover", "Danger solid hovered."],
+      ["danger-solid-active", "Danger solid pressed."],
+      ["danger-subtle", "Soft danger tint behind text or icons."],
+      [
+        "danger-subtle-hover",
+        "Danger subtle hovered, e.g. destructive menu item.",
+      ],
+      ["danger-foreground", "Danger colored text and icons."],
+      ["on-danger-solid-foreground", "Text on danger solid."],
+    ],
+  },
+  {
+    title: "Border",
+    tokens: [
+      [
+        "border-default",
+        "Default borders: inputs, cards, dividers you can see.",
+      ],
+      ["border-subtle", "Faint dividers."],
+      ["border-strong", "Emphasized borders and hover."],
+      ["border-inverted", "Borders on standout or inverted surfaces."],
+      ["brand-border-default", "Brand border: selected card, active field."],
+      ["brand-border-focus", "Focus ring."],
+      ["positive-border-default", "Positive border."],
+      ["warning-border-default", "Warning border."],
+      ["info-border-default", "Info border."],
+      ["danger-border-default", "Danger border."],
+      ["danger-border-subtle", "Quiet danger border."],
+    ],
+  },
+  {
+    title: "Disabled",
+    tokens: [
+      ["disabled", "Background of disabled controls."],
+      ["disabled-foreground", "Text and icons of disabled controls."],
+      ["border-disabled", "Borders of disabled controls."],
+    ],
+  },
+  { title: "Other", tokens: [["overlay", "Backdrop behind dialogs."]] },
+];
+
+const shadows: {
+  name: string;
+  token: string;
+  use: string;
+  yes: string[];
+  no: string;
+}[] = [
+  {
+    name: "Border",
+    token: "shadow-border",
+    use: "A 1px edge drawn as a shadow. It takes no layout space, so nothing shifts.",
+    yes: [
+      "Cards and panels at rest",
+      "Inputs, selects and textareas",
+      "Tables and code blocks",
+      "Badges and chips with an outline",
+    ],
+    no: "Anything that floats. Use Large or Extra large.",
+  },
+  {
+    name: "Default",
+    token: "shadow-default",
+    use: "A small lift for controls that feel pressable or draggable.",
+    yes: [
+      "Slider thumb",
+      "Switch thumb",
+      "Selected tab or segment",
+      "Secondary buttons that need a lift",
+    ],
+    no: "Big surfaces. A large card with this looks heavy.",
+  },
+  {
+    name: "Large",
+    token: "shadow-large",
+    use: "Floating panels tied to a trigger. They close when you click away.",
+    yes: [
+      "Menu and context menu",
+      "Select list and combobox list",
+      "Popover and tooltip",
+      "Toast",
+    ],
+    no: "Full-screen layers. Those get Extra large.",
+  },
+  {
+    name: "Extra large",
+    token: "shadow-extra-large",
+    use: "Surfaces above the whole page, usually with an overlay behind.",
+    yes: [
+      "Dialog and alert dialog",
+      "Search palette",
+      "Drawer or sheet",
+      "Anything that blocks the page",
+    ],
+    no: "Small floating things. A menu with this feels too heavy.",
+  },
+];
+
+export default function Colors() {
+  return (
+    <DocPage
+      href="/docs/colors"
+      title="Colors"
+      description="Every color is a semantic token. Light and dark values switch automatically."
+    >
+      {groups.map((g) => (
+        <section key={g.title}>
+          <Heading as="h2" size={6}>
+            {g.title}
+          </Heading>
+          {g.note ? <p>{g.note}</p> : null}
+          <div className={s.grid}>
+            {g.tokens.map(([name, desc]) => (
+              <div key={name} className={s.item}>
+                <div
+                  className={s.swatch}
+                  style={{ background: `var(--color-${name})` }}
+                />
+                <span className={s.name}>--color-{name}</span>
+                <span className={s.desc}>{desc}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
+
+      <Heading as="h2" size={6}>
+        Shadows
+      </Heading>
+      <p>
+        Four levels. Each starts with a 1px ring so the edge reads on any
+        surface.
+      </p>
+      <div className={s.shadows}>
+        {shadows.map((sh) => (
+          <div key={sh.token} className={s.card}>
+            <div
+              className={s.box}
+              style={{ boxShadow: `var(--${sh.token})` }}
+            />
+            <strong>{sh.name}</strong>
+            <span className={s.name}>--{sh.token}</span>
+            <p>{sh.use}</p>
+            <ul className={s.list}>
+              {sh.yes.map((y) => (
+                <li key={y}>{y}</li>
+              ))}
+            </ul>
+            <p className={s.no}>Not for: {sh.no}</p>
+          </div>
+        ))}
+      </div>
+    </DocPage>
+  );
+}

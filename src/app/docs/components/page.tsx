@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Link } from "@/ui";
-import styles from "../../site.module.css";
-import { DocPage } from "../DocPage";
-import { componentLinks } from "../nav";
+import lists from "../_page/DocLists.module.css";
+import { DocPage } from "@/app/docs/_page/DocPage";
+import { componentLinks } from "@/app/docs/_layout/nav";
 
 export const metadata: Metadata = { title: "Components" };
 
@@ -13,10 +13,10 @@ export default function Components() {
       title="Components"
       description="Every component has a live preview, code and notes for people and agents."
     >
-      <ul className={styles.nameGrid}>
+      <ul className={lists.nameGrid}>
         {componentLinks.map((c) => (
           <li key={c.href}>
-            <Link href={c.href} tone="inherit" className={styles.nameLink}>{c.label}</Link>
+            <Link href={c.href} tone="inherit" className={lists.nameLink}>{c.label}</Link>
           </li>
         ))}
       </ul>

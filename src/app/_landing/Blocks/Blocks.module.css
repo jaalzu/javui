@@ -1,0 +1,393 @@
+/* Complete replacement for Blocks.module.css. Replace the whole file. Tokens only. */
+
+/* ---------- Layout: independent columns, natural card heights ---------- */
+.blocks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: none;
+}
+.col {
+  flex: 1 1 0;
+  min-width: min(100%, 20rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.colSide {
+  flex: 0 1 17rem;
+  min-width: min(100%, 15rem);
+}
+.colWide {
+  flex: 1.7 1 0;
+  min-width: min(100%, 28rem);
+}
+
+.block {
+  min-width: 0;
+}
+.col > .block {
+  background: var(--color-card);
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 48rem) {
+  .col,
+  .colSide,
+  .colWide {
+    flex: 1 1 100%;
+  }
+}
+
+/* ---------- Block head, people, price, features ---------- */
+.blockHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.person {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.personText {
+  display: grid;
+  min-width: 0;
+}
+.personName {
+  font-weight: var(--font-weight-medium);
+}
+.personMail {
+  font-size: var(--font-size-13);
+  color: var(--color-secondary-foreground);
+}
+
+.price {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+.priceNumber {
+  font-family: var(--text-heading-2-family);
+  font-size: var(--text-heading-2-size);
+  font-weight: var(--text-heading-2-weight);
+  line-height: var(--text-heading-2-line);
+  letter-spacing: var(--text-heading-2-tracking);
+}
+.priceUnit {
+  color: var(--color-secondary-foreground);
+}
+
+.features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+.features li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  display: grid;
+  gap: var(--space-4);
+}
+.navGroup {
+  display: grid;
+  gap: var(--space-1);
+}
+.navTitle {
+  padding-inline: var(--space-2);
+  font-family: var(--text-label-family);
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+  letter-spacing: var(--text-label-tracking);
+  color: var(--color-secondary-foreground);
+}
+.navList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+.navLink {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: var(--size-control-sm);
+  padding: 0 var(--space-2);
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  color: var(--color-secondary-foreground);
+  text-decoration: none;
+  transition:
+    background var(--motion-duration-fast) var(--motion-easing-standard),
+    color var(--motion-duration-fast) var(--motion-easing-standard);
+}
+.navLink:hover {
+  background: var(--color-component);
+  color: var(--color-primary-foreground);
+}
+.navLink[aria-current="page"] {
+  background: var(--color-component);
+  color: var(--color-primary-foreground);
+  font-weight: var(--font-weight-medium);
+}
+.navLink:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* ---------- Goals, amounts, big numbers ---------- */
+.goal {
+  display: grid;
+  gap: var(--space-2);
+}
+.goalHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.amount {
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-weight-medium);
+}
+.negative {
+  color: var(--color-danger-solid);
+}
+.bigNumber {
+  font-family: var(--text-heading-2-family);
+  font-size: var(--text-heading-2-size);
+  font-weight: var(--text-heading-2-weight);
+  line-height: var(--text-heading-2-line);
+  letter-spacing: var(--text-heading-2-tracking);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Bar chart (CSS only) ---------- */
+.bars {
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-2);
+  height: 11rem;
+}
+.barCol {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: var(--space-1);
+  justify-items: center;
+}
+.barValue,
+.barLabel {
+  font-size: var(--font-size-13);
+  color: var(--color-secondary-foreground);
+  font-variant-numeric: tabular-nums;
+}
+.barTrack {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+.barFill {
+  width: 100%;
+  height: var(--h);
+  background: var(--color-brand-solid);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+.barUpcoming {
+  background: transparent;
+  border: var(--border-width-thick) dashed var(--color-brand-solid);
+  border-bottom: 0;
+}
+
+/* ---------- Ledger ---------- */
+.ledger {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+}
+.ledgerRow {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin: 0;
+}
+.ledgerRow dt,
+.ledgerRow dd {
+  margin: 0;
+}
+.ledgerRow dd {
+  font-variant-numeric: tabular-nums;
+}
+.ledgerTotal {
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ---------- Holdings ---------- */
+.holdings {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+.holding {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: var(--border-width-thin) solid var(--color-border-default);
+}
+.holding:last-child {
+  border-bottom: 0;
+}
+.holdingText {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+}
+
+/* ---------- QR ---------- */
+.qr {
+  width: 100%;
+  max-width: 13rem;
+  margin-inline: auto;
+  padding: var(--space-3);
+  background: var(--color-card);
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  color: var(--color-primary-foreground);
+}
+.qr svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- Chat ---------- */
+.chatScroll {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  height: 18rem;
+  overflow-y: auto;
+  padding: var(--space-3);
+  background: var(--color-page);
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+}
+.chatScroll:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+.empty {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: var(--space-2);
+  padding: var(--space-6) var(--space-3);
+}
+.msg {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+.msgUser {
+  flex-direction: row-reverse;
+}
+.bubble {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: start;
+  max-width: 85%;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-card);
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+}
+.bubbleUser {
+  background: var(--color-brand-solid);
+  color: var(--color-on-brand-solid-foreground);
+  border-color: transparent;
+}
+.list {
+  margin: 0;
+  padding-inline-start: var(--space-5);
+  display: grid;
+  gap: var(--space-1);
+}
+
+/* ---------- Run steps and metrics ---------- */
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+.step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.stepDone {
+  color: var(--color-positive-solid);
+}
+.stepQueued {
+  color: var(--color-secondary-foreground);
+}
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+.metric {
+  display: grid;
+  gap: var(--space-1);
+}
+.metricValue {
+  font-family: var(--text-heading-6-family);
+  font-size: var(--text-heading-6-size);
+  font-weight: var(--text-heading-6-weight);
+  line-height: var(--text-heading-6-line);
+  letter-spacing: var(--text-heading-6-tracking);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Serif emphasis and chips ---------- */
+.lead {
+  margin: 0;
+  font-family: var(--text-emphasis-family);
+  font-style: var(--text-emphasis-style);
+  font-size: var(--text-emphasis-size);
+  font-weight: var(--text-emphasis-weight);
+  line-height: var(--text-emphasis-line);
+  letter-spacing: var(--text-emphasis-tracking);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: center;
+}

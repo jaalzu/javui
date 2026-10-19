@@ -1,6 +1,6 @@
 .themeButton { padding-inline: 0; width: var(--size-control-sm); }
 
-.sun, .moon { display: none; }
+.sun, .moon { display: none; --icon-size: calc(var(--size-icon-sm) + 2px); }
 
 :root[data-theme="light"] .moon { display: inline; }
 

@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import {
-  Alert, Avatar, Badge, Button, Card, Checkbox, CodeBlock, Field, Heading, Icon, Input, Progress, Slider, Stack, Switch, Text,
+  Alert, Avatar, Badge, Button, Card, CaretDownIcon, Checkbox, CheckIcon, CodeBlock, Field, Heading, Input, Progress, Slider, Stack, Switch, Text,
 } from "@/ui";
 import { Demo } from "./Demo";
 import styles from "./Examples.module.css";
@@ -15,7 +15,7 @@ export function ExampleFrame({ children, code, full = false }: { children: React
       {code && (
         <details className={styles.exampleCode}>
           <summary>
-            <Icon size="sm" className={styles.chev}><path d="M6 9l6 6 6-6" /></Icon>
+            <CaretDownIcon size="sm" className={styles.chev} />
             View code
           </summary>
           <CodeBlock language="tsx" label="Code" code={code} />
@@ -37,7 +37,7 @@ export function Preview({ name, code }: { name: string; code?: string }) {
 type Example = { title: string; description?: string; node: ReactNode; code: string };
 const ex = (title: string, code: string, node: ReactNode, description?: string): Example => ({ title, description, code, node });
 
-const check = <Icon><path d="M5 12.5l4.5 4.5L19 7.5" /></Icon>;
+const check = <CheckIcon />;
 
 /**
  * One section per case, each with its own preview and code, for the components where the cases matter.
@@ -64,22 +64,24 @@ const registry: Record<string, Example[]> = {
     ),
     ex(
       "With icon",
-      `<Button variant="secondary">\n  <Icon><path d="M5 12.5l4.5 4.5L19 7.5" /></Icon>\n  Done\n</Button>`,
+      `<Button variant="secondary">\n  <CheckIcon />\n  Done\n</Button>`,
       <Button variant="secondary">{check}Done</Button>,
       "Icons are decorative when there is text next to them.",
     ),
     ex(
       "Icon only",
-      `<Button variant="secondary" aria-label="Done">\n  <Icon><path d="M5 12.5l4.5 4.5L19 7.5" /></Icon>\n</Button>`,
+      `<Button variant="secondary" aria-label="Done">\n  <CheckIcon />\n</Button>`,
       <Button variant="secondary" aria-label="Done">{check}</Button>,
       "Always give an icon-only button an accessible name.",
     ),
   ],
   Badge: [
-    ex("Neutral", `<Badge>Neutral</Badge>`, <Badge>Neutral</Badge>),
-    ex("Success", `<Badge tone="success">Success</Badge>`, <Badge tone="success">Success</Badge>),
-    ex("Warning", `<Badge tone="warning">Warning</Badge>`, <Badge tone="warning">Warning</Badge>),
-    ex("Danger", `<Badge tone="danger">Danger</Badge>`, <Badge tone="danger">Danger</Badge>),
+    ex("Default", `<Badge>Draft</Badge>`, <Badge>Draft</Badge>),
+    ex("Success", `<Badge variant="success">Active</Badge>`, <Badge variant="success">Active</Badge>),
+    ex("Danger", `<Badge variant="danger">Failed</Badge>`, <Badge variant="danger">Failed</Badge>),
+    ex("Brand", `<Badge variant="brand">Beta</Badge>`, <Badge variant="brand">Beta</Badge>),
+    ex("Inverted", `<Badge variant="inverted">New</Badge>`, <Badge variant="inverted">New</Badge>),
+    ex("Outline", `<Badge variant="outline">3 sources</Badge>`, <Badge variant="outline">3 sources</Badge>),
   ],
   Alert: [
     ex("Info", `<Alert tone="info" title="Heads up">Your trial ends in 3 days.</Alert>`, <Alert tone="info" title="Heads up">Your trial ends in 3 days.</Alert>),

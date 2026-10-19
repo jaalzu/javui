@@ -9,7 +9,11 @@
   align-items: center;
   justify-content: center;
   --btn-px: var(--space-4);
-  --btn-gap: var(--space-2);
+  --btn-gap: var(--icon-gap-sm);
+  --btn-icon: var(--size-icon-sm);
+  --icon-size: var(
+    --btn-icon
+  ); /* Icons in a button follow its size, unless they set their own `size`. */
   gap: var(--btn-gap);
   min-width: var(--size-target-min);
   margin: 0;
@@ -38,8 +42,8 @@
   box-sizing: border-box;
   border-radius: inherit;
   box-shadow: var(--btn-ring, none);
-  -webkit-backdrop-filter: blur(var(--btn-blur, 0));
-  backdrop-filter: blur(var(--btn-blur, 0));
+  -webkit-backdrop-filter: var(--btn-backdrop, none);
+  backdrop-filter: var(--btn-backdrop, none);
   background-color: var(--btn-bg);
   transition:
     background-color var(--motion-duration-fast) var(--motion-easing-standard),
@@ -76,7 +80,7 @@
     inset 0 1px light-dark(#ffffffcc, #ffffff0a),
     0 0 0 1px light-dark(#00000014, #0009),
     0 4px 4px light-dark(#0000000d, #0000001a);
-  --btn-blur: 4px;
+  --btn-backdrop: blur(4px);
 }
 
 .ghost {
@@ -100,7 +104,7 @@
 
 .sm {
   --btn-px: var(--space-3);
-  --btn-gap: calc(var(--space-2) * 0.75);
+  --btn-gap: var(--icon-gap-sm);
   height: var(--size-control-sm);
   font-size: var(--font-size-13);
 }
@@ -111,6 +115,8 @@
 
 .lg {
   --btn-px: var(--space-6);
+  --btn-gap: var(--icon-gap-md);
+  --btn-icon: var(--size-icon-md);
   height: var(--size-control-lg);
 }
 
@@ -143,5 +149,5 @@
 .secondary,
 .accent,
 .danger {
-  padding-top: 1px;
+  padding-top: 2px;
 }

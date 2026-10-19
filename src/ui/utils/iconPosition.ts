@@ -4,7 +4,10 @@ import { Icon } from "../components/Icon";
 export type IconPosition = "only" | "start" | "end" | "both";
 
 const isIcon = (node: ReactNode) =>
-  isValidElement(node) && (node.type === Icon || node.type === "svg");
+  isValidElement(node) &&
+  (node.type === Icon ||
+    (node.type as { isIcon?: boolean } | null)?.isIcon === true ||
+    node.type === "svg");
 
 /**
  * Where the icons sit in a button's content, so the CSS can trim the padding on the icon side.

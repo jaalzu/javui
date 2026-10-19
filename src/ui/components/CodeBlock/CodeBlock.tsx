@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
-import { Icon } from "../Icon";
+import { CheckIcon, CopyIcon, TerminalWindowIcon } from "../../icons/icons.generated";
 import { cx } from "../../utils/cx";
 import styles from "./CodeBlock.module.css";
 
@@ -60,10 +60,7 @@ export function CodeBlock({ code = "", tabs, language, label = "Code", className
   }
 
   const lead = language && terminalLanguages.has(language) ? (
-    <Icon size="sm" className={styles.lead}>
-      <path d="M4 5h16v14H4z" />
-      <path d="M7.5 10l3 2-3 2M12.5 14.5h4" />
-    </Icon>
+    <TerminalWindowIcon size="sm" className={styles.lead} />
   ) : (
     <span className={styles.language}>{language ?? ""}</span>
   );
@@ -71,7 +68,7 @@ export function CodeBlock({ code = "", tabs, language, label = "Code", className
   const copyButton = (
     <>
       <button type="button" className={styles.copy} onClick={copy} aria-label={copied ? "Copied" : "Copy code"}>
-        <Icon size="sm">{copied ? <path d="M5 12.5l4.5 4.5L19 7.5" /> : <path d="M9 9h10v10H9zM5 15V5h10" />}</Icon>
+        {copied ? <CheckIcon size="sm" /> : <CopyIcon size="sm" />}
       </button>
       <span role="status" className={styles.status}>{copied ? "Copied" : ""}</span>
     </>

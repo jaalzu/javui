@@ -1,0 +1,42 @@
+# Roadmap
+
+Broad steps left. Order is a suggestion, not a commitment.
+
+## Foundations
+- [ ] Icons as a system: size scale usage, stroke width, optical alignment with text, how icons sit inside Button, Link, Menu items, Select, Input, Badge, Alert, Tabs. One docs page + one rule set.
+- [ ] Borders: when to use `border-default|subtle|strong`, border vs `--shadow-border`, border width tokens.
+- [ ] Shape: radius scale and usage per component.
+- [ ] Spacing: scale, gap/padding rules, density.
+- [ ] Motion: durations, easings, reduced-motion, press/hover/enter/exit patterns.
+- [ ] Docs pages for breakpoints and the icon scale.
+
+## Components
+- [ ] Pass over every component against the new color, typography and shadow tokens (migration prompts delivered; verify applied).
+- [ ] Icon alignment inside Menu, Link, Select, Tabs, Badge (same `data-icon` idea as Button).
+- [ ] `Text` `italic` prop (needs `dm-sans/opsz-italic.css`).
+- [ ] Missing components: Combobox/Autocomplete, DatePicker, Command palette, Sheet/Drawer, Toggle/ToggleGroup, Tag/Chip, Empty state.
+- [ ] Forms: validation states, error/help text patterns, form-level composition.
+
+## Library
+- [ ] Compatibility: test with Vite and Astro, React 17-19; then update Installation "Requirements".
+- [ ] Packaging: exports, types, CSS entry points, tree-shaking, versioning and changelog.
+- [ ] Tailwind output (`tailwind.css`) validated in a real Tailwind project.
+- [ ] Theming guide: how consumers override tokens and create their own theme.
+
+## Docs site
+- [ ] Brand: logo SVGs, favicon, name (Javui).
+- [ ] Getting started, Installation, Theming, Accessibility pages.
+- [ ] Per-component examples with live playground and copyable code.
+- [ ] Search palette polish; mobile pass of the whole site.
+
+## Agent layer
+- [ ] Keep `agent-meta.json`, manifest and MCP in sync with new tokens and components; fix `mcp:test` primitives check.
+- [ ] Prompts/recipes for agents: build a page, migrate a theme, add a component.
+
+## Quality
+- [ ] Visual regression screenshots (light/dark, mobile/desktop).
+- [ ] Full a11y audit (keyboard, screen reader, contrast of every token pair).
+- [ ] CI: typecheck, lint, test, build, storybook tests.
+
+## Release
+- [ ] Publish to npm, license, contributing guide, public docs domain.

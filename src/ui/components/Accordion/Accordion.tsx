@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Accordion as BaseAccordion } from "@base-ui/react/accordion";
-import { Icon } from "../Icon";
+import { CaretDownIcon } from "../../icons/icons.generated";
 import { cx } from "../../utils/cx";
 import styles from "./Accordion.module.css";
 
@@ -51,9 +51,7 @@ export function Accordion({ items, multiple = false, defaultValue, value, onValu
           <BaseAccordion.Header className={styles.header}>
             <BaseAccordion.Trigger className={styles.trigger}>
               <span>{item.title}</span>
-              <Icon size="sm" className={styles.chevron}>
-                <path d="M6 9l6 6 6-6" />
-              </Icon>
+              <CaretDownIcon size="sm" className={styles.chevron} />
             </BaseAccordion.Trigger>
           </BaseAccordion.Header>
           <BaseAccordion.Panel className={styles.panel}>

@@ -1,6 +1,6 @@
 import type { ComponentProps, ReactNode } from "react";
 import { cx } from "../../utils/cx";
-import { Icon } from "../Icon";
+import { CheckCircleIcon, InfoIcon, WarningIcon, XCircleIcon } from "../../icons/icons.generated";
 import styles from "./Alert.module.css";
 
 export type AlertTone = "info" | "success" | "warning" | "danger";
@@ -12,32 +12,12 @@ export type AlertProps = {
   title?: ReactNode;
 } & Omit<ComponentProps<"div">, "color" | "title">;
 
-const glyph: Record<AlertTone, ReactNode> = {
-  info: (
-    <>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 11v5M12 8h.01" />
-    </>
-  ),
-  success: (
-    <>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M8 12.5l3 3 5-6" />
-    </>
-  ),
-  warning: (
-    <>
-      <path d="M12 4l9.5 16h-19z" />
-      <path d="M12 10v4M12 17h.01" />
-    </>
-  ),
-  danger: (
-    <>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M9 9l6 6M15 9l-6 6" />
-    </>
-  ),
-};
+const glyph = {
+  info: InfoIcon,
+  success: CheckCircleIcon,
+  warning: WarningIcon,
+  danger: XCircleIcon,
+} satisfies Record<AlertTone, typeof InfoIcon>;
 
 /**
  * An inline message about the state of the page or a form. `danger` and `warning` use `role="alert"`
@@ -49,9 +29,10 @@ const glyph: Record<AlertTone, ReactNode> = {
  */
 export function Alert({ tone = "info", title, className, children, ...rest }: AlertProps) {
   const role = tone === "danger" || tone === "warning" ? "alert" : "status";
+  const Glyph = glyph[tone];
   return (
     <div role={role} className={cx(styles.alert, styles[tone], className)} {...rest}>
-      <Icon className={styles.icon}>{glyph[tone]}</Icon>
+      <Glyph className={styles.icon} />
       <div className={styles.body}>
         {title ? <p className={styles.title}>{title}</p> : null}
         {children ? <div className={styles.text}>{children}</div> : null}

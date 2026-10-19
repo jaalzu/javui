@@ -91,6 +91,7 @@ const groups: { title: string; note?: string; tokens: Token[] }[] = [
       ["brand-solid-hover", "Brand solid hovered."],
       ["brand-subtle", "Soft brand tint behind text or icons."],
       ["brand-foreground", "Brand colored text and icons on the page."],
+      ["brand-foreground-soft", "Brand text and icons for tinted surfaces."],
       ["on-brand-solid-foreground", "Text on brand solid."],
     ],
   },

@@ -147,6 +147,11 @@
       "$type": "color",
       "$description": "Brand colored text and icons on the page."
     },
+    "brand-foreground-soft": {
+      "$value": "color-mix(in oklab, {primitive.color.accent.700} 72%, {color.primary-foreground})",
+      "$type": "color",
+      "$description": "Brand text and icons for tinted surfaces, darkened to stay contrast-safe on the soft brand tint."
+    },
     "on-brand-solid-foreground": {
       "$value": "{primitive.color.white}",
       "$type": "color",
@@ -334,11 +339,16 @@
     }
   },
   "shadow": {
-    "$description": "Elevation, four levels. Each one starts with a 1px ring so the edge reads on any surface. Dark values are the reference; light values are the same shapes with dark alphas.",
+    "$description": "Elevation, four levels, plus `inset-ring` for quiet outlines. Each elevation level starts with a 1px ring so the edge reads on any surface. Dark values are the reference; light values are the same shapes with dark alphas.",
     "border": {
       "$value": "0 0 0 1px #00000014",
       "$type": "shadow",
       "$description": "A 1px outline drawn as a shadow. Use it instead of a border on cards, inputs and anything at rest, so the edge needs no extra layout space."
+    },
+    "inset-ring": {
+      "$value": "inset 0 0 0 1px #00000014",
+      "$type": "shadow",
+      "$description": "A quiet 1px ring drawn inside the edge, so it never grows the box or reads as a heavy border. Use it on badges, chips and selected states."
     },
     "default": {
       "$value": "0 0 0 1px #0000000f, 0 1px 2px #0000001a",

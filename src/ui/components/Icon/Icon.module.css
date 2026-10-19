@@ -1,20 +1,23 @@
 .icon {
+  width: var(--icon-size, var(--size-icon-md));
+  height: var(--icon-size, var(--size-icon-md));
   display: inline-block;
   flex-shrink: 0;
   vertical-align: middle;
 }
 
 .sm {
-  width: 1em;
-  height: 1em;
+  --icon-size: var(--size-icon-sm);
 }
 
 .md {
-  width: 1.25em;
-  height: 1.25em;
+  --icon-size: var(--size-icon-md);
 }
 
 .lg {
-  width: 1.5em;
-  height: 1.5em;
+  --icon-size: var(--size-icon-lg);
+}
+
+.xl {
+  --icon-size: var(--size-icon-xl);
 }

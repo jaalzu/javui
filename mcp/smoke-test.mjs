@@ -20,7 +20,11 @@ const call = async (name, args = {}) => {
 };
 
 const tools = (await client.listTools()).tools.map((t) => t.name).sort();
-check("exposes 5 tools", tools.join() === ["get_component", "get_examples", "get_guidelines", "list_components", "search_tokens"].join(), tools.join());
+check(
+  "exposes 7 tools",
+  tools.join() === ["get_component", "get_examples", "get_guidelines", "get_icon", "list_components", "search_icons", "search_tokens"].join(),
+  tools.join(),
+);
 
 let r = await call("get_guidelines");
 check("guidelines mention HTML first", /HTML first/.test(r.text));
@@ -57,6 +61,15 @@ check(
 
 r = await call("search_tokens", { query: "danger", includePrimitives: true });
 check("primitives available on request", !r.error && /--primitive-color-danger/.test(r.text));
+
+r = await call("search_icons", { query: "arrow" });
+check("search_icons finds icons", !r.error && /ArrowRightIcon/.test(r.text), r.text.slice(0, 120));
+
+r = await call("get_icon", { name: "check" });
+check("get_icon returns an import", !r.error && /import \{ CheckIcon \} from .*@\/ui/.test(r.text), r.text.slice(0, 120));
+
+r = await call("get_icon", { name: "CheckIcon" });
+check("get_icon accepts the component name", !r.error && /CheckIcon/.test(r.text));
 
 await client.close();
 console.log(failures ? `\n${failures} check(s) failed` : "\nall checks passed");

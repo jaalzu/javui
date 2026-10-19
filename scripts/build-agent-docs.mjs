@@ -214,6 +214,7 @@ const llms = [
   "## Machine-readable",
   "- [Component manifest](/agent/manifest.json): every component with props, examples and accessibility notes",
   "- [Design tokens](/agent/tokens.json): every CSS variable with its meaning",
+  "- [Icons](/agent/icons.json): every available icon with its component name and tags",
   "- [Full documentation](/llms-full.txt): everything above in one Markdown file",
   "",
   "## Components",

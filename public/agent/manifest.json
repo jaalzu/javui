@@ -57,7 +57,7 @@
         },
         {
           "name": "tone",
-          "type": "\"info\" | \"success\" | \"warning\" | \"danger\" | \"subtle\" | \"default\" | \"muted\" | \"brand\"",
+          "type": "\"info\" | \"success\" | \"warning\" | \"danger\" | \"default\" | \"brand\" | \"muted\" | \"subtle\"",
           "required": false,
           "default": "default",
           "description": "Text color from the semantic color tokens."
@@ -184,42 +184,69 @@
       "name": "Badge",
       "category": "typography",
       "base": "Own component",
-      "description": "Small status label. Text is always the primary signal; the tone is reinforcement.\nPut an `<svg>` icon as the first or last child to add an icon.",
+      "description": "Small status, category or count label. Text is always the primary signal; the\nvariant only reinforces it.\n\nKeep the text to one or two words and truncate counts to two digits (`99+`).\nBadges are secondary and supportive: never use one as a heading or a key\nindicator. Add an icon (e.g. `<CheckIcon />`) as the first or last child for an icon.",
       "import": "import { Badge } from \"@/ui\";",
-      "renders": "span",
-      "composition": "Plain children. Put an `<svg>` as first or last child for an icon; `loading` adds a spinner before the text. `variant`: subtle, solid or outline.",
+      "renders": "span, or the element passed in `render`",
+      "composition": "Plain children. Put an `<svg>` or `Icon` as first or last child for an icon; `loading` adds a spinner (`spinnerPosition`: start or end). `variant`: default, inverted, outline, brand, success or danger. `size`: sm, md or lg. `shape`: pill (default) or rounded. Pass `render={<Link href=\"…\" />}` to render a link. Keep text to one or two words; truncate counts to two digits (`99+`).",
       "whenToUse": "Short status or count labels next to other content.",
       "avoid": [
         "Using color as the only signal: always include text.",
-        "Interactive badges: use Button."
+        "Badges as headings or key indicators: they are secondary and supportive.",
+        "Long descriptions, or mixing different badge sizes side by side.",
+        "Styling a badge like a button when it acts as one: use Button."
       ],
-      "accessibility": "Meaning must be in the text; the tone only reinforces it.",
+      "accessibility": "Meaning must be in the text; the variant only reinforces it. A badge rendered as a link keeps the link's own accessible name.",
       "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
         {
           "name": "loading",
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Shows a spinner before the text, for statuses that are still in progress."
+          "description": "Shows a spinner before or after the text, for statuses still in progress."
         },
         {
-          "name": "tone",
-          "type": "\"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\" | \"accent\"",
+          "name": "render",
+          "type": "RenderProp<Record<string, unknown>>",
           "required": false,
-          "default": "neutral",
-          "description": "Meaning of the badge. Conveyed by tint, never by color alone: always include text."
+          "description": "Renders the badge as another element or component, e.g. a link:\n`render={<Link href=\"/docs\" />}`. Keyboard and focus behavior then come from\nthat element, since Base UI merges the props."
+        },
+        {
+          "name": "shape",
+          "type": "\"rounded\" | \"pill\"",
+          "required": false,
+          "default": "pill",
+          "description": "Corner shape: `pill` (fully round) or `rounded` (small radius)."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "default": "md",
+          "description": "Height and type scale: `sm` 20px, `md` 24px, `lg` 28px."
+        },
+        {
+          "name": "spinnerPosition",
+          "type": "\"start\" | \"end\"",
+          "required": false,
+          "default": "start",
+          "description": "Side the spinner sits on."
         },
         {
           "name": "variant",
-          "type": "\"subtle\" | \"solid\" | \"outline\"",
+          "type": "\"success\" | \"danger\" | \"default\" | \"inverted\" | \"outline\" | \"brand\"",
           "required": false,
-          "default": "subtle",
-          "description": "Visual weight. `subtle` is a tinted pill, `solid` a filled one, `outline` only a border."
+          "default": "default",
+          "description": "Visual treatment. `default` is a quiet component surface, `inverted` a filled\nhigh-contrast pill, `outline` only an inset ring, and `brand`, `success` and\n`danger` are soft semantic tints (translucent background, colored text)."
         }
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Badge tone=\"success\">Active</Badge>\n<Badge tone=\"info\" loading>Syncing</Badge>"
+        "<Badge>Draft</Badge>\n<Badge variant=\"success\">Active</Badge>\n<Badge variant=\"danger\">99+</Badge>\n<Badge variant=\"outline\" shape=\"rounded\">Beta</Badge>\n<Badge variant=\"brand\" loading>Saving</Badge>\n<Badge variant=\"inverted\" size=\"lg\" spinnerPosition=\"end\" loading>Syncing</Badge>\n<Badge variant=\"default\" render={<Link href=\"/docs\" />}>Docs</Badge>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Badge/Badge.tsx"
     },
@@ -508,13 +535,15 @@
       "name": "Icon",
       "category": "utility",
       "base": "Own component",
-      "description": "SVG icon wrapper. Pass the glyph paths as children; it uses `currentColor`.",
+      "description": "Container for a Phosphor glyph (256x256 grid, filled shapes, `currentColor`).\nDo not use it with hand-written paths: import a named icon (`ArrowRightIcon`) instead.",
       "import": "import { Icon } from \"@/ui\";",
-      "renders": "svg",
-      "composition": "Pass the SVG paths as children; it uses currentColor and a 24x24 viewBox.",
-      "whenToUse": "Any glyph. Decorative by default.",
+      "renders": "svg on a 256x256 viewBox, filled with currentColor",
+      "composition": "Do not pass paths. Import a named icon from the set (CheckIcon, ArrowRightIcon ...) generated by `bun run icons` and listed in /agent/icons.json. Each icon takes `size` (sm 16, md 20, lg 24, xl 32) and `weight` (regular | fill).",
+      "whenToUse": "Any glyph. Named icons are decorative by default; pass `label` when the icon is the only carrier of meaning.",
       "avoid": [
-        "Meaningful icons without a label."
+        "Hand-written <path> children: every icon comes from the generated set.",
+        "Meaningful icons without a label.",
+        "weight=\"fill\" unless it marks an active or selected state."
       ],
       "accessibility": "Without `label` it is aria-hidden. With `label` it is role=\"img\" with that name.",
       "props": [
@@ -526,22 +555,15 @@
         },
         {
           "name": "size",
-          "type": "\"sm\" | \"md\" | \"lg\"",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
           "required": false,
-          "default": "md",
-          "description": "Size relative to the surrounding text: `sm` 1em, `md` 1.25em, `lg` 1.5em."
-        },
-        {
-          "name": "viewBox",
-          "type": "string",
-          "required": false,
-          "default": "0 0 24 24",
-          "description": "SVG viewBox of the glyph."
+          "default": "undefined",
+          "description": "Fixed size: `sm` 16px, `md` 20px, `lg` 24px, `xl` 32px. Without it the icon is 20px,\nor the size its parent sets (inside a `Button` it follows the button)."
         }
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Icon><path d=\"M5 12l5 5L20 7\" /></Icon>\n<Icon label=\"Success\"><path d=\"M5 12l5 5L20 7\" /></Icon>"
+        "<Icon label=\"Success\">{glyph}</Icon>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Icon/Icon.tsx"
     },
@@ -658,7 +680,7 @@
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"accent\" | \"primary\" | \"secondary\" | \"ghost\"",
+          "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "primary",
           "description": "Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions,\n`ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions."
@@ -666,7 +688,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Button>Save</Button>\n<Button variant=\"secondary\" size=\"sm\">Cancel</Button>\n<Button type=\"submit\">Send</Button>\n<Button loading>Saving</Button>\n<Button variant=\"secondary\"><Icon><path d=\"M5 12.5l4.5 4.5L19 7.5\" /></Icon>Done</Button>"
+        "<Button>Save</Button>\n<Button variant=\"secondary\" size=\"sm\">Cancel</Button>\n<Button type=\"submit\">Send</Button>\n<Button loading>Saving</Button>\n<Button variant=\"secondary\"><CheckIcon />Done</Button>\n<Button variant=\"ghost\" aria-label=\"Close\"><XIcon /></Button>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Button/Button.tsx"
     },
@@ -1028,7 +1050,7 @@
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"accent\" | \"primary\" | \"secondary\" | \"ghost\"",
+          "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "primary",
           "description": "Button style of the trigger."
@@ -1103,7 +1125,7 @@
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"accent\" | \"primary\" | \"secondary\" | \"ghost\"",
+          "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "secondary",
           "description": "Button style."
@@ -1292,7 +1314,7 @@
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"accent\" | \"primary\" | \"secondary\" | \"ghost\"",
+          "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "primary",
           "description": "Visual emphasis, the same as `Button`. `primary` is the main call to action (one per view)."
@@ -1472,7 +1494,7 @@
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"accent\" | \"primary\" | \"secondary\" | \"ghost\"",
+          "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "secondary",
           "description": "Button style of the trigger."
@@ -1561,7 +1583,7 @@
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"accent\" | \"primary\" | \"secondary\" | \"ghost\"",
+          "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "secondary",
           "description": "Button style."
@@ -1619,7 +1641,7 @@
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"accent\" | \"primary\" | \"secondary\" | \"ghost\"",
+          "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "secondary",
           "description": "Button style of the trigger."

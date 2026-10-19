@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
-import { ButtonLink, Heading, Icon, Link } from "@/ui";
+import { ButtonLink, CaretLeftIcon, CaretRightIcon, Heading, Link } from "@/ui";
 import styles from "./DocPage.module.css";
 import { CopyPage } from "./CopyPage";
 import { neighbors } from "@/app/docs/_layout/nav";
 
-const chevronLeft = <path d="M15 6l-6 6 6 6" />;
-const chevronRight = <path d="M9 6l6 6-6 6" />;
+const chevronLeft = <CaretLeftIcon size="sm" />;
+const chevronRight = <CaretRightIcon size="sm" />;
 
 type DocPageProps = {
   /** Path of the page, used to find Previous and Next. */
@@ -28,12 +28,12 @@ export function DocPage({ href, title, description, children }: DocPageProps) {
             <CopyPage />
             {prev && (
               <ButtonLink href={prev.href} variant="secondary" size="sm" aria-label={`Previous: ${prev.label}`} className={styles.iconBtn}>
-                <Icon size="sm">{chevronLeft}</Icon>
+                {chevronLeft}
               </ButtonLink>
             )}
             {next && (
               <ButtonLink href={next.href} variant="secondary" size="sm" aria-label={`Next: ${next.label}`} className={styles.iconBtn}>
-                <Icon size="sm">{chevronRight}</Icon>
+                {chevronRight}
               </ButtonLink>
             )}
           </div>
@@ -47,13 +47,13 @@ export function DocPage({ href, title, description, children }: DocPageProps) {
         <nav aria-label="Previous and next pages" className={styles.pager}>
           {prev ? (
             <Link href={prev.href} tone="inherit" className={styles.pagerLink}>
-              <span className={styles.pagerLabel}><Icon size="sm">{chevronLeft}</Icon>Previous</span>
+              <span className={styles.pagerLabel}>{chevronLeft}Previous</span>
               <span className={styles.pagerTitle}>{prev.label}</span>
             </Link>
           ) : <span />}
           {next ? (
             <Link href={next.href} tone="inherit" className={`${styles.pagerLink} ${styles.pagerNext}`}>
-              <span className={styles.pagerLabel}>Next<Icon size="sm">{chevronRight}</Icon></span>
+              <span className={styles.pagerLabel}>Next{chevronRight}</span>
               <span className={styles.pagerTitle}>{next.label}</span>
             </Link>
           ) : <span />}

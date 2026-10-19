@@ -1,109 +1,100 @@
 .badge {
-  --badge-bg: color-mix(in oklab, var(--color-primary-foreground) 9%, transparent);
-  --badge-fg: var(--color-primary-foreground);
+  --badge-bg: var(--color-component);
+  --badge-fg: var(--color-secondary-foreground);
+  --badge-ring: none;
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-1);
+  gap: var(--icon-gap-sm);
   width: fit-content;
-  height: 1.4rem;
-  padding: 0 var(--space-2);
-  border: var(--border-width-thin) solid transparent;
-  border-radius: var(--radius-full);
+  padding-inline: var(--space-2-5);
   background: var(--badge-bg);
   color: var(--badge-fg);
+  box-shadow: var(--badge-ring);
   font-family: var(--text-label-family);
-  font-size: var(--font-size-13);
-  line-height: 1;
   font-weight: var(--font-weight-medium);
+  letter-spacing: 0.01em;
+  line-height: 1;
   white-space: nowrap;
-  padding-block: 1px 0;
+  user-select: none;
   overflow: hidden;
 }
 
-/* Icons and spinners placed next to the text. */
 .badge > svg {
   flex-shrink: 0;
-  width: 0.75rem;
-  height: 0.75rem;
+  width: 0.875rem;
+  height: 0.875rem;
   pointer-events: none;
 }
 
-.badge:has(> svg:first-child) {
-  padding-inline-start: var(--space-1);
+/* Trim the padding on the side that holds an icon or a spinner. */
+
+/* Sizes */
+.sm {
+  height: 1.25rem;
+  padding-inline: var(--space-2);
+  font-size: var(--font-size-12);
 }
 
-.badge:has(> svg:last-child) {
-  padding-inline-end: var(--space-1);
+.sm > svg {
+  width: 0.75rem;
+  height: 0.75rem;
 }
 
-/* Tones (subtle by default) */
-.neutral {
-  --badge-tone: var(--color-primary-foreground);
-}
-.accent {
-  --badge-bg: var(
-    --color-brand-subtle,
-    color-mix(in oklab, var(--color-brand-solid) 12%, transparent)
-  );
-  --badge-fg: color-mix(
-    in oklab,
-    var(--color-brand-foreground, var(--color-brand-solid)) 62%,
-    var(--color-primary-foreground)
-  );
-  --badge-solid: var(--color-brand-solid);
-  --badge-on-solid: var(--color-on-brand-solid-foreground);
+.md {
+  height: 1.5rem;
+  font-size: var(--font-size-13);
 }
 
-.success {
-  --badge-bg: var(
-    --color-positive-subtle,
-    color-mix(in oklab, var(--color-positive-solid) 12%, transparent)
-  );
-  --badge-fg: color-mix(in oklab, var(--color-positive-solid) 62%, var(--color-primary-foreground));
-  --badge-solid: var(--color-positive-solid);
-  --badge-on-solid: var(--color-on-positive-solid-foreground, var(--color-page));
+.lg {
+  height: 1.75rem;
+  padding-inline: var(--space-3);
+  font-size: var(--font-size-14);
 }
 
-.warning {
-  --badge-bg: var(
-    --color-warning-subtle,
-    color-mix(in oklab, var(--color-warning-solid) 12%, transparent)
-  );
-  --badge-fg: color-mix(in oklab, var(--color-warning-solid) 62%, var(--color-primary-foreground));
-  --badge-solid: var(--color-warning-solid);
-  --badge-on-solid: var(--color-on-warning-solid-foreground, var(--color-page));
+.lg > svg {
+  width: 1rem;
+  height: 1rem;
 }
 
-.info {
-  --badge-bg: var(
-    --color-info-subtle,
-    color-mix(in oklab, var(--color-info-solid) 12%, transparent)
-  );
-  --badge-fg: color-mix(in oklab, var(--color-info-solid) 62%, var(--color-primary-foreground));
-  --badge-solid: var(--color-info-solid);
-  --badge-on-solid: var(--color-on-info-solid-foreground, var(--color-page));
+/* Shapes */
+.rounded {
+  border-radius: var(--radius-sm);
 }
 
-.danger {
-  --badge-bg: var(
-    --color-danger-subtle,
-    color-mix(in oklab, var(--color-danger-solid) 12%, transparent)
-  );
-  --badge-fg: color-mix(in oklab, var(--color-danger-solid) 62%, var(--color-primary-foreground));
-  --badge-solid: var(--color-danger-solid);
-  --badge-on-solid: var(--color-on-danger-solid-foreground, var(--color-page));
+.pill {
+  border-radius: var(--radius-full);
 }
 
 /* Variants */
-.solid {
-  --badge-bg: var(--badge-solid, var(--color-inverted-solid));
-  --badge-fg: var(--badge-on-solid, var(--color-on-inverted-foreground));
+.default {
+  --badge-bg: var(--color-component);
+  --badge-fg: var(--color-secondary-foreground);
+}
+
+.inverted {
+  --badge-bg: var(--color-inverted-solid);
+  --badge-fg: var(--color-on-inverted-foreground);
 }
 
 .outline {
   --badge-bg: transparent;
-  border-color: var(--color-border-strong);
-  color: var(--badge-fg);
+  --badge-fg: var(--color-secondary-foreground);
+  --badge-ring: var(--shadow-inset-ring);
+}
+
+.brand {
+  --badge-bg: var(--color-brand-subtle);
+  --badge-fg: var(--color-brand-foreground-soft);
+}
+
+.success {
+  --badge-bg: var(--color-positive-subtle);
+  --badge-fg: var(--color-positive-foreground);
+}
+
+.danger {
+  --badge-bg: var(--color-danger-subtle);
+  --badge-fg: var(--color-danger-foreground);
 }

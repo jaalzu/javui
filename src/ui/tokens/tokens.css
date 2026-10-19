@@ -13,6 +13,7 @@
   --primitive-color-neutral-800: oklch(0.3473 0.0105 100.14);
   --primitive-color-neutral-900: oklch(0.2676 0.0095 100.14);
   --primitive-color-neutral-950: oklch(0.1879 0.0016 17.3);
+  --primitive-color-accent-300: oklch(0.78 0.11 250.35);
   --primitive-color-accent-400: oklch(0.5969 0.1602 250.35);
   --primitive-color-accent-500: oklch(0.568 0.1708 252.61);
   --primitive-color-accent-700: oklch(0.55 0.1571 250.35);
@@ -99,6 +100,8 @@
   --space-10: 2.5rem;
   --space-12: 3rem;
   --space-16: 4rem;
+  --space-20: 5rem;
+  --space-1-5: 0.375rem;
   --radius-none: 0;
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
@@ -114,6 +117,7 @@
   --shadow-md: 0 4px 12px oklch(0 0 0 / 0.16);
   --shadow-lg: 0 12px 32px oklch(0 0 0 / 0.24);
   --shadow-border: 0 0 0 1px #00000014; /** A 1px outline drawn as a shadow. Use it instead of a border on cards, inputs and anything at rest, so the edge needs no extra layout space. */
+  --shadow-inset-ring: inset 0 0 0 1px #00000014; /** A quiet 1px ring drawn inside the edge, so it never grows the box or reads as a heavy border. Use it on badges, chips and selected states. */
   --shadow-default: 0 0 0 1px #0000000f, 0 1px 2px #0000001a; /** A small lift for controls at rest that should feel pressable: slider thumbs, raised buttons, tabs. */
   --shadow-large: 0 0 0 1px #00000014, 0 2px 3px -2px #0000001a, 0 3px 8px -2px #00000014, 0 4px 12px -4px #0000001f; /** Floating panels anchored to a trigger: menus, select lists, popovers, tooltips and toasts. */
   --shadow-extra-large: 0 0 0 .5px #00000014, 0 8px 40px 0px #0000001a, 0 12px 32px -16px #00000040; /** Surfaces that sit above the whole page: dialogs and the search palette. */
@@ -122,10 +126,18 @@
   --size-control-sm: 2rem;
   --size-control-md: 2.5rem;
   --size-control-lg: 3rem;
+  --size-icon-sm: 1rem; /** Icon in small controls, menu items and inline with text (16px). */
+  --size-icon-md: 1.25rem; /** Default icon, and icons in large buttons (20px). */
+  --size-icon-lg: 1.5rem; /** Large standalone icons (24px). */
+  --size-icon-xl: 2rem; /** Icon in empty states and featured elements (32px). */
   --container-sm: 40rem;
   --container-md: 48rem;
   --container-lg: 64rem;
   --container-xl: 80rem;
+  --breakpoint-sm: 40rem; /** 640px. Large phones and up. */
+  --breakpoint-md: 48rem; /** 768px. Tablets and up: the header shows the full nav. */
+  --breakpoint-lg: 64rem; /** 1024px. Laptops and up: the docs sidebar appears. */
+  --breakpoint-xl: 80rem; /** 1280px. Large screens. */
   --z-base: 0;
   --z-dropdown: 1000;
   --z-sticky: 1100;
@@ -197,6 +209,10 @@
   --text-code-xs-weight: var(--font-weight-regular);
   --text-code-xs-style: var(--font-style-body);
   --text-code-xs-family: var(--font-family-mono);
+  --icon-gap-sm: var(--space-1-5); /** Icon-label gap with a 16px icon. */
+  --icon-gap-md: var(--space-2); /** Icon-label gap with a 20px icon. */
+  --icon-gap-lg: var(--space-2); /** Icon-label gap with a 24px icon. */
+  --icon-gap-xl: var(--space-3); /** Icon-label gap with a 32px icon. */
   --color-page: color-mix(in oklab, var(--primitive-color-white) 70%, var(--primitive-color-neutral-50)); /** The page itself. Everything sits on it. */
   --color-card: var(--primitive-color-white); /** Content blocks on the page: cards, panels, table rows. */
   --color-modal: var(--primitive-color-white); /** Layers above the page: dialog, menu, select list, popover. */
@@ -205,6 +221,7 @@
   --color-on-inverted-foreground: var(--primitive-color-neutral-50); /** Text on inverted solid surfaces. */
   --color-brand-solid: var(--primitive-color-accent-500); /** Brand background for key actions and selected states. */
   --color-brand-foreground: var(--primitive-color-accent-700); /** Brand colored text and icons on the page. */
+  --color-brand-foreground-soft: color-mix(in oklab, var(--primitive-color-accent-700) 72%, var(--color-primary-foreground)); /** Brand text and icons for tinted surfaces, darkened to stay contrast-safe on the soft brand tint. */
   --color-on-brand-solid-foreground: var(--primitive-color-white); /** Text on brand solid. */
   --color-positive-solid: var(--primitive-color-success-700); /** Positive background for strong feedback. */
   --color-on-positive-solid-foreground: var(--primitive-color-white); /** Text on positive solid. */
@@ -270,6 +287,7 @@
   :root:not([data-theme="light"]) {
     color-scheme: dark;
       --shadow-border: 0 0 0 1px #ffffff14; /** A 1px outline drawn as a shadow. Use it instead of a border on cards, inputs and anything at rest, so the edge needs no extra layout space. */
+      --shadow-inset-ring: inset 0 0 0 1px #ffffff14; /** A quiet 1px ring drawn inside the edge, so it never grows the box or reads as a heavy border. Use it on badges, chips and selected states. */
       --shadow-default: 0 0 0 1px #ffffff12, 0 1px 2px #00000066; /** A small lift for controls at rest that should feel pressable: slider thumbs, raised buttons, tabs. */
       --shadow-large: 0 0 0 1px color-mix(in oklab, #ffffff12, #3a3a3a 25%), 0 2px 3px -2px #00000026, 0 3px 8px -2px #0006, 0 4px 12px -4px #00000080; /** Floating panels anchored to a trigger: menus, select lists, popovers, tooltips and toasts. */
       --shadow-extra-large: 0 0 0 .5px #ffffff12 inset, 0 0 0 .5px #0000, 0 8px 40px 0px #0000000d, 0 12px 32px -16px #00000026; /** Surfaces that sit above the whole page: dialogs and the search palette. */
@@ -285,6 +303,7 @@
       --color-on-inverted-foreground: var(--primitive-color-neutral-950); /** Text on inverted solid surfaces. */
       --color-brand-solid: var(--primitive-color-accent-500); /** Brand background for key actions and selected states. */
       --color-brand-foreground: var(--primitive-color-accent-400); /** Brand colored text and icons on the page. */
+      --color-brand-foreground-soft: var(--primitive-color-accent-300); /** Lighter, sky-blue brand text and icons for quiet tinted surfaces. */
       --color-on-brand-solid-foreground: var(--primitive-color-white); /** Text on brand solid. */
       --color-positive-solid: var(--primitive-color-success-400); /** Positive background for strong feedback. */
       --color-warning-solid: var(--primitive-color-warning-400); /** Warning background for strong feedback. */
@@ -345,6 +364,7 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
     --shadow-border: 0 0 0 1px #ffffff14; /** A 1px outline drawn as a shadow. Use it instead of a border on cards, inputs and anything at rest, so the edge needs no extra layout space. */
+    --shadow-inset-ring: inset 0 0 0 1px #ffffff14; /** A quiet 1px ring drawn inside the edge, so it never grows the box or reads as a heavy border. Use it on badges, chips and selected states. */
     --shadow-default: 0 0 0 1px #ffffff12, 0 1px 2px #00000066; /** A small lift for controls at rest that should feel pressable: slider thumbs, raised buttons, tabs. */
     --shadow-large: 0 0 0 1px color-mix(in oklab, #ffffff12, #3a3a3a 25%), 0 2px 3px -2px #00000026, 0 3px 8px -2px #0006, 0 4px 12px -4px #00000080; /** Floating panels anchored to a trigger: menus, select lists, popovers, tooltips and toasts. */
     --shadow-extra-large: 0 0 0 .5px #ffffff12 inset, 0 0 0 .5px #0000, 0 8px 40px 0px #0000000d, 0 12px 32px -16px #00000026; /** Surfaces that sit above the whole page: dialogs and the search palette. */
@@ -360,6 +380,7 @@
     --color-on-inverted-foreground: var(--primitive-color-neutral-950); /** Text on inverted solid surfaces. */
     --color-brand-solid: var(--primitive-color-accent-500); /** Brand background for key actions and selected states. */
     --color-brand-foreground: var(--primitive-color-accent-400); /** Brand colored text and icons on the page. */
+    --color-brand-foreground-soft: var(--primitive-color-accent-300); /** Lighter, sky-blue brand text and icons for quiet tinted surfaces. */
     --color-on-brand-solid-foreground: var(--primitive-color-white); /** Text on brand solid. */
     --color-positive-solid: var(--primitive-color-success-400); /** Positive background for strong feedback. */
     --color-warning-solid: var(--primitive-color-warning-400); /** Warning background for strong feedback. */

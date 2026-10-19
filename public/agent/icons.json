@@ -1,0 +1,786 @@
+[
+  {
+    "name": "arrow-right",
+    "component": "ArrowRightIcon",
+    "categories": [
+      "arrows"
+    ],
+    "tags": [
+      "directional",
+      "pointer",
+      "pointing",
+      "arrowhead"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "arrow-left",
+    "component": "ArrowLeftIcon",
+    "categories": [
+      "arrows"
+    ],
+    "tags": [
+      "directional",
+      "pointer",
+      "pointing",
+      "arrowhead"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "arrow-up",
+    "component": "ArrowUpIcon",
+    "categories": [
+      "arrows"
+    ],
+    "tags": [
+      "directional",
+      "pointer",
+      "pointing",
+      "arrowhead"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "arrow-down",
+    "component": "ArrowDownIcon",
+    "categories": [
+      "arrows"
+    ],
+    "tags": [
+      "directional",
+      "pointer",
+      "pointing",
+      "arrowhead"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "caret-down",
+    "component": "CaretDownIcon",
+    "categories": [
+      "arrows"
+    ],
+    "tags": [
+      "chevron",
+      "directional",
+      "pointer",
+      "pointing",
+      "arrowhead",
+      "triangle"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "caret-up",
+    "component": "CaretUpIcon",
+    "categories": [
+      "arrows"
+    ],
+    "tags": [
+      "chevron",
+      "directional",
+      "pointer",
+      "pointing",
+      "arrowhead",
+      "triangle"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "caret-left",
+    "component": "CaretLeftIcon",
+    "categories": [
+      "arrows"
+    ],
+    "tags": [
+      "chevron",
+      "directional",
+      "pointer",
+      "pointing",
+      "arrowhead",
+      "triangle"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "caret-right",
+    "component": "CaretRightIcon",
+    "categories": [
+      "arrows"
+    ],
+    "tags": [
+      "chevron",
+      "directional",
+      "pointer",
+      "pointing",
+      "arrowhead",
+      "triangle"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "check",
+    "component": "CheckIcon",
+    "categories": [
+      "system"
+    ],
+    "tags": [
+      "todo",
+      "to-do",
+      "task",
+      "list",
+      "checkbox",
+      "ok",
+      "done"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "x",
+    "component": "XIcon",
+    "categories": [
+      "technology & development",
+      "finances",
+      "system"
+    ],
+    "tags": [
+      "×",
+      "closed",
+      "cancelled",
+      "dismissed",
+      "times",
+      "multiply",
+      "mulitplication",
+      "product",
+      "mathematics",
+      "arithmetic",
+      "calculator"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "plus",
+    "component": "PlusIcon",
+    "categories": [
+      "technology & development",
+      "finances",
+      "system"
+    ],
+    "tags": [
+      "addition",
+      "sum",
+      "mathematics",
+      "arithmetic",
+      "calculator",
+      "+"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "minus",
+    "component": "MinusIcon",
+    "categories": [
+      "technology & development",
+      "finances",
+      "system"
+    ],
+    "tags": [
+      "-",
+      "subtraction",
+      "difference",
+      "mathematics",
+      "arithmetic",
+      "calculator",
+      "line",
+      "horizontal",
+      "divider"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "warning",
+    "component": "WarningIcon",
+    "categories": [
+      "system"
+    ],
+    "tags": [
+      "alert",
+      "danger",
+      "dangerous",
+      "caution",
+      "errors"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "info",
+    "component": "InfoIcon",
+    "categories": [
+      "system"
+    ],
+    "tags": [
+      "information",
+      "help",
+      "support"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "check-circle",
+    "component": "CheckCircleIcon",
+    "categories": [
+      "system"
+    ],
+    "tags": [
+      "todo",
+      "to-do",
+      "task",
+      "list",
+      "checkbox",
+      "round",
+      "ok",
+      "done"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "x-circle",
+    "component": "XCircleIcon",
+    "categories": [
+      "system"
+    ],
+    "tags": [
+      "closed",
+      "cancelled",
+      "dismissed",
+      "round"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "magnifying-glass",
+    "component": "MagnifyingGlassIcon",
+    "categories": [
+      "editor",
+      "system"
+    ],
+    "tags": [
+      "search",
+      "find",
+      "locate",
+      "query",
+      "inspect"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "trash",
+    "component": "TrashIcon",
+    "categories": [
+      "office",
+      "system"
+    ],
+    "tags": [
+      "garbage",
+      "remove",
+      "delete",
+      "destroy",
+      "recycle",
+      "recycling"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "pencil-simple",
+    "component": "PencilSimpleIcon",
+    "categories": [
+      "design",
+      "editor",
+      "office"
+    ],
+    "tags": [
+      "write",
+      "writing",
+      "editing",
+      "sign",
+      "signature"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "gear",
+    "component": "GearIcon",
+    "categories": [
+      "system"
+    ],
+    "tags": [
+      "8",
+      "settings",
+      "setup",
+      "preferences",
+      "cogs",
+      "gears",
+      "machinery",
+      "mechanical"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "copy",
+    "component": "CopyIcon",
+    "categories": [
+      "editor",
+      "system"
+    ],
+    "tags": [
+      "duplicated",
+      "copied",
+      "clipboard"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "download-simple",
+    "component": "DownloadSimpleIcon",
+    "categories": [
+      "system"
+    ],
+    "tags": [
+      "*updated*",
+      "saved",
+      "saving",
+      "archived",
+      "archiving",
+      "archival",
+      "downloaded",
+      "downloading",
+      "hard drive",
+      "disk",
+      "import"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "upload-simple",
+    "component": "UploadSimpleIcon",
+    "categories": [
+      "system"
+    ],
+    "tags": [
+      "*updated*",
+      "saved",
+      "saving",
+      "archived",
+      "archiving",
+      "archival",
+      "uploaded",
+      "uploading",
+      "hard drive",
+      "disk"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "dots-three",
+    "component": "DotsThreeIcon",
+    "categories": [
+      "system"
+    ],
+    "tags": [
+      "menu",
+      "overflow",
+      "circles",
+      "shapes",
+      "polygons",
+      "3",
+      "ellipsis",
+      "ellipses",
+      "more"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "dots-three-vertical",
+    "component": "DotsThreeVerticalIcon",
+    "categories": [
+      "system"
+    ],
+    "tags": [
+      "menu",
+      "overflow",
+      "circles",
+      "shapes",
+      "polygons",
+      "3",
+      "ellipsis",
+      "ellipses",
+      "more"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "sun",
+    "component": "SunIcon",
+    "categories": [
+      "nature",
+      "system",
+      "weather"
+    ],
+    "tags": [
+      "day",
+      "daytime",
+      "daylight",
+      "clear",
+      "sunny",
+      "sunshine",
+      "light mode",
+      "brightness",
+      "lighten",
+      "brighten"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "moon",
+    "component": "MoonIcon",
+    "categories": [
+      "nature",
+      "system",
+      "weather"
+    ],
+    "tags": [
+      "night",
+      "evening",
+      "clear",
+      "sleep",
+      "snooze",
+      "night mode",
+      "dark mode",
+      "astronomy",
+      "stargazing"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "circle",
+    "component": "CircleIcon",
+    "categories": [
+      "design"
+    ],
+    "tags": [
+      "round",
+      "shapes",
+      "polygons"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "terminal-window",
+    "component": "TerminalWindowIcon",
+    "categories": [
+      "technology & development",
+      "system"
+    ],
+    "tags": [
+      "command line",
+      "cli",
+      "bash",
+      "shell",
+      "caret",
+      "console"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "chart-line",
+    "component": "ChartLineIcon",
+    "categories": [
+      "finances",
+      "office"
+    ],
+    "tags": [
+      "graphs",
+      "graphing",
+      "charts",
+      "statistics",
+      "analyze",
+      "analysis",
+      "stocks"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "chart-line-up",
+    "component": "ChartLineUpIcon",
+    "categories": [
+      "finances",
+      "office"
+    ],
+    "tags": [
+      "*updated*",
+      "graphs",
+      "graphing",
+      "charts",
+      "statistics",
+      "analyze",
+      "analysis",
+      "stocks"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "chart-bar",
+    "component": "ChartBarIcon",
+    "categories": [
+      "finances",
+      "office"
+    ],
+    "tags": [
+      "graphs",
+      "graphing",
+      "charts",
+      "statistics",
+      "histogram",
+      "analyze",
+      "analysis"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "chart-pie-slice",
+    "component": "ChartPieSliceIcon",
+    "categories": [
+      "finances",
+      "office"
+    ],
+    "tags": [
+      "*updated*",
+      "graphs",
+      "graphing",
+      "charts",
+      "statistics",
+      "circle",
+      "analyze",
+      "analysis"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "arrows-left-right",
+    "component": "ArrowsLeftRightIcon",
+    "categories": [
+      "arrows"
+    ],
+    "tags": [
+      "*updated*",
+      "directional",
+      "pointer",
+      "pointing",
+      "arrowhead"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "wallet",
+    "component": "WalletIcon",
+    "categories": [
+      "commerce",
+      "finances",
+      "objects"
+    ],
+    "tags": [
+      "money",
+      "payment",
+      "paying",
+      "purchase"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "file-text",
+    "component": "FileTextIcon",
+    "categories": [
+      "office",
+      "editor"
+    ],
+    "tags": [
+      "documents",
+      "files",
+      "save",
+      "write"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "list",
+    "component": "ListIcon",
+    "categories": [
+      "system",
+      "editor"
+    ],
+    "tags": [
+      "*updated*",
+      "hamburger menu",
+      "overflow menu",
+      "sidebar",
+      "3",
+      "ul",
+      "ol",
+      "unordered list",
+      "ordered list",
+      "checklist",
+      "lines"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "target",
+    "component": "TargetIcon",
+    "categories": [
+      "maps & travel",
+      "objects"
+    ],
+    "tags": [
+      "bullseye",
+      "radar",
+      "archery",
+      "accuracy",
+      "precision"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "calendar-dots",
+    "component": "CalendarDotsIcon",
+    "categories": [
+      "office",
+      "system"
+    ],
+    "tags": [
+      "*new*",
+      "dates",
+      "times",
+      "events",
+      "schedule"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  }
+]

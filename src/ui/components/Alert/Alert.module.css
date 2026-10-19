@@ -2,7 +2,7 @@
   --alert-tone: var(--color-info-solid);
   display: flex;
   align-items: flex-start;
-  gap: var(--space-3);
+  gap: var(--icon-gap-md);
   padding: var(--space-4);
   border: var(--border-width-thin) solid color-mix(in oklch, var(--alert-tone) 40%, transparent);
   border-radius: var(--radius-lg);

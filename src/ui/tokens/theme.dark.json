@@ -147,6 +147,11 @@
       "$type": "color",
       "$description": "Brand colored text and icons on the page."
     },
+    "brand-foreground-soft": {
+      "$value": "{primitive.color.accent.300}",
+      "$type": "color",
+      "$description": "Lighter, sky-blue brand text and icons for quiet tinted surfaces."
+    },
     "on-brand-solid-foreground": {
       "$value": "{primitive.color.white}",
       "$type": "color",
@@ -334,11 +339,16 @@
     }
   },
   "shadow": {
-    "$description": "Elevation, four levels. Each one starts with a 1px ring so the edge reads on any surface. Dark values are the reference; light values are the same shapes with dark alphas.",
+    "$description": "Elevation, four levels, plus `inset-ring` for quiet outlines. Each elevation level starts with a 1px ring so the edge reads on any surface. Dark values are the reference; light values are the same shapes with dark alphas.",
     "border": {
       "$value": "0 0 0 1px #ffffff14",
       "$type": "shadow",
       "$description": "A 1px outline drawn as a shadow. Use it instead of a border on cards, inputs and anything at rest, so the edge needs no extra layout space."
+    },
+    "inset-ring": {
+      "$value": "inset 0 0 0 1px #ffffff14",
+      "$type": "shadow",
+      "$description": "A quiet 1px ring drawn inside the edge, so it never grows the box or reads as a heavy border. Use it on badges, chips and selected states."
     },
     "default": {
       "$value": "0 0 0 1px #ffffff12, 0 1px 2px #00000066",

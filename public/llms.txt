@@ -12,6 +12,7 @@
 ## Machine-readable
 - [Component manifest](/agent/manifest.json): every component with props, examples and accessibility notes
 - [Design tokens](/agent/tokens.json): every CSS variable with its meaning
+- [Icons](/agent/icons.json): every available icon with its component name and tags
 - [Full documentation](/llms-full.txt): everything above in one Markdown file
 
 ## Components
@@ -34,7 +35,7 @@
 
 ### utility
 - **VisuallyHidden**: Text that screen readers must read but sighted users should not see, such as the name of an icon-only button.
-- **Icon**: Any glyph. Decorative by default.
+- **Icon**: Any glyph. Named icons are decorative by default; pass `label` when the icon is the only carrier of meaning.
 - **LinkProvider**: Making every link in the library use `next/link` (or another router link) from a single place.
 - **useLinkComponent**: Building your own navigation component that should follow LinkProvider.
 - **Avatar**: Showing who a person or account is.

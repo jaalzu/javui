@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
 import { cx } from "../../utils/cx";
-import { Icon } from "../Icon";
+import { CheckIcon, MinusIcon } from "../../icons/icons.generated";
 import styles from "./Checkbox.module.css";
 
 export type CheckboxProps = {
@@ -23,7 +23,7 @@ export function Checkbox({ label, className, indeterminate, ...rest }: CheckboxP
     <label className={cx(styles.label, className)}>
       <BaseCheckbox.Root className={styles.box} indeterminate={indeterminate} {...rest}>
         <BaseCheckbox.Indicator className={styles.indicator}>
-          <Icon size="sm">{indeterminate ? <path d="M6 12h12" /> : <path d="M5 12.5l4.5 4.5L19 7.5" />}</Icon>
+          {indeterminate ? <MinusIcon size="sm" /> : <CheckIcon size="sm" />}
         </BaseCheckbox.Indicator>
       </BaseCheckbox.Root>
       <span className={styles.text}>{label}</span>

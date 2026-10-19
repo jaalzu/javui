@@ -1,6 +1,6 @@
 import { Select as BaseSelect } from "@base-ui/react/select";
 import { cx } from "../../utils/cx";
-import { Icon } from "../Icon";
+import { CaretDownIcon, CheckIcon } from "../../icons/icons.generated";
 import styles from "./Select.module.css";
 
 export type SelectItem = {
@@ -52,9 +52,7 @@ export function Select({
         <BaseSelect.Trigger className={cx(styles.trigger, styles[size])} aria-label={ariaLabel}>
           <BaseSelect.Value className={styles.value} placeholder={placeholder} />
           <BaseSelect.Icon className={styles.icon}>
-            <Icon size="sm">
-              <path d="M7 10l5 5 5-5" />
-            </Icon>
+            <CaretDownIcon size="sm" />
           </BaseSelect.Icon>
         </BaseSelect.Trigger>
       </div>
@@ -65,9 +63,7 @@ export function Select({
               {items.map((item) => (
                 <BaseSelect.Item key={item.value} value={item.value} disabled={item.disabled} className={styles.item}>
                   <BaseSelect.ItemIndicator className={styles.itemIndicator}>
-                    <Icon size="sm">
-                      <path d="M5 12.5l4.5 4.5L19 7.5" />
-                    </Icon>
+                    <CheckIcon size="sm" />
                   </BaseSelect.ItemIndicator>
                   <BaseSelect.ItemText className={styles.itemText}>{item.label}</BaseSelect.ItemText>
                 </BaseSelect.Item>

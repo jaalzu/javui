@@ -16,6 +16,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (f) => JSON.parse(readFileSync(resolve(root, "public/agent", f), "utf8"));
 const manifest = read("manifest.json");
 const tokens = read("tokens.json");
+const icons = read("icons.json");
 
 const text = (value) => ({ content: [{ type: "text", text: typeof value === "string" ? value : JSON.stringify(value, null, 2) }] });
 const fail = (message) => ({ isError: true, content: [{ type: "text", text: message }] });
@@ -104,6 +105,48 @@ server.registerTool(
       .slice(0, 60);
     if (!hits.length) return fail(`No tokens match "${query}". Try 'color', 'space', 'text', 'radius', 'focus', 'motion'.`);
     return text(hits);
+  },
+);
+
+server.registerTool(
+  "search_icons",
+  {
+    title: "Search icons",
+    description: "Find an icon in the generated set by name, category or tag. Use it instead of drawing an <svg> by hand. Each hit shows the component to import and its available weights.",
+    inputSchema: {
+      query: z.string().describe("Text to look for, for example 'arrow', 'check', 'user', 'edit', 'settings'"),
+      limit: z.number().int().positive().max(100).optional().describe("Maximum hits. Default 40."),
+    },
+  },
+  async ({ query, limit = 40 }) => {
+    const q = query.toLowerCase();
+    const hits = icons
+      .filter((i) => [i.name, i.component, ...(i.categories ?? []), ...(i.tags ?? [])].some((f) => String(f).toLowerCase().includes(q)))
+      .slice(0, limit)
+      .map((i) => ({ name: i.name, import: `import { ${i.component} } from "@/ui";`, weights: i.weights }));
+    if (!hits.length) return fail(`No icons match "${query}". Try 'arrow', 'check', 'user', 'edit', 'settings'.`);
+    return text(hits);
+  },
+);
+
+server.registerTool(
+  "get_icon",
+  {
+    title: "Get icon",
+    description: "Import line and usage for one icon from the generated set.",
+    inputSchema: { name: z.string().describe("Icon name (check) or component name (CheckIcon)") },
+  },
+  async ({ name }) => {
+    const q = String(name).toLowerCase().replace(/icon$/, "");
+    const icon = icons.find((i) => i.name === q || i.component.toLowerCase() === String(name).toLowerCase());
+    if (!icon) return fail(`Unknown icon "${name}". Use search_icons to find one.`);
+    return text({
+      name: icon.name,
+      import: `import { ${icon.component} } from "@/ui";`,
+      weights: icon.weights,
+      example: `<${icon.component} size="sm" />\n<${icon.component} weight="fill" />`,
+      note: "Sizes: sm 16, md 20, lg 24, xl 32. Decorative without `label`; pass `label` when it carries meaning.",
+    });
   },
 );
 

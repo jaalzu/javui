@@ -13,6 +13,17 @@
   transform: translateY(-100%);
 }
 
+/* Closer to the page edges than the general shell, so the mobile bar breathes less. */
+.header .headerWrap {
+  padding-inline: var(--space-3);
+}
+
+@media (min-width: 64rem) {
+  .header .headerWrap {
+    padding-inline: var(--space-4);
+  }
+}
+
 .headerInner {
   display: grid;
   grid-template-columns: 1fr auto 1fr;

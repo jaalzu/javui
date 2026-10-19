@@ -4,7 +4,7 @@ import type { ComponentProps, ElementType } from "react";
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { cx } from "../../utils/cx";
 import { Button, type ButtonSize, type ButtonVariant } from "../Button";
-import { Icon } from "../Icon";
+import { CaretDownIcon } from "../../icons/icons.generated";
 import { useLinkComponent } from "../Link/LinkContext";
 import styles from "./Menu.module.css";
 
@@ -57,9 +57,7 @@ export function Menu({ label, items, variant = "secondary", size = "md", align =
     <BaseMenu.Root>
       <BaseMenu.Trigger render={<Button variant={variant} size={size} className={className} />}>
         {label}
-        <Icon size="sm">
-          <path d="M7 10l5 5 5-5" />
-        </Icon>
+        <CaretDownIcon size="sm" />
       </BaseMenu.Trigger>
       <BaseMenu.Portal>
         <BaseMenu.Positioner sideOffset={6} align={align} className={styles.positioner}>

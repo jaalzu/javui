@@ -4,7 +4,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useMemo, useRef, useState, useSyncExternalStore } from "react";
-import { Button, Icon, Kbd } from "@/ui";
+import { Button, Kbd, MagnifyingGlassIcon, XIcon } from "@/ui";
 import styles from "./Search.module.css";
 
 export type SearchItem = { href: string; label: string; group: string; hint?: string };
@@ -90,7 +90,7 @@ export function Search({ items }: { items: SearchItem[] }) {
   return (
     <>
       <button type="button" className={styles.searchButton} onClick={open}>
-        <Icon size="sm" className={styles.searchIcon}><path d="m21 21-4.3-4.3M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" /></Icon>
+        <MagnifyingGlassIcon size="sm" className={styles.searchIcon} />
         <span className={styles.searchText}>Search documentation</span>
         <span className={styles.searchKeys} aria-hidden="true"><Kbd>{mod}</Kbd><Kbd>K</Kbd></span>
       </button>
@@ -101,7 +101,7 @@ export function Search({ items }: { items: SearchItem[] }) {
         onClick={(e) => e.target === dialog.current && dialog.current?.close()}
       >
         <div className={styles.searchBox}>
-          <Icon size="sm" className={styles.searchGlyph}><path d="m21 21-4.3-4.3M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" /></Icon>
+          <MagnifyingGlassIcon size="sm" className={styles.searchGlyph} />
           <input
             ref={input}
             type="search"
@@ -123,7 +123,7 @@ export function Search({ items }: { items: SearchItem[] }) {
             className={styles.searchInput}
           />
           <Button variant="ghost" size="sm" aria-label="Close search" className={styles.closeButton} onClick={() => dialog.current?.close()}>
-            <Icon><path d="M6 6l12 12M18 6L6 18" /></Icon>
+            <XIcon />
           </Button>
         </div>
         <ul id={listId} role="listbox" aria-label="Results" className={styles.searchList}>

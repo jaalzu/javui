@@ -3,8 +3,8 @@
 import type { ReactNode } from "react";
 import {
   Accordion, Alert, Avatar, Badge, Box, Breadcrumb, Button, ButtonLink, Card, Checkbox, CodeBlock, Container,
-  Dialog, DialogClose, DialogContent, DialogTrigger, Divider, Field, Grid, Heading, Icon, Input, Kbd, Link, Menu,
-  Pagination, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, Radio, RadioGroup, Select, Skeleton,
+  Dialog, DialogClose, DialogContent, DialogTrigger, Divider, Field, Grid, Heading, CheckIcon, Input, Kbd, Link, Menu,
+  Pagination, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, PlusIcon, Radio, RadioGroup, Select, Skeleton,
   Slider, Spinner, Stack, Switch, Table, Tabs, Text, Textarea, Tooltip, VisuallyHidden, useToast,
 } from "@/ui";
 
@@ -32,24 +32,24 @@ const demos: Record<string, () => ReactNode> = {
   Badge: () => (
     <Stack gap="3">
       <Stack direction="row" gap="2" wrap>
-        <Badge>Neutral</Badge>
-        <Badge tone="accent">Accent</Badge>
-        <Badge tone="success">Success</Badge>
-        <Badge tone="warning">Warning</Badge>
-        <Badge tone="info">Info</Badge>
-        <Badge tone="danger">Danger</Badge>
-      </Stack>
-      <Stack direction="row" gap="2" wrap>
-        <Badge variant="solid">Solid</Badge>
-        <Badge variant="solid" tone="accent">Accent</Badge>
-        <Badge variant="solid" tone="danger">Danger</Badge>
+        <Badge>Default</Badge>
+        <Badge variant="inverted">Inverted</Badge>
         <Badge variant="outline">Outline</Badge>
-        <Badge variant="outline" tone="success">Outline</Badge>
+        <Badge variant="brand">Brand</Badge>
+        <Badge variant="success">Success</Badge>
+        <Badge variant="danger">Danger</Badge>
       </Stack>
       <Stack direction="row" gap="2" wrap>
-        <Badge tone="success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7" /></svg>Verified</Badge>
-        <Badge tone="info" loading>Syncing</Badge>
-        <Badge tone="warning" loading>Pending</Badge>
+        <Badge size="sm">Small</Badge>
+        <Badge size="md">Medium</Badge>
+        <Badge size="lg">Large</Badge>
+        <Badge shape="rounded">Rounded</Badge>
+        <Badge variant="outline" shape="rounded">Outline</Badge>
+      </Stack>
+      <Stack direction="row" gap="2" wrap>
+        <Badge variant="success"><CheckIcon />Verified</Badge>
+        <Badge variant="brand" loading>Saving</Badge>
+        <Badge variant="outline" spinnerPosition="end" loading>Pending</Badge>
       </Stack>
     </Stack>
   ),
@@ -70,11 +70,11 @@ const demos: Record<string, () => ReactNode> = {
   Divider: () => <Divider />,
   VisuallyHidden: () => (
     <Button variant="secondary">
-      <Icon><path d="M5 12.5l4.5 4.5L19 7.5" /></Icon>
+      <CheckIcon />
       <VisuallyHidden>Mark as done</VisuallyHidden>
     </Button>
   ),
-  Icon: () => <Icon label="Done" size="lg"><path d="M5 12.5l4.5 4.5L19 7.5" /></Icon>,
+  Icon: () => <CheckIcon label="Done" size="lg" />,
   Spinner: () => <Spinner label="Saving" />,
   Skeleton: () => (
     <Stack direction="row" gap="3" align="center" aria-busy="true">
@@ -89,7 +89,7 @@ const demos: Record<string, () => ReactNode> = {
       <Button variant="ghost">Ghost</Button>
       <Button variant="danger">Danger</Button>
       <Button variant="secondary">
-        <Icon><path d="M12 5v14M5 12h14" /></Icon>
+        <PlusIcon />
         New
       </Button>
       <Button loading>Saving</Button>
@@ -134,7 +134,7 @@ const demos: Record<string, () => ReactNode> = {
   ),
   Tooltip: () => (
     <Tooltip content="Saved">
-      <Button variant="secondary" aria-label="Saved"><Icon><path d="M5 12.5l4.5 4.5L19 7.5" /></Icon></Button>
+      <Button variant="secondary" aria-label="Saved"><CheckIcon /></Button>
     </Tooltip>
   ),
   Tabs: () => (

@@ -17,6 +17,25 @@ const eslintConfig = defineConfig([
       "jsx-a11y/no-noninteractive-tabindex": ["error", { roles: ["tabpanel", "log"] }],
     },
   },
+  {
+    // Icons are named components from the generated set (`bun run icons`).
+    // Only `createIcon` may put a glyph inside `<Icon>`; everywhere else, import the icon.
+    files: ["src/**/*.{js,jsx,ts,tsx}"],
+    ignores: ["src/ui/icons/icons.generated.tsx", "src/ui/components/Icon/createIcon.tsx"],
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector: "JSXElement[openingElement.name.name='Icon'] > JSXElement",
+          message: "Do not nest a glyph inside <Icon>: import a named icon from @/ui (run `bun run icons`).",
+        },
+        {
+          selector: "JSXElement[openingElement.name.name='Icon'] > JSXExpressionContainer",
+          message: "Do not nest a glyph inside <Icon>: import a named icon from @/ui (run `bun run icons`).",
+        },
+      ],
+    },
+  },
   globalIgnores([
     ".next/**",
     "out/**",

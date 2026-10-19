@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Button, Icon } from "@/ui";
+import { Button, CheckIcon, CopyIcon } from "@/ui";
 import shell from "../../_shell/shell.module.css";
 
 /** Copies the text of the page (title and content) so it can be pasted into an editor or an agent. */
@@ -26,9 +26,7 @@ export function CopyPage() {
   return (
     <>
       <Button variant="secondary" size="sm" onClick={copy}>
-        <Icon size="sm">
-          {copied ? <path d="M5 12.5l4.5 4.5L19 7.5" /> : <path d="M9 9h10v10H9zM5 15V5h10" />}
-        </Icon>
+        {copied ? <CheckIcon size="sm" /> : <CopyIcon size="sm" />}
         {copied ? "Copied" : "Copy page"}
       </Button>
       <span role="status" className={shell.srOnly}>{copied ? "Page copied" : ""}</span>

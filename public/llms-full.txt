@@ -12,6 +12,7 @@
 ## Machine-readable
 - [Component manifest](/agent/manifest.json): every component with props, examples and accessibility notes
 - [Design tokens](/agent/tokens.json): every CSS variable with its meaning
+- [Icons](/agent/icons.json): every available icon with its component name and tags
 - [Full documentation](/llms-full.txt): everything above in one Markdown file
 
 ## Components
@@ -34,7 +35,7 @@
 
 ### utility
 - **VisuallyHidden**: Text that screen readers must read but sighted users should not see, such as the name of an icon-only button.
-- **Icon**: Any glyph. Decorative by default.
+- **Icon**: Any glyph. Named icons are decorative by default; pass `label` when the icon is the only carrier of meaning.
 - **LinkProvider**: Making every link in the library use `next/link` (or another router link) from a single place.
 - **useLinkComponent**: Building your own navigation component that should follow LinkProvider.
 - **Avatar**: Showing who a person or account is.
@@ -106,7 +107,7 @@ For headings use `Heading`; for links use `Link`.
 | `as` | `"div" \| "code" \| "em" \| "label" \| "p" \| "small" \| "span" \| "strong"` | no |  | HTML element to render. Defaults by variant: `p` for body variants, `span` for `label` and `caption`, `code` for `code`. Use `label` with `htmlFor` for form labels. |
 | `casing` | `"normal" \| "uppercase"` | no | normal | Set to `uppercase` for small uppercase captions. |
 | `size` | `"base" \| "sm" \| "lg" \| "xs"` | no | base | Size within the variant: body is 18px (`lg`), 15px (`base`) or 13px (`sm`); caption is 12px, 11px or 10px; code is 14px (`base`), 13px (`sm`) or 12px (`xs`). Ignored by `label` and `emphasis`. |
-| `tone` | `"info" \| "success" \| "warning" \| "danger" \| "subtle" \| "default" \| "muted" \| "brand"` | no | default | Text color from the semantic color tokens. |
+| `tone` | `"info" \| "success" \| "warning" \| "danger" \| "default" \| "brand" \| "muted" \| "subtle"` | no | default | Text color from the semantic color tokens. |
 | `variant` | `"body" \| "caption" \| "code" \| "label" \| "emphasis"` | no | body | Which text style to apply. Appearance only; it does not change the element. |
 | `weight` | `"regular" \| "medium" \| "semibold"` | no |  | Font weight. Only three exist; there is no light. Defaults to the variant's own weight. |
 
@@ -206,33 +207,48 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## Badge
 
-Small status label. Text is always the primary signal; the tone is reinforcement.
-Put an `<svg>` icon as the first or last child to add an icon.
+Small status, category or count label. Text is always the primary signal; the
+variant only reinforces it.
+
+Keep the text to one or two words and truncate counts to two digits (`99+`).
+Badges are secondary and supportive: never use one as a heading or a key
+indicator. Add an icon (e.g. `<CheckIcon />`) as the first or last child for an icon.
 
 - Category: typography
 - Base: Own component
 - Import: `import { Badge } from "@/ui";`
-- Renders: span
-- Composition: Plain children. Put an `<svg>` as first or last child for an icon; `loading` adds a spinner before the text. `variant`: subtle, solid or outline.
+- Renders: span, or the element passed in `render`
+- Composition: Plain children. Put an `<svg>` or `Icon` as first or last child for an icon; `loading` adds a spinner (`spinnerPosition`: start or end). `variant`: default, inverted, outline, brand, success or danger. `size`: sm, md or lg. `shape`: pill (default) or rounded. Pass `render={<Link href="…" />}` to render a link. Keep text to one or two words; truncate counts to two digits (`99+`).
 - Use when: Short status or count labels next to other content.
 - Avoid:
   - Using color as the only signal: always include text.
-  - Interactive badges: use Button.
-- Accessibility: Meaning must be in the text; the tone only reinforces it.
+  - Badges as headings or key indicators: they are secondary and supportive.
+  - Long descriptions, or mixing different badge sizes side by side.
+  - Styling a badge like a button when it acts as one: use Button.
+- Accessibility: Meaning must be in the text; the variant only reinforces it. A badge rendered as a link keeps the link's own accessible name.
 
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `loading` | `boolean` | no | false | Shows a spinner before the text, for statuses that are still in progress. |
-| `tone` | `"info" \| "success" \| "warning" \| "danger" \| "neutral" \| "accent"` | no | neutral | Meaning of the badge. Conveyed by tint, never by color alone: always include text. |
-| `variant` | `"subtle" \| "solid" \| "outline"` | no | subtle | Visual weight. `subtle` is a tinted pill, `solid` a filled one, `outline` only a border. |
+| `className` | `string` | no |  |  |
+| `loading` | `boolean` | no | false | Shows a spinner before or after the text, for statuses still in progress. |
+| `render` | `RenderProp<Record<string, unknown>>` | no |  | Renders the badge as another element or component, e.g. a link: `render={<Link href="/docs" />}`. Keyboard and focus behavior then come from that element, since Base UI merges the props. |
+| `shape` | `"rounded" \| "pill"` | no | pill | Corner shape: `pill` (fully round) or `rounded` (small radius). |
+| `size` | `"sm" \| "md" \| "lg"` | no | md | Height and type scale: `sm` 20px, `md` 24px, `lg` 28px. |
+| `spinnerPosition` | `"start" \| "end"` | no | start | Side the spinner sits on. |
+| `variant` | `"success" \| "danger" \| "default" \| "inverted" \| "outline" \| "brand"` | no | default | Visual treatment. `default` is a quiet component surface, `inverted` a filled high-contrast pill, `outline` only an inset ring, and `brand`, `success` and `danger` are soft semantic tints (translucent background, colored text). |
 
 Also accepts the native props of the element it renders; they pass through.
 
 ### Example
 ```tsx
-<Badge tone="success">Active</Badge>
-<Badge tone="info" loading>Syncing</Badge>
+<Badge>Draft</Badge>
+<Badge variant="success">Active</Badge>
+<Badge variant="danger">99+</Badge>
+<Badge variant="outline" shape="rounded">Beta</Badge>
+<Badge variant="brand" loading>Saving</Badge>
+<Badge variant="inverted" size="lg" spinnerPosition="end" loading>Syncing</Badge>
+<Badge variant="default" render={<Link href="/docs" />}>Docs</Badge>
 ```
 
 ## Box
@@ -420,31 +436,32 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## Icon
 
-SVG icon wrapper. Pass the glyph paths as children; it uses `currentColor`.
+Container for a Phosphor glyph (256x256 grid, filled shapes, `currentColor`).
+Do not use it with hand-written paths: import a named icon (`ArrowRightIcon`) instead.
 
 - Category: utility
 - Base: Own component
 - Import: `import { Icon } from "@/ui";`
-- Renders: svg
-- Composition: Pass the SVG paths as children; it uses currentColor and a 24x24 viewBox.
-- Use when: Any glyph. Decorative by default.
+- Renders: svg on a 256x256 viewBox, filled with currentColor
+- Composition: Do not pass paths. Import a named icon from the set (CheckIcon, ArrowRightIcon ...) generated by `bun run icons` and listed in /agent/icons.json. Each icon takes `size` (sm 16, md 20, lg 24, xl 32) and `weight` (regular | fill).
+- Use when: Any glyph. Named icons are decorative by default; pass `label` when the icon is the only carrier of meaning.
 - Avoid:
+  - Hand-written <path> children: every icon comes from the generated set.
   - Meaningful icons without a label.
+  - weight="fill" unless it marks an active or selected state.
 - Accessibility: Without `label` it is aria-hidden. With `label` it is role="img" with that name.
 
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `label` | `string` | no |  | Accessible name. Provide it when the icon carries meaning on its own (no visible text next to it). Without `label` the icon is decorative and hidden from assistive technology. |
-| `size` | `"sm" \| "md" \| "lg"` | no | md | Size relative to the surrounding text: `sm` 1em, `md` 1.25em, `lg` 1.5em. |
-| `viewBox` | `string` | no | 0 0 24 24 | SVG viewBox of the glyph. |
+| `size` | `"sm" \| "md" \| "lg" \| "xl"` | no | undefined | Fixed size: `sm` 16px, `md` 20px, `lg` 24px, `xl` 32px. Without it the icon is 20px, or the size its parent sets (inside a `Button` it follows the button). |
 
 Also accepts the native props of the element it renders; they pass through.
 
 ### Example
 ```tsx
-<Icon><path d="M5 12l5 5L20 7" /></Icon>
-<Icon label="Success"><path d="M5 12l5 5L20 7" /></Icon>
+<Icon label="Success">{glyph}</Icon>
 ```
 
 ## Spinner
@@ -529,7 +546,7 @@ For navigation use `Link`.
 | `className` | `string` | no |  |  |
 | `loading` | `boolean` | no | false | Shows a spinner and ignores clicks while an action is running. The button keeps its label and stays focusable, and `aria-busy` tells assistive technology it is working. |
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 2rem, `md` 2.5rem, `lg` 3rem. |
-| `variant` | `"danger" \| "accent" \| "primary" \| "secondary" \| "ghost"` | no | primary | Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions, `ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions. |
+| `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | primary | Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions, `ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -539,7 +556,8 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 <Button variant="secondary" size="sm">Cancel</Button>
 <Button type="submit">Send</Button>
 <Button loading>Saving</Button>
-<Button variant="secondary"><Icon><path d="M5 12.5l4.5 4.5L19 7.5" /></Icon>Done</Button>
+<Button variant="secondary"><CheckIcon />Done</Button>
+<Button variant="ghost" aria-label="Close"><XIcon /></Button>
 ```
 
 ## Field
@@ -829,7 +847,7 @@ The button that opens the dialog. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
-| `variant` | `"danger" \| "accent" \| "primary" \| "secondary" \| "ghost"` | no | primary | Button style of the trigger. |
+| `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | primary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -876,7 +894,7 @@ A button that closes the dialog. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size. |
-| `variant` | `"danger" \| "accent" \| "primary" \| "secondary" \| "ghost"` | no | secondary | Button style. |
+| `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1035,7 +1053,7 @@ A link that looks like a `Button`. It renders an `a` (or the component given to 
 |---|---|---|---|---|
 | `href` | `string` | yes |  | Where the link goes. Required. |
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 2rem, `md` 2.5rem, `lg` 3rem. |
-| `variant` | `"danger" \| "accent" \| "primary" \| "secondary" \| "ghost"` | no | primary | Visual emphasis, the same as `Button`. `primary` is the main call to action (one per view). |
+| `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | primary | Visual emphasis, the same as `Button`. `primary` is the main call to action (one per view). |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -1185,7 +1203,7 @@ The button that opens the popover. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
-| `variant` | `"danger" \| "accent" \| "primary" \| "secondary" \| "ghost"` | no | secondary | Button style of the trigger. |
+| `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1233,7 +1251,7 @@ A button that closes the popover. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | sm | Button size. |
-| `variant` | `"danger" \| "accent" \| "primary" \| "secondary" \| "ghost"` | no | secondary | Button style. |
+| `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1262,7 +1280,7 @@ Do not put form controls in a menu: use `Popover`.
 | `align` | `"center" \| "start" \| "end"` | no | start | Alignment of the menu against the trigger. |
 | `className` | `string` | no |  |  |
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
-| `variant` | `"danger" \| "accent" \| "primary" \| "secondary" \| "ghost"` | no | secondary | Button style of the trigger. |
+| `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1706,6 +1724,8 @@ Also accepts the native props of the element it renders; they pass through.
 | `--space-10` | dimension | `2.5rem` |
 | `--space-12` | dimension | `3rem` |
 | `--space-16` | dimension | `4rem` |
+| `--space-20` | dimension | `5rem` |
+| `--space-1-5` | dimension | `0.375rem` |
 | `--radius-none` | dimension | `0` |
 | `--radius-sm` | dimension | `0.25rem` |
 | `--radius-md` | dimension | `0.5rem` |
@@ -1725,10 +1745,22 @@ Also accepts the native props of the element it renders; they pass through.
 | `--size-control-sm` | dimension | `2rem` |
 | `--size-control-md` | dimension | `2.5rem` |
 | `--size-control-lg` | dimension | `3rem` |
+| `--size-icon-sm` | dimension | `1rem` |
+| `--size-icon-md` | dimension | `1.25rem` |
+| `--size-icon-lg` | dimension | `1.5rem` |
+| `--size-icon-xl` | dimension | `2rem` |
+| `--icon-gap-sm` |  | `var(--space-1-5)` |
+| `--icon-gap-md` |  | `var(--space-2)` |
+| `--icon-gap-lg` |  | `var(--space-2)` |
+| `--icon-gap-xl` |  | `var(--space-3)` |
 | `--container-sm` | dimension | `40rem` |
 | `--container-md` | dimension | `48rem` |
 | `--container-lg` | dimension | `64rem` |
 | `--container-xl` | dimension | `80rem` |
+| `--breakpoint-sm` | dimension | `40rem` |
+| `--breakpoint-md` | dimension | `48rem` |
+| `--breakpoint-lg` | dimension | `64rem` |
+| `--breakpoint-xl` | dimension | `80rem` |
 | `--z-base` |  | `0` |
 | `--z-dropdown` |  | `1000` |
 | `--z-sticky` |  | `1100` |
@@ -1742,7 +1774,7 @@ Also accepts the native props of the element it renders; they pass through.
 | `--motion-easing-standard` |  | `cubic-bezier(0.2, 0, 0, 1)` |
 | `--motion-easing-in` |  | `cubic-bezier(0.4, 0, 1, 1)` |
 | `--motion-easing-out` |  | `cubic-bezier(0, 0, 0.2, 1)` |
-| `--color-page` | color | light `color-mix(in oklab, var(--primitive-color-white) 100%, var(--primitive-color-neutral-50))` / dark `color-mix(in oklab, var(--primitive-color-neutral-950) 70%, var(--primitive-color-black))` |
+| `--color-page` | color | light `color-mix(in oklab, var(--primitive-color-white) 70%, var(--primitive-color-neutral-50))` / dark `color-mix(in oklab, var(--primitive-color-neutral-950) 70%, var(--primitive-color-black))` |
 | `--color-shell` | color | light `color-mix(in oklab, var(--color-primary-foreground) 3%, var(--color-page))` / dark `color-mix(in oklab, var(--color-primary-foreground) 3%, var(--color-page))` |
 | `--color-container` | color | light `color-mix(in oklab, var(--color-primary-foreground) 5%, var(--color-page))` / dark `color-mix(in oklab, var(--color-primary-foreground) 5%, var(--color-page))` |
 | `--color-card` | color | light `var(--primitive-color-white)` / dark `color-mix(in oklab, var(--color-primary-foreground) 8%, var(--color-page))` |
@@ -1761,8 +1793,8 @@ Also accepts the native props of the element it renders; they pass through.
 | `--color-secondary-foreground` | color | light `color-mix(in oklch, var(--color-primary-foreground) 70%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 70%, transparent)` |
 | `--color-tertiary-foreground` | color | light `color-mix(in oklch, var(--color-primary-foreground) 62%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 54%, transparent)` |
 | `--color-disabled-foreground` | color | light `color-mix(in oklab, var(--color-primary-foreground) 38%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 38%, transparent)` |
-| `--color-inverted-solid` | color | light `var(--primitive-color-neutral-950)` / dark `var(--primitive-color-neutral-50)` |
-| `--color-inverted-solid-hover` | color | light `color-mix(in oklab, var(--color-inverted-solid) 82%, var(--color-page))` / dark `color-mix(in oklab, var(--color-inverted-solid) 88%, var(--color-page))` |
+| `--color-inverted-solid` | color | light `var(--primitive-color-neutral-950)` / dark `#e5e5e6` |
+| `--color-inverted-solid-hover` | color | light `color-mix(in oklab, var(--color-inverted-solid) 82%, var(--color-page))` / dark `color-mix(in oklab, var(--color-inverted-solid) 40%, var(--primitive-color-white))` |
 | `--color-inverted-solid-active` | color | light `color-mix(in oklab, var(--color-inverted-solid) 72%, var(--color-page))` / dark `color-mix(in oklab, var(--color-inverted-solid) 72%, var(--color-page))` |
 | `--color-on-inverted-foreground` | color | light `var(--primitive-color-neutral-50)` / dark `var(--primitive-color-neutral-950)` |
 | `--color-on-standout-primary-foreground` | color | light `var(--color-page)` / dark `var(--color-page)` |
@@ -1771,6 +1803,7 @@ Also accepts the native props of the element it renders; they pass through.
 | `--color-brand-solid-hover` | color | light `color-mix(in oklab, var(--color-brand-solid) 88%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-brand-solid) 88%, var(--color-primary-foreground))` |
 | `--color-brand-subtle` | color | light `color-mix(in oklab, var(--color-brand-solid) 12%, transparent)` / dark `color-mix(in oklab, var(--color-brand-solid) 12%, transparent)` |
 | `--color-brand-foreground` | color | light `var(--primitive-color-accent-700)` / dark `var(--primitive-color-accent-400)` |
+| `--color-brand-foreground-soft` | color | light `color-mix(in oklab, var(--primitive-color-accent-700) 72%, var(--color-primary-foreground))` / dark `var(--primitive-color-accent-300)` |
 | `--color-on-brand-solid-foreground` | color | light `var(--primitive-color-white)` / dark `var(--primitive-color-white)` |
 | `--color-positive-solid` | color | light `var(--primitive-color-success-700)` / dark `var(--primitive-color-success-400)` |
 | `--color-positive-solid-hover` | color | light `color-mix(in oklab, var(--color-positive-solid) 88%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-positive-solid) 88%, var(--color-primary-foreground))` |
@@ -1809,6 +1842,7 @@ Also accepts the native props of the element it renders; they pass through.
 | `--color-disabled` | color | light `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` |
 | `--color-overlay` | color | light `oklch(0 0 0 / 0.4)` / dark `oklch(0 0 0 / 0.6)` |
 | `--shadow-border` | shadow | light `0 0 0 1px #00000014` / dark `0 0 0 1px #ffffff14` |
+| `--shadow-inset-ring` | shadow | light `inset 0 0 0 1px #00000014` / dark `inset 0 0 0 1px #ffffff14` |
 | `--shadow-default` | shadow | light `0 0 0 1px #0000000f, 0 1px 2px #0000001a` / dark `0 0 0 1px #ffffff12, 0 1px 2px #00000066` |
 | `--shadow-large` | shadow | light `0 0 0 1px #00000014, 0 2px 3px -2px #0000001a, 0 3px 8px -2px #00000014, 0 4px 12px -4px #0000001f` / dark `0 0 0 1px color-mix(in oklab, #ffffff12, #3a3a3a 25%), 0 2px 3px -2px #00000026, 0 3px 8px -2px #0006, 0 4px 12px -4px #00000080` |
 | `--shadow-extra-large` | shadow | light `0 0 0 .5px #00000014, 0 8px 40px 0px #0000001a, 0 12px 32px -16px #00000040` / dark `0 0 0 .5px #ffffff12 inset, 0 0 0 .5px #0000, 0 8px 40px 0px #0000000d, 0 12px 32px -16px #00000026` |

@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { Toast as BaseToast } from "@base-ui/react/toast";
-import { Icon } from "../Icon";
+import { XIcon } from "../../icons/icons.generated";
 import styles from "./Toast.module.css";
 
 export type ToastTone = "neutral" | "success" | "info" | "warning" | "danger";
@@ -28,9 +28,7 @@ function ToastList() {
           <BaseToast.Description className={styles.description} />
         </div>
         <BaseToast.Close className={styles.close} aria-label="Dismiss">
-          <Icon size="sm">
-            <path d="M6 6l12 12M18 6L6 18" />
-          </Icon>
+          <XIcon size="sm" />
         </BaseToast.Close>
       </BaseToast.Content>
     </BaseToast.Root>

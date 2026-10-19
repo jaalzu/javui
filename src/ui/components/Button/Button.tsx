@@ -35,8 +35,8 @@ export type ButtonProps = {
  * <Button variant="secondary" size="sm">Cancel</Button>
  * <Button type="submit">Send</Button>
  * <Button loading>Saving</Button>
- * <Button variant="secondary"><Icon><path d="M5 12.5l4.5 4.5L19 7.5" /></Icon>Done</Button>
- * <Button variant="ghost" aria-label="Close"><Icon><path d="M6 6l12 12M18 6L6 18" /></Icon></Button>
+ * <Button variant="secondary"><CheckIcon />Done</Button>
+ * <Button variant="ghost" aria-label="Close"><XIcon /></Button>
  */
 export function Button({
   variant = "primary",

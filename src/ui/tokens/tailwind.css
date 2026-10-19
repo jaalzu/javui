@@ -20,6 +20,7 @@
   --color-on-inverted-foreground: var(--color-on-inverted-foreground);
   --color-brand-solid: var(--color-brand-solid);
   --color-brand-foreground: var(--color-brand-foreground);
+  --color-brand-foreground-soft: var(--color-brand-foreground-soft);
   --color-on-brand-solid-foreground: var(--color-on-brand-solid-foreground);
   --color-positive-solid: var(--color-positive-solid);
   --color-on-positive-solid-foreground: var(--color-on-positive-solid-foreground);
@@ -85,6 +86,7 @@
   --shadow-md: var(--shadow-md);
   --shadow-lg: var(--shadow-lg);
   --shadow-border: var(--shadow-border);
+  --shadow-inset-ring: var(--shadow-inset-ring);
   --shadow-default: var(--shadow-default);
   --shadow-large: var(--shadow-large);
   --shadow-extra-large: var(--shadow-extra-large);

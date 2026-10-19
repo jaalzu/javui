@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import manifest from "../../../../../public/agent/manifest.json";
-import { CodeBlock, Heading, Table } from "@/ui";
+import { CodeBlock, Heading, Skeleton, Stack, Table } from "@/ui";
 import { noDemo } from "@/app/_examples/demo-names";
 import { Examples, Preview } from "@/app/_examples/Examples";
 import shell from "../../../_shell/shell.module.css";
@@ -13,6 +14,8 @@ type Entry = {
   composition: string; whenToUse: string; avoid: string[]; accessibility: string; props: Prop[]; extends: string; examples: string[];
 };
 const components = manifest.components as unknown as Entry[];
+
+type ComponentPageProps = { params: Promise<{ name: string }> };
 
 /** Renders `code` spans written with backticks in the generated text. */
 function Inline({ text }: { text: string }) {
@@ -29,12 +32,31 @@ export function generateStaticParams() {
   return components.map((c) => ({ name: c.name }));
 }
 
-export async function generateMetadata({ params }: PageProps<"/docs/components/[name]">): Promise<Metadata> {
+export async function generateMetadata({ params }: ComponentPageProps): Promise<Metadata> {
   const { name } = await params;
   return { title: name };
 }
 
-export default async function ComponentPage({ params }: PageProps<"/docs/components/[name]">) {
+export default function ComponentPage({ params }: ComponentPageProps) {
+  return (
+    <Suspense fallback={<ComponentSkeleton />}>
+      <ComponentContent params={params} />
+    </Suspense>
+  );
+}
+
+/** Placeholder shown while the `[name]` URL data resolves, so the navigation stays instant. */
+function ComponentSkeleton() {
+  return (
+    <Stack gap="4">
+      <Skeleton shape="rect" width="12rem" height="2.5rem" />
+      <Skeleton />
+      <Skeleton width="80%" />
+    </Stack>
+  );
+}
+
+async function ComponentContent({ params }: ComponentPageProps) {
   const { name } = await params;
   const c = components.find((x) => x.name === name);
   if (!c) notFound();

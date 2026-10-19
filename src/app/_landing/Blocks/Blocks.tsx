@@ -4,12 +4,23 @@ import { useState, type CSSProperties, type ReactNode } from "react";
 import {
   Accordion,
   Alert,
+  ArrowDownIcon,
+  ArrowRightIcon,
+  ArrowUpIcon,
+  ArrowsLeftRightIcon,
   Avatar,
   Badge,
   Button,
   ButtonLink,
+  CalendarDotsIcon,
   Card,
+  ChartBarIcon,
+  ChartLineIcon,
+  ChartLineUpIcon,
+  ChartPieSliceIcon,
   Checkbox,
+  CheckIcon,
+  CircleIcon,
   CodeBlock,
   Dialog,
   DialogClose,
@@ -17,11 +28,12 @@ import {
   DialogTrigger,
   Divider,
   Field,
+  FileTextIcon,
   Heading,
-  Icon,
   Input,
   Kbd,
   Link,
+  ListIcon,
   Menu,
   Progress,
   Radio,
@@ -32,26 +44,19 @@ import {
   Switch,
   Table,
   Tabs,
+  TargetIcon,
   Text,
   Textarea,
+  WalletIcon,
 } from "@/ui";
 import styles from "./Blocks.module.css";
 import shell from "../../_shell/shell.module.css";
 
-const ico = (d: string) => (
-  <Icon size="sm">
-    <path d={d} />
-  </Icon>
-);
-const tick = ico("M5 12.5l4.5 4.5L19 7.5");
-const dot = (
-  <Icon size="sm">
-    <circle cx="12" cy="12" r="4" />
-  </Icon>
-);
-const sendIcon = ico("M5 12h14M13 6l6 6-6 6");
-const up = ico("M7 11l5-6 5 6M12 5v14");
-const down = ico("M7 13l5 6 5-6M12 19V5");
+const tick = <CheckIcon size="sm" />;
+const dot = <CircleIcon size="sm" />;
+const sendIcon = <ArrowRightIcon size="sm" />;
+const up = <ArrowUpIcon size="sm" />;
+const down = <ArrowDownIcon size="sm" />;
 
 function Person({ name, email }: { name: string; email: string }) {
   return (
@@ -105,31 +110,25 @@ function Block({
 
 /* ---------- Navigation ---------- */
 
-const nav: { title: string; items: [string, string][] }[] = [
+const nav: { title: string; items: [string, ReactNode][] }[] = [
   {
     title: "Overview",
     items: [
-      ["Analytics", "M4 19V5M4 19h16M8 15v-4M12 15V8M16 15v-6"],
-      ["Transactions", "M7 8h12M7 8l3-3M17 16H5m12 0l-3-3"],
-      ["Investments", "M4 16l5-5 4 4 7-8"],
-      [
-        "Accounts",
-        "M4 8h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4zM4 8V7a2 2 0 0 1 2-2h10",
-      ],
-      ["Spending", "M12 3v9h9a9 9 0 1 1-9-9z"],
+      ["Analytics", <ChartLineIcon key="analytics" size="sm" />],
+      ["Transactions", <ArrowsLeftRightIcon key="transactions" size="sm" />],
+      ["Investments", <ChartLineUpIcon key="investments" size="sm" />],
+      ["Accounts", <WalletIcon key="accounts" size="sm" />],
+      ["Spending", <ChartPieSliceIcon key="spending" size="sm" />],
     ],
   },
   {
     title: "Planning",
     items: [
-      ["Documents", "M7 3h7l4 4v14H7zM14 3v4h4"],
-      ["Budget", "M4 7h16M4 12h16M4 17h10"],
-      ["Reports", "M5 4h14v16H5zM9 9h6M9 13h6"],
-      [
-        "Goals",
-        "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z",
-      ],
-      ["Calendar", "M5 6h14v14H5zM5 10h14M9 3v4M15 3v4"],
+      ["Documents", <FileTextIcon key="documents" size="sm" />],
+      ["Budget", <ListIcon key="budget" size="sm" />],
+      ["Reports", <ChartBarIcon key="reports" size="sm" />],
+      ["Goals", <TargetIcon key="goals" size="sm" />],
+      ["Calendar", <CalendarDotsIcon key="calendar" size="sm" />],
     ],
   },
 ];
@@ -150,14 +149,14 @@ function Sidebar() {
             <Avatar name="Northwind" size="sm" />
             <span className={styles.personName}>Northwind</span>
           </span>
-          <Badge variant="subtle">Secondary</Badge>
+          <Badge>Secondary</Badge>
         </div>
         <nav aria-label="Main" className={styles.sidebar}>
           {nav.map((g) => (
             <div key={g.title} className={styles.navGroup}>
               <span className={styles.navTitle}>{g.title}</span>
               <ul className={styles.navList}>
-                {g.items.map(([label, d]) => (
+                {g.items.map(([label, icon]) => (
                   <li key={label}>
                     <button
                       type="button"
@@ -165,7 +164,7 @@ function Sidebar() {
                       aria-current={active === label ? "page" : undefined}
                       onClick={() => setActive(label)}
                     >
-                      {ico(d)}
+                      {icon}
                       {label}
                     </button>
                   </li>
@@ -261,7 +260,7 @@ function Contributions() {
       </div>
       <div className={styles.blockHead}>
         <Text tone="muted">Upcoming · May 2024</Text>
-        <Badge tone="info">Scheduled</Badge>
+        <Badge variant="brand">Scheduled</Badge>
       </div>
     </Block>
   );
@@ -274,7 +273,7 @@ function SavingsPlan() {
       title="Savings Plan"
       action={
         <Stack direction="row" gap="1">
-          <Badge tone="accent">Accelerated</Badge>
+          <Badge variant="brand">Accelerated</Badge>
           <Badge variant="outline">Recurring</Badge>
         </Stack>
       }
@@ -301,7 +300,7 @@ function Claimable() {
     <Block
       id="blk-claim"
       title="Claimable Balance"
-      action={<Badge tone="warning">Pending Setup</Badge>}
+      action={<Badge variant="danger">Pending Setup</Badge>}
     >
       <span className={styles.bigNumber}>$1,211.29</span>
       <dl className={styles.ledger}>
@@ -580,7 +579,7 @@ function AgentRun() {
       id="blk-run"
       title="Run #482"
       description="Research agent"
-      action={<Badge tone="info">Running</Badge>}
+      action={<Badge variant="brand">Running</Badge>}
     >
       <Progress label="Task progress" value={2} max={4} />
       <ul className={styles.steps}>
@@ -591,7 +590,7 @@ function AgentRun() {
           >
             {state === "done" ? tick : dot}
             <span>{label}</span>
-            {state === "running" && <Badge variant="subtle">Now</Badge>}
+            {state === "running" && <Badge>Now</Badge>}
           </li>
         ))}
       </ul>
@@ -642,9 +641,9 @@ function ApprovalBlock() {
       description="Support agent · Run #479"
       action={
         <Badge
-          tone={
+          variant={
             state === "pending"
-              ? "warning"
+              ? "default"
               : state === "approved"
                 ? "success"
                 : "danger"
@@ -745,35 +744,35 @@ function Runs() {
         rows={[
           {
             run: <Person name="Research agent" email="#482 · 4 min ago" />,
-            status: <Badge tone="info">Running</Badge>,
+            status: <Badge variant="brand">Running</Badge>,
             tokens: "3,210",
             cost: "$0.01",
             actions: actions(482),
           },
           {
             run: <Person name="Support agent" email="#479 · 12 min ago" />,
-            status: <Badge tone="warning">Needs approval</Badge>,
+            status: <Badge variant="danger">Needs approval</Badge>,
             tokens: "5,870",
             cost: "$0.02",
             actions: actions(479),
           },
           {
             run: <Person name="Research agent" email="#471 · 1 h ago" />,
-            status: <Badge tone="success">Done</Badge>,
+            status: <Badge variant="success">Done</Badge>,
             tokens: "12,430",
             cost: "$0.04",
             actions: actions(471),
           },
           {
             run: <Person name="Code reviewer" email="#468 · 2 h ago" />,
-            status: <Badge tone="danger">Failed</Badge>,
+            status: <Badge variant="danger">Failed</Badge>,
             tokens: "8,905",
             cost: "$0.03",
             actions: actions(468),
           },
           {
             run: <Person name="Support agent" email="#463 · 3 h ago" />,
-            status: <Badge tone="success">Done</Badge>,
+            status: <Badge variant="success">Done</Badge>,
             tokens: "6,140",
             cost: "$0.02",
             actions: actions(463),
@@ -819,7 +818,7 @@ function Trace() {
       id="blk-trace"
       title="Run trace"
       description="Every tool call, in order."
-      action={<Badge tone="success">4.1 s</Badge>}
+      action={<Badge variant="success">4.1 s</Badge>}
     >
       <Accordion
         multiple
@@ -981,9 +980,9 @@ function Answer() {
         until their next renewal.
       </Text>
       <div className={styles.chips}>
-        <Badge variant="subtle">pricing page</Badge>
-        <Badge variant="subtle">changelog</Badge>
-        <Badge variant="subtle">help center</Badge>
+        <Badge>pricing page</Badge>
+        <Badge>changelog</Badge>
+        <Badge>help center</Badge>
       </div>
       <Stack direction="row" gap="2" align="center">
         <Button
@@ -1052,19 +1051,19 @@ function Team() {
           {
             person: <Person name="Ada Lovelace" email="ada@example.com" />,
             role: "Admin",
-            status: <Badge tone="success">Active</Badge>,
+            status: <Badge variant="success">Active</Badge>,
             actions: menu("Ada", "Edit role"),
           },
           {
             person: <Person name="Grace Hopper" email="grace@example.com" />,
             role: "Editor",
-            status: <Badge tone="success">Active</Badge>,
+            status: <Badge variant="success">Active</Badge>,
             actions: menu("Grace", "Edit role"),
           },
           {
             person: <Person name="Alan Turing" email="alan@example.com" />,
             role: "Viewer",
-            status: <Badge tone="warning">Invited</Badge>,
+            status: <Badge variant="danger">Invited</Badge>,
             actions: menu("Alan", "Resend invite"),
           },
         ]}
@@ -1104,7 +1103,7 @@ function Plan() {
     <Block
       id="blk-plan"
       title="Pro"
-      action={<Badge tone="accent">Popular</Badge>}
+      action={<Badge variant="brand">Popular</Badge>}
     >
       <p className={styles.price}>
         <span className={styles.priceNumber}>$12</span>{" "}

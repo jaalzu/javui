@@ -2,30 +2,123 @@
   "size": {
     "$type": "dimension",
     "target": {
-      "min": { "$value": "1.5rem", "$description": "WCAG 2.2 minimum pointer target (24px)." },
-      "comfortable": { "$value": "2.75rem", "$description": "Recommended touch target (44px)." }
+      "min": {
+        "$value": "1.5rem",
+        "$description": "WCAG 2.2 minimum pointer target (24px)."
+      },
+      "comfortable": {
+        "$value": "2.75rem",
+        "$description": "Recommended touch target (44px)."
+      }
     },
     "control": {
-      "sm": { "$value": "2rem" },
-      "md": { "$value": "2.5rem" },
-      "lg": { "$value": "3rem" }
+      "sm": {
+        "$value": "2rem"
+      },
+      "md": {
+        "$value": "2.5rem"
+      },
+      "lg": {
+        "$value": "3rem"
+      }
+    },
+    "icon": {
+      "sm": {
+        "$value": "1rem",
+        "$description": "Icon in small controls, menu items and inline with text (16px)."
+      },
+      "md": {
+        "$value": "1.25rem",
+        "$description": "Default icon, and icons in large buttons (20px)."
+      },
+      "lg": {
+        "$value": "1.5rem",
+        "$description": "Large standalone icons (24px)."
+      },
+      "xl": {
+        "$value": "2rem",
+        "$description": "Icon in empty states and featured elements (32px)."
+      }
+    }
+  },
+  "icon": {
+    "$description": "Gap between an icon and its label, matched to the icon size. Never smaller than the text it sits next to.",
+    "gap": {
+      "sm": {
+        "$value": "{space.1-5}",
+        "$description": "Icon-label gap with a 16px icon."
+      },
+      "md": {
+        "$value": "{space.2}",
+        "$description": "Icon-label gap with a 20px icon."
+      },
+      "lg": {
+        "$value": "{space.2}",
+        "$description": "Icon-label gap with a 24px icon."
+      },
+      "xl": {
+        "$value": "{space.3}",
+        "$description": "Icon-label gap with a 32px icon."
+      }
     }
   },
   "container": {
     "$type": "dimension",
     "$description": "Max content widths used by the Container component.",
-    "sm": { "$value": "40rem" },
-    "md": { "$value": "48rem" },
-    "lg": { "$value": "64rem" },
-    "xl": { "$value": "80rem" }
+    "sm": {
+      "$value": "40rem"
+    },
+    "md": {
+      "$value": "48rem"
+    },
+    "lg": {
+      "$value": "64rem"
+    },
+    "xl": {
+      "$value": "80rem"
+    }
+  },
+  "breakpoint": {
+    "$type": "dimension",
+    "$description": "Viewport widths where the layout changes. Mobile first: write `@media (min-width: ...)` with one of these values. CSS cannot read variables inside a media query, so copy the value.",
+    "sm": {
+      "$value": "40rem",
+      "$description": "640px. Large phones and up."
+    },
+    "md": {
+      "$value": "48rem",
+      "$description": "768px. Tablets and up: the header shows the full nav."
+    },
+    "lg": {
+      "$value": "64rem",
+      "$description": "1024px. Laptops and up: the docs sidebar appears."
+    },
+    "xl": {
+      "$value": "80rem",
+      "$description": "1280px. Large screens."
+    }
   },
   "z": {
-    "base": { "$value": "0" },
-    "dropdown": { "$value": "1000" },
-    "sticky": { "$value": "1100" },
-    "overlay": { "$value": "1200" },
-    "modal": { "$value": "1300" },
-    "popover": { "$value": "1400" },
-    "tooltip": { "$value": "1500" }
+    "base": {
+      "$value": "0"
+    },
+    "dropdown": {
+      "$value": "1000"
+    },
+    "sticky": {
+      "$value": "1100"
+    },
+    "overlay": {
+      "$value": "1200"
+    },
+    "modal": {
+      "$value": "1300"
+    },
+    "popover": {
+      "$value": "1400"
+    },
+    "tooltip": {
+      "$value": "1500"
+    }
   }
 }

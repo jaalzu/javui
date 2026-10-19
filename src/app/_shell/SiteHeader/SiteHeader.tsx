@@ -69,7 +69,7 @@ export function SiteHeader() {
   ];
   return (
     <HideOnScroll className={styles.header}>
-      <div className={shell.wrap}>
+      <div className={`${shell.wrap} ${styles.headerWrap}`}>
         <div className={styles.headerInner}>
           <div className={styles.menuSlot}>
             <MobileNav groups={mobileGroups} />

@@ -8,6 +8,7 @@ import shell from "./_shell/shell.module.css";
 export const metadata: Metadata = {
   title: { default: "ui-lib: a zen component library", template: "%s · ui-lib" },
   description: "A zen component library made for humans and agents.",
+  icons: { icon: "/favicon.svg" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

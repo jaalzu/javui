@@ -114,21 +114,21 @@ const nav: { title: string; items: [string, ReactNode][] }[] = [
   {
     title: "Overview",
     items: [
-      ["Analytics", <ChartLineIcon key="analytics" size="sm" />],
-      ["Transactions", <ArrowsLeftRightIcon key="transactions" size="sm" />],
-      ["Investments", <ChartLineUpIcon key="investments" size="sm" />],
-      ["Accounts", <WalletIcon key="accounts" size="sm" />],
-      ["Spending", <ChartPieSliceIcon key="spending" size="sm" />],
+      ["Analytics", <ChartLineIcon key="analytics" size="md" />],
+      ["Transactions", <ArrowsLeftRightIcon key="transactions" size="md" />],
+      ["Investments", <ChartLineUpIcon key="investments" size="md" />],
+      ["Accounts", <WalletIcon key="accounts" size="md" />],
+      ["Spending", <ChartPieSliceIcon key="spending" size="md" />],
     ],
   },
   {
     title: "Planning",
     items: [
-      ["Documents", <FileTextIcon key="documents" size="sm" />],
-      ["Budget", <ListIcon key="budget" size="sm" />],
-      ["Reports", <ChartBarIcon key="reports" size="sm" />],
-      ["Goals", <TargetIcon key="goals" size="sm" />],
-      ["Calendar", <CalendarDotsIcon key="calendar" size="sm" />],
+      ["Documents", <FileTextIcon key="documents" size="md" />],
+      ["Budget", <ListIcon key="budget" size="md" />],
+      ["Reports", <ChartBarIcon key="reports" size="md" />],
+      ["Goals", <TargetIcon key="goals" size="md" />],
+      ["Calendar", <CalendarDotsIcon key="calendar" size="md" />],
     ],
   },
 ];

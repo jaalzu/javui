@@ -3,14 +3,27 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events, jsx-a11y/click-events-have-key-events */
 
 import { useRouter } from "next/navigation";
-import { useEffect, useId, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import {
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { Button, Kbd, MagnifyingGlassIcon, XIcon } from "@/ui";
 import styles from "./Search.module.css";
 
-export type SearchItem = { href: string; label: string; group: string; hint?: string };
+export type SearchItem = {
+  href: string;
+  label: string;
+  group: string;
+  hint?: string;
+};
 
 const noSubscribe = () => () => {};
-const modifierKey = () => (/Mac|iPhone|iPad/.test(navigator.platform) ? "⌘" : "Ctrl");
+const modifierKey = () =>
+  /Mac|iPhone|iPad/.test(navigator.platform) ? "⌘" : "Ctrl";
 
 function score(item: SearchItem, q: string): number {
   const label = item.label.toLowerCase();
@@ -60,8 +73,13 @@ export function Search({ items }: { items: SearchItem[] }) {
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
       const target = event.target as HTMLElement;
-      const typing = target.closest("input, textarea, select, [contenteditable='true']");
-      if ((event.key === "k" && (event.metaKey || event.ctrlKey)) || (event.key === "/" && !typing)) {
+      const typing = target.closest(
+        "input, textarea, select, [contenteditable='true']",
+      );
+      if (
+        (event.key === "k" && (event.metaKey || event.ctrlKey)) ||
+        (event.key === "/" && !typing)
+      ) {
         event.preventDefault();
         open();
       }
@@ -76,7 +94,9 @@ export function Search({ items }: { items: SearchItem[] }) {
       setActive((i) => (results.length ? (i + 1) % results.length : 0));
     } else if (event.key === "ArrowUp") {
       event.preventDefault();
-      setActive((i) => (results.length ? (i - 1 + results.length) % results.length : 0));
+      setActive((i) =>
+        results.length ? (i - 1 + results.length) % results.length : 0,
+      );
     } else if (event.key === "Enter") {
       event.preventDefault();
       go(results[active]);
@@ -84,15 +104,20 @@ export function Search({ items }: { items: SearchItem[] }) {
   }
 
   useEffect(() => {
-    document.getElementById(`${listId}-${active}`)?.scrollIntoView({ block: "nearest" });
+    document
+      .getElementById(`${listId}-${active}`)
+      ?.scrollIntoView({ block: "nearest" });
   }, [active, listId]);
 
   return (
     <>
       <button type="button" className={styles.searchButton} onClick={open}>
-        <MagnifyingGlassIcon size="sm" className={styles.searchIcon} />
+        <MagnifyingGlassIcon size="md" className={styles.searchIcon} />
         <span className={styles.searchText}>Search documentation</span>
-        <span className={styles.searchKeys} aria-hidden="true"><Kbd>{mod}</Kbd><Kbd>K</Kbd></span>
+        <span className={styles.searchKeys} aria-hidden="true">
+          <Kbd>{mod}</Kbd>
+          <Kbd>K</Kbd>
+        </span>
       </button>
       <dialog
         ref={dialog}
@@ -108,7 +133,9 @@ export function Search({ items }: { items: SearchItem[] }) {
             role="combobox"
             aria-expanded="true"
             aria-controls={listId}
-            aria-activedescendant={results.length ? `${listId}-${active}` : undefined}
+            aria-activedescendant={
+              results.length ? `${listId}-${active}` : undefined
+            }
             aria-autocomplete="list"
             aria-label="Search the documentation"
             placeholder="Search components and docs…"
@@ -122,11 +149,22 @@ export function Search({ items }: { items: SearchItem[] }) {
             onKeyDown={onInputKey}
             className={styles.searchInput}
           />
-          <Button variant="ghost" size="sm" aria-label="Close search" className={styles.closeButton} onClick={() => dialog.current?.close()}>
+          <Button
+            variant="ghost"
+            size="sm"
+            aria-label="Close search"
+            className={styles.closeButton}
+            onClick={() => dialog.current?.close()}
+          >
             <XIcon />
           </Button>
         </div>
-        <ul id={listId} role="listbox" aria-label="Results" className={styles.searchList}>
+        <ul
+          id={listId}
+          role="listbox"
+          aria-label="Results"
+          className={styles.searchList}
+        >
           {results.map((item, i) => (
             <li
               key={item.href}
@@ -139,12 +177,16 @@ export function Search({ items }: { items: SearchItem[] }) {
               onClick={() => go(item)}
             >
               <span className={styles.searchLabel}>{item.label}</span>
-              {item.hint && <span className={styles.searchHint}>{item.hint}</span>}
+              {item.hint && (
+                <span className={styles.searchHint}>{item.hint}</span>
+              )}
               <span className={styles.searchGroup}>{item.group}</span>
             </li>
           ))}
         </ul>
-        {results.length === 0 && <p className={styles.searchEmpty}>No results for “{query}”.</p>}
+        {results.length === 0 && (
+          <p className={styles.searchEmpty}>No results for “{query}”.</p>
+        )}
         <p className={styles.searchStatus} role="status">
           {results.length} {results.length === 1 ? "result" : "results"}
         </p>

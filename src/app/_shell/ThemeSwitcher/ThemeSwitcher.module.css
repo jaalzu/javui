@@ -1,10 +1,23 @@
-.themeButton { padding-inline: 0; width: var(--size-control-sm); }
+.themeButton {
+  padding-inline: 0;
+  width: var(--size-control-sm);
+}
 
-.sun, .moon { display: none; --icon-size: calc(var(--size-icon-sm) + 2px); }
+.sun,
+.moon {
+  display: none;
+  --icon-size: calc(var(--size-icon-md) + 2px);
+}
 
-:root[data-theme="light"] .moon { display: inline; }
+:root[data-theme="light"] .moon {
+  display: inline;
+}
 
-:root[data-theme="dark"] .sun { display: inline; }
+:root[data-theme="dark"] .sun {
+  display: inline;
+}
 
 /* Before data-theme exists (very first paint without JS) show the moon. */
-:root:not([data-theme]) .moon { display: inline; }
+:root:not([data-theme]) .moon {
+  display: inline;
+}

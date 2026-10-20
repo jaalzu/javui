@@ -161,7 +161,7 @@ Links always show an underline so they do not rely on color alone. For actions t
 - Base: Own component
 - Import: `import { Link } from "@/ui";`
 - Renders: a
-- Composition: Native anchor props pass through. `href` is required.
+- Composition: Native anchor props pass through. `href` is required. Put a trailing icon in `endIcon` (no `size`). Set `standalone` for a link used as a standalone action; inline links in a sentence stay inline.
 - Use when: Navigation to another page, section or resource.
 - Avoid:
   - Actions that do not navigate: use Button.
@@ -172,6 +172,8 @@ Links always show an underline so they do not rely on color alone. For actions t
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `href` | `string` | yes |  | Where the link goes. Required: a link without `href` is not a link. |
+| `endIcon` | `ReactNode` | no |  | Icon after the label. Pass a generated icon without `size`; the link sizes it. |
+| `standalone` | `boolean` | no | false | Marks a standalone action link (not inline in a sentence) so it gets a 44px hit area on touch devices. |
 | `tone` | `"inherit" \| "default" \| "muted"` | no | default | `default` uses the text color, `muted` the secondary text color, `inherit` the surrounding color. The underline is always there. |
 
 Also accepts the native props of the element it renders; they pass through.
@@ -179,6 +181,7 @@ Also accepts the native props of the element it renders; they pass through.
 ### Example
 ```tsx
 <Link href="/docs">Read the docs</Link>
+<Link href="/docs" endIcon={<ArrowRightIcon />}>Read the docs</Link>
 ```
 
 ## Kbd
@@ -212,13 +215,13 @@ variant only reinforces it.
 
 Keep the text to one or two words and truncate counts to two digits (`99+`).
 Badges are secondary and supportive: never use one as a heading or a key
-indicator. Add an icon (e.g. `<CheckIcon />`) as the first or last child for an icon.
+indicator. Put icons in `startIcon`/`endIcon`; they follow the badge size.
 
 - Category: typography
 - Base: Own component
 - Import: `import { Badge } from "@/ui";`
 - Renders: span, or the element passed in `render`
-- Composition: Plain children. Put an `<svg>` or `Icon` as first or last child for an icon; `loading` adds a spinner (`spinnerPosition`: start or end). `variant`: default, inverted, outline, brand, success or danger. `size`: sm, md or lg. `shape`: pill (default) or rounded. Pass `render={<Link href="…" />}` to render a link. Keep text to one or two words; truncate counts to two digits (`99+`).
+- Composition: Text children, plus optional `startIcon`/`endIcon` (generated icons, no `size`); never put icons in children. `loading` adds a spinner (`spinnerPosition`: start or end). `variant`: default, inverted, outline, brand, success or danger. `size`: sm, md or lg. `shape`: pill (default) or rounded. Pass `render={<Link href="…" />}` to render a link. Keep text to one or two words; truncate counts to two digits (`99+`).
 - Use when: Short status or count labels next to other content.
 - Avoid:
   - Using color as the only signal: always include text.
@@ -231,11 +234,13 @@ indicator. Add an icon (e.g. `<CheckIcon />`) as the first or last child for an 
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `className` | `string` | no |  |  |
+| `endIcon` | `ReactNode` | no |  | Icon after the text. Pass a generated icon without `size`; the badge sizes it. |
 | `loading` | `boolean` | no | false | Shows a spinner before or after the text, for statuses still in progress. |
 | `render` | `RenderProp<Record<string, unknown>>` | no |  | Renders the badge as another element or component, e.g. a link: `render={<Link href="/docs" />}`. Keyboard and focus behavior then come from that element, since Base UI merges the props. |
 | `shape` | `"rounded" \| "pill"` | no | pill | Corner shape: `pill` (fully round) or `rounded` (small radius). |
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Height and type scale: `sm` 20px, `md` 24px, `lg` 28px. |
 | `spinnerPosition` | `"start" \| "end"` | no | start | Side the spinner sits on. |
+| `startIcon` | `ReactNode` | no |  | Icon before the text. Pass a generated icon without `size`; the badge sizes it. |
 | `variant` | `"success" \| "danger" \| "default" \| "inverted" \| "outline" \| "brand"` | no | default | Visual treatment. `default` is a quiet component surface, `inverted` a filled high-contrast pill, `outline` only an inset ring, and `brand`, `success` and `danger` are soft semantic tints (translucent background, colored text). |
 
 Also accepts the native props of the element it renders; they pass through.
@@ -248,6 +253,7 @@ Also accepts the native props of the element it renders; they pass through.
 <Badge variant="outline" shape="rounded">Beta</Badge>
 <Badge variant="brand" loading>Saving</Badge>
 <Badge variant="inverted" size="lg" spinnerPosition="end" loading>Syncing</Badge>
+<Badge variant="success" startIcon={<CheckIcon />}>Active</Badge>
 <Badge variant="default" render={<Link href="/docs" />}>Docs</Badge>
 ```
 
@@ -526,26 +532,29 @@ Also accepts the native props of the element it renders; they pass through.
 
 Displays an action button. It is built on Base UI Button, so keyboard, focus and disabled behavior come from there.
 It defaults to `type="button"` so it never submits a form by accident; set `type="submit"` explicitly.
-For navigation use `Link`.
+For navigation use `ButtonLink` or `Link`.
+Put icons in `startIcon`/`endIcon`; an icon-only button needs `aria-label`.
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Button } from "@/ui";`
 - Renders: button
-- Composition: Defaults to type="button"; pass type="submit" explicitly. Base UI props such as `render` and `nativeButton` are available but not needed for normal use.
+- Composition: Defaults to type="button"; pass type="submit" explicitly. Put icons in `startIcon`/`endIcon` (generated icons, no `size`). Heights: sm 1.75rem, md 2.25rem, lg 2.75rem. Base UI props such as `render` and `nativeButton` are available but not needed for normal use.
 - Use when: Any action: submit, open, confirm, cancel. Pass `loading` while the action runs.
 - Avoid:
   - Navigation: use Link.
   - More than one primary button per view.
   - Disabling the button to show progress: use `loading`, it keeps the label and focus.
-- Accessibility: Icon-only buttons need `aria-label`. `loading` sets `aria-busy`. Keyboard and disabled behavior come from Base UI.
+- Accessibility: Icon-only buttons need `aria-label` and use `startIcon` (or `endIcon`) instead of children. `loading` sets `aria-busy` and counts as the start slot. Keyboard and disabled behavior come from Base UI.
 
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `className` | `string` | no |  |  |
+| `endIcon` | `ReactNode` | no | undefined | Icon after the label. Pass a generated icon without `size`; the button sizes it. |
 | `loading` | `boolean` | no | false | Shows a spinner and ignores clicks while an action is running. The button keeps its label and stays focusable, and `aria-busy` tells assistive technology it is working. |
-| `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 2rem, `md` 2.5rem, `lg` 3rem. |
+| `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. |
+| `startIcon` | `ReactNode` | no | undefined | Icon before the label. Pass a generated icon without `size`; the button sizes it. |
 | `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | primary | Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions, `ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -556,8 +565,8 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 <Button variant="secondary" size="sm">Cancel</Button>
 <Button type="submit">Send</Button>
 <Button loading>Saving</Button>
-<Button variant="secondary"><CheckIcon />Done</Button>
-<Button variant="ghost" aria-label="Close"><XIcon /></Button>
+<Button variant="secondary" startIcon={<CheckIcon />}>Done</Button>
+<Button variant="ghost" aria-label="Close" startIcon={<XIcon />} />
 ```
 
 ## Field
@@ -604,7 +613,7 @@ description and error automatically. Outside `Field` it needs an accessible name
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Input } from "@/ui";`
 - Renders: input
-- Composition: Native input props pass through (type, autoComplete, name, required...).
+- Composition: Native input props pass through (type, autoComplete, name, required...). Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`).
 - Use when: Single-line text entry.
 - Avoid:
   - Using it without Field or aria-label.
@@ -615,13 +624,16 @@ description and error automatically. Outside `Field` it needs an accessible name
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `className` | `string` | no |  |  |
-| `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 2rem, `md` 2.5rem, `lg` 3rem. |
+| `endIcon` | `ReactNode` | no |  | Icon after the text. Pass a generated icon without `size`; the input sizes it. |
+| `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. |
+| `startIcon` | `ReactNode` | no |  | Icon before the text. Pass a generated icon without `size`; the input sizes it. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
 ### Example
 ```tsx
 <Field label="Email"><Input type="email" autoComplete="email" /></Field>
+<Input aria-label="Search" startIcon={<MagnifyingGlassIcon />} />
 ```
 
 ## Textarea
@@ -633,7 +645,7 @@ Needs an accessible name inside or outside `Field`.
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Textarea } from "@/ui";`
 - Renders: textarea
-- Composition: Native textarea props pass through; `rows` defaults to 3.
+- Composition: Native textarea props pass through; `rows` defaults to 3. Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`).
 - Use when: Multi-line text entry.
 - Avoid:
   - Using it without Field or aria-label.
@@ -643,6 +655,8 @@ Needs an accessible name inside or outside `Field`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `className` | `string` | no |  |  |
+| `endIcon` | `ReactNode` | no |  | Icon after the text. Pass a generated icon without `size`; the textarea sizes it. |
+| `startIcon` | `ReactNode` | no |  | Icon before the text. Pass a generated icon without `size`; the textarea sizes it. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -773,7 +787,7 @@ Pass `items` instead of composing parts.
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Select } from "@/ui";`
 - Renders: button role="combobox" with a listbox popup in a portal
-- Composition: Pass `items` ({ value, label, disabled? }). Give it `label`, `aria-label` or wrap it in Field.
+- Composition: Pass `items` ({ value, label, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field.
 - Use when: Choosing one option from a longer list.
 - Avoid:
   - Two or three options: use RadioGroup.
@@ -786,9 +800,11 @@ Pass `items` instead of composing parts.
 | `items` | `SelectItem[]` | yes |  | The options. Each has a machine `value` and a visible `label`. |
 | `aria-label` | `string` | no |  | Accessible name when there is no visible label. |
 | `className` | `string` | no |  |  |
+| `endIcon` | `ReactNode` | no |  | Icon after the value, before the caret. Pass a generated icon without `size`; the select sizes it. |
 | `label` | `string` | no |  | Visible label. Provide it, or `aria-label`, or put the Select inside `Field`: every control needs an accessible name. |
 | `placeholder` | `string` | no |  | Text shown when nothing is selected. |
-| `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 2rem, `md` 2.5rem, `lg` 3rem. |
+| `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. |
+| `startIcon` | `ReactNode` | no |  | Icon before the value. Pass a generated icon without `size`; the select sizes it. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -959,7 +975,7 @@ Tabs that switch between panels, built on Base UI Tabs (arrow-key navigation, ro
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Tabs } from "@/ui";`
 - Renders: div with a tablist, tab buttons and tabpanels
-- Composition: Pass `items` ({ value, label, content, disabled? }) and an `aria-label`.
+- Composition: Pass `items` ({ value, label, content, startIcon?, endIcon?, disabled? }) and an `aria-label`. Icons are generated icons without `size`.
 - Use when: Switching between related panels in the same place.
 - Avoid:
   - Navigation between pages: use Link.
@@ -1036,12 +1052,13 @@ Also accepts the native props of the element it renders; they pass through.
 
 A link that looks like a `Button`. It renders an `a` (or the component given to `LinkProvider`, such as
 `next/link`), because something that navigates is a link, not a button. For actions use `Button`.
+Put icons in `startIcon`/`endIcon`; an icon-only link needs `aria-label`.
 
 - Category: navigation
 - Base: Own component
 - Import: `import { ButtonLink } from "@/ui";`
 - Renders: a (rendered by the LinkProvider component, `next/link` in this app) styled like a Button
-- Composition: Pass `href`, `variant` and `size`. Children are the visible label.
+- Composition: Pass `href`, `variant`, `size` and optional `startIcon`/`endIcon` (generated icons, no `size`). Children are the visible label; an icon-only link needs `aria-label`.
 - Use when: A call to action that goes to another page, such as Get started or Docs.
 - Avoid:
   - Actions that do not navigate: use Button.
@@ -1052,7 +1069,9 @@ A link that looks like a `Button`. It renders an `a` (or the component given to 
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `href` | `string` | yes |  | Where the link goes. Required. |
-| `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 2rem, `md` 2.5rem, `lg` 3rem. |
+| `endIcon` | `ReactNode` | no | undefined | Icon after the label. Pass a generated icon without `size`; the link sizes it. |
+| `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. |
+| `startIcon` | `ReactNode` | no | undefined | Icon before the label. Pass a generated icon without `size`; the link sizes it. |
 | `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | primary | Visual emphasis, the same as `Button`. `primary` is the main call to action (one per view). |
 
 Also accepts the native props of the element it renders; they pass through.
@@ -1060,7 +1079,8 @@ Also accepts the native props of the element it renders; they pass through.
 ### Example
 ```tsx
 <ButtonLink href="/docs/installation">Get started</ButtonLink>
-<ButtonLink href="/docs" variant="secondary">Docs</ButtonLink>
+<ButtonLink href="/docs" variant="secondary" endIcon={<ArrowRightIcon />}>Docs</ButtonLink>
+<ButtonLink href="/docs" aria-label="Next page" startIcon={<ArrowRightIcon />} />
 ```
 
 ## Card
@@ -1104,7 +1124,7 @@ For short-lived feedback after an action, use `useToast` instead.
 - Base: Own component
 - Import: `import { Alert } from "@/ui";`
 - Renders: div with role alert (danger, warning) or role status (info, success)
-- Composition: Pass `tone`, optional `title`, and the message as children.
+- Composition: Pass `tone`, optional `title`, and the message as children. `startIcon` replaces the tone glyph; `endIcon` adds a trailing icon (generated icons, no `size`).
 - Use when: A message that stays on the page and the user must notice, such as a failed save or a warning.
 - Avoid:
   - Short-lived confirmations: use Toast.
@@ -1114,6 +1134,8 @@ For short-lived feedback after an action, use `useToast` instead.
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
+| `endIcon` | `ReactNode` | no |  | Icon at the end, for example a link arrow. Pass a generated icon without `size`. |
+| `startIcon` | `ReactNode` | no |  | Replaces the tone icon at the start. Pass a generated icon without `size`. |
 | `title` | `ReactNode` | no |  | Short heading of the message. |
 | `tone` | `"info" \| "success" \| "warning" \| "danger"` | no | info | Meaning of the message. It changes the icon shape as well as the color, so it never relies on color alone. |
 
@@ -1265,7 +1287,7 @@ Do not put form controls in a menu: use `Popover`.
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Menu } from "@/ui";`
 - Renders: button that opens a role menu with menuitems
-- Composition: Pass `label` (the button text) and `items`: `{ label, onSelect?, href?, disabled?, destructive? }` or `{ type: "separator" }`.
+- Composition: Pass `label` (the button text) and `items`: `{ label, startIcon?, endIcon?, onSelect?, href?, disabled?, destructive? }` or `{ type: "separator" }`. Icons are generated icons without `size`.
 - Use when: A list of actions or links behind one button, such as account actions.
 - Avoid:
   - Navigation between sections of the site: use links.
@@ -1329,7 +1351,7 @@ For messages that must stay on the page, use `Alert`.
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { useToast } from "@/ui";`
 - Renders: hook, renders nothing
-- Composition: `const { show, close } = useToast(); show({ title, description?, tone?, timeout? })`.
+- Composition: `const { show, close } = useToast(); show({ title, description?, tone?, timeout?, startIcon?, endIcon? })`. Icons are generated icons without `size`.
 - Use when: Showing a toast after an action finishes.
 - Avoid:
   - Calling it outside ToastProvider.
@@ -1356,7 +1378,7 @@ Collapsible sections built on Base UI Accordion. Each title is a button inside a
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Accordion } from "@/ui";`
 - Renders: div with a heading (h3) and button per item and a region per panel
-- Composition: Pass `items` ({ value, title, content, disabled? }). Use `multiple` to allow several open.
+- Composition: Pass `items` ({ value, title, content, startIcon?, endIcon?, disabled? }). Icons are generated icons without `size`. Use `multiple` to allow several open.
 - Use when: Showing long content in short sections, such as FAQs.
 - Avoid:
   - Hiding content users must read.
@@ -1427,7 +1449,7 @@ Where the current page sits in the site. Renders `nav > ol` and marks the last i
 - Base: Own component
 - Import: `import { Breadcrumb } from "@/ui";`
 - Renders: nav with an ordered list; the last item has aria-current page
-- Composition: Pass `items` ({ label, href? }) from root to current page.
+- Composition: Pass `items` ({ label, href?, startIcon?, endIcon? }) from root to current page. Icons are generated icons without `size`.
 - Use when: Showing where the page sits in the site.
 - Avoid:
   - Primary navigation.
@@ -1726,6 +1748,7 @@ Also accepts the native props of the element it renders; they pass through.
 | `--space-16` | dimension | `4rem` |
 | `--space-20` | dimension | `5rem` |
 | `--space-1-5` | dimension | `0.375rem` |
+| `--space-2-5` | dimension | `0.6rem` |
 | `--radius-none` | dimension | `0` |
 | `--radius-sm` | dimension | `0.25rem` |
 | `--radius-md` | dimension | `0.5rem` |
@@ -1742,9 +1765,9 @@ Also accepts the native props of the element it renders; they pass through.
 | `--shadow-lg` |  | `0 12px 32px oklch(0 0 0 / 0.24)` |
 | `--size-target-min` | dimension | `1.5rem` |
 | `--size-target-comfortable` | dimension | `2.75rem` |
-| `--size-control-sm` | dimension | `2rem` |
-| `--size-control-md` | dimension | `2.5rem` |
-| `--size-control-lg` | dimension | `3rem` |
+| `--size-control-sm` | dimension | `1.75rem` |
+| `--size-control-md` | dimension | `2.25rem` |
+| `--size-control-lg` | dimension | `2.75rem` |
 | `--size-icon-sm` | dimension | `1rem` |
 | `--size-icon-md` | dimension | `1.25rem` |
 | `--size-icon-lg` | dimension | `1.5rem` |
@@ -1787,8 +1810,8 @@ Also accepts the native props of the element it renders; they pass through.
 | `--color-component-on-sunken` | color | light `var(--color-card)` / dark `var(--color-card)` |
 | `--color-component-on-inverted` | color | light `color-mix(in oklab, var(--color-on-inverted-foreground) 14%, transparent)` / dark `color-mix(in oklab, var(--color-on-inverted-foreground) 14%, transparent)` |
 | `--color-transparent` | color | light `transparent` / dark `transparent` |
-| `--color-transparent-hover` | color | light `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` |
-| `--color-transparent-active` | color | light `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` |
+| `--color-transparent-hover` | color | light `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 8%, transparent)` |
+| `--color-transparent-active` | color | light `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 12%, transparent)` |
 | `--color-primary-foreground` | color | light `var(--primitive-color-neutral-950)` / dark `color-mix(in oklab, var(--primitive-color-white) 60%, var(--primitive-color-neutral-100))` |
 | `--color-secondary-foreground` | color | light `color-mix(in oklch, var(--color-primary-foreground) 70%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 70%, transparent)` |
 | `--color-tertiary-foreground` | color | light `color-mix(in oklch, var(--color-primary-foreground) 62%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 54%, transparent)` |
@@ -1844,5 +1867,6 @@ Also accepts the native props of the element it renders; they pass through.
 | `--shadow-border` | shadow | light `0 0 0 1px #00000014` / dark `0 0 0 1px #ffffff14` |
 | `--shadow-inset-ring` | shadow | light `inset 0 0 0 1px #00000014` / dark `inset 0 0 0 1px #ffffff14` |
 | `--shadow-default` | shadow | light `0 0 0 1px #0000000f, 0 1px 2px #0000001a` / dark `0 0 0 1px #ffffff12, 0 1px 2px #00000066` |
+| `--shadow-raised` | shadow | light `inset 0 0 0 1px transparent, inset 0 1px #ffffffcc, 0 0 0 1px #00000014, 0 4px 4px #0000000d` / dark `inset 0 0 0 1px #ffffff08, inset 0 1px #ffffff0a, 0 0 0 1px #0009, 0 4px 4px #0000001a` |
 | `--shadow-large` | shadow | light `0 0 0 1px #00000014, 0 2px 3px -2px #0000001a, 0 3px 8px -2px #00000014, 0 4px 12px -4px #0000001f` / dark `0 0 0 1px color-mix(in oklab, #ffffff12, #3a3a3a 25%), 0 2px 3px -2px #00000026, 0 3px 8px -2px #0006, 0 4px 12px -4px #00000080` |
 | `--shadow-extra-large` | shadow | light `0 0 0 .5px #00000014, 0 8px 40px 0px #0000001a, 0 12px 32px -16px #00000040` / dark `0 0 0 .5px #ffffff12 inset, 0 0 0 .5px #0000, 0 8px 40px 0px #0000000d, 0 12px 32px -16px #00000026` |

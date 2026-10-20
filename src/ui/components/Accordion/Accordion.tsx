@@ -2,6 +2,8 @@ import type { ReactNode } from "react";
 import { Accordion as BaseAccordion } from "@base-ui/react/accordion";
 import { CaretDownIcon } from "../../icons/icons.generated";
 import { cx } from "../../utils/cx";
+import { iconPosition } from "../../utils/iconPosition";
+import { IconSlot } from "../Icon/IconSlot";
 import styles from "./Accordion.module.css";
 
 export type AccordionItem = {
@@ -11,6 +13,10 @@ export type AccordionItem = {
   title: ReactNode;
   /** Content of the panel. */
   content: ReactNode;
+  /** Icon before the title. Pass a generated icon without `size`; the trigger sizes it. */
+  startIcon?: ReactNode;
+  /** Icon after the title, before the chevron. Pass a generated icon without `size`. */
+  endIcon?: ReactNode;
   disabled?: boolean;
 };
 
@@ -49,9 +55,21 @@ export function Accordion({ items, multiple = false, defaultValue, value, onValu
       {items.map((item) => (
         <BaseAccordion.Item key={item.value} value={item.value} disabled={item.disabled} className={styles.item}>
           <BaseAccordion.Header className={styles.header}>
-            <BaseAccordion.Trigger className={styles.trigger}>
-              <span>{item.title}</span>
-              <CaretDownIcon size="sm" className={styles.chevron} />
+            <BaseAccordion.Trigger
+              className={styles.trigger}
+              data-icon={iconPosition({
+                startIcon: item.startIcon,
+                endIcon: item.endIcon,
+              })}
+            >
+              <span className={styles.label}>
+                <IconSlot>{item.startIcon}</IconSlot>
+                <span>{item.title}</span>
+                <IconSlot>{item.endIcon}</IconSlot>
+              </span>
+              <IconSlot className={styles.chevron}>
+                <CaretDownIcon />
+              </IconSlot>
             </BaseAccordion.Trigger>
           </BaseAccordion.Header>
           <BaseAccordion.Panel className={styles.panel}>

@@ -4,9 +4,10 @@
   border-radius: var(--radius-lg);
 }
 
-.wrapper:focus-visible {
+.wrapper:focus-visible,
+.wrapper[data-force="focus"] {
   outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
-  outline-offset: 2px;
+  outline-offset: var(--focus-ring-offset);
 }
 
 .table {

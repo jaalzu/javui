@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Pagination } from "./Pagination";
+import { StateMatrix } from "../../stories/StateMatrix";
+import styles from "./Pagination.module.css";
 
 const meta = {
   title: "Navigation/Pagination",
@@ -13,5 +15,50 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 export const FewPages: Story = { args: { page: 1, pageCount: 3 } };
-export const Dark: Story = { globals: { theme: "dark" } };
-export const Light: Story = { globals: { theme: "light" } };
+
+export const States: Story = {
+  render: () => (
+    <StateMatrix
+      rows={[
+        {
+          label: "Page link",
+          render: (state) => (
+            <a
+              href="#"
+              className={styles.link}
+              data-force={state === "rest" || state === "disabled" ? undefined : state}
+              aria-disabled={state === "disabled" || undefined}
+            >
+              2
+            </a>
+          ),
+        },
+        {
+          label: "Current page",
+          render: (state) => (
+            <a
+              href="#"
+              className={`${styles.link} ${styles.current}`}
+              data-force={state === "rest" || state === "disabled" ? undefined : state}
+              aria-current="page"
+            >
+              3
+            </a>
+          ),
+        },
+      ]}
+    />
+  ),
+};
+
+export const TouchTargets: Story = {
+  name: "Touch targets",
+  render: (args) => (
+    <div data-touch-debug>
+      <Pagination {...args} pageCount={3} />
+    </div>
+  ),
+};
+
+export const Dark: Story = { ...States, globals: { theme: "dark" } };
+export const Light: Story = { ...States, globals: { theme: "light" } };

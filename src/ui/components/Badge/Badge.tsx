@@ -1,9 +1,9 @@
 "use client";
 
 import { useRender } from "@base-ui/react/use-render";
-import type { ComponentProps } from "react";
+import type { ComponentProps, ReactNode } from "react";
 import { cx } from "../../utils/cx";
-import { iconPosition } from "../../utils/iconPosition";
+import { IconSlot, getIconSlots } from "../Icon/IconSlot";
 import { Spinner } from "../Spinner";
 import styles from "./Badge.module.css";
 
@@ -31,6 +31,10 @@ export type BadgeProps = {
   shape?: BadgeShape;
   /** Shows a spinner before or after the text, for statuses still in progress. @default false */
   loading?: boolean;
+  /** Icon before the text. Pass a generated icon without `size`; the badge sizes it. */
+  startIcon?: ReactNode;
+  /** Icon after the text. Pass a generated icon without `size`; the badge sizes it. */
+  endIcon?: ReactNode;
   /** Side the spinner sits on. @default "start" */
   spinnerPosition?: "start" | "end";
   /**
@@ -48,7 +52,7 @@ export type BadgeProps = {
  *
  * Keep the text to one or two words and truncate counts to two digits (`99+`).
  * Badges are secondary and supportive: never use one as a heading or a key
- * indicator. Add an icon (e.g. `<CheckIcon />`) as the first or last child for an icon.
+ * indicator. Put icons in `startIcon`/`endIcon`; they follow the badge size.
  *
  * @example
  * <Badge>Draft</Badge>
@@ -57,6 +61,7 @@ export type BadgeProps = {
  * <Badge variant="outline" shape="rounded">Beta</Badge>
  * <Badge variant="brand" loading>Saving</Badge>
  * <Badge variant="inverted" size="lg" spinnerPosition="end" loading>Syncing</Badge>
+ * <Badge variant="success" startIcon={<CheckIcon />}>Active</Badge>
  * <Badge variant="default" render={<Link href="/docs" />}>Docs</Badge>
  */
 export function Badge({
@@ -65,22 +70,22 @@ export function Badge({
   shape = "pill",
   loading = false,
   spinnerPosition = "start",
+  startIcon,
+  endIcon,
   render,
   className,
   children,
   ...rest
 }: BadgeProps) {
-  const position = iconPosition(children);
-  const startsWithIcon =
-    position === "start" ||
-    position === "both" ||
-    position === "only" ||
-    (loading && spinnerPosition === "start");
-  const endsWithIcon =
-    position === "end" ||
-    position === "both" ||
-    position === "only" ||
-    (loading && spinnerPosition === "end");
+  const hasLabel =
+    children !== undefined && children !== null && children !== false;
+  const position = getIconSlots({
+    startIcon,
+    endIcon,
+    loading,
+    loadingPosition: spinnerPosition,
+    hasLabel,
+  });
 
   const spinner = loading ? (
     <Spinner size="sm" label="" role="presentation" aria-hidden="true" />
@@ -90,6 +95,7 @@ export function Badge({
     render,
     defaultTagName: "span",
     props: {
+      ...rest,
       className: cx(
         styles.badge,
         styles[variant],
@@ -97,21 +103,22 @@ export function Badge({
         styles[shape],
         className,
       ),
-      "data-icon-start": startsWithIcon ? "" : undefined,
-      "data-icon-end": endsWithIcon ? "" : undefined,
-      ...rest,
-      children:
-        spinnerPosition === "start" ? (
-          <>
-            {spinner}
-            {children}
-          </>
-        ) : (
-          <>
-            {children}
-            {spinner}
-          </>
-        ),
+      "data-icon": position,
+      children: (
+        <>
+          {loading && spinnerPosition === "start" ? (
+            spinner
+          ) : (
+            <IconSlot>{startIcon}</IconSlot>
+          )}
+          {children}
+          {loading && spinnerPosition === "end" ? (
+            spinner
+          ) : (
+            <IconSlot>{endIcon}</IconSlot>
+          )}
+        </>
+      ),
     },
   });
 }

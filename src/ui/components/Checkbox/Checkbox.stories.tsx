@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Checkbox } from "./Checkbox";
-import { Stack } from "../Stack";
+import { StateMatrix, forceProps } from "../../stories/StateMatrix";
 
 const meta = {
   title: "Controls/Checkbox",
@@ -20,12 +20,35 @@ export const Disabled: Story = { args: { disabled: true } };
 
 export const States: Story = {
   render: () => (
-    <Stack gap="2">
-      <Checkbox label="Unchecked" />
-      <Checkbox label="Checked" defaultChecked />
-      <Checkbox label="Indeterminate" indeterminate />
-      <Checkbox label="Disabled" disabled />
-    </Stack>
+    <StateMatrix
+      rows={[
+        {
+          label: "Unchecked",
+          render: (state) => <Checkbox label="Option" {...forceProps(state)} />,
+        },
+        {
+          label: "Checked",
+          render: (state) => (
+            <Checkbox label="Option" defaultChecked {...forceProps(state)} />
+          ),
+        },
+        {
+          label: "Indeterminate",
+          render: (state) => (
+            <Checkbox label="Option" indeterminate {...forceProps(state)} />
+          ),
+        },
+      ]}
+    />
+  ),
+};
+
+export const TouchTargets: Story = {
+  name: "Touch targets",
+  render: () => (
+    <div data-touch-debug>
+      <Checkbox label="Send me product updates" />
+    </div>
   ),
 };
 

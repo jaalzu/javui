@@ -25,8 +25,12 @@ export function CopyPage() {
 
   return (
     <>
-      <Button variant="secondary" size="sm" onClick={copy}>
-        {copied ? <CheckIcon size="sm" /> : <CopyIcon size="sm" />}
+      <Button
+        variant="secondary"
+        size="sm"
+        startIcon={copied ? <CheckIcon /> : <CopyIcon />}
+        onClick={copy}
+      >
         {copied ? "Copied" : "Copy page"}
       </Button>
       <span role="status" className={shell.srOnly}>{copied ? "Page copied" : ""}</span>

@@ -355,6 +355,11 @@
       "$type": "shadow",
       "$description": "A small lift for controls at rest that should feel pressable: slider thumbs, raised buttons, tabs."
     },
+    "raised": {
+      "$value": "inset 0 0 0 1px transparent, inset 0 1px #ffffffcc, 0 0 0 1px #00000014, 0 4px 4px #0000000d",
+      "$type": "shadow",
+      "$description": "Raised look for secondary controls: inner hairline, top highlight, outer edge and soft drop."
+    },
     "large": {
       "$value": "0 0 0 1px #00000014, 0 2px 3px -2px #0000001a, 0 3px 8px -2px #00000014, 0 4px 12px -4px #0000001f",
       "$type": "shadow",

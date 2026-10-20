@@ -5,7 +5,6 @@ import {
   Accordion,
   Alert,
   ArrowDownIcon,
-  ArrowRightIcon,
   ArrowUpIcon,
   ArrowsLeftRightIcon,
   Avatar,
@@ -35,11 +34,13 @@ import {
   Link,
   ListIcon,
   Menu,
+  PlusIcon,
   Progress,
   Radio,
   RadioGroup,
   Select,
   Slider,
+  Spinner,
   Stack,
   Switch,
   Table,
@@ -54,9 +55,6 @@ import shell from "../../_shell/shell.module.css";
 
 const tick = <CheckIcon size="sm" />;
 const dot = <CircleIcon size="sm" />;
-const sendIcon = <ArrowRightIcon size="sm" />;
-const up = <ArrowUpIcon size="sm" />;
-const down = <ArrowDownIcon size="sm" />;
 
 function Person({ name, email }: { name: string; email: string }) {
   return (
@@ -114,21 +112,21 @@ const nav: { title: string; items: [string, ReactNode][] }[] = [
   {
     title: "Overview",
     items: [
-      ["Analytics", <ChartLineIcon key="analytics" size="sm" />],
-      ["Transactions", <ArrowsLeftRightIcon key="transactions" size="sm" />],
-      ["Investments", <ChartLineUpIcon key="investments" size="sm" />],
-      ["Accounts", <WalletIcon key="accounts" size="sm" />],
-      ["Spending", <ChartPieSliceIcon key="spending" size="sm" />],
+      ["Analytics", <ChartLineIcon key="analytics" />],
+      ["Transactions", <ArrowsLeftRightIcon key="transactions" />],
+      ["Investments", <ChartLineUpIcon key="investments" />],
+      ["Accounts", <WalletIcon key="accounts" />],
+      ["Spending", <ChartPieSliceIcon key="spending" />],
     ],
   },
   {
     title: "Planning",
     items: [
-      ["Documents", <FileTextIcon key="documents" size="sm" />],
-      ["Budget", <ListIcon key="budget" size="sm" />],
-      ["Reports", <ChartBarIcon key="reports" size="sm" />],
-      ["Goals", <TargetIcon key="goals" size="sm" />],
-      ["Calendar", <CalendarDotsIcon key="calendar" size="sm" />],
+      ["Documents", <FileTextIcon key="documents" />],
+      ["Budget", <ListIcon key="budget" />],
+      ["Reports", <ChartBarIcon key="reports" />],
+      ["Goals", <TargetIcon key="goals" />],
+      ["Calendar", <CalendarDotsIcon key="calendar" />],
     ],
   },
 ];
@@ -158,15 +156,16 @@ function Sidebar() {
               <ul className={styles.navList}>
                 {g.items.map(([label, icon]) => (
                   <li key={label}>
-                    <button
-                      type="button"
+                    <Button
+                      variant="ghost"
+                      size="sm"
                       className={styles.navLink}
+                      startIcon={icon}
                       aria-current={active === label ? "page" : undefined}
                       onClick={() => setActive(label)}
                     >
-                      {icon}
                       {label}
-                    </button>
+                    </Button>
                   </li>
                 ))}
               </ul>
@@ -438,6 +437,13 @@ function Chat() {
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [draft, setDraft] = useState(starter);
   const [pending, setPending] = useState(false);
+
+  const reset = () => {
+    setMsgs([]);
+    setDraft(starter);
+    setPending(false);
+  };
+
   const submit = () => {
     if (!draft.trim() || pending) return;
     setMsgs((m) => [...m, { from: "user", body: draft }]);
@@ -457,16 +463,10 @@ function Chat() {
               </span>
               <ol className={styles.list}>
                 <li>
-                  Keep the scroll container at a fixed height and let only its
-                  content grow.
+                  Keep the scroll container fixed and let only its content grow.
                 </li>
-                <li>
-                  Auto-scroll only when the reader is already near the bottom.
-                </li>
-                <li>
-                  Reserve space for the streaming message to avoid layout
-                  shifts.
-                </li>
+                <li>Auto-scroll only when the reader is near the bottom.</li>
+                <li>Reserve space for the streaming message.</li>
               </ol>
             </>
           ),
@@ -475,43 +475,36 @@ function Chat() {
       setPending(false);
     }, 900);
   };
+
   return (
     <Block
       id="blk-chat"
-      title="New Chat"
-      description="How can I help you today?"
+      title="Chat"
       action={
         <Button
-          variant="secondary"
+          variant="ghost"
           size="sm"
-          onClick={() => {
-            setMsgs([]);
-            setDraft(starter);
-            setPending(false);
-          }}
-        >
-          New chat
-        </Button>
+          aria-label="New chat"
+          startIcon={<PlusIcon />}
+          onClick={reset}
+        />
       }
     >
       <div
         className={styles.chatScroll}
         role="log"
         aria-label="Conversation"
+        aria-live="polite"
         tabIndex={0}
       >
         {msgs.length === 0 ? (
           <div className={styles.empty}>
-            <p className={styles.lead}>Morning, java!</p>
-            <Text tone="muted">
-              What are we working on today? Press send to start a new
-              conversation.
-            </Text>
+            <Text tone="muted">How can I help you today?</Text>
             <div className={styles.chips}>
               {suggestions.map((s) => (
                 <Button
                   key={s}
-                  variant="secondary"
+                  variant="ghost"
                   size="sm"
                   onClick={() => setDraft(s)}
                 >
@@ -527,44 +520,50 @@ function Chat() {
                 key={i}
                 className={`${styles.msg} ${m.from === "user" ? styles.msgUser : ""}`}
               >
-                <Avatar name={m.from === "user" ? "java" : "Agent"} size="sm" />
                 <div
                   className={`${styles.bubble} ${m.from === "user" ? styles.bubbleUser : ""}`}
                 >
-                  {m.tool && <Badge variant="outline">{m.tool}</Badge>}
+                  {m.tool && <span className={styles.tool}>{m.tool}</span>}
                   {m.body}
                 </div>
               </div>
             ))}
-            {pending && <Text tone="muted">Agent is replying…</Text>}
+            {pending && <Spinner size="sm" label="Agent is replying" />}
           </>
         )}
       </div>
-      <Field label="Message">
+
+      <div className={styles.composer}>
         <Textarea
-          rows={3}
+          aria-label="Message"
+          rows={2}
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
+          placeholder="Message"
         />
-      </Field>
-      <div className={styles.blockHead}>
-        <Select
-          aria-label="Model"
-          defaultValue="balanced"
-          items={[
-            { value: "fast", label: "Fast" },
-            { value: "balanced", label: "Balanced" },
-            { value: "deep", label: "Deep reasoning" },
-          ]}
-        />
-        <Button onClick={submit} disabled={pending || !draft.trim()}>
-          {sendIcon}Send
-        </Button>
+        <div className={styles.composerBar}>
+          <Select
+            aria-label="Model"
+            size="sm"
+            defaultValue="balanced"
+            items={[
+              { value: "fast", label: "Fast" },
+              { value: "balanced", label: "Balanced" },
+              { value: "deep", label: "Deep reasoning" },
+            ]}
+          />
+          <Button
+            size="sm"
+            aria-label="Send"
+            startIcon={<ArrowUpIcon />}
+            onClick={submit}
+            disabled={pending || !draft.trim()}
+          />
+        </div>
       </div>
     </Block>
   );
 }
-
 /* ---------- Agents ---------- */
 
 function AgentRun() {
@@ -990,19 +989,17 @@ function Answer() {
           size="sm"
           aria-pressed={vote === "up"}
           aria-label="Good answer"
+          startIcon={<ArrowUpIcon />}
           onClick={() => setVote("up")}
-        >
-          {up}
-        </Button>
+        />
         <Button
           variant={vote === "down" ? "primary" : "secondary"}
           size="sm"
           aria-pressed={vote === "down"}
           aria-label="Bad answer"
+          startIcon={<ArrowDownIcon />}
           onClick={() => setVote("down")}
-        >
-          {down}
-        </Button>
+        />
         <Text variant="caption" size="lg" tone="muted">
           {vote ? "Thanks for the feedback." : "Was this useful?"}
         </Text>

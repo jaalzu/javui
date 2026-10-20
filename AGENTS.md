@@ -23,10 +23,41 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 Order of design: color, typography, shape, spacing, elevation, motion.
 
 - **Color** (flat `--color-*`): surfaces (`page, shell, container, card, sunken, modal, standout`), component (`component` + `-hover/-active/-on-sunken/-on-inverted`), transparent (`transparent` + `-hover/-active`), foreground (`primary|secondary|tertiary|disabled-foreground`), inverted (`inverted-solid` + states, `on-inverted-foreground`), brand, states (`positive|warning|info|danger` each with `-solid`, `-solid-hover`, `-subtle`, `-foreground`, `on-*-solid-foreground`), borders (`border-default|subtle|strong|inverted|disabled`, `brand-border-focus` is the focus ring), `disabled`, `overlay`. Light in `:root`, dark in `[data-theme="dark"]` and the OS media query. Use `color-mix(in oklab, ...)` with transparent or near-neutral colors.
-- **Shadows** (4): `--shadow-border`, `--shadow-default`, `--shadow-large`, `--shadow-extra-large`. Slider thumb uses default; Menu, Select, Popover, Toast use large; Dialog and search palette use extra-large.
+- **Shadows** (5): `--shadow-border`, `--shadow-default`, `--shadow-raised`, `--shadow-large`, `--shadow-extra-large`. Slider thumb uses default; secondary Button uses raised; Menu, Select, Popover, Toast use large; Dialog and search palette use extra-large.
 - **Typography**: `--font-size-10 ... 56` (named by px). Text styles `--text-heading-1..6-*` (fluid clamp), `--text-body-lg|body|body-sm`, `label`, `caption-lg|caption|caption-sm`, `emphasis` (serif italic), `code|code-sm|code-xs`. Weights: 400, 500, 600 only. DM Sans (optical sizing), Commit Mono, Newsreader italic. Headings are never italic; `Text variant="emphasis"` is.
-- **Icons**: `--size-icon-sm|md|lg|xl` = 16/20/24/32px, and `--icon-gap-sm|md|lg|xl` for the space between an icon and its label. `Icon` reads `--icon-size`; `Button` sets it from `--btn-icon` (sm and md 16px, lg 20px). `data-icon="start|end|both|only"` (from `src/ui/utils/iconPosition.ts`) gives the icon side 0.75x padding; icon-only is square. Glyphs come from Phosphor (256x256, `fill="currentColor"`) as named components built by `createIcon` (`src/ui/components/Icon/createIcon.tsx`); the set lives in `src/ui/icons/icons.config.json` and `bun run icons` regenerates `src/ui/icons/icons.generated.tsx` and `public/agent/icons.json`. Never write `<path>` by hand and never nest an icon inside another `Icon`.
-- **Button**: background, border and shadow live on `::before` so pressing scales only the box (`scale(0.96)`), not the label. `--btn-ring` and `--btn-backdrop` are secondary only. Filled variants nudge the label 1px down with `padding-top`; ghost is excluded.
+- **Icons**: `--size-icon-sm|md|lg|xl` = 16/20/24/32px, and `--icon-gap-sm|md|lg|xl` for the space between an icon and its label. `Icon` reads `--icon-size`; `Button` sets it from `--btn-icon` (sm and md 16px, lg 20px). Controls never sniff children: icons go in explicit `startIcon`/`endIcon` props, and the shared `IconSlot`/`useIconSlots` (`src/ui/components/Icon/IconSlot.tsx`, position from `src/ui/utils/iconPosition.ts`) sizes them with `--icon-size`, spaces them with an `--icon-gap-*`, makes them `aria-hidden`, and sets `data-icon="start|end|both|only"`. `loading` counts as a start slot. Icon-only controls need `aria-label`. Do not pass `size` to a slot icon. Glyphs come from Phosphor (256x256, `fill="currentColor"`) as named components built by `createIcon` (`src/ui/components/Icon/createIcon.tsx`); the set lives in `src/ui/icons/icons.config.json` and `bun run icons` regenerates `src/ui/icons/icons.generated.tsx` and `public/agent/icons.json`. Never write `<path>` by hand and never nest an icon inside another `Icon`.
+- **Button**: heights are `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. Background, border and shadow live on `::before` so pressing scales only the box (`scale(0.97)`), not the label. `--btn-ring` and `--btn-backdrop` are secondary only. Filled variants nudge the label 1px down with `padding-top`; ghost is excluded. Because Phosphor glyphs carry their own empty space, the icon side gets `calc(var(--btn-px) * 0.5)` padding (a variable, never a hardcoded px value); icon-only is square.
+- Button pressed = only the scale on `::before`, no background change. The `*-active` state tokens apply to menu items, tabs and rows, not to Button.
+
+### Nested radius
+
+A container that has padding AND contains children with their own visible background, highlight, border or shadow touching its curve defines two custom properties, and the child derives its radius from them:
+
+```css
+.container { --radius-outer: var(--radius-lg); --inner-gap: var(--space-1); border-radius: var(--radius-outer); padding: var(--inner-gap); }
+.child { border-radius: max(var(--radius-sm), calc(var(--radius-outer) - var(--inner-gap))); }
+```
+
+Keep `--inner-gap` equal to the container's real padding (use the same token in `padding`). Use only semantic radius/space tokens.
+
+### States
+
+- No background at rest (ghost, menu items, select options, tabs, list and table rows): hover `--color-transparent-hover`, pressed/selected/highlighted `--color-transparent-active`.
+- Background at rest (input, secondary button, toggle): hover `--color-component-hover`. Pressed uses `--color-component-active` for input and toggle; Button pressed does not change background.
+- Filled variants (inverted, brand, danger): use their own `-hover` tokens. Button pressed does not change background.
+- `:focus-visible` on every interactive component: `outline: var(--focus-ring-width) solid var(--color-brand-border-focus); outline-offset: var(--focus-ring-offset);`.
+- Disabled: `--color-disabled` background, `--color-disabled-foreground` text, `--color-border-disabled` border, no hover, `cursor: not-allowed`.
+- Never hand-write `color-mix` for a state when a token exists. If a token is missing, report it instead of inventing one.
+
+### Touch targets
+
+Every interactive control must have a hit area of at least 44px on touch devices (`pointer: coarse`) and at least 24px otherwise. Use the shared mechanism; never enlarge the visible control for this.
+
+- Compose `.touchTarget` (uses `::after`) or `.touchTargetBefore` (uses `::before`) from `src/ui/styles/touchTarget.module.css`. Both are `position: relative`; under `pointer: coarse` they add a transparent, centered pseudo-element sized `max(100%, var(--size-target-comfortable))`. No visual or layout change. Use `.touchTargetBefore` only when the component already uses `::after`, as Tabs does for its indicator.
+- Adjacent controls with less than 8px gap (Tabs, Pagination, button groups) must not overlap: increase the gap under `pointer: coarse` with a semantic space token (`--space-3` for Tabs and Pagination) or limit the extra area to the axis without neighbors.
+- Stacked rows (Menu items, Select options) get a real `min-height: var(--size-target-comfortable)` under `pointer: coarse` instead of a pseudo-element.
+- `Input` cannot host a pseudo-element (replaced element): it renders an internal wrapper that carries `.touchTarget`. `Link` only gets a hit area with `standalone`, not when inline in a sentence. Dialog's close control is a `Button` and is covered by it.
+- Verify touch stories with `[data-touch-debug]`, which draws the hit areas.
 
 ## Component catalog (src/ui, import from `@/ui`)
 
@@ -38,7 +69,8 @@ Order of design: color, typography, shape, spacing, elevation, motion.
 
 Rules that matter when using them:
 
-- Every control needs an accessible name: use `Field label`, or the component's own `label`/`legend`, or `aria-label`.
+- Every control needs an accessible name: use `Field label`, or the component's own `label`/`legend`, or `aria-label`. An icon-only control needs `aria-label`.
+- Put icons in `startIcon`/`endIcon` (Button, ButtonLink, Menu items, Select trigger, Input, Textarea, Tabs items, Badge, Alert, Toast, Accordion items, Link end, Breadcrumb items). Never pass an icon as the only child and never pass `size` to a slot icon.
 - `Heading as` sets the outline level, `size` (1-6) only the look. One `h1` per page, no skipped levels.
 - `Stack`/`Grid` with `as="ul"` or `"ol"` require `li` children.
 - `Tooltip` content is supplementary: the trigger needs its own accessible name.

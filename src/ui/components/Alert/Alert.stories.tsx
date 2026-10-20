@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Alert } from "./Alert";
 import { Stack } from "../Stack";
+import { ArrowRightIcon, InfoIcon } from "../../icons/icons.generated";
 
 const meta = {
   title: "Feedback/Alert",
@@ -15,6 +16,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Info: Story = {};
+export const WithIcons: Story = {
+  args: { startIcon: <InfoIcon />, endIcon: <ArrowRightIcon /> },
+};
 export const Tones: Story = {
   render: () => (
     <Stack gap="3">

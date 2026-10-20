@@ -1,19 +1,17 @@
 .button {
+  composes: touchTarget from "../../styles/touchTarget.module.css";
   --btn-bg: var(--color-inverted-solid);
   --btn-fg: var(--color-on-inverted-foreground);
   --btn-bg-hover: var(--color-inverted-solid-hover);
-  --btn-bg-active: var(--btn-bg-hover);
 
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  --btn-px: var(--space-4);
+  --btn-px: var(--space-3);
   --btn-gap: var(--icon-gap-sm);
   --btn-icon: var(--size-icon-sm);
-  --icon-size: var(
-    --btn-icon
-  ); /* Icons in a button follow its size, unless they set their own `size`. */
+  --icon-size: var(--btn-icon); /* Slot icons follow the button size. */
   gap: var(--btn-gap);
   min-width: var(--size-target-min);
   margin: 0;
@@ -48,38 +46,44 @@
   transition:
     background-color var(--motion-duration-fast) var(--motion-easing-standard),
     box-shadow var(--motion-duration-fast) var(--motion-easing-standard),
-    transform 100ms var(--motion-easing-standard);
+    transform var(--motion-duration-fast) var(--motion-easing-standard);
 }
 
-.button:hover:not([data-disabled])::before {
+.button:hover:not([data-disabled])::before,
+.button[data-force="hover"]:not([data-disabled])::before {
   background-color: var(--btn-bg-hover);
 }
 
-.button:active:not([data-disabled])::before {
-  background-color: var(--btn-bg-active);
-  transform: scale(0.96);
+.button:active:not([data-disabled])::before,
+.button[data-force="active"]:not([data-disabled])::before {
+  transform: scale(0.97);
+}
+
+.button:focus-visible,
+.button[data-force="focus"] {
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .button[data-disabled] {
-  opacity: var(--opacity-disabled);
   cursor: not-allowed;
 }
 
+.button[data-disabled]:not([data-loading]) {
+  --btn-bg: var(--color-disabled);
+  --btn-fg: var(--color-disabled-foreground);
+  border-color: var(--color-border-disabled);
+  opacity: 1;
+}
+
 .primary {
-  /* defaults */
 }
 
 .secondary {
   --btn-bg: var(--color-component);
   --btn-fg: var(--color-primary-foreground);
   --btn-bg-hover: var(--color-component-hover);
-  --btn-bg-active: var(--color-component-active);
-  /* Dark: inner hairline, top highlight, dark outer edge and a soft drop. Light: same layers with light-theme values. */
-  --btn-ring:
-    inset 0 0 0 1px light-dark(transparent, #ffffff08),
-    inset 0 1px light-dark(#ffffffcc, #ffffff0a),
-    0 0 0 1px light-dark(#00000014, #0009),
-    0 4px 4px light-dark(#0000000d, #0000001a);
+  --btn-ring: var(--shadow-raised);
   --btn-backdrop: blur(4px);
 }
 
@@ -87,7 +91,13 @@
   --btn-bg: transparent;
   --btn-fg: var(--color-primary-foreground);
   --btn-bg-hover: var(--color-transparent-hover);
-  --btn-bg-active: var(--color-transparent-active);
+}
+
+.outline {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-primary-foreground);
+  --btn-bg-hover: var(--color-transparent-hover);
+  border-color: var(--color-border-default);
 }
 
 .accent {
@@ -120,22 +130,30 @@
   height: var(--size-control-lg);
 }
 
-/* Optical balance: an icon carries its own empty space and looks heavier than a letter, so the side with the icon
-   gets less padding (about three quarters). Material uses 16 against 24, the same idea. `data-icon` is set by the component. */
-.button[data-icon="start"],
-.button[data-icon="both"] {
+/* Optical balance: Phosphor glyphs carry their own empty space and look heavier than a letter, so the
+  icon side gets less padding while the text side keeps the normal one. `data-icon` is set by the component. */
+.button[data-icon="start"] {
   padding-inline-start: calc(var(--btn-px) * 0.75);
 }
 
-.button[data-icon="end"],
-.button[data-icon="both"] {
+.button[data-icon="end"] {
   padding-inline-end: calc(var(--btn-px) * 0.75);
+}
+
+.button[data-icon="both"] {
+  padding-inline: calc(var(--btn-px) * 0.75);
 }
 
 /* Icon only: a square, no side padding. */
 .button[data-icon="only"] {
   padding-inline: 0;
   aspect-ratio: 1;
+}
+
+/* The loading spinner takes the start icon's size, so swapping them does not change the button width. */
+.button > .spinner {
+  width: var(--btn-icon);
+  height: var(--btn-icon);
 }
 
 /* While loading the button is disabled for clicks but should not look dimmed. */
@@ -149,5 +167,5 @@
 .secondary,
 .accent,
 .danger {
-  padding-top: 2px;
+  padding-top: 1px;
 }

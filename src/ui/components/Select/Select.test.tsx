@@ -4,6 +4,7 @@ import { axe } from "vitest-axe";
 import { describe, expect, it, vi } from "vitest";
 import { Select } from "./Select";
 import { Field } from "../Field";
+import { CheckIcon } from "../../icons/icons.generated";
 
 const items = [
   { value: "ar", label: "Argentina" },
@@ -36,6 +37,15 @@ describe("Select", () => {
     await user.click(screen.getByRole("option", { name: "Uruguay" }));
     expect(onValueChange).toHaveBeenCalled();
     expect(onValueChange.mock.calls[0][0]).toBe("uy");
+  });
+
+  it("renders icon slots and marks them decorative", () => {
+    const { container } = render(
+      <Select label="Country" items={items} startIcon={<CheckIcon />} />,
+    );
+    const trigger = screen.getByRole("combobox");
+    expect(trigger).toHaveAttribute("data-icon", "start");
+    expect(container.querySelector("svg")).toHaveAttribute("aria-hidden", "true");
   });
 
   it("has no accessibility violations when closed", async () => {

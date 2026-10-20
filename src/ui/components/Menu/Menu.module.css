@@ -3,11 +3,13 @@
 }
 
 .popup {
+  --radius-outer: var(--radius-lg);
+  --inner-gap: var(--space-1);
   box-sizing: border-box;
   min-width: 11rem;
-  padding: var(--space-1);
+  padding: var(--inner-gap);
   border: var(--border-width-thin) solid var(--color-border-strong);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-outer);
   background: var(--color-modal);
   color: var(--color-primary-foreground);
   box-shadow: var(--shadow-large);
@@ -24,12 +26,14 @@
 }
 
 .item {
+  --icon-size: var(--size-icon-sm);
   box-sizing: border-box;
   display: flex;
   align-items: center;
+  gap: var(--icon-gap-sm);
   min-height: var(--size-target-min);
   padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-sm);
+  border-radius: max(var(--radius-sm), calc(var(--radius-outer) - var(--inner-gap)));
   color: inherit;
   font-family: var(--text-body-family);
   font-size: var(--text-body-size);
@@ -40,17 +44,49 @@
   outline: 0;
 }
 
-.item[data-highlighted] {
-  background: color-mix(in oklch, var(--color-primary-foreground) 12%, transparent);
+.item[data-highlighted],
+.item[data-force="selected"] {
+  background: var(--color-transparent-active);
+}
+
+.item:hover:not([data-disabled]),
+.item[data-force="hover"]:not([data-disabled]) {
+  background: var(--color-transparent-hover);
+}
+
+.item:focus-visible,
+.item[data-force="focus"] {
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+@media (pointer: coarse) {
+  .item {
+    min-height: var(--size-target-comfortable);
+  }
+}
+
+[data-touch-debug] .item {
+  min-height: var(--size-target-comfortable);
+  outline: var(--border-width-thick) dashed var(--color-brand-solid);
+  outline-offset: calc(var(--border-width-thick) * -1);
 }
 
 .item[data-disabled] {
-  opacity: var(--opacity-disabled);
+  color: var(--color-disabled-foreground);
   cursor: not-allowed;
+}
+
+.slotEnd {
+  margin-inline-start: auto;
 }
 
 .destructive {
   color: var(--color-danger-solid);
+}
+
+.destructive[data-highlighted] {
+  background: var(--color-danger-subtle-hover);
 }
 
 .separator {

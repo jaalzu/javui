@@ -1,8 +1,10 @@
 "use client";
 
-import type { ComponentProps, ElementType } from "react";
+import type { ComponentProps, ElementType, ReactNode } from "react";
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { cx } from "../../utils/cx";
+import { iconPosition } from "../../utils/iconPosition";
+import { IconSlot } from "../Icon/IconSlot";
 import { Button, type ButtonSize, type ButtonVariant } from "../Button";
 import { CaretDownIcon } from "../../icons/icons.generated";
 import { useLinkComponent } from "../Link/LinkContext";
@@ -19,6 +21,10 @@ export type MenuItem = {
   disabled?: boolean;
   /** Marks a destructive action such as Delete. */
   destructive?: boolean;
+  /** Icon before the label. Pass a generated icon without `size`. */
+  startIcon?: ReactNode;
+  /** Icon after the label. Pass a generated icon without `size`. */
+  endIcon?: ReactNode;
 };
 
 export type MenuSeparator = { type: "separator" };
@@ -55,9 +61,17 @@ export function Menu({ label, items, variant = "secondary", size = "md", align =
   const LinkComponent = useLinkComponent() as ElementType<ComponentProps<"a">> | "a";
   return (
     <BaseMenu.Root>
-      <BaseMenu.Trigger render={<Button variant={variant} size={size} className={className} />}>
+      <BaseMenu.Trigger
+        render={
+          <Button
+            variant={variant}
+            size={size}
+            className={className}
+            endIcon={<CaretDownIcon />}
+          />
+        }
+      >
         {label}
-        <CaretDownIcon size="sm" />
       </BaseMenu.Trigger>
       <BaseMenu.Portal>
         <BaseMenu.Positioner sideOffset={6} align={align} className={styles.positioner}>
@@ -67,11 +81,23 @@ export function Menu({ label, items, variant = "secondary", size = "md", align =
                 return <BaseMenu.Separator key={`sep-${i}`} className={styles.separator} />;
               }
               const itemClass = cx(styles.item, entry.destructive && styles.destructive);
+              const position = iconPosition({
+                startIcon: entry.startIcon,
+                endIcon: entry.endIcon,
+              });
               if (entry.href) {
                 const render = LinkComponent === "a" ? undefined : <LinkComponent href={entry.href} />;
                 return (
-                  <BaseMenu.LinkItem key={`${entry.label}-${i}`} href={entry.href} render={render} className={itemClass}>
+                  <BaseMenu.LinkItem
+                    key={`${entry.label}-${i}`}
+                    href={entry.href}
+                    render={render}
+                    className={itemClass}
+                    data-icon={position}
+                  >
+                    <IconSlot>{entry.startIcon}</IconSlot>
                     {entry.label}
+                    <IconSlot className={styles.slotEnd}>{entry.endIcon}</IconSlot>
                   </BaseMenu.LinkItem>
                 );
               }
@@ -81,8 +107,11 @@ export function Menu({ label, items, variant = "secondary", size = "md", align =
                   disabled={entry.disabled}
                   onClick={() => entry.onSelect?.()}
                   className={itemClass}
+                  data-icon={position}
                 >
+                  <IconSlot>{entry.startIcon}</IconSlot>
                   {entry.label}
+                  <IconSlot className={styles.slotEnd}>{entry.endIcon}</IconSlot>
                 </BaseMenu.Item>
               );
             })}

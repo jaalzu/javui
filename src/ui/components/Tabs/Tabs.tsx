@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
 import { cx } from "../../utils/cx";
+import { iconPosition } from "../../utils/iconPosition";
+import { IconSlot } from "../Icon/IconSlot";
 import styles from "./Tabs.module.css";
 
 export type TabItem = {
@@ -10,6 +12,10 @@ export type TabItem = {
   label: ReactNode;
   /** Content of the panel shown when the tab is selected. */
   content: ReactNode;
+  /** Icon before the label. Pass a generated icon without `size`; the tab sizes it. */
+  startIcon?: ReactNode;
+  /** Icon after the label. Pass a generated icon without `size`; the tab sizes it. */
+  endIcon?: ReactNode;
   disabled?: boolean;
 };
 
@@ -58,8 +64,14 @@ export function Tabs({
             value={item.value}
             disabled={item.disabled}
             className={styles.tab}
+            data-icon={iconPosition({
+              startIcon: item.startIcon,
+              endIcon: item.endIcon,
+            })}
           >
+            <IconSlot>{item.startIcon}</IconSlot>
             {item.label}
+            <IconSlot>{item.endIcon}</IconSlot>
           </BaseTabs.Tab>
         ))}
       </BaseTabs.List>

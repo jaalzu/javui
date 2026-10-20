@@ -41,6 +41,7 @@
 }
 
 .radio {
+  composes: touchTarget from "../../styles/touchTarget.module.css";
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
@@ -56,13 +57,42 @@
   cursor: pointer;
 }
 
+.radio:hover:not([data-disabled]),
+.radio[data-force="hover"]:not([data-disabled]) {
+  background: var(--color-component-hover);
+}
+
+.radio:active:not([data-disabled]),
+.radio[data-force="active"]:not([data-disabled]) {
+  background: var(--color-component-active);
+}
+
+.radio:focus-visible,
+.radio[data-force="focus"] {
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
 .radio[data-checked] {
   border-color: var(--color-inverted-solid);
   background: var(--color-inverted-solid);
 }
 
+.radio[data-checked]:hover:not([data-disabled]),
+.radio[data-checked][data-force="hover"]:not([data-disabled]) {
+  border-color: var(--color-inverted-solid-hover);
+  background: var(--color-inverted-solid-hover);
+}
+
+.radio[data-checked]:active:not([data-disabled]),
+.radio[data-checked][data-force="active"]:not([data-disabled]) {
+  border-color: var(--color-inverted-solid-active);
+  background: var(--color-inverted-solid-active);
+}
+
 .radio[data-disabled] {
-  opacity: var(--opacity-disabled);
+  border-color: var(--color-border-disabled);
+  background: var(--color-disabled);
   cursor: not-allowed;
 }
 
@@ -73,10 +103,18 @@
   background: var(--color-on-inverted-foreground);
 }
 
+.radio[data-disabled] .indicator {
+  background: var(--color-disabled-foreground);
+}
+
 .indicator[data-unchecked] {
   display: none;
 }
 
 .text {
   min-width: 0;
+}
+
+.label:has([data-disabled]) {
+  cursor: not-allowed;
 }

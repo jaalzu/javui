@@ -78,7 +78,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Text>Default paragraph.</Text>\n<Text size=\"lg\">Large body text</Text>\n<Text variant=\"caption\" tone=\"muted\">Helper text</Text>\n<Text as=\"label\" htmlFor=\"email\" variant=\"label\">Email</Text>"
+        "<Text>Default paragraph.</Text>\r\n<Text size=\"lg\">Large body text</Text>\r\n<Text variant=\"caption\" tone=\"muted\">Helper text</Text>\r\n<Text as=\"label\" htmlFor=\"email\" variant=\"label\">Email</Text>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Text/Text.tsx"
     },
@@ -121,7 +121,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Heading as=\"h1\">Page title</Heading>\n<Heading as=\"h2\" size={4}>Smaller-looking section title</Heading>"
+        "<Heading as=\"h1\">Page title</Heading>\r\n<Heading as=\"h2\" size={4}>Smaller-looking section title</Heading>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Heading/Heading.tsx"
     },
@@ -132,7 +132,7 @@
       "description": "A link for navigation. It renders an `a`, or the component given to `LinkProvider` (such as `next/link`).\nLinks always show an underline so they do not rely on color alone. For actions that do not navigate, use `Button`.",
       "import": "import { Link } from \"@/ui\";",
       "renders": "a",
-      "composition": "Native anchor props pass through. `href` is required.",
+      "composition": "Native anchor props pass through. `href` is required. Put a trailing icon in `endIcon` (no `size`). Set `standalone` for a link used as a standalone action; inline links in a sentence stay inline.",
       "whenToUse": "Navigation to another page, section or resource.",
       "avoid": [
         "Actions that do not navigate: use Button.",
@@ -147,6 +147,19 @@
           "description": "Where the link goes. Required: a link without `href` is not a link."
         },
         {
+          "name": "endIcon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Icon after the label. Pass a generated icon without `size`; the link sizes it."
+        },
+        {
+          "name": "standalone",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Marks a standalone action link (not inline in a sentence) so it gets a 44px hit area on touch devices."
+        },
+        {
           "name": "tone",
           "type": "\"inherit\" | \"default\" | \"muted\"",
           "required": false,
@@ -156,7 +169,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Link href=\"/docs\">Read the docs</Link>"
+        "<Link href=\"/docs\">Read the docs</Link>\r\n<Link href=\"/docs\" endIcon={<ArrowRightIcon />}>Read the docs</Link>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Link/Link.tsx"
     },
@@ -184,10 +197,10 @@
       "name": "Badge",
       "category": "typography",
       "base": "Own component",
-      "description": "Small status, category or count label. Text is always the primary signal; the\nvariant only reinforces it.\n\nKeep the text to one or two words and truncate counts to two digits (`99+`).\nBadges are secondary and supportive: never use one as a heading or a key\nindicator. Add an icon (e.g. `<CheckIcon />`) as the first or last child for an icon.",
+      "description": "Small status, category or count label. Text is always the primary signal; the\nvariant only reinforces it.\n\nKeep the text to one or two words and truncate counts to two digits (`99+`).\nBadges are secondary and supportive: never use one as a heading or a key\nindicator. Put icons in `startIcon`/`endIcon`; they follow the badge size.",
       "import": "import { Badge } from \"@/ui\";",
       "renders": "span, or the element passed in `render`",
-      "composition": "Plain children. Put an `<svg>` or `Icon` as first or last child for an icon; `loading` adds a spinner (`spinnerPosition`: start or end). `variant`: default, inverted, outline, brand, success or danger. `size`: sm, md or lg. `shape`: pill (default) or rounded. Pass `render={<Link href=\"…\" />}` to render a link. Keep text to one or two words; truncate counts to two digits (`99+`).",
+      "composition": "Text children, plus optional `startIcon`/`endIcon` (generated icons, no `size`); never put icons in children. `loading` adds a spinner (`spinnerPosition`: start or end). `variant`: default, inverted, outline, brand, success or danger. `size`: sm, md or lg. `shape`: pill (default) or rounded. Pass `render={<Link href=\"…\" />}` to render a link. Keep text to one or two words; truncate counts to two digits (`99+`).",
       "whenToUse": "Short status or count labels next to other content.",
       "avoid": [
         "Using color as the only signal: always include text.",
@@ -201,6 +214,12 @@
           "name": "className",
           "type": "string",
           "required": false
+        },
+        {
+          "name": "endIcon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Icon after the text. Pass a generated icon without `size`; the badge sizes it."
         },
         {
           "name": "loading",
@@ -237,6 +256,12 @@
           "description": "Side the spinner sits on."
         },
         {
+          "name": "startIcon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Icon before the text. Pass a generated icon without `size`; the badge sizes it."
+        },
+        {
           "name": "variant",
           "type": "\"success\" | \"danger\" | \"default\" | \"inverted\" | \"outline\" | \"brand\"",
           "required": false,
@@ -246,7 +271,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Badge>Draft</Badge>\n<Badge variant=\"success\">Active</Badge>\n<Badge variant=\"danger\">99+</Badge>\n<Badge variant=\"outline\" shape=\"rounded\">Beta</Badge>\n<Badge variant=\"brand\" loading>Saving</Badge>\n<Badge variant=\"inverted\" size=\"lg\" spinnerPosition=\"end\" loading>Syncing</Badge>\n<Badge variant=\"default\" render={<Link href=\"/docs\" />}>Docs</Badge>"
+        "<Badge>Draft</Badge>\r\n<Badge variant=\"success\">Active</Badge>\r\n<Badge variant=\"danger\">99+</Badge>\r\n<Badge variant=\"outline\" shape=\"rounded\">Beta</Badge>\r\n<Badge variant=\"brand\" loading>Saving</Badge>\r\n<Badge variant=\"inverted\" size=\"lg\" spinnerPosition=\"end\" loading>Syncing</Badge>\r\n<Badge variant=\"success\" startIcon={<CheckIcon />}>Active</Badge>\r\n<Badge variant=\"default\" render={<Link href=\"/docs\" />}>Docs</Badge>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Badge/Badge.tsx"
     },
@@ -647,22 +672,29 @@
       "name": "Button",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "Displays an action button. It is built on Base UI Button, so keyboard, focus and disabled behavior come from there.\nIt defaults to `type=\"button\"` so it never submits a form by accident; set `type=\"submit\"` explicitly.\nFor navigation use `Link`.",
+      "description": "Displays an action button. It is built on Base UI Button, so keyboard, focus and disabled behavior come from there.\nIt defaults to `type=\"button\"` so it never submits a form by accident; set `type=\"submit\"` explicitly.\nFor navigation use `ButtonLink` or `Link`.\nPut icons in `startIcon`/`endIcon`; an icon-only button needs `aria-label`.",
       "import": "import { Button } from \"@/ui\";",
       "renders": "button",
-      "composition": "Defaults to type=\"button\"; pass type=\"submit\" explicitly. Base UI props such as `render` and `nativeButton` are available but not needed for normal use.",
+      "composition": "Defaults to type=\"button\"; pass type=\"submit\" explicitly. Put icons in `startIcon`/`endIcon` (generated icons, no `size`). Heights: sm 1.75rem, md 2.25rem, lg 2.75rem. Base UI props such as `render` and `nativeButton` are available but not needed for normal use.",
       "whenToUse": "Any action: submit, open, confirm, cancel. Pass `loading` while the action runs.",
       "avoid": [
         "Navigation: use Link.",
         "More than one primary button per view.",
         "Disabling the button to show progress: use `loading`, it keeps the label and focus."
       ],
-      "accessibility": "Icon-only buttons need `aria-label`. `loading` sets `aria-busy`. Keyboard and disabled behavior come from Base UI.",
+      "accessibility": "Icon-only buttons need `aria-label` and use `startIcon` (or `endIcon`) instead of children. `loading` sets `aria-busy` and counts as the start slot. Keyboard and disabled behavior come from Base UI.",
       "props": [
         {
           "name": "className",
           "type": "string",
           "required": false
+        },
+        {
+          "name": "endIcon",
+          "type": "ReactNode",
+          "required": false,
+          "default": "undefined",
+          "description": "Icon after the label. Pass a generated icon without `size`; the button sizes it."
         },
         {
           "name": "loading",
@@ -676,7 +708,14 @@
           "type": "\"sm\" | \"md\" | \"lg\"",
           "required": false,
           "default": "md",
-          "description": "Control height: `sm` 2rem, `md` 2.5rem, `lg` 3rem."
+          "description": "Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem."
+        },
+        {
+          "name": "startIcon",
+          "type": "ReactNode",
+          "required": false,
+          "default": "undefined",
+          "description": "Icon before the label. Pass a generated icon without `size`; the button sizes it."
         },
         {
           "name": "variant",
@@ -688,7 +727,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Button>Save</Button>\n<Button variant=\"secondary\" size=\"sm\">Cancel</Button>\n<Button type=\"submit\">Send</Button>\n<Button loading>Saving</Button>\n<Button variant=\"secondary\"><CheckIcon />Done</Button>\n<Button variant=\"ghost\" aria-label=\"Close\"><XIcon /></Button>"
+        "<Button>Save</Button>\n<Button variant=\"secondary\" size=\"sm\">Cancel</Button>\n<Button type=\"submit\">Send</Button>\n<Button loading>Saving</Button>\n<Button variant=\"secondary\" startIcon={<CheckIcon />}>Done</Button>\n<Button variant=\"ghost\" aria-label=\"Close\" startIcon={<XIcon />} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Button/Button.tsx"
     },
@@ -749,7 +788,7 @@
       "description": "A native text input built on Base UI Input. Inside `Field` it is labelled and wired to its\ndescription and error automatically. Outside `Field` it needs an accessible name\n(`aria-label` or an associated `label`).",
       "import": "import { Input } from \"@/ui\";",
       "renders": "input",
-      "composition": "Native input props pass through (type, autoComplete, name, required...).",
+      "composition": "Native input props pass through (type, autoComplete, name, required...). Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`).",
       "whenToUse": "Single-line text entry.",
       "avoid": [
         "Using it without Field or aria-label.",
@@ -763,16 +802,28 @@
           "required": false
         },
         {
+          "name": "endIcon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Icon after the text. Pass a generated icon without `size`; the input sizes it."
+        },
+        {
           "name": "size",
           "type": "\"sm\" | \"md\" | \"lg\"",
           "required": false,
           "default": "md",
-          "description": "Control height: `sm` 2rem, `md` 2.5rem, `lg` 3rem."
+          "description": "Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem."
+        },
+        {
+          "name": "startIcon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Icon before the text. Pass a generated icon without `size`; the input sizes it."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Field label=\"Email\"><Input type=\"email\" autoComplete=\"email\" /></Field>"
+        "<Field label=\"Email\"><Input type=\"email\" autoComplete=\"email\" /></Field>\n<Input aria-label=\"Search\" startIcon={<MagnifyingGlassIcon />} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Input/Input.tsx"
     },
@@ -783,7 +834,7 @@
       "description": "A native `textarea` that works with `Field` the same way `Input` does.\nNeeds an accessible name inside or outside `Field`.",
       "import": "import { Textarea } from \"@/ui\";",
       "renders": "textarea",
-      "composition": "Native textarea props pass through; `rows` defaults to 3.",
+      "composition": "Native textarea props pass through; `rows` defaults to 3. Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`).",
       "whenToUse": "Multi-line text entry.",
       "avoid": [
         "Using it without Field or aria-label."
@@ -794,6 +845,18 @@
           "name": "className",
           "type": "string",
           "required": false
+        },
+        {
+          "name": "endIcon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Icon after the text. Pass a generated icon without `size`; the textarea sizes it."
+        },
+        {
+          "name": "startIcon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Icon before the text. Pass a generated icon without `size`; the textarea sizes it."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
@@ -831,7 +894,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Checkbox label=\"Send me product updates\" defaultChecked />\n<Checkbox label=\"Select all\" indeterminate />"
+        "<Checkbox label=\"Send me product updates\" defaultChecked />\r\n<Checkbox label=\"Select all\" indeterminate />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Checkbox/Checkbox.tsx"
     },
@@ -955,7 +1018,7 @@
       "description": "A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).\nPass `items` instead of composing parts.",
       "import": "import { Select } from \"@/ui\";",
       "renders": "button role=\"combobox\" with a listbox popup in a portal",
-      "composition": "Pass `items` ({ value, label, disabled? }). Give it `label`, `aria-label` or wrap it in Field.",
+      "composition": "Pass `items` ({ value, label, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field.",
       "whenToUse": "Choosing one option from a longer list.",
       "avoid": [
         "Two or three options: use RadioGroup.",
@@ -981,6 +1044,12 @@
           "required": false
         },
         {
+          "name": "endIcon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Icon after the value, before the caret. Pass a generated icon without `size`; the select sizes it."
+        },
+        {
           "name": "label",
           "type": "string",
           "required": false,
@@ -997,7 +1066,13 @@
           "type": "\"sm\" | \"md\" | \"lg\"",
           "required": false,
           "default": "md",
-          "description": "Control height: `sm` 2rem, `md` 2.5rem, `lg` 3rem."
+          "description": "Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem."
+        },
+        {
+          "name": "startIcon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Icon before the value. Pass a generated icon without `size`; the select sizes it."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
@@ -1206,7 +1281,7 @@
       "description": "Tabs that switch between panels, built on Base UI Tabs (arrow-key navigation, roles and\n`aria-controls` come from there). Pass `items` instead of composing parts.",
       "import": "import { Tabs } from \"@/ui\";",
       "renders": "div with a tablist, tab buttons and tabpanels",
-      "composition": "Pass `items` ({ value, label, content, disabled? }) and an `aria-label`.",
+      "composition": "Pass `items` ({ value, label, content, startIcon?, endIcon?, disabled? }) and an `aria-label`. Icons are generated icons without `size`.",
       "whenToUse": "Switching between related panels in the same place.",
       "avoid": [
         "Navigation between pages: use Link.",
@@ -1234,7 +1309,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Tabs aria-label=\"Account\" items={[\n  { value: \"profile\", label: \"Profile\", content: <p>Profile</p> },\n  { value: \"billing\", label: \"Billing\", content: <p>Billing</p> },\n]} />"
+        "<Tabs aria-label=\"Account\" items={[\r\n  { value: \"profile\", label: \"Profile\", content: <p>Profile</p> },\r\n  { value: \"billing\", label: \"Billing\", content: <p>Billing</p> },\r\n]} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Tabs/Tabs.tsx"
     },
@@ -1288,10 +1363,10 @@
       "name": "ButtonLink",
       "category": "navigation",
       "base": "Own component",
-      "description": "A link that looks like a `Button`. It renders an `a` (or the component given to `LinkProvider`, such as\n`next/link`), because something that navigates is a link, not a button. For actions use `Button`.",
+      "description": "A link that looks like a `Button`. It renders an `a` (or the component given to `LinkProvider`, such as\n`next/link`), because something that navigates is a link, not a button. For actions use `Button`.\nPut icons in `startIcon`/`endIcon`; an icon-only link needs `aria-label`.",
       "import": "import { ButtonLink } from \"@/ui\";",
       "renders": "a (rendered by the LinkProvider component, `next/link` in this app) styled like a Button",
-      "composition": "Pass `href`, `variant` and `size`. Children are the visible label.",
+      "composition": "Pass `href`, `variant`, `size` and optional `startIcon`/`endIcon` (generated icons, no `size`). Children are the visible label; an icon-only link needs `aria-label`.",
       "whenToUse": "A call to action that goes to another page, such as Get started or Docs.",
       "avoid": [
         "Actions that do not navigate: use Button.",
@@ -1306,11 +1381,25 @@
           "description": "Where the link goes. Required."
         },
         {
+          "name": "endIcon",
+          "type": "ReactNode",
+          "required": false,
+          "default": "undefined",
+          "description": "Icon after the label. Pass a generated icon without `size`; the link sizes it."
+        },
+        {
           "name": "size",
           "type": "\"sm\" | \"md\" | \"lg\"",
           "required": false,
           "default": "md",
-          "description": "Control height: `sm` 2rem, `md` 2.5rem, `lg` 3rem."
+          "description": "Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem."
+        },
+        {
+          "name": "startIcon",
+          "type": "ReactNode",
+          "required": false,
+          "default": "undefined",
+          "description": "Icon before the label. Pass a generated icon without `size`; the link sizes it."
         },
         {
           "name": "variant",
@@ -1322,7 +1411,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<ButtonLink href=\"/docs/installation\">Get started</ButtonLink>\n<ButtonLink href=\"/docs\" variant=\"secondary\">Docs</ButtonLink>"
+        "<ButtonLink href=\"/docs/installation\">Get started</ButtonLink>\n<ButtonLink href=\"/docs\" variant=\"secondary\" endIcon={<ArrowRightIcon />}>Docs</ButtonLink>\n<ButtonLink href=\"/docs\" aria-label=\"Next page\" startIcon={<ArrowRightIcon />} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ButtonLink/ButtonLink.tsx"
     },
@@ -1376,7 +1465,7 @@
       "description": "An inline message about the state of the page or a form. `danger` and `warning` use `role=\"alert\"`\n(announced immediately); `info` and `success` use `role=\"status\"` (announced politely).\nFor short-lived feedback after an action, use `useToast` instead.",
       "import": "import { Alert } from \"@/ui\";",
       "renders": "div with role alert (danger, warning) or role status (info, success)",
-      "composition": "Pass `tone`, optional `title`, and the message as children.",
+      "composition": "Pass `tone`, optional `title`, and the message as children. `startIcon` replaces the tone glyph; `endIcon` adds a trailing icon (generated icons, no `size`).",
       "whenToUse": "A message that stays on the page and the user must notice, such as a failed save or a warning.",
       "avoid": [
         "Short-lived confirmations: use Toast.",
@@ -1384,6 +1473,18 @@
       ],
       "accessibility": "Announced by screen readers on render. The icon is decorative and each tone has a different shape.",
       "props": [
+        {
+          "name": "endIcon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Icon at the end, for example a link arrow. Pass a generated icon without `size`."
+        },
+        {
+          "name": "startIcon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Replaces the tone icon at the start. Pass a generated icon without `size`."
+        },
         {
           "name": "title",
           "type": "ReactNode",
@@ -1600,7 +1701,7 @@
       "description": "A dropdown list of actions or links, built on Base UI Menu (arrow keys, typeahead, focus return and\nEscape come from there). Items with `href` are real links; items with `onSelect` are actions.\nDo not put form controls in a menu: use `Popover`.",
       "import": "import { Menu } from \"@/ui\";",
       "renders": "button that opens a role menu with menuitems",
-      "composition": "Pass `label` (the button text) and `items`: `{ label, onSelect?, href?, disabled?, destructive? }` or `{ type: \"separator\" }`.",
+      "composition": "Pass `label` (the button text) and `items`: `{ label, startIcon?, endIcon?, onSelect?, href?, disabled?, destructive? }` or `{ type: \"separator\" }`. Icons are generated icons without `size`.",
       "whenToUse": "A list of actions or links behind one button, such as account actions.",
       "avoid": [
         "Navigation between sections of the site: use links.",
@@ -1649,7 +1750,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Menu label=\"Account\" items={[\n  { label: \"Profile\", href: \"/profile\" },\n  { type: \"separator\" },\n  { label: \"Sign out\", onSelect: signOut },\n]} />"
+        "<Menu label=\"Account\" items={[\r\n  { label: \"Profile\", href: \"/profile\" },\r\n  { type: \"separator\" },\r\n  { label: \"Sign out\", onSelect: signOut },\r\n]} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Menu/Menu.tsx"
     },
@@ -1681,7 +1782,7 @@
       "description": "Show short-lived feedback after an action (saved, copied, failed). Returns `show` and `close`.\nFor messages that must stay on the page, use `Alert`.",
       "import": "import { useToast } from \"@/ui\";",
       "renders": "hook, renders nothing",
-      "composition": "`const { show, close } = useToast(); show({ title, description?, tone?, timeout? })`.",
+      "composition": "`const { show, close } = useToast(); show({ title, description?, tone?, timeout?, startIcon?, endIcon? })`. Icons are generated icons without `size`.",
       "whenToUse": "Showing a toast after an action finishes.",
       "avoid": [
         "Calling it outside ToastProvider.",
@@ -1691,7 +1792,7 @@
       "props": [],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "const { show } = useToast();\nshow({ title: \"Saved\", tone: \"success\" });"
+        "const { show } = useToast();\r\nshow({ title: \"Saved\", tone: \"success\" });"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Toast/Toast.tsx"
     },
@@ -1702,7 +1803,7 @@
       "description": "Collapsible sections built on Base UI Accordion. Each title is a button inside an `h3`\n(`aria-expanded` and `aria-controls` come from Base UI). Pass `items` instead of composing parts.",
       "import": "import { Accordion } from \"@/ui\";",
       "renders": "div with a heading (h3) and button per item and a region per panel",
-      "composition": "Pass `items` ({ value, title, content, disabled? }). Use `multiple` to allow several open.",
+      "composition": "Pass `items` ({ value, title, content, startIcon?, endIcon?, disabled? }). Icons are generated icons without `size`. Use `multiple` to allow several open.",
       "whenToUse": "Showing long content in short sections, such as FAQs.",
       "avoid": [
         "Hiding content users must read.",
@@ -1748,7 +1849,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Accordion items={[\n  { value: \"a\", title: \"Is it accessible?\", content: <p>Yes.</p> },\n  { value: \"b\", title: \"Is it themeable?\", content: <p>Yes.</p> },\n]} />"
+        "<Accordion items={[\r\n  { value: \"a\", title: \"Is it accessible?\", content: <p>Yes.</p> },\r\n  { value: \"b\", title: \"Is it themeable?\", content: <p>Yes.</p> },\r\n]} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Accordion/Accordion.tsx"
     },
@@ -1817,7 +1918,7 @@
       "description": "Where the current page sits in the site. Renders `nav > ol` and marks the last item with\n`aria-current=\"page\"`. Links use whatever `LinkProvider` provides (`next/link` in this app).",
       "import": "import { Breadcrumb } from \"@/ui\";",
       "renders": "nav with an ordered list; the last item has aria-current page",
-      "composition": "Pass `items` ({ label, href? }) from root to current page.",
+      "composition": "Pass `items` ({ label, href?, startIcon?, endIcon? }) from root to current page. Icons are generated icons without `size`.",
       "whenToUse": "Showing where the page sits in the site.",
       "avoid": [
         "Primary navigation.",
@@ -2087,7 +2188,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<CodeBlock language=\"tsx\" label=\"Example\" code={'<Button>Save</Button>'} />\n<CodeBlock language=\"bash\" label=\"Install\" tabs={[\n  { label: \"bun\", code: \"bun add"
+        "<CodeBlock language=\"tsx\" label=\"Example\" code={'<Button>Save</Button>'} />\r\n<CodeBlock language=\"bash\" label=\"Install\" tabs={[\r\n  { label: \"bun\", code: \"bun add"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/CodeBlock/CodeBlock.tsx"
     }

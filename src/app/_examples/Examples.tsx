@@ -64,14 +64,14 @@ const registry: Record<string, Example[]> = {
     ),
     ex(
       "With icon",
-      `<Button variant="secondary">\n  <CheckIcon />\n  Done\n</Button>`,
-      <Button variant="secondary">{check}Done</Button>,
+      `<Button variant="secondary" startIcon={<CheckIcon />}>Done</Button>`,
+      <Button variant="secondary" startIcon={check}>Done</Button>,
       "Icons are decorative when there is text next to them.",
     ),
     ex(
       "Icon only",
-      `<Button variant="secondary" aria-label="Done">\n  <CheckIcon />\n</Button>`,
-      <Button variant="secondary" aria-label="Done">{check}</Button>,
+      `<Button variant="secondary" aria-label="Done" startIcon={<CheckIcon />} />`,
+      <Button variant="secondary" aria-label="Done" startIcon={check} />,
       "Always give an icon-only button an accessible name.",
     ),
   ],

@@ -1,9 +1,11 @@
 "use client";
 
 import { Fragment } from "react";
-import type { ComponentProps, ElementType } from "react";
+import type { ComponentProps, ElementType, ReactNode } from "react";
 import { useLinkComponent } from "../Link";
 import { cx } from "../../utils/cx";
+import { iconPosition } from "../../utils/iconPosition";
+import { IconSlot } from "../Icon/IconSlot";
 import styles from "./Breadcrumb.module.css";
 
 export type BreadcrumbItem = {
@@ -11,6 +13,10 @@ export type BreadcrumbItem = {
   label: string;
   /** Destination. Omit it on the last item, which is the current page. */
   href?: string;
+  /** Icon before the label. Pass a generated icon without `size`; the breadcrumb sizes it. */
+  startIcon?: ReactNode;
+  /** Icon after the label. Pass a generated icon without `size`; the breadcrumb sizes it. */
+  endIcon?: ReactNode;
 };
 
 export type BreadcrumbProps = {
@@ -35,16 +41,32 @@ export function Breadcrumb({ items, "aria-label": ariaLabel = "Breadcrumb", clas
       <ol className={styles.list}>
         {items.map((item, i) => {
           const last = i === items.length - 1;
+          const position = iconPosition({
+            startIcon: item.startIcon,
+            endIcon: item.endIcon,
+          });
           return (
             <Fragment key={`${item.label}-${i}`}>
               <li className={styles.item}>
                 {last || !item.href ? (
-                  <span aria-current={last ? "page" : undefined} className={styles.current}>
+                  <span
+                    aria-current={last ? "page" : undefined}
+                    className={styles.current}
+                    data-icon={position}
+                  >
+                    <IconSlot>{item.startIcon}</IconSlot>
                     {item.label}
+                    <IconSlot>{item.endIcon}</IconSlot>
                   </span>
                 ) : (
-                  <LinkEl href={item.href} className={styles.link}>
+                  <LinkEl
+                    href={item.href}
+                    className={styles.link}
+                    data-icon={position}
+                  >
+                    <IconSlot>{item.startIcon}</IconSlot>
                     {item.label}
+                    <IconSlot>{item.endIcon}</IconSlot>
                   </LinkEl>
                 )}
               </li>

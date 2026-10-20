@@ -1,0 +1,12 @@
+.slot {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+
+.slot > svg {
+  width: var(--icon-size, var(--size-icon-md));
+  height: var(--icon-size, var(--size-icon-md));
+}

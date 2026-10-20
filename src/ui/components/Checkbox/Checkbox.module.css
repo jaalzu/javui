@@ -11,6 +11,7 @@
 }
 
 .box {
+  composes: touchTarget from "../../styles/touchTarget.module.css";
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
@@ -27,14 +28,48 @@
   cursor: pointer;
 }
 
+.box:hover:not([data-disabled]),
+.box[data-force="hover"]:not([data-disabled]) {
+  background: var(--color-component-hover);
+}
+
+.box:active:not([data-disabled]),
+.box[data-force="active"]:not([data-disabled]) {
+  background: var(--color-component-active);
+}
+
+.box:focus-visible,
+.box[data-force="focus"] {
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
 .box[data-checked],
 .box[data-indeterminate] {
   border-color: var(--color-inverted-solid);
   background: var(--color-inverted-solid);
 }
 
+.box[data-checked]:hover:not([data-disabled]),
+.box[data-indeterminate]:hover:not([data-disabled]),
+.box[data-checked][data-force="hover"]:not([data-disabled]),
+.box[data-indeterminate][data-force="hover"]:not([data-disabled]) {
+  border-color: var(--color-inverted-solid-hover);
+  background: var(--color-inverted-solid-hover);
+}
+
+.box[data-checked]:active:not([data-disabled]),
+.box[data-indeterminate]:active:not([data-disabled]),
+.box[data-checked][data-force="active"]:not([data-disabled]),
+.box[data-indeterminate][data-force="active"]:not([data-disabled]) {
+  border-color: var(--color-inverted-solid-active);
+  background: var(--color-inverted-solid-active);
+}
+
 .box[data-disabled] {
-  opacity: var(--opacity-disabled);
+  border-color: var(--color-border-disabled);
+  background: var(--color-disabled);
+  color: var(--color-disabled-foreground);
   cursor: not-allowed;
 }
 
@@ -48,4 +83,8 @@
 
 .text {
   min-width: 0;
+}
+
+.label:has([data-disabled]) {
+  cursor: not-allowed;
 }

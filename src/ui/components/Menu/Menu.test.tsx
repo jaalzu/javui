@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { axe } from "vitest-axe";
 import { describe, expect, it, vi } from "vitest";
 import { Menu } from "./Menu";
+import { ArrowRightIcon, CheckIcon } from "../../icons/icons.generated";
 
 function setup(onSelect = vi.fn()) {
   render(
@@ -56,6 +57,25 @@ describe("Menu", () => {
     await screen.findByRole("menu");
     await user.keyboard("{ArrowDown}{Enter}");
     expect(onSelect).toHaveBeenCalledTimes(1);
+  });
+
+  it("renders item icon slots and marks them decorative", async () => {
+    const user = userEvent.setup();
+    render(
+      <Menu
+        label="Account"
+        items={[
+          { label: "Profile", startIcon: <CheckIcon /> },
+          { label: "Settings", endIcon: <ArrowRightIcon /> },
+        ]}
+      />,
+    );
+    await user.click(screen.getByRole("button", { name: "Account" }));
+    const profile = await screen.findByRole("menuitem", { name: "Profile" });
+    const settings = screen.getByRole("menuitem", { name: "Settings" });
+    expect(profile).toHaveAttribute("data-icon", "start");
+    expect(settings).toHaveAttribute("data-icon", "end");
+    expect(profile.querySelector("svg")).toHaveAttribute("aria-hidden", "true");
   });
 
   it("has no accessibility violations when open", async () => {

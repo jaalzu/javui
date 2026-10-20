@@ -49,6 +49,7 @@
 }
 
 .thumb {
+  composes: touchTarget from "../../styles/touchTarget.module.css";
   width: 1.25rem;
   height: 1.25rem;
   box-sizing: border-box;
@@ -58,15 +59,27 @@
   box-shadow: var(--shadow-default);
 }
 
-.thumb:has(:focus-visible) {
+.thumb:has(:focus-visible),
+.thumb[data-force="focus"] {
   outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
-  outline-offset: 2px;
+  outline-offset: var(--focus-ring-offset);
 }
 
-.root[data-disabled] .control {
-  opacity: 0.5;
+.root:not([data-disabled]) .thumb:hover {
+  background: var(--color-component-hover);
+}
+
+.root:not([data-disabled]) .thumb:active {
+  background: var(--color-component-active);
 }
 
 .root[data-disabled] .thumb {
+  border-color: var(--color-border-disabled);
+  background: var(--color-disabled);
+  box-shadow: none;
   cursor: not-allowed;
+}
+
+.root[data-disabled] .indicator {
+  background: var(--color-disabled-foreground);
 }

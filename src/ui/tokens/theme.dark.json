@@ -68,12 +68,12 @@
       "$description": "Ghost controls and list items at rest."
     },
     "transparent-hover": {
-      "$value": "color-mix(in oklab, {color.primary-foreground} 6%, transparent)",
+      "$value": "color-mix(in oklab, {color.primary-foreground} 8%, transparent)",
       "$type": "color",
       "$description": "Ghost control or list item hovered."
     },
     "transparent-active": {
-      "$value": "color-mix(in oklab, {color.primary-foreground} 10%, transparent)",
+      "$value": "color-mix(in oklab, {color.primary-foreground} 12%, transparent)",
       "$type": "color",
       "$description": "Ghost control pressed, or list item selected or highlighted."
     },
@@ -354,6 +354,11 @@
       "$value": "0 0 0 1px #ffffff12, 0 1px 2px #00000066",
       "$type": "shadow",
       "$description": "A small lift for controls at rest that should feel pressable: slider thumbs, raised buttons, tabs."
+    },
+    "raised": {
+      "$value": "inset 0 0 0 1px #ffffff08, inset 0 1px #ffffff0a, 0 0 0 1px #0009, 0 4px 4px #0000001a",
+      "$type": "shadow",
+      "$description": "Raised look for secondary controls: inner hairline, top highlight, outer edge and soft drop."
     },
     "large": {
       "$value": "0 0 0 1px color-mix(in oklab, #ffffff12, #3a3a3a 25%), 0 2px 3px -2px #00000026, 0 3px 8px -2px #0006, 0 4px 12px -4px #00000080",

@@ -1,0 +1,32 @@
+.touchTarget,
+.touchTargetBefore {
+  position: relative;
+}
+
+@media (pointer: coarse) {
+  .touchTarget::after,
+  .touchTargetBefore::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, var(--size-target-comfortable));
+    height: max(100%, var(--size-target-comfortable));
+    transform: translate(-50%, -50%);
+  }
+}
+
+[data-touch-debug] .touchTarget::after,
+[data-touch-debug] .touchTargetBefore::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100%, var(--size-target-comfortable));
+  height: max(100%, var(--size-target-comfortable));
+  transform: translate(-50%, -50%);
+  outline: var(--border-width-thick) dashed var(--color-brand-solid);
+  background: color-mix(in oklab, var(--color-brand-solid) 10%, transparent);
+  pointer-events: none;
+  z-index: 1;
+}

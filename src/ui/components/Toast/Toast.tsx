@@ -2,6 +2,8 @@
 
 import type { ReactNode } from "react";
 import { Toast as BaseToast } from "@base-ui/react/toast";
+import { iconPosition } from "../../utils/iconPosition";
+import { IconSlot } from "../Icon/IconSlot";
 import { XIcon } from "../../icons/icons.generated";
 import styles from "./Toast.module.css";
 
@@ -16,23 +18,41 @@ export type ToastOptions = {
   tone?: ToastTone;
   /** Milliseconds before it closes by itself. `0` keeps it until dismissed. @default 5000 */
   timeout?: number;
+  /** Icon before the text. Pass a generated icon without `size`; the toast sizes it. */
+  startIcon?: ReactNode;
+  /** Icon after the text, before the dismiss button. Pass a generated icon without `size`. */
+  endIcon?: ReactNode;
+};
+
+type ToastData = {
+  startIcon?: ReactNode;
+  endIcon?: ReactNode;
 };
 
 function ToastList() {
-  const { toasts } = BaseToast.useToastManager();
-  return toasts.map((toast) => (
-    <BaseToast.Root key={toast.id} toast={toast} className={styles.toast}>
-      <BaseToast.Content className={styles.content}>
-        <div className={styles.text}>
-          <BaseToast.Title className={styles.title} />
-          <BaseToast.Description className={styles.description} />
-        </div>
-        <BaseToast.Close className={styles.close} aria-label="Dismiss">
-          <XIcon size="sm" />
-        </BaseToast.Close>
-      </BaseToast.Content>
-    </BaseToast.Root>
-  ));
+  const { toasts } = BaseToast.useToastManager<ToastData>();
+  return toasts.map((toast) => {
+    const startIcon = toast.data?.startIcon;
+    const endIcon = toast.data?.endIcon;
+    return (
+      <BaseToast.Root key={toast.id} toast={toast} className={styles.toast}>
+        <BaseToast.Content
+          className={styles.content}
+          data-icon={iconPosition({ startIcon, endIcon })}
+        >
+          <IconSlot className={styles.icon}>{startIcon}</IconSlot>
+          <div className={styles.text}>
+            <BaseToast.Title className={styles.title} />
+            <BaseToast.Description className={styles.description} />
+          </div>
+          <IconSlot className={styles.icon}>{endIcon}</IconSlot>
+          <BaseToast.Close className={styles.close} aria-label="Dismiss">
+            <XIcon />
+          </BaseToast.Close>
+        </BaseToast.Content>
+      </BaseToast.Root>
+    );
+  });
 }
 
 /**
@@ -68,8 +88,14 @@ export function useToast() {
   const manager = BaseToast.useToastManager();
   return {
     /** Shows a toast and returns its id. */
-    show: ({ title, description, tone = "neutral", timeout }: ToastOptions) =>
-      manager.add({ title, description, type: tone, timeout }),
+    show: ({ title, description, tone = "neutral", timeout, startIcon, endIcon }: ToastOptions) =>
+      manager.add({
+        title,
+        description,
+        type: tone,
+        timeout,
+        data: { startIcon, endIcon },
+      }),
     /** Closes one toast by id, or all of them when no id is given. */
     close: (id?: string) => manager.close(id),
   };

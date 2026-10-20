@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Tooltip, TooltipProvider } from "./Tooltip";
-import { Button } from "../Button";
+import { Button, type ButtonVariant } from "../Button";
 import { Stack } from "../Stack";
+import { StateMatrix, forceProps } from "../../stories/StateMatrix";
 
 const meta = {
   title: "Overlays/Tooltip",
@@ -29,4 +30,30 @@ export const Sides: Story = {
   ),
 };
 
-export const Dark: Story = { globals: { theme: "dark" } };
+const triggerVariants: ButtonVariant[] = [
+  "primary",
+  "secondary",
+  "ghost",
+  "accent",
+  "danger",
+];
+
+export const States: Story = {
+  render: () => (
+    <StateMatrix
+      rows={triggerVariants.map((variant) => ({
+        label: variant,
+        render: (state) => (
+          <Tooltip content="Tooltip">
+            <Button variant={variant} {...forceProps(state)}>
+              Trigger
+            </Button>
+          </Tooltip>
+        ),
+      }))}
+    />
+  ),
+};
+
+export const Dark: Story = { ...States, globals: { theme: "dark" } };
+export const Light: Story = { ...States, globals: { theme: "light" } };

@@ -88,6 +88,7 @@
   --shadow-border: var(--shadow-border);
   --shadow-inset-ring: var(--shadow-inset-ring);
   --shadow-default: var(--shadow-default);
+  --shadow-raised: var(--shadow-raised);
   --shadow-large: var(--shadow-large);
   --shadow-extra-large: var(--shadow-extra-large);
   --font-sans: var(--font-family-sans);

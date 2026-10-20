@@ -12,17 +12,26 @@
   border-bottom: var(--border-width-thin) solid var(--color-border-default);
 }
 
+@media (pointer: coarse) {
+  .list {
+    gap: var(--space-3);
+  }
+}
+
 .tab {
+  composes: touchTargetBefore from "../../styles/touchTarget.module.css";
+  --icon-size: var(--size-icon-sm);
   position: relative;
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: var(--icon-gap-sm);
   min-height: var(--size-control-md);
   margin: 0;
   padding: 0 var(--space-4);
   border: 0;
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   background: transparent;
   color: var(--color-secondary-foreground);
   font-family: var(--text-label-family);
@@ -33,36 +42,37 @@
   cursor: pointer;
   user-select: none;
 }
-.tab::after {
-  content: "";
-  position: absolute;
-  inset: auto var(--space-2) calc(var(--border-width-thin) * -1);
-  height: var(--border-width-thick);
-  border-radius: var(--radius-full);
-  background: var(--color-brand-solid);
-  opacity: 0;
-  transform: scaleX(0);
-  transform-origin: center;
-  transition:
-    transform 360ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    opacity 120ms ease-out;
-}
 
 .tab[data-active]::after {
   opacity: 1;
   transform: scaleX(1);
 }
 
-.tab:hover:not([data-disabled]) {
+.tab:hover:not([data-disabled]),
+.tab[data-force="hover"]:not([data-disabled]) {
+  background: var(--color-transparent-hover);
   color: var(--color-primary-foreground);
 }
 
-.tab[data-active] {
+.tab:active:not([data-disabled]),
+.tab[data-force="active"]:not([data-disabled]) {
+  background: var(--color-transparent-active);
+}
+
+.tab:focus-visible,
+.tab[data-force="focus"] {
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.tab[data-active],
+.tab[data-force="selected"] {
+  background: var(--color-transparent-active);
   color: var(--color-primary-foreground);
 }
 
 .tab[data-disabled] {
-  opacity: var(--opacity-disabled);
+  color: var(--color-disabled-foreground);
   cursor: not-allowed;
 }
 

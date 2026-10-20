@@ -107,11 +107,10 @@ export function SiteHeader() {
               size="sm"
               aria-label="GitHub repository"
               className={`${styles.iconButton} ${styles.githubLink}`}
+              startIcon={githubMark}
               target="_blank"
               rel="noopener noreferrer"
-            >
-              {githubMark}
-            </ButtonLink>
+            />
             <span className={styles.divider} aria-hidden="true" />
             <ThemeSwitcher />
           </div>

@@ -47,7 +47,7 @@ const demos: Record<string, () => ReactNode> = {
         <Badge variant="outline" shape="rounded">Outline</Badge>
       </Stack>
       <Stack direction="row" gap="2" wrap>
-        <Badge variant="success"><CheckIcon />Verified</Badge>
+        <Badge variant="success" startIcon={<CheckIcon />}>Verified</Badge>
         <Badge variant="brand" loading>Saving</Badge>
         <Badge variant="outline" spinnerPosition="end" loading>Pending</Badge>
       </Stack>
@@ -69,10 +69,9 @@ const demos: Record<string, () => ReactNode> = {
   Container: () => <Container size="sm"><Text variant="caption" size="lg" tone="muted">Content centered and limited in width.</Text></Container>,
   Divider: () => <Divider />,
   VisuallyHidden: () => (
-    <Button variant="secondary">
-      <CheckIcon />
-      <VisuallyHidden>Mark as done</VisuallyHidden>
-    </Button>
+    <Text>
+      4 results <VisuallyHidden>(updated just now)</VisuallyHidden>
+    </Text>
   ),
   Icon: () => <CheckIcon label="Done" size="lg" />,
   Spinner: () => <Spinner label="Saving" />,
@@ -88,8 +87,7 @@ const demos: Record<string, () => ReactNode> = {
       <Button variant="secondary">Secondary</Button>
       <Button variant="ghost">Ghost</Button>
       <Button variant="danger">Danger</Button>
-      <Button variant="secondary">
-        <PlusIcon />
+      <Button variant="secondary" startIcon={<PlusIcon />}>
         New
       </Button>
       <Button loading>Saving</Button>
@@ -134,7 +132,7 @@ const demos: Record<string, () => ReactNode> = {
   ),
   Tooltip: () => (
     <Tooltip content="Saved">
-      <Button variant="secondary" aria-label="Saved"><CheckIcon /></Button>
+      <Button variant="secondary" aria-label="Saved" startIcon={<CheckIcon />} />
     </Tooltip>
   ),
   Tabs: () => (

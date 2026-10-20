@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "./Popover";
+import type { ButtonVariant } from "../Button";
+import { StateMatrix, forceProps } from "../../stories/StateMatrix";
 
 const meta = {
   title: "Overlays/Popover",
@@ -32,4 +34,41 @@ export const OpenLight: Story = {
   globals: { theme: "light" },
   decorators: [(Story) => <div style={{ minHeight: "14rem" }}><Story /></div>],
   render: () => <Popover defaultOpen>{content}</Popover>,
+};
+
+const triggerVariants: ButtonVariant[] = [
+  "primary",
+  "secondary",
+  "ghost",
+  "accent",
+  "danger",
+];
+
+export const States: Story = {
+  render: () => (
+    <StateMatrix
+      rows={triggerVariants.map((variant) => ({
+        label: variant,
+        render: (state) => (
+          <Popover>
+            <PopoverTrigger variant={variant} {...forceProps(state)}>
+              Open popover
+            </PopoverTrigger>
+          </Popover>
+        ),
+      }))}
+    />
+  ),
+};
+
+export const StatesDark: Story = {
+  name: "States (dark)",
+  ...States,
+  globals: { theme: "dark" },
+};
+
+export const StatesLight: Story = {
+  name: "States (light)",
+  ...States,
+  globals: { theme: "light" },
 };

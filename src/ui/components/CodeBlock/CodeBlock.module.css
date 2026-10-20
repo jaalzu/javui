@@ -44,12 +44,20 @@
   cursor: pointer;
 }
 
-.tab:hover {
+.tab:hover,
+.tab[data-force="hover"] {
+  background: var(--color-transparent-hover);
   color: var(--color-primary-foreground);
 }
 
-.tab[data-active] {
-  background: var(--color-component);
+.tab:active,
+.tab[data-force="active"] {
+  background: var(--color-transparent-active);
+}
+
+.tab[data-active],
+.tab[data-force="selected"] {
+  background: var(--color-transparent-active);
   color: var(--color-primary-foreground);
   font-weight: var(--font-weight-medium);
 }
@@ -69,16 +77,25 @@
   cursor: pointer;
 }
 
-.copy:hover {
-  background: var(--color-component);
+.copy:hover,
+.copy[data-force="hover"] {
+  background: var(--color-transparent-hover);
   color: var(--color-primary-foreground);
+}
+
+.copy:active,
+.copy[data-force="active"] {
+  background: var(--color-transparent-active);
 }
 
 .copy:focus-visible,
 .tab:focus-visible,
-.scroll:focus-visible {
+.scroll:focus-visible,
+.copy[data-force="focus"],
+.tab[data-force="focus"],
+.scroll[data-force="focus"] {
   outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
-  outline-offset: -3px;
+  outline-offset: var(--focus-ring-offset);
 }
 
 .status {

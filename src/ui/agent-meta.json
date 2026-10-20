@@ -1,5 +1,6 @@
 {
   "$comment": "Hand-written guidance for agents that cannot be derived from types or TSDoc. Props, descriptions and examples are generated from the source. scripts/build-agent-docs.mjs fails if an export in src/ui/index.ts has no entry here, or the other way around.",
+  "$touchTargets": "Every interactive control must have a hit area of at least 44px on touch devices (pointer: coarse) and at least 24px otherwise. Use the shared mechanism; never enlarge the visible control for this.",
   "Text": {
     "category": "typography",
     "base": "own",
@@ -31,7 +32,7 @@
     "category": "typography",
     "base": "own",
     "renders": "a",
-    "composition": "Native anchor props pass through. `href` is required.",
+    "composition": "Native anchor props pass through. `href` is required. Put a trailing icon in `endIcon` (no `size`). Set `standalone` for a link used as a standalone action; inline links in a sentence stay inline.",
     "whenToUse": "Navigation to another page, section or resource.",
     "avoid": [
       "Actions that do not navigate: use Button.",
@@ -52,7 +53,7 @@
     "category": "typography",
     "base": "own",
     "renders": "span, or the element passed in `render`",
-    "composition": "Plain children. Put an `<svg>` or `Icon` as first or last child for an icon; `loading` adds a spinner (`spinnerPosition`: start or end). `variant`: default, inverted, outline, brand, success or danger. `size`: sm, md or lg. `shape`: pill (default) or rounded. Pass `render={<Link href=\"…\" />}` to render a link. Keep text to one or two words; truncate counts to two digits (`99+`).",
+    "composition": "Text children, plus optional `startIcon`/`endIcon` (generated icons, no `size`); never put icons in children. `loading` adds a spinner (`spinnerPosition`: start or end). `variant`: default, inverted, outline, brand, success or danger. `size`: sm, md or lg. `shape`: pill (default) or rounded. Pass `render={<Link href=\"…\" />}` to render a link. Keep text to one or two words; truncate counts to two digits (`99+`).",
     "whenToUse": "Short status or count labels next to other content.",
     "avoid": [
       "Using color as the only signal: always include text.",
@@ -162,14 +163,14 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "button",
-    "composition": "Defaults to type=\"button\"; pass type=\"submit\" explicitly. Base UI props such as `render` and `nativeButton` are available but not needed for normal use.",
+    "composition": "Defaults to type=\"button\"; pass type=\"submit\" explicitly. Put icons in `startIcon`/`endIcon` (generated icons, no `size`). Heights: sm 1.75rem, md 2.25rem, lg 2.75rem. Base UI props such as `render` and `nativeButton` are available but not needed for normal use.",
     "whenToUse": "Any action: submit, open, confirm, cancel. Pass `loading` while the action runs.",
     "avoid": [
       "Navigation: use Link.",
       "More than one primary button per view.",
       "Disabling the button to show progress: use `loading`, it keeps the label and focus."
     ],
-    "a11y": "Icon-only buttons need `aria-label`. `loading` sets `aria-busy`. Keyboard and disabled behavior come from Base UI."
+    "a11y": "Icon-only buttons need `aria-label` and use `startIcon` (or `endIcon`) instead of children. `loading` sets `aria-busy` and counts as the start slot. Keyboard and disabled behavior come from Base UI."
   },
   "Field": {
     "category": "controls",
@@ -186,7 +187,7 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "input",
-    "composition": "Native input props pass through (type, autoComplete, name, required...).",
+    "composition": "Native input props pass through (type, autoComplete, name, required...). Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`).",
     "whenToUse": "Single-line text entry.",
     "avoid": [
       "Using it without Field or aria-label.",
@@ -198,7 +199,7 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "textarea",
-    "composition": "Native textarea props pass through; `rows` defaults to 3.",
+    "composition": "Native textarea props pass through; `rows` defaults to 3. Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`).",
     "whenToUse": "Multi-line text entry.",
     "avoid": ["Using it without Field or aria-label."],
     "a11y": "Needs an accessible name."
@@ -246,7 +247,7 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "button role=\"combobox\" with a listbox popup in a portal",
-    "composition": "Pass `items` ({ value, label, disabled? }). Give it `label`, `aria-label` or wrap it in Field.",
+    "composition": "Pass `items` ({ value, label, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field.",
     "whenToUse": "Choosing one option from a longer list.",
     "avoid": ["Two or three options: use RadioGroup.", "Free text: use Input."],
     "a11y": "Keyboard, typeahead and focus come from Base UI. Needs an accessible name."
@@ -315,7 +316,7 @@
     "category": "navigation",
     "base": "base-ui",
     "renders": "div with a tablist, tab buttons and tabpanels",
-    "composition": "Pass `items` ({ value, label, content, disabled? }) and an `aria-label`.",
+    "composition": "Pass `items` ({ value, label, content, startIcon?, endIcon?, disabled? }) and an `aria-label`. Icons are generated icons without `size`.",
     "whenToUse": "Switching between related panels in the same place.",
     "avoid": [
       "Navigation between pages: use Link.",
@@ -327,7 +328,7 @@
     "category": "navigation",
     "base": "own",
     "renders": "a (rendered by the LinkProvider component, `next/link` in this app) styled like a Button",
-    "composition": "Pass `href`, `variant` and `size`. Children are the visible label.",
+    "composition": "Pass `href`, `variant`, `size` and optional `startIcon`/`endIcon` (generated icons, no `size`). Children are the visible label; an icon-only link needs `aria-label`.",
     "whenToUse": "A call to action that goes to another page, such as Get started or Docs.",
     "avoid": [
       "Actions that do not navigate: use Button.",
@@ -372,7 +373,7 @@
     "category": "feedback",
     "base": "own",
     "renders": "div with role alert (danger, warning) or role status (info, success)",
-    "composition": "Pass `tone`, optional `title`, and the message as children.",
+    "composition": "Pass `tone`, optional `title`, and the message as children. `startIcon` replaces the tone glyph; `endIcon` adds a trailing icon (generated icons, no `size`).",
     "whenToUse": "A message that stays on the page and the user must notice, such as a failed save or a warning.",
     "avoid": [
       "Short-lived confirmations: use Toast.",
@@ -432,7 +433,7 @@
     "category": "overlays",
     "base": "base-ui",
     "renders": "button that opens a role menu with menuitems",
-    "composition": "Pass `label` (the button text) and `items`: `{ label, onSelect?, href?, disabled?, destructive? }` or `{ type: \"separator\" }`.",
+    "composition": "Pass `label` (the button text) and `items`: `{ label, startIcon?, endIcon?, onSelect?, href?, disabled?, destructive? }` or `{ type: \"separator\" }`. Icons are generated icons without `size`.",
     "whenToUse": "A list of actions or links behind one button, such as account actions.",
     "avoid": [
       "Navigation between sections of the site: use links.",
@@ -453,7 +454,7 @@
     "category": "feedback",
     "base": "base-ui",
     "renders": "hook, renders nothing",
-    "composition": "`const { show, close } = useToast(); show({ title, description?, tone?, timeout? })`.",
+    "composition": "`const { show, close } = useToast(); show({ title, description?, tone?, timeout?, startIcon?, endIcon? })`. Icons are generated icons without `size`.",
     "whenToUse": "Showing a toast after an action finishes.",
     "avoid": [
       "Calling it outside ToastProvider.",
@@ -465,7 +466,7 @@
     "category": "navigation",
     "base": "base-ui",
     "renders": "div with a heading (h3) and button per item and a region per panel",
-    "composition": "Pass `items` ({ value, title, content, disabled? }). Use `multiple` to allow several open.",
+    "composition": "Pass `items` ({ value, title, content, startIcon?, endIcon?, disabled? }). Icons are generated icons without `size`. Use `multiple` to allow several open.",
     "whenToUse": "Showing long content in short sections, such as FAQs.",
     "avoid": ["Hiding content users must read.", "Navigation between pages."],
     "a11y": "Each title is a button in a heading with aria-expanded and aria-controls."
@@ -483,7 +484,7 @@
     "category": "navigation",
     "base": "own",
     "renders": "nav with an ordered list; the last item has aria-current page",
-    "composition": "Pass `items` ({ label, href? }) from root to current page.",
+    "composition": "Pass `items` ({ label, href?, startIcon?, endIcon? }) from root to current page. Icons are generated icons without `size`.",
     "whenToUse": "Showing where the page sits in the site.",
     "avoid": ["Primary navigation.", "Linking the last item."],
     "a11y": "nav labelled Breadcrumb; the current page is marked with aria-current."

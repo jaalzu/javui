@@ -1,5 +1,7 @@
 import type { ComponentProps, ReactNode } from "react";
 import { cx } from "../../utils/cx";
+import { iconPosition } from "../../utils/iconPosition";
+import { IconSlot } from "../Icon/IconSlot";
 import { CheckCircleIcon, InfoIcon, WarningIcon, XCircleIcon } from "../../icons/icons.generated";
 import styles from "./Alert.module.css";
 
@@ -10,6 +12,10 @@ export type AlertProps = {
   tone?: AlertTone;
   /** Short heading of the message. */
   title?: ReactNode;
+  /** Replaces the tone icon at the start. Pass a generated icon without `size`. */
+  startIcon?: ReactNode;
+  /** Icon at the end, for example a link arrow. Pass a generated icon without `size`. */
+  endIcon?: ReactNode;
 } & Omit<ComponentProps<"div">, "color" | "title">;
 
 const glyph = {
@@ -27,16 +33,31 @@ const glyph = {
  * @example
  * <Alert tone="danger" title="Payment failed">Check your card details and try again.</Alert>
  */
-export function Alert({ tone = "info", title, className, children, ...rest }: AlertProps) {
+export function Alert({
+  tone = "info",
+  title,
+  startIcon,
+  endIcon,
+  className,
+  children,
+  ...rest
+}: AlertProps) {
   const role = tone === "danger" || tone === "warning" ? "alert" : "status";
   const Glyph = glyph[tone];
+  const position = iconPosition({ startIcon: startIcon ?? Glyph, endIcon });
   return (
-    <div role={role} className={cx(styles.alert, styles[tone], className)} {...rest}>
-      <Glyph className={styles.icon} />
+    <div
+      role={role}
+      className={cx(styles.alert, styles[tone], className)}
+      data-icon={position}
+      {...rest}
+    >
+      <IconSlot className={styles.icon}>{startIcon ?? <Glyph />}</IconSlot>
       <div className={styles.body}>
         {title ? <p className={styles.title}>{title}</p> : null}
         {children ? <div className={styles.text}>{children}</div> : null}
       </div>
+      <IconSlot className={styles.endIcon}>{endIcon}</IconSlot>
     </div>
   );
 }

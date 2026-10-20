@@ -1,4 +1,5 @@
 .link {
+  --icon-size: var(--size-icon-sm);
   color: var(--color-primary-foreground);
   text-decoration: underline;
   text-decoration-color: var(--color-tertiary-foreground);
@@ -10,9 +11,45 @@
     text-decoration-thickness var(--motion-duration-fast) var(--motion-easing-standard);
 }
 
-.link:hover {
+.link:hover,
+.link[data-force="hover"] {
   text-decoration-color: currentColor;
   text-decoration-thickness: var(--border-width-thick);
+}
+
+.link[data-disabled] {
+  color: var(--color-disabled-foreground);
+  text-decoration-color: var(--color-border-disabled);
+  cursor: not-allowed;
+}
+
+.link:focus-visible,
+.link[data-force="focus"] {
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.standalone {
+  composes: touchTarget from "../../styles/touchTarget.module.css";
+}
+
+.startIcon {
+  margin-inline-end: var(--icon-gap-sm);
+  vertical-align: middle;
+}
+
+.endIcon {
+  margin-inline-start: var(--icon-gap-sm);
+  vertical-align: middle;
+}
+
+/* Icon only: there is no text to underline, so the glyph is the whole link. */
+.link[data-icon="only"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  text-decoration: none;
 }
 
 .muted {

@@ -1,5 +1,6 @@
 .alert {
   --alert-tone: var(--color-info-solid);
+  --icon-size: var(--size-icon-md);
   display: flex;
   align-items: flex-start;
   gap: var(--icon-gap-md);
@@ -34,9 +35,15 @@
 
 .body {
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: var(--space-1);
   min-width: 0;
+}
+
+.endIcon {
+  align-self: center;
+  color: var(--color-secondary-foreground);
 }
 
 .title {

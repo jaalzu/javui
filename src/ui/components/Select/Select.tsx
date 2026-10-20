@@ -1,5 +1,7 @@
+import type { ReactNode } from "react";
 import { Select as BaseSelect } from "@base-ui/react/select";
 import { cx } from "../../utils/cx";
+import { IconSlot, getIconSlots } from "../Icon/IconSlot";
 import { CaretDownIcon, CheckIcon } from "../../icons/icons.generated";
 import styles from "./Select.module.css";
 
@@ -21,8 +23,12 @@ export type SelectProps = {
   label?: string;
   /** Accessible name when there is no visible label. */
   "aria-label"?: string;
-  /** Control height: `sm` 2rem, `md` 2.5rem, `lg` 3rem. @default "md" */
+  /** Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. @default "md" */
   size?: "sm" | "md" | "lg";
+  /** Icon before the value. Pass a generated icon without `size`; the select sizes it. */
+  startIcon?: ReactNode;
+  /** Icon after the value, before the caret. Pass a generated icon without `size`; the select sizes it. */
+  endIcon?: ReactNode;
   className?: string;
 } & Pick<
   BaseSelect.Root.Props<string, false>,
@@ -42,17 +48,26 @@ export function Select({
   label,
   "aria-label": ariaLabel,
   size = "md",
+  startIcon,
+  endIcon,
   className,
   ...rest
 }: SelectProps) {
+  const position = getIconSlots({ startIcon, endIcon });
   return (
     <BaseSelect.Root items={items} {...rest}>
       <div className={cx(styles.wrapper, className)}>
         {label ? <BaseSelect.Label className={styles.label}>{label}</BaseSelect.Label> : null}
-        <BaseSelect.Trigger className={cx(styles.trigger, styles[size])} aria-label={ariaLabel}>
+        <BaseSelect.Trigger
+          className={cx(styles.trigger, styles[size])}
+          aria-label={ariaLabel}
+          data-icon={position}
+        >
+          <IconSlot>{startIcon}</IconSlot>
           <BaseSelect.Value className={styles.value} placeholder={placeholder} />
+          <IconSlot>{endIcon}</IconSlot>
           <BaseSelect.Icon className={styles.icon}>
-            <CaretDownIcon size="sm" />
+            <CaretDownIcon />
           </BaseSelect.Icon>
         </BaseSelect.Trigger>
       </div>
@@ -63,7 +78,7 @@ export function Select({
               {items.map((item) => (
                 <BaseSelect.Item key={item.value} value={item.value} disabled={item.disabled} className={styles.item}>
                   <BaseSelect.ItemIndicator className={styles.itemIndicator}>
-                    <CheckIcon size="sm" />
+                    <CheckIcon />
                   </BaseSelect.ItemIndicator>
                   <BaseSelect.ItemText className={styles.itemText}>{item.label}</BaseSelect.ItemText>
                 </BaseSelect.Item>

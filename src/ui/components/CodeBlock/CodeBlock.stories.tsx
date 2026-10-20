@@ -1,5 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { CodeBlock } from "./CodeBlock";
+import { StateMatrix } from "../../stories/StateMatrix";
+import { CopyIcon } from "../../icons/icons.generated";
+import styles from "./CodeBlock.module.css";
 
 const meta = {
   title: "Content/CodeBlock",
@@ -28,5 +31,42 @@ export const Install: Story = {
     ],
   },
 };
-export const Dark: Story = { globals: { theme: "dark" } };
-export const Light: Story = { globals: { theme: "light" } };
+export const States: Story = {
+  render: () => (
+    <StateMatrix
+      rows={[
+        {
+          label: "Tab",
+          render: (state) => (
+            <button
+              type="button"
+              className={styles.tab}
+              data-force={state === "rest" || state === "disabled" ? undefined : state}
+              data-active={state === "selected" ? "" : undefined}
+              data-disabled={state === "disabled" ? "" : undefined}
+              disabled={state === "disabled"}
+            >
+              bun
+            </button>
+          ),
+        },
+        {
+          label: "Copy",
+          render: (state) => (
+            <button
+              type="button"
+              className={styles.copy}
+              aria-label="Copy code"
+              data-force={state === "rest" || state === "disabled" ? undefined : state}
+            >
+              <CopyIcon size="sm" />
+            </button>
+          ),
+        },
+      ]}
+    />
+  ),
+};
+
+export const Dark: Story = { ...States, globals: { theme: "dark" } };
+export const Light: Story = { ...States, globals: { theme: "light" } };

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Switch } from "./Switch";
-import { Stack } from "../Stack";
+import { StateMatrix, forceProps } from "../../stories/StateMatrix";
 
 const meta = {
   title: "Controls/Switch",
@@ -19,11 +19,29 @@ export const Disabled: Story = { args: { disabled: true } };
 
 export const States: Story = {
   render: () => (
-    <Stack gap="2">
-      <Switch label="Off" />
-      <Switch label="On" defaultChecked />
-      <Switch label="Disabled" disabled />
-    </Stack>
+    <StateMatrix
+      rows={[
+        {
+          label: "Off",
+          render: (state) => <Switch label="Notifications" {...forceProps(state)} />,
+        },
+        {
+          label: "On",
+          render: (state) => (
+            <Switch label="Notifications" defaultChecked {...forceProps(state)} />
+          ),
+        },
+      ]}
+    />
+  ),
+};
+
+export const TouchTargets: Story = {
+  name: "Touch targets",
+  render: () => (
+    <div data-touch-debug>
+      <Switch label="Notifications" defaultChecked />
+    </div>
   ),
 };
 

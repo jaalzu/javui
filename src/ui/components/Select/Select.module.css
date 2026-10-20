@@ -16,11 +16,13 @@
 }
 
 .trigger {
+  composes: touchTarget from "../../styles/touchTarget.module.css";
+  --icon-size: var(--size-icon-sm);
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-2);
+  gap: var(--icon-gap-sm);
   width: 100%;
   margin: 0;
   padding: 0 var(--space-3);
@@ -35,12 +37,30 @@
   cursor: pointer;
 }
 
+.trigger:hover:not([data-disabled]),
+.trigger[data-force="hover"]:not([data-disabled]) {
+  background: var(--color-component-hover);
+}
+
+.trigger:active:not([data-disabled]),
+.trigger[data-force="active"]:not([data-disabled]) {
+  background: var(--color-component-active);
+}
+
+.trigger:focus-visible,
+.trigger[data-force="focus"] {
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
 .trigger[data-invalid] {
   border-color: var(--color-danger-solid);
 }
 
 .trigger[data-disabled] {
-  opacity: var(--opacity-disabled);
+  border-color: var(--color-border-disabled);
+  background: var(--color-disabled);
+  color: var(--color-disabled-foreground);
   cursor: not-allowed;
 }
 
@@ -57,6 +77,7 @@
 }
 
 .value {
+  flex: 1;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -77,13 +98,15 @@
 }
 
 .popup {
+  --radius-outer: var(--radius-lg);
+  --inner-gap: var(--space-1);
   box-sizing: border-box;
   min-width: var(--anchor-width);
   max-height: var(--available-height);
   overflow: auto;
-  padding: var(--space-1);
+  padding: var(--inner-gap);
   border: var(--border-width-thin) solid var(--color-border-strong);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-outer);
   background: var(--color-modal);
   color: var(--color-primary-foreground);
   box-shadow: var(--shadow-large);
@@ -95,13 +118,14 @@
 }
 
 .item {
+  --icon-size: var(--size-icon-sm);
   display: grid;
   grid-template-columns: 1rem 1fr;
   align-items: center;
   gap: var(--space-2);
   min-height: var(--size-target-min);
   padding: var(--space-1) var(--space-3) var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
+  border-radius: max(var(--radius-sm), calc(var(--radius-outer) - var(--inner-gap)));
   font-family: var(--text-body-family);
   font-size: var(--text-body-size);
   line-height: var(--text-body-line);
@@ -109,8 +133,32 @@
   user-select: none;
 }
 
-.item[data-highlighted] {
+.item[data-highlighted],
+.item[data-selected],
+.item[data-force="selected"] {
   background: var(--color-transparent-active);
+}
+
+.item:hover:not([data-disabled]) {
+  background: var(--color-transparent-hover);
+}
+
+.item:focus-visible,
+.item[data-force="focus"] {
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+@media (pointer: coarse) {
+  .item {
+    min-height: var(--size-target-comfortable);
+  }
+}
+
+[data-touch-debug] .item {
+  min-height: var(--size-target-comfortable);
+  outline: var(--border-width-thick) dashed var(--color-brand-solid);
+  outline-offset: calc(var(--border-width-thick) * -1);
 }
 
 .item[data-disabled] {

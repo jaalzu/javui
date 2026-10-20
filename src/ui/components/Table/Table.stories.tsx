@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Table } from "./Table";
+import { StateMatrix } from "../../stories/StateMatrix";
+import styles from "./Table.module.css";
 
 const meta = {
   title: "Data/Table",
@@ -25,5 +27,37 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 export const HiddenCaption: Story = { args: { hideCaption: true } };
-export const Dark: Story = { globals: { theme: "dark" } };
-export const Light: Story = { globals: { theme: "light" } };
+
+export const States: Story = {
+  render: () => (
+    <StateMatrix
+      rows={[
+        {
+          label: "Scroll region",
+          render: (state) => (
+            <div
+              className={styles.wrapper}
+              role="region"
+              aria-label="Plans"
+              tabIndex={0}
+              data-force={state === "focus" ? "focus" : undefined}
+            >
+              <table className={styles.table}>
+                <caption className={styles.hidden}>Plans</caption>
+                <tbody>
+                  <tr>
+                    <th scope="row" className={styles.cell}>Free</th>
+                    <td className={styles.cell}>$0</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          ),
+        },
+      ]}
+    />
+  ),
+};
+
+export const Dark: Story = { ...States, globals: { theme: "dark" } };
+export const Light: Story = { ...States, globals: { theme: "light" } };

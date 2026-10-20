@@ -3,3 +3,8 @@
   resize: vertical;
   min-height: var(--size-control-lg);
 }
+
+.slot {
+  align-items: flex-start;
+  padding-block-start: var(--space-2);
+}

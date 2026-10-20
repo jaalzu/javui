@@ -8,18 +8,18 @@
       },
       "comfortable": {
         "$value": "2.75rem",
-        "$description": "Recommended touch target (44px)."
+        "$description": "Recommended hit area on touch devices. Controls may look smaller if they extend their hit area under `@media (pointer: coarse)`."
       }
     },
     "control": {
       "sm": {
-        "$value": "2rem"
+        "$value": "1.75rem"
       },
       "md": {
-        "$value": "2.5rem"
+        "$value": "2.25rem"
       },
       "lg": {
-        "$value": "3rem"
+        "$value": "2.75rem"
       }
     },
     "icon": {

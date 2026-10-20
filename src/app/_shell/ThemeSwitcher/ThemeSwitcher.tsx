@@ -16,10 +16,13 @@ export function ThemeSwitcher() {
       size="sm"
       aria-label="Toggle theme"
       className={styles.themeButton}
+      startIcon={
+        <>
+          <SunIcon className={styles.sun} />
+          <MoonIcon className={styles.moon} />
+        </>
+      }
       onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-    >
-      <SunIcon className={styles.sun} />
-      <MoonIcon className={styles.moon} />
-    </Button>
+    />
   );
 }

@@ -9,7 +9,14 @@
   font-size: var(--text-body-sm-size);
 }
 
+@media (pointer: coarse) {
+  .list {
+    gap: var(--space-3);
+  }
+}
+
 .link {
+  composes: touchTarget from "../../styles/touchTarget.module.css";
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -24,14 +31,21 @@
   font-variant-numeric: tabular-nums;
 }
 
-.link:hover {
-  background: var(--color-component);
+.link:hover,
+.link[data-force="hover"] {
+  background: var(--color-transparent-hover);
   color: var(--color-primary-foreground);
 }
 
-.link:focus-visible {
+.link:active,
+.link[data-force="active"] {
+  background: var(--color-transparent-active);
+}
+
+.link:focus-visible,
+.link[data-force="focus"] {
   outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
-  outline-offset: 2px;
+  outline-offset: var(--focus-ring-offset);
 }
 
 .step {
@@ -40,7 +54,7 @@
 
 .current {
   border-color: var(--color-border-strong);
-  background: var(--color-component);
+  background: var(--color-transparent-active);
   color: var(--color-primary-foreground);
   font-weight: var(--font-weight-semibold);
 }

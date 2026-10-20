@@ -123,38 +123,31 @@
   display: grid;
   gap: 2px;
 }
-.navLink {
-  display: flex;
-  align-items: center;
+.navLink.navLink {
+  --btn-bg: transparent;
+  --btn-bg-hover: var(--color-component);
+  --btn-fg: var(--color-secondary-foreground);
+  --btn-px: var(--space-2);
+  --btn-gap: var(--icon-gap-sm);
+  --btn-icon: var(--size-icon-md);
   justify-content: flex-start;
-  gap: var(--space-2);
   width: 100%;
   min-height: var(--size-control-sm);
   padding: 0 var(--space-2);
-  border: 0;
-  background: none;
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
   border-radius: var(--radius-md);
-  color: var(--color-secondary-foreground);
-  text-decoration: none;
-  transition:
-    background var(--motion-duration-fast) var(--motion-easing-standard),
-    color var(--motion-duration-fast) var(--motion-easing-standard);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: var(--font-weight-normal);
+  text-align: left;
 }
-.navLink:hover {
-  background: var(--color-component);
-  color: var(--color-primary-foreground);
+.navLink.navLink:hover {
+  --btn-fg: var(--color-primary-foreground);
 }
-.navLink[aria-current="page"] {
-  background: var(--color-component);
-  color: var(--color-primary-foreground);
+.navLink.navLink[aria-current="page"] {
+  --btn-bg: var(--color-component);
+  --btn-bg-hover: var(--color-component-hover);
+  --btn-fg: var(--color-primary-foreground);
   font-weight: var(--font-weight-medium);
-}
-.navLink:focus-visible {
-  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
-  outline-offset: var(--focus-ring-offset);
 }
 
 /* ---------- Goals, amounts, big numbers ---------- */

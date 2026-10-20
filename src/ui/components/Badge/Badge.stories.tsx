@@ -53,13 +53,11 @@ export const Shapes: Story = {
 export const WithIcon: Story = {
   render: () => (
     <Stack direction="row" gap="2" wrap align="center">
-      <Badge variant="success">
-        <CheckIcon />
+      <Badge variant="success" startIcon={<CheckIcon />}>
         Verified
       </Badge>
-      <Badge variant="brand">
+      <Badge variant="brand" endIcon={<ArrowRightIcon />}>
         Beta
-        <ArrowRightIcon />
       </Badge>
     </Stack>
   ),

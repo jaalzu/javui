@@ -154,10 +154,9 @@ export function Search({ items }: { items: SearchItem[] }) {
             size="sm"
             aria-label="Close search"
             className={styles.closeButton}
+            startIcon={<XIcon />}
             onClick={() => dialog.current?.close()}
-          >
-            <XIcon />
-          </Button>
+          />
         </div>
         <ul
           id={listId}

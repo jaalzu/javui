@@ -1,6 +1,7 @@
 {
   "$comment": "Hand-written guidance for agents that cannot be derived from types or TSDoc. Props, descriptions and examples are generated from the source. scripts/build-agent-docs.mjs fails if an export in src/ui/index.ts has no entry here, or the other way around.",
   "$touchTargets": "Every interactive control must have a hit area of at least 44px on touch devices (pointer: coarse) and at least 24px otherwise. Use the shared mechanism; never enlarge the visible control for this.",
+  "$motion": "Use motion tokens only. Durations stay under 300ms (fast 100, base 160, slow 240). Entrances and user-driven motion use easing-out; exits may use easing-in and the same duration or shorter. Never scale(0): minimum 0.9 (press/tooltip 0.97, popup 0.95, modal 0.96). Never transition: all. Animate only opacity, transform, color, background, box-shadow, plus Accordion height and the Tabs indicator. Anchored popups (Menu, Select, Popover, Tooltip) use transform-origin: var(--transform-origin); Dialog stays centered and composes translate(-50%, -50%) with scale. Do not animate theme changes, the focus ring, or list/menu items on hover. prefers-reduced-motion is global: drop scale/transform, keep short fades. Drawer, toast, stagger, scroll-reveal, hold-to-confirm and drag are not implemented; when they exist, keep them under 300ms with easing-out and never scale(0).",
   "Text": {
     "category": "typography",
     "base": "own",
@@ -307,7 +308,7 @@
     "category": "overlays",
     "base": "base-ui",
     "renders": "no element",
-    "composition": "Place once near the app root. Optional.",
+    "composition": "Place once near the app root. Optional. `delay` (default 600) applies only to the first tooltip; the next ones open instantly.",
     "whenToUse": "Shared open delay across tooltips.",
     "avoid": ["Nesting several providers."],
     "a11y": "No effect on semantics."

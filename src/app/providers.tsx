@@ -14,7 +14,7 @@ export function Providers({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem disableTransitionOnChange>
       <LinkProvider component={NextLink}>
-        <TooltipProvider>
+        <TooltipProvider delay={600}>
           <ToastProvider>{children}</ToastProvider>
         </TooltipProvider>
       </LinkProvider>

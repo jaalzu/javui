@@ -151,8 +151,13 @@
   --motion-duration-base: 160ms;
   --motion-duration-slow: 240ms;
   --motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
-  --motion-easing-in: cubic-bezier(0.4, 0, 1, 1);
-  --motion-easing-out: cubic-bezier(0, 0, 0.2, 1);
+  --motion-easing-out: cubic-bezier(0.23, 1, 0.32, 1); /** Entering elements and anything that responds to the user. Strong ease-out: fast start. */
+  --motion-easing-in: cubic-bezier(0.4, 0, 1, 1); /** Exits only. Never for entrances. */
+  --motion-easing-in-out: cubic-bezier(0.77, 0, 0.175, 1); /** Elements that move or morph on screen (tab indicator). */
+  --motion-scale-press: 0.97; /** Pressed Button and pressable controls. */
+  --motion-scale-popup: 0.95; /** Starting scale of anchored popups (menu, select, popover). Never scale(0). */
+  --motion-scale-tooltip: 0.97; /** Starting scale of tooltips. */
+  --motion-scale-modal: 0.96; /** Starting scale of dialogs, which stay centered. */
   --color-component: oklch(0 0 0 / 0.05); /** Background of interactive controls at rest: inputs, secondary buttons, toggles. */
   --color-transparent: rgba(0, 0, 0, 0); /** Ghost controls and list items at rest. */
   --color-overlay: oklch(0 0 0 / 0.4); /** Backdrop behind dialogs. */

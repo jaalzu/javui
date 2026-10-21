@@ -19,8 +19,7 @@ const outDir = join(root, "public/agent");
 mkdirSync(outDir, { recursive: true });
 
 const meta = JSON.parse(readFileSync(join(uiDir, "agent-meta.json"), "utf8"));
-delete meta.$comment;
-delete meta.$touchTargets;
+for (const k of Object.keys(meta)) if (k.startsWith("$")) delete meta[k];
 
 // ---- 1. Public exports (values only) must match the meta file exactly ----
 const indexSrc = readFileSync(join(uiDir, "index.ts"), "utf8");

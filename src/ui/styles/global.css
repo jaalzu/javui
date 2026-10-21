@@ -49,9 +49,14 @@ body {
   *,
   *::before,
   *::after {
+    transition-property: opacity, color, background-color, box-shadow !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  [data-starting-style],
+  [data-ending-style] {
+    transform: none !important;
   }
 }

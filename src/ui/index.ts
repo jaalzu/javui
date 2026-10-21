@@ -59,7 +59,7 @@ export type { SelectProps, SelectItem } from "./components/Select";
 export { Dialog, DialogTrigger, DialogContent, DialogClose } from "./components/Dialog";
 export type { DialogTriggerProps, DialogContentProps, DialogCloseProps } from "./components/Dialog";
 export { Tooltip, TooltipProvider } from "./components/Tooltip";
-export type { TooltipProps } from "./components/Tooltip";
+export type { TooltipProps, TooltipProviderProps } from "./components/Tooltip";
 export { Tabs } from "./components/Tabs";
 export type { TabsProps, TabItem } from "./components/Tabs";
 

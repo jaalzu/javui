@@ -19,7 +19,7 @@ export function Mark({ className, ...props }: LogoImageProps) {
   return (
     <span className={cls} aria-hidden="true" data-testid="logo-mark">
       <img
-        src="/logo/logo-white.svg"
+        src="/logo/logo-light.svg"
         alt=""
         aria-hidden="true"
         loading="eager"
@@ -29,7 +29,7 @@ export function Mark({ className, ...props }: LogoImageProps) {
         {...props}
       />
       <img
-        src="/logo/logo-dark.svg"
+        src="/logo/logo.svg"
         alt=""
         aria-hidden="true"
         loading="eager"
@@ -54,7 +54,7 @@ export function Wordmark({ className, ...props }: LogoImageProps) {
   return (
     <span className={cls} aria-hidden="true" data-testid="logo-wordmark">
       <img
-        src="/logo/bold1.svg"
+        src="/logo/wordmark-light.svg"
         alt=""
         aria-hidden="true"
         loading="eager"
@@ -64,7 +64,7 @@ export function Wordmark({ className, ...props }: LogoImageProps) {
         {...props}
       />
       <img
-        src="/logo/bold.svg"
+        src="/logo/wordmark.svg"
         alt=""
         aria-hidden="true"
         loading="eager"

@@ -110,6 +110,16 @@
   background: var(--color-modal);
   color: var(--color-primary-foreground);
   box-shadow: var(--shadow-large);
+  transform-origin: var(--transform-origin);
+  transition:
+    opacity var(--motion-duration-base) var(--motion-easing-out),
+    transform var(--motion-duration-base) var(--motion-easing-out);
+}
+
+.popup[data-starting-style],
+.popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(var(--motion-scale-popup));
 }
 
 .list {

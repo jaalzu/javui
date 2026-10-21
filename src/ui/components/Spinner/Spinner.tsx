@@ -12,7 +12,7 @@ export type SpinnerProps = {
 
 /**
  * Indeterminate loading indicator. Announces `label` through a status region.
- * Respects `prefers-reduced-motion` through the global styles.
+ * Respects `prefers-reduced-motion` by slowing the spin instead of stopping it.
  *
  * @example
  * <Spinner label="Saving changes" />

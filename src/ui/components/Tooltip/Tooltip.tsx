@@ -1,13 +1,19 @@
-import type { ReactElement, ReactNode } from "react";
+import type { ComponentProps, ReactElement, ReactNode } from "react";
 import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
 import { cx } from "../../utils/cx";
 import styles from "./Tooltip.module.css";
 
+export type TooltipProviderProps = ComponentProps<typeof BaseTooltip.Provider>;
+
 /**
- * Optional wrapper that shares open delay between tooltips, so moving from one to the next feels instant.
- * Put it once near the root of the app.
+ * Shares the open delay between tooltips. The first tooltip waits `delay` ms; moving to the next
+ * one opens instantly (`data-instant` skips the animation). Put it once near the app root.
+ *
+ * @default delay 600
  */
-export const TooltipProvider = BaseTooltip.Provider;
+export function TooltipProvider({ delay = 600, ...rest }: TooltipProviderProps) {
+  return <BaseTooltip.Provider delay={delay} {...rest} />;
+}
 
 export type TooltipProps = {
   /** Short supplementary text. Never put essential information only here. */

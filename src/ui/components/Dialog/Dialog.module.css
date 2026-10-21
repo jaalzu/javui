@@ -4,7 +4,7 @@
   z-index: var(--z-overlay);
   background: var(--color-overlay);
   opacity: 1;
-  transition: opacity var(--motion-duration-base) var(--motion-easing-standard);
+  transition: opacity var(--motion-duration-slow) var(--motion-easing-out);
 }
 
 .backdrop[data-starting-style],
@@ -28,16 +28,17 @@
   color: var(--color-primary-foreground);
   box-shadow: var(--shadow-large);
   transform: translate(-50%, -50%);
+  transform-origin: center;
   opacity: 1;
   transition:
-    opacity var(--motion-duration-base) var(--motion-easing-standard),
-    transform var(--motion-duration-base) var(--motion-easing-standard);
+    opacity var(--motion-duration-slow) var(--motion-easing-out),
+    transform var(--motion-duration-slow) var(--motion-easing-out);
 }
 
 .popup[data-starting-style],
 .popup[data-ending-style] {
   opacity: 0;
-  transform: translate(-50%, -48%);
+  transform: translate(-50%, -50%) scale(var(--motion-scale-modal));
 }
 
 .title {

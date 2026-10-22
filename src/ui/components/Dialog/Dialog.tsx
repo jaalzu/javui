@@ -27,8 +27,17 @@ export type DialogTriggerProps = {
 } & Omit<BaseDialog.Trigger.Props, "render" | "className" | "color">;
 
 /** The button that opens the dialog. It is rendered as a `Button`. */
-export function DialogTrigger({ variant = "primary", size = "md", ...rest }: DialogTriggerProps) {
-  return <BaseDialog.Trigger render={<Button variant={variant} size={size} />} {...rest} />;
+export function DialogTrigger({ variant = "primary", size = "md", children, ...rest }: DialogTriggerProps) {
+  return (
+    <BaseDialog.Trigger
+      render={
+        <Button variant={variant} size={size}>
+          {children}
+        </Button>
+      }
+      {...rest}
+    />
+  );
 }
 
 export type DialogContentProps = {
@@ -66,6 +75,15 @@ export type DialogCloseProps = {
 } & Omit<BaseDialog.Close.Props, "render" | "className" | "color">;
 
 /** A button that closes the dialog. It is rendered as a `Button`. */
-export function DialogClose({ variant = "secondary", size = "md", ...rest }: DialogCloseProps) {
-  return <BaseDialog.Close render={<Button variant={variant} size={size} />} {...rest} />;
+export function DialogClose({ variant = "secondary", size = "md", children, ...rest }: DialogCloseProps) {
+  return (
+    <BaseDialog.Close
+      render={
+        <Button variant={variant} size={size}>
+          {children}
+        </Button>
+      }
+      {...rest}
+    />
+  );
 }

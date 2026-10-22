@@ -86,7 +86,7 @@
 }
 
 .destructive[data-highlighted] {
-  background: var(--color-danger-subtle-hover);
+  background: var(--color-danger-subtle);
 }
 
 .separator {

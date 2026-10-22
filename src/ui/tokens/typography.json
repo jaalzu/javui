@@ -3,11 +3,11 @@
     "family": {
       "$type": "fontFamily",
       "sans": {
-        "$value": "'DM Sans Variable', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+        "$value": "'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
         "$description": "The only family for UI and reading text. Used for headings, body, labels and captions."
       },
       "emphasis": {
-        "$value": "'Newsreader Variable', ui-serif, Georgia, 'Times New Roman', serif",
+        "$value": "'Source Serif 4', ui-serif, Georgia, 'Times New Roman', serif",
         "$description": "Serif, used rarely: one lead sentence or a short quote. Never for headings, controls or long text."
       },
       "mono": {

@@ -68,11 +68,11 @@ export function Menu({ label, items, variant = "secondary", size = "md", align =
             size={size}
             className={className}
             endIcon={<CaretDownIcon />}
-          />
+          >
+            {label}
+          </Button>
         }
-      >
-        {label}
-      </BaseMenu.Trigger>
+      />
       <BaseMenu.Portal>
         <BaseMenu.Positioner sideOffset={6} align={align} className={styles.positioner}>
           <BaseMenu.Popup className={styles.popup}>

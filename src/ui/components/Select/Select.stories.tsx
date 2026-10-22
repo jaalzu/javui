@@ -2,6 +2,11 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Select } from "./Select";
 import { Field } from "../Field";
 import { StateMatrix } from "../../stories/StateMatrix";
+import {
+  ValidationMatrix,
+  validationControlProps,
+  validationFieldProps,
+} from "../../stories/ValidationMatrix";
 import { CaretDownIcon, MagnifyingGlassIcon } from "../../icons/icons.generated";
 import styles from "./Select.module.css";
 
@@ -95,5 +100,27 @@ export const States: Story = {
   ),
 };
 
-export const Dark: Story = { ...States, globals: { theme: "dark" } };
-export const Light: Story = { ...States, globals: { theme: "light" } };
+export const ValidationStates: Story = {
+  name: "Validation states",
+  render: () => (
+    <ValidationMatrix
+      rows={[
+        {
+          label: "Select",
+          render: (state) => (
+            <Field label="Country" {...validationFieldProps(state)}>
+              <Select
+                items={items}
+                defaultValue="ar"
+                {...validationControlProps(state)}
+              />
+            </Field>
+          ),
+        },
+      ]}
+    />
+  ),
+};
+
+export const Dark: Story = { ...ValidationStates, globals: { theme: "dark" } };
+export const Light: Story = { ...ValidationStates, globals: { theme: "light" } };

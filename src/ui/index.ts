@@ -96,5 +96,6 @@ export { Progress } from "./components/Progress";
 export type { ProgressProps } from "./components/Progress";
 export { Slider } from "./components/Slider";
 export type { SliderProps } from "./components/Slider";
-export { CodeBlock } from "./components/CodeBlock";
-export type { CodeBlockProps, CodeTab } from "./components/CodeBlock";
+export { CodeBlockView } from "./components/CodeBlock/CodeBlockView";
+export type { CodeBlockViewProps } from "./components/CodeBlock/CodeBlockView";
+export type { CodeBlockProps, CodeTab, CodeTone } from "./components/CodeBlock/types";

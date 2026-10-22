@@ -1,0 +1,148 @@
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.sectionHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.sectionHead h2 {
+  margin: 0;
+}
+
+.list {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  background: var(--color-card);
+}
+
+.cardHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.token {
+  color: var(--color-secondary-foreground);
+  font-family: var(--text-code-family);
+  font-size: var(--font-size-12);
+}
+
+.track {
+  --track-width: calc(var(--space-20) * 3);
+  --travel: calc(var(--track-width) - var(--size-icon-sm));
+
+  display: flex;
+  align-items: center;
+  width: var(--track-width);
+  max-width: 100%;
+  height: var(--size-icon-md);
+  border-radius: var(--radius-full);
+  background: var(--color-component);
+}
+
+.dot {
+  width: var(--size-icon-sm);
+  height: var(--size-icon-sm);
+  border-radius: var(--radius-full);
+  background: var(--color-brand-solid);
+  animation: travel var(--d, var(--motion-duration-base))
+    var(--e, var(--motion-easing-out)) both;
+}
+
+.fast {
+  --d: var(--motion-duration-fast);
+}
+
+.base {
+  --d: var(--motion-duration-base);
+}
+
+.slow {
+  --d: var(--motion-duration-slow);
+}
+
+.standard {
+  --e: var(--motion-easing-standard);
+}
+
+.out {
+  --e: var(--motion-easing-out);
+}
+
+.in {
+  --e: var(--motion-easing-in);
+}
+
+.inOut {
+  --e: var(--motion-easing-in-out);
+}
+
+.stage {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--space-10);
+}
+
+.square {
+  width: var(--space-8);
+  height: var(--space-8);
+  border-radius: var(--radius-md);
+  background: var(--color-brand-subtle);
+  animation: pop var(--motion-duration-base) var(--motion-easing-out) both;
+}
+
+.pressScale {
+  --from: var(--motion-scale-press);
+}
+
+.popupScale {
+  --from: var(--motion-scale-popup);
+}
+
+.tooltipScale {
+  --from: var(--motion-scale-tooltip);
+}
+
+.modalScale {
+  --from: var(--motion-scale-modal);
+}
+
+@keyframes travel {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--travel));
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(var(--from));
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

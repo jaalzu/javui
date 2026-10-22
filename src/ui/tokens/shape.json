@@ -2,10 +2,14 @@
   "radius": {
     "$type": "dimension",
     "none": { "$value": "0" },
-    "sm": { "$value": "0.25rem" },
-    "md": { "$value": "0.5rem" },
-    "lg": { "$value": "0.75rem" },
-    "xl": { "$value": "1rem" },
+    "base": {
+      "$value": "0.5rem",
+      "$description": "Base radius. sm, md, lg and xl derive from it at 0.5x, 1x, 1.5x and 2x."
+    },
+    "sm": { "$value": "calc(var(--radius-base) * 0.5)" },
+    "md": { "$value": "calc(var(--radius-base) * 1)" },
+    "lg": { "$value": "calc(var(--radius-base) * 1.5)" },
+    "xl": { "$value": "calc(var(--radius-base) * 2)" },
     "full": { "$value": "9999px" }
   },
   "border": {

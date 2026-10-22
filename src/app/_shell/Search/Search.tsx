@@ -18,7 +18,6 @@ export type SearchItem = {
   href: string;
   label: string;
   group: string;
-  hint?: string;
 };
 
 const noSubscribe = () => () => {};
@@ -30,7 +29,6 @@ function score(item: SearchItem, q: string): number {
   if (label === q) return 100;
   if (label.startsWith(q)) return 80;
   if (label.includes(q)) return 60;
-  if (item.hint?.toLowerCase().includes(q)) return 30;
   return 0;
 }
 
@@ -176,9 +174,6 @@ export function Search({ items }: { items: SearchItem[] }) {
               onClick={() => go(item)}
             >
               <span className={styles.searchLabel}>{item.label}</span>
-              {item.hint && (
-                <span className={styles.searchHint}>{item.hint}</span>
-              )}
               <span className={styles.searchGroup}>{item.group}</span>
             </li>
           ))}

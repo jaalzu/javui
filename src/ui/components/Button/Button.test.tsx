@@ -65,6 +65,28 @@ describe("Button", () => {
     expect(screen.getByRole("button", { name: "Next" })).toHaveAttribute("data-icon", "both");
   });
 
+  it("keeps the accessible name and hides the spinner when an icon-only button is loading", () => {
+    const { container } = render(
+      <Button loading aria-label="Saving" startIcon={<CheckIcon />} />,
+    );
+    const button = screen.getByRole("button", { name: "Saving" });
+    expect(button).toHaveAttribute("aria-busy", "true");
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    expect(container.querySelector("[aria-hidden='true']")).toBeInTheDocument();
+  });
+
+  it("warns in development when an icon-only button has no accessible name", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    render(
+      // @ts-expect-error icon-only buttons must have an accessible name
+      <Button startIcon={<CheckIcon />} />,
+    );
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining("icon-only buttons need an accessible name"),
+    );
+    warn.mockRestore();
+  });
+
   it("marks an icon-only button as only and counts loading as an icon", () => {
     const { rerender } = render(
       <Button aria-label="Done" startIcon={<CheckIcon />} />,

@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import {
-  Accordion, Alert, Avatar, Badge, Box, Breadcrumb, Button, ButtonLink, Card, Checkbox, CodeBlock, Container,
+  Accordion, Alert, Avatar, Badge, Box, Breadcrumb, Button, ButtonLink, Card, Checkbox, CodeBlockView, Container,
   Dialog, DialogClose, DialogContent, DialogTrigger, Divider, Field, Grid, Heading, CheckIcon, Input, Kbd, Link, Menu,
   Pagination, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, PlusIcon, Radio, RadioGroup, Select, Skeleton,
   Slider, Spinner, Stack, Switch, Table, Tabs, Text, Textarea, Tooltip, VisuallyHidden, useToast,
@@ -207,7 +207,7 @@ const demos: Record<string, () => ReactNode> = {
   Pagination: () => <Pagination page={2} pageCount={9} hrefTemplate="/docs/components?page={page}" />,
   Progress: () => <Progress label="Uploading" value={40} />,
   Slider: () => <Slider label="Volume" defaultValue={40} />,
-  CodeBlock: () => <CodeBlock language="tsx" label="Example" code={'import { Button } from "@/ui";\n\n<Button>Save</Button>'} />,
+  CodeBlock: () => <CodeBlockView language="tsx" label="Example" code={'import { Button } from "@/ui";\n\n<Button>Save</Button>'} />,
 };
 
 const demoAlias: Record<string, string> = {

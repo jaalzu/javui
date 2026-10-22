@@ -1,9 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import { axe } from "vitest-axe";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { AnchorHTMLAttributes } from "react";
 import { ButtonLink } from "./ButtonLink";
 import { LinkProvider } from "../Link";
+import { ArrowRightIcon } from "../../icons/icons.generated";
 
 describe("ButtonLink", () => {
   it("renders a native anchor styled as a button", () => {
@@ -22,6 +23,18 @@ describe("ButtonLink", () => {
       </LinkProvider>,
     );
     expect(screen.getByRole("link", { name: "Docs" })).toHaveAttribute("data-custom", "yes");
+  });
+
+  it("warns in development when an icon-only link has no accessible name", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    render(
+      // @ts-expect-error icon-only links must have an accessible name
+      <ButtonLink href="/next" startIcon={<ArrowRightIcon />} />,
+    );
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining("icon-only links need an accessible name"),
+    );
+    warn.mockRestore();
   });
 
   it("has no accessibility violations", async () => {

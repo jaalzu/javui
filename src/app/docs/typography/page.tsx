@@ -50,14 +50,10 @@ const families: {
     name: "Commit Mono",
     note: "Code and keyboard keys.",
     style: { fontFamily: "var(--font-family-mono)" },
-    rows: [
-      { text: fox, token: "--font-weight-regular", weight: 400 },
-      { text: fox, token: "--font-weight-medium", weight: 500 },
-      { text: fox, token: "--font-weight-semibold", weight: 600 },
-    ],
+    rows: [{ text: fox, token: "--font-weight-regular", weight: 400 }],
   },
   {
-    name: "Newsreader",
+    name: "Source Serif 4",
     note: "Rarely. One lead sentence or a short quote.",
     style: { fontFamily: "var(--font-family-emphasis)", fontStyle: "italic" },
     rows: [{ text: fox, token: "--font-weight-regular", weight: 400 }],

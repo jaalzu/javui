@@ -1,6 +1,5 @@
 /* ---------- Docs layout ---------- */
-.docs,
-.docsSingle {
+.docs {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-6);
@@ -11,8 +10,20 @@
   min-width: 0;
 }
 
-.docsSingle .content {
-  width: 100%;
+.side {
+  min-width: 0;
+}
+
+.toc {
+  display: none;
+  min-width: 0;
+}
+
+@media (max-width: 55.99rem) {
+  .side,
+  .toc {
+    display: none;
+  }
 }
 
 @media (min-width: 56rem) {
@@ -20,7 +31,12 @@
     grid-template-columns: 15rem minmax(0, 1fr);
     column-gap: var(--space-8);
   }
+  .content {
+    padding-inline: var(--space-6);
+  }
   .side {
+    width: 100%;
+    max-width: 15rem;
     position: sticky;
     /* The header is sticky, so its space stays reserved and the index must not shift. */
     top: 5rem;
@@ -45,13 +61,19 @@
   }
 }
 
-.side {
-  min-width: 0;
-}
-
-@media (max-width: 55.99rem) {
-  .side {
-    display: none;
+@media (min-width: 80rem) {
+  .docs {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 44rem) minmax(0, 1fr);
+    column-gap: var(--space-8);
+    margin-inline: calc(-1 * var(--space-4) + 6px);
+  }
+  .toc {
+    position: sticky;
+    top: 5rem;
+    align-self: start;
+    display: flex;
+    justify-content: flex-end;
+    max-height: 42rem;
   }
 }
 
@@ -59,7 +81,7 @@
   flex: 1;
   min-width: 0;
   overflow-y: auto;
-  padding: var(--space-8) var(--space-4) var(--space-8) var(--space-1);
+  padding: var(--space-8) var(--space-4) var(--space-8) 0;
   scrollbar-width: none;
   -webkit-mask-image: linear-gradient(
     to bottom,
@@ -80,6 +102,7 @@
 .sideScroll::-webkit-scrollbar {
   display: none;
 }
+
 
 .sideGroup + .sideGroup {
   margin-top: var(--space-8);
@@ -109,6 +132,8 @@ a.sideLink {
   font-size: var(--text-body-sm-size);
   font-weight: var(--font-weight-medium);
   text-decoration: none;
+  transition: background-color var(--motion-duration-fast)
+    var(--motion-easing-standard);
 }
 
 a.sideLink:hover {
@@ -118,4 +143,62 @@ a.sideLink:hover {
 
 a.sideLink[aria-current="page"] {
   background: var(--color-component);
+}
+
+.tocScroll {
+  flex: 0 1 auto;
+  width: max-content;
+  max-width: 100%;
+  min-width: 0;
+  overflow-y: auto;
+  padding-block: var(--space-8);
+  padding-inline-start: var(--space-8);
+  scrollbar-width: none;
+}
+
+.tocScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.tocTitle {
+  margin: 0 0 var(--space-3);
+  color: var(--color-secondary-foreground);
+  font-size: var(--text-caption-size);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--text-caption-tracking);
+  text-transform: uppercase;
+}
+
+.tocList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a.tocLink {
+  display: block;
+  padding: var(--space-1) 0;
+  color: var(--color-secondary-foreground);
+  font-size: var(--text-body-sm-size);
+  line-height: var(--text-body-sm-line);
+  text-decoration: none;
+  transition: color var(--motion-duration-fast)
+    var(--motion-easing-standard);
+}
+
+a.tocLink[data-level="3"] {
+  padding-left: var(--space-3);
+}
+
+a.tocLink:hover {
+  color: var(--color-primary-foreground);
+  text-decoration: none;
+}
+
+a.tocLink[aria-current="location"] {
+  color: var(--color-primary-foreground);
+  font-weight: var(--font-weight-medium);
 }

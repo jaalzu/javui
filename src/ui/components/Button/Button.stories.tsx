@@ -1,9 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Button, type ButtonVariant } from "./Button";
-import { ButtonLink } from "../ButtonLink";
-import { Link } from "../Link";
 import { Stack } from "../Stack";
-import { Text } from "../Text";
 import { StateMatrix, forceProps } from "../../stories/StateMatrix";
 import { ArrowRightIcon, CheckIcon, PlusIcon } from "../../icons/icons.generated";
 

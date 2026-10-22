@@ -1,6 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Checkbox } from "./Checkbox";
 import { StateMatrix, forceProps } from "../../stories/StateMatrix";
+import {
+  ValidationMatrix,
+  validationControlProps,
+  validationFieldProps,
+} from "../../stories/ValidationMatrix";
 
 const meta = {
   title: "Controls/Checkbox",
@@ -52,5 +57,36 @@ export const TouchTargets: Story = {
   ),
 };
 
-export const Dark: Story = { ...States, globals: { theme: "dark" } };
-export const Light: Story = { ...States, globals: { theme: "light" } };
+export const ValidationStates: Story = {
+  name: "Validation states",
+  render: () => (
+    <ValidationMatrix
+      rows={[
+        {
+          label: "Unchecked",
+          render: (state) => (
+            <Checkbox
+              label="Option"
+              {...validationFieldProps(state)}
+              {...validationControlProps(state)}
+            />
+          ),
+        },
+        {
+          label: "Checked",
+          render: (state) => (
+            <Checkbox
+              label="Option"
+              defaultChecked
+              {...validationFieldProps(state)}
+              {...validationControlProps(state)}
+            />
+          ),
+        },
+      ]}
+    />
+  ),
+};
+
+export const Dark: Story = { ...ValidationStates, globals: { theme: "dark" } };
+export const Light: Story = { ...ValidationStates, globals: { theme: "light" } };

@@ -23,7 +23,7 @@ export function DocPage({ href, title, description, children }: DocPageProps) {
     <article className={styles.prose}>
       <header className={styles.docHeader}>
         <div className={styles.docTitleRow}>
-          <Heading as="h1" size={2}>{title}</Heading>
+          <Heading as="h1" size={3}>{title}</Heading>
           <div className={styles.docActions}>
             <CopyPage />
             {prev && (

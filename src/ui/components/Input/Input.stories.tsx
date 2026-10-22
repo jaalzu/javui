@@ -1,6 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Input } from "./Input";
+import { Field } from "../Field";
 import { StateMatrix, forceProps } from "../../stories/StateMatrix";
+import {
+  ValidationMatrix,
+  validationControlProps,
+  validationFieldProps,
+} from "../../stories/ValidationMatrix";
 import { MagnifyingGlassIcon, XIcon } from "../../icons/icons.generated";
 
 const meta = {
@@ -57,5 +63,28 @@ export const TouchTargets: Story = {
   ),
 };
 
-export const Dark: Story = { ...States, globals: { theme: "dark" } };
-export const Light: Story = { ...States, globals: { theme: "light" } };
+export const ValidationStates: Story = {
+  name: "Validation states",
+  render: () => (
+    <ValidationMatrix
+      rows={[
+        {
+          label: "Input",
+          render: (state) => (
+            <Field label="Email" {...validationFieldProps(state)}>
+              <Input
+                type="email"
+                autoComplete="email"
+                placeholder="you@example.com"
+                {...validationControlProps(state)}
+              />
+            </Field>
+          ),
+        },
+      ]}
+    />
+  ),
+};
+
+export const Dark: Story = { ...ValidationStates, globals: { theme: "dark" } };
+export const Light: Story = { ...ValidationStates, globals: { theme: "light" } };

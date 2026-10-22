@@ -1,9 +1,45 @@
 .root {
+  --shiki-foreground: var(--syntax-text);
+  --shiki-background: transparent;
+  --shiki-token-keyword: var(--syntax-keyword);
+  --shiki-token-string: var(--syntax-string);
+  --shiki-token-string-expression: var(--syntax-string);
+  --shiki-token-constant: var(--syntax-number);
+  --shiki-token-function: var(--syntax-function);
+  --shiki-token-comment: var(--syntax-comment);
+  --shiki-token-punctuation: var(--syntax-punctuation);
+  --shiki-token-parameter: var(--syntax-text);
+  --shiki-token-link: var(--syntax-function);
+  --shiki-token-inserted: var(--syntax-string);
+  --shiki-token-deleted: var(--syntax-danger);
+  --shiki-token-changed: var(--syntax-number);
   overflow: hidden;
   border: var(--border-width-thin) solid var(--color-border-default);
   border-radius: var(--radius-lg);
-  background: var(--color-card);
-  color: var(--color-primary-foreground);
+  background: var(--color-sunken);
+  color: var(--syntax-text);
+}
+
+.root[data-tone="brand"] {
+  border-color: var(--color-brand-border-default);
+}
+.root[data-tone="success"] {
+  border-color: var(--color-positive-border-default);
+}
+.root[data-tone="danger"] {
+  border-color: var(--color-danger-border-default);
+}
+.root[data-tone="brand"] .lead,
+.root[data-tone="brand"] .language {
+  color: var(--color-brand-foreground);
+}
+.root[data-tone="success"] .lead,
+.root[data-tone="success"] .language {
+  color: var(--color-positive-foreground);
+}
+.root[data-tone="danger"] .lead,
+.root[data-tone="danger"] .language {
+  color: var(--color-danger-foreground);
 }
 
 .bar {
@@ -42,6 +78,9 @@
   font: inherit;
   font-size: var(--text-body-sm-size);
   cursor: pointer;
+  transition:
+    background-color var(--motion-duration-fast) var(--motion-easing-standard),
+    color var(--motion-duration-fast) var(--motion-easing-standard);
 }
 
 .tab:hover,
@@ -75,6 +114,9 @@
   background: transparent;
   color: var(--color-secondary-foreground);
   cursor: pointer;
+  transition:
+    background-color var(--motion-duration-fast) var(--motion-easing-standard),
+    color var(--motion-duration-fast) var(--motion-easing-standard);
 }
 
 .copy:hover,
@@ -127,4 +169,42 @@
   font-size: var(--text-code-size);
   line-height: var(--text-code-line);
   tab-size: 2;
+}
+
+.pre .line {
+  display: block;
+  min-height: calc(var(--text-code-size) * var(--text-code-line));
+}
+
+.pre .line[data-highlight],
+.highlight :global(.line[data-highlight]) {
+  border-left: var(--border-width-thick) solid var(--color-border-strong);
+  background: var(--color-transparent-hover);
+}
+
+.highlight :global(.shiki) {
+  margin: 0;
+  padding: var(--space-6) var(--space-5);
+  font-family: var(--text-code-family);
+  font-size: var(--text-code-size);
+  line-height: var(--text-code-line);
+  tab-size: 2;
+}
+
+.highlight :global(.shiki code) {
+  font: inherit;
+}
+
+.highlight :global(.line) {
+  display: block;
+}
+
+.highlight :global(.line.diff-added) {
+  --shiki-token-inserted: var(--syntax-text);
+  background: var(--syntax-diff-added-bg);
+}
+
+.highlight :global(.line.diff-removed) {
+  --shiki-token-deleted: var(--syntax-text);
+  background: var(--syntax-diff-removed-bg);
 }

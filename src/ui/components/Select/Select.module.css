@@ -37,13 +37,13 @@
   cursor: pointer;
 }
 
-.trigger:hover:not([data-disabled]),
-.trigger[data-force="hover"]:not([data-disabled]) {
+.trigger:hover:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.trigger[data-force="hover"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
   background: var(--color-component-hover);
 }
 
-.trigger:active:not([data-disabled]),
-.trigger[data-force="active"]:not([data-disabled]) {
+.trigger:active:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.trigger[data-force="active"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
   background: var(--color-component-active);
 }
 
@@ -54,7 +54,16 @@
 }
 
 .trigger[data-invalid] {
-  border-color: var(--color-danger-solid);
+  border-color: var(--color-danger-border-default);
+}
+
+.trigger[data-readonly],
+.trigger[data-loading] {
+  background: var(--color-sunken);
+}
+
+.trigger[data-loading] {
+  cursor: progress;
 }
 
 .trigger[data-disabled] {
@@ -91,6 +100,12 @@
 .icon {
   display: inline-flex;
   flex-shrink: 0;
+}
+
+.spinnerSlot {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--color-secondary-foreground);
 }
 
 .positioner {

@@ -1,16 +1,15 @@
-"use client";
-
 import type { ReactNode } from "react";
 import {
-  Alert, Avatar, Badge, Button, Card, CaretDownIcon, Checkbox, CheckIcon, CodeBlock, Field, Heading, Input, Progress, Slider, Stack, Switch, Text,
+  Alert, Avatar, Badge, Button, Card, CaretDownIcon, Checkbox, CheckIcon, Field, Heading, Input, Progress, Slider, Stack, Switch, Tabs, Text,
 } from "@/ui";
+import { CodeBlock } from "@/ui/server";
 import { Demo } from "./Demo";
 import styles from "./Examples.module.css";
 
 /** A live preview with a collapsible "View code" underneath. Uses a native `details`, so it works without extra JavaScript. */
 export function ExampleFrame({ children, code, full = false }: { children: ReactNode; code?: string; full?: boolean }) {
   return (
-    <div className={styles.example}>
+    <div className={styles.example} data-doc-example>
       <div className={`${styles.exampleStage} ${full ? styles.exampleStageFull : ""}`}>{children}</div>
       {code && (
         <details className={styles.exampleCode}>
@@ -48,6 +47,7 @@ const registry: Record<string, Example[]> = {
     ex("Primary", `<Button>Save</Button>`, <Button>Save</Button>, "The main action of a view. Use only one."),
     ex("Secondary", `<Button variant="secondary">Cancel</Button>`, <Button variant="secondary">Cancel</Button>),
     ex("Ghost", `<Button variant="ghost">Skip</Button>`, <Button variant="ghost">Skip</Button>, "Low emphasis, for actions that should not compete."),
+    ex("Outline", `<Button variant="outline">Learn more</Button>`, <Button variant="outline">Learn more</Button>, "A transparent button with a visible border."),
     ex("Accent", `<Button variant="accent">Upgrade</Button>`, <Button variant="accent">Upgrade</Button>, "Brand emphasis. This is the color you change for your brand."),
     ex("Danger", `<Button variant="danger">Delete</Button>`, <Button variant="danger">Delete</Button>, "Destructive actions."),
     ex(
@@ -119,13 +119,29 @@ const registry: Record<string, Example[]> = {
     ex("Range", `<Slider label="Price" defaultValue={[20, 80]} thumbLabels={["Minimum price", "Maximum price"]} />`, <Slider label="Price" defaultValue={[20, 80]} thumbLabels={["Minimum price", "Maximum price"]} />),
     ex("Disabled", `<Slider label="Volume" defaultValue={40} disabled />`, <Slider label="Volume" defaultValue={40} disabled />),
   ],
+  Tabs: [
+    ex(
+      "Vertical",
+      `<Tabs\n  orientation="vertical"\n  aria-label="Account sections"\n  items={[\n    { value: "profile", label: "Profile", content: <p>Your name and photo.</p> },\n    { value: "billing", label: "Billing", content: <p>Plan and invoices.</p> },\n    { value: "team", label: "Team", content: <p>Members and roles.</p> },\n  ]}\n/>`,
+      <Tabs
+        orientation="vertical"
+        aria-label="Account sections"
+        items={[
+          { value: "profile", label: "Profile", content: <Text>Your name and photo.</Text> },
+          { value: "billing", label: "Billing", content: <Text>Plan and invoices.</Text> },
+          { value: "team", label: "Team", content: <Text>Members and roles.</Text> },
+        ]}
+      />,
+      "Vertical tabs sit in a column next to their panel, for settings and compact spaces.",
+    ),
+  ],
   Avatar: [
     ex("Sizes", `<Avatar name="Ada Lovelace" size="sm" />\n<Avatar name="Ada Lovelace" />\n<Avatar name="Ada Lovelace" size="lg" />`, <Stack direction="row" gap="3" align="center"><Avatar name="Ada Lovelace" size="sm" /><Avatar name="Ada Lovelace" /><Avatar name="Ada Lovelace" size="lg" /></Stack>),
   ],
   Text: [
     ex("Body", `<Text>Regular body text.</Text>`, <Text>Regular body text.</Text>),
     ex("Muted", `<Text tone="muted">Secondary text.</Text>`, <Text tone="muted">Secondary text.</Text>),
-    ex("Emphasis", `<Text variant="emphasis">A short line that deserves attention.</Text>`, <Text variant="emphasis">A short line that deserves attention.</Text>, "Serif italic (Newsreader). Use it for one lead sentence or a quote, never for long text."),
+    ex("Emphasis", `<Text variant="emphasis">A short line that deserves attention.</Text>`, <Text variant="emphasis">A short line that deserves attention.</Text>, "Serif italic (Source Serif 4). Use it for one lead sentence or a quote, never for long text."),
     ex("Code", `<Text variant="code">const x = 1;</Text>`, <Text variant="code">const x = 1;</Text>),
   ],
 };

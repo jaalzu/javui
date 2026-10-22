@@ -27,13 +27,13 @@
   transition: background-color var(--motion-duration-fast) var(--motion-easing-standard);
 }
 
-.track:hover:not([data-disabled]),
-.track[data-force="hover"]:not([data-disabled]) {
+.track:hover:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.track[data-force="hover"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
   background: var(--color-component-hover);
 }
 
-.track:active:not([data-disabled]),
-.track[data-force="active"]:not([data-disabled]) {
+.track:active:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.track[data-force="active"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
   background: var(--color-component-active);
 }
 
@@ -48,16 +48,33 @@
   background: var(--color-inverted-solid);
 }
 
-.track[data-checked]:hover:not([data-disabled]),
-.track[data-checked][data-force="hover"]:not([data-disabled]) {
+.track[data-checked]:hover:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.track[data-checked][data-force="hover"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
   border-color: var(--color-inverted-solid-hover);
   background: var(--color-inverted-solid-hover);
 }
 
-.track[data-checked]:active:not([data-disabled]),
-.track[data-checked][data-force="active"]:not([data-disabled]) {
+.track[data-checked]:active:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.track[data-checked][data-force="active"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
   border-color: var(--color-inverted-solid-active);
   background: var(--color-inverted-solid-active);
+}
+
+.track[data-readonly]:not([data-checked]),
+.track[data-loading]:not([data-checked]) {
+  background: var(--color-sunken);
+}
+
+.track[data-readonly] {
+  cursor: default;
+}
+
+.track[data-loading] {
+  cursor: progress;
+}
+
+.track[data-invalid] {
+  border-color: var(--color-danger-border-default);
 }
 
 .track[data-disabled] {
@@ -94,4 +111,13 @@
 
 .label:has([data-disabled]) {
   cursor: not-allowed;
+}
+
+.label:has([data-disabled]) .text {
+  color: var(--color-disabled-foreground);
+}
+
+.spinner {
+  flex-shrink: 0;
+  color: var(--color-secondary-foreground);
 }

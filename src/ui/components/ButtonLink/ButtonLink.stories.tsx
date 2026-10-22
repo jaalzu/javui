@@ -19,6 +19,11 @@ export const Primary: Story = {};
 export const WithIcon: Story = {
   args: { endIcon: <ArrowRightIcon /> },
 };
+export const IconOnly: Story = {
+  render: () => (
+    <ButtonLink href="#" aria-label="Next page" startIcon={<ArrowRightIcon />} />
+  ),
+};
 export const Variants: Story = {
   render: () => (
     <Stack direction="row" gap="3" wrap>

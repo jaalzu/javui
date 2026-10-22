@@ -27,8 +27,8 @@
   --primitive-color-danger-700: oklch(0.54 0.1874 30.37);
   --primitive-color-white: oklch(1 0 0);
   --primitive-color-black: oklch(0 0 0);
-  --font-family-sans: 'DM Sans Variable', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; /** The only family for UI and reading text. Used for headings, body, labels and captions. */
-  --font-family-emphasis: 'Newsreader Variable', ui-serif, Georgia, 'Times New Roman', serif; /** Serif, used rarely: one lead sentence or a short quote. Never for headings, controls or long text. */
+  --font-family-sans: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; /** The only family for UI and reading text. Used for headings, body, labels and captions. */
+  --font-family-emphasis: 'Source Serif 4', ui-serif, Georgia, 'Times New Roman', serif; /** Serif, used rarely: one lead sentence or a short quote. Never for headings, controls or long text. */
   --font-family-mono: 'Commit Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; /** Code and keyboard keys only. */
   --font-weight-regular: 400; /** Body text. Do not use lighter weights; soften text with a muted color instead. */
   --font-weight-medium: 500; /** Labels and controls. */
@@ -104,10 +104,11 @@
   --space-1-5: 0.375rem;
   --space-2-5: 0.6rem; /** Half step between space.2 and space.3. Used for the inline padding of Badges. */
   --radius-none: 0;
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
+  --radius-base: 0.5rem; /** Base radius. sm, md, lg and xl derive from it at 0.5x, 1x, 1.5x and 2x. */
+  --radius-sm: calc(var(--radius-base) * 0.5);
+  --radius-md: calc(var(--radius-base) * 1);
+  --radius-lg: calc(var(--radius-base) * 1.5);
+  --radius-xl: calc(var(--radius-base) * 2);
   --radius-full: 9999px;
   --border-width-thin: 1px;
   --border-width-thick: 2px;
@@ -123,6 +124,7 @@
   --shadow-raised: inset 0 0 0 1px transparent, inset 0 1px #ffffffcc, 0 0 0 1px #00000014, 0 4px 4px #0000000d; /** Raised look for secondary controls: inner hairline, top highlight, outer edge and soft drop. */
   --shadow-large: 0 0 0 1px #00000014, 0 2px 3px -2px #0000001a, 0 3px 8px -2px #00000014, 0 4px 12px -4px #0000001f; /** Floating panels anchored to a trigger: menus, select lists, popovers, tooltips and toasts. */
   --shadow-extra-large: 0 0 0 .5px #00000014, 0 8px 40px 0px #0000001a, 0 12px 32px -16px #00000040; /** Surfaces that sit above the whole page: dialogs and the search palette. */
+  --header-height: 3.55rem; /** Height of the sticky site header. Used by the header and by scroll-padding. */
   --size-target-min: 1.5rem; /** WCAG 2.2 minimum pointer target (24px). */
   --size-target-comfortable: 2.75rem; /** Recommended hit area on touch devices. Controls may look smaller if they extend their hit area under `@media (pointer: coarse)`. */
   --size-control-sm: 1.75rem;
@@ -227,8 +229,6 @@
   --color-inverted-solid: var(--primitive-color-neutral-950); /** Primary action background: the main button. */
   --color-on-inverted-foreground: var(--primitive-color-neutral-50); /** Text on inverted solid surfaces. */
   --color-brand-solid: var(--primitive-color-accent-500); /** Brand background for key actions and selected states. */
-  --color-brand-foreground: var(--primitive-color-accent-700); /** Brand colored text and icons on the page. */
-  --color-brand-foreground-soft: color-mix(in oklab, var(--primitive-color-accent-700) 72%, var(--color-primary-foreground)); /** Brand text and icons for tinted surfaces, darkened to stay contrast-safe on the soft brand tint. */
   --color-on-brand-solid-foreground: var(--primitive-color-white); /** Text on brand solid. */
   --color-positive-solid: var(--primitive-color-success-700); /** Positive background for strong feedback. */
   --color-on-positive-solid-foreground: var(--primitive-color-white); /** Text on positive solid. */
@@ -238,25 +238,22 @@
   --color-on-info-solid-foreground: var(--primitive-color-white); /** Text on info solid. */
   --color-danger-solid: var(--primitive-color-danger-700); /** Danger background for strong feedback. */
   --color-on-danger-solid-foreground: var(--primitive-color-white); /** Text on danger solid. */
-  --color-shell: color-mix(in oklab, var(--color-primary-foreground) 3%, var(--color-page)); /** App chrome around the content: header, sidebar, footer. */
-  --color-container: color-mix(in oklab, var(--color-primary-foreground) 5%, var(--color-page)); /** A region that groups several cards, like a settings section or a table wrapper. */
   --color-sunken: color-mix(in oklab, var(--color-primary-foreground) 4%, var(--color-page)); /** Recessed areas: code blocks, wells, inset fields. */
-  --color-standout: var(--color-primary-foreground); /** High contrast surface, inverted from the page: tooltip, toast, callout. */
   --color-component-hover: color-mix(in oklab, var(--color-primary-foreground) 8%, transparent); /** Component hovered. */
   --color-component-active: color-mix(in oklab, var(--color-primary-foreground) 12%, transparent); /** Component pressed. */
   --color-component-on-sunken: var(--color-card); /** Component placed on a sunken area, so it still stands out. */
-  --color-component-on-inverted: color-mix(in oklab, var(--color-on-inverted-foreground) 14%, transparent); /** Component placed on a standout or inverted surface. */
+  --color-component-on-inverted: color-mix(in oklab, var(--color-on-inverted-foreground) 14%, transparent); /** Component placed on an inverted surface. */
   --color-transparent-hover: color-mix(in oklab, var(--color-primary-foreground) 6%, transparent); /** Ghost control or list item hovered. */
   --color-transparent-active: color-mix(in oklab, var(--color-primary-foreground) 10%, transparent); /** Ghost control pressed, or list item selected or highlighted. */
   --color-secondary-foreground: color-mix(in oklch, var(--color-primary-foreground) 70%, transparent); /** Supporting text. */
   --color-tertiary-foreground: color-mix(in oklch, var(--color-primary-foreground) 62%, transparent); /** Hints, placeholders, metadata. */
-  --color-disabled-foreground: color-mix(in oklab, var(--color-primary-foreground) 38%, transparent); /** Text and icons of disabled controls. */
+  --color-disabled-foreground: color-mix(in oklab, var(--color-primary-foreground) 62%, transparent); /** Text and icons of disabled controls. */
   --color-inverted-solid-hover: color-mix(in oklab, var(--color-inverted-solid) 82%, var(--color-page)); /** Inverted solid hovered. */
   --color-inverted-solid-active: color-mix(in oklab, var(--color-inverted-solid) 72%, var(--color-page)); /** Inverted solid pressed. */
-  --color-on-standout-primary-foreground: var(--color-page); /** Main text on a standout surface. */
-  --color-on-standout-secondary-foreground: color-mix(in oklab, var(--color-page) 70%, transparent); /** Supporting text on a standout surface. */
   --color-brand-solid-hover: color-mix(in oklab, var(--color-brand-solid) 88%, var(--color-primary-foreground)); /** Brand solid hovered. */
   --color-brand-subtle: color-mix(in oklab, var(--color-brand-solid) 12%, transparent); /** Soft brand tint behind text or icons. */
+  --color-brand-foreground: color-mix(in oklab, var(--color-brand-solid) 75%, var(--color-primary-foreground)); /** Brand colored text and icons on the page and cards, derived from --color-brand-solid. */
+  --color-brand-foreground-soft: color-mix(in oklab, var(--color-brand-solid) 60%, var(--color-primary-foreground)); /** Brand text and icons for tinted surfaces, derived from --color-brand-solid. */
   --color-positive-solid-hover: color-mix(in oklab, var(--color-positive-solid) 88%, var(--color-primary-foreground)); /** Positive solid hovered. */
   --color-positive-subtle: color-mix(in oklab, var(--color-positive-solid) 12%, transparent); /** Soft positive tint behind text or icons. */
   --color-positive-foreground: var(--color-positive-solid); /** Positive colored text and icons. */
@@ -274,7 +271,7 @@
   --color-border-default: color-mix(in oklch, var(--color-primary-foreground) 7%, transparent); /** Default borders: inputs, cards, dividers you can see. */
   --color-border-subtle: color-mix(in oklab, var(--color-primary-foreground) 4%, transparent); /** Faint dividers. */
   --color-border-strong: color-mix(in oklch, var(--color-primary-foreground) 9%, transparent); /** Emphasized borders and hover. */
-  --color-border-inverted: color-mix(in oklab, var(--color-page) 20%, transparent); /** Borders on standout or inverted surfaces. */
+  --color-border-inverted: color-mix(in oklab, var(--color-page) 20%, transparent); /** Borders on inverted surfaces. */
   --color-border-disabled: color-mix(in oklab, var(--color-primary-foreground) 10%, transparent); /** Borders of disabled controls. */
   --color-brand-border-default: color-mix(in oklab, var(--color-brand-solid) 40%, transparent); /** Brand border: selected card, active field. */
   --color-brand-border-focus: var(--color-primary-foreground); /** Focus ring. */
@@ -284,6 +281,16 @@
   --color-danger-border-default: color-mix(in oklab, var(--color-danger-solid) 40%, transparent); /** Danger border. */
   --color-danger-border-subtle: color-mix(in oklab, var(--color-danger-solid) 22%, transparent); /** Quiet danger border. */
   --color-disabled: color-mix(in oklab, var(--color-primary-foreground) 6%, transparent); /** Background of disabled controls. */
+  --syntax-text: var(--color-primary-foreground); /** Default code text: variables, operators, plain identifiers. */
+  --syntax-keyword: var(--color-brand-foreground-soft); /** Language keywords and control flow. Uses the softer brand text so it passes contrast on --color-sunken. */
+  --syntax-string: var(--color-positive-foreground); /** Strings and template literals. */
+  --syntax-number: color-mix(in oklab, var(--color-warning-foreground) 88%, var(--color-primary-foreground)); /** Numbers, units and constants. */
+  --syntax-function: color-mix(in oklab, var(--color-info-foreground) 88%, var(--color-primary-foreground)); /** Function and method names. */
+  --syntax-comment: var(--color-tertiary-foreground); /** Comments, quieter than code. */
+  --syntax-punctuation: var(--color-secondary-foreground); /** Braces, brackets, separators and other punctuation. */
+  --syntax-danger: var(--color-danger-foreground); /** Removed code in a diff. */
+  --syntax-diff-added-bg: var(--color-positive-subtle); /** Background of an added line in a diff. */
+  --syntax-diff-removed-bg: var(--color-danger-subtle); /** Background of a removed line in a diff. */
 }
 
 :root[data-theme="light"] {
@@ -310,30 +317,25 @@
       --color-inverted-solid-active: color-mix(in oklab, var(--color-inverted-solid) 72%, var(--color-page)); /** Inverted solid pressed. */
       --color-on-inverted-foreground: var(--primitive-color-neutral-950); /** Text on inverted solid surfaces. */
       --color-brand-solid: var(--primitive-color-accent-500); /** Brand background for key actions and selected states. */
-      --color-brand-foreground: var(--primitive-color-accent-400); /** Brand colored text and icons on the page. */
-      --color-brand-foreground-soft: var(--primitive-color-accent-300); /** Lighter, sky-blue brand text and icons for quiet tinted surfaces. */
       --color-on-brand-solid-foreground: var(--primitive-color-white); /** Text on brand solid. */
       --color-positive-solid: var(--primitive-color-success-400); /** Positive background for strong feedback. */
       --color-warning-solid: var(--primitive-color-warning-400); /** Warning background for strong feedback. */
       --color-info-solid: var(--primitive-color-info-400); /** Info background for strong feedback. */
       --color-danger-solid: var(--primitive-color-danger-400); /** Danger background for strong feedback. */
-      --color-shell: color-mix(in oklab, var(--color-primary-foreground) 3%, var(--color-page)); /** App chrome around the content: header, sidebar, footer. */
-      --color-container: color-mix(in oklab, var(--color-primary-foreground) 5%, var(--color-page)); /** A region that groups several cards, like a settings section or a table wrapper. */
       --color-card: color-mix(in oklab, var(--color-primary-foreground) 8%, var(--color-page)); /** Content blocks on the page: cards, panels, table rows. */
       --color-modal: color-mix(in oklab, var(--color-primary-foreground) 6%, var(--color-page)); /** Layers above the page: dialog, menu, select list, popover. */
-      --color-standout: var(--color-primary-foreground); /** High contrast surface, inverted from the page: tooltip, toast, callout. */
       --color-component-hover: color-mix(in oklab, var(--color-primary-foreground) 14%, transparent); /** Component hovered. */
       --color-component-active: color-mix(in oklab, var(--color-primary-foreground) 18%, transparent); /** Component pressed. */
-      --color-component-on-inverted: color-mix(in oklab, var(--color-on-inverted-foreground) 14%, transparent); /** Component placed on a standout or inverted surface. */
+      --color-component-on-inverted: color-mix(in oklab, var(--color-on-inverted-foreground) 14%, transparent); /** Component placed on an inverted surface. */
       --color-transparent-hover: color-mix(in oklab, var(--color-primary-foreground) 8%, transparent); /** Ghost control or list item hovered. */
       --color-transparent-active: color-mix(in oklab, var(--color-primary-foreground) 12%, transparent); /** Ghost control pressed, or list item selected or highlighted. */
       --color-secondary-foreground: color-mix(in oklch, var(--color-primary-foreground) 70%, transparent); /** Supporting text. */
       --color-tertiary-foreground: color-mix(in oklch, var(--color-primary-foreground) 54%, transparent); /** Hints, placeholders, metadata. */
-      --color-disabled-foreground: color-mix(in oklab, var(--color-primary-foreground) 38%, transparent); /** Text and icons of disabled controls. */
-      --color-on-standout-primary-foreground: var(--color-page); /** Main text on a standout surface. */
-      --color-on-standout-secondary-foreground: color-mix(in oklab, var(--color-page) 70%, transparent); /** Supporting text on a standout surface. */
+      --color-disabled-foreground: color-mix(in oklab, var(--color-primary-foreground) 50%, transparent); /** Text and icons of disabled controls. */
       --color-brand-solid-hover: color-mix(in oklab, var(--color-brand-solid) 88%, var(--color-primary-foreground)); /** Brand solid hovered. */
       --color-brand-subtle: color-mix(in oklab, var(--color-brand-solid) 12%, transparent); /** Soft brand tint behind text or icons. */
+      --color-brand-foreground: color-mix(in oklab, var(--color-brand-solid) 75%, var(--color-primary-foreground)); /** Brand colored text and icons on the page and cards, derived from --color-brand-solid. */
+      --color-brand-foreground-soft: color-mix(in oklab, var(--color-brand-solid) 60%, var(--color-primary-foreground)); /** Brand text and icons for tinted surfaces, derived from --color-brand-solid. */
       --color-positive-solid-hover: color-mix(in oklab, var(--color-positive-solid) 88%, var(--color-primary-foreground)); /** Positive solid hovered. */
       --color-positive-subtle: color-mix(in oklab, var(--color-positive-solid) 12%, transparent); /** Soft positive tint behind text or icons. */
       --color-positive-foreground: var(--color-positive-solid); /** Positive colored text and icons. */
@@ -355,7 +357,7 @@
       --color-border-default: color-mix(in oklch, var(--color-primary-foreground) 7%, transparent); /** Default borders: inputs, cards, dividers you can see. */
       --color-border-subtle: color-mix(in oklab, var(--color-primary-foreground) 4%, transparent); /** Faint dividers. */
       --color-border-strong: color-mix(in oklch, var(--color-primary-foreground) 9%, transparent); /** Emphasized borders and hover. */
-      --color-border-inverted: color-mix(in oklab, var(--color-page) 20%, transparent); /** Borders on standout or inverted surfaces. */
+      --color-border-inverted: color-mix(in oklab, var(--color-page) 20%, transparent); /** Borders on inverted surfaces. */
       --color-border-disabled: color-mix(in oklab, var(--color-primary-foreground) 10%, transparent); /** Borders of disabled controls. */
       --color-brand-border-default: color-mix(in oklab, var(--color-brand-solid) 40%, transparent); /** Brand border: selected card, active field. */
       --color-brand-border-focus: var(--color-primary-foreground); /** Focus ring. */
@@ -365,7 +367,17 @@
       --color-danger-border-default: color-mix(in oklab, var(--color-danger-solid) 40%, transparent); /** Danger border. */
       --color-danger-border-subtle: color-mix(in oklab, var(--color-danger-solid) 22%, transparent); /** Quiet danger border. */
       --color-disabled: color-mix(in oklab, var(--color-primary-foreground) 6%, transparent); /** Background of disabled controls. */
+      --syntax-text: var(--color-primary-foreground); /** Default code text: variables, operators, plain identifiers. */
       --color-component-on-sunken: var(--color-card); /** Component placed on a sunken area, so it still stands out. */
+      --syntax-keyword: var(--color-brand-foreground-soft); /** Language keywords and control flow. Uses the softer brand text so it passes contrast on --color-sunken. */
+      --syntax-string: var(--color-positive-foreground); /** Strings and template literals. */
+      --syntax-number: color-mix(in oklab, var(--color-warning-foreground) 88%, var(--color-primary-foreground)); /** Numbers, units and constants. */
+      --syntax-function: color-mix(in oklab, var(--color-info-foreground) 88%, var(--color-primary-foreground)); /** Function and method names. */
+      --syntax-comment: var(--color-tertiary-foreground); /** Comments, quieter than code. */
+      --syntax-punctuation: var(--color-secondary-foreground); /** Braces, brackets, separators and other punctuation. */
+      --syntax-danger: var(--color-danger-foreground); /** Removed code in a diff. */
+      --syntax-diff-added-bg: var(--color-positive-subtle); /** Background of an added line in a diff. */
+      --syntax-diff-removed-bg: var(--color-danger-subtle); /** Background of a removed line in a diff. */
   }
 }
 
@@ -388,30 +400,25 @@
     --color-inverted-solid-active: color-mix(in oklab, var(--color-inverted-solid) 72%, var(--color-page)); /** Inverted solid pressed. */
     --color-on-inverted-foreground: var(--primitive-color-neutral-950); /** Text on inverted solid surfaces. */
     --color-brand-solid: var(--primitive-color-accent-500); /** Brand background for key actions and selected states. */
-    --color-brand-foreground: var(--primitive-color-accent-400); /** Brand colored text and icons on the page. */
-    --color-brand-foreground-soft: var(--primitive-color-accent-300); /** Lighter, sky-blue brand text and icons for quiet tinted surfaces. */
     --color-on-brand-solid-foreground: var(--primitive-color-white); /** Text on brand solid. */
     --color-positive-solid: var(--primitive-color-success-400); /** Positive background for strong feedback. */
     --color-warning-solid: var(--primitive-color-warning-400); /** Warning background for strong feedback. */
     --color-info-solid: var(--primitive-color-info-400); /** Info background for strong feedback. */
     --color-danger-solid: var(--primitive-color-danger-400); /** Danger background for strong feedback. */
-    --color-shell: color-mix(in oklab, var(--color-primary-foreground) 3%, var(--color-page)); /** App chrome around the content: header, sidebar, footer. */
-    --color-container: color-mix(in oklab, var(--color-primary-foreground) 5%, var(--color-page)); /** A region that groups several cards, like a settings section or a table wrapper. */
     --color-card: color-mix(in oklab, var(--color-primary-foreground) 8%, var(--color-page)); /** Content blocks on the page: cards, panels, table rows. */
     --color-modal: color-mix(in oklab, var(--color-primary-foreground) 6%, var(--color-page)); /** Layers above the page: dialog, menu, select list, popover. */
-    --color-standout: var(--color-primary-foreground); /** High contrast surface, inverted from the page: tooltip, toast, callout. */
     --color-component-hover: color-mix(in oklab, var(--color-primary-foreground) 14%, transparent); /** Component hovered. */
     --color-component-active: color-mix(in oklab, var(--color-primary-foreground) 18%, transparent); /** Component pressed. */
-    --color-component-on-inverted: color-mix(in oklab, var(--color-on-inverted-foreground) 14%, transparent); /** Component placed on a standout or inverted surface. */
+    --color-component-on-inverted: color-mix(in oklab, var(--color-on-inverted-foreground) 14%, transparent); /** Component placed on an inverted surface. */
     --color-transparent-hover: color-mix(in oklab, var(--color-primary-foreground) 8%, transparent); /** Ghost control or list item hovered. */
     --color-transparent-active: color-mix(in oklab, var(--color-primary-foreground) 12%, transparent); /** Ghost control pressed, or list item selected or highlighted. */
     --color-secondary-foreground: color-mix(in oklch, var(--color-primary-foreground) 70%, transparent); /** Supporting text. */
     --color-tertiary-foreground: color-mix(in oklch, var(--color-primary-foreground) 54%, transparent); /** Hints, placeholders, metadata. */
-    --color-disabled-foreground: color-mix(in oklab, var(--color-primary-foreground) 38%, transparent); /** Text and icons of disabled controls. */
-    --color-on-standout-primary-foreground: var(--color-page); /** Main text on a standout surface. */
-    --color-on-standout-secondary-foreground: color-mix(in oklab, var(--color-page) 70%, transparent); /** Supporting text on a standout surface. */
+    --color-disabled-foreground: color-mix(in oklab, var(--color-primary-foreground) 50%, transparent); /** Text and icons of disabled controls. */
     --color-brand-solid-hover: color-mix(in oklab, var(--color-brand-solid) 88%, var(--color-primary-foreground)); /** Brand solid hovered. */
     --color-brand-subtle: color-mix(in oklab, var(--color-brand-solid) 12%, transparent); /** Soft brand tint behind text or icons. */
+    --color-brand-foreground: color-mix(in oklab, var(--color-brand-solid) 75%, var(--color-primary-foreground)); /** Brand colored text and icons on the page and cards, derived from --color-brand-solid. */
+    --color-brand-foreground-soft: color-mix(in oklab, var(--color-brand-solid) 60%, var(--color-primary-foreground)); /** Brand text and icons for tinted surfaces, derived from --color-brand-solid. */
     --color-positive-solid-hover: color-mix(in oklab, var(--color-positive-solid) 88%, var(--color-primary-foreground)); /** Positive solid hovered. */
     --color-positive-subtle: color-mix(in oklab, var(--color-positive-solid) 12%, transparent); /** Soft positive tint behind text or icons. */
     --color-positive-foreground: var(--color-positive-solid); /** Positive colored text and icons. */
@@ -433,7 +440,7 @@
     --color-border-default: color-mix(in oklch, var(--color-primary-foreground) 7%, transparent); /** Default borders: inputs, cards, dividers you can see. */
     --color-border-subtle: color-mix(in oklab, var(--color-primary-foreground) 4%, transparent); /** Faint dividers. */
     --color-border-strong: color-mix(in oklch, var(--color-primary-foreground) 9%, transparent); /** Emphasized borders and hover. */
-    --color-border-inverted: color-mix(in oklab, var(--color-page) 20%, transparent); /** Borders on standout or inverted surfaces. */
+    --color-border-inverted: color-mix(in oklab, var(--color-page) 20%, transparent); /** Borders on inverted surfaces. */
     --color-border-disabled: color-mix(in oklab, var(--color-primary-foreground) 10%, transparent); /** Borders of disabled controls. */
     --color-brand-border-default: color-mix(in oklab, var(--color-brand-solid) 40%, transparent); /** Brand border: selected card, active field. */
     --color-brand-border-focus: var(--color-primary-foreground); /** Focus ring. */
@@ -443,5 +450,15 @@
     --color-danger-border-default: color-mix(in oklab, var(--color-danger-solid) 40%, transparent); /** Danger border. */
     --color-danger-border-subtle: color-mix(in oklab, var(--color-danger-solid) 22%, transparent); /** Quiet danger border. */
     --color-disabled: color-mix(in oklab, var(--color-primary-foreground) 6%, transparent); /** Background of disabled controls. */
+    --syntax-text: var(--color-primary-foreground); /** Default code text: variables, operators, plain identifiers. */
     --color-component-on-sunken: var(--color-card); /** Component placed on a sunken area, so it still stands out. */
+    --syntax-keyword: var(--color-brand-foreground-soft); /** Language keywords and control flow. Uses the softer brand text so it passes contrast on --color-sunken. */
+    --syntax-string: var(--color-positive-foreground); /** Strings and template literals. */
+    --syntax-number: color-mix(in oklab, var(--color-warning-foreground) 88%, var(--color-primary-foreground)); /** Numbers, units and constants. */
+    --syntax-function: color-mix(in oklab, var(--color-info-foreground) 88%, var(--color-primary-foreground)); /** Function and method names. */
+    --syntax-comment: var(--color-tertiary-foreground); /** Comments, quieter than code. */
+    --syntax-punctuation: var(--color-secondary-foreground); /** Braces, brackets, separators and other punctuation. */
+    --syntax-danger: var(--color-danger-foreground); /** Removed code in a diff. */
+    --syntax-diff-added-bg: var(--color-positive-subtle); /** Background of an added line in a diff. */
+    --syntax-diff-removed-bg: var(--color-danger-subtle); /** Background of a removed line in a diff. */
 }

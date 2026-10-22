@@ -23,11 +23,15 @@ for (const k of Object.keys(meta)) if (k.startsWith("$")) delete meta[k];
 
 // ---- 1. Public exports (values only) must match the meta file exactly ----
 const indexSrc = readFileSync(join(uiDir, "index.ts"), "utf8");
-const exported = [...indexSrc.matchAll(/^export \{([^}]+)\} from/gm)].flatMap((m) =>
+const serverSrc = readFileSync(join(uiDir, "server.ts"), "utf8");
+const valuesOf = (src) => [...src.matchAll(/^export \{([^}]+)\} from/gm)].flatMap((m) =>
   m[1].split(",").map((s) => s.trim()).filter(Boolean),
 );
-const missingMeta = exported.filter((n) => !meta[n]);
-const unknownMeta = Object.keys(meta).filter((n) => !exported.includes(n));
+const exported = valuesOf(indexSrc);
+const serverExported = valuesOf(serverSrc);
+const allExported = [...new Set([...exported, ...serverExported])];
+const missingMeta = allExported.filter((n) => !meta[n]);
+const unknownMeta = Object.keys(meta).filter((n) => !allExported.includes(n));
 if (missingMeta.length || unknownMeta.length) {
   console.error("agent-meta.json is out of sync with src/ui/index.ts");
   if (missingMeta.length) console.error("  exported but missing in meta:", missingMeta.join(", "));
@@ -75,7 +79,7 @@ function typeString(t) {
   return t.raw && t.name !== "enum" ? t.raw : t.name;
 }
 
-const componentsManifest = exported.map((name) => {
+const componentsManifest = allExported.map((name) => {
   const m = meta[name];
   const doc = docByName.get(name);
   const file = doc?.filePath;
@@ -95,7 +99,7 @@ const componentsManifest = exported.map((name) => {
     category: m.category,
     base: m.base === "base-ui" ? "Built on Base UI (@base-ui/react)" : "Own component",
     description: doc?.description?.trim() || null,
-    import: `import { ${name} } from "@/ui";`,
+    import: `import { ${name} } from "${serverExported.includes(name) ? "@/ui/server" : "@/ui"}";`,
     renders: m.renders,
     composition: m.composition,
     whenToUse: m.whenToUse,

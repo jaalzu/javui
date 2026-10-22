@@ -9,7 +9,9 @@ export const sections: NavLink[] = [
   { href: "/docs/usage", label: "Usage" },
   { href: "/docs/theming", label: "Theming" },
   { href: "/docs/colors", label: "Colors" },
+  { href: "/docs/surfaces", label: "Surfaces" },
   { href: "/docs/typography", label: "Typography" },
+  { href: "/docs/animations", label: "Animations" },
   { href: "/docs/agents", label: "For agents" },
 ];
 

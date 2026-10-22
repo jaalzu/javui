@@ -33,12 +33,12 @@ export function MobileNav({ groups }: { groups: Group[] }) {
     <BaseDialog.Root open={open} onOpenChange={setOpen} modal={false}>
       <BaseDialog.Trigger
         render={
-          <Button variant="ghost" size="sm" className={styles.menuButton} />
+          <Button variant="ghost" size="sm" className={styles.menuButton}>
+            <span className={styles.menuIcon} aria-hidden="true" />
+            <span className={styles.menuLabel}>Menu</span>
+          </Button>
         }
-      >
-        <span className={styles.menuIcon} aria-hidden="true" />
-        <span className={styles.menuLabel}>Menu</span>
-      </BaseDialog.Trigger>
+      />
       <BaseDialog.Portal>
         <BaseDialog.Popup className={styles.menuPanel}>
           {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events */}

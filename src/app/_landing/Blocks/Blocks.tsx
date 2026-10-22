@@ -20,7 +20,7 @@ import {
   Checkbox,
   CheckIcon,
   CircleIcon,
-  CodeBlock,
+  CodeBlockView,
   Dialog,
   DialogClose,
   DialogContent,
@@ -663,7 +663,7 @@ function ApprovalBlock() {
         </Text>
         :
       </Text>
-      <CodeBlock language="bash" code="rm -f drafts/*.md  # 14 files" />
+      <CodeBlockView language="bash" code="rm -f drafts/*.md  # 14 files" />
       {state === "pending" ? (
         <Stack direction="row" gap="2">
           <Dialog>
@@ -826,7 +826,7 @@ function Trace() {
             value: "t1",
             title: "1 · search_docs · 1.2 s",
             content: (
-              <CodeBlock
+              <CodeBlockView
                 language="json"
                 code={'{\n  "query": "pricing changes",\n  "limit": 5\n}'}
               />
@@ -836,7 +836,7 @@ function Trace() {
             value: "t2",
             title: "2 · read_page · 0.8 s",
             content: (
-              <CodeBlock language="json" code={'{ "url": "/pricing" }'} />
+              <CodeBlockView language="json" code={'{ "url": "/pricing" }'} />
             ),
           },
           {
@@ -892,7 +892,7 @@ function Prompt() {
             value: "schema",
             label: "Schema",
             content: (
-              <CodeBlock
+              <CodeBlockView
                 language="json"
                 code={
                   '{\n  "name": "search_docs",\n  "parameters": { "query": "string" }\n}'
@@ -944,7 +944,7 @@ function ApiAccess() {
           Rotate
         </Button>
       </Stack>
-      <CodeBlock
+      <CodeBlockView
         tabs={[
           {
             label: "curl",

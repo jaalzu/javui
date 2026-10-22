@@ -43,7 +43,8 @@
 
 .root[data-indeterminate] .indicator {
   width: 40%;
-  animation: slide 1.4s ease-in-out infinite;
+  animation: slide calc(var(--motion-duration-slow) * 6)
+    var(--motion-easing-in-out) infinite;
 }
 
 @keyframes slide {

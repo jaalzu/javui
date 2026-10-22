@@ -1,6 +1,6 @@
 /* ---------- Doc pages ---------- */
 .prose {
-  max-width: 64rem;
+  max-width: 44rem;
   min-width: 0;
   margin-inline: auto;
 }
@@ -11,11 +11,12 @@
 
 .prose h2 {
   margin-top: var(--space-12);
-  scroll-margin-top: var(--space-6);
+  scroll-margin-top: 5rem;
 }
 
 .prose h3 {
   margin-top: var(--space-8);
+  scroll-margin-top: 5rem;
 }
 
 .prose p,

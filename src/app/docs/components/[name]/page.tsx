@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import manifest from "../../../../../public/agent/manifest.json";
-import { CodeBlock, Heading, Skeleton, Stack, Table } from "@/ui";
+import { Heading, Skeleton, Stack, Table } from "@/ui";
+import { CodeBlock } from "@/ui/server";
 import { noDemo } from "@/app/_examples/demo-names";
 import { Examples, Preview } from "@/app/_examples/Examples";
 import shell from "../../../_shell/shell.module.css";
@@ -66,7 +67,7 @@ async function ComponentContent({ params }: ComponentPageProps) {
     <DocPage href={`/docs/components/${c.name}`} title={c.name} description={<Inline text={lead} />}>
       {!noDemo.has(c.name) && (
         <>
-          <Heading as="h2" className={shell.srOnly}>Preview</Heading>
+          <Heading as="h2" className={shell.srOnly} data-doc-skip>Preview</Heading>
           <Preview name={c.name} code={c.examples[0]} />
         </>
       )}

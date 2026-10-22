@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
+import { VisuallyHidden } from "../components/VisuallyHidden";
 
 export type StateName =
   | "rest"
@@ -59,11 +60,14 @@ const rowHead: CSSProperties = {
 
 export function StateMatrix({ rows }: { rows: StateRow[] }) {
   return (
-    <div style={{ overflowX: "auto" }}>
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- Scrollable region needs keyboard focus.
+    <div tabIndex={0} style={{ overflowX: "auto" }}>
       <table style={{ borderCollapse: "collapse", width: "100%" }}>
         <thead>
           <tr>
-            <th scope="col" style={head} />
+            <th scope="col" style={head}>
+              <VisuallyHidden>Variant</VisuallyHidden>
+            </th>
             {columns.map(({ state, label }) => (
               <th key={state} scope="col" style={head}>
                 {label}

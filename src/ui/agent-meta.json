@@ -1,7 +1,11 @@
 {
   "$comment": "Hand-written guidance for agents that cannot be derived from types or TSDoc. Props, descriptions and examples are generated from the source. scripts/build-agent-docs.mjs fails if an export in src/ui/index.ts has no entry here, or the other way around.",
   "$touchTargets": "Every interactive control must have a hit area of at least 44px on touch devices (pointer: coarse) and at least 24px otherwise. Use the shared mechanism; never enlarge the visible control for this.",
+  "$surfaceComposition": "There are four surfaces. Card sits on page, sunken sits inside card, and modal floats above the page. Table: page = the base; card = content block on the page (cards, panels, table rows); sunken = recessed area inside a card (code, wells, inset fields); modal = floating layer above the page (dialog, menu, select list, popover). Rules: max 3 nested levels; never put a card inside a card (use sunken or Divider instead); modal is never a page background; controls placed on sunken use --color-component-on-sunken; at rest use a border or a shadow, never both.",
+  "$brand": "Brand color tokens derive from --color-brand-solid through color-mix: brand-solid-hover, brand-subtle, brand-foreground (75% brand-solid + 25% primary-foreground), brand-foreground-soft and brand-border-default. The focus ring, brand-border-focus, stays text-colored for contrast. Changing --color-brand-solid rebrands the whole family; --color-on-brand-solid-foreground stays white because it is the text on the solid brand surface. Keep brand-foreground at least 4.5:1 on --color-page and --color-card in both themes.",
+  "$radius": "--radius-base (0.5rem) is the single source. sm = 0.5x, md = 1x, lg = 1.5x and xl = 2x via calc, so the default scale is 4/8/12/16px. none and full stay fixed. Nested-radius formulas read the same scale.",
   "$motion": "Use motion tokens only. Durations stay under 300ms (fast 100, base 160, slow 240). Entrances and user-driven motion use easing-out; exits may use easing-in and the same duration or shorter. Never scale(0): minimum 0.9 (press/tooltip 0.97, popup 0.95, modal 0.96). Never transition: all. Animate only opacity, transform, color, background, box-shadow, plus Accordion height and the Tabs indicator. Anchored popups (Menu, Select, Popover, Tooltip) use transform-origin: var(--transform-origin); Dialog stays centered and composes translate(-50%, -50%) with scale. Do not animate theme changes, the focus ring, or list/menu items on hover. prefers-reduced-motion is global: drop scale/transform, keep short fades. Drawer, toast, stagger, scroll-reveal, hold-to-confirm and drag are not implemented; when they exist, keep them under 300ms with easing-out and never scale(0).",
+  "$headerHeight": "`--header-height` is the height of the sticky site header (3.55rem / 56.8px). The header uses it directly, and `html` uses `scroll-padding-top: calc(var(--header-height) + var(--space-4))` so in-page anchors clear the header.",
   "Text": {
     "category": "typography",
     "base": "own",
@@ -142,14 +146,14 @@
   "Spinner": {
     "category": "feedback",
     "base": "own",
-    "renders": "span with role=\"status\" containing an svg and VisuallyHidden text",
-    "composition": "No children. Use `label` to describe what is loading.",
+    "renders": "span with role=\"status\" containing an svg and VisuallyHidden text, or an aria-hidden span when the label is empty",
+    "composition": "No children. Use `label` to describe what is loading. An empty label makes it decorative and silent.",
     "whenToUse": "Indeterminate loading of an action or small region.",
     "avoid": [
       "Several spinners announcing at once.",
       "Page-level loading of content shape: use Skeleton."
     ],
-    "a11y": "Announces `label` through a status live region. Motion follows prefers-reduced-motion."
+    "a11y": "Announces `label` through a status live region; with an empty label it renders no status role, no VisuallyHidden text and aria-hidden=\"true\". Motion follows prefers-reduced-motion."
   },
   "Skeleton": {
     "category": "feedback",
@@ -164,67 +168,72 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "button",
-    "composition": "Defaults to type=\"button\"; pass type=\"submit\" explicitly. Put icons in `startIcon`/`endIcon` (generated icons, no `size`). Heights: sm 1.75rem, md 2.25rem, lg 2.75rem. Base UI props such as `render` and `nativeButton` are available but not needed for normal use.",
+    "composition": "Defaults to type=\"button\"; pass type=\"submit\" explicitly. Put icons in `startIcon`/`endIcon` (generated icons, no `size`). Icon-only: `startIcon` is required and exactly one of `aria-label` or `aria-labelledby`. Heights: sm 1.75rem, md 2.25rem, lg 2.75rem. Base UI props such as `render` and `nativeButton` are available but not needed for normal use.",
     "whenToUse": "Any action: submit, open, confirm, cancel. Pass `loading` while the action runs.",
     "avoid": [
       "Navigation: use Link.",
       "More than one primary button per view.",
       "Disabling the button to show progress: use `loading`, it keeps the label and focus."
     ],
-    "a11y": "Icon-only buttons need `aria-label` and use `startIcon` (or `endIcon`) instead of children. `loading` sets `aria-busy` and counts as the start slot. Keyboard and disabled behavior come from Base UI."
+    "a11y": "Icon-only buttons need `aria-label` (or `aria-labelledby`) and use `startIcon` instead of children; the types enforce it. `loading` sets `aria-busy` and counts as the start slot, and the spinner stays silent so the button's accessible name is the only announcement. Keyboard and disabled behavior come from Base UI."
   },
   "Field": {
     "category": "controls",
     "base": "base-ui",
-    "renders": "div containing a label, the control, a description and an error",
-    "composition": "Wrap exactly one Input, Textarea or Select. `label` is required.",
-    "whenToUse": "Every text-like form control.",
+    "renders": "div containing an optional label, the control, a description and an error",
+    "composition": "Wrap one control: Input, Textarea, Select, Checkbox, RadioGroup, Switch or Slider. `label` is optional: omit it when the control renders its own label or legend (Checkbox, RadioGroup, Switch, Slider). Pass `error`, `required`, `readOnly` and `loading` to Field instead of wiring the control. Controls that carry their own label or legend also accept these props directly.",
+    "whenToUse": "Every form control, including its validation, required, read-only and loading states.",
     "avoid": [
-      "Wrapping Checkbox, Switch or RadioGroup: they carry their own label or legend."
+      "A loose red error text below the control: use Field `error`.",
+      "Wiring aria-describedby or aria-invalid by hand."
     ],
-    "a11y": "Base UI wires the label, aria-describedby and aria-invalid. Passing `error` marks the field invalid."
+    "a11y": "Base UI wires the label, aria-describedby and aria-invalid; the error is announced politely. `required` sets the native/ARIA required state and prints Required next to the label, or in the control's own label when Field has no label. Errors show after blur or submit, not on the first keystroke (validationMode defaults to onBlur)."
   },
   "Input": {
     "category": "controls",
     "base": "base-ui",
     "renders": "input",
-    "composition": "Native input props pass through (type, autoComplete, name, required...). Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`).",
-    "whenToUse": "Single-line text entry.",
+    "composition": "Native input props pass through (type, autoComplete, name, required...). Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Inside Field, omit required/readOnly/loading and pass them to Field.",
+    "whenToUse": "Single-line text entry, read-only values and values that are still loading.",
     "avoid": [
       "Using it without Field or aria-label.",
-      "Multi-line text: use Textarea."
+      "Multi-line text: use Textarea.",
+      "Hand-wiring validation ARIA: use Field error."
     ],
-    "a11y": "Needs an accessible name. Set `autoComplete` for personal data fields."
+    "a11y": "Needs an accessible name. Set `autoComplete` for personal data fields. readOnly stays focusable and selectable; loading is readOnly with aria-busy=true."
   },
   "Textarea": {
     "category": "controls",
     "base": "base-ui",
     "renders": "textarea",
-    "composition": "Native textarea props pass through; `rows` defaults to 3. Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`).",
-    "whenToUse": "Multi-line text entry.",
-    "avoid": ["Using it without Field or aria-label."],
-    "a11y": "Needs an accessible name."
+    "composition": "Native textarea props pass through; `rows` defaults to 3. Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Inside Field, omit required/readOnly/loading and pass them to Field.",
+    "whenToUse": "Multi-line text entry, including read-only and loading values.",
+    "avoid": [
+      "Using it without Field or aria-label.",
+      "Hand-wiring validation ARIA: use Field error."
+    ],
+    "a11y": "Needs an accessible name. readOnly stays focusable and selectable; loading is readOnly with aria-busy=true."
   },
   "Checkbox": {
     "category": "controls",
     "base": "base-ui",
     "renders": "span role=\"checkbox\" with a hidden native input, inside a label",
-    "composition": "`label` is required. Use `indeterminate` for a partial parent state.",
+    "composition": "`label` is required. Use `indeterminate` for a partial parent state. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field.",
     "whenToUse": "Independent yes/no choices, especially ones submitted with a form.",
     "avoid": [
       "Mutually exclusive options: use RadioGroup.",
       "Settings that apply instantly: use Switch."
     ],
-    "a11y": "The whole label is clickable. Base UI handles keyboard and the mixed state."
+    "a11y": "The whole label is clickable. Base UI handles keyboard and the mixed state. Invalid uses the danger border and an error linked with aria-describedby; required prints Required; read-only stays focusable and uses the sunken background; loading sets aria-busy and blocks changes."
   },
   "RadioGroup": {
     "category": "controls",
     "base": "base-ui",
     "renders": "fieldset with a legend and a radiogroup",
-    "composition": "`legend` is required. Children are Radio elements.",
+    "composition": "`legend` is required. Children are Radio elements. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend.",
     "whenToUse": "Choosing exactly one option from a short list.",
     "avoid": ["Long lists: use Select."],
-    "a11y": "Arrow keys move the selection. The legend names the group."
+    "a11y": "Arrow keys move the selection. The legend names the group. Invalid uses the danger border and an error linked with aria-describedby; read-only stays focusable and blocks changes; loading sets aria-busy and blocks changes."
   },
   "Radio": {
     "category": "controls",
@@ -239,19 +248,23 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "span role=\"switch\" with a hidden native input, inside a label",
-    "composition": "`label` is required.",
+    "composition": "`label` is required. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field.",
     "whenToUse": "A setting that turns on or off immediately.",
     "avoid": ["Choices that need a Save button: use Checkbox."],
-    "a11y": "Announced as a switch with on/off state."
+    "a11y": "Announced as a switch with on/off state. Invalid uses the danger border and an error linked with aria-describedby; required prints Required; read-only stays focusable and uses the sunken background; loading sets aria-busy and blocks changes."
   },
   "Select": {
     "category": "controls",
     "base": "base-ui",
     "renders": "button role=\"combobox\" with a listbox popup in a portal",
-    "composition": "Pass `items` ({ value, label, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field.",
-    "whenToUse": "Choosing one option from a longer list.",
-    "avoid": ["Two or three options: use RadioGroup.", "Free text: use Input."],
-    "a11y": "Keyboard, typeahead and focus come from Base UI. Needs an accessible name."
+    "composition": "Pass `items` ({ value, label, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. `loading` replaces the end icon with a spinner. Inside Field, omit required/readOnly/loading and pass them to Field.",
+    "whenToUse": "Choosing one option from a longer list, including read-only and loading states.",
+    "avoid": [
+      "Two or three options: use RadioGroup.",
+      "Free text: use Input.",
+      "Hand-wiring validation ARIA: use Field error."
+    ],
+    "a11y": "Keyboard, typeahead and focus come from Base UI. Needs an accessible name. readOnly prevents choosing another option; loading is readOnly with aria-busy=true."
   },
   "Dialog": {
     "category": "overlays",
@@ -329,13 +342,13 @@
     "category": "navigation",
     "base": "own",
     "renders": "a (rendered by the LinkProvider component, `next/link` in this app) styled like a Button",
-    "composition": "Pass `href`, `variant`, `size` and optional `startIcon`/`endIcon` (generated icons, no `size`). Children are the visible label; an icon-only link needs `aria-label`.",
+    "composition": "Pass `href`, `variant`, `size` and optional `startIcon`/`endIcon` (generated icons, no `size`). Children are the visible label. Icon-only: `startIcon` is required and exactly one of `aria-label` or `aria-labelledby`.",
     "whenToUse": "A call to action that goes to another page, such as Get started or Docs.",
     "avoid": [
       "Actions that do not navigate: use Button.",
       "Inline links inside text: use Link."
     ],
-    "a11y": "It is a real link (role link), so middle-click, open in new tab and prefetch work. Do not give it role button."
+    "a11y": "Icon-only buttons need `aria-label` (or `aria-labelledby`); the types enforce it. It is a real link (role link), so middle-click, open in new tab and prefetch work. Do not give it role button."
   },
   "LinkProvider": {
     "category": "utility",
@@ -518,18 +531,30 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "div with one input type range per thumb",
-    "composition": "Pass `label` and `defaultValue` (number or [min, max]). Use `thumbLabels` for ranges.",
+    "composition": "Pass `label` and `defaultValue` (number or [min, max]). Use `thumbLabels` for ranges. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field.",
     "whenToUse": "Choosing a number or range by dragging.",
     "avoid": ["Exact entry: use Input.", "A few named options: use Select."],
-    "a11y": "Each thumb is a native range input with arrow-key support. The label is the accessible name."
+    "a11y": "Each thumb is a native range input with arrow-key support. The label is the accessible name. Invalid uses the danger border and an error linked with aria-describedby; required prints Required; read-only stays focusable and blocks changes; loading sets aria-busy and blocks changes."
   },
   "CodeBlock": {
     "category": "typography",
     "base": "own",
-    "renders": "div with an icon-only copy button, optional tabs and a focusable region containing pre and code",
-    "composition": "Pass `code`, optional `language` and `label`. For alternatives such as package managers pass `tabs` ({ label, code }[]) instead of `code`.",
+    "renders": "server component that highlights with Shiki, wrapped around a client view with an icon-only copy button, optional tabs and a focusable region",
+    "composition": "Pass `code`, optional `language` and `label`. For alternatives such as package managers pass `tabs` ({ label, code }[]) instead of `code`. Use `highlight={false}` for plain text. Never color code by hand; use CodeBlock.",
     "whenToUse": "Showing code or commands the user will copy.",
     "avoid": ["Inline code: use Kbd or a code element.", "Long documents."],
+    "a11y": "The code region is focusable and named; the copy result is announced via role status."
+  },
+  "CodeBlockView": {
+    "category": "typography",
+    "base": "own",
+    "renders": "client-only presentation of a CodeBlock: tabs, copy button and focusable code region",
+    "composition": "Internal to CodeBlock. Use it only in client components; pass pre-highlighted `html`/`tabHtml` when available, otherwise the code stays plain.",
+    "whenToUse": "Client components that cannot render the server CodeBlock.",
+    "avoid": [
+      "Server pages: use CodeBlock, which highlights automatically.",
+      "Coloring tokens by hand."
+    ],
     "a11y": "The code region is focusable and named; the copy result is announced via role status."
   }
 }

@@ -1,4 +1,9 @@
 {
+  "header-height": {
+    "$type": "dimension",
+    "$value": "3.55rem",
+    "$description": "Height of the sticky site header. Used by the header and by scroll-padding."
+  },
   "size": {
     "$type": "dimension",
     "target": {

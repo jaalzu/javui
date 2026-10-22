@@ -38,7 +38,8 @@ export const States: Story = {
             <div
               className={styles.wrapper}
               role="region"
-              aria-label="Plans"
+              aria-label={`Plans ${state}`}
+              // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- Scrollable region needs keyboard focus.
               tabIndex={0}
               data-force={state === "focus" ? "focus" : undefined}
             >

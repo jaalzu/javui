@@ -5,13 +5,21 @@
   line-height: 0;
 }
 
+.mark {
+  padding-top: calc(var(--space-1) / 2);
+}
+
+.wordmark {
+  padding-top: var(--border-width-thin);
+}
+
 .mark img {
   width: 2.3rem;
   height: 2.3rem;
 }
 
 .wordmark img {
-  height: 2.3rem;
+  height: calc(2.3rem - var(--space-1) - var(--border-width-thick));
   width: auto;
 }
 

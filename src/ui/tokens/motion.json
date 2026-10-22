@@ -8,8 +8,36 @@
     "easing": {
       "$description": "Components must also respect prefers-reduced-motion (see global styles).",
       "standard": { "$value": "cubic-bezier(0.2, 0, 0, 1)" },
-      "in": { "$value": "cubic-bezier(0.4, 0, 1, 1)" },
-      "out": { "$value": "cubic-bezier(0, 0, 0.2, 1)" }
+      "out": {
+        "$value": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "$description": "Entering elements and anything that responds to the user. Strong ease-out: fast start."
+      },
+      "in": {
+        "$value": "cubic-bezier(0.4, 0, 1, 1)",
+        "$description": "Exits only. Never for entrances."
+      },
+      "in-out": {
+        "$value": "cubic-bezier(0.77, 0, 0.175, 1)",
+        "$description": "Elements that move or morph on screen (tab indicator)."
+      }
+    },
+    "scale": {
+      "press": {
+        "$value": "0.97",
+        "$description": "Pressed Button and pressable controls."
+      },
+      "popup": {
+        "$value": "0.95",
+        "$description": "Starting scale of anchored popups (menu, select, popover). Never scale(0)."
+      },
+      "tooltip": {
+        "$value": "0.97",
+        "$description": "Starting scale of tooltips."
+      },
+      "modal": {
+        "$value": "0.96",
+        "$description": "Starting scale of dialogs, which stay centered."
+      }
     }
   }
 }

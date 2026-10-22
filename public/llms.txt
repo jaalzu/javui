@@ -22,6 +22,7 @@
 - **Link**: Navigation to another page, section or resource.
 - **Kbd**: Keyboard shortcuts in docs and UI.
 - **Badge**: Short status or count labels next to other content.
+- **CodeBlockView**: Client components that cannot render the server CodeBlock.
 - **CodeBlock**: Showing code or commands the user will copy.
 
 ### layout
@@ -50,14 +51,14 @@
 
 ### controls
 - **Button**: Any action: submit, open, confirm, cancel. Pass `loading` while the action runs.
-- **Field**: Every text-like form control.
-- **Input**: Single-line text entry.
-- **Textarea**: Multi-line text entry.
+- **Field**: Every form control, including its validation, required, read-only and loading states.
+- **Input**: Single-line text entry, read-only values and values that are still loading.
+- **Textarea**: Multi-line text entry, including read-only and loading values.
 - **Checkbox**: Independent yes/no choices, especially ones submitted with a form.
 - **Radio**: One option of a RadioGroup.
 - **RadioGroup**: Choosing exactly one option from a short list.
 - **Switch**: A setting that turns on or off immediately.
-- **Select**: Choosing one option from a longer list.
+- **Select**: Choosing one option from a longer list, including read-only and loading states.
 - **Slider**: Choosing a number or range by dragging.
 
 ### overlays

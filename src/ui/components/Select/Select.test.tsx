@@ -48,6 +48,13 @@ describe("Select", () => {
     expect(container.querySelector("svg")).toHaveAttribute("aria-hidden", "true");
   });
 
+  it("is read-only and busy while loading", () => {
+    render(<Select label="Country" items={items} loading defaultValue="ar" />);
+    const trigger = screen.getByRole("combobox");
+    expect(trigger).toHaveAttribute("aria-busy", "true");
+    expect(trigger).toHaveAttribute("data-loading");
+  });
+
   it("has no accessibility violations when closed", async () => {
     const { container } = render(<Select label="Country" items={items} />);
     expect(await axe(container)).toHaveNoViolations();

@@ -46,7 +46,7 @@
   transition:
     background-color var(--motion-duration-fast) var(--motion-easing-standard),
     box-shadow var(--motion-duration-fast) var(--motion-easing-standard),
-    transform var(--motion-duration-fast) var(--motion-easing-standard);
+    transform var(--motion-duration-fast) var(--motion-easing-out);
 }
 
 .button:hover:not([data-disabled])::before,
@@ -56,7 +56,7 @@
 
 .button:active:not([data-disabled])::before,
 .button[data-force="active"]:not([data-disabled])::before {
-  transform: scale(0.97);
+  transform: scale(var(--motion-scale-press));
 }
 
 .button:focus-visible,

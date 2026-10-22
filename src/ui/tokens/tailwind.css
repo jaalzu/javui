@@ -19,8 +19,6 @@
   --color-inverted-solid: var(--color-inverted-solid);
   --color-on-inverted-foreground: var(--color-on-inverted-foreground);
   --color-brand-solid: var(--color-brand-solid);
-  --color-brand-foreground: var(--color-brand-foreground);
-  --color-brand-foreground-soft: var(--color-brand-foreground-soft);
   --color-on-brand-solid-foreground: var(--color-on-brand-solid-foreground);
   --color-positive-solid: var(--color-positive-solid);
   --color-on-positive-solid-foreground: var(--color-on-positive-solid-foreground);
@@ -30,10 +28,7 @@
   --color-on-info-solid-foreground: var(--color-on-info-solid-foreground);
   --color-danger-solid: var(--color-danger-solid);
   --color-on-danger-solid-foreground: var(--color-on-danger-solid-foreground);
-  --color-shell: var(--color-shell);
-  --color-container: var(--color-container);
   --color-sunken: var(--color-sunken);
-  --color-standout: var(--color-standout);
   --color-component-hover: var(--color-component-hover);
   --color-component-active: var(--color-component-active);
   --color-component-on-sunken: var(--color-component-on-sunken);
@@ -45,10 +40,10 @@
   --color-disabled-foreground: var(--color-disabled-foreground);
   --color-inverted-solid-hover: var(--color-inverted-solid-hover);
   --color-inverted-solid-active: var(--color-inverted-solid-active);
-  --color-on-standout-primary-foreground: var(--color-on-standout-primary-foreground);
-  --color-on-standout-secondary-foreground: var(--color-on-standout-secondary-foreground);
   --color-brand-solid-hover: var(--color-brand-solid-hover);
   --color-brand-subtle: var(--color-brand-subtle);
+  --color-brand-foreground: var(--color-brand-foreground);
+  --color-brand-foreground-soft: var(--color-brand-foreground-soft);
   --color-positive-solid-hover: var(--color-positive-solid-hover);
   --color-positive-subtle: var(--color-positive-subtle);
   --color-positive-foreground: var(--color-positive-foreground);
@@ -77,6 +72,7 @@
   --color-danger-border-subtle: var(--color-danger-border-subtle);
   --color-disabled: var(--color-disabled);
   --radius-none: var(--radius-none);
+  --radius-base: var(--radius-base);
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
   --radius-lg: var(--radius-lg);

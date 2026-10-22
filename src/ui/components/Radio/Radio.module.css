@@ -55,15 +55,18 @@
   border-radius: var(--radius-full);
   background: var(--color-component);
   cursor: pointer;
+  transition:
+    background-color var(--motion-duration-fast) var(--motion-easing-standard),
+    border-color var(--motion-duration-fast) var(--motion-easing-standard);
 }
 
-.radio:hover:not([data-disabled]),
-.radio[data-force="hover"]:not([data-disabled]) {
+.radio:hover:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.radio[data-force="hover"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
   background: var(--color-component-hover);
 }
 
-.radio:active:not([data-disabled]),
-.radio[data-force="active"]:not([data-disabled]) {
+.radio:active:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.radio[data-force="active"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
   background: var(--color-component-active);
 }
 
@@ -78,16 +81,34 @@
   background: var(--color-inverted-solid);
 }
 
-.radio[data-checked]:hover:not([data-disabled]),
-.radio[data-checked][data-force="hover"]:not([data-disabled]) {
+.radio[data-checked]:hover:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.radio[data-checked][data-force="hover"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
   border-color: var(--color-inverted-solid-hover);
   background: var(--color-inverted-solid-hover);
 }
 
-.radio[data-checked]:active:not([data-disabled]),
-.radio[data-checked][data-force="active"]:not([data-disabled]) {
+.radio[data-checked]:active:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.radio[data-checked][data-force="active"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
   border-color: var(--color-inverted-solid-active);
   background: var(--color-inverted-solid-active);
+}
+
+.radio[data-readonly]:not([data-checked]),
+.radio[data-loading]:not([data-checked]) {
+  background: var(--color-sunken);
+}
+
+.radio[data-readonly] {
+  cursor: default;
+}
+
+.radio[data-loading] {
+  cursor: progress;
+}
+
+.radio[data-invalid],
+.group[data-invalid] .radio {
+  border-color: var(--color-danger-border-default);
 }
 
 .radio[data-disabled] {
@@ -117,4 +138,13 @@
 
 .label:has([data-disabled]) {
   cursor: not-allowed;
+}
+
+.label:has([data-disabled]) .text {
+  color: var(--color-disabled-foreground);
+}
+
+.spinner {
+  margin-inline-start: var(--space-2);
+  color: var(--color-secondary-foreground);
 }

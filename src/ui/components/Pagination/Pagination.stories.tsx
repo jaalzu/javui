@@ -24,7 +24,7 @@ export const States: Story = {
           label: "Page link",
           render: (state) => (
             <a
-              href="#"
+              href="/blog?page=2"
               className={styles.link}
               data-force={state === "rest" || state === "disabled" ? undefined : state}
               aria-disabled={state === "disabled" || undefined}
@@ -37,7 +37,7 @@ export const States: Story = {
           label: "Current page",
           render: (state) => (
             <a
-              href="#"
+              href="/blog?page=3"
               className={`${styles.link} ${styles.current}`}
               data-force={state === "rest" || state === "disabled" ? undefined : state}
               aria-current="page"

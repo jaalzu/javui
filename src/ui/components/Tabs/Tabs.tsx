@@ -51,30 +51,34 @@ export function Tabs({
     rest.value === undefined
       ? (defaultValue ?? items.find((i) => !i.disabled)?.value)
       : undefined;
+
   return (
     <BaseTabs.Root
       className={cx(styles.root, className)}
       defaultValue={initial}
       {...rest}
     >
-      <BaseTabs.List className={styles.list} aria-label={ariaLabel}>
-        {items.map((item) => (
-          <BaseTabs.Tab
-            key={item.value}
-            value={item.value}
-            disabled={item.disabled}
-            className={styles.tab}
-            data-icon={iconPosition({
-              startIcon: item.startIcon,
-              endIcon: item.endIcon,
-            })}
-          >
-            <IconSlot>{item.startIcon}</IconSlot>
-            {item.label}
-            <IconSlot>{item.endIcon}</IconSlot>
-          </BaseTabs.Tab>
-        ))}
-      </BaseTabs.List>
+      <div className={styles.listContainer}>
+        <BaseTabs.List className={styles.list} aria-label={ariaLabel}>
+          {items.map((item) => (
+            <BaseTabs.Tab
+              key={item.value}
+              value={item.value}
+              disabled={item.disabled}
+              className={styles.tab}
+              data-icon={iconPosition({
+                startIcon: item.startIcon,
+                endIcon: item.endIcon,
+              })}
+            >
+              <IconSlot>{item.startIcon}</IconSlot>
+              {item.label}
+              <IconSlot>{item.endIcon}</IconSlot>
+            </BaseTabs.Tab>
+          ))}
+        </BaseTabs.List>
+      </div>
+
       {items.map((item) => (
         <BaseTabs.Panel
           key={item.value}

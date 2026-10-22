@@ -68,7 +68,7 @@
 .chevron {
   flex-shrink: 0;
   color: var(--color-secondary-foreground);
-  transition: transform var(--motion-duration-base);
+  transition: transform var(--motion-duration-base) var(--motion-easing-out);
 }
 
 .trigger[data-panel-open] .chevron {
@@ -78,7 +78,7 @@
 .panel {
   height: var(--accordion-panel-height);
   overflow: hidden;
-  transition: height var(--motion-duration-base) ease-out;
+  transition: height var(--motion-duration-base) var(--motion-easing-out);
 }
 
 .panel[data-starting-style],
@@ -93,9 +93,3 @@
   line-height: var(--text-body-line);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .panel,
-  .chevron {
-    transition: none;
-  }
-}

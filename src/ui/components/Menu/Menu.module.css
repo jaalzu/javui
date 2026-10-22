@@ -15,14 +15,14 @@
   box-shadow: var(--shadow-large);
   transform-origin: var(--transform-origin);
   transition:
-    opacity var(--motion-duration-fast) var(--motion-easing-standard),
-    transform var(--motion-duration-fast) var(--motion-easing-standard);
+    opacity var(--motion-duration-base) var(--motion-easing-out),
+    transform var(--motion-duration-base) var(--motion-easing-out);
 }
 
 .popup[data-starting-style],
 .popup[data-ending-style] {
   opacity: 0;
-  transform: scale(0.98);
+  transform: scale(var(--motion-scale-popup));
 }
 
 .item {
@@ -86,7 +86,7 @@
 }
 
 .destructive[data-highlighted] {
-  background: var(--color-danger-subtle-hover);
+  background: var(--color-danger-subtle);
 }
 
 .separator {

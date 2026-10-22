@@ -22,20 +22,33 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 Order of design: color, typography, shape, spacing, elevation, motion.
 
-- **Color** (flat `--color-*`): surfaces (`page, shell, container, card, sunken, modal, standout`), component (`component` + `-hover/-active/-on-sunken/-on-inverted`), transparent (`transparent` + `-hover/-active`), foreground (`primary|secondary|tertiary|disabled-foreground`), inverted (`inverted-solid` + states, `on-inverted-foreground`), brand, states (`positive|warning|info|danger` each with `-solid`, `-solid-hover`, `-subtle`, `-foreground`, `on-*-solid-foreground`), borders (`border-default|subtle|strong|inverted|disabled`, `brand-border-focus` is the focus ring), `disabled`, `overlay`. Light in `:root`, dark in `[data-theme="dark"]` and the OS media query. Use `color-mix(in oklab, ...)` with transparent or near-neutral colors.
+- **Color** (flat `--color-*`): surfaces (`page, card, sunken, modal`), component (`component` + `-hover/-active/-on-sunken/-on-inverted`), transparent (`transparent` + `-hover/-active`), foreground (`primary|secondary|tertiary|disabled-foreground`), inverted (`inverted-solid` + states, `on-inverted-foreground`), brand, states (`positive|warning|info|danger` each with `-solid`, `-solid-hover`, `-subtle`, `-foreground`, `on-*-solid-foreground`), borders (`border-default|subtle|strong|inverted|disabled`, `brand-border-focus` is the focus ring), `disabled`, `overlay`. Brand color tokens derive from `--color-brand-solid` with `color-mix`; `brand-foreground` mixes it 75% with `primary-foreground` to stay readable on page and card. The focus ring (`brand-border-focus`) stays text-colored. Light in `:root`, dark in `[data-theme="dark"]` and the OS media query. Use `color-mix(in oklab, ...)` with transparent or near-neutral colors.
 - **Shadows** (5): `--shadow-border`, `--shadow-default`, `--shadow-raised`, `--shadow-large`, `--shadow-extra-large`. Slider thumb uses default; secondary Button uses raised; Menu, Select, Popover, Toast use large; Dialog and search palette use extra-large.
-- **Typography**: `--font-size-10 ... 56` (named by px). Text styles `--text-heading-1..6-*` (fluid clamp), `--text-body-lg|body|body-sm`, `label`, `caption-lg|caption|caption-sm`, `emphasis` (serif italic), `code|code-sm|code-xs`. Weights: 400, 500, 600 only. DM Sans (optical sizing), Commit Mono, Newsreader italic. Headings are never italic; `Text variant="emphasis"` is.
+- **Typography**: `--font-size-10 ... 56` (named by px). Text styles `--text-heading-1..6-*` (fluid clamp), `--text-body-lg|body|body-sm`, `label`, `caption-lg|caption|caption-sm`, `emphasis` (serif italic), `code|code-sm|code-xs`. Weights: 400, 500, 600 only. DM Sans (optical sizing), Commit Mono, Source Serif 4 italic. Headings are never italic; `Text variant="emphasis"` is.
+- **Layout**: `--header-height` is the sticky site header height (3.55rem / 56.8px). `SiteHeader` uses it directly, and `html` uses `scroll-padding-top: calc(var(--header-height) + var(--space-4))` so in-page anchors clear the header.
+- **Radius**: `--radius-base` is the single source (0.5rem). `sm` = 0.5x, `md` = 1x, `lg` = 1.5x and `xl` = 2x via `calc`, so the default scale is 4/8/12/16px; `none` and `full` stay fixed. Nested-radius formulas keep reading the same scale.
 - **Icons**: `--size-icon-sm|md|lg|xl` = 16/20/24/32px, and `--icon-gap-sm|md|lg|xl` for the space between an icon and its label. `Icon` reads `--icon-size`; `Button` sets it from `--btn-icon` (sm and md 16px, lg 20px). Controls never sniff children: icons go in explicit `startIcon`/`endIcon` props, and the shared `IconSlot`/`useIconSlots` (`src/ui/components/Icon/IconSlot.tsx`, position from `src/ui/utils/iconPosition.ts`) sizes them with `--icon-size`, spaces them with an `--icon-gap-*`, makes them `aria-hidden`, and sets `data-icon="start|end|both|only"`. `loading` counts as a start slot. Icon-only controls need `aria-label`. Do not pass `size` to a slot icon. Glyphs come from Phosphor (256x256, `fill="currentColor"`) as named components built by `createIcon` (`src/ui/components/Icon/createIcon.tsx`); the set lives in `src/ui/icons/icons.config.json` and `bun run icons` regenerates `src/ui/icons/icons.generated.tsx` and `public/agent/icons.json`. Never write `<path>` by hand and never nest an icon inside another `Icon`.
-- **Button**: heights are `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. Background, border and shadow live on `::before` so pressing scales only the box (`scale(0.97)`), not the label. `--btn-ring` and `--btn-backdrop` are secondary only. Filled variants nudge the label 1px down with `padding-top`; ghost is excluded. Because Phosphor glyphs carry their own empty space, the icon side gets `calc(var(--btn-px) * 0.5)` padding (a variable, never a hardcoded px value); icon-only is square.
+- **Button**: heights are `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. Background, border and shadow live on `::before` so pressing scales only the box (`scale(var(--motion-scale-press))`), not the label. `--btn-ring` and `--btn-backdrop` are secondary only. Filled variants nudge the label 1px down with `padding-top`; ghost is excluded. Because Phosphor glyphs carry their own empty space, the icon side gets `calc(var(--btn-px) * 0.5)` padding (a variable, never a hardcoded px value); icon-only is square.
 - Button pressed = only the scale on `::before`, no background change. The `*-active` state tokens apply to menu items, tabs and rows, not to Button.
+- **Motion** (tokens in `src/ui/tokens/motion.json`): durations `fast` 100 / `base` 160 / `slow` 240 (always under 300ms). Easing: `standard` for color/hover; `out` for entrances and anything that responds to the user; `in` for exits only; `in-out` for elements that move or morph on screen (tab underline). Scale tokens: press/tooltip `0.97`, popup `0.95`, modal `0.96`. Never `scale(0)` (minimum 0.9). Never `transition: all`. Animate only `opacity`, `transform`, `color`, `background`, `box-shadow`. Exceptions: Accordion panel `height` (Base UI `--accordion-panel-height`) and the Tabs underline. Hover, color, focus and press use `fast`/`standard` (press transform uses `out`). Menu, Select and Popover use `base`/`out`/`--motion-scale-popup` with `transform-origin: var(--transform-origin)`. Tooltip uses `fast`/`out`/`--motion-scale-tooltip`; `[data-instant] { transition-duration: 0ms }` and delay only on the first tooltip via `TooltipProvider`. Dialog and backdrop use `slow`/`out`; dialog origin is `center` and the resting `translate(-50%, -50%)` must stay composed with `scale(var(--motion-scale-modal))`. Do not animate theme changes (`disableTransitionOnChange` on next-themes), the focus ring, or list/menu items on every hover. `prefers-reduced-motion` is one global block in `src/ui/styles/global.css`: drop transform/scale, keep short fades; Spinner slows down, Skeleton is static. Not built yet (document only): drawer, toast (today still uses 0.5s), stagger, scroll reveal, hold-to-confirm, drag. Blur is a last-resort tool, no token.
 
 ### Nested radius
 
 A container that has padding AND contains children with their own visible background, highlight, border or shadow touching its curve defines two custom properties, and the child derives its radius from them:
 
 ```css
-.container { --radius-outer: var(--radius-lg); --inner-gap: var(--space-1); border-radius: var(--radius-outer); padding: var(--inner-gap); }
-.child { border-radius: max(var(--radius-sm), calc(var(--radius-outer) - var(--inner-gap))); }
+.container {
+  --radius-outer: var(--radius-lg);
+  --inner-gap: var(--space-1);
+  border-radius: var(--radius-outer);
+  padding: var(--inner-gap);
+}
+.child {
+  border-radius: max(
+    var(--radius-sm),
+    calc(var(--radius-outer) - var(--inner-gap))
+  );
+}
 ```
 
 Keep `--inner-gap` equal to the container's real padding (use the same token in `padding`). Use only semantic radius/space tokens.
@@ -49,6 +62,39 @@ Keep `--inner-gap` equal to the container's real padding (use the same token in 
 - Disabled: `--color-disabled` background, `--color-disabled-foreground` text, `--color-border-disabled` border, no hover, `cursor: not-allowed`.
 - Never hand-write `color-mix` for a state when a token exists. If a token is missing, report it instead of inventing one.
 
+### Validation states
+
+The same policy applies to Input, Textarea, Select, Checkbox, RadioGroup, Switch and Slider.
+
+| State | Rule |
+|---|---|
+| Invalid | Border `--color-danger-border-default` (the focus ring stays the standard one). The error message sits below the control in `--color-danger-foreground` and always has a small `WarningIcon`, so color is never the only signal. `aria-invalid="true"`; the message is linked with `aria-describedby` and announced politely (`aria-live="polite"`). |
+| Required | The label shows the word "Required" in `--color-secondary-foreground` (not just an asterisk), and the control gets the native/ARIA `required` attribute. |
+| Read-only | Background `--color-sunken`, no hover change, text color unchanged (never dimmed), still focusable and selectable. Distinct from disabled. |
+| Loading | A small `Spinner` at the end of the control or next to its label, the control is not interactive, and `aria-busy="true"`. |
+| Timing | Errors show after blur or submit, never on the first keystroke. Field defaults to `validationMode="onBlur"`; the consumer shows `error` from a validation run on blur/submit. |
+
+Pass validation state to `Field` (`error`, `required`, `readOnly`, `loading`), never wire `aria-describedby` or render a loose red error text by hand. Omit `Field` `label` when the control renders its own label or legend (Checkbox, RadioGroup, Switch, Slider); those controls also accept the four props directly and inherit them inside `Field`. State colors use the motion tokens (`fast`/`standard`).
+
+### Surface composition
+
+There are four surfaces. Card sits on page, sunken sits inside card, and modal floats above the page.
+
+| Level | Token | Use |
+|---|---|---|
+| Page | `--color-page` | The base surface. Everything sits on it. |
+| Card | `--color-card` | Content blocks on the page: cards, panels, table rows. |
+| Sunken | `--color-sunken` | Recessed areas inside a card: code blocks, wells, inset fields. |
+| Floating | `--color-modal` | Layers above the page: dialog, menu, select list, popover. |
+
+Rules:
+
+- Maximum 3 nested levels.
+- No card inside a card: use `--color-sunken` or a `Divider` instead.
+- Modal floats above the page and is never used as a page background.
+- Controls placed on sunken use `--color-component-on-sunken`.
+- At rest use a border or a shadow, never both.
+
 ### Touch targets
 
 Every interactive control must have a hit area of at least 44px on touch devices (`pointer: coarse`) and at least 24px otherwise. Use the shared mechanism; never enlarge the visible control for this.
@@ -61,7 +107,7 @@ Every interactive control must have a hit area of at least 44px on touch devices
 
 ## Component catalog (src/ui, import from `@/ui`)
 
-- Typography/content: `Text`, `Heading`, `Link`, `Kbd`, `Badge`, `CodeBlock`
+- Typography/content: `Text`, `Heading`, `Link`, `Kbd`, `Badge`, `CodeBlock` (server entry `@/ui/server`)
 - Layout: `Box`, `Stack`, `Grid`, `Container`, `Divider`, `Card`, `Table`
 - Utilities/feedback: `VisuallyHidden`, `Icon`, `Spinner`, `Skeleton`, `Progress`, `Alert`, `Toast`, `Avatar`
 - Controls (Base UI): `Button`, `ButtonLink`, `Field`, `Input`, `Textarea`, `Checkbox`, `RadioGroup` + `Radio`, `Switch`, `Select`, `Slider`
@@ -75,6 +121,7 @@ Rules that matter when using them:
 - `Stack`/`Grid` with `as="ul"` or `"ol"` require `li` children.
 - `Tooltip` content is supplementary: the trigger needs its own accessible name.
 - Do not use `--color-tertiary-foreground` for placeholders or required text without checking contrast.
+- `CodeBlock` is a Server Component: import it from `@/ui/server`, not `@/ui`. It highlights known languages with Shiki through the semantic `--syntax-*` tokens. Never color code or tokens by hand; unknown languages fall back to plain text, and `highlight={false}` opts out.
 - Verification: `bun run typecheck && bun run lint && bun run test`; stories (axe, light and dark) run with `bunx vitest run --project storybook`.
 
 ## Agent layer

@@ -4,6 +4,11 @@
 }
 
 @media (pointer: coarse) {
+  .touchTarget,
+  .touchTargetBefore {
+    touch-action: manipulation;
+  }
+
   .touchTarget::after,
   .touchTargetBefore::before {
     content: "";

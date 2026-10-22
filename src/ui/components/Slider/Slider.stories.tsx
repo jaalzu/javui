@@ -1,6 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Slider } from "./Slider";
 import { StateMatrix } from "../../stories/StateMatrix";
+import {
+  ValidationMatrix,
+  validationControlProps,
+  validationFieldProps,
+} from "../../stories/ValidationMatrix";
 import styles from "./Slider.module.css";
 
 const meta = {
@@ -53,5 +58,26 @@ export const TouchTargets: Story = {
   ),
 };
 
-export const Dark: Story = { ...States, globals: { theme: "dark" } };
-export const Light: Story = { ...States, globals: { theme: "light" } };
+export const ValidationStates: Story = {
+  name: "Validation states",
+  render: () => (
+    <ValidationMatrix
+      rows={[
+        {
+          label: "Slider",
+          render: (state) => (
+            <Slider
+              label="Volume"
+              defaultValue={40}
+              {...validationFieldProps(state)}
+              {...validationControlProps(state)}
+            />
+          ),
+        },
+      ]}
+    />
+  ),
+};
+
+export const Dark: Story = { ...ValidationStates, globals: { theme: "dark" } };
+export const Light: Story = { ...ValidationStates, globals: { theme: "light" } };

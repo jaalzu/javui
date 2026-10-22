@@ -14,10 +14,18 @@
   font-size: var(--text-caption-lg-size);
   line-height: var(--text-caption-lg-line);
   opacity: 1;
-  transition: opacity var(--motion-duration-fast) var(--motion-easing-standard);
+  transform-origin: var(--transform-origin);
+  transition:
+    opacity var(--motion-duration-fast) var(--motion-easing-out),
+    transform var(--motion-duration-fast) var(--motion-easing-out);
 }
 
 .popup[data-starting-style],
 .popup[data-ending-style] {
   opacity: 0;
+  transform: scale(var(--motion-scale-tooltip));
+}
+
+.popup[data-instant] {
+  transition-duration: 0ms;
 }

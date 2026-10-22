@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { CodeBlock, Heading, Link } from "@/ui";
+import { Heading, Link } from "@/ui";
+import { CodeBlock } from "@/ui/server";
 import { DocPage } from "@/app/docs/_page/DocPage";
 
 export const metadata: Metadata = { title: "Usage" };

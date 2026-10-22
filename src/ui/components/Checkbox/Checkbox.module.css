@@ -26,15 +26,19 @@
   background: var(--color-component);
   color: var(--color-on-inverted-foreground);
   cursor: pointer;
+  transition:
+    background-color var(--motion-duration-fast) var(--motion-easing-standard),
+    border-color var(--motion-duration-fast) var(--motion-easing-standard),
+    color var(--motion-duration-fast) var(--motion-easing-standard);
 }
 
-.box:hover:not([data-disabled]),
-.box[data-force="hover"]:not([data-disabled]) {
+.box:hover:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.box[data-force="hover"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
   background: var(--color-component-hover);
 }
 
-.box:active:not([data-disabled]),
-.box[data-force="active"]:not([data-disabled]) {
+.box:active:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.box[data-force="active"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
   background: var(--color-component-active);
 }
 
@@ -50,20 +54,37 @@
   background: var(--color-inverted-solid);
 }
 
-.box[data-checked]:hover:not([data-disabled]),
-.box[data-indeterminate]:hover:not([data-disabled]),
-.box[data-checked][data-force="hover"]:not([data-disabled]),
-.box[data-indeterminate][data-force="hover"]:not([data-disabled]) {
+.box[data-checked]:hover:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.box[data-indeterminate]:hover:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.box[data-checked][data-force="hover"]:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.box[data-indeterminate][data-force="hover"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
   border-color: var(--color-inverted-solid-hover);
   background: var(--color-inverted-solid-hover);
 }
 
-.box[data-checked]:active:not([data-disabled]),
-.box[data-indeterminate]:active:not([data-disabled]),
-.box[data-checked][data-force="active"]:not([data-disabled]),
-.box[data-indeterminate][data-force="active"]:not([data-disabled]) {
+.box[data-checked]:active:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.box[data-indeterminate]:active:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.box[data-checked][data-force="active"]:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.box[data-indeterminate][data-force="active"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
   border-color: var(--color-inverted-solid-active);
   background: var(--color-inverted-solid-active);
+}
+
+.box[data-readonly]:not([data-checked]):not([data-indeterminate]),
+.box[data-loading]:not([data-checked]):not([data-indeterminate]) {
+  background: var(--color-sunken);
+}
+
+.box[data-readonly] {
+  cursor: default;
+}
+
+.box[data-loading] {
+  cursor: progress;
+}
+
+.box[data-invalid] {
+  border-color: var(--color-danger-border-default);
 }
 
 .box[data-disabled] {
@@ -87,4 +108,13 @@
 
 .label:has([data-disabled]) {
   cursor: not-allowed;
+}
+
+.label:has([data-disabled]) .text {
+  color: var(--color-disabled-foreground);
+}
+
+.spinner {
+  flex-shrink: 0;
+  color: var(--color-secondary-foreground);
 }

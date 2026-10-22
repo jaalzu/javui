@@ -1,6 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Radio, RadioGroup } from "./Radio";
 import { StateMatrix, forceProps } from "../../stories/StateMatrix";
+import {
+  ValidationMatrix,
+  validationControlProps,
+  validationFieldProps,
+} from "../../stories/ValidationMatrix";
 
 const meta = {
   title: "Controls/RadioGroup",
@@ -61,5 +66,29 @@ export const TouchTargets: Story = {
   ),
 };
 
-export const Dark: Story = { ...States, globals: { theme: "dark" } };
-export const Light: Story = { ...States, globals: { theme: "light" } };
+export const ValidationStates: Story = {
+  name: "Validation states",
+  render: () => (
+    <ValidationMatrix
+      rows={[true, false].map((checked) => ({
+        label: checked ? "Checked" : "Unchecked",
+        render: (state) => (
+          <RadioGroup
+            legend="Option"
+            defaultValue={checked ? "a" : undefined}
+            {...validationFieldProps(state)}
+          >
+            <Radio
+              value="a"
+              label="Option"
+              {...validationControlProps(state)}
+            />
+          </RadioGroup>
+        ),
+      }))}
+    />
+  ),
+};
+
+export const Dark: Story = { ...ValidationStates, globals: { theme: "dark" } };
+export const Light: Story = { ...ValidationStates, globals: { theme: "light" } };

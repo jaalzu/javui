@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Alert, CodeBlock, Heading, Link } from "@/ui";
+import { Alert, Heading, Link } from "@/ui";
+import { CodeBlock } from "@/ui/server";
 import lists from "../_page/DocLists.module.css";
 import { DocPage } from "@/app/docs/_page/DocPage";
 
@@ -54,8 +55,8 @@ export default function Page() {
 const prompt = `Read https://your-site.com/llms.txt (and /llms-full.txt for details), or AGENT_GUIDE.md if you have the repository.
 
 Then add ui-lib to this Next.js project:
-1. Copy src/ui from the ui-lib repository into src/ui here.
-2. Install: @base-ui/react next-themes @fontsource-variable/inter @fontsource-variable/newsreader @fontsource/commit-mono
+1. Copy src/ui and public/typography from the ui-lib repository into your app.
+2. Install: @base-ui/react next-themes
 3. Create the providers from /docs/installation (ThemeProvider, LinkProvider with next/link, TooltipProvider, ToastProvider).
 4. Import "@/ui/styles/global.css" in the root layout.
 
@@ -101,10 +102,10 @@ export default function Installation() {
 
       <Heading as="h2" size={3} id="copy-the-folder">Copy the folder</Heading>
       <Heading as="h3" size={6}>1. Copy the library</Heading>
-      <p>Copy the whole <code>src/ui</code> folder from the ui-lib repository into <code>src/ui</code> in your app. It has the components, the tokens (<code>tokens.css</code> is already generated) and the global styles. Your <code>tsconfig.json</code> needs the alias <code>@/*</code> pointing to <code>./src/*</code>, which is the Next.js default.</p>
+      <p>Copy the whole <code>src/ui</code> folder and <code>public/typography</code> from the ui-lib repository into your app. The library has the components, the tokens (<code>tokens.css</code> is already generated) and the global styles; the fonts are self-hosted from <code>public/typography</code>. Your <code>tsconfig.json</code> needs the alias <code>@/*</code> pointing to <code>./src/*</code>, which is the Next.js default.</p>
 
       <Heading as="h3" size={6}>2. Install the dependencies</Heading>
-      <CodeBlock language="bash" label="Install dependencies" tabs={installCommands("@base-ui/react next-themes @fontsource-variable/inter @fontsource-variable/newsreader @fontsource/commit-mono")} />
+      <CodeBlock language="bash" label="Install dependencies" tabs={installCommands("@base-ui/react next-themes")} />
 
       <Heading as="h3" size={6}>3. Add the providers</Heading>
       <p>Create <code>src/app/providers.tsx</code>. It sets the theme, makes every link use <code>next/link</code>, and enables tooltips and toasts.</p>

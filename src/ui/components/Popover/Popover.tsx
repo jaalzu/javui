@@ -25,8 +25,17 @@ export type PopoverTriggerProps = {
 } & Omit<BasePopover.Trigger.Props, "render" | "className" | "color">;
 
 /** The button that opens the popover. It is rendered as a `Button`. */
-export function PopoverTrigger({ variant = "secondary", size = "md", ...rest }: PopoverTriggerProps) {
-  return <BasePopover.Trigger render={<Button variant={variant} size={size} />} {...rest} />;
+export function PopoverTrigger({ variant = "secondary", size = "md", children, ...rest }: PopoverTriggerProps) {
+  return (
+    <BasePopover.Trigger
+      render={
+        <Button variant={variant} size={size}>
+          {children}
+        </Button>
+      }
+      {...rest}
+    />
+  );
 }
 
 export type PopoverContentProps = {
@@ -66,6 +75,15 @@ export type PopoverCloseProps = {
 } & Omit<BasePopover.Close.Props, "render" | "className" | "color">;
 
 /** A button that closes the popover. It is rendered as a `Button`. */
-export function PopoverClose({ variant = "secondary", size = "sm", ...rest }: PopoverCloseProps) {
-  return <BasePopover.Close render={<Button variant={variant} size={size} />} {...rest} />;
+export function PopoverClose({ variant = "secondary", size = "sm", children, ...rest }: PopoverCloseProps) {
+  return (
+    <BasePopover.Close
+      render={
+        <Button variant={variant} size={size}>
+          {children}
+        </Button>
+      }
+      {...rest}
+    />
+  );
 }

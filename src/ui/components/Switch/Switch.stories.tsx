@@ -1,6 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Switch } from "./Switch";
 import { StateMatrix, forceProps } from "../../stories/StateMatrix";
+import {
+  ValidationMatrix,
+  validationControlProps,
+  validationFieldProps,
+} from "../../stories/ValidationMatrix";
 
 const meta = {
   title: "Controls/Switch",
@@ -45,5 +50,36 @@ export const TouchTargets: Story = {
   ),
 };
 
-export const Dark: Story = { ...States, globals: { theme: "dark" } };
-export const Light: Story = { ...States, globals: { theme: "light" } };
+export const ValidationStates: Story = {
+  name: "Validation states",
+  render: () => (
+    <ValidationMatrix
+      rows={[
+        {
+          label: "Off",
+          render: (state) => (
+            <Switch
+              label="Notifications"
+              {...validationFieldProps(state)}
+              {...validationControlProps(state)}
+            />
+          ),
+        },
+        {
+          label: "On",
+          render: (state) => (
+            <Switch
+              label="Notifications"
+              defaultChecked
+              {...validationFieldProps(state)}
+              {...validationControlProps(state)}
+            />
+          ),
+        },
+      ]}
+    />
+  ),
+};
+
+export const Dark: Story = { ...ValidationStates, globals: { theme: "dark" } };
+export const Light: Story = { ...ValidationStates, globals: { theme: "light" } };

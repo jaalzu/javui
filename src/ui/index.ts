@@ -59,7 +59,7 @@ export type { SelectProps, SelectItem } from "./components/Select";
 export { Dialog, DialogTrigger, DialogContent, DialogClose } from "./components/Dialog";
 export type { DialogTriggerProps, DialogContentProps, DialogCloseProps } from "./components/Dialog";
 export { Tooltip, TooltipProvider } from "./components/Tooltip";
-export type { TooltipProps } from "./components/Tooltip";
+export type { TooltipProps, TooltipProviderProps } from "./components/Tooltip";
 export { Tabs } from "./components/Tabs";
 export type { TabsProps, TabItem } from "./components/Tabs";
 
@@ -96,5 +96,6 @@ export { Progress } from "./components/Progress";
 export type { ProgressProps } from "./components/Progress";
 export { Slider } from "./components/Slider";
 export type { SliderProps } from "./components/Slider";
-export { CodeBlock } from "./components/CodeBlock";
-export type { CodeBlockProps, CodeTab } from "./components/CodeBlock";
+export { CodeBlockView } from "./components/CodeBlock/CodeBlockView";
+export type { CodeBlockViewProps } from "./components/CodeBlock/CodeBlockView";
+export type { CodeBlockProps, CodeTab, CodeTone } from "./components/CodeBlock/types";

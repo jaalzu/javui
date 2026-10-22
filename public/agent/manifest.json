@@ -129,7 +129,7 @@
       "name": "Link",
       "category": "typography",
       "base": "Own component",
-      "description": "A link for navigation. It renders an `a`, or the component given to `LinkProvider` (such as `next/link`).\nLinks always show an underline so they do not rely on color alone. For actions that do not navigate, use `Button`.",
+      "description": "A link for navigation. It renders an `a`, or the component given to `LinkProvider` (such as `next/link`).\nLinks with a label always show an underline so they do not rely on color alone. For actions that do not navigate, use `Button`.\nPut icons in `startIcon`/`endIcon`. An icon on its own is a valid link (`startIcon` + `aria-label`).",
       "import": "import { Link } from \"@/ui\";",
       "renders": "a",
       "composition": "Native anchor props pass through. `href` is required. Put a trailing icon in `endIcon` (no `size`). Set `standalone` for a link used as a standalone action; inline links in a sentence stay inline.",
@@ -160,6 +160,12 @@
           "description": "Marks a standalone action link (not inline in a sentence) so it gets a 44px hit area on touch devices."
         },
         {
+          "name": "startIcon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Icon before the label. Pass a generated icon without `size`; the link sizes it."
+        },
+        {
           "name": "tone",
           "type": "\"inherit\" | \"default\" | \"muted\"",
           "required": false,
@@ -169,7 +175,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Link href=\"/docs\">Read the docs</Link>\r\n<Link href=\"/docs\" endIcon={<ArrowRightIcon />}>Read the docs</Link>"
+        "<Link href=\"/docs\">Read the docs</Link>\r\n<Link href=\"/docs\" endIcon={<ArrowRightIcon />}>Read the docs</Link>\r\n<Link href=\"/next\" aria-label=\"Next page\" startIcon={<ArrowRightIcon />} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Link/Link.tsx"
     },
@@ -596,16 +602,16 @@
       "name": "Spinner",
       "category": "feedback",
       "base": "Own component",
-      "description": "Indeterminate loading indicator. Announces `label` through a status region.\nRespects `prefers-reduced-motion` through the global styles.",
+      "description": "Indeterminate loading indicator. Announces `label` through a status region. An empty label makes\nit decorative: no status role, no hidden text, and `aria-hidden=\"true\"`.\nRespects `prefers-reduced-motion` by slowing the spin instead of stopping it.",
       "import": "import { Spinner } from \"@/ui\";",
-      "renders": "span with role=\"status\" containing an svg and VisuallyHidden text",
-      "composition": "No children. Use `label` to describe what is loading.",
+      "renders": "span with role=\"status\" containing an svg and VisuallyHidden text, or an aria-hidden span when the label is empty",
+      "composition": "No children. Use `label` to describe what is loading. An empty label makes it decorative and silent.",
       "whenToUse": "Indeterminate loading of an action or small region.",
       "avoid": [
         "Several spinners announcing at once.",
         "Page-level loading of content shape: use Skeleton."
       ],
-      "accessibility": "Announces `label` through a status live region. Motion follows prefers-reduced-motion.",
+      "accessibility": "Announces `label` through a status live region; with an empty label it renders no status role, no VisuallyHidden text and aria-hidden=\"true\". Motion follows prefers-reduced-motion.",
       "props": [
         {
           "name": "label",
@@ -624,7 +630,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Spinner label=\"Saving changes\" />"
+        "<Spinner label=\"Saving changes\" />\r\n<Spinner label=\"\" />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Spinner/Spinner.tsx"
     },
@@ -672,18 +678,24 @@
       "name": "Button",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "Displays an action button. It is built on Base UI Button, so keyboard, focus and disabled behavior come from there.\nIt defaults to `type=\"button\"` so it never submits a form by accident; set `type=\"submit\"` explicitly.\nFor navigation use `ButtonLink` or `Link`.\nPut icons in `startIcon`/`endIcon`; an icon-only button needs `aria-label`.",
+      "description": "Displays an action button. It is built on Base UI Button, so keyboard, focus and disabled behavior come from there.\nIt defaults to `type=\"button\"` so it never submits a form by accident; set `type=\"submit\"` explicitly.\nFor navigation use `ButtonLink` or `Link`.\nPut icons in `startIcon`/`endIcon`. An icon-only button is valid only with `startIcon` and an\naccessible name (`aria-label` or `aria-labelledby`); with visible children both icons are optional.",
       "import": "import { Button } from \"@/ui\";",
       "renders": "button",
-      "composition": "Defaults to type=\"button\"; pass type=\"submit\" explicitly. Put icons in `startIcon`/`endIcon` (generated icons, no `size`). Heights: sm 1.75rem, md 2.25rem, lg 2.75rem. Base UI props such as `render` and `nativeButton` are available but not needed for normal use.",
+      "composition": "Defaults to type=\"button\"; pass type=\"submit\" explicitly. Put icons in `startIcon`/`endIcon` (generated icons, no `size`). Icon-only: `startIcon` is required and exactly one of `aria-label` or `aria-labelledby`. Heights: sm 1.75rem, md 2.25rem, lg 2.75rem. Base UI props such as `render` and `nativeButton` are available but not needed for normal use.",
       "whenToUse": "Any action: submit, open, confirm, cancel. Pass `loading` while the action runs.",
       "avoid": [
         "Navigation: use Link.",
         "More than one primary button per view.",
         "Disabling the button to show progress: use `loading`, it keeps the label and focus."
       ],
-      "accessibility": "Icon-only buttons need `aria-label` and use `startIcon` (or `endIcon`) instead of children. `loading` sets `aria-busy` and counts as the start slot. Keyboard and disabled behavior come from Base UI.",
+      "accessibility": "Icon-only buttons need `aria-label` (or `aria-labelledby`) and use `startIcon` instead of children; the types enforce it. `loading` sets `aria-busy` and counts as the start slot, and the spinner stays silent so the button's accessible name is the only announcement. Keyboard and disabled behavior come from Base UI.",
       "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "The visible label.\nIcon-only buttons have no visible children."
+        },
         {
           "name": "className",
           "type": "string",
@@ -693,7 +705,7 @@
           "name": "endIcon",
           "type": "ReactNode",
           "required": false,
-          "default": "undefined",
+          "default": "undefined\nundefined",
           "description": "Icon after the label. Pass a generated icon without `size`; the button sizes it."
         },
         {
@@ -715,19 +727,19 @@
           "type": "ReactNode",
           "required": false,
           "default": "undefined",
-          "description": "Icon before the label. Pass a generated icon without `size`; the button sizes it."
+          "description": "Icon before the label. Pass a generated icon without `size`; the button sizes it.\nThe visible icon and accessible name. Pass a generated icon without `size`."
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+          "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "primary",
-          "description": "Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions,\n`ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions."
+          "description": "Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions,\n`outline` for a transparent button with a visible border, `ghost` for low-emphasis actions,\n`accent` for brand emphasis, `danger` for destructive actions."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Button>Save</Button>\n<Button variant=\"secondary\" size=\"sm\">Cancel</Button>\n<Button type=\"submit\">Send</Button>\n<Button loading>Saving</Button>\n<Button variant=\"secondary\" startIcon={<CheckIcon />}>Done</Button>\n<Button variant=\"ghost\" aria-label=\"Close\" startIcon={<XIcon />} />"
+        "<Button>Save</Button>\r\n<Button variant=\"secondary\" size=\"sm\">Cancel</Button>\r\n<Button variant=\"outline\">Learn more</Button>\r\n<Button type=\"submit\">Send</Button>\r\n<Button loading>Saving</Button>\r\n<Button variant=\"secondary\" startIcon={<CheckIcon />}>Done</Button>\r\n<Button variant=\"outline\" aria-label=\"Close\" startIcon={<XIcon />} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Button/Button.tsx"
     },
@@ -735,27 +747,22 @@
       "name": "Field",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "Wraps one control with its label, description and error, wired for accessibility by Base UI Field\n(`label` association, `aria-describedby`, `aria-invalid`). For groups of checkboxes or radios use `RadioGroup`\nor one `Checkbox` per option instead.",
+      "description": "Wraps one control with its label, description and error, wired for accessibility by Base UI Field\n(`label` association, `aria-describedby`, `aria-invalid`). Pass `error`, `required`, `readOnly` and\n`loading` here; never wire `aria-describedby` or show a loose red error text by hand. When the\ncontrol renders its own label or legend, omit `label`; the control prints Required and keeps its\naccessible name.\n\nErrors are shown after the field is blurred or the form is submitted, not on the first keystroke.",
       "import": "import { Field } from \"@/ui\";",
-      "renders": "div containing a label, the control, a description and an error",
-      "composition": "Wrap exactly one Input, Textarea or Select. `label` is required.",
-      "whenToUse": "Every text-like form control.",
+      "renders": "div containing an optional label, the control, a description and an error",
+      "composition": "Wrap one control: Input, Textarea, Select, Checkbox, RadioGroup, Switch or Slider. `label` is optional: omit it when the control renders its own label or legend (Checkbox, RadioGroup, Switch, Slider). Pass `error`, `required`, `readOnly` and `loading` to Field instead of wiring the control. Controls that carry their own label or legend also accept these props directly.",
+      "whenToUse": "Every form control, including its validation, required, read-only and loading states.",
       "avoid": [
-        "Wrapping Checkbox, Switch or RadioGroup: they carry their own label or legend."
+        "A loose red error text below the control: use Field `error`.",
+        "Wiring aria-describedby or aria-invalid by hand."
       ],
-      "accessibility": "Base UI wires the label, aria-describedby and aria-invalid. Passing `error` marks the field invalid.",
+      "accessibility": "Base UI wires the label, aria-describedby and aria-invalid; the error is announced politely. `required` sets the native/ARIA required state and prints Required next to the label, or in the control's own label when Field has no label. Errors show after blur or submit, not on the first keystroke (validationMode defaults to onBlur).",
       "props": [
         {
           "name": "children",
           "type": "ReactNode",
           "required": true,
-          "description": "The control: `Input`, `Textarea` or `Select`."
-        },
-        {
-          "name": "label",
-          "type": "ReactNode",
-          "required": true,
-          "description": "Visible label. Required: every control needs an accessible name."
+          "description": "The control: `Input`, `Textarea`, `Select`, `Checkbox`, `RadioGroup`, `Switch` or `Slider`.\nControls that carry their own label or legend also accept these validation props directly."
         },
         {
           "name": "className",
@@ -770,14 +777,41 @@
         },
         {
           "name": "error",
+          "type": "string",
+          "required": false,
+          "description": "Error message. When set, the field is marked invalid and the message is linked to the control.\nPass an empty string when there is no error. Show it from validation that runs on blur or submit,\nnot on the first keystroke (Field defaults to `validationMode=\"onBlur\"`)."
+        },
+        {
+          "name": "label",
           "type": "ReactNode",
           "required": false,
-          "description": "Error message. When set, the field is marked invalid and the message is linked to the control."
+          "description": "Visible label. Required unless the control renders its own label or legend\n(Checkbox, RadioGroup, Switch, Slider)."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Shows a small spinner at the end of the control, marks it `aria-busy`, and makes it not editable."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Makes the control read-only: sunken background, no hover, text not dimmed, still focusable and\nselectable. Distinct from `disabled`."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Marks the control as required and prints \"Required\" next to the label. The control also gets\n`required` so browsers and assistive technology enforce it."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Field label=\"Email\" description=\"We never share it.\" error={errors.email}>\n  <Input type=\"email\" autoComplete=\"email\" />\n</Field>"
+        "<Field label=\"Email\" description=\"We never share it.\" error={errors.email} required>\r\n  <Input type=\"email\" autoComplete=\"email\" />\r\n</Field>\r\n<Field label=\"API key\" readOnly>\r\n  <Input defaultValue=\"sk-live-…\" />\r\n</Field>\r\n<Field label=\"Tax ID\" loading>\r\n  <Input />\r\n</Field>\r\n<Field error=\"Turn this on to continue\" required>\r\n  <Switch label=\"Notifications\" />\r\n</Field>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Field/Field.tsx"
     },
@@ -785,16 +819,17 @@
       "name": "Input",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A native text input built on Base UI Input. Inside `Field` it is labelled and wired to its\ndescription and error automatically. Outside `Field` it needs an accessible name\n(`aria-label` or an associated `label`).",
+      "description": "A native text input built on Base UI Input. Inside `Field` it is labelled and wired to its\ndescription and error automatically, and it inherits `required`, `readOnly` and `loading`.\nOutside `Field` it needs an accessible name (`aria-label` or an associated `label`).",
       "import": "import { Input } from \"@/ui\";",
       "renders": "input",
-      "composition": "Native input props pass through (type, autoComplete, name, required...). Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`).",
-      "whenToUse": "Single-line text entry.",
+      "composition": "Native input props pass through (type, autoComplete, name, required...). Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Inside Field, omit required/readOnly/loading and pass them to Field.",
+      "whenToUse": "Single-line text entry, read-only values and values that are still loading.",
       "avoid": [
         "Using it without Field or aria-label.",
-        "Multi-line text: use Textarea."
+        "Multi-line text: use Textarea.",
+        "Hand-wiring validation ARIA: use Field error."
       ],
-      "accessibility": "Needs an accessible name. Set `autoComplete` for personal data fields.",
+      "accessibility": "Needs an accessible name. Set `autoComplete` for personal data fields. readOnly stays focusable and selectable; loading is readOnly with aria-busy=true.",
       "props": [
         {
           "name": "className",
@@ -806,6 +841,13 @@
           "type": "ReactNode",
           "required": false,
           "description": "Icon after the text. Pass a generated icon without `size`; the input sizes it."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Shows a small spinner at the end and makes the input not editable. `aria-busy` is set.\nInside `Field`, omit it and pass `loading` to the Field instead."
         },
         {
           "name": "size",
@@ -823,7 +865,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Field label=\"Email\"><Input type=\"email\" autoComplete=\"email\" /></Field>\n<Input aria-label=\"Search\" startIcon={<MagnifyingGlassIcon />} />"
+        "<Field label=\"Email\"><Input type=\"email\" autoComplete=\"email\" /></Field>\n<Input aria-label=\"Search\" startIcon={<MagnifyingGlassIcon />} />\n<Field label=\"Tax ID\" loading><Input /></Field>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Input/Input.tsx"
     },
@@ -831,15 +873,16 @@
       "name": "Textarea",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A native `textarea` that works with `Field` the same way `Input` does.\nNeeds an accessible name inside or outside `Field`.",
+      "description": "A native `textarea` that works with `Field` the same way `Input` does, including\n`required`, `readOnly` and `loading`. Needs an accessible name inside or outside `Field`.",
       "import": "import { Textarea } from \"@/ui\";",
       "renders": "textarea",
-      "composition": "Native textarea props pass through; `rows` defaults to 3. Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`).",
-      "whenToUse": "Multi-line text entry.",
+      "composition": "Native textarea props pass through; `rows` defaults to 3. Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Inside Field, omit required/readOnly/loading and pass them to Field.",
+      "whenToUse": "Multi-line text entry, including read-only and loading values.",
       "avoid": [
-        "Using it without Field or aria-label."
+        "Using it without Field or aria-label.",
+        "Hand-wiring validation ARIA: use Field error."
       ],
-      "accessibility": "Needs an accessible name.",
+      "accessibility": "Needs an accessible name. readOnly stays focusable and selectable; loading is readOnly with aria-busy=true.",
       "props": [
         {
           "name": "className",
@@ -853,6 +896,13 @@
           "description": "Icon after the text. Pass a generated icon without `size`; the textarea sizes it."
         },
         {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Shows a small spinner at the end and makes the textarea not editable. `aria-busy` is set.\nInside `Field`, omit it and pass `loading` to the Field instead."
+        },
+        {
           "name": "startIcon",
           "type": "ReactNode",
           "required": false,
@@ -861,7 +911,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Field label=\"Message\"><Textarea rows={4} /></Field>"
+        "<Field label=\"Message\"><Textarea rows={4} /></Field>\n<Field label=\"Notes\" readOnly><Textarea defaultValue=\"Locked for review.\" /></Field>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Textarea/Textarea.tsx"
     },
@@ -869,16 +919,16 @@
       "name": "Checkbox",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A checkbox with its label, built on Base UI Checkbox (keyboard, focus, form value and\nindeterminate state come from there). The whole label is clickable.",
+      "description": "A checkbox with its label, built on Base UI Checkbox (keyboard, focus, form value and\nindeterminate state come from there). The whole label is clickable. Inside `Field` it\ninherits `error`, `required`, `readOnly` and `loading`.",
       "import": "import { Checkbox } from \"@/ui\";",
       "renders": "span role=\"checkbox\" with a hidden native input, inside a label",
-      "composition": "`label` is required. Use `indeterminate` for a partial parent state.",
+      "composition": "`label` is required. Use `indeterminate` for a partial parent state. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field.",
       "whenToUse": "Independent yes/no choices, especially ones submitted with a form.",
       "avoid": [
         "Mutually exclusive options: use RadioGroup.",
         "Settings that apply instantly: use Switch."
       ],
-      "accessibility": "The whole label is clickable. Base UI handles keyboard and the mixed state.",
+      "accessibility": "The whole label is clickable. Base UI handles keyboard and the mixed state. Invalid uses the danger border and an error linked with aria-describedby; required prints Required; read-only stays focusable and uses the sunken background; loading sets aria-busy and blocks changes.",
       "props": [
         {
           "name": "label",
@@ -890,11 +940,38 @@
           "name": "className",
           "type": "string",
           "required": false
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "description": "Error message. Marks the checkbox invalid and links the message with `aria-describedby`.\nInside `Field`, omit it and pass `error` to the Field instead."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Shows a small spinner next to the label, sets `aria-busy`, and makes the checkbox not\ninteractive."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "The checkbox can be focused and read but not changed. Uses the sunken background and keeps\nthe label text at full contrast. Distinct from `disabled`."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "The checkbox must be ticked before the form can be submitted. The label prints \"Required\".\nInside `Field`, omit it and pass `required` to the Field instead."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Checkbox label=\"Send me product updates\" defaultChecked />\r\n<Checkbox label=\"Select all\" indeterminate />"
+        "<Checkbox label=\"Send me product updates\" defaultChecked />\n<Checkbox label=\"Select all\" indeterminate />\n<Checkbox label=\"Accept terms\" error=\"You must accept the terms\" required />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Checkbox/Checkbox.tsx"
     },
@@ -902,7 +979,7 @@
       "name": "Radio",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "One option inside a `RadioGroup`, built on Base UI Radio. The whole label is clickable.",
+      "description": "One option inside a `RadioGroup`, built on Base UI Radio. The whole label is clickable.\nValidation state comes from the `RadioGroup` (`error`, `required`, `readOnly`, `loading`).",
       "import": "import { Radio } from \"@/ui\";",
       "renders": "span role=\"radio\" with a hidden native input, inside a label",
       "composition": "Only inside RadioGroup. `value` and `label` are required.",
@@ -938,15 +1015,15 @@
       "name": "RadioGroup",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A group of mutually exclusive options. Renders a `fieldset` with a `legend`, driven by Base UI RadioGroup.",
+      "description": "A group of mutually exclusive options. Renders a `fieldset` with a `legend`, driven by Base UI\nRadioGroup. Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.",
       "import": "import { RadioGroup } from \"@/ui\";",
       "renders": "fieldset with a legend and a radiogroup",
-      "composition": "`legend` is required. Children are Radio elements.",
+      "composition": "`legend` is required. Children are Radio elements. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend.",
       "whenToUse": "Choosing exactly one option from a short list.",
       "avoid": [
         "Long lists: use Select."
       ],
-      "accessibility": "Arrow keys move the selection. The legend names the group.",
+      "accessibility": "Arrow keys move the selection. The legend names the group. Invalid uses the danger border and an error linked with aria-describedby; read-only stays focusable and blocks changes; loading sets aria-busy and blocks changes.",
       "props": [
         {
           "name": "children",
@@ -966,16 +1043,43 @@
           "required": false
         },
         {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "description": "Error message. Marks the group invalid and links the message with `aria-describedby`.\nInside `Field`, omit it and pass `error` to the Field instead."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Shows a small spinner next to the legend, sets `aria-busy`, and makes the group not\ninteractive."
+        },
+        {
           "name": "orientation",
           "type": "\"horizontal\" | \"vertical\"",
           "required": false,
           "default": "vertical",
           "description": "Layout of the options."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "The group can be focused and read but not changed. Keeps the options at full contrast.\nDistinct from `disabled`."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "The group must have a selection before the form can be submitted. The legend prints \"Required\".\nInside `Field`, omit it and pass `required` to the Field instead."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<RadioGroup legend=\"Plan\" defaultValue=\"free\">\n  <Radio value=\"free\" label=\"Free\" />\n  <Radio value=\"pro\" label=\"Pro\" />\n</RadioGroup>"
+        "<RadioGroup legend=\"Plan\" defaultValue=\"free\">\r\n  <Radio value=\"free\" label=\"Free\" />\r\n  <Radio value=\"pro\" label=\"Pro\" />\r\n</RadioGroup>\r\n<RadioGroup legend=\"Plan\" error=\"Choose a plan\" required>\r\n  <Radio value=\"free\" label=\"Free\" />\r\n  <Radio value=\"pro\" label=\"Pro\" />\r\n</RadioGroup>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Radio/Radio.tsx"
     },
@@ -983,15 +1087,15 @@
       "name": "Switch",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "An on/off switch for a setting that applies immediately, built on Base UI Switch.\nFor choices that are submitted with a form, prefer `Checkbox`.",
+      "description": "An on/off switch for a setting that applies immediately, built on Base UI Switch.\nFor choices that are submitted with a form, prefer `Checkbox`. Inside `Field` it inherits\n`error`, `required`, `readOnly` and `loading`.",
       "import": "import { Switch } from \"@/ui\";",
       "renders": "span role=\"switch\" with a hidden native input, inside a label",
-      "composition": "`label` is required.",
+      "composition": "`label` is required. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field.",
       "whenToUse": "A setting that turns on or off immediately.",
       "avoid": [
         "Choices that need a Save button: use Checkbox."
       ],
-      "accessibility": "Announced as a switch with on/off state.",
+      "accessibility": "Announced as a switch with on/off state. Invalid uses the danger border and an error linked with aria-describedby; required prints Required; read-only stays focusable and uses the sunken background; loading sets aria-busy and blocks changes.",
       "props": [
         {
           "name": "label",
@@ -1003,11 +1107,38 @@
           "name": "className",
           "type": "string",
           "required": false
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "description": "Error message. Marks the switch invalid and links the message with `aria-describedby`.\nInside `Field`, omit it and pass `error` to the Field instead."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Shows a small spinner next to the label, sets `aria-busy`, and makes the switch not\ninteractive."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "The switch can be focused and read but not changed. Uses the sunken background when off and\nkeeps the label text at full contrast. Distinct from `disabled`."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "The switch must be on before the form can be submitted. The label prints \"Required\".\nInside `Field`, omit it and pass `required` to the Field instead."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Switch label=\"Dark mode\" />"
+        "<Switch label=\"Dark mode\" />\n<Switch label=\"Notifications\" error=\"Turn on notifications to continue\" required />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Switch/Switch.tsx"
     },
@@ -1015,16 +1146,17 @@
       "name": "Select",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).\nPass `items` instead of composing parts.",
+      "description": "A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).\nPass `items` instead of composing parts. Inside `Field` it inherits `required`, `readOnly` and `loading`.",
       "import": "import { Select } from \"@/ui\";",
       "renders": "button role=\"combobox\" with a listbox popup in a portal",
-      "composition": "Pass `items` ({ value, label, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field.",
-      "whenToUse": "Choosing one option from a longer list.",
+      "composition": "Pass `items` ({ value, label, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. `loading` replaces the end icon with a spinner. Inside Field, omit required/readOnly/loading and pass them to Field.",
+      "whenToUse": "Choosing one option from a longer list, including read-only and loading states.",
       "avoid": [
         "Two or three options: use RadioGroup.",
-        "Free text: use Input."
+        "Free text: use Input.",
+        "Hand-wiring validation ARIA: use Field error."
       ],
-      "accessibility": "Keyboard, typeahead and focus come from Base UI. Needs an accessible name.",
+      "accessibility": "Keyboard, typeahead and focus come from Base UI. Needs an accessible name. readOnly prevents choosing another option; loading is readOnly with aria-busy=true.",
       "props": [
         {
           "name": "items",
@@ -1044,6 +1176,12 @@
           "required": false
         },
         {
+          "name": "data-force",
+          "type": "\"focus\"",
+          "required": false,
+          "description": "Story/test hook: force the focus ring without moving focus."
+        },
+        {
           "name": "endIcon",
           "type": "ReactNode",
           "required": false,
@@ -1054,6 +1192,13 @@
           "type": "string",
           "required": false,
           "description": "Visible label. Provide it, or `aria-label`, or put the Select inside `Field`:\nevery control needs an accessible name."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Shows a small spinner at the end and makes the select not editable. `aria-busy` is set.\nInside `Field`, omit it and pass `loading` to the Field instead."
         },
         {
           "name": "placeholder",
@@ -1077,7 +1222,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Select label=\"Country\" placeholder=\"Choose one\" items={[{ value: \"ar\", label: \"Argentina\" }]} />"
+        "<Select label=\"Country\" placeholder=\"Choose one\" items={[{ value: \"ar\", label: \"Argentina\" }]} />\r\n<Field label=\"Role\" required><Select items={roles} /></Field>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Select/Select.tsx"
     },
@@ -1098,7 +1243,7 @@
       "props": [],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Dialog>\n  <DialogTrigger>Delete project</DialogTrigger>\n  <DialogContent title=\"Delete project?\" description=\"This cannot be undone.\">\n    <DialogClose>Cancel</DialogClose>\n  </DialogContent>\n</Dialog>"
+        "<Dialog>\r\n  <DialogTrigger>Delete project</DialogTrigger>\r\n  <DialogContent title=\"Delete project?\" description=\"This cannot be undone.\">\r\n    <DialogClose>Cancel</DialogClose>\r\n  </DialogContent>\r\n</Dialog>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Dialog/Dialog.tsx"
     },
@@ -1125,7 +1270,7 @@
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+          "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "primary",
           "description": "Button style of the trigger."
@@ -1200,7 +1345,7 @@
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+          "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "secondary",
           "description": "Button style."
@@ -1260,10 +1405,10 @@
       "name": "TooltipProvider",
       "category": "overlays",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "Optional wrapper that shares open delay between tooltips, so moving from one to the next feels instant.\nPut it once near the root of the app.",
+      "description": "Shares the open delay between tooltips. The first tooltip waits `delay` ms; moving to the next\none opens instantly (`data-instant` skips the animation). Put it once near the app root.",
       "import": "import { TooltipProvider } from \"@/ui\";",
       "renders": "no element",
-      "composition": "Place once near the app root. Optional.",
+      "composition": "Place once near the app root. Optional. `delay` (default 600) applies only to the first tooltip; the next ones open instantly.",
       "whenToUse": "Shared open delay across tooltips.",
       "avoid": [
         "Nesting several providers."
@@ -1363,16 +1508,16 @@
       "name": "ButtonLink",
       "category": "navigation",
       "base": "Own component",
-      "description": "A link that looks like a `Button`. It renders an `a` (or the component given to `LinkProvider`, such as\n`next/link`), because something that navigates is a link, not a button. For actions use `Button`.\nPut icons in `startIcon`/`endIcon`; an icon-only link needs `aria-label`.",
+      "description": "A link that looks like a `Button`. It renders an `a` (or the component given to `LinkProvider`, such as\n`next/link`), because something that navigates is a link, not a button. For actions use `Button`.\nPut icons in `startIcon`/`endIcon`. An icon-only link is valid only with `startIcon` and an\naccessible name (`aria-label` or `aria-labelledby`); with visible children both icons are optional.",
       "import": "import { ButtonLink } from \"@/ui\";",
       "renders": "a (rendered by the LinkProvider component, `next/link` in this app) styled like a Button",
-      "composition": "Pass `href`, `variant`, `size` and optional `startIcon`/`endIcon` (generated icons, no `size`). Children are the visible label; an icon-only link needs `aria-label`.",
+      "composition": "Pass `href`, `variant`, `size` and optional `startIcon`/`endIcon` (generated icons, no `size`). Children are the visible label. Icon-only: `startIcon` is required and exactly one of `aria-label` or `aria-labelledby`.",
       "whenToUse": "A call to action that goes to another page, such as Get started or Docs.",
       "avoid": [
         "Actions that do not navigate: use Button.",
         "Inline links inside text: use Link."
       ],
-      "accessibility": "It is a real link (role link), so middle-click, open in new tab and prefetch work. Do not give it role button.",
+      "accessibility": "Icon-only buttons need `aria-label` (or `aria-labelledby`); the types enforce it. It is a real link (role link), so middle-click, open in new tab and prefetch work. Do not give it role button.",
       "props": [
         {
           "name": "href",
@@ -1381,10 +1526,16 @@
           "description": "Where the link goes. Required."
         },
         {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "The visible label.\nIcon-only links have no visible children."
+        },
+        {
           "name": "endIcon",
           "type": "ReactNode",
           "required": false,
-          "default": "undefined",
+          "default": "undefined\nundefined",
           "description": "Icon after the label. Pass a generated icon without `size`; the link sizes it."
         },
         {
@@ -1399,11 +1550,11 @@
           "type": "ReactNode",
           "required": false,
           "default": "undefined",
-          "description": "Icon before the label. Pass a generated icon without `size`; the link sizes it."
+          "description": "Icon before the label. Pass a generated icon without `size`; the link sizes it.\nThe visible icon and accessible name. Pass a generated icon without `size`."
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+          "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "primary",
           "description": "Visual emphasis, the same as `Button`. `primary` is the main call to action (one per view)."
@@ -1411,7 +1562,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<ButtonLink href=\"/docs/installation\">Get started</ButtonLink>\n<ButtonLink href=\"/docs\" variant=\"secondary\" endIcon={<ArrowRightIcon />}>Docs</ButtonLink>\n<ButtonLink href=\"/docs\" aria-label=\"Next page\" startIcon={<ArrowRightIcon />} />"
+        "<ButtonLink href=\"/docs/installation\">Get started</ButtonLink>\r\n<ButtonLink href=\"/docs\" variant=\"secondary\" endIcon={<ArrowRightIcon />}>Docs</ButtonLink>\r\n<ButtonLink href=\"/docs\" aria-label=\"Next page\" startIcon={<ArrowRightIcon />} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ButtonLink/ButtonLink.tsx"
     },
@@ -1568,7 +1719,7 @@
       "props": [],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Popover>\n  <PopoverTrigger variant=\"secondary\">Filters</PopoverTrigger>\n  <PopoverContent title=\"Filters\" description=\"Narrow the results.\">...</PopoverContent>\n</Popover>"
+        "<Popover>\r\n  <PopoverTrigger variant=\"secondary\">Filters</PopoverTrigger>\r\n  <PopoverContent title=\"Filters\" description=\"Narrow the results.\">...</PopoverContent>\r\n</Popover>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Popover/Popover.tsx"
     },
@@ -1595,7 +1746,7 @@
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+          "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "secondary",
           "description": "Button style of the trigger."
@@ -1684,7 +1835,7 @@
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+          "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "secondary",
           "description": "Button style."
@@ -1742,7 +1893,7 @@
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+          "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "secondary",
           "description": "Button style of the trigger."
@@ -2060,16 +2211,16 @@
       "name": "Slider",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "Pick a number, or a range, by dragging or with arrow keys. Built on Base UI Slider (each thumb is an\n`input type=\"range\"`). For a short list of exact choices use `Select`; for typing a number, use `Input`.",
+      "description": "Pick a number, or a range, by dragging or with arrow keys. Built on Base UI Slider (each thumb is an\n`input type=\"range\"`). For a short list of exact choices use `Select`; for typing a number, use `Input`.\nInside `Field` it inherits `error`, `required`, `readOnly` and `loading`.",
       "import": "import { Slider } from \"@/ui\";",
       "renders": "div with one input type range per thumb",
-      "composition": "Pass `label` and `defaultValue` (number or [min, max]). Use `thumbLabels` for ranges.",
+      "composition": "Pass `label` and `defaultValue` (number or [min, max]). Use `thumbLabels` for ranges. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field.",
       "whenToUse": "Choosing a number or range by dragging.",
       "avoid": [
         "Exact entry: use Input.",
         "A few named options: use Select."
       ],
-      "accessibility": "Each thumb is a native range input with arrow-key support. The label is the accessible name.",
+      "accessibility": "Each thumb is a native range input with arrow-key support. The label is the accessible name. Invalid uses the danger border and an error linked with aria-describedby; required prints Required; read-only stays focusable and blocks changes; loading sets aria-busy and blocks changes.",
       "props": [
         {
           "name": "label",
@@ -2083,6 +2234,12 @@
           "required": false
         },
         {
+          "name": "data-force",
+          "type": "\"focus\"",
+          "required": false,
+          "description": "Story/test hook: force the focus ring without moving focus."
+        },
+        {
           "name": "defaultValue",
           "type": "number | number[]",
           "required": false,
@@ -2092,6 +2249,19 @@
           "name": "disabled",
           "type": "boolean",
           "required": false
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "description": "Error message. Marks the slider invalid and links the message with `aria-describedby`.\nInside `Field`, omit it and pass `error` to the Field instead."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Shows a small spinner next to the value, sets `aria-busy`, and makes the slider not\ninteractive."
         },
         {
           "name": "max",
@@ -2107,6 +2277,20 @@
           "name": "onValueChange",
           "type": "((value: number | number[]) => void)",
           "required": false
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "The slider can be focused and read but not changed. Uses the sunken track and keeps the\nlabel at full contrast. Distinct from `disabled`."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "The slider must have a value before the form can be submitted. The label prints \"Required\".\nInside `Field`, omit it and pass `required` to the Field instead."
         },
         {
           "name": "showValue",
@@ -2135,18 +2319,95 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Slider label=\"Volume\" defaultValue={40} />\n<Slider label=\"Price\" defaultValue={[20, 80]} thumbLabels={[\"Minimum price\", \"Maximum price\"]} />"
+        "<Slider label=\"Volume\" defaultValue={40} />\r\n<Slider label=\"Price\" defaultValue={[20, 80]} thumbLabels={[\"Minimum price\", \"Maximum price\"]} />\r\n<Slider label=\"Budget\" error=\"Choose a budget\" required />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Slider/Slider.tsx"
+    },
+    {
+      "name": "CodeBlockView",
+      "category": "typography",
+      "base": "Own component",
+      "description": "Presentation half of `CodeBlock`: tabs, copy button and the focusable code region.\nThe server passes highlighted HTML; without it the code stays plain text.",
+      "import": "import { CodeBlockView } from \"@/ui\";",
+      "renders": "client-only presentation of a CodeBlock: tabs, copy button and focusable code region",
+      "composition": "Internal to CodeBlock. Use it only in client components; pass pre-highlighted `html`/`tabHtml` when available, otherwise the code stays plain.",
+      "whenToUse": "Client components that cannot render the server CodeBlock.",
+      "avoid": [
+        "Server pages: use CodeBlock, which highlights automatically.",
+        "Coloring tokens by hand."
+      ],
+      "accessibility": "The code region is focusable and named; the copy result is announced via role status.",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "required": false,
+          "default": "",
+          "description": "The code to show, as plain text. Use `tabs` instead when there are alternatives (bun, npm, pnpm)."
+        },
+        {
+          "name": "highlightLines",
+          "type": "number[]",
+          "required": false,
+          "default": "undefined",
+          "description": "1-based line numbers to mark with a 2px left bar and a subtle background. No line numbers are\nrendered. The same lines apply to every tab."
+        },
+        {
+          "name": "html",
+          "type": "string | null",
+          "required": false,
+          "description": "Highlighted HTML for `code`, produced on the server."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "default": "Code",
+          "description": "Accessible name of the scrollable code region."
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "Language name. `bash`, `sh` and `shell` show a small terminal icon instead of the word."
+        },
+        {
+          "name": "tabHtml",
+          "type": "Record<string, string | null>",
+          "required": false,
+          "description": "Highlighted HTML per tab label, produced on the server."
+        },
+        {
+          "name": "tabs",
+          "type": "CodeTab[]",
+          "required": false,
+          "description": "Alternative versions of the same code, usually one command per package manager. The first tab is selected first."
+        },
+        {
+          "name": "tone",
+          "type": "\"success\" | \"danger\" | \"default\" | \"brand\"",
+          "required": false,
+          "default": "default",
+          "description": "Color the frame for the kind of message: default, brand, success or danger."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/CodeBlock/CodeBlockView.tsx"
     },
     {
       "name": "CodeBlock",
       "category": "typography",
       "base": "Own component",
-      "description": "Preformatted code with an icon-only copy button. Pass `tabs` to switch between alternatives such as\nbun, pnpm, npm and yarn inside the same box. The code region can be focused so long lines scroll with the\nkeyboard, the scrollbar is hidden, and the copy result is announced politely.\nThere is no syntax highlighting on purpose (less weight, more contrast).",
-      "import": "import { CodeBlock } from \"@/ui\";",
-      "renders": "div with an icon-only copy button, optional tabs and a focusable region containing pre and code",
-      "composition": "Pass `code`, optional `language` and `label`. For alternatives such as package managers pass `tabs` ({ label, code }[]) instead of `code`.",
+      "description": "Preformatted code with syntax highlighting, an icon-only copy button and optional tabs for\nalternatives such as bun, pnpm and npm. Colors come from semantic `--syntax-*` tokens, so light\nand dark work without extra code. Unknown languages are shown as plain text.",
+      "import": "import { CodeBlock } from \"@/ui/server\";",
+      "renders": "server component that highlights with Shiki, wrapped around a client view with an icon-only copy button, optional tabs and a focusable region",
+      "composition": "Pass `code`, optional `language` and `label`. For alternatives such as package managers pass `tabs` ({ label, code }[]) instead of `code`. Use `highlight={false}` for plain text. Never color code by hand; use CodeBlock.",
       "whenToUse": "Showing code or commands the user will copy.",
       "avoid": [
         "Inline code: use Kbd or a code element.",
@@ -2167,6 +2428,20 @@
           "description": "The code to show, as plain text. Use `tabs` instead when there are alternatives (bun, npm, pnpm)."
         },
         {
+          "name": "highlight",
+          "type": "boolean",
+          "required": false,
+          "default": "true",
+          "description": "Highlight known languages on the server. Unknown languages fall back to plain text."
+        },
+        {
+          "name": "highlightLines",
+          "type": "number[]",
+          "required": false,
+          "default": "undefined",
+          "description": "1-based line numbers to mark with a 2px left bar and a subtle background. No line numbers are\nrendered. The same lines apply to every tab."
+        },
+        {
           "name": "label",
           "type": "string",
           "required": false,
@@ -2177,19 +2452,24 @@
           "name": "language",
           "type": "string",
           "required": false,
-          "description": "Language name. `bash`, `sh` and `shell` show a small terminal icon instead of the word. No syntax highlighting."
+          "description": "Language name. `bash`, `sh` and `shell` show a small terminal icon instead of the word."
         },
         {
           "name": "tabs",
           "type": "CodeTab[]",
           "required": false,
           "description": "Alternative versions of the same code, usually one command per package manager. The first tab is selected first."
+        },
+        {
+          "name": "tone",
+          "type": "\"success\" | \"danger\" | \"default\" | \"brand\"",
+          "required": false,
+          "default": "default",
+          "description": "Color the frame for the kind of message: default, brand, success or danger."
         }
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
-      "examples": [
-        "<CodeBlock language=\"tsx\" label=\"Example\" code={'<Button>Save</Button>'} />\r\n<CodeBlock language=\"bash\" label=\"Install\" tabs={[\r\n  { label: \"bun\", code: \"bun add"
-      ],
+      "examples": [],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/CodeBlock/CodeBlock.tsx"
     }
   ]

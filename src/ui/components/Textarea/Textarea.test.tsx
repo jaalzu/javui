@@ -25,6 +25,13 @@ describe("Textarea", () => {
     expect(screen.getByRole("textbox", { name: "Message" }).tagName).toBe("TEXTAREA");
   });
 
+  it("shares read-only and loading behavior with Input", () => {
+    render(<Textarea aria-label="Notes" loading defaultValue="Locked" />);
+    const el = screen.getByRole("textbox", { name: "Notes" });
+    expect(el).toHaveAttribute("aria-busy", "true");
+    expect(el).toHaveAttribute("readonly");
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(
       <Field label="Message">

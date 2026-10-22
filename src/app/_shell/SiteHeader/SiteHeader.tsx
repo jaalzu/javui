@@ -4,7 +4,6 @@ import {
   componentsIndex,
   sections,
 } from "@/app/docs/_layout/nav";
-import manifest from "../../../../public/agent/manifest.json";
 import { MobileNav } from "@/app/_shell/MobileNav/MobileNav";
 import { Search, type SearchItem } from "@/app/_shell/Search/Search";
 import { Mark, Wordmark } from "@/app/_shell/Logo/Logo";
@@ -33,18 +32,12 @@ const githubMark = (
   </svg>
 );
 
-const firstSentence = (text: string) =>
-  text.split("\n")[0].replace(/`/g, "").replace(/\.$/, "");
-
 const searchItems: SearchItem[] = [
   ...sections.map((s) => ({ href: s.href, label: s.label, group: "Docs" })),
   ...componentLinks.map((c) => ({
     href: c.href,
     label: c.label,
     group: "Component",
-    hint: firstSentence(
-      manifest.components.find((m) => m.name === c.label)?.description ?? "",
-    ),
   })),
 ];
 

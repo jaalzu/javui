@@ -1,7 +1,7 @@
 /* Example frames: live preview plus expandable code */
 .example { border: var(--border-width-thin) solid var(--color-border-default); border-radius: var(--radius-lg); overflow: hidden; }
 
-.exampleStage { background: var(--color-card); padding: var(--space-8) var(--space-6); display: flex; align-items: center; justify-content: center; min-height: 8rem; }
+.exampleStage { background: var(--color-card); padding: var(--space-6) var(--space-5); display: flex; align-items: center; justify-content: center; min-height: 8rem; }
 
 .exampleStage > * { max-width: 100%; }
 
@@ -18,6 +18,8 @@
   font-size: var(--text-body-sm-size);
   cursor: pointer;
   list-style: none;
+  transition: color var(--motion-duration-fast)
+    var(--motion-easing-standard);
 }
 
 .exampleCode summary::-webkit-details-marker { display: none; }

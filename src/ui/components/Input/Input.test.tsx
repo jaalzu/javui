@@ -21,6 +21,25 @@ describe("Input", () => {
     expect(el).toHaveAttribute("autocomplete", "email");
   });
 
+  it("is focusable and selectable when read-only", async () => {
+    const user = userEvent.setup();
+    render(<Input aria-label="API key" readOnly defaultValue="sk-live" />);
+    const el = screen.getByRole("textbox");
+    await user.click(el);
+    expect(el).toHaveFocus();
+    expect(el).toHaveAttribute("readonly");
+    expect(el).not.toBeDisabled();
+  });
+
+  it("shows a spinner and marks the control busy while loading", () => {
+    render(<Input aria-label="Tax ID" loading defaultValue="123" />);
+    const el = screen.getByRole("textbox");
+    expect(el).toHaveAttribute("aria-busy", "true");
+    expect(el).toHaveAttribute("readonly");
+    expect(el.parentElement).toHaveAttribute("data-icon", "end");
+    expect(el.parentElement?.querySelector("svg")).toBeInTheDocument();
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(<Input aria-label="Name" />);
     expect(await axe(container)).toHaveNoViolations();

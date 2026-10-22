@@ -6,16 +6,6 @@
       "$type": "color",
       "$description": "The page itself. Everything sits on it."
     },
-    "shell": {
-      "$value": "color-mix(in oklab, {color.primary-foreground} 3%, {color.page})",
-      "$type": "color",
-      "$description": "App chrome around the content: header, sidebar, footer."
-    },
-    "container": {
-      "$value": "color-mix(in oklab, {color.primary-foreground} 5%, {color.page})",
-      "$type": "color",
-      "$description": "A region that groups several cards, like a settings section or a table wrapper."
-    },
     "card": {
       "$value": "{primitive.color.white}",
       "$type": "color",
@@ -30,11 +20,6 @@
       "$value": "{primitive.color.white}",
       "$type": "color",
       "$description": "Layers above the page: dialog, menu, select list, popover."
-    },
-    "standout": {
-      "$value": "{color.primary-foreground}",
-      "$type": "color",
-      "$description": "High contrast surface, inverted from the page: tooltip, toast, callout."
     },
     "component": {
       "$value": "oklch(0 0 0 / 0.05)",
@@ -51,7 +36,6 @@
       "$type": "color",
       "$description": "Component pressed."
     },
-
     "component-on-sunken": {
       "$value": "{color.card}",
       "$type": "color",
@@ -60,7 +44,7 @@
     "component-on-inverted": {
       "$value": "color-mix(in oklab, {color.on-inverted-foreground} 14%, transparent)",
       "$type": "color",
-      "$description": "Component placed on a standout or inverted surface."
+      "$description": "Component placed on an inverted surface."
     },
     "transparent": {
       "$value": "transparent",
@@ -93,7 +77,7 @@
       "$description": "Hints, placeholders, metadata."
     },
     "disabled-foreground": {
-      "$value": "color-mix(in oklab, {color.primary-foreground} 38%, transparent)",
+      "$value": "color-mix(in oklab, {color.primary-foreground} 62%, transparent)",
       "$type": "color",
       "$description": "Text and icons of disabled controls."
     },
@@ -117,16 +101,6 @@
       "$type": "color",
       "$description": "Text on inverted solid surfaces."
     },
-    "on-standout-primary-foreground": {
-      "$value": "{color.page}",
-      "$type": "color",
-      "$description": "Main text on a standout surface."
-    },
-    "on-standout-secondary-foreground": {
-      "$value": "color-mix(in oklab, {color.page} 70%, transparent)",
-      "$type": "color",
-      "$description": "Supporting text on a standout surface."
-    },
     "brand-solid": {
       "$value": "{primitive.color.accent.500}",
       "$type": "color",
@@ -143,14 +117,14 @@
       "$description": "Soft brand tint behind text or icons."
     },
     "brand-foreground": {
-      "$value": "{primitive.color.accent.700}",
+      "$value": "color-mix(in oklab, {color.brand-solid} 75%, {color.primary-foreground})",
       "$type": "color",
-      "$description": "Brand colored text and icons on the page."
+      "$description": "Brand colored text and icons on the page and cards, derived from --color-brand-solid."
     },
     "brand-foreground-soft": {
-      "$value": "color-mix(in oklab, {primitive.color.accent.700} 72%, {color.primary-foreground})",
+      "$value": "color-mix(in oklab, {color.brand-solid} 60%, {color.primary-foreground})",
       "$type": "color",
-      "$description": "Brand text and icons for tinted surfaces, darkened to stay contrast-safe on the soft brand tint."
+      "$description": "Brand text and icons for tinted surfaces, derived from --color-brand-solid."
     },
     "on-brand-solid-foreground": {
       "$value": "{primitive.color.white}",
@@ -285,7 +259,7 @@
     "border-inverted": {
       "$value": "color-mix(in oklab, {color.page} 20%, transparent)",
       "$type": "color",
-      "$description": "Borders on standout or inverted surfaces."
+      "$description": "Borders on inverted surfaces."
     },
     "border-disabled": {
       "$value": "color-mix(in oklab, {color.primary-foreground} 10%, transparent)",
@@ -336,6 +310,59 @@
       "$value": "oklch(0 0 0 / 0.4)",
       "$type": "color",
       "$description": "Backdrop behind dialogs."
+    }
+  },
+  "syntax": {
+    "$description": "Syntax highlighting for code. One layer on top of --color-sunken; the CodeBlock tone is separate.",
+    "text": {
+      "$value": "{color.primary-foreground}",
+      "$type": "color",
+      "$description": "Default code text: variables, operators, plain identifiers."
+    },
+    "keyword": {
+      "$value": "{color.brand-foreground-soft}",
+      "$type": "color",
+      "$description": "Language keywords and control flow. Uses the softer brand text so it passes contrast on --color-sunken."
+    },
+    "string": {
+      "$value": "{color.positive-foreground}",
+      "$type": "color",
+      "$description": "Strings and template literals."
+    },
+    "number": {
+      "$value": "color-mix(in oklab, {color.warning-foreground} 88%, {color.primary-foreground})",
+      "$type": "color",
+      "$description": "Numbers, units and constants."
+    },
+    "function": {
+      "$value": "color-mix(in oklab, {color.info-foreground} 88%, {color.primary-foreground})",
+      "$type": "color",
+      "$description": "Function and method names."
+    },
+    "comment": {
+      "$value": "{color.tertiary-foreground}",
+      "$type": "color",
+      "$description": "Comments, quieter than code."
+    },
+    "punctuation": {
+      "$value": "{color.secondary-foreground}",
+      "$type": "color",
+      "$description": "Braces, brackets, separators and other punctuation."
+    },
+    "danger": {
+      "$value": "{color.danger-foreground}",
+      "$type": "color",
+      "$description": "Removed code in a diff."
+    },
+    "diff-added-bg": {
+      "$value": "{color.positive-subtle}",
+      "$type": "color",
+      "$description": "Background of an added line in a diff."
+    },
+    "diff-removed-bg": {
+      "$value": "{color.danger-subtle}",
+      "$type": "color",
+      "$description": "Background of a removed line in a diff."
     }
   },
   "shadow": {

@@ -1,7 +1,11 @@
+"use client";
+
 import type { ReactNode } from "react";
 import { Select as BaseSelect } from "@base-ui/react/select";
 import { cx } from "../../utils/cx";
 import { IconSlot, getIconSlots } from "../Icon/IconSlot";
+import { Spinner } from "../Spinner";
+import { useFieldControlState } from "../Field/FieldContext";
 import { CaretDownIcon, CheckIcon } from "../../icons/icons.generated";
 import styles from "./Select.module.css";
 
@@ -29,18 +33,26 @@ export type SelectProps = {
   startIcon?: ReactNode;
   /** Icon after the value, before the caret. Pass a generated icon without `size`; the select sizes it. */
   endIcon?: ReactNode;
+  /** Story/test hook: force the focus ring without moving focus. */
+  "data-force"?: "focus";
+  /**
+   * Shows a small spinner at the end and makes the select not editable. `aria-busy` is set.
+   * Inside `Field`, omit it and pass `loading` to the Field instead. @default false
+   */
+  loading?: boolean;
   className?: string;
 } & Pick<
   BaseSelect.Root.Props<string, false>,
-  "value" | "defaultValue" | "onValueChange" | "name" | "disabled" | "required" | "id"
+  "value" | "defaultValue" | "onValueChange" | "name" | "disabled" | "required" | "readOnly" | "id"
 >;
 
 /**
  * A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).
- * Pass `items` instead of composing parts.
+ * Pass `items` instead of composing parts. Inside `Field` it inherits `required`, `readOnly` and `loading`.
  *
  * @example
  * <Select label="Country" placeholder="Choose one" items={[{ value: "ar", label: "Argentina" }]} />
+ * <Field label="Role" required><Select items={roles} /></Field>
  */
 export function Select({
   items,
@@ -50,22 +62,56 @@ export function Select({
   size = "md",
   startIcon,
   endIcon,
+  loading: loadingProp,
+  readOnly: readOnlyProp,
+  required: requiredProp,
+  "data-force": dataForce,
   className,
   ...rest
 }: SelectProps) {
-  const position = getIconSlots({ startIcon, endIcon });
+  const field = useFieldControlState();
+  const loading = loadingProp ?? field?.loading ?? false;
+  const readOnly = readOnlyProp ?? field?.readOnly ?? false;
+  const required = requiredProp ?? field?.required ?? false;
+  const position = getIconSlots({
+    startIcon,
+    endIcon,
+    loading,
+    loadingPosition: "end",
+  });
+
   return (
-    <BaseSelect.Root items={items} {...rest}>
+    <BaseSelect.Root
+      items={items}
+      readOnly={readOnly || loading}
+      required={required}
+      {...rest}
+    >
       <div className={cx(styles.wrapper, className)}>
         {label ? <BaseSelect.Label className={styles.label}>{label}</BaseSelect.Label> : null}
         <BaseSelect.Trigger
           className={cx(styles.trigger, styles[size])}
           aria-label={ariaLabel}
+          aria-busy={loading || undefined}
+          data-force={dataForce}
           data-icon={position}
+          data-readonly={readOnly ? "" : undefined}
+          data-loading={loading ? "" : undefined}
         >
           <IconSlot>{startIcon}</IconSlot>
           <BaseSelect.Value className={styles.value} placeholder={placeholder} />
-          <IconSlot>{endIcon}</IconSlot>
+          {loading ? (
+            <span className={styles.spinnerSlot}>
+              <Spinner
+                size="sm"
+                label=""
+                role="presentation"
+                aria-hidden="true"
+              />
+            </span>
+          ) : (
+            <IconSlot>{endIcon}</IconSlot>
+          )}
           <BaseSelect.Icon className={styles.icon}>
             <CaretDownIcon />
           </BaseSelect.Icon>

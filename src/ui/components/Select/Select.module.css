@@ -37,13 +37,13 @@
   cursor: pointer;
 }
 
-.trigger:hover:not([data-disabled]),
-.trigger[data-force="hover"]:not([data-disabled]) {
+.trigger:hover:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.trigger[data-force="hover"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
   background: var(--color-component-hover);
 }
 
-.trigger:active:not([data-disabled]),
-.trigger[data-force="active"]:not([data-disabled]) {
+.trigger:active:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.trigger[data-force="active"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
   background: var(--color-component-active);
 }
 
@@ -54,7 +54,16 @@
 }
 
 .trigger[data-invalid] {
-  border-color: var(--color-danger-solid);
+  border-color: var(--color-danger-border-default);
+}
+
+.trigger[data-readonly],
+.trigger[data-loading] {
+  background: var(--color-sunken);
+}
+
+.trigger[data-loading] {
+  cursor: progress;
 }
 
 .trigger[data-disabled] {
@@ -93,6 +102,12 @@
   flex-shrink: 0;
 }
 
+.spinnerSlot {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--color-secondary-foreground);
+}
+
 .positioner {
   z-index: var(--z-popover);
 }
@@ -110,6 +125,16 @@
   background: var(--color-modal);
   color: var(--color-primary-foreground);
   box-shadow: var(--shadow-large);
+  transform-origin: var(--transform-origin);
+  transition:
+    opacity var(--motion-duration-base) var(--motion-easing-out),
+    transform var(--motion-duration-base) var(--motion-easing-out);
+}
+
+.popup[data-starting-style],
+.popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(var(--motion-scale-popup));
 }
 
 .list {

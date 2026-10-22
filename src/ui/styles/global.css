@@ -1,9 +1,40 @@
-@import "@fontsource-variable/dm-sans/opsz.css";
-@import "@fontsource/commit-mono/400.css";
-@import "@fontsource/commit-mono/500.css";
-@import "@fontsource/commit-mono/600.css";
-@import "@fontsource-variable/newsreader/wght-italic.css";
 @import "../tokens/tokens.css";
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("/typography/DM_Sans/DMSans-VariableFont_opsz,wght.ttf")
+    format("truetype-variations");
+  font-weight: 100 1000;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("/typography/DM_Sans/DMSans-Italic-VariableFont_opsz,wght.ttf")
+    format("truetype-variations");
+  font-weight: 100 1000;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("/typography/Source_Serif_4/SourceSerif4-Italic-VariableFont_opsz,wght.ttf")
+    format("truetype-variations");
+  font-weight: 200 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Commit Mono";
+  src: url("/typography/commit-mono/CommitMono-400-Regular.otf")
+    format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 *,
 *::before,
@@ -15,6 +46,8 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   scrollbar-gutter: stable;
+  scroll-padding-top: calc(var(--header-height) + var(--space-4));
+  overscroll-behavior-y: none;
 }
 
 body {
@@ -28,8 +61,16 @@ body {
   font-style: var(--text-body-style);
   letter-spacing: var(--text-body-tracking);
   font-optical-sizing: auto;
+  font-synthesis-weight: none;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-variant-ligatures: none;
 }
 
 /* Visible keyboard focus everywhere. Components may refine it but must not remove it. */
@@ -49,9 +90,14 @@ body {
   *,
   *::before,
   *::after {
+    transition-property: opacity, color, background-color, box-shadow !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  [data-starting-style],
+  [data-ending-style] {
+    transform: none !important;
   }
 }

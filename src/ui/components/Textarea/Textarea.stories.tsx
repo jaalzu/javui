@@ -1,6 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Textarea } from "./Textarea";
+import { Field } from "../Field";
 import { StateMatrix, forceProps } from "../../stories/StateMatrix";
+import {
+  ValidationMatrix,
+  validationControlProps,
+  validationFieldProps,
+} from "../../stories/ValidationMatrix";
 import { PencilSimpleIcon } from "../../icons/icons.generated";
 
 const meta = {
@@ -39,5 +45,27 @@ export const States: Story = {
   ),
 };
 
-export const Dark: Story = { ...States, globals: { theme: "dark" } };
-export const Light: Story = { ...States, globals: { theme: "light" } };
+export const ValidationStates: Story = {
+  name: "Validation states",
+  render: () => (
+    <ValidationMatrix
+      rows={[
+        {
+          label: "Textarea",
+          render: (state) => (
+            <Field label="Message" {...validationFieldProps(state)}>
+              <Textarea
+                rows={2}
+                placeholder="Write a message"
+                {...validationControlProps(state)}
+              />
+            </Field>
+          ),
+        },
+      ]}
+    />
+  ),
+};
+
+export const Dark: Story = { ...ValidationStates, globals: { theme: "dark" } };
+export const Light: Story = { ...ValidationStates, globals: { theme: "light" } };

@@ -3,8 +3,8 @@ import type { CSSProperties } from "react";
 import styles from "./Typography.module.css";
 
 /**
- * Typography tokens. One sans family (Inter) for everything and one mono family
- * (Commit Mono) for code. Headings and body text are upright; a serif (Newsreader)
+ * Typography tokens. One sans family (DM Sans) for everything and one mono family
+ * (Commit Mono) for code. Headings and body text are upright; a serif (Source Serif 4)
  * is available for emphasis.
  *
  * Text styles are the only way to set type: every style is a set of CSS variables
@@ -55,15 +55,15 @@ function Page() {
       <header>
         <h1 className={styles.title}>Typography</h1>
         <p className={styles.lead}>
-          One sans family for everything, mono only for code. Headings and body are upright. Newsreader is for emphasis only.
+          One sans family for everything, mono only for code. Headings and body are upright. Source Serif 4 is for emphasis only.
         </p>
       </header>
 
       <section aria-labelledby="families">
         <h2 id="families" className={styles.sectionTitle}>Families</h2>
         <p className={styles.note}>
-          DM Sans Variable for all text, Newsreader Variable for emphasis, Commit Mono for code and keys. All are self-hosted
-          through Fontsource, so there is no network request to a font service.
+          DM Sans for all text, Source Serif 4 for emphasis, Commit Mono for code and keys. All are self-hosted
+          from <code>public/typography</code>, so there is no network request to a font service.
         </p>
         <div className={styles.families}>
           <div className={styles.card}>

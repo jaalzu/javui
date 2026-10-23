@@ -60,19 +60,21 @@ const families: {
   },
 ];
 
-const headings: { n: HeadingSize; px: number }[] = [
-  { n: 1, px: 56 },
-  { n: 2, px: 44 },
-  { n: 3, px: 36 },
-  { n: 4, px: 28 },
-  { n: 5, px: 24 },
-  { n: 6, px: 20 },
+const headings: { n: HeadingSize; px: number; line: number }[] = [
+  { n: 1, px: 56, line: 1.05 },
+  { n: 2, px: 44, line: 1.1 },
+  { n: 3, px: 36, line: 1.15 },
+  { n: 4, px: 28, line: 1.2 },
+  { n: 5, px: 24, line: 1.25 },
+  { n: 6, px: 20, line: 1.3 },
 ];
 
 const tones = [
   ["default", "Default"],
   ["brand", "Brand"],
   ["success", "Success"],
+  ["warning", "Warning"],
+  ["info", "Info"],
   ["danger", "Danger"],
 ] as const;
 
@@ -113,8 +115,8 @@ function Headings() {
   return (
     <>
       <Group label="Sizes">
-        {headings.map(({ n, px }) => (
-          <Row key={n} token={`size={${n}} · ${px}px`}>
+        {headings.map(({ n, px, line }) => (
+          <Row key={n} token={`size={${n}} · ${px}px · line ${line}`}>
             <Heading as="h3" size={n}>
               Heading {n}
             </Heading>
@@ -138,16 +140,31 @@ function TextTab() {
   return (
     <>
       <Group label="Sizes">
-        <Row token='size="lg" · 18px'>
+        <Row token='size="lg" · 18px · line 1.6'>
           <Text size="lg">Large body text</Text>
         </Row>
-        <Row token='size="base" · 15px'>
+        <Row token='size="base" · 15px · line 1.6'>
           <Text>Base body text</Text>
         </Row>
-        <Row token='size="sm" · 13px'>
+        <Row token='size="sm" · 13px · line 1.5'>
           <Text size="sm">Small body text</Text>
         </Row>
       </Group>
+      <Group label="Small styles">
+        <Row token='variant="label" · controls and fields'>
+          <Text variant="label">Account settings</Text>
+        </Row>
+        <Row token='size="sm" · secondary reading text'>
+          <Text size="sm">A description or helper text that supports the main content.</Text>
+        </Row>
+        <Row token='variant="caption" · metadata'>
+          <Text variant="caption" size="lg">2 min ago · 1,284 views</Text>
+        </Row>
+      </Group>
+      <Text variant="caption" size="lg" tone="muted">
+        Label for controls and fields (buttons, form labels, tabs). Body-sm for secondary reading
+        text (descriptions, helper text). Caption for metadata (timestamps, counters, footnotes).
+      </Text>
       <Group label="Weights">
         {weights.map((w) => (
           <Row key={w} token={`weight="${w}"`}>
@@ -155,6 +172,14 @@ function TextTab() {
           </Row>
         ))}
       </Group>
+      <Group label="Numbers">
+        <Row token="data-numeric">
+          <Text data-numeric>1,284 · $1,211.29 · 86%</Text>
+        </Row>
+      </Group>
+      <Text variant="caption" size="lg" tone="muted">
+        Use data-numeric on any element that shows changing numbers so digits keep their width.
+      </Text>
     </>
   );
 }
@@ -163,15 +188,15 @@ function CaptionTab() {
   return (
     <>
       <Group label="Sizes">
-        <Row token='size="lg" · 12px'>
+        <Row token='size="lg" · 12px · line 1.4'>
           <Text variant="caption" size="lg">
             Large caption
           </Text>
         </Row>
-        <Row token='size="base" · 11px'>
+        <Row token='size="base" · 11px · line 1.4'>
           <Text variant="caption">Base caption</Text>
         </Row>
-        <Row token='size="sm" · 10px'>
+        <Row token='size="sm" · 10px · line 1.4'>
           <Text variant="caption" size="sm">
             Small caption
           </Text>
@@ -197,7 +222,16 @@ function CaptionTab() {
             Uppercase caption
           </Text>
         </Row>
+        <Row token='size="sm" casing="uppercase"'>
+          <Text variant="caption" size="sm" weight="medium" casing="uppercase">
+            Small uppercase
+          </Text>
+        </Row>
       </Group>
+      <Text variant="caption" size="lg" tone="muted">
+        Caption sm (10px) is intentional: use it with casing=&quot;uppercase&quot;, where the extra
+        tracking keeps it legible. Avoid it for lowercase running text.
+      </Text>
     </>
   );
 }
@@ -206,15 +240,15 @@ function CodeTab() {
   return (
     <>
       <Group label="Sizes">
-        <Row token='size="base" · 14px'>
+        <Row token='size="base" · 14px · line 1.5'>
           <Text variant="code">Base code</Text>
         </Row>
-        <Row token='size="sm" · 13px'>
+        <Row token='size="sm" · 13px · line 1.5'>
           <Text variant="code" size="sm">
             Small code
           </Text>
         </Row>
-        <Row token='size="xs" · 12px'>
+        <Row token='size="xs" · 12px · line 1.5'>
           <Text variant="code" size="xs">
             Extra small code
           </Text>

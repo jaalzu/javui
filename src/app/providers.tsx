@@ -12,7 +12,16 @@ import { LinkProvider, ToastProvider, TooltipProvider } from "@/ui";
  */
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem disableTransitionOnChange>
+    <ThemeProvider
+      attribute="data-theme"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+      // next-themes 0.4.6 renders its no-flash <script> inside a Client Component,
+      // which React 19.3 reports as an error. The real pre-paint script lives in
+      // the root layout <head>; this inert data block just silences the warning.
+      scriptProps={{ type: "application/json" }}
+    >
       <LinkProvider component={NextLink}>
         <TooltipProvider delay={600}>
           <ToastProvider>{children}</ToastProvider>

@@ -21,10 +21,15 @@ const icons = read("icons.json");
 const text = (value) => ({ content: [{ type: "text", text: typeof value === "string" ? value : JSON.stringify(value, null, 2) }] });
 const fail = (message) => ({ isError: true, content: [{ type: "text", text: message }] });
 
-const find = (name) => manifest.components.find((c) => c.name.toLowerCase() === String(name).toLowerCase());
+const allEntries = [
+  ...manifest.components,
+  ...manifest.components.flatMap((c) => c.parts ?? []),
+  ...manifest.providersAndHooks,
+];
+const find = (name) => allEntries.find((c) => c.name.toLowerCase() === String(name).toLowerCase());
 const suggest = (name) => {
   const q = String(name).toLowerCase();
-  return manifest.components.filter((c) => c.name.toLowerCase().includes(q) || q.includes(c.name.toLowerCase())).map((c) => c.name);
+  return allEntries.filter((c) => c.name.toLowerCase().includes(q) || q.includes(c.name.toLowerCase())).map((c) => c.name);
 };
 
 const server = new McpServer({ name: "ui-lib", version: "0.1.0" });
@@ -36,7 +41,13 @@ server.registerTool(
     description: "Rules every use of ui-lib must follow (HTML first, semantic tokens, accessible names, one way per job). Read this first.",
     inputSchema: {},
   },
-  async () => text({ principles: manifest.principles, tokenUsage: tokens.usage, categories: manifest.categories }),
+  async () =>
+    text({
+      principles: manifest.principles,
+      tokenUsage: tokens.usage,
+      categories: manifest.categories,
+      providersAndHooks: manifest.providersAndHooks.map((c) => ({ name: c.name, whenToUse: c.whenToUse })),
+    }),
 );
 
 server.registerTool(
@@ -49,7 +60,13 @@ server.registerTool(
   async ({ category }) => {
     const items = manifest.components
       .filter((c) => !category || c.category === category)
-      .map((c) => ({ name: c.name, category: c.category, base: c.base, whenToUse: c.whenToUse }));
+      .map((c) => ({
+        name: c.name,
+        category: c.category,
+        base: c.base,
+        whenToUse: c.whenToUse,
+        ...(c.parts?.length ? { parts: c.parts.map((p) => p.name) } : {}),
+      }));
     if (!items.length) return fail(`No components in category "${category}". Categories: ${manifest.categories.join(", ")}`);
     return text(items);
   },

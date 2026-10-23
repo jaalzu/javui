@@ -52,7 +52,8 @@ export type BadgeProps = {
  *
  * Keep the text to one or two words and truncate counts to two digits (`99+`).
  * Badges are secondary and supportive: never use one as a heading or a key
- * indicator. Put icons in `startIcon`/`endIcon`; they follow the badge size.
+ * indicator. Put icons in `startIcon`/`endIcon`; they follow the badge size: sm 16px, md 20px,
+ * lg 24px.
  *
  * @example
  * <Badge>Draft</Badge>

@@ -63,8 +63,9 @@ export type ButtonProps = ButtonWithLabelProps | ButtonIconOnlyProps;
  * Displays an action button. It is built on Base UI Button, so keyboard, focus and disabled behavior come from there.
  * It defaults to `type="button"` so it never submits a form by accident; set `type="submit"` explicitly.
  * For navigation use `ButtonLink` or `Link`.
- * Put icons in `startIcon`/`endIcon`. An icon-only button is valid only with `startIcon` and an
- * accessible name (`aria-label` or `aria-labelledby`); with visible children both icons are optional.
+ * Put icons in `startIcon`/`endIcon`. They follow the control size: sm 16px, md 20px, lg 24px.
+ * An icon-only button is valid only with `startIcon` and an accessible name (`aria-label` or
+ * `aria-labelledby`); with visible children both icons are optional.
  *
  * @example
  * <Button>Save</Button>

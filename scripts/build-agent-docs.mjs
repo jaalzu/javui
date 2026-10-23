@@ -132,6 +132,24 @@ for (const c of componentsManifest) {
   }
 }
 
+// ---- 2b. Group compound parts, and keep providers/hooks out of the component list ----
+const compoundParts = {
+  Dialog: ["DialogTrigger", "DialogContent", "DialogClose"],
+  Popover: ["PopoverTrigger", "PopoverContent", "PopoverClose"],
+  CodeBlock: ["CodeBlockView"],
+};
+const providerAndHookNames = ["LinkProvider", "TooltipProvider", "ToastProvider", "useLinkComponent", "useToast"];
+const byName = new Map(componentsManifest.map((c) => [c.name, c]));
+const partNames = new Set(Object.values(compoundParts).flat());
+for (const [parent, names] of Object.entries(compoundParts)) {
+  const entry = byName.get(parent);
+  entry.parts = names.map((name) => ({ ...byName.get(name), parent }));
+}
+const providersAndHooks = providerAndHookNames.map((name) => byName.get(name));
+const topLevelComponents = componentsManifest.filter(
+  (c) => !partNames.has(c.name) && !providerAndHookNames.includes(c.name),
+);
+
 // ---- 3. Tokens ----
 const tokenFiles = ["primitive", "typography", "spacing", "shape", "layout", "motion", "theme.light", "theme.dark"];
 const cssVarOf = (path) => "--" + path.join("-");
@@ -200,8 +218,9 @@ const manifest = {
     "One way to do each thing: links are Link, actions are Button, headings are Heading, body text is Text.",
     "Keep heading levels in order, one h1 per page.",
   ],
-  categories: [...new Set(componentsManifest.map((c) => c.category))],
-  components: componentsManifest,
+  categories: [...new Set(topLevelComponents.map((c) => c.category))],
+  components: topLevelComponents,
+  providersAndHooks,
 };
 writeFileSync(join(outDir, "manifest.json"), JSON.stringify(manifest, null, 2));
 
@@ -224,9 +243,17 @@ const llms = [
   "## Components",
   ...manifest.categories.flatMap((cat) => [
     `### ${cat}`,
-    ...componentsManifest.filter((c) => c.category === cat).map((c) => `- **${c.name}**: ${c.whenToUse}`),
+    ...topLevelComponents
+      .filter((c) => c.category === cat)
+      .map(
+        (c) =>
+          `- **${c.name}**${c.parts?.length ? ` (parts: ${c.parts.map((p) => p.name).join(", ")})` : ""}: ${c.whenToUse}`,
+      ),
     "",
   ]),
+  "## Providers and hooks",
+  ...providersAndHooks.map((c) => `- **${c.name}**: ${c.whenToUse}`),
+  "",
 ].join("\n");
 writeFileSync(join(root, "public/llms.txt"), llms + "\n");
 
@@ -235,13 +262,11 @@ const propTable = (props) =>
     ? ["| Prop | Type | Required | Default | Description |", "|---|---|---|---|---|", ...props.map((p) => `| \`${p.name}\` | \`${String(p.type).replace(/\|/g, "\\|")}\` | ${p.required ? "yes" : "no"} | ${p.default ?? ""} | ${(p.description ?? "").replace(/\n/g, " ").replace(/\|/g, "\\|")} |`)].join("\n")
     : "_No props of its own._";
 
-const full = [
-  llms,
-  "",
-  "---",
-  "",
-  ...componentsManifest.flatMap((c) => [
-    `## ${c.name}`,
+const entryMarkdown = (c, level = 2) => {
+  const h = "#".repeat(level);
+  const sub = "#".repeat(level + 1);
+  return [
+    `${h} ${c.name}`,
     "",
     c.description ?? "",
     "",
@@ -255,13 +280,29 @@ const full = [
     ...c.avoid.map((a) => `  - ${a}`),
     `- Accessibility: ${c.accessibility}`,
     "",
-    "### Props",
+    `${sub} Props`,
     propTable(c.props),
     "",
     c.extends,
     "",
-    ...(c.examples.length ? ["### Example", "```tsx", ...c.examples, "```", ""] : []),
+    ...(c.examples.length ? [`${sub} Example`, "```tsx", ...c.examples, "```", ""] : []),
+  ];
+};
+
+const full = [
+  llms,
+  "",
+  "---",
+  "",
+  ...topLevelComponents.flatMap((c) => [
+    ...entryMarkdown(c),
+    ...(c.parts?.length
+      ? ["### Parts", "", ...c.parts.flatMap((p) => entryMarkdown(p, 3))]
+      : []),
   ]),
+  "## Providers and hooks",
+  "",
+  ...providersAndHooks.flatMap((c) => entryMarkdown(c)),
   "## Design tokens",
   "",
   list(tokensOut.usage),
@@ -273,4 +314,7 @@ const full = [
 ].join("\n");
 writeFileSync(join(root, "public/llms-full.txt"), full);
 
-console.log(`agent docs: ${componentsManifest.length} components, ${merged.length} tokens`);
+const partCount = topLevelComponents.reduce((n, c) => n + (c.parts?.length ?? 0), 0);
+console.log(
+  `agent docs: ${topLevelComponents.length} components (${partCount} parts), ${providersAndHooks.length} providers and hooks, ${merged.length} tokens`,
+);

@@ -10,7 +10,6 @@
 
 @theme inline {
   --color-component: var(--color-component);
-  --color-transparent: var(--color-transparent);
   --color-overlay: var(--color-overlay);
   --color-page: var(--color-page);
   --color-card: var(--color-card);
@@ -29,10 +28,10 @@
   --color-danger-solid: var(--color-danger-solid);
   --color-on-danger-solid-foreground: var(--color-on-danger-solid-foreground);
   --color-sunken: var(--color-sunken);
+  --color-highlight: var(--color-highlight);
   --color-component-hover: var(--color-component-hover);
   --color-component-active: var(--color-component-active);
   --color-component-on-sunken: var(--color-component-on-sunken);
-  --color-component-on-inverted: var(--color-component-on-inverted);
   --color-transparent-hover: var(--color-transparent-hover);
   --color-transparent-active: var(--color-transparent-active);
   --color-secondary-foreground: var(--color-secondary-foreground);
@@ -59,9 +58,7 @@
   --color-danger-subtle-hover: var(--color-danger-subtle-hover);
   --color-danger-foreground: var(--color-danger-foreground);
   --color-border-default: var(--color-border-default);
-  --color-border-subtle: var(--color-border-subtle);
   --color-border-strong: var(--color-border-strong);
-  --color-border-inverted: var(--color-border-inverted);
   --color-border-disabled: var(--color-border-disabled);
   --color-brand-border-default: var(--color-brand-border-default);
   --color-brand-border-focus: var(--color-brand-border-focus);
@@ -69,7 +66,6 @@
   --color-warning-border-default: var(--color-warning-border-default);
   --color-info-border-default: var(--color-info-border-default);
   --color-danger-border-default: var(--color-danger-border-default);
-  --color-danger-border-subtle: var(--color-danger-border-subtle);
   --color-disabled: var(--color-disabled);
   --radius-none: var(--radius-none);
   --radius-base: var(--radius-base);
@@ -78,10 +74,6 @@
   --radius-lg: var(--radius-lg);
   --radius-xl: var(--radius-xl);
   --radius-full: var(--radius-full);
-  --shadow-sm: var(--shadow-sm);
-  --shadow-md: var(--shadow-md);
-  --shadow-lg: var(--shadow-lg);
-  --shadow-border: var(--shadow-border);
   --shadow-inset-ring: var(--shadow-inset-ring);
   --shadow-default: var(--shadow-default);
   --shadow-raised: var(--shadow-raised);

@@ -1,0 +1,117 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  background: var(--color-overlay);
+  opacity: 1;
+  transition: opacity var(--motion-duration-slow) var(--motion-easing-out);
+}
+
+.backdrop[data-starting-style],
+.backdrop[data-ending-style] {
+  opacity: 0;
+}
+
+.viewport {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.viewport[data-side="right"] {
+  justify-content: flex-end;
+}
+
+.viewport[data-side="left"] {
+  justify-content: flex-start;
+}
+
+.popup {
+  box-sizing: border-box;
+  position: relative;
+  width: min(calc(var(--space-16) * 6), 100vw);
+  height: 100%;
+  max-height: 100dvh;
+  overflow: hidden;
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  background: var(--color-modal);
+  color: var(--color-primary-foreground);
+  box-shadow: var(--shadow-extra-large);
+  pointer-events: auto;
+  transform: translateX(var(--drawer-swipe-movement-x, 0));
+  transition: transform var(--motion-duration-slow) var(--motion-easing-out);
+}
+
+.popup[data-side="right"] {
+  border-right: 0;
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+}
+
+.popup[data-side="left"] {
+  border-left: 0;
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+}
+
+.popup[data-side="right"][data-starting-style],
+.popup[data-side="right"][data-ending-style] {
+  transform: translateX(100%);
+}
+
+.popup[data-side="left"][data-starting-style],
+.popup[data-side="left"][data-ending-style] {
+  transform: translateX(-100%);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: 100%;
+  padding: var(--space-6);
+  overflow-y: auto;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.heading {
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--text-heading-6-family);
+  font-size: var(--text-heading-6-size);
+  line-height: var(--text-heading-6-line);
+  font-weight: var(--text-heading-6-weight);
+  letter-spacing: var(--text-heading-6-tracking);
+}
+
+.description {
+  margin: var(--space-2) 0 0;
+  color: var(--color-secondary-foreground);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line);
+}
+
+.body {
+  flex: 1;
+  margin-top: var(--space-6);
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: var(--border-width-thin) solid var(--color-border-default);
+}

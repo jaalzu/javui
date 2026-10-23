@@ -44,6 +44,23 @@ export const WithIcons: Story = {
   args: { startIcon: <MagnifyingGlassIcon />, endIcon: <CaretDownIcon /> },
 };
 
+export const IconSizes: Story = {
+  name: "Icon sizes",
+  render: (args) => (
+    <div style={{ display: "grid", gap: "var(--space-3)" }}>
+      {(["sm", "md", "lg"] as const).map((size) => (
+        <Select
+          key={size}
+          {...args}
+          size={size}
+          startIcon={<MagnifyingGlassIcon />}
+          endIcon={<CaretDownIcon />}
+        />
+      ))}
+    </div>
+  ),
+};
+
 export const TouchTargets: Story = {
   name: "Touch targets",
   render: (args) => (

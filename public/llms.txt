@@ -17,13 +17,12 @@
 
 ## Components
 ### typography
-- **Text**: Any paragraph, label, caption or inline code that is not a heading.
+- **Text**: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls and fields (buttons, form labels, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
 - **Heading**: Page and section titles.
 - **Link**: Navigation to another page, section or resource.
 - **Kbd**: Keyboard shortcuts in docs and UI.
 - **Badge**: Short status or count labels next to other content.
-- **CodeBlockView**: Client components that cannot render the server CodeBlock.
-- **CodeBlock**: Showing code or commands the user will copy.
+- **CodeBlock** (parts: CodeBlockView): Showing code or commands the user will copy.
 
 ### layout
 - **Box**: A generic container with token padding, surface, border and radius.
@@ -33,21 +32,19 @@
 - **Divider**: A thematic break between groups of content.
 - **Card**: Grouping related content in a bordered surface.
 - **Table**: Comparing data across rows and columns.
+- **ScrollArea**: A fixed-height list, code area or panel that should scroll inside the page.
 
 ### utility
 - **VisuallyHidden**: Text that screen readers must read but sighted users should not see, such as the name of an icon-only button.
 - **Icon**: Any glyph. Named icons are decorative by default; pass `label` when the icon is the only carrier of meaning.
-- **LinkProvider**: Making every link in the library use `next/link` (or another router link) from a single place.
-- **useLinkComponent**: Building your own navigation component that should follow LinkProvider.
 - **Avatar**: Showing who a person or account is.
 
 ### feedback
 - **Spinner**: Indeterminate loading of an action or small region.
 - **Skeleton**: Placeholder for content whose layout is known while it loads.
 - **Alert**: A message that stays on the page and the user must notice, such as a failed save or a warning.
-- **ToastProvider**: Short-lived feedback after an action.
-- **useToast**: Showing a toast after an action finishes.
 - **Progress**: Showing how far a task has got.
+- **EmptyState**: A region that has no content yet, with a next step.
 
 ### controls
 - **Button**: Any action: submit, open, confirm, cancel. Pass `loading` while the action runs.
@@ -60,19 +57,16 @@
 - **Switch**: A setting that turns on or off immediately.
 - **Select**: Choosing one option from a longer list, including read-only and loading states.
 - **Slider**: Choosing a number or range by dragging.
+- **Label**: A visible label for a custom control composition outside Field.
+- **ToggleGroup**: Two to five short, mutually exclusive options, such as a view switch.
+- **Combobox**: Choosing one option from a long list when typing to filter helps.
 
 ### overlays
-- **Dialog**: Interrupting the user for a decision or focused task.
-- **DialogTrigger**: The button that opens the dialog.
-- **DialogContent**: The panel of the dialog.
-- **DialogClose**: Cancel and close actions.
+- **Dialog** (parts: DialogTrigger, DialogContent, DialogClose): Interrupting the user for a decision or focused task.
 - **Tooltip**: Extra clarity for sighted mouse and keyboard users, such as naming an icon button.
-- **TooltipProvider**: Shared open delay across tooltips.
-- **Popover**: Small interactive content tied to a button, such as a form or extra options.
-- **PopoverTrigger**: The button that opens a Popover.
-- **PopoverContent**: The panel shown by a Popover.
-- **PopoverClose**: A button that closes the Popover.
+- **Popover** (parts: PopoverTrigger, PopoverContent, PopoverClose): Small interactive content tied to a button, such as a form or extra options.
 - **Menu**: A list of actions or links behind one button, such as account actions.
+- **Sheet**: Secondary tasks, settings and filters that slide in from an edge.
 
 ### navigation
 - **Tabs**: Switching between related panels in the same place.
@@ -80,4 +74,13 @@
 - **Accordion**: Showing long content in short sections, such as FAQs.
 - **Breadcrumb**: Showing where the page sits in the site.
 - **Pagination**: Moving through content split across URLs.
+- **Sidebar**: Primary vertical navigation beside an app's content, especially on desktop.
+- **Collapsible**: A single section that expands, such as advanced options or extra details.
+
+## Providers and hooks
+- **LinkProvider**: Making every link in the library use `next/link` (or another router link) from a single place.
+- **TooltipProvider**: Shared open delay across tooltips.
+- **ToastProvider**: Short-lived feedback after an action.
+- **useLinkComponent**: Building your own navigation component that should follow LinkProvider.
+- **useToast**: Showing a toast after an action finishes.
 

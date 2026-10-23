@@ -2,6 +2,7 @@ import { ButtonLink, Link } from "@/ui";
 import {
   componentLinks,
   componentsIndex,
+  providerLinks,
   sections,
 } from "@/app/docs/_layout/nav";
 import { MobileNav } from "@/app/_shell/MobileNav/MobileNav";
@@ -39,6 +40,11 @@ const searchItems: SearchItem[] = [
     label: c.label,
     group: "Component",
   })),
+  ...providerLinks.map((c) => ({
+    href: c.href,
+    label: c.label,
+    group: "Provider or hook",
+  })),
 ];
 
 export function SiteHeader() {
@@ -59,6 +65,7 @@ export function SiteHeader() {
         ...componentLinks,
       ],
     },
+    { title: "Providers and hooks", links: providerLinks },
   ];
   return (
     <HideOnScroll className={styles.header}>

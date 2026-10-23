@@ -34,6 +34,21 @@ export const Variants: Story = {
     </Stack>
   ),
 };
+export const IconSizes: Story = {
+  name: "Icon sizes",
+  render: () => (
+    <Stack gap="3" align="start">
+      {(["sm", "md", "lg"] as const).map((size) => (
+        <Stack key={size} direction="row" gap="3" align="center">
+          <ButtonLink href="#" size={size} startIcon={<ArrowRightIcon />}>Next</ButtonLink>
+          <ButtonLink href="#" size={size} endIcon={<ArrowRightIcon />}>Next</ButtonLink>
+          <ButtonLink href="#" size={size} aria-label={`Next ${size}`} startIcon={<ArrowRightIcon />} />
+        </Stack>
+      ))}
+    </Stack>
+  ),
+};
+
 export const TouchTargets: Story = {
   name: "Touch targets",
   render: () => (

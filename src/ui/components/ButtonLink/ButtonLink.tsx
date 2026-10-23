@@ -52,8 +52,9 @@ export type ButtonLinkProps = ButtonLinkWithLabelProps | ButtonLinkIconOnlyProps
 /**
  * A link that looks like a `Button`. It renders an `a` (or the component given to `LinkProvider`, such as
  * `next/link`), because something that navigates is a link, not a button. For actions use `Button`.
- * Put icons in `startIcon`/`endIcon`. An icon-only link is valid only with `startIcon` and an
- * accessible name (`aria-label` or `aria-labelledby`); with visible children both icons are optional.
+ * Put icons in `startIcon`/`endIcon`. They follow the control size: sm 16px, md 20px, lg 24px.
+ * An icon-only link is valid only with `startIcon` and an accessible name (`aria-label` or
+ * `aria-labelledby`); with visible children both icons are optional.
  *
  * @example
  * <ButtonLink href="/docs/installation">Get started</ButtonLink>

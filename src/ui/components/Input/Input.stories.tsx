@@ -36,6 +36,25 @@ export const WithIcons: Story = {
 
 const sizes = ["sm", "md", "lg"] as const;
 
+export const IconSizes: Story = {
+  name: "Icon sizes",
+  render: () => (
+    <div style={{ display: "grid", gap: "var(--space-3)" }}>
+      {sizes.map((size) => (
+        <Input
+          key={size}
+          aria-label={`Search ${size}`}
+          placeholder="Search"
+          size={size}
+          startIcon={<MagnifyingGlassIcon />}
+          endIcon={<XIcon />}
+        />
+      ))}
+    </div>
+  ),
+};
+
+
 export const States: Story = {
   render: () => (
     <StateMatrix

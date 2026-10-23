@@ -16,6 +16,11 @@
       "$type": "color",
       "$description": "Recessed areas: code blocks, wells, inset fields."
     },
+    "highlight": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 3%, {color.card})",
+      "$type": "color",
+      "$description": "Highlighted panel inside a card: a metric, total or goal that should stand out. Lighter than the card in dark, soft gray in light. Never nest a highlight inside another highlight."
+    },
     "modal": {
       "$value": "{primitive.color.white}",
       "$type": "color",
@@ -40,16 +45,6 @@
       "$value": "{color.card}",
       "$type": "color",
       "$description": "Component placed on a sunken area, so it still stands out."
-    },
-    "component-on-inverted": {
-      "$value": "color-mix(in oklab, {color.on-inverted-foreground} 14%, transparent)",
-      "$type": "color",
-      "$description": "Component placed on an inverted surface."
-    },
-    "transparent": {
-      "$value": "transparent",
-      "$type": "color",
-      "$description": "Ghost controls and list items at rest."
     },
     "transparent-hover": {
       "$value": "color-mix(in oklab, {color.primary-foreground} 6%, transparent)",
@@ -246,20 +241,10 @@
       "$type": "color",
       "$description": "Default borders: inputs, cards, dividers you can see."
     },
-    "border-subtle": {
-      "$value": "color-mix(in oklab, {color.primary-foreground} 4%, transparent)",
-      "$type": "color",
-      "$description": "Faint dividers."
-    },
     "border-strong": {
       "$value": "color-mix(in oklch, {color.primary-foreground} 9%, transparent)",
       "$type": "color",
       "$description": "Emphasized borders and hover."
-    },
-    "border-inverted": {
-      "$value": "color-mix(in oklab, {color.page} 20%, transparent)",
-      "$type": "color",
-      "$description": "Borders on inverted surfaces."
     },
     "border-disabled": {
       "$value": "color-mix(in oklab, {color.primary-foreground} 10%, transparent)",
@@ -295,11 +280,6 @@
       "$value": "color-mix(in oklab, {color.danger-solid} 40%, transparent)",
       "$type": "color",
       "$description": "Danger border."
-    },
-    "danger-border-subtle": {
-      "$value": "color-mix(in oklab, {color.danger-solid} 22%, transparent)",
-      "$type": "color",
-      "$description": "Quiet danger border."
     },
     "disabled": {
       "$value": "color-mix(in oklab, {color.primary-foreground} 6%, transparent)",
@@ -367,11 +347,6 @@
   },
   "shadow": {
     "$description": "Elevation, four levels, plus `inset-ring` for quiet outlines. Each elevation level starts with a 1px ring so the edge reads on any surface. Dark values are the reference; light values are the same shapes with dark alphas.",
-    "border": {
-      "$value": "0 0 0 1px #00000014",
-      "$type": "shadow",
-      "$description": "A 1px outline drawn as a shadow. Use it instead of a border on cards, inputs and anything at rest, so the edge needs no extra layout space."
-    },
     "inset-ring": {
       "$value": "inset 0 0 0 1px #00000014",
       "$type": "shadow",

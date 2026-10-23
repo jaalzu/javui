@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { Link } from "@/ui";
 import layout from "./DocsLayout.module.css";
-import { componentLinks, componentsIndex, sections, type NavLink } from "./nav";
+import { componentLinks, componentsIndex, providerLinks, sections, type NavLink } from "./nav";
 
 function Group({ title, links, pathname }: { title: string; links: NavLink[]; pathname: string }) {
   return (
@@ -27,13 +27,14 @@ function Group({ title, links, pathname }: { title: string; links: NavLink[]; pa
   );
 }
 
-/** The documentation index: sections first, then every component. */
+/** The documentation index: sections, components, then providers and hooks. */
 export function DocsNav() {
   const pathname = usePathname();
   return (
     <nav aria-label="Documentation">
       <Group title="Sections" links={sections} pathname={pathname} />
       <Group title="Components" links={[{ ...componentsIndex, label: "All components" }, ...componentLinks]} pathname={pathname} />
+      <Group title="Providers and hooks" links={providerLinks} pathname={pathname} />
     </nav>
   );
 }

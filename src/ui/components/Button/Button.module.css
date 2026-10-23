@@ -9,8 +9,8 @@
   align-items: center;
   justify-content: center;
   --btn-px: var(--space-3);
-  --btn-gap: var(--icon-gap-sm);
-  --btn-icon: var(--size-icon-sm);
+  --btn-gap: var(--icon-gap-md);
+  --btn-icon: var(--size-icon-md);
   --icon-size: var(--btn-icon); /* Slot icons follow the button size. */
   gap: var(--btn-gap);
   min-width: var(--size-target-min);
@@ -115,18 +115,21 @@
 .sm {
   --btn-px: var(--space-3);
   --btn-gap: var(--icon-gap-sm);
+  --btn-icon: var(--size-icon-sm);
   height: var(--size-control-sm);
   font-size: var(--font-size-13);
 }
 
 .md {
+  --btn-gap: var(--icon-gap-md);
+  --btn-icon: var(--size-icon-md);
   height: var(--size-control-md);
 }
 
 .lg {
   --btn-px: var(--space-6);
-  --btn-gap: var(--icon-gap-md);
-  --btn-icon: var(--size-icon-md);
+  --btn-gap: var(--icon-gap-lg);
+  --btn-icon: var(--size-icon-lg);
   height: var(--size-control-lg);
 }
 

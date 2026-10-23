@@ -25,6 +25,7 @@ export type TextareaProps = {
 /**
  * A native `textarea` that works with `Field` the same way `Input` does, including
  * `required`, `readOnly` and `loading`. Needs an accessible name inside or outside `Field`.
+ * Icons use the 20px medium size (the textarea has no size variants).
  *
  * @example
  * <Field label="Message"><Textarea rows={4} /></Field>

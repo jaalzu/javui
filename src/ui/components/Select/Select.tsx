@@ -49,6 +49,7 @@ export type SelectProps = {
 /**
  * A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).
  * Pass `items` instead of composing parts. Inside `Field` it inherits `required`, `readOnly` and `loading`.
+ * Icons follow the trigger size: sm 16px, md 20px, lg 24px.
  *
  * @example
  * <Select label="Country" placeholder="Choose one" items={[{ value: "ar", label: "Argentina" }]} />

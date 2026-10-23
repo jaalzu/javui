@@ -13,8 +13,12 @@ type Prop = { name: string; type: string; required: boolean; default?: string; d
 type Entry = {
   name: string; category: string; base: string; description: string; import: string; renders: string;
   composition: string; whenToUse: string; avoid: string[]; accessibility: string; props: Prop[]; extends: string; examples: string[];
+  parts?: Entry[];
 };
+type Manifest = { components: Entry[]; providersAndHooks: Entry[] };
 const components = manifest.components as unknown as Entry[];
+const providersAndHooks = (manifest as unknown as Manifest).providersAndHooks ?? [];
+const pages = [...components, ...providersAndHooks];
 
 type ComponentPageProps = { params: Promise<{ name: string }> };
 
@@ -29,8 +33,44 @@ function splitLead(text: string): [string, string] {
   return i === -1 ? [text, ""] : [text.slice(0, i + 1), text.slice(i + 1).trim()];
 }
 
+function PropsTable({ entry }: { entry: Entry }) {
+  return (
+    <>
+      <Table
+        caption={`${entry.name} props`}
+        hideCaption
+        columns={[{ key: "name", header: "Prop" }, { key: "type", header: "Type" }, { key: "default", header: "Default" }, { key: "description", header: "Description" }]}
+        rows={entry.props.map((p) => ({
+          name: <code>{p.name}{p.required ? " (required)" : ""}</code>,
+          type: <code>{p.type}</code>,
+          default: p.default ? <code>{p.default}</code> : "",
+          description: p.description ? <Inline text={p.description} /> : "",
+        }))}
+      />
+      <p><Inline text={entry.extends} /></p>
+    </>
+  );
+}
+
+function PartSection({ part }: { part: Entry }) {
+  const [lead, more] = splitLead(part.description);
+  return (
+    <section>
+      <Heading as="h3" size={6}>{part.name}</Heading>
+      <p><Inline text={more || lead} /></p>
+      <p><Inline text={part.composition} /></p>
+      <p>Renders: {part.renders}.</p>
+      {part.examples.map((code, i) => (
+        <CodeBlock key={i} language="tsx" label={`${part.name} example ${i + 1}`} code={code} />
+      ))}
+      {part.props.length > 0 && <PropsTable entry={part} />}
+      <p><Inline text={part.accessibility} /></p>
+    </section>
+  );
+}
+
 export function generateStaticParams() {
-  return components.map((c) => ({ name: c.name }));
+  return pages.map((c) => ({ name: c.name }));
 }
 
 export async function generateMetadata({ params }: ComponentPageProps): Promise<Metadata> {
@@ -59,7 +99,7 @@ function ComponentSkeleton() {
 
 async function ComponentContent({ params }: ComponentPageProps) {
   const { name } = await params;
-  const c = components.find((x) => x.name === name);
+  const c = pages.find((x) => x.name === name);
   if (!c) notFound();
   const [lead, more] = splitLead(c.description);
 
@@ -94,20 +134,16 @@ async function ComponentContent({ params }: ComponentPageProps) {
       {c.props.length > 0 && (
         <>
           <Heading as="h2" size={6}>Props</Heading>
-          <Table
-            caption={`${c.name} props`}
-            hideCaption
-            columns={[{ key: "name", header: "Prop" }, { key: "type", header: "Type" }, { key: "default", header: "Default" }, { key: "description", header: "Description" }]}
-            rows={c.props.map((p) => ({
-              name: <code>{p.name}{p.required ? " (required)" : ""}</code>,
-              type: <code>{p.type}</code>,
-              default: p.default ? <code>{p.default}</code> : "",
-              description: p.description ? <Inline text={p.description} /> : "",
-            }))}
-          />
-          <p><Inline text={c.extends} /></p>
+          <PropsTable entry={c} />
         </>
       )}
+
+      {c.parts?.length ? (
+        <>
+          <Heading as="h2" size={6}>Parts</Heading>
+          {c.parts.map((part) => <PartSection key={part.name} part={part} />)}
+        </>
+      ) : null}
 
       <Heading as="h2" size={6}>Accessibility</Heading>
       <p><Inline text={c.accessibility} /></p>

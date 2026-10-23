@@ -54,6 +54,21 @@ export const WithIcons: Story = {
   ),
 };
 
+export const IconSizes: Story = {
+  name: "Icon sizes",
+  render: () => (
+    <Stack gap="3" align="start">
+      {(["sm", "md", "lg"] as const).map((size) => (
+        <Stack key={size} direction="row" gap="3" align="center">
+          <Button size={size} startIcon={<PlusIcon />}>New</Button>
+          <Button size={size} endIcon={<ArrowRightIcon />}>Next</Button>
+          <Button size={size} aria-label={`New ${size}`} startIcon={<PlusIcon />} />
+        </Stack>
+      ))}
+    </Stack>
+  ),
+};
+
 const variants: { label: string; variant: ButtonVariant }[] = [
   { label: "Primary", variant: "primary" },
   { label: "Secondary", variant: "secondary" },

@@ -73,6 +73,19 @@ samp {
   font-variant-ligatures: none;
 }
 
+/* Numbers that change or line up in columns should not shift width. Body text stays proportional. */
+table,
+output,
+[data-numeric] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Mark the sunken container, not each control. Descendants that read
+   --color-component pick up the on-sunken value, so they still stand out. */
+[data-surface="sunken"] {
+  --color-component: var(--color-component-on-sunken);
+}
+
 /* Visible keyboard focus everywhere. Components may refine it but must not remove it. */
 :focus-visible {
   outline: var(--focus-ring-width) solid var(--color-brand-border-focus);

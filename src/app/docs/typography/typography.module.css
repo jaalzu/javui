@@ -22,8 +22,8 @@
   font-size: var(--font-size-13);
 }
 .box {
+  border: var(--border-width-thin) solid var(--color-border-default);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-border);
   background: var(--color-card);
   overflow: hidden;
 }
@@ -35,7 +35,7 @@
   padding: 1rem 1.25rem;
 }
 .row + .row {
-  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  border-top: var(--border-width-thin) solid var(--color-border-default);
 }
 .sample {
   margin: 0;

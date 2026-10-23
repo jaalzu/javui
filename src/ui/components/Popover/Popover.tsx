@@ -24,7 +24,12 @@ export type PopoverTriggerProps = {
   size?: ButtonSize;
 } & Omit<BasePopover.Trigger.Props, "render" | "className" | "color">;
 
-/** The button that opens the popover. It is rendered as a `Button`. */
+/**
+ * The button that opens the popover. It is rendered as a `Button`.
+ *
+ * @example
+ * <PopoverTrigger variant="secondary">Filters</PopoverTrigger>
+ */
 export function PopoverTrigger({ variant = "secondary", size = "md", children, ...rest }: PopoverTriggerProps) {
   return (
     <BasePopover.Trigger
@@ -52,7 +57,14 @@ export type PopoverContentProps = {
   className?: string;
 };
 
-/** The popover panel with its title and description. Place it inside `Popover`. */
+/**
+ * The popover panel with its title and description. Place it inside `Popover`.
+ *
+ * @example
+ * <PopoverContent title="Filters" description="Narrow the results.">
+ *   <PopoverClose>Done</PopoverClose>
+ * </PopoverContent>
+ */
 export function PopoverContent({ title, description, children, side = "bottom", align = "center", className }: PopoverContentProps) {
   return (
     <BasePopover.Portal>
@@ -74,7 +86,12 @@ export type PopoverCloseProps = {
   size?: ButtonSize;
 } & Omit<BasePopover.Close.Props, "render" | "className" | "color">;
 
-/** A button that closes the popover. It is rendered as a `Button`. */
+/**
+ * A button that closes the popover. It is rendered as a `Button`.
+ *
+ * @example
+ * <PopoverClose>Done</PopoverClose>
+ */
 export function PopoverClose({ variant = "secondary", size = "sm", children, ...rest }: PopoverCloseProps) {
   return (
     <BasePopover.Close

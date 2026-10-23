@@ -63,6 +63,21 @@ export const WithIcon: Story = {
   ),
 };
 
+export const IconSizes: Story = {
+  name: "Icon sizes",
+  render: () => (
+    <Stack gap="2" align="start">
+      {(["sm", "md", "lg"] as const).map((size) => (
+        <Stack key={size} direction="row" gap="2" align="center">
+          <Badge size={size} variant="success" startIcon={<CheckIcon />}>Active</Badge>
+          <Badge size={size} variant="brand" endIcon={<ArrowRightIcon />}>Beta</Badge>
+          <Badge size={size} aria-label="Verified" variant="success" startIcon={<CheckIcon />} />
+        </Stack>
+      ))}
+    </Stack>
+  ),
+};
+
 export const Loading: Story = {
   render: () => (
     <Stack direction="row" gap="2" wrap align="center">

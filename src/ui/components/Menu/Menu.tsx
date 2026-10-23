@@ -48,7 +48,8 @@ export type MenuProps = {
 /**
  * A dropdown list of actions or links, built on Base UI Menu (arrow keys, typeahead, focus return and
  * Escape come from there). Items with `href` are real links; items with `onSelect` are actions.
- * Do not put form controls in a menu: use `Popover`.
+ * Do not put form controls in a menu: use `Popover`. The trigger icons follow its button size;
+ * menu items are compact and use 16px icons.
  *
  * @example
  * <Menu label="Account" items={[

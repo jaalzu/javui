@@ -1,0 +1,77 @@
+.root {
+  --radius-outer: var(--radius-md);
+  --inner-gap: var(--space-1);
+  display: inline-flex;
+  align-items: stretch;
+  gap: 0;
+  box-sizing: border-box;
+  padding: var(--inner-gap);
+  border-radius: var(--radius-outer);
+  background: var(--color-sunken);
+  color: var(--color-primary-foreground);
+}
+
+.item {
+  --icon-size: var(--size-icon-md);
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--icon-gap-md);
+  min-height: var(--size-control-md);
+  padding: 0 var(--space-3);
+  border: 0;
+  border-radius: max(var(--radius-sm), calc(var(--radius-outer) - var(--inner-gap)));
+  background: transparent;
+  color: var(--color-secondary-foreground);
+  font-family: var(--text-label-family);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-line);
+  font-weight: var(--text-label-weight);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--motion-duration-fast) var(--motion-easing-standard),
+    color var(--motion-duration-fast) var(--motion-easing-standard);
+}
+
+.item:hover:not([data-disabled]):not([data-pressed]),
+.item[data-force="hover"]:not([data-disabled]):not([data-pressed]) {
+  background: var(--color-transparent-hover);
+  color: var(--color-primary-foreground);
+}
+
+.item:active:not([data-disabled]),
+.item[data-force="active"]:not([data-disabled]) {
+  background: var(--color-transparent-active);
+}
+
+.item[data-pressed] {
+  background: var(--color-component-on-sunken);
+  color: var(--color-primary-foreground);
+  box-shadow: var(--shadow-inset-ring);
+}
+
+.item:focus-visible,
+.item[data-force="focus"] {
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.item[data-disabled] {
+  color: var(--color-disabled-foreground);
+  cursor: not-allowed;
+}
+
+.sm {
+  --icon-size: var(--size-icon-sm);
+  gap: var(--icon-gap-sm);
+  min-height: var(--size-control-sm);
+  padding-inline: var(--space-2);
+}
+
+@media (pointer: coarse) {
+  .item {
+    min-height: var(--size-target-comfortable);
+  }
+}

@@ -27,6 +27,7 @@ export type InputProps = {
  * A native text input built on Base UI Input. Inside `Field` it is labelled and wired to its
  * description and error automatically, and it inherits `required`, `readOnly` and `loading`.
  * Outside `Field` it needs an accessible name (`aria-label` or an associated `label`).
+ * Icons follow the control size: sm 16px, md 20px, lg 24px.
  *
  * @example
  * <Field label="Email"><Input type="email" autoComplete="email" /></Field>
@@ -55,7 +56,7 @@ export function Input({
   });
 
   return (
-    <span className={styles.wrapper} data-icon={position}>
+    <span className={styles.wrapper} data-icon={position} data-size={size}>
       <IconSlot className={styles.startSlot}>{startIcon}</IconSlot>
       <BaseInput
         className={cx(styles.input, styles[size], className)}

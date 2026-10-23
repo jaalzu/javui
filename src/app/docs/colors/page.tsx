@@ -10,11 +10,15 @@ type Token = [name: string, description: string];
 const groups: { title: string; note?: string; tokens: Token[] }[] = [
   {
     title: "Surfaces",
-    note: "Backgrounds for the page and the blocks on it.",
+    note: "Backgrounds for the page and the blocks on it. At rest, use a border or a lift shadow, never both. Page, card and sunken are already three nested levels.",
     tokens: [
       ["page", "The page itself. Everything sits on it."],
       ["card", "Content blocks on the page: cards, panels, table rows."],
       ["sunken", "Recessed areas inside a card: code blocks, wells, inset fields."],
+      [
+        "highlight",
+        "Highlighted panel inside a card: a metric, total or goal. Dark: lighter than the card; light: soft gray.",
+      ],
       ["modal", "Layers above the page: dialog, menu, select list, popover."],
     ],
   },
@@ -32,17 +36,12 @@ const groups: { title: string; note?: string; tokens: Token[] }[] = [
         "component-on-sunken",
         "Component placed on a sunken area, so it still stands out.",
       ],
-      [
-        "component-on-inverted",
-        "Component placed on an inverted surface.",
-      ],
     ],
   },
   {
     title: "Transparent",
     note: "Ghost controls and list items. No background until you interact.",
     tokens: [
-      ["transparent", "Ghost controls and list items at rest."],
       ["transparent-hover", "Ghost control or list item hovered."],
       [
         "transparent-active",
@@ -57,7 +56,6 @@ const groups: { title: string; note?: string; tokens: Token[] }[] = [
       ["primary-foreground", "Main text and icons."],
       ["secondary-foreground", "Supporting text."],
       ["tertiary-foreground", "Hints, placeholders, metadata."],
-      ["disabled-foreground", "Text and icons of disabled controls."],
     ],
   },
   {
@@ -77,7 +75,7 @@ const groups: { title: string; note?: string; tokens: Token[] }[] = [
       ["brand-solid-hover", "Brand solid hovered, derived from brand-solid."],
       ["brand-subtle", "Soft brand tint, derived from brand-solid."],
       ["brand-foreground", "Brand text and icons, derived from brand-solid."],
-      ["brand-foreground-soft", "Brand text and icons for tinted surfaces, derived from brand-solid."],
+      ["brand-foreground-soft", "Brand text on brand-subtle, derived from brand-solid."],
       ["on-brand-solid-foreground", "Text on brand solid."],
     ],
   },
@@ -127,22 +125,35 @@ const groups: { title: string; note?: string; tokens: Token[] }[] = [
     ],
   },
   {
+    title: "Syntax",
+    note: "Code highlighting. One layer on top of sunken; the CodeBlock tone is separate.",
+    tokens: [
+      ["syntax-text", "Default code text: variables, operators, plain identifiers."],
+      ["syntax-keyword", "Language keywords and control flow."],
+      ["syntax-string", "Strings and template literals."],
+      ["syntax-number", "Numbers, units and constants."],
+      ["syntax-function", "Function and method names."],
+      ["syntax-comment", "Comments, quieter than code."],
+      ["syntax-punctuation", "Braces, brackets and separators."],
+      ["syntax-danger", "Removed code in a diff."],
+      ["syntax-diff-added-bg", "Background of an added line in a diff."],
+      ["syntax-diff-removed-bg", "Background of a removed line in a diff."],
+    ],
+  },
+  {
     title: "Border",
     tokens: [
+      ["border-default", "Default borders: cards and dividers."],
       [
-        "border-default",
-        "Default borders: inputs, cards, dividers you can see.",
+        "border-strong",
+        "Edges of form controls, checked at 3:1 contrast.",
       ],
-      ["border-subtle", "Faint dividers."],
-      ["border-strong", "Emphasized borders and hover."],
-      ["border-inverted", "Borders on inverted surfaces."],
       ["brand-border-default", "Brand border: selected card, active field."],
       ["brand-border-focus", "Focus ring. Stays text-colored."],
       ["positive-border-default", "Positive border."],
       ["warning-border-default", "Warning border."],
       ["info-border-default", "Info border."],
       ["danger-border-default", "Danger border."],
-      ["danger-border-subtle", "Quiet danger border."],
     ],
   },
   {
@@ -164,51 +175,38 @@ const shadows: {
   no: string;
 }[] = [
   {
-    name: "Border",
-    token: "shadow-border",
-    use: "A 1px edge drawn as a shadow. It takes no layout space, so nothing shifts.",
-    yes: [
-      "Cards and panels at rest",
-      "Inputs, selects and textareas",
-      "Tables and code blocks",
-      "Badges and chips with an outline",
-    ],
-    no: "Anything that floats. Use Large or Extra large.",
+    name: "Inset ring",
+    token: "shadow-inset-ring",
+    use: "A quiet 1px ring drawn inside the edge, so it never grows the box.",
+    yes: ["Outline badges and chips", "Selected states"],
+    no: "Anything that needs a visible border or a lift.",
   },
   {
     name: "Default",
     token: "shadow-default",
     use: "A small lift for controls that feel pressable or draggable.",
-    yes: [
-      "Slider thumb",
-      "Switch thumb",
-      "Selected tab or segment",
-      "Secondary buttons that need a lift",
-    ],
+    yes: ["Slider thumb"],
     no: "Big surfaces. A large card with this looks heavy.",
+  },
+  {
+    name: "Raised",
+    token: "shadow-raised",
+    use: "A raised look for secondary controls.",
+    yes: ["Secondary buttons"],
+    no: "Floating panels. Menus and dialogs get Large or Extra large.",
   },
   {
     name: "Large",
     token: "shadow-large",
     use: "Floating panels tied to a trigger. They close when you click away.",
-    yes: [
-      "Menu and context menu",
-      "Select list and combobox list",
-      "Popover and tooltip",
-      "Toast",
-    ],
+    yes: ["Menu and context menu", "Select list", "Popover", "Toast"],
     no: "Full-screen layers. Those get Extra large.",
   },
   {
     name: "Extra large",
     token: "shadow-extra-large",
     use: "Surfaces above the whole page, usually with an overlay behind.",
-    yes: [
-      "Dialog and alert dialog",
-      "Search palette",
-      "Drawer or sheet",
-      "Anything that blocks the page",
-    ],
+    yes: ["Dialog and alert dialog", "Search palette"],
     no: "Small floating things. A menu with this feels too heavy.",
   },
 ];
@@ -245,8 +243,8 @@ export default function Colors() {
         Shadows
       </Heading>
       <p>
-        Four levels. Each starts with a 1px ring so the edge reads on any
-        surface.
+        Four elevation levels plus a quiet inset ring. Each elevation starts
+        with a 1px ring so the edge reads on any surface.
       </p>
       <div className={s.shadows}>
         {shadows.map((sh) => (

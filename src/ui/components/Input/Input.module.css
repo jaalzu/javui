@@ -1,9 +1,20 @@
 .wrapper {
   composes: touchTarget from "../../styles/touchTarget.module.css";
   --input-px: var(--space-3);
-  --icon-size: var(--size-icon-sm);
+  --icon-size: var(--size-icon-md);
+  --input-icon-gap: var(--icon-gap-md);
   display: block;
   width: 100%;
+}
+
+.wrapper[data-size="sm"] {
+  --icon-size: var(--size-icon-sm);
+  --input-icon-gap: var(--icon-gap-sm);
+}
+
+.wrapper[data-size="lg"] {
+  --icon-size: var(--size-icon-lg);
+  --input-icon-gap: var(--icon-gap-lg);
 }
 
 .input {
@@ -75,14 +86,14 @@
 .wrapper[data-icon="start"] .input,
 .wrapper[data-icon="both"] .input {
   padding-inline-start: calc(
-    var(--input-px) + var(--icon-size) + var(--icon-gap-sm)
+    var(--input-px) + var(--icon-size) + var(--input-icon-gap)
   );
 }
 
 .wrapper[data-icon="end"] .input,
 .wrapper[data-icon="both"] .input {
   padding-inline-end: calc(
-    var(--input-px) + var(--icon-size) + var(--icon-gap-sm)
+    var(--input-px) + var(--icon-size) + var(--input-icon-gap)
   );
 }
 

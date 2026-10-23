@@ -32,6 +32,8 @@ const glyph = {
  *
  * @example
  * <Alert tone="danger" title="Payment failed">Check your card details and try again.</Alert>
+ *
+ * Icons use the 20px medium size (the alert has no size variants).
  */
 export function Alert({
   tone = "info",

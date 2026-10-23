@@ -2,71 +2,39 @@
 
 import { useState, type CSSProperties, type ReactNode } from "react";
 import {
-  Accordion,
   Alert,
-  ArrowDownIcon,
-  ArrowUpIcon,
   ArrowsLeftRightIcon,
   Avatar,
   Badge,
   Button,
   ButtonLink,
-  CalendarDotsIcon,
   Card,
   ChartBarIcon,
   ChartLineIcon,
   ChartLineUpIcon,
   ChartPieSliceIcon,
   Checkbox,
-  CheckIcon,
-  CircleIcon,
-  CodeBlockView,
   Dialog,
   DialogClose,
   DialogContent,
-  DialogTrigger,
   Divider,
   Field,
-  FileTextIcon,
+  GearIcon,
   Heading,
   Input,
-  Kbd,
   Link,
-  ListIcon,
-  Menu,
-  PlusIcon,
-  Progress,
-  Radio,
-  RadioGroup,
   Select,
-  Slider,
-  Spinner,
   Stack,
   Switch,
-  Table,
-  Tabs,
-  TargetIcon,
   Text,
-  Textarea,
   WalletIcon,
 } from "@/ui";
 import styles from "./Blocks.module.css";
-import shell from "../../_shell/shell.module.css";
 
-const tick = <CheckIcon size="sm" />;
-const dot = <CircleIcon size="sm" />;
-
-function Person({ name, email }: { name: string; email: string }) {
-  return (
-    <span className={styles.person}>
-      <Avatar name={name} size="sm" />
-      <span className={styles.personText}>
-        <span className={styles.personName}>{name}</span>
-        <span className={styles.personMail}>{email}</span>
-      </span>
-    </span>
-  );
-}
+const cardPadding = {
+  paddingInline: "calc(var(--space-5) + var(--space-1) / 2)",
+  paddingBlock: "calc(var(--space-5) + var(--space-1) / 2)",
+} satisfies CSSProperties;
 
 /** Shared shell for every block: a surface card with a title, optional description and action. */
 function Block({
@@ -74,29 +42,42 @@ function Block({
   title,
   description,
   action,
+  titleClassName,
+  descriptionClassName,
   children,
 }: {
   id: string;
   title: string;
   description?: string;
   action?: ReactNode;
+  titleClassName?: string;
+  descriptionClassName?: string;
   children: ReactNode;
 }) {
   return (
     <Card
       as="section"
       variant="surface"
-      padding="5"
       className={styles.block}
+      style={cardPadding}
       aria-labelledby={id}
     >
       <Stack gap="4">
         <div className={styles.blockHead}>
           <Stack gap="1">
-            <Heading as="h3" size={6} id={id}>
+            <Heading as="h3" size={6} id={id} className={titleClassName}>
               {title}
             </Heading>
-            {description && <Text tone="muted">{description}</Text>}
+            {description && (
+              <Text
+                variant="caption"
+                size="lg"
+                tone="muted"
+                className={descriptionClassName}
+              >
+                {description}
+              </Text>
+            )}
           </Stack>
           {action}
         </div>
@@ -108,73 +89,80 @@ function Block({
 
 /* ---------- Navigation ---------- */
 
-const nav: { title: string; items: [string, ReactNode][] }[] = [
+const navItems = [
   {
-    title: "Overview",
-    items: [
-      ["Analytics", <ChartLineIcon key="analytics" />],
-      ["Transactions", <ArrowsLeftRightIcon key="transactions" />],
-      ["Investments", <ChartLineUpIcon key="investments" />],
-      ["Accounts", <WalletIcon key="accounts" />],
-      ["Spending", <ChartPieSliceIcon key="spending" />],
-    ],
+    label: "Analytics",
+    description: "Traffic, revenue and conversion at a glance.",
+    icon: <ChartLineIcon />,
   },
   {
-    title: "Planning",
-    items: [
-      ["Documents", <FileTextIcon key="documents" />],
-      ["Budget", <ListIcon key="budget" />],
-      ["Reports", <ChartBarIcon key="reports" />],
-      ["Goals", <TargetIcon key="goals" />],
-      ["Calendar", <CalendarDotsIcon key="calendar" />],
-    ],
+    label: "Transactions",
+    description: "Every deposit, withdrawal and transfer.",
+    icon: <ArrowsLeftRightIcon />,
+  },
+  {
+    label: "Investments",
+    description: "Holdings, performance and allocation.",
+    icon: <ChartLineUpIcon />,
+  },
+  {
+    label: "Accounts",
+    description: "Connected accounts and balances.",
+    icon: <WalletIcon />,
+  },
+  {
+    label: "Spending",
+    description: "Where the money goes, by category.",
+    icon: <ChartPieSliceIcon />,
   },
 ];
 
 function Sidebar() {
-  const [active, setActive] = useState("Analytics");
+  const [active, setActive] = useState<(typeof navItems)[number] | null>(null);
   return (
     <Card
       as="section"
       variant="surface"
-      padding="4"
       className={styles.block}
+      style={cardPadding}
       aria-label="Sidebar example"
     >
-      <Stack gap="4">
+      <Stack gap="3">
         <div className={styles.blockHead}>
-          <span className={styles.person}>
-            <Avatar name="Northwind" size="sm" />
-            <span className={styles.personName}>Northwind</span>
-          </span>
-          <Badge>Secondary</Badge>
+          <span className={styles.personName}>Northwind</span>
         </div>
         <nav aria-label="Main" className={styles.sidebar}>
-          {nav.map((g) => (
-            <div key={g.title} className={styles.navGroup}>
-              <span className={styles.navTitle}>{g.title}</span>
-              <ul className={styles.navList}>
-                {g.items.map(([label, icon]) => (
-                  <li key={label}>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className={styles.navLink}
-                      startIcon={icon}
-                      aria-current={active === label ? "page" : undefined}
-                      onClick={() => setActive(label)}
-                    >
-                      {label}
-                    </Button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <span className={styles.navTitle}>Overview</span>
+          <ul className={styles.navList}>
+            {navItems.map((item) => (
+              <li key={item.label}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={styles.navLink}
+                  startIcon={item.icon}
+                  aria-haspopup="dialog"
+                  onClick={() => setActive(item)}
+                >
+                  {item.label}
+                </Button>
+              </li>
+            ))}
+          </ul>
         </nav>
-        <Divider />
-        <Person name="java" email="m@example.com" />
       </Stack>
+      <Dialog
+        open={active !== null}
+        onOpenChange={(open) => {
+          if (!open) setActive(null);
+        }}
+      >
+        {active && (
+          <DialogContent title={active.label} description={active.description}>
+            <DialogClose>Close</DialogClose>
+          </DialogContent>
+        )}
+      </Dialog>
     </Card>
   );
 }
@@ -191,16 +179,17 @@ function SavingsTargets() {
     <Block
       id="blk-targets"
       title="Savings Targets"
-      description="Active milestones for 2024 across your portfolio. Monitor how close you are to each savings goal."
+      description="Active milestones for 2024."
+      titleClassName={styles.targetsTitle}
+      descriptionClassName={styles.targetsDescription}
     >
-      <Stack gap="4">
+      <Stack gap="3">
         {goals.map((g) => (
-          <div key={g.name} className={styles.goal}>
-            <div className={styles.goalHead}>
-              <Text variant="emphasis">{g.name}</Text>
-              <span className={styles.amount}>{g.target}</span>
-            </div>
-            <Progress label={`${g.name} progress`} value={g.pct} />
+          <div key={g.name} className={`${styles.goal} ${styles.highlight}`}>
+            <Text as="span" tone="muted">
+              {g.name}
+            </Text>
+            <span className={styles.goalTotal}>{g.target}</span>
             <div className={styles.goalHead}>
               <Text variant="caption" size="lg" tone="muted">
                 {g.pct}% achieved
@@ -231,7 +220,7 @@ function Contributions() {
     <Block
       id="blk-history"
       title="Contribution History"
-      description="Last 6 months of activity"
+      description="Last 6 months"
     >
       <div className={styles.bars} role="img" aria-label={summary}>
         {history.map(([m, v, label]) => (
@@ -265,44 +254,18 @@ function Contributions() {
   );
 }
 
-function SavingsPlan() {
-  return (
-    <Block
-      id="blk-plan2"
-      title="Savings Plan"
-      action={
-        <Stack direction="row" gap="1">
-          <Badge variant="brand">Accelerated</Badge>
-          <Badge variant="outline">Recurring</Badge>
-        </Stack>
-      }
-    >
-      <Slider label="Monthly contribution" defaultValue={40} />
-      <Select
-        label="Frequency"
-        defaultValue="monthly"
-        items={[
-          { value: "weekly", label: "Weekly" },
-          { value: "monthly", label: "Monthly" },
-          { value: "quarterly", label: "Quarterly" },
-        ]}
-      />
-      <Switch label="Increase 1% every year" defaultChecked />
-      <Switch label="Round up purchases" />
-      <Button>Update plan</Button>
-    </Block>
-  );
-}
-
 function Claimable() {
   return (
     <Block
       id="blk-claim"
       title="Claimable Balance"
+      titleClassName={styles.claimTitle}
       action={<Badge variant="danger">Pending Setup</Badge>}
     >
-      <span className={styles.bigNumber}>$1,211.29</span>
-      <dl className={styles.ledger}>
+      <span className={`${styles.bigNumber} ${styles.bigNumberHero}`}>
+        $1,211.29
+      </span>
+      <dl className={`${styles.ledger} ${styles.highlight}`}>
         <div className={styles.ledgerRow}>
           <dt>Net Royalties</dt>
           <dd>$1,248.75</dd>
@@ -318,10 +281,8 @@ function Claimable() {
         </div>
       </dl>
       <Text variant="caption" size="lg" tone="muted">
-        Once your bank is connected, balances over $10.00 are automatically
-        eligible for monthly distribution on the 15th of each month.
+        Balances over $10.00 are paid monthly once your bank is connected.
       </Text>
-      <Button>Connect bank</Button>
     </Block>
   );
 }
@@ -338,7 +299,7 @@ function Dividends() {
     <Block
       id="blk-div"
       title="Q2 Dividend Income"
-      description="Quarterly dividend payouts across your portfolio holdings."
+      description="Quarterly payouts across your holdings."
     >
       <ul className={styles.holdings}>
         {holdings.map(([name, shares, amount]) => (
@@ -354,7 +315,9 @@ function Dividends() {
           </li>
         ))}
       </ul>
-      <div className={`${styles.ledgerRow} ${styles.ledgerTotal}`}>
+      <div
+        className={`${styles.ledgerRow} ${styles.ledgerTotal} ${styles.highlight}`}
+      >
         <span>Total</span>
         <span>$1,073.60</span>
       </div>
@@ -362,718 +325,80 @@ function Dividends() {
   );
 }
 
-/* A deterministic fake QR so it renders the same every time. */
-const QR_N = 25;
-const qrCells = (() => {
-  const out: [number, number][] = [];
-  let s = 7;
-  const corner = (x: number, y: number) =>
-    (x < 8 && y < 8) || (x >= QR_N - 8 && y < 8) || (x < 8 && y >= QR_N - 8);
-  for (let y = 0; y < QR_N; y++)
-    for (let x = 0; x < QR_N; x++) {
-      if (corner(x, y)) continue;
-      s = (s * 1103515245 + 12345) & 0x7fffffff;
-      if ((s >> 16) % 2) out.push([x, y]);
-    }
-  return out;
-})();
-
-function ConnectDevice() {
-  const finders: [number, number][] = [
-    [0, 0],
-    [QR_N - 7, 0],
-    [0, QR_N - 7],
-  ];
-  return (
-    <Block
-      id="blk-qr"
-      title="Scan to connect your mobile device"
-      description="Open the Ledger mobile app and scan this code to link your device."
-    >
-      <div className={styles.qr}>
-        <svg
-          viewBox={`0 0 ${QR_N} ${QR_N}`}
-          role="img"
-          aria-label="Sample QR code"
-          shapeRendering="crispEdges"
-          fill="currentColor"
-        >
-          {qrCells.map(([x, y]) => (
-            <rect key={`${x}-${y}`} x={x} y={y} width="1" height="1" />
-          ))}
-          {finders.map(([x, y]) => (
-            <g key={`${x}-${y}`}>
-              <rect
-                x={x + 0.5}
-                y={y + 0.5}
-                width="6"
-                height="6"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1"
-              />
-              <rect x={x + 2} y={y + 2} width="3" height="3" />
-            </g>
-          ))}
-        </svg>
-      </div>
-      <Button variant="secondary">Enter code manually</Button>
-    </Block>
-  );
-}
-
-/* ---------- Chat ---------- */
-
-type Msg = { from: "user" | "agent"; body: ReactNode; tool?: string };
-const starter =
-  "I'm building a chat for our app and the scroll behavior is driving me nuts. Every time the AI streams a reply, the whole thread jumps around.";
-const suggestions = [
-  "Summarize this week's runs",
-  "Why did run #468 fail?",
-  "Draft a changelog entry",
-];
-
-function Chat() {
-  const [msgs, setMsgs] = useState<Msg[]>([]);
-  const [draft, setDraft] = useState(starter);
-  const [pending, setPending] = useState(false);
-
-  const reset = () => {
-    setMsgs([]);
-    setDraft(starter);
-    setPending(false);
-  };
-
-  const submit = () => {
-    if (!draft.trim() || pending) return;
-    setMsgs((m) => [...m, { from: "user", body: draft }]);
-    setDraft("");
-    setPending(true);
-    setTimeout(() => {
-      setMsgs((m) => [
-        ...m,
-        {
-          from: "agent",
-          tool: "search_docs",
-          body: (
-            <>
-              <span>
-                That jump usually comes from re-measuring the list while it
-                grows. Three fixes:
-              </span>
-              <ol className={styles.list}>
-                <li>
-                  Keep the scroll container fixed and let only its content grow.
-                </li>
-                <li>Auto-scroll only when the reader is near the bottom.</li>
-                <li>Reserve space for the streaming message.</li>
-              </ol>
-            </>
-          ),
-        },
-      ]);
-      setPending(false);
-    }, 900);
-  };
-
-  return (
-    <Block
-      id="blk-chat"
-      title="Chat"
-      action={
-        <Button
-          variant="ghost"
-          size="sm"
-          aria-label="New chat"
-          startIcon={<PlusIcon />}
-          onClick={reset}
-        />
-      }
-    >
-      <div
-        className={styles.chatScroll}
-        role="log"
-        aria-label="Conversation"
-        aria-live="polite"
-        tabIndex={0}
-      >
-        {msgs.length === 0 ? (
-          <div className={styles.empty}>
-            <Text tone="muted">How can I help you today?</Text>
-            <div className={styles.chips}>
-              {suggestions.map((s) => (
-                <Button
-                  key={s}
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setDraft(s)}
-                >
-                  {s}
-                </Button>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <>
-            {msgs.map((m, i) => (
-              <div
-                key={i}
-                className={`${styles.msg} ${m.from === "user" ? styles.msgUser : ""}`}
-              >
-                <div
-                  className={`${styles.bubble} ${m.from === "user" ? styles.bubbleUser : ""}`}
-                >
-                  {m.tool && <span className={styles.tool}>{m.tool}</span>}
-                  {m.body}
-                </div>
-              </div>
-            ))}
-            {pending && <Spinner size="sm" label="Agent is replying" />}
-          </>
-        )}
-      </div>
-
-      <div className={styles.composer}>
-        <Textarea
-          aria-label="Message"
-          rows={2}
-          value={draft}
-          onChange={(e) => setDraft(e.target.value)}
-          placeholder="Message"
-        />
-        <div className={styles.composerBar}>
-          <Select
-            aria-label="Model"
-            size="sm"
-            defaultValue="balanced"
-            items={[
-              { value: "fast", label: "Fast" },
-              { value: "balanced", label: "Balanced" },
-              { value: "deep", label: "Deep reasoning" },
-            ]}
-          />
-          <Button
-            size="sm"
-            aria-label="Send"
-            startIcon={<ArrowUpIcon />}
-            onClick={submit}
-            disabled={pending || !draft.trim()}
-          />
-        </div>
-      </div>
-    </Block>
-  );
-}
-/* ---------- Agents ---------- */
-
-function AgentRun() {
-  const steps = [
-    ["Read the brief", "done"],
-    ["Search 12 sources", "done"],
-    ["Draft the summary", "running"],
-    ["Review and cite", "queued"],
-  ];
-  return (
-    <Block
-      id="blk-run"
-      title="Run #482"
-      description="Research agent"
-      action={<Badge variant="brand">Running</Badge>}
-    >
-      <Progress label="Task progress" value={2} max={4} />
-      <ul className={styles.steps}>
-        {steps.map(([label, state]) => (
-          <li
-            key={label}
-            className={`${styles.step} ${state === "done" ? styles.stepDone : state === "queued" ? styles.stepQueued : ""}`}
-          >
-            {state === "done" ? tick : dot}
-            <span>{label}</span>
-            {state === "running" && <Badge>Now</Badge>}
-          </li>
-        ))}
-      </ul>
-      <Stack direction="row" gap="2">
-        <Button variant="secondary" size="sm">
-          Pause
-        </Button>
-        <Button variant="ghost" size="sm">
-          Cancel
-        </Button>
-      </Stack>
-    </Block>
-  );
-}
+const limits = [
+  {
+    label: "Session limit",
+    pct: 1,
+    reset: "Reset in 4hr 21min",
+    tone: "session",
+  },
+  { label: "Weekly", pct: 86, reset: "Reset Wed 12:00am", tone: "weekly" },
+] as const;
 
 function Usage() {
   return (
-    <Block id="blk-usage" title="Usage" description="October">
-      <div className={styles.metrics}>
-        {[
-          ["Runs", "1,284"],
-          ["Success", "94%"],
-          ["Cost", "$38"],
-        ].map(([k, v]) => (
-          <div key={k} className={styles.metric}>
+    <Block
+      id="blk-usage"
+      title="Usage"
+      titleClassName={styles.usageTitle}
+      action={
+        <div className={styles.usageActions}>
+          <Button
+            variant="ghost"
+            size="lg"
+            aria-label="View usage chart"
+            startIcon={<ChartBarIcon />}
+          />
+          <Button
+            variant="ghost"
+            size="lg"
+            aria-label="Usage settings"
+            startIcon={<GearIcon />}
+          />
+        </div>
+      }
+    >
+      <div className={styles.limits}>
+        {limits.map((limit) => (
+          <div key={limit.label} className={styles.limit}>
+            <div className={styles.limitHead}>
+              <Text variant="body" size="sm" weight="medium">
+                {limit.label}
+              </Text>
+              <Text variant="caption" size="lg" tone="muted">
+                {limit.pct}% used
+              </Text>
+            </div>
+            <div
+              className={styles.limitTrack}
+              role="progressbar"
+              aria-label={limit.label}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={limit.pct}
+            >
+              <span
+                className={`${styles.limitFill} ${styles[`limitFill-${limit.tone}`]}`}
+                style={{ "--value": `${limit.pct}%` } as CSSProperties}
+              />
+            </div>
             <Text variant="caption" size="lg" tone="muted">
-              {k}
+              {limit.reset}
             </Text>
-            <span className={styles.metricValue}>{v}</span>
           </div>
         ))}
       </div>
-      <Progress label="Budget used ($38 of $50)" value={38} max={50} />
-      <Alert tone="warning" title="76% of your budget">
-        Runs pause at $50 unless you raise the limit.
-      </Alert>
-    </Block>
-  );
-}
-
-type Approval = "pending" | "approved" | "denied";
-function ApprovalBlock() {
-  const [state, setState] = useState<Approval>("pending");
-  return (
-    <Block
-      id="blk-approval"
-      title="Approval needed"
-      description="Support agent · Run #479"
-      action={
-        <Badge
-          variant={
-            state === "pending"
-              ? "default"
-              : state === "approved"
-                ? "success"
-                : "danger"
-          }
-        >
-          {state === "pending"
-            ? "Waiting"
-            : state === "approved"
-              ? "Approved"
-              : "Denied"}
-        </Badge>
-      }
-    >
-      <Text>
-        The agent wants to run this command in{" "}
-        <Text as="span" variant="code">
-          /drafts
-        </Text>
-        :
-      </Text>
-      <CodeBlockView language="bash" code="rm -f drafts/*.md  # 14 files" />
-      {state === "pending" ? (
-        <Stack direction="row" gap="2">
-          <Dialog>
-            <DialogTrigger>Review and approve</DialogTrigger>
-            <DialogContent
-              title="Approve this step?"
-              description="14 files will be deleted. This cannot be undone."
-            >
-              <DialogClose variant="secondary">Cancel</DialogClose>
-              <DialogClose
-                variant="danger"
-                onClick={() => setState("approved")}
-              >
-                Approve
-              </DialogClose>
-            </DialogContent>
-          </Dialog>
-          <Button variant="ghost" onClick={() => setState("denied")}>
-            Deny
-          </Button>
-        </Stack>
-      ) : (
-        <>
-          <Alert
-            tone={state === "approved" ? "success" : "info"}
-            title={state === "approved" ? "Step approved" : "Step denied"}
-          >
-            {state === "approved"
-              ? "The agent is continuing."
-              : "The agent will look for another way."}
-          </Alert>
-          <Button variant="ghost" size="sm" onClick={() => setState("pending")}>
-            Reset demo
-          </Button>
-        </>
-      )}
-    </Block>
-  );
-}
-
-function Runs() {
-  const actions = (n: number) => (
-    <Menu
-      label={`Actions for run ${n}`}
-      variant="ghost"
-      size="sm"
-      align="end"
-      items={[
-        { label: "View trace", onSelect: () => {} },
-        { label: "Retry", onSelect: () => {} },
-        { type: "separator" },
-        { label: "Delete", destructive: true, onSelect: () => {} },
-      ]}
-    />
-  );
-  return (
-    <Block
-      id="blk-runs"
-      title="Recent runs"
-      description="Status, tokens and cost of each run."
-      action={<Button size="sm">New run</Button>}
-    >
-      <Table
-        caption="Recent agent runs"
-        hideCaption
-        columns={[
-          { key: "run", header: "Run" },
-          { key: "status", header: "Status" },
-          { key: "tokens", header: "Tokens", align: "end" },
-          { key: "cost", header: "Cost", align: "end" },
-          {
-            key: "actions",
-            header: <span className={shell.srOnly}>Actions</span>,
-            align: "end",
-          },
-        ]}
-        rows={[
-          {
-            run: <Person name="Research agent" email="#482 · 4 min ago" />,
-            status: <Badge variant="brand">Running</Badge>,
-            tokens: "3,210",
-            cost: "$0.01",
-            actions: actions(482),
-          },
-          {
-            run: <Person name="Support agent" email="#479 · 12 min ago" />,
-            status: <Badge variant="danger">Needs approval</Badge>,
-            tokens: "5,870",
-            cost: "$0.02",
-            actions: actions(479),
-          },
-          {
-            run: <Person name="Research agent" email="#471 · 1 h ago" />,
-            status: <Badge variant="success">Done</Badge>,
-            tokens: "12,430",
-            cost: "$0.04",
-            actions: actions(471),
-          },
-          {
-            run: <Person name="Code reviewer" email="#468 · 2 h ago" />,
-            status: <Badge variant="danger">Failed</Badge>,
-            tokens: "8,905",
-            cost: "$0.03",
-            actions: actions(468),
-          },
-          {
-            run: <Person name="Support agent" email="#463 · 3 h ago" />,
-            status: <Badge variant="success">Done</Badge>,
-            tokens: "6,140",
-            cost: "$0.02",
-            actions: actions(463),
-          },
-        ]}
-      />
-    </Block>
-  );
-}
-
-function AgentSettings() {
-  return (
-    <Block
-      id="blk-config"
-      title="Agent settings"
-      description="How the agent thinks and acts."
-    >
-      <Select
-        label="Model"
-        defaultValue="balanced"
-        items={[
-          { value: "fast", label: "Fast" },
-          { value: "balanced", label: "Balanced" },
-          { value: "deep", label: "Deep reasoning" },
-        ]}
-      />
-      <Slider label="Creativity" defaultValue={30} />
-      <RadioGroup legend="Autonomy" defaultValue="plan">
-        <Radio value="ask" label="Ask before every action" />
-        <Radio value="plan" label="Show a plan first" />
-        <Radio value="auto" label="Act on its own" />
-      </RadioGroup>
-      <Switch label="Web search" defaultChecked />
-      <Switch label="Save run history" defaultChecked />
-      <Button>Save settings</Button>
-    </Block>
-  );
-}
-
-function Trace() {
-  return (
-    <Block
-      id="blk-trace"
-      title="Run trace"
-      description="Every tool call, in order."
-      action={<Badge variant="success">4.1 s</Badge>}
-    >
-      <Accordion
-        multiple
-        items={[
-          {
-            value: "t1",
-            title: "1 · search_docs · 1.2 s",
-            content: (
-              <CodeBlockView
-                language="json"
-                code={'{\n  "query": "pricing changes",\n  "limit": 5\n}'}
-              />
-            ),
-          },
-          {
-            value: "t2",
-            title: "2 · read_page · 0.8 s",
-            content: (
-              <CodeBlockView language="json" code={'{ "url": "/pricing" }'} />
-            ),
-          },
-          {
-            value: "t3",
-            title: "3 · write_summary · 2.1 s",
-            content: (
-              <Text tone="muted">Wrote 3 findings with 3 citations.</Text>
-            ),
-          },
-        ]}
-      />
-    </Block>
-  );
-}
-
-function Prompt() {
-  return (
-    <Block
-      id="blk-prompt"
-      title="Instructions"
-      description="What the agent knows and can use."
-    >
-      <Tabs
-        aria-label="Agent instructions"
-        items={[
-          {
-            value: "prompt",
-            label: "Prompt",
-            content: (
-              <Field
-                label="System prompt"
-                description="Be specific about what to cite."
-              >
-                <Textarea
-                  rows={5}
-                  defaultValue="You are a research assistant. Answer briefly and cite every source."
-                />
-              </Field>
-            ),
-          },
-          {
-            value: "tools",
-            label: "Tools",
-            content: (
-              <Stack gap="2">
-                <Checkbox label="search_docs" defaultChecked />
-                <Checkbox label="read_page" defaultChecked />
-                <Checkbox label="write_file" />
-              </Stack>
-            ),
-          },
-          {
-            value: "schema",
-            label: "Schema",
-            content: (
-              <CodeBlockView
-                language="json"
-                code={
-                  '{\n  "name": "search_docs",\n  "parameters": { "query": "string" }\n}'
-                }
-              />
-            ),
-          },
-        ]}
-      />
-      <Stack direction="row" gap="2">
-        <Button>Save</Button>
-        <Button variant="secondary">Test run</Button>
-      </Stack>
-    </Block>
-  );
-}
-
-function ApiAccess() {
-  const [shown, setShown] = useState(false);
-  return (
-    <Block
-      id="blk-api"
-      title="API access"
-      description="Use the agent from your own code."
-    >
-      <Field
-        label="API key"
-        description="Keep it secret. Rotate it if it leaks."
-      >
-        <Input
-          type={shown ? "text" : "password"}
-          autoComplete="off"
-          readOnly
-          defaultValue="sk-live-8f2a91c4d7e0"
-        />
-      </Field>
-      <Stack direction="row" gap="2">
-        <Button
-          variant="secondary"
-          size="sm"
-          onClick={() => setShown((s) => !s)}
-        >
-          {shown ? "Hide" : "Show"}
-        </Button>
-        <Button variant="secondary" size="sm">
-          Copy
-        </Button>
-        <Button variant="ghost" size="sm">
-          Rotate
-        </Button>
-      </Stack>
-      <CodeBlockView
-        tabs={[
-          {
-            label: "curl",
-            code: 'curl https://api.example.com/v1/runs \\\n  -H "Authorization: Bearer $KEY"',
-          },
-          {
-            label: "node",
-            code: 'const run = await client.runs.create({\n  agent: "research",\n});',
-          },
-        ]}
-      />
-      <Text variant="caption" size="lg" tone="muted">
-        Press <Kbd>⌘</Kbd> + <Kbd>K</Kbd> to search the docs.
-      </Text>
-    </Block>
-  );
-}
-
-function Answer() {
-  const [vote, setVote] = useState<"up" | "down" | null>(null);
-  return (
-    <Block
-      id="blk-answer"
-      title="Answer"
-      action={<Badge variant="outline">3 sources</Badge>}
-    >
-      <p className={styles.lead}>
-        Pro now costs $12 a month, and the free plan lost its API access.
-      </p>
-      <Text tone="muted">
-        The change took effect on May 2. Existing customers keep the old price
-        until their next renewal.
-      </Text>
-      <div className={styles.chips}>
-        <Badge>pricing page</Badge>
-        <Badge>changelog</Badge>
-        <Badge>help center</Badge>
-      </div>
-      <Stack direction="row" gap="2" align="center">
-        <Button
-          variant={vote === "up" ? "primary" : "secondary"}
-          size="sm"
-          aria-pressed={vote === "up"}
-          aria-label="Good answer"
-          startIcon={<ArrowUpIcon />}
-          onClick={() => setVote("up")}
-        />
-        <Button
-          variant={vote === "down" ? "primary" : "secondary"}
-          size="sm"
-          aria-pressed={vote === "down"}
-          aria-label="Bad answer"
-          startIcon={<ArrowDownIcon />}
-          onClick={() => setVote("down")}
-        />
-        <Text variant="caption" size="lg" tone="muted">
-          {vote ? "Thanks for the feedback." : "Was this useful?"}
-        </Text>
-      </Stack>
     </Block>
   );
 }
 
 /* ---------- Account and team ---------- */
 
-function Team() {
-  const menu = (who: string, first: string) => (
-    <Menu
-      label={`Actions for ${who}`}
-      variant="ghost"
-      size="sm"
-      align="end"
-      items={[
-        { label: first, onSelect: () => {} },
-        { type: "separator" },
-        { label: "Remove", destructive: true, onSelect: () => {} },
-      ]}
-    />
-  );
-  return (
-    <Block
-      id="blk-team"
-      title="Team members"
-      description="People with access to this project."
-      action={<Button size="sm">Invite</Button>}
-    >
-      <Table
-        caption="Members and roles"
-        hideCaption
-        columns={[
-          { key: "person", header: "Member" },
-          { key: "role", header: "Role" },
-          { key: "status", header: "Status" },
-          {
-            key: "actions",
-            header: <span className={shell.srOnly}>Actions</span>,
-            align: "end",
-          },
-        ]}
-        rows={[
-          {
-            person: <Person name="Ada Lovelace" email="ada@example.com" />,
-            role: "Admin",
-            status: <Badge variant="success">Active</Badge>,
-            actions: menu("Ada", "Edit role"),
-          },
-          {
-            person: <Person name="Grace Hopper" email="grace@example.com" />,
-            role: "Editor",
-            status: <Badge variant="success">Active</Badge>,
-            actions: menu("Grace", "Edit role"),
-          },
-          {
-            person: <Person name="Alan Turing" email="alan@example.com" />,
-            role: "Viewer",
-            status: <Badge variant="danger">Invited</Badge>,
-            actions: menu("Alan", "Resend invite"),
-          },
-        ]}
-      />
-    </Block>
-  );
-}
-
 function SignIn() {
   return (
     <Block id="blk-signin" title="Sign in" description="Welcome back.">
       <form onSubmit={(e) => e.preventDefault()}>
-        <Stack gap="3">
+        <Stack gap="2">
           <Field label="Email">
             <Input
               type="email"
@@ -1102,15 +427,15 @@ function Plan() {
       title="Pro"
       action={<Badge variant="brand">Popular</Badge>}
     >
-      <p className={styles.price}>
+      <p className={`${styles.price} ${styles.highlight}`}>
         <span className={styles.priceNumber}>$12</span>{" "}
         <span className={styles.priceUnit}>per month</span>
       </p>
       <Text tone="muted">Everything to ship with a small team.</Text>
       <ul className={styles.features}>
-        <li>{tick}Unlimited projects</li>
-        <li>{tick}Ten team members</li>
-        <li>{tick}Priority support</li>
+        <li>Unlimited projects</li>
+        <li>Ten team members</li>
+        <li>Priority support</li>
       </ul>
       <ButtonLink href="/docs/installation">Choose Pro</ButtonLink>
     </Block>
@@ -1127,36 +452,15 @@ function Notifications() {
       <Switch label="Email updates" defaultChecked />
       <Switch label="Push notifications" />
       <Switch label="Weekly digest" defaultChecked />
-      <Field label="Language">
-        <Select
-          items={[
-            { value: "en", label: "English" },
-            { value: "es", label: "Español" },
-          ]}
-          defaultValue="en"
-        />
-      </Field>
+      <Select
+        label="Language"
+        items={[
+          { value: "en", label: "English" },
+          { value: "es", label: "Español" },
+        ]}
+        defaultValue="en"
+      />
       <Button variant="secondary">Save changes</Button>
-    </Block>
-  );
-}
-
-function Onboarding() {
-  return (
-    <Block
-      id="blk-onboard"
-      title="Get started"
-      description="2 of 5 steps done."
-    >
-      <Progress label="Setup" value={2} max={5} />
-      <Stack gap="2">
-        <Checkbox label="Create your first agent" defaultChecked />
-        <Checkbox label="Connect a data source" defaultChecked />
-        <Checkbox label="Run a test" />
-        <Checkbox label="Invite your team" />
-        <Checkbox label="Set a monthly budget" />
-      </Stack>
-      <Button variant="secondary">Continue setup</Button>
     </Block>
   );
 }
@@ -1168,7 +472,7 @@ function Invite() {
       title="Invite a teammate"
       description="They will get an email with a link."
     >
-      <Field label="Email" description="You can add more later.">
+      <Field label="Email">
         <Input type="email" autoComplete="off" placeholder="name@company.com" />
       </Field>
       <Field label="Role">
@@ -1193,37 +497,21 @@ function Invite() {
 export function Blocks() {
   return (
     <div className={styles.blocks}>
-      {/* Each column stacks cards at their natural height. Column widths differ on purpose. */}
-      <div className={`${styles.col} ${styles.colSide}`}>
+      <div className={styles.col}>
         <Sidebar />
         <SignIn />
-        <Plan />
-        <Notifications />
-        <Invite />
       </div>
       <div className={styles.col}>
         <SavingsTargets />
         <Contributions />
-        <Claimable />
-        <Dividends />
-        <ConnectDevice />
-        <Usage />
-      </div>
-      <div className={`${styles.col} ${styles.colWide}`}>
-        <Chat />
-        <Runs />
-        <Team />
-        <Prompt />
-        <Trace />
-        <Answer />
       </div>
       <div className={styles.col}>
-        <SavingsPlan />
-        <ApprovalBlock />
-        <AgentRun />
-        <AgentSettings />
-        <ApiAccess />
-        <Onboarding />
+        <Claimable />
+        <Dividends />
+      </div>
+      <div className={styles.col}>
+        <Usage />
+        <Plan />
       </div>
     </div>
   );

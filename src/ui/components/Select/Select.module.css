@@ -17,12 +17,12 @@
 
 .trigger {
   composes: touchTarget from "../../styles/touchTarget.module.css";
-  --icon-size: var(--size-icon-sm);
+  --icon-size: var(--size-icon-md);
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--icon-gap-sm);
+  gap: var(--icon-gap-md);
   width: 100%;
   margin: 0;
   padding: 0 var(--space-3);
@@ -74,14 +74,20 @@
 }
 
 .sm {
+  --icon-size: var(--size-icon-sm);
+  gap: var(--icon-gap-sm);
   min-height: var(--size-control-sm);
 }
 
 .md {
+  --icon-size: var(--size-icon-md);
+  gap: var(--icon-gap-md);
   min-height: var(--size-control-md);
 }
 
 .lg {
+  --icon-size: var(--size-icon-lg);
+  gap: var(--icon-gap-lg);
   min-height: var(--size-control-lg);
 }
 
@@ -145,11 +151,11 @@
 .item {
   --icon-size: var(--size-icon-sm);
   display: grid;
-  grid-template-columns: 1rem 1fr;
+  grid-template-columns: var(--size-icon-sm) 1fr;
   align-items: center;
-  gap: var(--space-2);
-  min-height: var(--size-target-min);
-  padding: var(--space-1) var(--space-3) var(--space-1) var(--space-2);
+  gap: var(--icon-gap-sm);
+  min-height: var(--size-control-sm);
+  padding: var(--space-1-5) var(--space-3) var(--space-1-5) var(--space-2);
   border-radius: max(var(--radius-sm), calc(var(--radius-outer) - var(--inner-gap)));
   font-family: var(--text-body-family);
   font-size: var(--text-body-size);

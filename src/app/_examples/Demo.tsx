@@ -6,6 +6,7 @@ import {
   Dialog, DialogClose, DialogContent, DialogTrigger, Divider, Field, Grid, Heading, CheckIcon, Input, Kbd, Link, Menu,
   Pagination, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, PlusIcon, Radio, RadioGroup, Select, Skeleton,
   Slider, Spinner, Stack, Switch, Table, Tabs, Text, Textarea, Tooltip, VisuallyHidden, useToast,
+  Label, EmptyState, Sidebar, Collapsible, ToggleGroup, ScrollArea, Sheet, Combobox, ChartLineIcon, GearIcon,
 } from "@/ui";
 
 function ToastDemo() {
@@ -207,6 +208,76 @@ const demos: Record<string, () => ReactNode> = {
   Pagination: () => <Pagination page={2} pageCount={9} hrefTemplate="/docs/components?page={page}" />,
   Progress: () => <Progress label="Uploading" value={40} />,
   Slider: () => <Slider label="Volume" defaultValue={40} />,
+  Label: () => (
+    <Stack gap="2">
+      <Label htmlFor="demo-label-email">Email</Label>
+      <Input id="demo-label-email" type="email" placeholder="you@example.com" />
+    </Stack>
+  ),
+  EmptyState: () => (
+    <EmptyState
+      icon={<ChartLineIcon />}
+      title="No reports yet"
+      description="Connect a data source to see your first report."
+      action={<Button size="sm">Connect source</Button>}
+    />
+  ),
+  Sidebar: () => (
+    <Sidebar
+      label="Workspace"
+      header={<Text weight="medium">Acme</Text>}
+      items={[
+        { label: "Overview", href: "/docs", startIcon: <ChartLineIcon />, active: true },
+        { label: "Settings", href: "/docs/components", startIcon: <GearIcon /> },
+      ]}
+      footer={<Text variant="caption" size="lg" tone="muted">v1.0</Text>}
+    />
+  ),
+  Collapsible: () => (
+    <Collapsible title="Advanced settings" defaultOpen>
+      <Text>Only the options most people need are visible.</Text>
+    </Collapsible>
+  ),
+  ToggleGroup: () => (
+    <ToggleGroup
+      label="View"
+      defaultValue="list"
+      items={[
+        { value: "list", label: "List" },
+        { value: "board", label: "Board" },
+      ]}
+    />
+  ),
+  ScrollArea: () => (
+    <ScrollArea label="Activity">
+      <Stack gap="3">
+        {Array.from({ length: 10 }, (_, index) => (
+          <Text key={index}>Activity entry {index + 1}: a change was saved.</Text>
+        ))}
+      </Stack>
+    </ScrollArea>
+  ),
+  Sheet: () => (
+    <Sheet
+      trigger="Filters"
+      title="Filters"
+      description="Narrow the results."
+      footer={<Button size="sm">Apply</Button>}
+    >
+      <Text>Filter controls would go here.</Text>
+    </Sheet>
+  ),
+  Combobox: () => (
+    <Combobox
+      label="Assignee"
+      placeholder="Search people"
+      items={[
+        { value: "ada", label: "Ada Lovelace", description: "Engineering" },
+        { value: "grace", label: "Grace Hopper", description: "Research" },
+        { value: "alan", label: "Alan Turing", description: "Engineering" },
+      ]}
+    />
+  ),
   CodeBlock: () => <CodeBlockView language="tsx" label="Example" code={'import { Button } from "@/ui";\n\n<Button>Save</Button>'} />,
 };
 

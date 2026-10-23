@@ -1,13 +1,14 @@
 .badge {
   --badge-bg: var(--color-component);
-  --icon-size: var(--size-icon-sm);
+  --icon-size: var(--size-icon-md);
+  --badge-gap: var(--icon-gap-md);
   --badge-fg: var(--color-secondary-foreground);
   --badge-ring: none;
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--icon-gap-sm);
+  gap: var(--badge-gap);
   width: fit-content;
   padding-inline: var(--space-2-5);
   background: var(--badge-bg);
@@ -17,6 +18,7 @@
   font-weight: var(--font-weight-medium);
   letter-spacing: 0.01em;
   line-height: 1;
+  font-variant-numeric: tabular-nums;
   white-space: nowrap;
   user-select: none;
   overflow: hidden;
@@ -24,17 +26,23 @@
 
 /* Sizes */
 .sm {
+  --icon-size: var(--size-icon-sm);
+  --badge-gap: var(--icon-gap-sm);
   height: 1.25rem;
   padding-inline: var(--space-2);
   font-size: var(--font-size-12);
 }
 
 .md {
+  --icon-size: var(--size-icon-md);
+  --badge-gap: var(--icon-gap-md);
   height: 1.5rem;
   font-size: var(--font-size-13);
 }
 
 .lg {
+  --icon-size: var(--size-icon-lg);
+  --badge-gap: var(--icon-gap-lg);
   height: 1.75rem;
   padding-inline: var(--space-3);
   font-size: var(--font-size-14);

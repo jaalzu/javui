@@ -1,0 +1,82 @@
+.root {
+  color: var(--color-primary-foreground);
+}
+
+.trigger {
+  composes: touchTarget from "../../styles/touchTarget.module.css";
+  --icon-size: var(--size-icon-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  box-sizing: border-box;
+  width: 100%;
+  min-height: var(--size-target-comfortable);
+  padding: var(--space-3) 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: inherit;
+  font-family: var(--text-label-family);
+  font-size: var(--text-body-size);
+  line-height: var(--text-label-line);
+  font-weight: var(--font-weight-medium);
+  text-align: start;
+  cursor: pointer;
+}
+
+.trigger:hover:not([data-disabled]),
+.trigger[data-force="hover"]:not([data-disabled]) {
+  background: var(--color-transparent-hover);
+}
+
+.trigger:active:not([data-disabled]),
+.trigger[data-force="active"]:not([data-disabled]) {
+  background: var(--color-transparent-active);
+}
+
+.trigger:focus-visible,
+.trigger[data-force="focus"] {
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.trigger[data-disabled] {
+  color: var(--color-disabled-foreground);
+  cursor: not-allowed;
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--icon-gap-sm);
+  min-width: 0;
+}
+
+.chevron {
+  flex-shrink: 0;
+  color: var(--color-secondary-foreground);
+  transition: transform var(--motion-duration-base) var(--motion-easing-out);
+}
+
+.trigger[data-panel-open] .chevron {
+  transform: rotate(180deg);
+}
+
+.panel {
+  height: var(--collapsible-panel-height);
+  overflow: hidden;
+  transition: height var(--motion-duration-base) var(--motion-easing-out);
+}
+
+.panel[data-starting-style],
+.panel[data-ending-style] {
+  height: 0;
+}
+
+.content {
+  padding: 0 0 var(--space-4);
+  color: var(--color-secondary-foreground);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line);
+}

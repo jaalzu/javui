@@ -17,13 +17,12 @@
 
 ## Components
 ### typography
-- **Text**: Any paragraph, label, caption or inline code that is not a heading.
+- **Text**: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls and fields (buttons, form labels, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
 - **Heading**: Page and section titles.
 - **Link**: Navigation to another page, section or resource.
 - **Kbd**: Keyboard shortcuts in docs and UI.
 - **Badge**: Short status or count labels next to other content.
-- **CodeBlockView**: Client components that cannot render the server CodeBlock.
-- **CodeBlock**: Showing code or commands the user will copy.
+- **CodeBlock** (parts: CodeBlockView): Showing code or commands the user will copy.
 
 ### layout
 - **Box**: A generic container with token padding, surface, border and radius.
@@ -33,21 +32,19 @@
 - **Divider**: A thematic break between groups of content.
 - **Card**: Grouping related content in a bordered surface.
 - **Table**: Comparing data across rows and columns.
+- **ScrollArea**: A fixed-height list, code area or panel that should scroll inside the page.
 
 ### utility
 - **VisuallyHidden**: Text that screen readers must read but sighted users should not see, such as the name of an icon-only button.
 - **Icon**: Any glyph. Named icons are decorative by default; pass `label` when the icon is the only carrier of meaning.
-- **LinkProvider**: Making every link in the library use `next/link` (or another router link) from a single place.
-- **useLinkComponent**: Building your own navigation component that should follow LinkProvider.
 - **Avatar**: Showing who a person or account is.
 
 ### feedback
 - **Spinner**: Indeterminate loading of an action or small region.
 - **Skeleton**: Placeholder for content whose layout is known while it loads.
 - **Alert**: A message that stays on the page and the user must notice, such as a failed save or a warning.
-- **ToastProvider**: Short-lived feedback after an action.
-- **useToast**: Showing a toast after an action finishes.
 - **Progress**: Showing how far a task has got.
+- **EmptyState**: A region that has no content yet, with a next step.
 
 ### controls
 - **Button**: Any action: submit, open, confirm, cancel. Pass `loading` while the action runs.
@@ -60,19 +57,16 @@
 - **Switch**: A setting that turns on or off immediately.
 - **Select**: Choosing one option from a longer list, including read-only and loading states.
 - **Slider**: Choosing a number or range by dragging.
+- **Label**: A visible label for a custom control composition outside Field.
+- **ToggleGroup**: Two to five short, mutually exclusive options, such as a view switch.
+- **Combobox**: Choosing one option from a long list when typing to filter helps.
 
 ### overlays
-- **Dialog**: Interrupting the user for a decision or focused task.
-- **DialogTrigger**: The button that opens the dialog.
-- **DialogContent**: The panel of the dialog.
-- **DialogClose**: Cancel and close actions.
+- **Dialog** (parts: DialogTrigger, DialogContent, DialogClose): Interrupting the user for a decision or focused task.
 - **Tooltip**: Extra clarity for sighted mouse and keyboard users, such as naming an icon button.
-- **TooltipProvider**: Shared open delay across tooltips.
-- **Popover**: Small interactive content tied to a button, such as a form or extra options.
-- **PopoverTrigger**: The button that opens a Popover.
-- **PopoverContent**: The panel shown by a Popover.
-- **PopoverClose**: A button that closes the Popover.
+- **Popover** (parts: PopoverTrigger, PopoverContent, PopoverClose): Small interactive content tied to a button, such as a form or extra options.
 - **Menu**: A list of actions or links behind one button, such as account actions.
+- **Sheet**: Secondary tasks, settings and filters that slide in from an edge.
 
 ### navigation
 - **Tabs**: Switching between related panels in the same place.
@@ -80,6 +74,15 @@
 - **Accordion**: Showing long content in short sections, such as FAQs.
 - **Breadcrumb**: Showing where the page sits in the site.
 - **Pagination**: Moving through content split across URLs.
+- **Sidebar**: Primary vertical navigation beside an app's content, especially on desktop.
+- **Collapsible**: A single section that expands, such as advanced options or extra details.
+
+## Providers and hooks
+- **LinkProvider**: Making every link in the library use `next/link` (or another router link) from a single place.
+- **TooltipProvider**: Shared open delay across tooltips.
+- **ToastProvider**: Short-lived feedback after an action.
+- **useLinkComponent**: Building your own navigation component that should follow LinkProvider.
+- **useToast**: Showing a toast after an action finishes.
 
 
 ---
@@ -94,12 +97,13 @@ For headings use `Heading`; for links use `Link`.
 - Import: `import { Text } from "@/ui";`
 - Renders: p (body variants), span (label, caption), code (code); or the element in `as`
 - Composition: `as` accepts only: p, span, label, strong, em, small, div, code. No links or buttons.
-- Use when: Any paragraph, label, caption or inline code that is not a heading.
+- Use when: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls and fields (buttons, form labels, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
 - Avoid:
   - Headings: use Heading.
   - Links: use Link.
   - Actions: use Button.
   - Setting font-size or color by hand.
+  - Caption size="sm" (10px) for lowercase running text: it is intentional for uppercase metadata, where the extra tracking keeps it legible.
 - Accessibility: Use `as="label"` with `htmlFor` for form labels when not using Field. Do not use tone="subtle" for required text.
 
 ### Props
@@ -219,13 +223,14 @@ variant only reinforces it.
 
 Keep the text to one or two words and truncate counts to two digits (`99+`).
 Badges are secondary and supportive: never use one as a heading or a key
-indicator. Put icons in `startIcon`/`endIcon`; they follow the badge size.
+indicator. Put icons in `startIcon`/`endIcon`; they follow the badge size: sm 16px, md 20px,
+lg 24px.
 
 - Category: typography
 - Base: Own component
 - Import: `import { Badge } from "@/ui";`
 - Renders: span, or the element passed in `render`
-- Composition: Text children, plus optional `startIcon`/`endIcon` (generated icons, no `size`); never put icons in children. `loading` adds a spinner (`spinnerPosition`: start or end). `variant`: default, inverted, outline, brand, success or danger. `size`: sm, md or lg. `shape`: pill (default) or rounded. Pass `render={<Link href="…" />}` to render a link. Keep text to one or two words; truncate counts to two digits (`99+`).
+- Composition: Text children, plus optional `startIcon`/`endIcon` (generated icons, no `size`); never put icons in children. `loading` adds a spinner (`spinnerPosition`: start or end). `variant`: default, inverted, outline, brand, success or danger. `size`: sm, md or lg. Icons follow the size: sm 16px, md 20px, lg 24px. `shape`: pill (default) or rounded. Pass `render={<Link href="…" />}` to render a link. Keep text to one or two words; truncate counts to two digits (`99+`).
 - Use when: Short status or count labels next to other content.
 - Avoid:
   - Using color as the only signal: always include text.
@@ -539,14 +544,15 @@ Also accepts the native props of the element it renders; they pass through.
 Displays an action button. It is built on Base UI Button, so keyboard, focus and disabled behavior come from there.
 It defaults to `type="button"` so it never submits a form by accident; set `type="submit"` explicitly.
 For navigation use `ButtonLink` or `Link`.
-Put icons in `startIcon`/`endIcon`. An icon-only button is valid only with `startIcon` and an
-accessible name (`aria-label` or `aria-labelledby`); with visible children both icons are optional.
+Put icons in `startIcon`/`endIcon`. They follow the control size: sm 16px, md 20px, lg 24px.
+An icon-only button is valid only with `startIcon` and an accessible name (`aria-label` or
+`aria-labelledby`); with visible children both icons are optional.
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Button } from "@/ui";`
 - Renders: button
-- Composition: Defaults to type="button"; pass type="submit" explicitly. Put icons in `startIcon`/`endIcon` (generated icons, no `size`). Icon-only: `startIcon` is required and exactly one of `aria-label` or `aria-labelledby`. Heights: sm 1.75rem, md 2.25rem, lg 2.75rem. Base UI props such as `render` and `nativeButton` are available but not needed for normal use.
+- Composition: Defaults to type="button"; pass type="submit" explicitly. Put icons in `startIcon`/`endIcon` (generated icons, no `size`). Icon-only: `startIcon` is required and exactly one of `aria-label` or `aria-labelledby`. Heights: sm 1.75rem, md 2.25rem, lg 2.75rem. Icons follow the size: sm 16px, md 20px, lg 24px. Base UI props such as `render` and `nativeButton` are available but not needed for normal use.
 - Use when: Any action: submit, open, confirm, cancel. Pass `loading` while the action runs.
 - Avoid:
   - Navigation: use Link.
@@ -635,12 +641,13 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 A native text input built on Base UI Input. Inside `Field` it is labelled and wired to its
 description and error automatically, and it inherits `required`, `readOnly` and `loading`.
 Outside `Field` it needs an accessible name (`aria-label` or an associated `label`).
+Icons follow the control size: sm 16px, md 20px, lg 24px.
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Input } from "@/ui";`
 - Renders: input
-- Composition: Native input props pass through (type, autoComplete, name, required...). Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Inside Field, omit required/readOnly/loading and pass them to Field.
+- Composition: Native input props pass through (type, autoComplete, name, required...). Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Icons follow the size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.
 - Use when: Single-line text entry, read-only values and values that are still loading.
 - Avoid:
   - Using it without Field or aria-label.
@@ -670,6 +677,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 A native `textarea` that works with `Field` the same way `Input` does, including
 `required`, `readOnly` and `loading`. Needs an accessible name inside or outside `Field`.
+Icons use the 20px medium size (the textarea has no size variants).
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
@@ -837,12 +845,13 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).
 Pass `items` instead of composing parts. Inside `Field` it inherits `required`, `readOnly` and `loading`.
+Icons follow the trigger size: sm 16px, md 20px, lg 24px.
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Select } from "@/ui";`
 - Renders: button role="combobox" with a listbox popup in a portal
-- Composition: Pass `items` ({ value, label, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. `loading` replaces the end icon with a spinner. Inside Field, omit required/readOnly/loading and pass them to Field.
+- Composition: Pass `items` ({ value, label, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. `loading` replaces the end icon with a spinner. Icons follow the trigger size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.
 - Use when: Choosing one option from a longer list, including read-only and loading states.
 - Avoid:
   - Two or three options: use RadioGroup.
@@ -904,7 +913,9 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 </Dialog>
 ```
 
-## DialogTrigger
+### Parts
+
+### DialogTrigger
 
 The button that opens the dialog. It is rendered as a `Button`.
 
@@ -918,7 +929,7 @@ The button that opens the dialog. It is rendered as a `Button`.
   - Using a plain Button to open it.
 - Accessibility: Gets aria-haspopup and expanded state from Base UI.
 
-### Props
+#### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
@@ -926,7 +937,12 @@ The button that opens the dialog. It is rendered as a `Button`.
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
-## DialogContent
+#### Example
+```tsx
+<DialogTrigger>Open settings</DialogTrigger>
+```
+
+### DialogContent
 
 The dialog panel with its backdrop, title and description.
 Place it inside `Dialog`.
@@ -941,7 +957,7 @@ Place it inside `Dialog`.
   - Omitting `title`.
 - Accessibility: title is the accessible name; description is the accessible description.
 
-### Props
+#### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `title` | `ReactNode` | yes |  | Dialog title. Required: it is the accessible name of the dialog. |
@@ -951,7 +967,14 @@ Place it inside `Dialog`.
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
-## DialogClose
+#### Example
+```tsx
+<DialogContent title="Delete project?" description="This cannot be undone.">
+  <DialogClose>Cancel</DialogClose>
+</DialogContent>
+```
+
+### DialogClose
 
 A button that closes the dialog. It is rendered as a `Button`.
 
@@ -965,13 +988,18 @@ A button that closes the dialog. It is rendered as a `Button`.
   - Closing by custom onClick state when DialogClose is enough.
 - Accessibility: Closing returns focus to the trigger.
 
-### Props
+#### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size. |
 | `variant` | `"danger" \| "outline" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<DialogClose>Cancel</DialogClose>
+```
 
 ## Tooltip
 
@@ -1005,36 +1033,17 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 <Tooltip content="Bold"><Button aria-label="Bold" variant="ghost">B</Button></Tooltip>
 ```
 
-## TooltipProvider
-
-Shares the open delay between tooltips. The first tooltip waits `delay` ms; moving to the next
-one opens instantly (`data-instant` skips the animation). Put it once near the app root.
-
-- Category: overlays
-- Base: Built on Base UI (@base-ui/react)
-- Import: `import { TooltipProvider } from "@/ui";`
-- Renders: no element
-- Composition: Place once near the app root. Optional. `delay` (default 600) applies only to the first tooltip; the next ones open instantly.
-- Use when: Shared open delay across tooltips.
-- Avoid:
-  - Nesting several providers.
-- Accessibility: No effect on semantics.
-
-### Props
-_No props of its own._
-
-Also accepts the native/Base UI props of the element it renders; they pass through.
-
 ## Tabs
 
 Tabs that switch between panels, built on Base UI Tabs (arrow-key navigation, roles and
 `aria-controls` come from there). Pass `items` instead of composing parts.
+Tabs are compact: icons use the 16px small size.
 
 - Category: navigation
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Tabs } from "@/ui";`
 - Renders: div with a tablist, tab buttons and tabpanels
-- Composition: Pass `items` ({ value, label, content, startIcon?, endIcon?, disabled? }) and an `aria-label`. Icons are generated icons without `size`.
+- Composition: Pass `items` ({ value, label, content, startIcon?, endIcon?, disabled? }) and an `aria-label`. Icons are generated icons without `size`; tabs are compact and use 16px icons.
 - Use when: Switching between related panels in the same place.
 - Avoid:
   - Navigation between pages: use Link.
@@ -1058,67 +1067,19 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 ]} />
 ```
 
-## LinkProvider
-
-Wires navigation once for the whole app. In Next.js pass `next/link` so every library link gets
-client-side navigation and prefetching, with no `render` prop on each one. Without it links are plain `a` elements.
-
-- Category: utility
-- Base: Own component
-- Import: `import { LinkProvider } from "@/ui";`
-- Renders: no element: it provides the link component through context
-- Composition: Place once near the app root: `<LinkProvider component={NextLink}>`. Link, ButtonLink, Menu link items, Breadcrumb and Pagination then render with it.
-- Use when: Making every link in the library use `next/link` (or another router link) from a single place.
-- Avoid:
-  - Passing a `render` prop to individual links.
-  - Nesting several providers.
-- Accessibility: No effect on semantics; the provided component must render an `a`.
-
-### Props
-| Prop | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `component` | `LinkComponent` | yes |  | The component every `Link`, `ButtonLink`, `Breadcrumb`, `Pagination` and `Menu` link renders with. Pass `next/link` in a Next.js app. |
-
-Also accepts the native props of the element it renders; they pass through.
-
-### Example
-```tsx
-"use client";
-import NextLink from "next/link";
-<LinkProvider component={NextLink}>{children}</LinkProvider>
-```
-
-## useLinkComponent
-
-The anchor component to render links with: the one from `LinkProvider`, or `a`.
-
-- Category: utility
-- Base: Own component
-- Import: `import { useLinkComponent } from "@/ui";`
-- Renders: hook, renders nothing
-- Composition: `const LinkEl = useLinkComponent()` returns the provided link component, or `"a"`.
-- Use when: Building your own navigation component that should follow LinkProvider.
-- Avoid:
-  - Calling it in Server Components: it needs a client component.
-- Accessibility: The returned component must render an `a`.
-
-### Props
-_No props of its own._
-
-Also accepts the native props of the element it renders; they pass through.
-
 ## ButtonLink
 
 A link that looks like a `Button`. It renders an `a` (or the component given to `LinkProvider`, such as
 `next/link`), because something that navigates is a link, not a button. For actions use `Button`.
-Put icons in `startIcon`/`endIcon`. An icon-only link is valid only with `startIcon` and an
-accessible name (`aria-label` or `aria-labelledby`); with visible children both icons are optional.
+Put icons in `startIcon`/`endIcon`. They follow the control size: sm 16px, md 20px, lg 24px.
+An icon-only link is valid only with `startIcon` and an accessible name (`aria-label` or
+`aria-labelledby`); with visible children both icons are optional.
 
 - Category: navigation
 - Base: Own component
 - Import: `import { ButtonLink } from "@/ui";`
 - Renders: a (rendered by the LinkProvider component, `next/link` in this app) styled like a Button
-- Composition: Pass `href`, `variant`, `size` and optional `startIcon`/`endIcon` (generated icons, no `size`). Children are the visible label. Icon-only: `startIcon` is required and exactly one of `aria-label` or `aria-labelledby`.
+- Composition: Pass `href`, `variant`, `size` and optional `startIcon`/`endIcon` (generated icons, no `size`). Children are the visible label. Icon-only: `startIcon` is required and exactly one of `aria-label` or `aria-labelledby`. Icons follow the size: sm 16px, md 20px, lg 24px.
 - Use when: A call to action that goes to another page, such as Get started or Docs.
 - Avoid:
   - Actions that do not navigate: use Button.
@@ -1186,7 +1147,7 @@ For short-lived feedback after an action, use `useToast` instead.
 - Base: Own component
 - Import: `import { Alert } from "@/ui";`
 - Renders: div with role alert (danger, warning) or role status (info, success)
-- Composition: Pass `tone`, optional `title`, and the message as children. `startIcon` replaces the tone glyph; `endIcon` adds a trailing icon (generated icons, no `size`).
+- Composition: Pass `tone`, optional `title`, and the message as children. `startIcon` replaces the tone glyph; `endIcon` adds a trailing icon (generated icons, no `size`; the single-size alert uses 20px icons).
 - Use when: A message that stays on the page and the user must notice, such as a failed save or a warning.
 - Avoid:
   - Short-lived confirmations: use Toast.
@@ -1206,6 +1167,8 @@ Also accepts the native props of the element it renders; they pass through.
 ### Example
 ```tsx
 <Alert tone="danger" title="Payment failed">Check your card details and try again.</Alert>
+
+Icons use the 20px medium size (the alert has no size variants).
 ```
 
 ## Avatar
@@ -1269,7 +1232,9 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 </Popover>
 ```
 
-## PopoverTrigger
+### Parts
+
+### PopoverTrigger
 
 The button that opens the popover. It is rendered as a `Button`.
 
@@ -1283,7 +1248,7 @@ The button that opens the popover. It is rendered as a `Button`.
   - Using it outside Popover.
 - Accessibility: A real button with aria-expanded and aria-controls.
 
-### Props
+#### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
@@ -1291,7 +1256,12 @@ The button that opens the popover. It is rendered as a `Button`.
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
-## PopoverContent
+#### Example
+```tsx
+<PopoverTrigger variant="secondary">Filters</PopoverTrigger>
+```
+
+### PopoverContent
 
 The popover panel with its title and description. Place it inside `Popover`.
 
@@ -1305,7 +1275,7 @@ The popover panel with its title and description. Place it inside `Popover`.
   - Leaving out the title.
 - Accessibility: Labelled by its title. Focus is returned to the trigger on close.
 
-### Props
+#### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `title` | `ReactNode` | yes |  | Heading of the panel. Required: it is the accessible name of the popover. |
@@ -1317,7 +1287,14 @@ The popover panel with its title and description. Place it inside `Popover`.
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
-## PopoverClose
+#### Example
+```tsx
+<PopoverContent title="Filters" description="Narrow the results.">
+  <PopoverClose>Done</PopoverClose>
+</PopoverContent>
+```
+
+### PopoverClose
 
 A button that closes the popover. It is rendered as a `Button`.
 
@@ -1331,7 +1308,7 @@ A button that closes the popover. It is rendered as a `Button`.
   - Icon-only without a label.
 - Accessibility: A real button.
 
-### Props
+#### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | sm | Button size. |
@@ -1339,17 +1316,23 @@ A button that closes the popover. It is rendered as a `Button`.
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
+#### Example
+```tsx
+<PopoverClose>Done</PopoverClose>
+```
+
 ## Menu
 
 A dropdown list of actions or links, built on Base UI Menu (arrow keys, typeahead, focus return and
 Escape come from there). Items with `href` are real links; items with `onSelect` are actions.
-Do not put form controls in a menu: use `Popover`.
+Do not put form controls in a menu: use `Popover`. The trigger icons follow its button size;
+menu items are compact and use 16px icons.
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Menu } from "@/ui";`
 - Renders: button that opens a role menu with menuitems
-- Composition: Pass `label` (the button text) and `items`: `{ label, startIcon?, endIcon?, onSelect?, href?, disabled?, destructive? }` or `{ type: "separator" }`. Icons are generated icons without `size`.
+- Composition: Pass `label` (the button text) and `items`: `{ label, startIcon?, endIcon?, onSelect?, href?, disabled?, destructive? }` or `{ type: "separator" }`. Icons are generated icons without `size`; the trigger follows its button size and menu items are compact (16px).
 - Use when: A list of actions or links behind one button, such as account actions.
 - Avoid:
   - Navigation between sections of the site: use links.
@@ -1375,60 +1358,6 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
   { type: "separator" },
   { label: "Sign out", onSelect: signOut },
 ]} />
-```
-
-## ToastProvider
-
-Place once near the root of the app (inside `Providers`). It renders the stack of toasts and makes
-`useToast` available. Built on Base UI Toast (live-region announcements, F6 to reach the toasts, swipe to
-dismiss, pause on hover and focus come from there).
-
-- Category: feedback
-- Base: Built on Base UI (@base-ui/react)
-- Import: `import { ToastProvider } from "@/ui";`
-- Renders: no visible element until a toast is shown; renders a viewport in a portal
-- Composition: Place once near the app root, inside Providers. Then call `useToast()` anywhere below it.
-- Use when: Short-lived feedback after an action.
-- Avoid:
-  - Messages that must stay: use Alert.
-  - Several providers.
-- Accessibility: Live-region announcements, F6 to reach toasts, pause on hover and focus. The dismiss button is labelled.
-
-### Props
-_No props of its own._
-
-Also accepts the native/Base UI props of the element it renders; they pass through.
-
-### Example
-```tsx
-<ToastProvider>{children}</ToastProvider>
-```
-
-## useToast
-
-Show short-lived feedback after an action (saved, copied, failed). Returns `show` and `close`.
-For messages that must stay on the page, use `Alert`.
-
-- Category: feedback
-- Base: Built on Base UI (@base-ui/react)
-- Import: `import { useToast } from "@/ui";`
-- Renders: hook, renders nothing
-- Composition: `const { show, close } = useToast(); show({ title, description?, tone?, timeout?, startIcon?, endIcon? })`. Icons are generated icons without `size`.
-- Use when: Showing a toast after an action finishes.
-- Avoid:
-  - Calling it outside ToastProvider.
-  - Putting the only copy of important information in a toast.
-- Accessibility: The tone is never the only signal: write it in the title.
-
-### Props
-_No props of its own._
-
-Also accepts the native/Base UI props of the element it renders; they pass through.
-
-### Example
-```tsx
-const { show } = useToast();
-show({ title: "Saved", tone: "success" });
 ```
 
 ## Accordion
@@ -1477,7 +1406,7 @@ For layout, use `Grid` or `Stack`, never a table.
 - Base: Own component
 - Import: `import { Table } from "@/ui";`
 - Renders: table with caption, thead, tbody, th scope and a focusable scroll region
-- Composition: Pass `caption`, `columns` ({ key, header, align? }) and `rows` (objects by key).
+- Composition: Pass `caption`, `columns` ({ key, header, align? }) and `rows` (objects by key). Use `align: "end"` for numeric columns: they align end and use tabular numbers.
 - Use when: Comparing data across rows and columns.
 - Avoid:
   - Page layout: use Grid or Stack.
@@ -1642,36 +1571,336 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 <Slider label="Budget" error="Choose a budget" required />
 ```
 
-## CodeBlockView
+## Label
 
-Presentation half of `CodeBlock`: tabs, copy button and the focusable code region.
-The server passes highlighted HTML; without it the code stays plain text.
+A visible label for a form control, in the shared `label` text style.
+Prefer `Field`, which also wires the description, error and required state.
+Use this when you build a custom composition outside Field.
 
-- Category: typography
+- Category: controls
 - Base: Own component
-- Import: `import { CodeBlockView } from "@/ui";`
-- Renders: client-only presentation of a CodeBlock: tabs, copy button and focusable code region
-- Composition: Internal to CodeBlock. Use it only in client components; pass pre-highlighted `html`/`tabHtml` when available, otherwise the code stays plain.
-- Use when: Client components that cannot render the server CodeBlock.
+- Import: `import { Label } from "@/ui";`
+- Renders: label
+- Composition: Text children, `htmlFor`, and optional `required` (prints "Required"; the control still needs its own required attribute) and `disabled`. Prefer Field, which wires description, error and ARIA.
+- Use when: A visible label for a custom control composition outside Field.
 - Avoid:
-  - Server pages: use CodeBlock, which highlights automatically.
-  - Coloring tokens by hand.
-- Accessibility: The code region is focusable and named; the copy result is announced via role status.
+  - Replacing Field for a standard form field.
+  - Using it as a heading or body text.
+  - Relying on an asterisk for required: Label spells out "Required".
+- Accessibility: Associate it with the control through `htmlFor`. Required state must also be on the control (native or ARIA).
 
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
+| `children` | `ReactNode` | yes |  | Text of the label. |
 | `className` | `string` | no |  |  |
-| `code` | `string` | no |  | The code to show, as plain text. Use `tabs` instead when there are alternatives (bun, npm, pnpm). |
-| `highlightLines` | `number[]` | no | undefined | 1-based line numbers to mark with a 2px left bar and a subtle background. No line numbers are rendered. The same lines apply to every tab. |
-| `html` | `string \| null` | no |  | Highlighted HTML for `code`, produced on the server. |
-| `label` | `string` | no | Code | Accessible name of the scrollable code region. |
-| `language` | `string` | no |  | Language name. `bash`, `sh` and `shell` show a small terminal icon instead of the word. |
-| `tabHtml` | `Record<string, string \| null>` | no |  | Highlighted HTML per tab label, produced on the server. |
-| `tabs` | `CodeTab[]` | no |  | Alternative versions of the same code, usually one command per package manager. The first tab is selected first. |
-| `tone` | `"success" \| "danger" \| "default" \| "brand"` | no | default | Color the frame for the kind of message: default, brand, success or danger. |
+| `disabled` | `boolean` | no | false | Dims the label and removes the pointer cursor. Use only when the control is disabled. |
+| `htmlFor` | `string` | no |  | The id of the control this label belongs to. |
+| `required` | `boolean` | no | false | Prints "Required" after the text. The control still needs its own `required` attribute. |
 
 Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Label htmlFor="email">Email</Label>
+<Label htmlFor="name" required>Name</Label>
+```
+
+## EmptyState
+
+A quiet placeholder for a region with no content, with an optional icon and action.
+The icon is decorative; the title carries the meaning.
+
+- Category: feedback
+- Base: Own component
+- Import: `import { EmptyState } from "@/ui";`
+- Renders: section with a heading
+- Composition: Pass `title` (required), optional `description`, `icon` (generated icon, no `size`), `action` (usually Button or ButtonLink) and `as` for the heading level (h2-h4, default h3).
+- Use when: A region that has no content yet, with a next step.
+- Avoid:
+  - Errors and failures: use Alert.
+  - Loading placeholders: use Skeleton.
+  - Decorating a section that already has content.
+- Accessibility: The title is a real heading and carries the meaning; the icon is decorative. Keep the heading level in order with the page.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `title` | `ReactNode` | yes |  | Short title of the empty state. |
+| `action` | `ReactNode` | no |  | Main action, usually a Button or ButtonLink. |
+| `as` | `"h2" \| "h3" \| "h4"` | no | h3 | Heading level for the title. Keep the page outline in order. |
+| `className` | `string` | no |  |  |
+| `description` | `ReactNode` | no |  | One or two sentences that explain what to do next. |
+| `icon` | `ReactNode` | no |  | Icon above the title. Pass a generated icon without `size`; the component sizes it. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<EmptyState
+  icon={<FolderIcon />}
+  title="No projects yet"
+  description="Create a project to start collecting feedback."
+  action={<Button>New project</Button>}
+/>
+```
+
+## Sidebar
+
+A vertical navigation panel for the side of an app layout. Items can be links or buttons;
+links use the component from `LinkProvider`. This is a layout piece, not a Base UI primitive.
+
+- Category: navigation
+- Base: Own component
+- Import: `import { Sidebar } from "@/ui";`
+- Renders: aside with a nav landmark and a list
+- Composition: Pass `label` (required), `items` ({ label, href?, onSelect?, startIcon?, active?, disabled? }), optional `header` and `footer`. Links render with the LinkProvider component; items without href are buttons.
+- Use when: Primary vertical navigation beside an app's content, especially on desktop.
+- Avoid:
+  - Main site navigation in a header: use SiteHeader or links.
+  - More than one primary sidebar on a page.
+  - Using it for unrelated actions: use Menu or a toolbar.
+- Accessibility: The nav landmark is named by `label`; the active item gets aria-current="page". Disabled items are not focusable links and are not clickable.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `items` | `SidebarItem[]` | yes |  | The navigation items, in order. |
+| `label` | `string` | yes |  | Accessible name of the navigation landmark. Required. |
+| `className` | `string` | no |  |  |
+| `footer` | `ReactNode` | no |  | Content below the navigation, pinned to the end. |
+| `header` | `ReactNode` | no |  | Content above the navigation, such as a title or a workspace switcher. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Sidebar
+  label="Workspace"
+  header={<Heading as="h2" size={6}>Acme</Heading>}
+  items={[
+    { label: "Overview", href: "/", startIcon: <HouseIcon />, active: true },
+    { label: "Settings", href: "/settings", startIcon: <GearIcon /> },
+  ]}
+/>
+```
+
+## Collapsible
+
+One section that expands and collapses, built on Base UI Collapsible. For a set of sections
+use `Accordion`; use this for a single disclosure, such as advanced options.
+
+- Category: navigation
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Collapsible } from "@/ui";`
+- Renders: div with a button trigger and a region panel
+- Composition: Pass `title`, panel `children`, optional `startIcon`/`endIcon` (generated icons, no `size`), open state (`defaultOpen`, `open`, `onOpenChange`) and `disabled`.
+- Use when: A single section that expands, such as advanced options or extra details.
+- Avoid:
+  - A set of sections: use Accordion.
+  - Hiding critical content users must read.
+  - Navigation between pages.
+- Accessibility: The trigger is a button with aria-expanded and aria-controls; the panel is its region. Keyboard behavior comes from Base UI.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | yes |  | Panel content. |
+| `title` | `ReactNode` | yes |  | Visible title. It is the button that opens the panel. |
+| `className` | `string` | no |  |  |
+| `defaultOpen` | `boolean` | no | false | Open at first render, when uncontrolled. |
+| `disabled` | `boolean` | no | false | Disables the trigger. |
+| `endIcon` | `ReactNode` | no |  | Icon after the title, before the chevron. Pass a generated icon without `size`. |
+| `onOpenChange` | `((open: boolean) => void)` | no |  |  |
+| `open` | `boolean` | no |  | Controlled open state. |
+| `startIcon` | `ReactNode` | no |  | Icon before the title. Pass a generated icon without `size`; the trigger sizes it. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Collapsible title="Advanced settings">
+  <p>Only the options most people need are visible.</p>
+</Collapsible>
+```
+
+## ToggleGroup
+
+A segmented single-choice control built on Base UI Toggle Group. Use it for two to five short,
+mutually exclusive options, such as a view switch. For longer content use Tabs; for independent
+on/off choices use Checkbox.
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { ToggleGroup } from "@/ui";`
+- Renders: div role="group" with toggle buttons
+- Composition: Pass `label` (required accessible name), `items` ({ value, label, startIcon?, disabled? }), optional controlled value, `size` (sm or md) and `disabled`. Single choice only.
+- Use when: Two to five short, mutually exclusive options, such as a view switch.
+- Avoid:
+  - Long content changes: use Tabs.
+  - Independent on/off choices: use Checkbox or Switch.
+  - More than five options: use Select.
+- Accessibility: Arrow keys move between toggles and roles come from Base UI. The group needs its `label`; selected state is exposed with aria-pressed.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `items` | `ToggleGroupItem[]` | yes |  | The options, in order. |
+| `label` | `string` | yes |  | Accessible name of the group. Required. |
+| `className` | `string` | no |  |  |
+| `defaultValue` | `string` | no |  | Initially selected value, when uncontrolled. |
+| `disabled` | `boolean` | no | false |  |
+| `onValueChange` | `((value: string) => void)` | no |  | Called with the selected value, or an empty string when nothing is selected. |
+| `size` | `"sm" \| "md"` | no | md | Control height: `sm` 1.75rem, `md` 2.25rem. |
+| `value` | `string` | no |  | Selected value, when controlled. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<ToggleGroup
+  label="View"
+  defaultValue="list"
+  items={[
+    { value: "list", label: "List" },
+    { value: "grid", label: "Grid" },
+  ]}
+/>
+```
+
+## ScrollArea
+
+A styled scroll container built on Base UI Scroll Area. Use it for a fixed-height panel, such as
+a list or a code area, where the page itself should not scroll. The viewport is keyboard focusable.
+
+- Category: layout
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { ScrollArea } from "@/ui";`
+- Renders: div frame with a focusable scroll viewport and custom scrollbars
+- Composition: Pass `children`, optional `label` (accessible name of the scroll region) and `className` to set the height. Default maximum block size is 12rem; override it with a layout class.
+- Use when: A fixed-height list, code area or panel that should scroll inside the page.
+- Avoid:
+  - The whole page scrolling: let the page scroll.
+  - Overflowing menus and popups: they handle it themselves.
+  - Horizontal-only swipe carousels with no keyboard alternative.
+- Accessibility: The viewport is keyboard focusable and shows a focus ring, so keyboard users can scroll it. Give it `label` when the content is not self-explanatory.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | yes |  | The scrollable content. |
+| `className` | `string` | no |  | Class for the outer frame. Use it to set the height. |
+| `label` | `string` | no |  | Accessible name of the scrollable region. |
+| `viewportClassName` | `string` | no |  | Class for the scrolling viewport. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<ScrollArea label="Activity" className="h-64">
+  <Stack gap="3">{items}</Stack>
+</ScrollArea>
+```
+
+## Sheet
+
+A side sheet for secondary tasks and settings, built on Base UI Drawer. Focus is trapped, Escape
+closes it, and it can be swiped away on touch. For a centered decision use `Dialog`.
+
+- Category: overlays
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Sheet } from "@/ui";`
+- Renders: a trigger button; when open, a backdrop and a side panel in a portal
+- Composition: Pass `trigger` (button text), `title`, optional `description`, `children`, `footer`, `side` (left or right, default right) and open state. One component, no parts.
+- Use when: Secondary tasks, settings and filters that slide in from an edge.
+- Avoid:
+  - A centered decision: use Dialog.
+  - Non-essential information: use Tooltip or inline content.
+  - Sheets without a title.
+- Accessibility: Focus is trapped and returned, Escape closes, the page behind is inert, and the title names the sheet. The close button has an accessible label.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `title` | `ReactNode` | yes |  | Accessible name of the sheet, shown at the top. |
+| `trigger` | `ReactNode` | yes |  | Text of the trigger button. |
+| `children` | `ReactNode` | no |  | Main content. |
+| `className` | `string` | no |  |  |
+| `closeLabel` | `string` | no | Close | Accessible name of the close button. |
+| `defaultOpen` | `boolean` | no | false | Initially open, when uncontrolled. |
+| `description` | `ReactNode` | no |  | Optional explanation under the title. |
+| `footer` | `ReactNode` | no |  | Actions shown at the bottom, usually buttons. |
+| `onOpenChange` | `((open: boolean) => void)` | no |  |  |
+| `open` | `boolean` | no |  | Controlled open state. |
+| `side` | `"left" \| "right"` | no | right | Edge the sheet enters from. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Sheet
+  trigger="Filters"
+  title="Filters"
+  description="Narrow the results."
+  footer={<Button>Apply</Button>}
+>
+  <Field label="Status"><Select items={statuses} /></Field>
+</Sheet>
+```
+
+## Combobox
+
+A searchable single-choice field built on Base UI Combobox (filtering, keyboard navigation,
+focus and form value come from there). Pass `items` instead of composing parts.
+Inside `Field` it inherits `required`, `readOnly` and `loading`.
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Combobox } from "@/ui";`
+- Renders: input role="combobox" with a filterable listbox popup
+- Composition: Pass `items` ({ value, label, description?, startIcon?, disabled? }), a `label` or `aria-label`, and optional `placeholder`, `emptyMessage`, `startIcon`, `size` (sm, md, lg) and open/selection state. Inside Field, omit required/readOnly/loading and pass them to Field. Icons are generated icons without `size`.
+- Use when: Choosing one option from a long list when typing to filter helps.
+- Avoid:
+  - Fewer than about seven options: use Select.
+  - Several choices: use Checkbox or a multi-select pattern.
+  - Free text that is not from the list: use Input.
+- Accessibility: Filtering, keyboard navigation and focus come from Base UI. Needs an accessible name from `label`, `aria-label` or Field. The popup is announced with the result count.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `items` | `ComboboxOption[]` | yes |  | The options, in order. |
+| `aria-label` | `string` | no |  | Accessible name when there is no visible label. |
+| `className` | `string` | no |  |  |
+| `data-force` | `"focus"` | no |  | Story/test hook: force the focus ring without moving focus. |
+| `defaultValue` | `string` | no |  | Initially selected value, when uncontrolled. |
+| `disabled` | `boolean` | no | false |  |
+| `emptyMessage` | `string` | no | No results. | Message shown when the filter has no matches. |
+| `id` | `string` | no |  |  |
+| `label` | `string` | no |  | Visible label. Provide it, or `aria-label`, or put the Combobox inside `Field`. |
+| `loading` | `boolean` | no | false | Shows a small spinner, marks the field busy and makes it not editable. Inside `Field`, omit it and pass `loading` to the Field instead. |
+| `name` | `string` | no |  | Submitted with the form. |
+| `onValueChange` | `((value: string) => void)` | no |  | Called with the selected value, or an empty string when cleared. |
+| `placeholder` | `string` | no |  | Placeholder shown when no value is selected. |
+| `readOnly` | `boolean` | no | false |  |
+| `required` | `boolean` | no | false |  |
+| `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. |
+| `startIcon` | `ReactNode` | no |  | Icon before the input. Pass a generated icon without `size`; the field sizes it. |
+| `value` | `string` | no |  | Selected value, when controlled. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Combobox
+  label="Assignee"
+  placeholder="Search people"
+  items={[
+    { value: "ada", label: "Ada Lovelace", description: "Engineering" },
+    { value: "grace", label: "Grace Hopper", description: "Research" },
+  ]}
+/>
+```
 
 ## CodeBlock
 
@@ -1703,6 +1932,164 @@ and dark work without extra code. Unknown languages are shown as plain text.
 | `tone` | `"success" \| "danger" \| "default" \| "brand"` | no | default | Color the frame for the kind of message: default, brand, success or danger. |
 
 Also accepts the native props of the element it renders; they pass through.
+
+### Parts
+
+### CodeBlockView
+
+Presentation half of `CodeBlock`: tabs, copy button and the focusable code region.
+The server passes highlighted HTML; without it the code stays plain text.
+
+- Category: typography
+- Base: Own component
+- Import: `import { CodeBlockView } from "@/ui";`
+- Renders: client-only presentation of a CodeBlock: tabs, copy button and focusable code region
+- Composition: Internal to CodeBlock. Use it only in client components; pass pre-highlighted `html`/`tabHtml` when available, otherwise the code stays plain.
+- Use when: Client components that cannot render the server CodeBlock.
+- Avoid:
+  - Server pages: use CodeBlock, which highlights automatically.
+  - Coloring tokens by hand.
+- Accessibility: The code region is focusable and named; the copy result is announced via role status.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `className` | `string` | no |  |  |
+| `code` | `string` | no |  | The code to show, as plain text. Use `tabs` instead when there are alternatives (bun, npm, pnpm). |
+| `highlightLines` | `number[]` | no | undefined | 1-based line numbers to mark with a 2px left bar and a subtle background. No line numbers are rendered. The same lines apply to every tab. |
+| `html` | `string \| null` | no |  | Highlighted HTML for `code`, produced on the server. |
+| `label` | `string` | no | Code | Accessible name of the scrollable code region. |
+| `language` | `string` | no |  | Language name. `bash`, `sh` and `shell` show a small terminal icon instead of the word. |
+| `tabHtml` | `Record<string, string \| null>` | no |  | Highlighted HTML per tab label, produced on the server. |
+| `tabs` | `CodeTab[]` | no |  | Alternative versions of the same code, usually one command per package manager. The first tab is selected first. |
+| `tone` | `"success" \| "danger" \| "default" \| "brand"` | no | default | Color the frame for the kind of message: default, brand, success or danger. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+## Providers and hooks
+
+## LinkProvider
+
+Wires navigation once for the whole app. In Next.js pass `next/link` so every library link gets
+client-side navigation and prefetching, with no `render` prop on each one. Without it links are plain `a` elements.
+
+- Category: utility
+- Base: Own component
+- Import: `import { LinkProvider } from "@/ui";`
+- Renders: no element: it provides the link component through context
+- Composition: Place once near the app root: `<LinkProvider component={NextLink}>`. Link, ButtonLink, Menu link items, Breadcrumb and Pagination then render with it.
+- Use when: Making every link in the library use `next/link` (or another router link) from a single place.
+- Avoid:
+  - Passing a `render` prop to individual links.
+  - Nesting several providers.
+- Accessibility: No effect on semantics; the provided component must render an `a`.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `component` | `LinkComponent` | yes |  | The component every `Link`, `ButtonLink`, `Breadcrumb`, `Pagination` and `Menu` link renders with. Pass `next/link` in a Next.js app. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+"use client";
+import NextLink from "next/link";
+<LinkProvider component={NextLink}>{children}</LinkProvider>
+```
+
+## TooltipProvider
+
+Shares the open delay between tooltips. The first tooltip waits `delay` ms; moving to the next
+one opens instantly (`data-instant` skips the animation). Put it once near the app root.
+
+- Category: overlays
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { TooltipProvider } from "@/ui";`
+- Renders: no element
+- Composition: Place once near the app root. Optional. `delay` (default 600) applies only to the first tooltip; the next ones open instantly.
+- Use when: Shared open delay across tooltips.
+- Avoid:
+  - Nesting several providers.
+- Accessibility: No effect on semantics.
+
+### Props
+_No props of its own._
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+## ToastProvider
+
+Place once near the root of the app (inside `Providers`). It renders the stack of toasts and makes
+`useToast` available. Built on Base UI Toast (live-region announcements, F6 to reach the toasts, swipe to
+dismiss, pause on hover and focus come from there).
+
+- Category: feedback
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { ToastProvider } from "@/ui";`
+- Renders: no visible element until a toast is shown; renders a viewport in a portal
+- Composition: Place once near the app root, inside Providers. Then call `useToast()` anywhere below it.
+- Use when: Short-lived feedback after an action.
+- Avoid:
+  - Messages that must stay: use Alert.
+  - Several providers.
+- Accessibility: Live-region announcements, F6 to reach toasts, pause on hover and focus. The dismiss button is labelled.
+
+### Props
+_No props of its own._
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<ToastProvider>{children}</ToastProvider>
+```
+
+## useLinkComponent
+
+The anchor component to render links with: the one from `LinkProvider`, or `a`.
+
+- Category: utility
+- Base: Own component
+- Import: `import { useLinkComponent } from "@/ui";`
+- Renders: hook, renders nothing
+- Composition: `const LinkEl = useLinkComponent()` returns the provided link component, or `"a"`.
+- Use when: Building your own navigation component that should follow LinkProvider.
+- Avoid:
+  - Calling it in Server Components: it needs a client component.
+- Accessibility: The returned component must render an `a`.
+
+### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+## useToast
+
+Show short-lived feedback after an action (saved, copied, failed). Returns `show` and `close`.
+For messages that must stay on the page, use `Alert`.
+
+- Category: feedback
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { useToast } from "@/ui";`
+- Renders: hook, renders nothing
+- Composition: `const { show, close } = useToast(); show({ title, description?, tone?, timeout?, startIcon?, endIcon? })`. Icons are generated icons without `size`.
+- Use when: Showing a toast after an action finishes.
+- Avoid:
+  - Calling it outside ToastProvider.
+  - Putting the only copy of important information in a toast.
+- Accessibility: The tone is never the only signal: write it in the title.
+
+### Props
+_No props of its own._
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+const { show } = useToast();
+show({ title: "Saved", tone: "success" });
+```
 
 ## Design tokens
 
@@ -1856,9 +2243,6 @@ Also accepts the native props of the element it renders; they pass through.
 | `--focus-ring-width` | dimension | `3px` |
 | `--focus-ring-offset` | dimension | `2px` |
 | `--opacity-disabled` |  | `0.5` |
-| `--shadow-sm` |  | `0 1px 2px oklch(0 0 0 / 0.12)` |
-| `--shadow-md` |  | `0 4px 12px oklch(0 0 0 / 0.16)` |
-| `--shadow-lg` |  | `0 12px 32px oklch(0 0 0 / 0.24)` |
 | `--header-height` | dimension | `3.55rem` |
 | `--size-target-min` | dimension | `1.5rem` |
 | `--size-target-comfortable` | dimension | `2.75rem` |
@@ -1902,13 +2286,12 @@ Also accepts the native props of the element it renders; they pass through.
 | `--color-page` | color | light `color-mix(in oklab, var(--primitive-color-white) 70%, var(--primitive-color-neutral-50))` / dark `color-mix(in oklab, var(--primitive-color-neutral-950) 70%, var(--primitive-color-black))` |
 | `--color-card` | color | light `var(--primitive-color-white)` / dark `color-mix(in oklab, var(--color-primary-foreground) 8%, var(--color-page))` |
 | `--color-sunken` | color | light `color-mix(in oklab, var(--color-primary-foreground) 4%, var(--color-page))` / dark `color-mix(in oklab, var(--primitive-color-black) 40%, var(--color-page))` |
+| `--color-highlight` | color | light `color-mix(in oklab, var(--color-primary-foreground) 3%, var(--color-card))` / dark `color-mix(in oklab, var(--color-primary-foreground) 4%, var(--color-card))` |
 | `--color-modal` | color | light `var(--primitive-color-white)` / dark `color-mix(in oklab, var(--color-primary-foreground) 6%, var(--color-page))` |
 | `--color-component` | color | light `oklch(0 0 0 / 0.05)` / dark `oklch(1 0 0 / 0.102)` |
 | `--color-component-hover` | color | light `color-mix(in oklab, var(--color-primary-foreground) 8%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 14%, transparent)` |
 | `--color-component-active` | color | light `color-mix(in oklab, var(--color-primary-foreground) 12%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 18%, transparent)` |
 | `--color-component-on-sunken` | color | light `var(--color-card)` / dark `var(--color-card)` |
-| `--color-component-on-inverted` | color | light `color-mix(in oklab, var(--color-on-inverted-foreground) 14%, transparent)` / dark `color-mix(in oklab, var(--color-on-inverted-foreground) 14%, transparent)` |
-| `--color-transparent` | color | light `transparent` / dark `transparent` |
 | `--color-transparent-hover` | color | light `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 8%, transparent)` |
 | `--color-transparent-active` | color | light `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 12%, transparent)` |
 | `--color-primary-foreground` | color | light `var(--primitive-color-neutral-950)` / dark `color-mix(in oklab, var(--primitive-color-white) 60%, var(--primitive-color-neutral-100))` |
@@ -1948,9 +2331,7 @@ Also accepts the native props of the element it renders; they pass through.
 | `--color-danger-foreground` | color | light `var(--color-danger-solid)` / dark `var(--color-danger-solid)` |
 | `--color-on-danger-solid-foreground` | color | light `var(--primitive-color-white)` / dark `var(--color-page)` |
 | `--color-border-default` | color | light `color-mix(in oklch, var(--color-primary-foreground) 7%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 7%, transparent)` |
-| `--color-border-subtle` | color | light `color-mix(in oklab, var(--color-primary-foreground) 4%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 4%, transparent)` |
 | `--color-border-strong` | color | light `color-mix(in oklch, var(--color-primary-foreground) 9%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 9%, transparent)` |
-| `--color-border-inverted` | color | light `color-mix(in oklab, var(--color-page) 20%, transparent)` / dark `color-mix(in oklab, var(--color-page) 20%, transparent)` |
 | `--color-border-disabled` | color | light `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` |
 | `--color-brand-border-default` | color | light `color-mix(in oklab, var(--color-brand-solid) 40%, transparent)` / dark `color-mix(in oklab, var(--color-brand-solid) 40%, transparent)` |
 | `--color-brand-border-focus` | color | light `var(--color-primary-foreground)` / dark `var(--color-primary-foreground)` |
@@ -1958,7 +2339,6 @@ Also accepts the native props of the element it renders; they pass through.
 | `--color-warning-border-default` | color | light `color-mix(in oklab, var(--color-warning-solid) 40%, transparent)` / dark `color-mix(in oklab, var(--color-warning-solid) 40%, transparent)` |
 | `--color-info-border-default` | color | light `color-mix(in oklab, var(--color-info-solid) 40%, transparent)` / dark `color-mix(in oklab, var(--color-info-solid) 40%, transparent)` |
 | `--color-danger-border-default` | color | light `color-mix(in oklab, var(--color-danger-solid) 40%, transparent)` / dark `color-mix(in oklab, var(--color-danger-solid) 40%, transparent)` |
-| `--color-danger-border-subtle` | color | light `color-mix(in oklab, var(--color-danger-solid) 22%, transparent)` / dark `color-mix(in oklab, var(--color-danger-solid) 22%, transparent)` |
 | `--color-disabled` | color | light `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` |
 | `--color-overlay` | color | light `oklch(0 0 0 / 0.4)` / dark `oklch(0 0 0 / 0.6)` |
 | `--syntax-text` | color | light `var(--color-primary-foreground)` / dark `var(--color-primary-foreground)` |
@@ -1971,7 +2351,6 @@ Also accepts the native props of the element it renders; they pass through.
 | `--syntax-danger` | color | light `var(--color-danger-foreground)` / dark `var(--color-danger-foreground)` |
 | `--syntax-diff-added-bg` | color | light `var(--color-positive-subtle)` / dark `var(--color-positive-subtle)` |
 | `--syntax-diff-removed-bg` | color | light `var(--color-danger-subtle)` / dark `var(--color-danger-subtle)` |
-| `--shadow-border` | shadow | light `0 0 0 1px #00000014` / dark `0 0 0 1px #ffffff14` |
 | `--shadow-inset-ring` | shadow | light `inset 0 0 0 1px #00000014` / dark `inset 0 0 0 1px #ffffff14` |
 | `--shadow-default` | shadow | light `0 0 0 1px #0000000f, 0 1px 2px #0000001a` / dark `0 0 0 1px #ffffff12, 0 1px 2px #00000066` |
 | `--shadow-raised` | shadow | light `inset 0 0 0 1px transparent, inset 0 1px #ffffffcc, 0 0 0 1px #00000014, 0 4px 4px #0000000d` / dark `inset 0 0 0 1px #ffffff08, inset 0 1px #ffffff0a, 0 0 0 1px #0009, 0 4px 4px #0000001a` |

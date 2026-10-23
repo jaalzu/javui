@@ -26,7 +26,12 @@ export type DialogTriggerProps = {
   size?: ButtonSize;
 } & Omit<BaseDialog.Trigger.Props, "render" | "className" | "color">;
 
-/** The button that opens the dialog. It is rendered as a `Button`. */
+/**
+ * The button that opens the dialog. It is rendered as a `Button`.
+ *
+ * @example
+ * <DialogTrigger>Open settings</DialogTrigger>
+ */
 export function DialogTrigger({ variant = "primary", size = "md", children, ...rest }: DialogTriggerProps) {
   return (
     <BaseDialog.Trigger
@@ -53,6 +58,11 @@ export type DialogContentProps = {
 /**
  * The dialog panel with its backdrop, title and description.
  * Place it inside `Dialog`.
+ *
+ * @example
+ * <DialogContent title="Delete project?" description="This cannot be undone.">
+ *   <DialogClose>Cancel</DialogClose>
+ * </DialogContent>
  */
 export function DialogContent({ title, description, children, className }: DialogContentProps) {
   return (
@@ -74,7 +84,12 @@ export type DialogCloseProps = {
   size?: ButtonSize;
 } & Omit<BaseDialog.Close.Props, "render" | "className" | "color">;
 
-/** A button that closes the dialog. It is rendered as a `Button`. */
+/**
+ * A button that closes the dialog. It is rendered as a `Button`.
+ *
+ * @example
+ * <DialogClose>Cancel</DialogClose>
+ */
 export function DialogClose({ variant = "secondary", size = "md", children, ...rest }: DialogCloseProps) {
   return (
     <BaseDialog.Close

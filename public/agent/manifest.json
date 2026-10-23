@@ -26,12 +26,13 @@
       "import": "import { Text } from \"@/ui\";",
       "renders": "p (body variants), span (label, caption), code (code); or the element in `as`",
       "composition": "`as` accepts only: p, span, label, strong, em, small, div, code. No links or buttons.",
-      "whenToUse": "Any paragraph, label, caption or inline code that is not a heading.",
+      "whenToUse": "Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls and fields (buttons, form labels, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).",
       "avoid": [
         "Headings: use Heading.",
         "Links: use Link.",
         "Actions: use Button.",
-        "Setting font-size or color by hand."
+        "Setting font-size or color by hand.",
+        "Caption size=\"sm\" (10px) for lowercase running text: it is intentional for uppercase metadata, where the extra tracking keeps it legible."
       ],
       "accessibility": "Use `as=\"label\"` with `htmlFor` for form labels when not using Field. Do not use tone=\"subtle\" for required text.",
       "props": [
@@ -203,10 +204,10 @@
       "name": "Badge",
       "category": "typography",
       "base": "Own component",
-      "description": "Small status, category or count label. Text is always the primary signal; the\nvariant only reinforces it.\n\nKeep the text to one or two words and truncate counts to two digits (`99+`).\nBadges are secondary and supportive: never use one as a heading or a key\nindicator. Put icons in `startIcon`/`endIcon`; they follow the badge size.",
+      "description": "Small status, category or count label. Text is always the primary signal; the\nvariant only reinforces it.\n\nKeep the text to one or two words and truncate counts to two digits (`99+`).\nBadges are secondary and supportive: never use one as a heading or a key\nindicator. Put icons in `startIcon`/`endIcon`; they follow the badge size: sm 16px, md 20px,\nlg 24px.",
       "import": "import { Badge } from \"@/ui\";",
       "renders": "span, or the element passed in `render`",
-      "composition": "Text children, plus optional `startIcon`/`endIcon` (generated icons, no `size`); never put icons in children. `loading` adds a spinner (`spinnerPosition`: start or end). `variant`: default, inverted, outline, brand, success or danger. `size`: sm, md or lg. `shape`: pill (default) or rounded. Pass `render={<Link href=\"…\" />}` to render a link. Keep text to one or two words; truncate counts to two digits (`99+`).",
+      "composition": "Text children, plus optional `startIcon`/`endIcon` (generated icons, no `size`); never put icons in children. `loading` adds a spinner (`spinnerPosition`: start or end). `variant`: default, inverted, outline, brand, success or danger. `size`: sm, md or lg. Icons follow the size: sm 16px, md 20px, lg 24px. `shape`: pill (default) or rounded. Pass `render={<Link href=\"…\" />}` to render a link. Keep text to one or two words; truncate counts to two digits (`99+`).",
       "whenToUse": "Short status or count labels next to other content.",
       "avoid": [
         "Using color as the only signal: always include text.",
@@ -277,7 +278,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Badge>Draft</Badge>\r\n<Badge variant=\"success\">Active</Badge>\r\n<Badge variant=\"danger\">99+</Badge>\r\n<Badge variant=\"outline\" shape=\"rounded\">Beta</Badge>\r\n<Badge variant=\"brand\" loading>Saving</Badge>\r\n<Badge variant=\"inverted\" size=\"lg\" spinnerPosition=\"end\" loading>Syncing</Badge>\r\n<Badge variant=\"success\" startIcon={<CheckIcon />}>Active</Badge>\r\n<Badge variant=\"default\" render={<Link href=\"/docs\" />}>Docs</Badge>"
+        "<Badge>Draft</Badge>\n<Badge variant=\"success\">Active</Badge>\n<Badge variant=\"danger\">99+</Badge>\n<Badge variant=\"outline\" shape=\"rounded\">Beta</Badge>\n<Badge variant=\"brand\" loading>Saving</Badge>\n<Badge variant=\"inverted\" size=\"lg\" spinnerPosition=\"end\" loading>Syncing</Badge>\n<Badge variant=\"success\" startIcon={<CheckIcon />}>Active</Badge>\n<Badge variant=\"default\" render={<Link href=\"/docs\" />}>Docs</Badge>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Badge/Badge.tsx"
     },
@@ -678,10 +679,10 @@
       "name": "Button",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "Displays an action button. It is built on Base UI Button, so keyboard, focus and disabled behavior come from there.\nIt defaults to `type=\"button\"` so it never submits a form by accident; set `type=\"submit\"` explicitly.\nFor navigation use `ButtonLink` or `Link`.\nPut icons in `startIcon`/`endIcon`. An icon-only button is valid only with `startIcon` and an\naccessible name (`aria-label` or `aria-labelledby`); with visible children both icons are optional.",
+      "description": "Displays an action button. It is built on Base UI Button, so keyboard, focus and disabled behavior come from there.\nIt defaults to `type=\"button\"` so it never submits a form by accident; set `type=\"submit\"` explicitly.\nFor navigation use `ButtonLink` or `Link`.\nPut icons in `startIcon`/`endIcon`. They follow the control size: sm 16px, md 20px, lg 24px.\nAn icon-only button is valid only with `startIcon` and an accessible name (`aria-label` or\n`aria-labelledby`); with visible children both icons are optional.",
       "import": "import { Button } from \"@/ui\";",
       "renders": "button",
-      "composition": "Defaults to type=\"button\"; pass type=\"submit\" explicitly. Put icons in `startIcon`/`endIcon` (generated icons, no `size`). Icon-only: `startIcon` is required and exactly one of `aria-label` or `aria-labelledby`. Heights: sm 1.75rem, md 2.25rem, lg 2.75rem. Base UI props such as `render` and `nativeButton` are available but not needed for normal use.",
+      "composition": "Defaults to type=\"button\"; pass type=\"submit\" explicitly. Put icons in `startIcon`/`endIcon` (generated icons, no `size`). Icon-only: `startIcon` is required and exactly one of `aria-label` or `aria-labelledby`. Heights: sm 1.75rem, md 2.25rem, lg 2.75rem. Icons follow the size: sm 16px, md 20px, lg 24px. Base UI props such as `render` and `nativeButton` are available but not needed for normal use.",
       "whenToUse": "Any action: submit, open, confirm, cancel. Pass `loading` while the action runs.",
       "avoid": [
         "Navigation: use Link.",
@@ -739,7 +740,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Button>Save</Button>\r\n<Button variant=\"secondary\" size=\"sm\">Cancel</Button>\r\n<Button variant=\"outline\">Learn more</Button>\r\n<Button type=\"submit\">Send</Button>\r\n<Button loading>Saving</Button>\r\n<Button variant=\"secondary\" startIcon={<CheckIcon />}>Done</Button>\r\n<Button variant=\"outline\" aria-label=\"Close\" startIcon={<XIcon />} />"
+        "<Button>Save</Button>\n<Button variant=\"secondary\" size=\"sm\">Cancel</Button>\n<Button variant=\"outline\">Learn more</Button>\n<Button type=\"submit\">Send</Button>\n<Button loading>Saving</Button>\n<Button variant=\"secondary\" startIcon={<CheckIcon />}>Done</Button>\n<Button variant=\"outline\" aria-label=\"Close\" startIcon={<XIcon />} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Button/Button.tsx"
     },
@@ -819,10 +820,10 @@
       "name": "Input",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A native text input built on Base UI Input. Inside `Field` it is labelled and wired to its\ndescription and error automatically, and it inherits `required`, `readOnly` and `loading`.\nOutside `Field` it needs an accessible name (`aria-label` or an associated `label`).",
+      "description": "A native text input built on Base UI Input. Inside `Field` it is labelled and wired to its\ndescription and error automatically, and it inherits `required`, `readOnly` and `loading`.\nOutside `Field` it needs an accessible name (`aria-label` or an associated `label`).\nIcons follow the control size: sm 16px, md 20px, lg 24px.",
       "import": "import { Input } from \"@/ui\";",
       "renders": "input",
-      "composition": "Native input props pass through (type, autoComplete, name, required...). Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Inside Field, omit required/readOnly/loading and pass them to Field.",
+      "composition": "Native input props pass through (type, autoComplete, name, required...). Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Icons follow the size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.",
       "whenToUse": "Single-line text entry, read-only values and values that are still loading.",
       "avoid": [
         "Using it without Field or aria-label.",
@@ -873,7 +874,7 @@
       "name": "Textarea",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A native `textarea` that works with `Field` the same way `Input` does, including\n`required`, `readOnly` and `loading`. Needs an accessible name inside or outside `Field`.",
+      "description": "A native `textarea` that works with `Field` the same way `Input` does, including\n`required`, `readOnly` and `loading`. Needs an accessible name inside or outside `Field`.\nIcons use the 20px medium size (the textarea has no size variants).",
       "import": "import { Textarea } from \"@/ui\";",
       "renders": "textarea",
       "composition": "Native textarea props pass through; `rows` defaults to 3. Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Inside Field, omit required/readOnly/loading and pass them to Field.",
@@ -971,7 +972,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Checkbox label=\"Send me product updates\" defaultChecked />\n<Checkbox label=\"Select all\" indeterminate />\n<Checkbox label=\"Accept terms\" error=\"You must accept the terms\" required />"
+        "<Checkbox label=\"Send me product updates\" defaultChecked />\r\n<Checkbox label=\"Select all\" indeterminate />\r\n<Checkbox label=\"Accept terms\" error=\"You must accept the terms\" required />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Checkbox/Checkbox.tsx"
     },
@@ -1138,7 +1139,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Switch label=\"Dark mode\" />\n<Switch label=\"Notifications\" error=\"Turn on notifications to continue\" required />"
+        "<Switch label=\"Dark mode\" />\r\n<Switch label=\"Notifications\" error=\"Turn on notifications to continue\" required />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Switch/Switch.tsx"
     },
@@ -1146,10 +1147,10 @@
       "name": "Select",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).\nPass `items` instead of composing parts. Inside `Field` it inherits `required`, `readOnly` and `loading`.",
+      "description": "A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).\nPass `items` instead of composing parts. Inside `Field` it inherits `required`, `readOnly` and `loading`.\nIcons follow the trigger size: sm 16px, md 20px, lg 24px.",
       "import": "import { Select } from \"@/ui\";",
       "renders": "button role=\"combobox\" with a listbox popup in a portal",
-      "composition": "Pass `items` ({ value, label, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. `loading` replaces the end icon with a spinner. Inside Field, omit required/readOnly/loading and pass them to Field.",
+      "composition": "Pass `items` ({ value, label, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. `loading` replaces the end icon with a spinner. Icons follow the trigger size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.",
       "whenToUse": "Choosing one option from a longer list, including read-only and loading states.",
       "avoid": [
         "Two or three options: use RadioGroup.",
@@ -1222,7 +1223,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Select label=\"Country\" placeholder=\"Choose one\" items={[{ value: \"ar\", label: \"Argentina\" }]} />\r\n<Field label=\"Role\" required><Select items={roles} /></Field>"
+        "<Select label=\"Country\" placeholder=\"Choose one\" items={[{ value: \"ar\", label: \"Argentina\" }]} />\n<Field label=\"Role\" required><Select items={roles} /></Field>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Select/Select.tsx"
     },
@@ -1243,117 +1244,128 @@
       "props": [],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Dialog>\r\n  <DialogTrigger>Delete project</DialogTrigger>\r\n  <DialogContent title=\"Delete project?\" description=\"This cannot be undone.\">\r\n    <DialogClose>Cancel</DialogClose>\r\n  </DialogContent>\r\n</Dialog>"
+        "<Dialog>\n  <DialogTrigger>Delete project</DialogTrigger>\n  <DialogContent title=\"Delete project?\" description=\"This cannot be undone.\">\n    <DialogClose>Cancel</DialogClose>\n  </DialogContent>\n</Dialog>"
       ],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Dialog/Dialog.tsx"
-    },
-    {
-      "name": "DialogTrigger",
-      "category": "overlays",
-      "base": "Built on Base UI (@base-ui/react)",
-      "description": "The button that opens the dialog. It is rendered as a `Button`.",
-      "import": "import { DialogTrigger } from \"@/ui\";",
-      "renders": "button (a Button)",
-      "composition": "Direct child of Dialog. Accepts Button `variant` and `size`.",
-      "whenToUse": "The button that opens the dialog.",
-      "avoid": [
-        "Using a plain Button to open it."
-      ],
-      "accessibility": "Gets aria-haspopup and expanded state from Base UI.",
-      "props": [
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Dialog/Dialog.tsx",
+      "parts": [
         {
-          "name": "size",
-          "type": "\"sm\" | \"md\" | \"lg\"",
-          "required": false,
-          "default": "md",
-          "description": "Button size of the trigger."
+          "name": "DialogTrigger",
+          "category": "overlays",
+          "base": "Built on Base UI (@base-ui/react)",
+          "description": "The button that opens the dialog. It is rendered as a `Button`.",
+          "import": "import { DialogTrigger } from \"@/ui\";",
+          "renders": "button (a Button)",
+          "composition": "Direct child of Dialog. Accepts Button `variant` and `size`.",
+          "whenToUse": "The button that opens the dialog.",
+          "avoid": [
+            "Using a plain Button to open it."
+          ],
+          "accessibility": "Gets aria-haspopup and expanded state from Base UI.",
+          "props": [
+            {
+              "name": "size",
+              "type": "\"sm\" | \"md\" | \"lg\"",
+              "required": false,
+              "default": "md",
+              "description": "Button size of the trigger."
+            },
+            {
+              "name": "variant",
+              "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+              "required": false,
+              "default": "primary",
+              "description": "Button style of the trigger."
+            }
+          ],
+          "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+          "examples": [
+            "<DialogTrigger>Open settings</DialogTrigger>"
+          ],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Dialog/Dialog.tsx",
+          "parent": "Dialog"
         },
         {
-          "name": "variant",
-          "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
-          "required": false,
-          "default": "primary",
-          "description": "Button style of the trigger."
+          "name": "DialogContent",
+          "category": "overlays",
+          "base": "Built on Base UI (@base-ui/react)",
+          "description": "The dialog panel with its backdrop, title and description.\nPlace it inside `Dialog`.",
+          "import": "import { DialogContent } from \"@/ui\";",
+          "renders": "div role=\"dialog\" in a portal, plus a backdrop",
+          "composition": "`title` is required; `description` is recommended. Children are the actions, usually DialogClose.",
+          "whenToUse": "The panel of the dialog.",
+          "avoid": [
+            "Omitting `title`."
+          ],
+          "accessibility": "title is the accessible name; description is the accessible description.",
+          "props": [
+            {
+              "name": "title",
+              "type": "ReactNode",
+              "required": true,
+              "description": "Dialog title. Required: it is the accessible name of the dialog."
+            },
+            {
+              "name": "children",
+              "type": "ReactNode",
+              "required": false,
+              "description": "Body and actions. Put `DialogClose` buttons here."
+            },
+            {
+              "name": "className",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "description",
+              "type": "ReactNode",
+              "required": false,
+              "description": "Short explanation, announced as the accessible description."
+            }
+          ],
+          "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+          "examples": [
+            "<DialogContent title=\"Delete project?\" description=\"This cannot be undone.\">\n  <DialogClose>Cancel</DialogClose>\n</DialogContent>"
+          ],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Dialog/Dialog.tsx",
+          "parent": "Dialog"
+        },
+        {
+          "name": "DialogClose",
+          "category": "overlays",
+          "base": "Built on Base UI (@base-ui/react)",
+          "description": "A button that closes the dialog. It is rendered as a `Button`.",
+          "import": "import { DialogClose } from \"@/ui\";",
+          "renders": "button (a Button)",
+          "composition": "Inside DialogContent. Accepts Button `variant` and `size`.",
+          "whenToUse": "Cancel and close actions.",
+          "avoid": [
+            "Closing by custom onClick state when DialogClose is enough."
+          ],
+          "accessibility": "Closing returns focus to the trigger.",
+          "props": [
+            {
+              "name": "size",
+              "type": "\"sm\" | \"md\" | \"lg\"",
+              "required": false,
+              "default": "md",
+              "description": "Button size."
+            },
+            {
+              "name": "variant",
+              "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+              "required": false,
+              "default": "secondary",
+              "description": "Button style."
+            }
+          ],
+          "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+          "examples": [
+            "<DialogClose>Cancel</DialogClose>"
+          ],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Dialog/Dialog.tsx",
+          "parent": "Dialog"
         }
-      ],
-      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": [],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Dialog/Dialog.tsx"
-    },
-    {
-      "name": "DialogContent",
-      "category": "overlays",
-      "base": "Built on Base UI (@base-ui/react)",
-      "description": "The dialog panel with its backdrop, title and description.\nPlace it inside `Dialog`.",
-      "import": "import { DialogContent } from \"@/ui\";",
-      "renders": "div role=\"dialog\" in a portal, plus a backdrop",
-      "composition": "`title` is required; `description` is recommended. Children are the actions, usually DialogClose.",
-      "whenToUse": "The panel of the dialog.",
-      "avoid": [
-        "Omitting `title`."
-      ],
-      "accessibility": "title is the accessible name; description is the accessible description.",
-      "props": [
-        {
-          "name": "title",
-          "type": "ReactNode",
-          "required": true,
-          "description": "Dialog title. Required: it is the accessible name of the dialog."
-        },
-        {
-          "name": "children",
-          "type": "ReactNode",
-          "required": false,
-          "description": "Body and actions. Put `DialogClose` buttons here."
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "required": false
-        },
-        {
-          "name": "description",
-          "type": "ReactNode",
-          "required": false,
-          "description": "Short explanation, announced as the accessible description."
-        }
-      ],
-      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": [],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Dialog/Dialog.tsx"
-    },
-    {
-      "name": "DialogClose",
-      "category": "overlays",
-      "base": "Built on Base UI (@base-ui/react)",
-      "description": "A button that closes the dialog. It is rendered as a `Button`.",
-      "import": "import { DialogClose } from \"@/ui\";",
-      "renders": "button (a Button)",
-      "composition": "Inside DialogContent. Accepts Button `variant` and `size`.",
-      "whenToUse": "Cancel and close actions.",
-      "avoid": [
-        "Closing by custom onClick state when DialogClose is enough."
-      ],
-      "accessibility": "Closing returns focus to the trigger.",
-      "props": [
-        {
-          "name": "size",
-          "type": "\"sm\" | \"md\" | \"lg\"",
-          "required": false,
-          "default": "md",
-          "description": "Button size."
-        },
-        {
-          "name": "variant",
-          "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
-          "required": false,
-          "default": "secondary",
-          "description": "Button style."
-        }
-      ],
-      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": [],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Dialog/Dialog.tsx"
+      ]
     },
     {
       "name": "Tooltip",
@@ -1402,31 +1414,13 @@
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Tooltip/Tooltip.tsx"
     },
     {
-      "name": "TooltipProvider",
-      "category": "overlays",
-      "base": "Built on Base UI (@base-ui/react)",
-      "description": "Shares the open delay between tooltips. The first tooltip waits `delay` ms; moving to the next\none opens instantly (`data-instant` skips the animation). Put it once near the app root.",
-      "import": "import { TooltipProvider } from \"@/ui\";",
-      "renders": "no element",
-      "composition": "Place once near the app root. Optional. `delay` (default 600) applies only to the first tooltip; the next ones open instantly.",
-      "whenToUse": "Shared open delay across tooltips.",
-      "avoid": [
-        "Nesting several providers."
-      ],
-      "accessibility": "No effect on semantics.",
-      "props": [],
-      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": [],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Tooltip/Tooltip.tsx"
-    },
-    {
       "name": "Tabs",
       "category": "navigation",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "Tabs that switch between panels, built on Base UI Tabs (arrow-key navigation, roles and\n`aria-controls` come from there). Pass `items` instead of composing parts.",
+      "description": "Tabs that switch between panels, built on Base UI Tabs (arrow-key navigation, roles and\n`aria-controls` come from there). Pass `items` instead of composing parts.\nTabs are compact: icons use the 16px small size.",
       "import": "import { Tabs } from \"@/ui\";",
       "renders": "div with a tablist, tab buttons and tabpanels",
-      "composition": "Pass `items` ({ value, label, content, startIcon?, endIcon?, disabled? }) and an `aria-label`. Icons are generated icons without `size`.",
+      "composition": "Pass `items` ({ value, label, content, startIcon?, endIcon?, disabled? }) and an `aria-label`. Icons are generated icons without `size`; tabs are compact and use 16px icons.",
       "whenToUse": "Switching between related panels in the same place.",
       "avoid": [
         "Navigation between pages: use Link.",
@@ -1454,64 +1448,18 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Tabs aria-label=\"Account\" items={[\r\n  { value: \"profile\", label: \"Profile\", content: <p>Profile</p> },\r\n  { value: \"billing\", label: \"Billing\", content: <p>Billing</p> },\r\n]} />"
+        "<Tabs aria-label=\"Account\" items={[\n  { value: \"profile\", label: \"Profile\", content: <p>Profile</p> },\n  { value: \"billing\", label: \"Billing\", content: <p>Billing</p> },\n]} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Tabs/Tabs.tsx"
-    },
-    {
-      "name": "LinkProvider",
-      "category": "utility",
-      "base": "Own component",
-      "description": "Wires navigation once for the whole app. In Next.js pass `next/link` so every library link gets\nclient-side navigation and prefetching, with no `render` prop on each one. Without it links are plain `a` elements.",
-      "import": "import { LinkProvider } from \"@/ui\";",
-      "renders": "no element: it provides the link component through context",
-      "composition": "Place once near the app root: `<LinkProvider component={NextLink}>`. Link, ButtonLink, Menu link items, Breadcrumb and Pagination then render with it.",
-      "whenToUse": "Making every link in the library use `next/link` (or another router link) from a single place.",
-      "avoid": [
-        "Passing a `render` prop to individual links.",
-        "Nesting several providers."
-      ],
-      "accessibility": "No effect on semantics; the provided component must render an `a`.",
-      "props": [
-        {
-          "name": "component",
-          "type": "LinkComponent",
-          "required": true,
-          "description": "The component every `Link`, `ButtonLink`, `Breadcrumb`, `Pagination` and `Menu` link renders with. Pass `next/link` in a Next.js app."
-        }
-      ],
-      "extends": "Also accepts the native props of the element it renders; they pass through.",
-      "examples": [
-        "\"use client\";\nimport NextLink from \"next/link\";\n<LinkProvider component={NextLink}>{children}</LinkProvider>"
-      ],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Link/LinkContext.tsx"
-    },
-    {
-      "name": "useLinkComponent",
-      "category": "utility",
-      "base": "Own component",
-      "description": "The anchor component to render links with: the one from `LinkProvider`, or `a`.",
-      "import": "import { useLinkComponent } from \"@/ui\";",
-      "renders": "hook, renders nothing",
-      "composition": "`const LinkEl = useLinkComponent()` returns the provided link component, or `\"a\"`.",
-      "whenToUse": "Building your own navigation component that should follow LinkProvider.",
-      "avoid": [
-        "Calling it in Server Components: it needs a client component."
-      ],
-      "accessibility": "The returned component must render an `a`.",
-      "props": [],
-      "extends": "Also accepts the native props of the element it renders; they pass through.",
-      "examples": [],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Link/LinkContext.tsx"
     },
     {
       "name": "ButtonLink",
       "category": "navigation",
       "base": "Own component",
-      "description": "A link that looks like a `Button`. It renders an `a` (or the component given to `LinkProvider`, such as\n`next/link`), because something that navigates is a link, not a button. For actions use `Button`.\nPut icons in `startIcon`/`endIcon`. An icon-only link is valid only with `startIcon` and an\naccessible name (`aria-label` or `aria-labelledby`); with visible children both icons are optional.",
+      "description": "A link that looks like a `Button`. It renders an `a` (or the component given to `LinkProvider`, such as\n`next/link`), because something that navigates is a link, not a button. For actions use `Button`.\nPut icons in `startIcon`/`endIcon`. They follow the control size: sm 16px, md 20px, lg 24px.\nAn icon-only link is valid only with `startIcon` and an accessible name (`aria-label` or\n`aria-labelledby`); with visible children both icons are optional.",
       "import": "import { ButtonLink } from \"@/ui\";",
       "renders": "a (rendered by the LinkProvider component, `next/link` in this app) styled like a Button",
-      "composition": "Pass `href`, `variant`, `size` and optional `startIcon`/`endIcon` (generated icons, no `size`). Children are the visible label. Icon-only: `startIcon` is required and exactly one of `aria-label` or `aria-labelledby`.",
+      "composition": "Pass `href`, `variant`, `size` and optional `startIcon`/`endIcon` (generated icons, no `size`). Children are the visible label. Icon-only: `startIcon` is required and exactly one of `aria-label` or `aria-labelledby`. Icons follow the size: sm 16px, md 20px, lg 24px.",
       "whenToUse": "A call to action that goes to another page, such as Get started or Docs.",
       "avoid": [
         "Actions that do not navigate: use Button.",
@@ -1562,7 +1510,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<ButtonLink href=\"/docs/installation\">Get started</ButtonLink>\r\n<ButtonLink href=\"/docs\" variant=\"secondary\" endIcon={<ArrowRightIcon />}>Docs</ButtonLink>\r\n<ButtonLink href=\"/docs\" aria-label=\"Next page\" startIcon={<ArrowRightIcon />} />"
+        "<ButtonLink href=\"/docs/installation\">Get started</ButtonLink>\n<ButtonLink href=\"/docs\" variant=\"secondary\" endIcon={<ArrowRightIcon />}>Docs</ButtonLink>\n<ButtonLink href=\"/docs\" aria-label=\"Next page\" startIcon={<ArrowRightIcon />} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ButtonLink/ButtonLink.tsx"
     },
@@ -1616,7 +1564,7 @@
       "description": "An inline message about the state of the page or a form. `danger` and `warning` use `role=\"alert\"`\n(announced immediately); `info` and `success` use `role=\"status\"` (announced politely).\nFor short-lived feedback after an action, use `useToast` instead.",
       "import": "import { Alert } from \"@/ui\";",
       "renders": "div with role alert (danger, warning) or role status (info, success)",
-      "composition": "Pass `tone`, optional `title`, and the message as children. `startIcon` replaces the tone glyph; `endIcon` adds a trailing icon (generated icons, no `size`).",
+      "composition": "Pass `tone`, optional `title`, and the message as children. `startIcon` replaces the tone glyph; `endIcon` adds a trailing icon (generated icons, no `size`; the single-size alert uses 20px icons).",
       "whenToUse": "A message that stays on the page and the user must notice, such as a failed save or a warning.",
       "avoid": [
         "Short-lived confirmations: use Toast.",
@@ -1652,7 +1600,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Alert tone=\"danger\" title=\"Payment failed\">Check your card details and try again.</Alert>"
+        "<Alert tone=\"danger\" title=\"Payment failed\">Check your card details and try again.</Alert>\n\nIcons use the 20px medium size (the alert has no size variants)."
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Alert/Alert.tsx"
     },
@@ -1719,140 +1667,151 @@
       "props": [],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Popover>\r\n  <PopoverTrigger variant=\"secondary\">Filters</PopoverTrigger>\r\n  <PopoverContent title=\"Filters\" description=\"Narrow the results.\">...</PopoverContent>\r\n</Popover>"
+        "<Popover>\n  <PopoverTrigger variant=\"secondary\">Filters</PopoverTrigger>\n  <PopoverContent title=\"Filters\" description=\"Narrow the results.\">...</PopoverContent>\n</Popover>"
       ],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Popover/Popover.tsx"
-    },
-    {
-      "name": "PopoverTrigger",
-      "category": "overlays",
-      "base": "Built on Base UI (@base-ui/react)",
-      "description": "The button that opens the popover. It is rendered as a `Button`.",
-      "import": "import { PopoverTrigger } from \"@/ui\";",
-      "renders": "button",
-      "composition": "Child of Popover. Accepts Button props.",
-      "whenToUse": "The button that opens a Popover.",
-      "avoid": [
-        "Using it outside Popover."
-      ],
-      "accessibility": "A real button with aria-expanded and aria-controls.",
-      "props": [
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Popover/Popover.tsx",
+      "parts": [
         {
-          "name": "size",
-          "type": "\"sm\" | \"md\" | \"lg\"",
-          "required": false,
-          "default": "md",
-          "description": "Button size of the trigger."
+          "name": "PopoverTrigger",
+          "category": "overlays",
+          "base": "Built on Base UI (@base-ui/react)",
+          "description": "The button that opens the popover. It is rendered as a `Button`.",
+          "import": "import { PopoverTrigger } from \"@/ui\";",
+          "renders": "button",
+          "composition": "Child of Popover. Accepts Button props.",
+          "whenToUse": "The button that opens a Popover.",
+          "avoid": [
+            "Using it outside Popover."
+          ],
+          "accessibility": "A real button with aria-expanded and aria-controls.",
+          "props": [
+            {
+              "name": "size",
+              "type": "\"sm\" | \"md\" | \"lg\"",
+              "required": false,
+              "default": "md",
+              "description": "Button size of the trigger."
+            },
+            {
+              "name": "variant",
+              "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+              "required": false,
+              "default": "secondary",
+              "description": "Button style of the trigger."
+            }
+          ],
+          "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+          "examples": [
+            "<PopoverTrigger variant=\"secondary\">Filters</PopoverTrigger>"
+          ],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Popover/Popover.tsx",
+          "parent": "Popover"
         },
         {
-          "name": "variant",
-          "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
-          "required": false,
-          "default": "secondary",
-          "description": "Button style of the trigger."
+          "name": "PopoverContent",
+          "category": "overlays",
+          "base": "Built on Base UI (@base-ui/react)",
+          "description": "The popover panel with its title and description. Place it inside `Popover`.",
+          "import": "import { PopoverContent } from \"@/ui\";",
+          "renders": "div with role dialog in a portal, with a title",
+          "composition": "Child of Popover. Requires `title`; `description`, `side` and `align` are optional.",
+          "whenToUse": "The panel shown by a Popover.",
+          "avoid": [
+            "Leaving out the title."
+          ],
+          "accessibility": "Labelled by its title. Focus is returned to the trigger on close.",
+          "props": [
+            {
+              "name": "title",
+              "type": "ReactNode",
+              "required": true,
+              "description": "Heading of the panel. Required: it is the accessible name of the popover."
+            },
+            {
+              "name": "align",
+              "type": "\"center\" | \"start\" | \"end\"",
+              "required": false,
+              "default": "center",
+              "description": "Alignment against the trigger."
+            },
+            {
+              "name": "children",
+              "type": "ReactNode",
+              "required": false,
+              "description": "The content: text, a form, or `PopoverClose` buttons."
+            },
+            {
+              "name": "className",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "description",
+              "type": "ReactNode",
+              "required": false,
+              "description": "Short explanation, announced as the accessible description."
+            },
+            {
+              "name": "side",
+              "type": "\"top\" | \"bottom\" | \"left\" | \"right\"",
+              "required": false,
+              "default": "bottom",
+              "description": "Preferred side of the trigger."
+            }
+          ],
+          "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+          "examples": [
+            "<PopoverContent title=\"Filters\" description=\"Narrow the results.\">\n  <PopoverClose>Done</PopoverClose>\n</PopoverContent>"
+          ],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Popover/Popover.tsx",
+          "parent": "Popover"
+        },
+        {
+          "name": "PopoverClose",
+          "category": "overlays",
+          "base": "Built on Base UI (@base-ui/react)",
+          "description": "A button that closes the popover. It is rendered as a `Button`.",
+          "import": "import { PopoverClose } from \"@/ui\";",
+          "renders": "button",
+          "composition": "Inside PopoverContent. Children are the label.",
+          "whenToUse": "A button that closes the Popover.",
+          "avoid": [
+            "Icon-only without a label."
+          ],
+          "accessibility": "A real button.",
+          "props": [
+            {
+              "name": "size",
+              "type": "\"sm\" | \"md\" | \"lg\"",
+              "required": false,
+              "default": "sm",
+              "description": "Button size."
+            },
+            {
+              "name": "variant",
+              "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+              "required": false,
+              "default": "secondary",
+              "description": "Button style."
+            }
+          ],
+          "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+          "examples": [
+            "<PopoverClose>Done</PopoverClose>"
+          ],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Popover/Popover.tsx",
+          "parent": "Popover"
         }
-      ],
-      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": [],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Popover/Popover.tsx"
-    },
-    {
-      "name": "PopoverContent",
-      "category": "overlays",
-      "base": "Built on Base UI (@base-ui/react)",
-      "description": "The popover panel with its title and description. Place it inside `Popover`.",
-      "import": "import { PopoverContent } from \"@/ui\";",
-      "renders": "div with role dialog in a portal, with a title",
-      "composition": "Child of Popover. Requires `title`; `description`, `side` and `align` are optional.",
-      "whenToUse": "The panel shown by a Popover.",
-      "avoid": [
-        "Leaving out the title."
-      ],
-      "accessibility": "Labelled by its title. Focus is returned to the trigger on close.",
-      "props": [
-        {
-          "name": "title",
-          "type": "ReactNode",
-          "required": true,
-          "description": "Heading of the panel. Required: it is the accessible name of the popover."
-        },
-        {
-          "name": "align",
-          "type": "\"center\" | \"start\" | \"end\"",
-          "required": false,
-          "default": "center",
-          "description": "Alignment against the trigger."
-        },
-        {
-          "name": "children",
-          "type": "ReactNode",
-          "required": false,
-          "description": "The content: text, a form, or `PopoverClose` buttons."
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "required": false
-        },
-        {
-          "name": "description",
-          "type": "ReactNode",
-          "required": false,
-          "description": "Short explanation, announced as the accessible description."
-        },
-        {
-          "name": "side",
-          "type": "\"top\" | \"bottom\" | \"left\" | \"right\"",
-          "required": false,
-          "default": "bottom",
-          "description": "Preferred side of the trigger."
-        }
-      ],
-      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": [],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Popover/Popover.tsx"
-    },
-    {
-      "name": "PopoverClose",
-      "category": "overlays",
-      "base": "Built on Base UI (@base-ui/react)",
-      "description": "A button that closes the popover. It is rendered as a `Button`.",
-      "import": "import { PopoverClose } from \"@/ui\";",
-      "renders": "button",
-      "composition": "Inside PopoverContent. Children are the label.",
-      "whenToUse": "A button that closes the Popover.",
-      "avoid": [
-        "Icon-only without a label."
-      ],
-      "accessibility": "A real button.",
-      "props": [
-        {
-          "name": "size",
-          "type": "\"sm\" | \"md\" | \"lg\"",
-          "required": false,
-          "default": "sm",
-          "description": "Button size."
-        },
-        {
-          "name": "variant",
-          "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
-          "required": false,
-          "default": "secondary",
-          "description": "Button style."
-        }
-      ],
-      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": [],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Popover/Popover.tsx"
+      ]
     },
     {
       "name": "Menu",
       "category": "overlays",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A dropdown list of actions or links, built on Base UI Menu (arrow keys, typeahead, focus return and\nEscape come from there). Items with `href` are real links; items with `onSelect` are actions.\nDo not put form controls in a menu: use `Popover`.",
+      "description": "A dropdown list of actions or links, built on Base UI Menu (arrow keys, typeahead, focus return and\nEscape come from there). Items with `href` are real links; items with `onSelect` are actions.\nDo not put form controls in a menu: use `Popover`. The trigger icons follow its button size;\nmenu items are compact and use 16px icons.",
       "import": "import { Menu } from \"@/ui\";",
       "renders": "button that opens a role menu with menuitems",
-      "composition": "Pass `label` (the button text) and `items`: `{ label, startIcon?, endIcon?, onSelect?, href?, disabled?, destructive? }` or `{ type: \"separator\" }`. Icons are generated icons without `size`.",
+      "composition": "Pass `label` (the button text) and `items`: `{ label, startIcon?, endIcon?, onSelect?, href?, disabled?, destructive? }` or `{ type: \"separator\" }`. Icons are generated icons without `size`; the trigger follows its button size and menu items are compact (16px).",
       "whenToUse": "A list of actions or links behind one button, such as account actions.",
       "avoid": [
         "Navigation between sections of the site: use links.",
@@ -1901,51 +1860,9 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Menu label=\"Account\" items={[\r\n  { label: \"Profile\", href: \"/profile\" },\r\n  { type: \"separator\" },\r\n  { label: \"Sign out\", onSelect: signOut },\r\n]} />"
+        "<Menu label=\"Account\" items={[\n  { label: \"Profile\", href: \"/profile\" },\n  { type: \"separator\" },\n  { label: \"Sign out\", onSelect: signOut },\n]} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Menu/Menu.tsx"
-    },
-    {
-      "name": "ToastProvider",
-      "category": "feedback",
-      "base": "Built on Base UI (@base-ui/react)",
-      "description": "Place once near the root of the app (inside `Providers`). It renders the stack of toasts and makes\n`useToast` available. Built on Base UI Toast (live-region announcements, F6 to reach the toasts, swipe to\ndismiss, pause on hover and focus come from there).",
-      "import": "import { ToastProvider } from \"@/ui\";",
-      "renders": "no visible element until a toast is shown; renders a viewport in a portal",
-      "composition": "Place once near the app root, inside Providers. Then call `useToast()` anywhere below it.",
-      "whenToUse": "Short-lived feedback after an action.",
-      "avoid": [
-        "Messages that must stay: use Alert.",
-        "Several providers."
-      ],
-      "accessibility": "Live-region announcements, F6 to reach toasts, pause on hover and focus. The dismiss button is labelled.",
-      "props": [],
-      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": [
-        "<ToastProvider>{children}</ToastProvider>"
-      ],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Toast/Toast.tsx"
-    },
-    {
-      "name": "useToast",
-      "category": "feedback",
-      "base": "Built on Base UI (@base-ui/react)",
-      "description": "Show short-lived feedback after an action (saved, copied, failed). Returns `show` and `close`.\nFor messages that must stay on the page, use `Alert`.",
-      "import": "import { useToast } from \"@/ui\";",
-      "renders": "hook, renders nothing",
-      "composition": "`const { show, close } = useToast(); show({ title, description?, tone?, timeout?, startIcon?, endIcon? })`. Icons are generated icons without `size`.",
-      "whenToUse": "Showing a toast after an action finishes.",
-      "avoid": [
-        "Calling it outside ToastProvider.",
-        "Putting the only copy of important information in a toast."
-      ],
-      "accessibility": "The tone is never the only signal: write it in the title.",
-      "props": [],
-      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": [
-        "const { show } = useToast();\r\nshow({ title: \"Saved\", tone: \"success\" });"
-      ],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Toast/Toast.tsx"
     },
     {
       "name": "Accordion",
@@ -2011,7 +1928,7 @@
       "description": "Data table with a real `table`, `caption`, `th scope=\"col\"` and a first-column row header. The wrapper\nscrolls horizontally on small screens and is focusable so keyboard users can scroll it.\nFor layout, use `Grid` or `Stack`, never a table.",
       "import": "import { Table } from \"@/ui\";",
       "renders": "table with caption, thead, tbody, th scope and a focusable scroll region",
-      "composition": "Pass `caption`, `columns` ({ key, header, align? }) and `rows` (objects by key).",
+      "composition": "Pass `caption`, `columns` ({ key, header, align? }) and `rows` (objects by key). Use `align: \"end\"` for numeric columns: they align end and use tabular numbers.",
       "whenToUse": "Comparing data across rows and columns.",
       "avoid": [
         "Page layout: use Grid or Stack.",
@@ -2324,81 +2241,586 @@
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Slider/Slider.tsx"
     },
     {
-      "name": "CodeBlockView",
-      "category": "typography",
+      "name": "Label",
+      "category": "controls",
       "base": "Own component",
-      "description": "Presentation half of `CodeBlock`: tabs, copy button and the focusable code region.\nThe server passes highlighted HTML; without it the code stays plain text.",
-      "import": "import { CodeBlockView } from \"@/ui\";",
-      "renders": "client-only presentation of a CodeBlock: tabs, copy button and focusable code region",
-      "composition": "Internal to CodeBlock. Use it only in client components; pass pre-highlighted `html`/`tabHtml` when available, otherwise the code stays plain.",
-      "whenToUse": "Client components that cannot render the server CodeBlock.",
+      "description": "A visible label for a form control, in the shared `label` text style.\nPrefer `Field`, which also wires the description, error and required state.\nUse this when you build a custom composition outside Field.",
+      "import": "import { Label } from \"@/ui\";",
+      "renders": "label",
+      "composition": "Text children, `htmlFor`, and optional `required` (prints \"Required\"; the control still needs its own required attribute) and `disabled`. Prefer Field, which wires description, error and ARIA.",
+      "whenToUse": "A visible label for a custom control composition outside Field.",
       "avoid": [
-        "Server pages: use CodeBlock, which highlights automatically.",
-        "Coloring tokens by hand."
+        "Replacing Field for a standard form field.",
+        "Using it as a heading or body text.",
+        "Relying on an asterisk for required: Label spells out \"Required\"."
       ],
-      "accessibility": "The code region is focusable and named; the copy result is announced via role status.",
+      "accessibility": "Associate it with the control through `htmlFor`. Required state must also be on the control (native or ARIA).",
       "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Text of the label."
+        },
         {
           "name": "className",
           "type": "string",
           "required": false
         },
         {
-          "name": "code",
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Dims the label and removes the pointer cursor. Use only when the control is disabled."
+        },
+        {
+          "name": "htmlFor",
           "type": "string",
           "required": false,
-          "default": "",
-          "description": "The code to show, as plain text. Use `tabs` instead when there are alternatives (bun, npm, pnpm)."
+          "description": "The id of the control this label belongs to."
         },
         {
-          "name": "highlightLines",
-          "type": "number[]",
+          "name": "required",
+          "type": "boolean",
           "required": false,
-          "default": "undefined",
-          "description": "1-based line numbers to mark with a 2px left bar and a subtle background. No line numbers are\nrendered. The same lines apply to every tab."
+          "default": "false",
+          "description": "Prints \"Required\" after the text. The control still needs its own `required` attribute."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<Label htmlFor=\"email\">Email</Label>\n<Label htmlFor=\"name\" required>Name</Label>"
+      ],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Label/Label.tsx"
+    },
+    {
+      "name": "EmptyState",
+      "category": "feedback",
+      "base": "Own component",
+      "description": "A quiet placeholder for a region with no content, with an optional icon and action.\nThe icon is decorative; the title carries the meaning.",
+      "import": "import { EmptyState } from \"@/ui\";",
+      "renders": "section with a heading",
+      "composition": "Pass `title` (required), optional `description`, `icon` (generated icon, no `size`), `action` (usually Button or ButtonLink) and `as` for the heading level (h2-h4, default h3).",
+      "whenToUse": "A region that has no content yet, with a next step.",
+      "avoid": [
+        "Errors and failures: use Alert.",
+        "Loading placeholders: use Skeleton.",
+        "Decorating a section that already has content."
+      ],
+      "accessibility": "The title is a real heading and carries the meaning; the icon is decorative. Keep the heading level in order with the page.",
+      "props": [
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Short title of the empty state."
         },
         {
-          "name": "html",
-          "type": "string | null",
+          "name": "action",
+          "type": "ReactNode",
           "required": false,
-          "description": "Highlighted HTML for `code`, produced on the server."
+          "description": "Main action, usually a Button or ButtonLink."
+        },
+        {
+          "name": "as",
+          "type": "\"h2\" | \"h3\" | \"h4\"",
+          "required": false,
+          "default": "h3",
+          "description": "Heading level for the title. Keep the page outline in order."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "One or two sentences that explain what to do next."
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Icon above the title. Pass a generated icon without `size`; the component sizes it."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<EmptyState\n  icon={<FolderIcon />}\n  title=\"No projects yet\"\n  description=\"Create a project to start collecting feedback.\"\n  action={<Button>New project</Button>}\n/>"
+      ],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/EmptyState/EmptyState.tsx"
+    },
+    {
+      "name": "Sidebar",
+      "category": "navigation",
+      "base": "Own component",
+      "description": "A vertical navigation panel for the side of an app layout. Items can be links or buttons;\nlinks use the component from `LinkProvider`. This is a layout piece, not a Base UI primitive.",
+      "import": "import { Sidebar } from \"@/ui\";",
+      "renders": "aside with a nav landmark and a list",
+      "composition": "Pass `label` (required), `items` ({ label, href?, onSelect?, startIcon?, active?, disabled? }), optional `header` and `footer`. Links render with the LinkProvider component; items without href are buttons.",
+      "whenToUse": "Primary vertical navigation beside an app's content, especially on desktop.",
+      "avoid": [
+        "Main site navigation in a header: use SiteHeader or links.",
+        "More than one primary sidebar on a page.",
+        "Using it for unrelated actions: use Menu or a toolbar."
+      ],
+      "accessibility": "The nav landmark is named by `label`; the active item gets aria-current=\"page\". Disabled items are not focusable links and are not clickable.",
+      "props": [
+        {
+          "name": "items",
+          "type": "SidebarItem[]",
+          "required": true,
+          "description": "The navigation items, in order."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Accessible name of the navigation landmark. Required."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "footer",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Content below the navigation, pinned to the end."
+        },
+        {
+          "name": "header",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Content above the navigation, such as a title or a workspace switcher."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<Sidebar\n  label=\"Workspace\"\n  header={<Heading as=\"h2\" size={6}>Acme</Heading>}\n  items={[\n    { label: \"Overview\", href: \"/\", startIcon: <HouseIcon />, active: true },\n    { label: \"Settings\", href: \"/settings\", startIcon: <GearIcon /> },\n  ]}\n/>"
+      ],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Sidebar/Sidebar.tsx"
+    },
+    {
+      "name": "Collapsible",
+      "category": "navigation",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "One section that expands and collapses, built on Base UI Collapsible. For a set of sections\nuse `Accordion`; use this for a single disclosure, such as advanced options.",
+      "import": "import { Collapsible } from \"@/ui\";",
+      "renders": "div with a button trigger and a region panel",
+      "composition": "Pass `title`, panel `children`, optional `startIcon`/`endIcon` (generated icons, no `size`), open state (`defaultOpen`, `open`, `onOpenChange`) and `disabled`.",
+      "whenToUse": "A single section that expands, such as advanced options or extra details.",
+      "avoid": [
+        "A set of sections: use Accordion.",
+        "Hiding critical content users must read.",
+        "Navigation between pages."
+      ],
+      "accessibility": "The trigger is a button with aria-expanded and aria-controls; the panel is its region. Keyboard behavior comes from Base UI.",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Panel content."
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Visible title. It is the button that opens the panel."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Open at first render, when uncontrolled."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Disables the trigger."
+        },
+        {
+          "name": "endIcon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Icon after the title, before the chevron. Pass a generated icon without `size`."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state."
+        },
+        {
+          "name": "startIcon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Icon before the title. Pass a generated icon without `size`; the trigger sizes it."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Collapsible title=\"Advanced settings\">\n  <p>Only the options most people need are visible.</p>\n</Collapsible>"
+      ],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Collapsible/Collapsible.tsx"
+    },
+    {
+      "name": "ToggleGroup",
+      "category": "controls",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "A segmented single-choice control built on Base UI Toggle Group. Use it for two to five short,\nmutually exclusive options, such as a view switch. For longer content use Tabs; for independent\non/off choices use Checkbox.",
+      "import": "import { ToggleGroup } from \"@/ui\";",
+      "renders": "div role=\"group\" with toggle buttons",
+      "composition": "Pass `label` (required accessible name), `items` ({ value, label, startIcon?, disabled? }), optional controlled value, `size` (sm or md) and `disabled`. Single choice only.",
+      "whenToUse": "Two to five short, mutually exclusive options, such as a view switch.",
+      "avoid": [
+        "Long content changes: use Tabs.",
+        "Independent on/off choices: use Checkbox or Switch.",
+        "More than five options: use Select."
+      ],
+      "accessibility": "Arrow keys move between toggles and roles come from Base UI. The group needs its `label`; selected state is exposed with aria-pressed.",
+      "props": [
+        {
+          "name": "items",
+          "type": "ToggleGroupItem[]",
+          "required": true,
+          "description": "The options, in order."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Accessible name of the group. Required."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": "Initially selected value, when uncontrolled."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "default": "false"
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void)",
+          "required": false,
+          "description": "Called with the selected value, or an empty string when nothing is selected."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "default": "md",
+          "description": "Control height: `sm` 1.75rem, `md` 2.25rem."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "Selected value, when controlled."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<ToggleGroup\n  label=\"View\"\n  defaultValue=\"list\"\n  items={[\n    { value: \"list\", label: \"List\" },\n    { value: \"grid\", label: \"Grid\" },\n  ]}\n/>"
+      ],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ToggleGroup/ToggleGroup.tsx"
+    },
+    {
+      "name": "ScrollArea",
+      "category": "layout",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "A styled scroll container built on Base UI Scroll Area. Use it for a fixed-height panel, such as\na list or a code area, where the page itself should not scroll. The viewport is keyboard focusable.",
+      "import": "import { ScrollArea } from \"@/ui\";",
+      "renders": "div frame with a focusable scroll viewport and custom scrollbars",
+      "composition": "Pass `children`, optional `label` (accessible name of the scroll region) and `className` to set the height. Default maximum block size is 12rem; override it with a layout class.",
+      "whenToUse": "A fixed-height list, code area or panel that should scroll inside the page.",
+      "avoid": [
+        "The whole page scrolling: let the page scroll.",
+        "Overflowing menus and popups: they handle it themselves.",
+        "Horizontal-only swipe carousels with no keyboard alternative."
+      ],
+      "accessibility": "The viewport is keyboard focusable and shows a focus ring, so keyboard users can scroll it. Give it `label` when the content is not self-explanatory.",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "The scrollable content."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "description": "Class for the outer frame. Use it to set the height."
         },
         {
           "name": "label",
           "type": "string",
           "required": false,
-          "default": "Code",
-          "description": "Accessible name of the scrollable code region."
+          "description": "Accessible name of the scrollable region."
         },
         {
-          "name": "language",
+          "name": "viewportClassName",
           "type": "string",
           "required": false,
-          "description": "Language name. `bash`, `sh` and `shell` show a small terminal icon instead of the word."
-        },
-        {
-          "name": "tabHtml",
-          "type": "Record<string, string | null>",
-          "required": false,
-          "description": "Highlighted HTML per tab label, produced on the server."
-        },
-        {
-          "name": "tabs",
-          "type": "CodeTab[]",
-          "required": false,
-          "description": "Alternative versions of the same code, usually one command per package manager. The first tab is selected first."
-        },
-        {
-          "name": "tone",
-          "type": "\"success\" | \"danger\" | \"default\" | \"brand\"",
-          "required": false,
-          "default": "default",
-          "description": "Color the frame for the kind of message: default, brand, success or danger."
+          "description": "Class for the scrolling viewport."
         }
       ],
-      "extends": "Also accepts the native props of the element it renders; they pass through.",
-      "examples": [],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/CodeBlock/CodeBlockView.tsx"
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<ScrollArea label=\"Activity\" className=\"h-64\">\n  <Stack gap=\"3\">{items}</Stack>\n</ScrollArea>"
+      ],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ScrollArea/ScrollArea.tsx"
+    },
+    {
+      "name": "Sheet",
+      "category": "overlays",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "A side sheet for secondary tasks and settings, built on Base UI Drawer. Focus is trapped, Escape\ncloses it, and it can be swiped away on touch. For a centered decision use `Dialog`.",
+      "import": "import { Sheet } from \"@/ui\";",
+      "renders": "a trigger button; when open, a backdrop and a side panel in a portal",
+      "composition": "Pass `trigger` (button text), `title`, optional `description`, `children`, `footer`, `side` (left or right, default right) and open state. One component, no parts.",
+      "whenToUse": "Secondary tasks, settings and filters that slide in from an edge.",
+      "avoid": [
+        "A centered decision: use Dialog.",
+        "Non-essential information: use Tooltip or inline content.",
+        "Sheets without a title."
+      ],
+      "accessibility": "Focus is trapped and returned, Escape closes, the page behind is inert, and the title names the sheet. The close button has an accessible label.",
+      "props": [
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Accessible name of the sheet, shown at the top."
+        },
+        {
+          "name": "trigger",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Text of the trigger button."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Main content."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "closeLabel",
+          "type": "string",
+          "required": false,
+          "default": "Close",
+          "description": "Accessible name of the close button."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Initially open, when uncontrolled."
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Optional explanation under the title."
+        },
+        {
+          "name": "footer",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Actions shown at the bottom, usually buttons."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state."
+        },
+        {
+          "name": "side",
+          "type": "\"left\" | \"right\"",
+          "required": false,
+          "default": "right",
+          "description": "Edge the sheet enters from."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Sheet\n  trigger=\"Filters\"\n  title=\"Filters\"\n  description=\"Narrow the results.\"\n  footer={<Button>Apply</Button>}\n>\n  <Field label=\"Status\"><Select items={statuses} /></Field>\n</Sheet>"
+      ],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Sheet/Sheet.tsx"
+    },
+    {
+      "name": "Combobox",
+      "category": "controls",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "A searchable single-choice field built on Base UI Combobox (filtering, keyboard navigation,\nfocus and form value come from there). Pass `items` instead of composing parts.\nInside `Field` it inherits `required`, `readOnly` and `loading`.",
+      "import": "import { Combobox } from \"@/ui\";",
+      "renders": "input role=\"combobox\" with a filterable listbox popup",
+      "composition": "Pass `items` ({ value, label, description?, startIcon?, disabled? }), a `label` or `aria-label`, and optional `placeholder`, `emptyMessage`, `startIcon`, `size` (sm, md, lg) and open/selection state. Inside Field, omit required/readOnly/loading and pass them to Field. Icons are generated icons without `size`.",
+      "whenToUse": "Choosing one option from a long list when typing to filter helps.",
+      "avoid": [
+        "Fewer than about seven options: use Select.",
+        "Several choices: use Checkbox or a multi-select pattern.",
+        "Free text that is not from the list: use Input."
+      ],
+      "accessibility": "Filtering, keyboard navigation and focus come from Base UI. Needs an accessible name from `label`, `aria-label` or Field. The popup is announced with the result count.",
+      "props": [
+        {
+          "name": "items",
+          "type": "ComboboxOption[]",
+          "required": true,
+          "description": "The options, in order."
+        },
+        {
+          "name": "aria-label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible name when there is no visible label."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "data-force",
+          "type": "\"focus\"",
+          "required": false,
+          "description": "Story/test hook: force the focus ring without moving focus."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": "Initially selected value, when uncontrolled."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "default": "false"
+        },
+        {
+          "name": "emptyMessage",
+          "type": "string",
+          "required": false,
+          "default": "No results.",
+          "description": "Message shown when the filter has no matches."
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Visible label. Provide it, or `aria-label`, or put the Combobox inside `Field`."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Shows a small spinner, marks the field busy and makes it not editable.\nInside `Field`, omit it and pass `loading` to the Field instead."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Submitted with the form."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void)",
+          "required": false,
+          "description": "Called with the selected value, or an empty string when cleared."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "description": "Placeholder shown when no value is selected."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "default": "false"
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "default": "false"
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "default": "md",
+          "description": "Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem."
+        },
+        {
+          "name": "startIcon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Icon before the input. Pass a generated icon without `size`; the field sizes it."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "Selected value, when controlled."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Combobox\n  label=\"Assignee\"\n  placeholder=\"Search people\"\n  items={[\n    { value: \"ada\", label: \"Ada Lovelace\", description: \"Engineering\" },\n    { value: \"grace\", label: \"Grace Hopper\", description: \"Research\" },\n  ]}\n/>"
+      ],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Combobox/Combobox.tsx"
     },
     {
       "name": "CodeBlock",
@@ -2470,7 +2892,195 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/CodeBlock/CodeBlock.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/CodeBlock/CodeBlock.tsx",
+      "parts": [
+        {
+          "name": "CodeBlockView",
+          "category": "typography",
+          "base": "Own component",
+          "description": "Presentation half of `CodeBlock`: tabs, copy button and the focusable code region.\nThe server passes highlighted HTML; without it the code stays plain text.",
+          "import": "import { CodeBlockView } from \"@/ui\";",
+          "renders": "client-only presentation of a CodeBlock: tabs, copy button and focusable code region",
+          "composition": "Internal to CodeBlock. Use it only in client components; pass pre-highlighted `html`/`tabHtml` when available, otherwise the code stays plain.",
+          "whenToUse": "Client components that cannot render the server CodeBlock.",
+          "avoid": [
+            "Server pages: use CodeBlock, which highlights automatically.",
+            "Coloring tokens by hand."
+          ],
+          "accessibility": "The code region is focusable and named; the copy result is announced via role status.",
+          "props": [
+            {
+              "name": "className",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "code",
+              "type": "string",
+              "required": false,
+              "default": "",
+              "description": "The code to show, as plain text. Use `tabs` instead when there are alternatives (bun, npm, pnpm)."
+            },
+            {
+              "name": "highlightLines",
+              "type": "number[]",
+              "required": false,
+              "default": "undefined",
+              "description": "1-based line numbers to mark with a 2px left bar and a subtle background. No line numbers are\nrendered. The same lines apply to every tab."
+            },
+            {
+              "name": "html",
+              "type": "string | null",
+              "required": false,
+              "description": "Highlighted HTML for `code`, produced on the server."
+            },
+            {
+              "name": "label",
+              "type": "string",
+              "required": false,
+              "default": "Code",
+              "description": "Accessible name of the scrollable code region."
+            },
+            {
+              "name": "language",
+              "type": "string",
+              "required": false,
+              "description": "Language name. `bash`, `sh` and `shell` show a small terminal icon instead of the word."
+            },
+            {
+              "name": "tabHtml",
+              "type": "Record<string, string | null>",
+              "required": false,
+              "description": "Highlighted HTML per tab label, produced on the server."
+            },
+            {
+              "name": "tabs",
+              "type": "CodeTab[]",
+              "required": false,
+              "description": "Alternative versions of the same code, usually one command per package manager. The first tab is selected first."
+            },
+            {
+              "name": "tone",
+              "type": "\"success\" | \"danger\" | \"default\" | \"brand\"",
+              "required": false,
+              "default": "default",
+              "description": "Color the frame for the kind of message: default, brand, success or danger."
+            }
+          ],
+          "extends": "Also accepts the native props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/CodeBlock/CodeBlockView.tsx",
+          "parent": "CodeBlock"
+        }
+      ]
+    }
+  ],
+  "providersAndHooks": [
+    {
+      "name": "LinkProvider",
+      "category": "utility",
+      "base": "Own component",
+      "description": "Wires navigation once for the whole app. In Next.js pass `next/link` so every library link gets\nclient-side navigation and prefetching, with no `render` prop on each one. Without it links are plain `a` elements.",
+      "import": "import { LinkProvider } from \"@/ui\";",
+      "renders": "no element: it provides the link component through context",
+      "composition": "Place once near the app root: `<LinkProvider component={NextLink}>`. Link, ButtonLink, Menu link items, Breadcrumb and Pagination then render with it.",
+      "whenToUse": "Making every link in the library use `next/link` (or another router link) from a single place.",
+      "avoid": [
+        "Passing a `render` prop to individual links.",
+        "Nesting several providers."
+      ],
+      "accessibility": "No effect on semantics; the provided component must render an `a`.",
+      "props": [
+        {
+          "name": "component",
+          "type": "LinkComponent",
+          "required": true,
+          "description": "The component every `Link`, `ButtonLink`, `Breadcrumb`, `Pagination` and `Menu` link renders with. Pass `next/link` in a Next.js app."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "\"use client\";\nimport NextLink from \"next/link\";\n<LinkProvider component={NextLink}>{children}</LinkProvider>"
+      ],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Link/LinkContext.tsx"
+    },
+    {
+      "name": "TooltipProvider",
+      "category": "overlays",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "Shares the open delay between tooltips. The first tooltip waits `delay` ms; moving to the next\none opens instantly (`data-instant` skips the animation). Put it once near the app root.",
+      "import": "import { TooltipProvider } from \"@/ui\";",
+      "renders": "no element",
+      "composition": "Place once near the app root. Optional. `delay` (default 600) applies only to the first tooltip; the next ones open instantly.",
+      "whenToUse": "Shared open delay across tooltips.",
+      "avoid": [
+        "Nesting several providers."
+      ],
+      "accessibility": "No effect on semantics.",
+      "props": [],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Tooltip/Tooltip.tsx"
+    },
+    {
+      "name": "ToastProvider",
+      "category": "feedback",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "Place once near the root of the app (inside `Providers`). It renders the stack of toasts and makes\n`useToast` available. Built on Base UI Toast (live-region announcements, F6 to reach the toasts, swipe to\ndismiss, pause on hover and focus come from there).",
+      "import": "import { ToastProvider } from \"@/ui\";",
+      "renders": "no visible element until a toast is shown; renders a viewport in a portal",
+      "composition": "Place once near the app root, inside Providers. Then call `useToast()` anywhere below it.",
+      "whenToUse": "Short-lived feedback after an action.",
+      "avoid": [
+        "Messages that must stay: use Alert.",
+        "Several providers."
+      ],
+      "accessibility": "Live-region announcements, F6 to reach toasts, pause on hover and focus. The dismiss button is labelled.",
+      "props": [],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<ToastProvider>{children}</ToastProvider>"
+      ],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Toast/Toast.tsx"
+    },
+    {
+      "name": "useLinkComponent",
+      "category": "utility",
+      "base": "Own component",
+      "description": "The anchor component to render links with: the one from `LinkProvider`, or `a`.",
+      "import": "import { useLinkComponent } from \"@/ui\";",
+      "renders": "hook, renders nothing",
+      "composition": "`const LinkEl = useLinkComponent()` returns the provided link component, or `\"a\"`.",
+      "whenToUse": "Building your own navigation component that should follow LinkProvider.",
+      "avoid": [
+        "Calling it in Server Components: it needs a client component."
+      ],
+      "accessibility": "The returned component must render an `a`.",
+      "props": [],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Link/LinkContext.tsx"
+    },
+    {
+      "name": "useToast",
+      "category": "feedback",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "Show short-lived feedback after an action (saved, copied, failed). Returns `show` and `close`.\nFor messages that must stay on the page, use `Alert`.",
+      "import": "import { useToast } from \"@/ui\";",
+      "renders": "hook, renders nothing",
+      "composition": "`const { show, close } = useToast(); show({ title, description?, tone?, timeout?, startIcon?, endIcon? })`. Icons are generated icons without `size`.",
+      "whenToUse": "Showing a toast after an action finishes.",
+      "avoid": [
+        "Calling it outside ToastProvider.",
+        "Putting the only copy of important information in a toast."
+      ],
+      "accessibility": "The tone is never the only signal: write it in the title.",
+      "props": [],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "const { show } = useToast();\r\nshow({ title: \"Saved\", tone: \"success\" });"
+      ],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Toast/Toast.tsx"
     }
   ]
 }

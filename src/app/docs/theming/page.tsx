@@ -13,7 +13,7 @@ const lock = `<html lang="en" data-theme="dark">`;
 
 export default function Theming() {
   return (
-    <DocPage href="/docs/theming" title="Theming" description="Components never contain colors. They read semantic tokens, and the theme decides what those tokens mean.">
+    <DocPage href="/docs/theming" title="Theming" description="Components never contain colors. They read semantic tokens, and the theme decides what those tokens mean. The radius scale derives from --radius-base.">
 
       <Heading as="h2" size={6}>How light and dark work</Heading>
       <p>Tokens live as JSON in <code>src/ui/tokens</code> and are compiled to <code>tokens.css</code>. The same semantic names exist in both themes. <code>next-themes</code> sets <code>data-theme=&quot;light&quot;</code> or <code>&quot;dark&quot;</code> on <code>html</code>. With no choice made, the operating system preference applies.</p>
@@ -25,6 +25,7 @@ export default function Theming() {
         rows={[
           { token: <code>--color-page</code>, use: "Page background." },
           { token: <code>--color-card</code>, use: "Cards, panels and table rows on the page." },
+          { token: <code>--color-highlight</code>, use: "Highlighted panel inside a card: a metric, total or goal." },
           { token: <code>--color-component</code>, use: "Control background: inputs, secondary buttons and toggles." },
           { token: <code>--color-primary-foreground</code>, use: "Primary text." },
           { token: <code>--color-secondary-foreground</code>, use: "Secondary text." },
@@ -41,7 +42,7 @@ export default function Theming() {
 
       <Heading as="h2" size={6}>Token convention</Heading>
       <p>Every tone follows the same suffixes, so a token name tells you what it is for.</p>
-      <p>Neutral tokens (<code>page</code>, <code>card</code>, <code>sunken</code>, <code>modal</code>, <code>component</code>, <code>border-*</code>) do not follow the tone suffixes.</p>
+      <p>Neutral tokens (<code>page</code>, <code>card</code>, <code>sunken</code>, <code>highlight</code>, <code>modal</code>, <code>component</code>, <code>border-*</code>) do not follow the tone suffixes.</p>
       <Table
         caption="Suffixes and what they mean"
         columns={[{ key: "suffix", header: "Suffix" }, { key: "use", header: "Use" }]}

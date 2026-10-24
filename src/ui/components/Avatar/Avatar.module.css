@@ -5,7 +5,6 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  overflow: hidden;
   vertical-align: middle;
   border: var(--border-width-thin) solid var(--color-border-default);
   border-radius: var(--radius-full);
@@ -17,18 +16,30 @@
 }
 
 .sm {
+  --avatar-icon: var(--size-icon-sm);
+  --avatar-status: var(--space-2);
+  --avatar-badge: var(--space-4);
+  --avatar-badge-icon: var(--space-3);
   width: 2rem;
   height: 2rem;
   font-size: var(--font-size-13);
 }
 
 .md {
+  --avatar-icon: var(--size-icon-md);
+  --avatar-status: var(--space-2-5);
+  --avatar-badge: var(--space-5);
+  --avatar-badge-icon: var(--space-4);
   width: 2.5rem;
   height: 2.5rem;
   font-size: var(--text-body-size);
 }
 
 .lg {
+  --avatar-icon: var(--size-icon-lg);
+  --avatar-status: var(--space-3);
+  --avatar-badge: var(--space-6);
+  --avatar-badge-icon: var(--space-5);
   width: 3.5rem;
   height: 3.5rem;
   font-size: var(--font-size-18);
@@ -37,6 +48,7 @@
 .image {
   width: 100%;
   height: 100%;
+  border-radius: inherit;
   object-fit: cover;
 }
 
@@ -46,4 +58,60 @@
   justify-content: center;
   width: 100%;
   height: 100%;
+}
+
+.icon {
+  --icon-size: var(--avatar-icon);
+}
+
+.status {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-end: 0;
+  z-index: 1;
+  box-sizing: border-box;
+  width: var(--avatar-status);
+  height: var(--avatar-status);
+}
+
+.statusOnline {
+  border-radius: var(--radius-full);
+  background: var(--color-positive-solid);
+}
+
+.statusAway {
+  border-start-start-radius: var(--radius-full);
+  border-start-end-radius: var(--radius-full);
+  border-end-start-radius: var(--radius-full);
+  border-end-end-radius: var(--radius-sm);
+  background: var(--color-warning-solid);
+}
+
+.statusBusy {
+  border-radius: var(--radius-sm);
+  background: var(--color-danger-solid);
+}
+
+.statusOffline {
+  border: var(--border-width-thick) solid var(--color-border-strong);
+  border-radius: var(--radius-full);
+  background: transparent;
+}
+
+.badge {
+  --icon-size: var(--avatar-badge-icon);
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-end: 0;
+  z-index: 1;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--avatar-badge);
+  height: var(--avatar-badge);
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-full);
+  background: var(--color-component);
+  color: var(--color-primary-foreground);
 }

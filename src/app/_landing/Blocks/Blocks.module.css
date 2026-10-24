@@ -2,7 +2,7 @@
 
 .blocks {
   display: grid;
-  grid-template-columns: minmax(14rem, 17rem) repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(10rem, 17rem) repeat(3, minmax(0, 1fr));
   align-items: start;
   gap: var(--space-3);
   width: 100%;
@@ -10,7 +10,7 @@
 .col {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-4);
   min-width: 0;
 }
 .block {
@@ -20,7 +20,7 @@
 .highlight {
   padding: var(--space-3);
   background: var(--color-highlight);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
 }
 
 @media (max-width: 80rem) {
@@ -44,7 +44,7 @@
 /* ---------- Block head, people, price, features ---------- */
 .blockHead {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: var(--space-2);
 }
@@ -67,7 +67,7 @@
 }
 .priceNumber {
   font-family: var(--text-heading-5-family);
-  font-size: var(--text-heading-5-size);
+  font-size: var(--text-heading-4-size);
   font-weight: var(--text-heading-5-weight);
   line-height: var(--text-heading-5-line);
   letter-spacing: var(--text-heading-5-tracking);
@@ -87,10 +87,8 @@
 /* ---------- Sidebar ---------- */
 .sidebar {
   display: grid;
-  gap: var(--space-2);
 }
 .navTitle {
-  padding-inline: var(--space-2);
   font-family: var(--text-label-family);
   font-size: var(--text-label-size);
   font-weight: var(--text-label-weight);
@@ -123,11 +121,12 @@
 .goal {
   display: grid;
   gap: var(--space-2);
-  padding-block: var(--space-5);
+  padding-block: var(--space-3);
+  padding-inline: var(--space-4);
 }
 .goalTotal {
   font-family: var(--text-heading-5-family);
-  font-size: var(--text-heading-5-size);
+  font-size: var(--text-heading-4-size);
   font-weight: var(--text-heading-5-weight);
   line-height: var(--text-heading-5-line);
   letter-spacing: var(--text-heading-5-tracking);
@@ -173,14 +172,13 @@
   display: flex;
   align-items: stretch;
   gap: var(--space-2);
-  height: 7rem;
+  height: 12rem;
 }
 .barCol {
   flex: 1;
   min-width: 0;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  gap: var(--space-1);
   justify-items: center;
 }
 .barValue,
@@ -227,6 +225,12 @@
 }
 .ledgerTotal {
   font-weight: var(--font-weight-semibold);
+}
+.ledgerDivider {
+  width: 100%;
+  margin: 0;
+  border: 0;
+  border-top: var(--border-width-thin) solid var(--color-border-default);
 }
 
 /* ---------- Holdings ---------- */

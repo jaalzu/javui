@@ -26,21 +26,22 @@
       "import": "import { Text } from \"@/ui\";",
       "renders": "p (body variants), span (label, caption), code (code); or the element in `as`",
       "composition": "`as` accepts only: p, span, label, strong, em, small, div, code. No links or buttons.",
-      "whenToUse": "Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls and fields (buttons, form labels, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).",
+      "whenToUse": "Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls (buttons, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).",
       "avoid": [
         "Headings: use Heading.",
         "Links: use Link.",
         "Actions: use Button.",
         "Setting font-size or color by hand.",
-        "Caption size=\"sm\" (10px) for lowercase running text: it is intentional for uppercase metadata, where the extra tracking keeps it legible."
+        "Caption size=\"sm\" (10px) for lowercase running text: it is intentional for uppercase metadata, where the extra tracking keeps it legible.",
+        "Form labels: use Label, or Field when you also need description and error."
       ],
-      "accessibility": "Use `as=\"label\"` with `htmlFor` for form labels when not using Field. Do not use tone=\"subtle\" for required text.",
+      "accessibility": "Do not use tone=\"subtle\" for required text.",
       "props": [
         {
           "name": "as",
           "type": "\"div\" | \"code\" | \"em\" | \"label\" | \"p\" | \"small\" | \"span\" | \"strong\"",
           "required": false,
-          "description": "HTML element to render. Defaults by variant: `p` for body variants, `span` for\n`label` and `caption`, `code` for `code`. Use `label` with `htmlFor` for form labels."
+          "description": "HTML element to render. Defaults by variant: `p` for body variants, `span` for\n`label` and `caption`, `code` for `code`."
         },
         {
           "name": "casing",
@@ -79,7 +80,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Text>Default paragraph.</Text>\r\n<Text size=\"lg\">Large body text</Text>\r\n<Text variant=\"caption\" tone=\"muted\">Helper text</Text>\r\n<Text as=\"label\" htmlFor=\"email\" variant=\"label\">Email</Text>"
+        "<Text>Default paragraph.</Text>\r\n<Text size=\"lg\">Large body text</Text>\r\n<Text variant=\"caption\" tone=\"muted\">Helper text</Text>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Text/Text.tsx"
     },
@@ -137,7 +138,8 @@
       "whenToUse": "Navigation to another page, section or resource.",
       "avoid": [
         "Actions that do not navigate: use Button.",
-        "Links without visible text."
+        "Links without visible text.",
+        "Button-styled navigation: use ButtonLink."
       ],
       "accessibility": "Always underlined so it does not rely on color (the underline gets stronger on hover). Use `target=\"_blank\"` only with `rel=\"noopener noreferrer\"`.",
       "props": [
@@ -270,7 +272,7 @@
         },
         {
           "name": "variant",
-          "type": "\"success\" | \"danger\" | \"default\" | \"inverted\" | \"outline\" | \"brand\"",
+          "type": "\"success\" | \"danger\" | \"outline\" | \"default\" | \"inverted\" | \"brand\"",
           "required": false,
           "default": "default",
           "description": "Visual treatment. `default` is a quiet component surface, `inverted` a filled\nhigh-contrast pill, `outline` only an inset ring, and `brand`, `success` and\n`danger` are soft semantic tints (translucent background, colored text)."
@@ -281,71 +283,6 @@
         "<Badge>Draft</Badge>\n<Badge variant=\"success\">Active</Badge>\n<Badge variant=\"danger\">99+</Badge>\n<Badge variant=\"outline\" shape=\"rounded\">Beta</Badge>\n<Badge variant=\"brand\" loading>Saving</Badge>\n<Badge variant=\"inverted\" size=\"lg\" spinnerPosition=\"end\" loading>Syncing</Badge>\n<Badge variant=\"success\" startIcon={<CheckIcon />}>Active</Badge>\n<Badge variant=\"default\" render={<Link href=\"/docs\" />}>Docs</Badge>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Badge/Badge.tsx"
-    },
-    {
-      "name": "Box",
-      "category": "layout",
-      "base": "Own component",
-      "description": "Generic block container with token-based padding, surface, border and radius.\nUse it when no more specific component fits.",
-      "import": "import { Box } from \"@/ui\";",
-      "renders": "div, or the container element in `as`",
-      "composition": "`as` accepts: div, section, article, main, nav, aside, header, footer, ul, ol, li.",
-      "whenToUse": "A generic container with token padding, surface, border and radius.",
-      "avoid": [
-        "Pixel values: use the spacing scale keys.",
-        "Using div for something that has a semantic element."
-      ],
-      "accessibility": "Landmark elements (nav, main, aside) need an accessible name if there is more than one of the same kind.",
-      "props": [
-        {
-          "name": "as",
-          "type": "\"div\" | \"article\" | \"aside\" | \"footer\" | \"header\" | \"li\" | \"main\" | \"nav\" | \"ol\" | \"section\" | \"ul\"",
-          "required": false,
-          "default": "\"div\"",
-          "description": "Element to render. Pick the one that matches the meaning of the content (`section`, `nav`, `li`...)."
-        },
-        {
-          "name": "bordered",
-          "type": "boolean",
-          "required": false,
-          "description": "Draws a 1px border using the `border` color."
-        },
-        {
-          "name": "padding",
-          "type": "\"0\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\" | \"6\" | \"8\" | \"10\" | \"12\" | \"16\"",
-          "required": false,
-          "description": "Padding on all sides, from the spacing scale."
-        },
-        {
-          "name": "paddingX",
-          "type": "\"0\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\" | \"6\" | \"8\" | \"10\" | \"12\" | \"16\"",
-          "required": false,
-          "description": "Horizontal padding. Overrides `padding` on the inline axis."
-        },
-        {
-          "name": "paddingY",
-          "type": "\"0\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\" | \"6\" | \"8\" | \"10\" | \"12\" | \"16\"",
-          "required": false,
-          "description": "Vertical padding. Overrides `padding` on the block axis."
-        },
-        {
-          "name": "radius",
-          "type": "\"none\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"full\"",
-          "required": false,
-          "description": "Corner radius from the radius scale."
-        },
-        {
-          "name": "surface",
-          "type": "boolean",
-          "required": false,
-          "description": "Draws the `surface` background."
-        }
-      ],
-      "extends": "Also accepts the native props of the element it renders; they pass through.",
-      "examples": [
-        "<Box as=\"section\" padding=\"6\" surface bordered radius=\"lg\">...</Box>"
-      ],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Box/Box.tsx"
     },
     {
       "name": "Stack",
@@ -508,32 +445,40 @@
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Container/Container.tsx"
     },
     {
-      "name": "Divider",
+      "name": "AspectRatio",
       "category": "layout",
       "base": "Own component",
-      "description": "A thematic break between groups of content. Renders a native `hr`.\nDo not use it for pure decoration; use spacing instead.",
-      "import": "import { Divider } from \"@/ui\";",
-      "renders": "hr",
-      "composition": "Native hr props pass through; no children.",
-      "whenToUse": "A thematic break between groups of content.",
+      "description": "Reserves space for media with the CSS `aspect-ratio` property. An `img`, `video` or `iframe`\nas a direct child fills the box; images and videos use `object-fit: cover`.",
+      "import": "import { AspectRatio } from \"@/ui\";",
+      "renders": "div by default; `as` can be figure",
+      "composition": "`ratio` is width divided by height (`16 / 9`, `4 / 3`, `1`) and defaults to 1. An `img`, `video` or `iframe` as a direct child fills the box; images and videos use `object-fit: cover`.",
+      "whenToUse": "Images, video, embeds or maps whose size must be reserved before they load, preventing layout shift (CLS).",
       "avoid": [
-        "Pure decoration: use spacing."
+        "Decorative containers with no media.",
+        "Text blocks: they size to their content, not a fixed ratio."
       ],
-      "accessibility": "Exposed as a separator. Vertical sets aria-orientation.",
+      "accessibility": "The child needs its own alt text (`img`) or title (`iframe`, `video`); the box adds no semantics.",
       "props": [
         {
-          "name": "orientation",
-          "type": "\"horizontal\" | \"vertical\"",
+          "name": "as",
+          "type": "\"div\" | \"figure\"",
           "required": false,
-          "default": "horizontal",
-          "description": "Direction of the line. A vertical divider is still an `hr` and sets `aria-orientation`."
+          "default": "\"div\"",
+          "description": "Element to render. Use `figure` when the media needs a caption."
+        },
+        {
+          "name": "ratio",
+          "type": "number",
+          "required": false,
+          "default": "1",
+          "description": "Width divided by height, such as `16 / 9`, `4 / 3` or `1`. The box reserves that area\nbefore the media loads, which prevents layout shift."
         }
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Divider />"
+        "<AspectRatio ratio={16 / 9}>\n  <img src=\"/cover.jpg\" alt=\"A field at dusk\" />\n</AspectRatio>\n<AspectRatio as=\"figure\" ratio={4 / 3}>\n  <img src=\"/chart.png\" alt=\"Revenue by quarter\" />\n  <figcaption>Revenue by quarter</figcaption>\n</AspectRatio>"
       ],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Divider/Divider.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/AspectRatio/AspectRatio.tsx"
     },
     {
       "name": "VisuallyHidden",
@@ -685,7 +630,7 @@
       "composition": "Defaults to type=\"button\"; pass type=\"submit\" explicitly. Put icons in `startIcon`/`endIcon` (generated icons, no `size`). Icon-only: `startIcon` is required and exactly one of `aria-label` or `aria-labelledby`. Heights: sm 1.75rem, md 2.25rem, lg 2.75rem. Icons follow the size: sm 16px, md 20px, lg 24px. Base UI props such as `render` and `nativeButton` are available but not needed for normal use.",
       "whenToUse": "Any action: submit, open, confirm, cancel. Pass `loading` while the action runs.",
       "avoid": [
-        "Navigation: use Link.",
+        "Navigation: use Link (inline text) or ButtonLink (looks like a button).",
         "More than one primary button per view.",
         "Disabling the button to show progress: use `loading`, it keeps the label and focus."
       ],
@@ -732,7 +677,7 @@
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+          "type": "\"danger\" | \"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "primary",
           "description": "Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions,\n`outline` for a transparent button with a visible border, `ghost` for low-emphasis actions,\n`accent` for brand emphasis, `danger` for destructive actions."
@@ -743,6 +688,67 @@
         "<Button>Save</Button>\n<Button variant=\"secondary\" size=\"sm\">Cancel</Button>\n<Button variant=\"outline\">Learn more</Button>\n<Button type=\"submit\">Send</Button>\n<Button loading>Saving</Button>\n<Button variant=\"secondary\" startIcon={<CheckIcon />}>Done</Button>\n<Button variant=\"outline\" aria-label=\"Close\" startIcon={<XIcon />} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Button/Button.tsx"
+    },
+    {
+      "name": "ButtonGroup",
+      "category": "controls",
+      "base": "Own component",
+      "description": "Joins related buttons into one control. Shared edges, outer-only corner rounding and a focus\nring that stays above its neighbours keep the actions readable as a unit. Children can be\n`Button`, a `Menu` trigger or an `Input` for split-button patterns. Give the group an\n`aria-label` so its purpose is announced.",
+      "import": "import { ButtonGroup } from \"@/ui\";",
+      "renders": "div role=\"group\"",
+      "composition": "Pass `orientation` (horizontal or vertical, default horizontal) and one group of related children: `Button`, a `Menu` trigger or an `Input`. Put `ButtonGroupSeparator` between non-outline buttons. Give the group an `aria-label` that names the set of actions.",
+      "whenToUse": "Related actions that belong together and read better as one unit, such as Save draft, Preview and Publish.",
+      "avoid": [
+        "Toggling state or choosing between options: use ToggleGroup.",
+        "Unrelated actions that do not form a set."
+      ],
+      "accessibility": "Renders role=\"group\"; recommend an `aria-label` so the group is announced. Each child keeps its own accessible name and focus ring, which stays above its neighbours.",
+      "props": [
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "default": "horizontal",
+          "description": "Direction the group lays out its children. Horizontal joins buttons side by side;\nvertical stacks them."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<ButtonGroup aria-label=\"Document actions\">\n  <Button variant=\"outline\">Save draft</Button>\n  <Button variant=\"outline\">Preview</Button>\n  <Button variant=\"outline\">Publish</Button>\n</ButtonGroup>"
+      ],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ButtonGroup/ButtonGroup.tsx",
+      "parts": [
+        {
+          "name": "ButtonGroupSeparator",
+          "category": "controls",
+          "base": "Own component",
+          "description": "Divides adjacent buttons in a group. Use it with non-outline variants, whose shared edge has\nno visible border; outline buttons already show the division. The orientation describes the\nline itself, so a horizontal group uses a vertical separator.",
+          "import": "import { ButtonGroupSeparator } from \"@/ui\";",
+          "renders": "div role=\"separator\"",
+          "composition": "Place between adjacent buttons when their variants have no visible border. `orientation` describes the line: vertical inside a horizontal group (default), horizontal inside a vertical group.",
+          "whenToUse": "Marking the division between non-outline buttons in a ButtonGroup.",
+          "avoid": [
+            "Separating outline buttons: their shared border already shows the division.",
+            "Using it as decoration outside a ButtonGroup."
+          ],
+          "accessibility": "Exposes role=\"separator\" with an `aria-orientation` that matches the line.",
+          "props": [
+            {
+              "name": "orientation",
+              "type": "\"horizontal\" | \"vertical\"",
+              "required": false,
+              "default": "vertical",
+              "description": "Direction of the divider line. Use `vertical` between side-by-side buttons (default) and\n`horizontal` between stacked buttons."
+            }
+          ],
+          "extends": "Also accepts the native props of the element it renders; they pass through.",
+          "examples": [
+            "<ButtonGroup aria-label=\"Export\">\n  <Button variant=\"secondary\">CSV</Button>\n  <Button variant=\"secondary\">JSON</Button>\n  <ButtonGroupSeparator />\n  <Button variant=\"secondary\">More</Button>\n</ButtonGroup>"
+          ],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ButtonGroup/ButtonGroupSeparator.tsx",
+          "parent": "ButtonGroup"
+        }
+      ]
     },
     {
       "name": "Field",
@@ -977,49 +983,13 @@
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Checkbox/Checkbox.tsx"
     },
     {
-      "name": "Radio",
-      "category": "controls",
-      "base": "Built on Base UI (@base-ui/react)",
-      "description": "One option inside a `RadioGroup`, built on Base UI Radio. The whole label is clickable.\nValidation state comes from the `RadioGroup` (`error`, `required`, `readOnly`, `loading`).",
-      "import": "import { Radio } from \"@/ui\";",
-      "renders": "span role=\"radio\" with a hidden native input, inside a label",
-      "composition": "Only inside RadioGroup. `value` and `label` are required.",
-      "whenToUse": "One option of a RadioGroup.",
-      "avoid": [
-        "Using it outside a RadioGroup."
-      ],
-      "accessibility": "The whole label is clickable.",
-      "props": [
-        {
-          "name": "label",
-          "type": "ReactNode",
-          "required": true,
-          "description": "Visible label for this option."
-        },
-        {
-          "name": "value",
-          "type": "string",
-          "required": true,
-          "description": "Value submitted and reported when this option is selected."
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "required": false
-        }
-      ],
-      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": [],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Radio/Radio.tsx"
-    },
-    {
       "name": "RadioGroup",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
       "description": "A group of mutually exclusive options. Renders a `fieldset` with a `legend`, driven by Base UI\nRadioGroup. Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.",
       "import": "import { RadioGroup } from \"@/ui\";",
       "renders": "fieldset with a legend and a radiogroup",
-      "composition": "`legend` is required. Children are Radio elements. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend.",
+      "composition": "`legend` is required. Children are Radio elements. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend. Radio is documented under Parts.",
       "whenToUse": "Choosing exactly one option from a short list.",
       "avoid": [
         "Long lists: use Select."
@@ -1082,7 +1052,46 @@
       "examples": [
         "<RadioGroup legend=\"Plan\" defaultValue=\"free\">\r\n  <Radio value=\"free\" label=\"Free\" />\r\n  <Radio value=\"pro\" label=\"Pro\" />\r\n</RadioGroup>\r\n<RadioGroup legend=\"Plan\" error=\"Choose a plan\" required>\r\n  <Radio value=\"free\" label=\"Free\" />\r\n  <Radio value=\"pro\" label=\"Pro\" />\r\n</RadioGroup>"
       ],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Radio/Radio.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Radio/Radio.tsx",
+      "parts": [
+        {
+          "name": "Radio",
+          "category": "controls",
+          "base": "Built on Base UI (@base-ui/react)",
+          "description": "One option inside a `RadioGroup`, built on Base UI Radio. The whole label is clickable.\nValidation state comes from the `RadioGroup` (`error`, `required`, `readOnly`, `loading`).",
+          "import": "import { Radio } from \"@/ui\";",
+          "renders": "span role=\"radio\" with a hidden native input, inside a label",
+          "composition": "Only inside RadioGroup; it is documented under Parts. `value` and `label` are required.",
+          "whenToUse": "One option of a RadioGroup.",
+          "avoid": [
+            "Using it outside a RadioGroup."
+          ],
+          "accessibility": "The whole label is clickable.",
+          "props": [
+            {
+              "name": "label",
+              "type": "ReactNode",
+              "required": true,
+              "description": "Visible label for this option."
+            },
+            {
+              "name": "value",
+              "type": "string",
+              "required": true,
+              "description": "Value submitted and reported when this option is selected."
+            },
+            {
+              "name": "className",
+              "type": "string",
+              "required": false
+            }
+          ],
+          "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Radio/Radio.tsx",
+          "parent": "RadioGroup"
+        }
+      ]
     },
     {
       "name": "Switch",
@@ -1238,7 +1247,8 @@
       "whenToUse": "Interrupting the user for a decision or focused task.",
       "avoid": [
         "Non-essential information: use inline content or Tooltip.",
-        "Dialogs without a title."
+        "Dialogs without a title.",
+        "Confirming destructive actions: use AlertDialog."
       ],
       "accessibility": "Focus is trapped and returned, Escape closes, the page behind is inert. Title is the accessible name.",
       "props": [],
@@ -1271,7 +1281,7 @@
             },
             {
               "name": "variant",
-              "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+              "type": "\"danger\" | \"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\"",
               "required": false,
               "default": "primary",
               "description": "Button style of the trigger."
@@ -1352,7 +1362,7 @@
             },
             {
               "name": "variant",
-              "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+              "type": "\"danger\" | \"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\"",
               "required": false,
               "default": "secondary",
               "description": "Button style."
@@ -1364,6 +1374,154 @@
           ],
           "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Dialog/Dialog.tsx",
           "parent": "Dialog"
+        }
+      ]
+    },
+    {
+      "name": "AlertDialog",
+      "category": "overlays",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "Root of an alert dialog: a modal that asks for confirmation before a destructive or\nirreversible action. It shares Dialog's panel styles but behaves like an alert dialog:\n`role=\"alertdialog\"`, no close on outside click, Escape to close, focus starts on the\nsafest action and returns to the trigger.",
+      "import": "import { AlertDialog } from \"@/ui\";",
+      "renders": "no element: it only holds the open state (Base UI AlertDialog.Root)",
+      "composition": "Structure: AlertDialog > AlertDialogTrigger + AlertDialogContent (title, description, AlertDialogClose actions). Put the safe action, usually Cancel, first.",
+      "whenToUse": "Confirming a destructive or irreversible action before it runs, such as deleting data or leaving with unsaved changes.",
+      "avoid": [
+        "Forms or general content: use Dialog.",
+        "Informational messages that need no decision: use Alert.",
+        "Confirmations whose action can be undone: use a Dialog or an inline action instead."
+      ],
+      "accessibility": "Uses role=\"alertdialog\"; it does not close on outside click, Escape closes, focus starts on the safe action and returns to the trigger. Title is the accessible name.",
+      "props": [],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<AlertDialog>\n  <AlertDialogTrigger variant=\"danger\">Delete project</AlertDialogTrigger>\n  <AlertDialogContent title=\"Delete project?\" description=\"This cannot be undone.\">\n    <AlertDialogClose>Cancel</AlertDialogClose>\n    <AlertDialogClose variant=\"danger\">Delete</AlertDialogClose>\n  </AlertDialogContent>\n</AlertDialog>"
+      ],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/AlertDialog/AlertDialog.tsx",
+      "parts": [
+        {
+          "name": "AlertDialogTrigger",
+          "category": "overlays",
+          "base": "Built on Base UI (@base-ui/react)",
+          "description": "The button that opens the alert dialog. It is rendered as a `Button`.",
+          "import": "import { AlertDialogTrigger } from \"@/ui\";",
+          "renders": "button (a Button)",
+          "composition": "Direct child of AlertDialog. Accepts Button `variant` and `size`; use `danger` for the destructive trigger.",
+          "whenToUse": "The button that opens the alert dialog.",
+          "avoid": [
+            "Using a plain Button to open it."
+          ],
+          "accessibility": "Gets aria-haspopup and expanded state from Base UI.",
+          "props": [
+            {
+              "name": "size",
+              "type": "\"sm\" | \"md\" | \"lg\"",
+              "required": false,
+              "default": "md",
+              "description": "Button size of the trigger."
+            },
+            {
+              "name": "variant",
+              "type": "\"danger\" | \"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\"",
+              "required": false,
+              "default": "primary",
+              "description": "Button style of the trigger."
+            }
+          ],
+          "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+          "examples": [
+            "<AlertDialogTrigger variant=\"danger\">Delete project</AlertDialogTrigger>"
+          ],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/AlertDialog/AlertDialog.tsx",
+          "parent": "AlertDialog"
+        },
+        {
+          "name": "AlertDialogContent",
+          "category": "overlays",
+          "base": "Built on Base UI (@base-ui/react)",
+          "description": "The alert dialog panel with its backdrop, title and description. Place it inside\n`AlertDialog`. It does not close on outside click, so the user must choose an action.",
+          "import": "import { AlertDialogContent } from \"@/ui\";",
+          "renders": "div role=\"alertdialog\" in a portal, plus a backdrop",
+          "composition": "`title` is required; `description` is recommended. Children are the actions, usually AlertDialogClose. Put the safe action first: it receives initial focus.",
+          "whenToUse": "The panel of the alert dialog.",
+          "avoid": [
+            "Omitting `title`.",
+            "Content other than the actions."
+          ],
+          "accessibility": "title is the accessible name; description is the accessible description. Initial focus goes to the first action unless `initialFocus` overrides it.",
+          "props": [
+            {
+              "name": "title",
+              "type": "ReactNode",
+              "required": true,
+              "description": "Dialog title. Required: it is the accessible name of the dialog."
+            },
+            {
+              "name": "children",
+              "type": "ReactNode",
+              "required": false,
+              "description": "The actions. Put the safe action first (`AlertDialogClose` buttons): it receives initial focus."
+            },
+            {
+              "name": "className",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "description",
+              "type": "ReactNode",
+              "required": false,
+              "description": "Short explanation of what will happen, announced as the accessible description."
+            },
+            {
+              "name": "initialFocus",
+              "type": "boolean | RefObject<HTMLElement | null> | ((openType: InteractionType) => boolean | void | HTMLElement | null)",
+              "required": false,
+              "description": "Element to focus when the dialog opens. Defaults to the first action, which should be the safe one."
+            }
+          ],
+          "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+          "examples": [
+            "<AlertDialogContent title=\"Delete project?\" description=\"This cannot be undone.\">\n  <AlertDialogClose>Cancel</AlertDialogClose>\n  <AlertDialogClose variant=\"danger\">Delete</AlertDialogClose>\n</AlertDialogContent>"
+          ],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/AlertDialog/AlertDialog.tsx",
+          "parent": "AlertDialog"
+        },
+        {
+          "name": "AlertDialogClose",
+          "category": "overlays",
+          "base": "Built on Base UI (@base-ui/react)",
+          "description": "A button that closes the alert dialog. It is rendered as a `Button`.",
+          "import": "import { AlertDialogClose } from \"@/ui\";",
+          "renders": "button (a Button)",
+          "composition": "Inside AlertDialogContent. Accepts Button `variant` and `size`; use `danger` for the destructive action.",
+          "whenToUse": "The cancel and confirm actions.",
+          "avoid": [
+            "Closing by custom onClick state when AlertDialogClose is enough."
+          ],
+          "accessibility": "Closing returns focus to the trigger.",
+          "props": [
+            {
+              "name": "size",
+              "type": "\"sm\" | \"md\" | \"lg\"",
+              "required": false,
+              "default": "md",
+              "description": "Button size."
+            },
+            {
+              "name": "variant",
+              "type": "\"danger\" | \"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\"",
+              "required": false,
+              "default": "secondary",
+              "description": "Button style. Use `danger` for the destructive action."
+            }
+          ],
+          "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+          "examples": [
+            "<AlertDialogClose>Cancel</AlertDialogClose>"
+          ],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/AlertDialog/AlertDialog.tsx",
+          "parent": "AlertDialog"
         }
       ]
     },
@@ -1463,7 +1621,7 @@
       "whenToUse": "A call to action that goes to another page, such as Get started or Docs.",
       "avoid": [
         "Actions that do not navigate: use Button.",
-        "Inline links inside text: use Link."
+        "Inline links inside text: use Link (inline text)."
       ],
       "accessibility": "Icon-only buttons need `aria-label` (or `aria-labelledby`); the types enforce it. It is a real link (role link), so middle-click, open in new tab and prefetch work. Do not give it role button.",
       "props": [
@@ -1502,7 +1660,7 @@
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+          "type": "\"danger\" | \"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "primary",
           "description": "Visual emphasis, the same as `Button`. `primary` is the main call to action (one per view)."
@@ -1518,16 +1676,16 @@
       "name": "Card",
       "category": "layout",
       "base": "Own component",
-      "description": "A bordered container that groups related content. Compose its content with `Stack`, `Heading` and `Text`.",
+      "description": "A bordered container that groups related content. Its parts share one inset through\n`--card-spacing`, and an `img` as the first child is full-bleed with rounded top corners.",
       "import": "import { Card } from \"@/ui\";",
       "renders": "div by default; `as` can be article, section or li",
-      "composition": "Children go inside. Use `padding` (a Space key) and `variant` (outline or surface).",
+      "composition": "`CardHeader` (with `CardTitle`, optional `CardDescription` and `CardAction`) + `CardContent` + `CardFooter`. `size` sets the shared inset through `--card-spacing`; override that variable to use another spacing step. An `img` as the first child is full-bleed with rounded top corners.",
       "whenToUse": "Grouping related content in a bordered surface.",
       "avoid": [
         "Making the whole card clickable: put a Link inside and keep the card as a container.",
-        "Nesting cards."
+        "Nesting cards: use an `hr` hairline or a sunken region instead."
       ],
-      "accessibility": "A plain container with no role. Use `as=\"article\"` for self-contained content and give it a heading.",
+      "accessibility": "A plain container with no role. Use `as=\"article\"` for self-contained content and give it a heading through CardTitle.",
       "props": [
         {
           "name": "as",
@@ -1537,11 +1695,11 @@
           "description": "Element to render. `article` for self-contained content, `section` for a named group."
         },
         {
-          "name": "padding",
-          "type": "\"0\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\" | \"6\" | \"8\" | \"10\" | \"12\" | \"16\"",
+          "name": "size",
+          "type": "\"sm\" | \"default\"",
           "required": false,
-          "default": "6",
-          "description": "Inner padding from the spacing scale."
+          "default": "default",
+          "description": "Inset between the card edge and its content. `sm` is 1rem, `default` is 1.5rem.\nOverride `--card-spacing` on the card to use another step of the spacing scale."
         },
         {
           "name": "variant",
@@ -1553,9 +1711,140 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Card as=\"article\" variant=\"surface\">\n  <Stack gap=\"2\"><Heading as=\"h3\">Title</Heading><Text>Body</Text></Stack>\n</Card>"
+        "<Card as=\"article\" variant=\"surface\">\n  <CardHeader>\n    <CardTitle>Release notes</CardTitle>\n    <CardDescription>What changed in this version.</CardDescription>\n    <CardAction><Button variant=\"secondary\">Share</Button></CardAction>\n  </CardHeader>\n  <CardContent><Text>Body of the card.</Text></CardContent>\n  <CardFooter><Text size=\"sm\" tone=\"muted\">Updated today</Text></CardFooter>\n</Card>"
       ],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Card/Card.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Card/Card.tsx",
+      "parts": [
+        {
+          "name": "CardHeader",
+          "category": "layout",
+          "base": "Own component",
+          "description": "The top region of a Card: a `CardTitle`, an optional `CardDescription` and an optional\n`CardAction` at the top end.",
+          "import": "import { CardHeader } from \"@/ui\";",
+          "renders": "div",
+          "composition": "Holds `CardTitle`, optional `CardDescription` and `CardAction`. The action aligns with the title at the top end.",
+          "whenToUse": "The title region of a Card.",
+          "avoid": [
+            "Using it without a CardTitle."
+          ],
+          "accessibility": "No role of its own; the heading comes from CardTitle.",
+          "props": [],
+          "extends": "Also accepts the native props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Card/Card.tsx",
+          "parent": "Card"
+        },
+        {
+          "name": "CardTitle",
+          "category": "layout",
+          "base": "Own component",
+          "description": "The heading of a Card. Renders a real heading; the default `h3` suits a card inside a section\nwith an `h2`.",
+          "import": "import { CardTitle } from \"@/ui\";",
+          "renders": "h3 by default; `as` sets the heading element",
+          "composition": "`as` sets the outline level (h2-h6) and `size` sets the look; it defaults to size 6.",
+          "whenToUse": "The heading of a Card.",
+          "avoid": [
+            "Skipping heading levels to get a smaller look: change `size` instead."
+          ],
+          "accessibility": "A real heading, so it appears in the document outline.",
+          "props": [
+            {
+              "name": "as",
+              "type": "\"h1\" | \"h2\" | \"h3\" | \"h4\" | \"h5\" | \"h6\"",
+              "required": false,
+              "default": "h3",
+              "description": "Heading level in the document outline. Keep the order of the page."
+            },
+            {
+              "name": "size",
+              "type": "1 | 2 | 3 | 4 | 5 | 6",
+              "required": false,
+              "default": "6",
+              "description": "Visual size from 1 (largest) to 6 (smallest)."
+            }
+          ],
+          "extends": "Also accepts the native props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Card/Card.tsx",
+          "parent": "Card"
+        },
+        {
+          "name": "CardDescription",
+          "category": "layout",
+          "base": "Own component",
+          "description": "Supporting text below a `CardTitle`, in the muted body style.",
+          "import": "import { CardDescription } from \"@/ui\";",
+          "renders": "p",
+          "composition": "Muted body text below `CardTitle`.",
+          "whenToUse": "Supporting text directly under the card title.",
+          "avoid": [
+            "Long prose: put it in CardContent."
+          ],
+          "accessibility": "A plain paragraph.",
+          "props": [],
+          "extends": "Also accepts the native props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Card/Card.tsx",
+          "parent": "Card"
+        },
+        {
+          "name": "CardAction",
+          "category": "layout",
+          "base": "Own component",
+          "description": "A control at the top end of a Card, aligned with `CardTitle`.",
+          "import": "import { CardAction } from \"@/ui\";",
+          "renders": "div",
+          "composition": "Holds a Button, ButtonLink or Badge at the top end of `CardHeader`, aligned with the title.",
+          "whenToUse": "A control that belongs to the whole card.",
+          "avoid": [
+            "Hiding the card title to make room for the action."
+          ],
+          "accessibility": "Adds no semantics; the control inside needs its own accessible name.",
+          "props": [],
+          "extends": "Also accepts the native props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Card/Card.tsx",
+          "parent": "Card"
+        },
+        {
+          "name": "CardContent",
+          "category": "layout",
+          "base": "Own component",
+          "description": "The main content region of a Card, aligned with the header and footer.",
+          "import": "import { CardContent } from \"@/ui\";",
+          "renders": "div",
+          "composition": "The main body between `CardHeader` and `CardFooter`, aligned with both.",
+          "whenToUse": "The body of a Card.",
+          "avoid": [
+            "Repeating the header or footer content."
+          ],
+          "accessibility": "A plain container.",
+          "props": [],
+          "extends": "Also accepts the native props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Card/Card.tsx",
+          "parent": "Card"
+        },
+        {
+          "name": "CardFooter",
+          "category": "layout",
+          "base": "Own component",
+          "description": "The bottom region of a Card, aligned with the header and content.",
+          "import": "import { CardFooter } from \"@/ui\";",
+          "renders": "div",
+          "composition": "The bottom region for metadata or actions, aligned with the header and content.",
+          "whenToUse": "Metadata or closing actions at the bottom of a Card.",
+          "avoid": [
+            "Putting the only primary action at the bottom when CardAction would do."
+          ],
+          "accessibility": "A plain container.",
+          "props": [],
+          "extends": "Also accepts the native props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Card/Card.tsx",
+          "parent": "Card"
+        }
+      ]
     },
     {
       "name": "Alert",
@@ -1568,7 +1857,8 @@
       "whenToUse": "A message that stays on the page and the user must notice, such as a failed save or a warning.",
       "avoid": [
         "Short-lived confirmations: use Toast.",
-        "Using color alone: the tone also changes the icon and you should say it in the text."
+        "Using color alone: the tone also changes the icon and you should say it in the text.",
+        "Confirming a destructive action: use AlertDialog."
       ],
       "accessibility": "Announced by screen readers on render. The icon is decorative and each tone has a different shape.",
       "props": [
@@ -1608,16 +1898,17 @@
       "name": "Avatar",
       "category": "utility",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A round image of a person with an initials fallback, built on Base UI Avatar.\nThe whole avatar is one image with the person's name as its label.",
+      "description": "A round image of a person with an initials fallback, built on Base UI Avatar.\nThe whole avatar is one image with the person's name as its label. Add a status, badge or icon\nfallback when needed; without them the markup and accessible name stay just the name.",
       "import": "import { Avatar } from \"@/ui\";",
       "renders": "span with role img and the name as aria-label",
-      "composition": "Pass `name` (required), optional `src` and `size`. Initials are the fallback.",
+      "composition": "Pass `name` (required), `src` and `size`; initials are the fallback. `status` adds a shape at the bottom end and appends the state to the name; `badge` with `badgeLabel` adds a custom icon and appends its label; `icon` replaces the initials. `status` and `badge` cannot be combined. Every feature scales with `size`.",
       "whenToUse": "Showing who a person or account is.",
       "avoid": [
         "Using it as a button: wrap it in a Button or Link.",
-        "Omitting `name`."
+        "Omitting `name`.",
+        "Combining `status` and `badge`: they are mutually exclusive."
       ],
-      "accessibility": "The name is the accessible name. The initials are hidden from assistive technology.",
+      "accessibility": "The name is the accessible name. A status appends the state, and a badge appends `badgeLabel`, such as \"Ada Lovelace, online\" or \"Ada Lovelace, Verified\". Initials, icon, status shape and badge are hidden from assistive technology; status is never color alone.",
       "props": [
         {
           "name": "name",
@@ -1626,9 +1917,27 @@
           "description": "Full name of the person or entity. It is the accessible name and the source of the initials. Required."
         },
         {
+          "name": "badge",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Custom badge icon at the bottom end. Pass a generated icon without `size`. Cannot be combined with `status`."
+        },
+        {
+          "name": "badgeLabel",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label for the badge. Required with `badge`; appended to the accessible name."
+        },
+        {
           "name": "className",
           "type": "string",
           "required": false
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Replaces the initials fallback with an icon, for bots or organizations. Pass a generated icon without `size`."
         },
         {
           "name": "size",
@@ -1642,13 +1951,69 @@
           "type": "string",
           "required": false,
           "description": "Image URL. If it is missing or fails to load, the initials are shown."
+        },
+        {
+          "name": "status",
+          "type": "\"online\" | \"away\" | \"busy\" | \"offline\"",
+          "required": false,
+          "description": "Presence state. Appended to the accessible name, such as \"Ada Lovelace, online\". Cannot be combined with `badge`."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Avatar name=\"Ada Lovelace\" src=\"/ada.png\" />"
+        "<Avatar name=\"Ada Lovelace\" src=\"/ada.png\" />\r\n<Avatar name=\"Ada Lovelace\" status=\"online\" />\r\n<Avatar name=\"Ada Lovelace\" badge={<CheckIcon />} badgeLabel=\"Verified\" />\r\n<Avatar name=\"Build bot\" icon={<TerminalWindowIcon />} />"
       ],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Avatar/Avatar.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Avatar/Avatar.tsx",
+      "parts": [
+        {
+          "name": "AvatarGroup",
+          "category": "utility",
+          "base": "Own component",
+          "description": "Overlapping avatars that share one size. When there are more than `max`, the extra avatars\ncollapse into a \"+N\" item labelled \"and N more\". Used outside a group, Avatar is unchanged.",
+          "import": "import { AvatarGroup } from \"@/ui\";",
+          "renders": "div role=\"group\" with overlapping Avatar elements",
+          "composition": "Pass `children` (Avatar elements), `max` (default 4) and shared `size` (default md). Avatars beyond `max` collapse into a visible \"+N\" item labelled \"and N more\".",
+          "whenToUse": "A compact summary of several people or accounts.",
+          "avoid": [
+            "One avatar: use Avatar directly.",
+            "Long lists where every person matters: show them in a list."
+          ],
+          "accessibility": "The group has role=\"group\"; give it an `aria-label`. Each avatar keeps its own name, and the overflow item is announced as \"and N more\".",
+          "props": [
+            {
+              "name": "children",
+              "type": "ReactNode",
+              "required": true,
+              "description": "Avatars in the group. They share the group's `size`."
+            },
+            {
+              "name": "className",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "max",
+              "type": "number",
+              "required": false,
+              "default": "4",
+              "description": "How many avatars stay visible before the rest collapse into a \"+N\" item."
+            },
+            {
+              "name": "size",
+              "type": "\"sm\" | \"md\" | \"lg\"",
+              "required": false,
+              "default": "md",
+              "description": "Diameter shared by every avatar in the group."
+            }
+          ],
+          "extends": "Also accepts the native props of the element it renders; they pass through.",
+          "examples": [
+            "<AvatarGroup max={3} aria-label=\"Project members\">\r\n  <Avatar name=\"Ada Lovelace\" />\r\n  <Avatar name=\"Grace Hopper\" />\r\n  <Avatar name=\"Alan Turing\" />\r\n  <Avatar name=\"Katherine Johnson\" />\r\n</AvatarGroup>"
+          ],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/AvatarGroup/AvatarGroup.tsx",
+          "parent": "Avatar"
+        }
+      ]
     },
     {
       "name": "Popover",
@@ -1694,7 +2059,7 @@
             },
             {
               "name": "variant",
-              "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+              "type": "\"danger\" | \"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\"",
               "required": false,
               "default": "secondary",
               "description": "Button style of the trigger."
@@ -1789,7 +2154,7 @@
             },
             {
               "name": "variant",
-              "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+              "type": "\"danger\" | \"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\"",
               "required": false,
               "default": "secondary",
               "description": "Button style."
@@ -1852,7 +2217,7 @@
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"outline\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+          "type": "\"danger\" | \"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "secondary",
           "description": "Button style of the trigger."
@@ -2255,6 +2620,7 @@
         "Relying on an asterisk for required: Label spells out \"Required\"."
       ],
       "accessibility": "Associate it with the control through `htmlFor`. Required state must also be on the control (native or ARIA).",
+      "callout": "For form fields, use Field, which includes built-in label, description, and error handling.",
       "props": [
         {
           "name": "children",
@@ -2494,7 +2860,8 @@
       "avoid": [
         "Long content changes: use Tabs.",
         "Independent on/off choices: use Checkbox or Switch.",
-        "More than five options: use Select."
+        "More than five options: use Select.",
+        "Related actions that are not a choice: use ButtonGroup."
       ],
       "accessibility": "Arrow keys move between toggles and roles come from Base UI. The group needs its `label`; selected state is exposed with aria-pressed.",
       "props": [
@@ -3050,7 +3417,7 @@
       "description": "The anchor component to render links with: the one from `LinkProvider`, or `a`.",
       "import": "import { useLinkComponent } from \"@/ui\";",
       "renders": "hook, renders nothing",
-      "composition": "`const LinkEl = useLinkComponent()` returns the provided link component, or `\"a\"`.",
+      "composition": "Only needed when building your own link components that should respect LinkProvider. `const LinkEl = useLinkComponent()` returns the provided link component, or `\"a\"`.",
       "whenToUse": "Building your own navigation component that should follow LinkProvider.",
       "avoid": [
         "Calling it in Server Components: it needs a client component."

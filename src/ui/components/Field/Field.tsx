@@ -6,6 +6,7 @@ import { cx } from "../../utils/cx";
 import { WarningIcon } from "../../icons/icons.generated";
 import { FieldControlContext } from "./FieldContext";
 import styles from "./Field.module.css";
+import labelStyles from "../Label/Label.module.css";
 
 export type FieldProps = {
   /**
@@ -101,10 +102,10 @@ export function Field({
       {...rest}
     >
       {hasLabel ? (
-        <div className={styles.labelRow}>
-          <BaseField.Label className={styles.label}>{label}</BaseField.Label>
-          {required ? <span className={styles.required}>Required</span> : null}
-        </div>
+        <BaseField.Label className={labelStyles.label}>
+          {label}
+          {required ? <span className={labelStyles.required}>Required</span> : null}
+        </BaseField.Label>
       ) : null}
       <FieldControlContext.Provider value={context}>{children}</FieldControlContext.Provider>
       {description ? (

@@ -13,7 +13,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Library code lives in `src/ui`. Tokens are DTCG JSON in `src/ui/tokens/*.json`; `bun run tokens` generates `tokens.css` and `tailwind.css`. Never edit those by hand, and rerun `bun run tokens` after every JSON change (the JSON is the source, the CSS is not regenerated automatically).
 - Components use only semantic tokens. Never use `--primitive-*` or hardcoded colors, sizes or fonts.
 - Controls with behavior (Button, Input, Checkbox, Radio, Switch, Select, Dialog, Tooltip, Tabs, Field, Menu, Popover, Slider...) are built on Base UI (`@base-ui/react`); do not reimplement its keyboard, focus or ARIA logic.
-- Own components (Text, Heading, Box, Stack, Grid, Container, ...) render correct semantic HTML. `as` only accepts elements valid for that component.
+- Own components (Text, Heading, Card, Stack, Grid, Container, ...) render correct semantic HTML. `as` only accepts elements valid for that component.
 - Every component needs: TSDoc on props, a story (light and dark), a Testing Library test, and passing axe checks.
 - Breakpoints: mobile first with `min-width`. `--breakpoint-sm|md|lg|xl` (40/48/64/80rem) are documentation only, since CSS cannot read variables in `@media`; write the rem value. Max-width queries use `value - 0.01rem`.
 - Commands: `bun run storybook`, `bun run typecheck`, `bun run lint`, `bun run test`, `bun run icons`.
@@ -91,7 +91,7 @@ There are five surfaces. Card sits on page, sunken and highlight sit inside card
 Rules:
 
 - Maximum 3 nested levels.
-- No card inside a card: use `--color-sunken`, `--color-highlight` or a `Divider` instead.
+- No card inside a card: use `--color-sunken`, `--color-highlight` or an `hr` hairline instead.
 - Highlight sits inside a card, is never nested, and is not for code or inputs (use sunken).
 - Modal floats above the page and is never used as a page background.
 - Controls placed on sunken use `--color-component-on-sunken` (mark the container `data-surface="sunken"`).
@@ -111,9 +111,9 @@ Every interactive control must have a hit area of at least 44px on touch devices
 ## Component catalog (src/ui, import from `@/ui`)
 
 - Typography/content: `Text`, `Heading`, `Link`, `Kbd`, `Badge`, `Label`, `CodeBlock` (server entry `@/ui/server`)
-- Layout: `Box`, `Stack`, `Grid`, `Container`, `Divider`, `Card`, `Table`, `ScrollArea`
-- Utilities/feedback: `VisuallyHidden`, `Icon`, `Spinner`, `Skeleton`, `Progress`, `Alert`, `Toast`, `Avatar`, `EmptyState`
-- Controls (Base UI): `Button`, `ButtonLink`, `Field`, `Input`, `Textarea`, `Checkbox`, `RadioGroup` + `Radio`, `Switch`, `Select`, `Combobox`, `Slider`, `ToggleGroup`
+- Layout: `Stack`, `Grid`, `Container`, `AspectRatio`, `Card` (+ `CardHeader`, `CardTitle`, `CardDescription`, `CardAction`, `CardContent`, `CardFooter`), `Table`, `ScrollArea`
+- Utilities/feedback: `VisuallyHidden`, `Icon`, `Spinner`, `Skeleton`, `Progress`, `Alert`, `Toast`, `Avatar` (+ `AvatarGroup`), `EmptyState`
+- Controls (Base UI): `Button`, `ButtonGroup` (+ `ButtonGroupSeparator`), `ButtonLink`, `Field`, `Input`, `Textarea`, `Checkbox`, `RadioGroup` + `Radio`, `Switch`, `Select`, `Combobox`, `Slider`, `ToggleGroup`
 - Overlays/navigation (Base UI): `Dialog`, `Tooltip` (+ `TooltipProvider`), `Popover`, `Menu`, `Tabs`, `Accordion`, `Collapsible`, `Sheet`, `Breadcrumb`, `Pagination`, `Sidebar`
 
 Rules that matter when using them:

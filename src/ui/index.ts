@@ -13,16 +13,14 @@ export { Badge } from "./components/Badge";
 export type { BadgeProps, BadgeVariant, BadgeSize, BadgeShape } from "./components/Badge";
 
 // Layout
-export { Box } from "./components/Box";
-export type { BoxProps } from "./components/Box";
 export { Stack } from "./components/Stack";
 export type { StackProps } from "./components/Stack";
 export { Grid } from "./components/Grid";
 export type { GridProps } from "./components/Grid";
 export { Container } from "./components/Container";
 export type { ContainerProps } from "./components/Container";
-export { Divider } from "./components/Divider";
-export type { DividerProps } from "./components/Divider";
+export { AspectRatio } from "./components/AspectRatio";
+export type { AspectRatioProps, AspectRatioElement } from "./components/AspectRatio";
 
 // Utilities and feedback
 export { VisuallyHidden } from "./components/VisuallyHidden";
@@ -40,6 +38,8 @@ export type { SkeletonProps } from "./components/Skeleton";
 // Controls (built on Base UI)
 export { Button } from "./components/Button";
 export type { ButtonProps, ButtonVariant, ButtonSize } from "./components/Button";
+export { ButtonGroup, ButtonGroupSeparator } from "./components/ButtonGroup";
+export type { ButtonGroupProps, ButtonGroupSeparatorProps } from "./components/ButtonGroup";
 export { Field } from "./components/Field";
 export type { FieldProps } from "./components/Field";
 export { Input } from "./components/Input";
@@ -58,6 +58,12 @@ export type { SelectProps, SelectItem } from "./components/Select";
 // Overlays and navigation (built on Base UI)
 export { Dialog, DialogTrigger, DialogContent, DialogClose } from "./components/Dialog";
 export type { DialogTriggerProps, DialogContentProps, DialogCloseProps } from "./components/Dialog";
+export { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogClose } from "./components/AlertDialog";
+export type {
+  AlertDialogTriggerProps,
+  AlertDialogContentProps,
+  AlertDialogCloseProps,
+} from "./components/AlertDialog";
 export { Tooltip, TooltipProvider } from "./components/Tooltip";
 export type { TooltipProps, TooltipProviderProps } from "./components/Tooltip";
 export { Tabs } from "./components/Tabs";
@@ -70,12 +76,31 @@ export { ButtonLink } from "./components/ButtonLink";
 export type { ButtonLinkProps } from "./components/ButtonLink";
 
 // Surfaces, feedback and overlays
-export { Card } from "./components/Card";
-export type { CardProps, CardElement } from "./components/Card";
+export {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardAction,
+  CardContent,
+  CardFooter,
+} from "./components/Card";
+export type {
+  CardProps,
+  CardElement,
+  CardHeaderProps,
+  CardTitleProps,
+  CardDescriptionProps,
+  CardActionProps,
+  CardContentProps,
+  CardFooterProps,
+} from "./components/Card";
 export { Alert } from "./components/Alert";
 export type { AlertProps, AlertTone } from "./components/Alert";
 export { Avatar } from "./components/Avatar";
-export type { AvatarProps } from "./components/Avatar";
+export type { AvatarProps, AvatarSize, AvatarStatus } from "./components/Avatar";
+export { AvatarGroup } from "./components/AvatarGroup";
+export type { AvatarGroupProps } from "./components/AvatarGroup";
 export { Popover, PopoverTrigger, PopoverContent, PopoverClose } from "./components/Popover";
 export type { PopoverTriggerProps, PopoverContentProps, PopoverCloseProps } from "./components/Popover";
 export { Menu } from "./components/Menu";

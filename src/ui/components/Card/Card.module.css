@@ -1,9 +1,18 @@
 .card {
+  --card-spacing: var(--space-6);
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--card-spacing);
   min-width: 0;
+  padding-block: var(--card-spacing);
   border: var(--border-width-thin) solid var(--color-border-default);
   border-radius: var(--radius-lg);
   color: var(--color-primary-foreground);
+}
+
+.sm {
+  --card-spacing: var(--space-4);
 }
 
 .outline {
@@ -12,4 +21,56 @@
 
 .surface {
   background: var(--color-card);
+}
+
+.card > img:first-child {
+  display: block;
+  width: 100%;
+  max-width: none;
+  margin-top: calc(var(--card-spacing) * -1);
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+  object-fit: cover;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--space-1) var(--space-3);
+  padding-inline: var(--card-spacing);
+}
+
+.header > :not(.action) {
+  grid-column: 1;
+}
+
+.title {
+  grid-row: 1;
+}
+
+.description {
+  grid-row: 2;
+}
+
+.action {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  justify-self: end;
+}
+
+.content {
+  padding-inline: var(--card-spacing);
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  padding-inline: var(--card-spacing);
 }

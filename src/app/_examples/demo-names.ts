@@ -3,5 +3,11 @@ export const noDemo = new Set(["LinkProvider", "useLinkComponent", "ToastProvide
 
 /** Parts of a composite (DialogTrigger, PopoverContent, ...). The landing shows them through their parent. */
 export const compositeParts = new Set([
-  "DialogTrigger", "DialogContent", "DialogClose", "PopoverTrigger", "PopoverContent", "PopoverClose",
+  "DialogTrigger", "DialogContent", "DialogClose",
+  "AlertDialogTrigger", "AlertDialogContent", "AlertDialogClose",
+  "PopoverTrigger", "PopoverContent", "PopoverClose",
+  "Radio",
+  "CardHeader", "CardTitle", "CardDescription", "CardAction", "CardContent", "CardFooter",
+  "ButtonGroupSeparator",
+  "AvatarGroup",
 ]);

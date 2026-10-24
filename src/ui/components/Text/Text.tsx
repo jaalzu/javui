@@ -25,7 +25,7 @@ const defaultElement: Record<TextVariant, TextElement> = {
 export type TextProps<T extends TextElement = "p"> = {
   /**
    * HTML element to render. Defaults by variant: `p` for body variants, `span` for
-   * `label` and `caption`, `code` for `code`. Use `label` with `htmlFor` for form labels.
+   * `label` and `caption`, `code` for `code`.
    */
   as?: T;
   /** Which text style to apply. Appearance only; it does not change the element. @default "body" */
@@ -52,7 +52,6 @@ export type TextProps<T extends TextElement = "p"> = {
  * <Text>Default paragraph.</Text>
  * <Text size="lg">Large body text</Text>
  * <Text variant="caption" tone="muted">Helper text</Text>
- * <Text as="label" htmlFor="email" variant="label">Email</Text>
  */
 export function Text<T extends TextElement = "p">({
   as,

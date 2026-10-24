@@ -6,29 +6,6 @@
   width: 100%;
 }
 
-.labelRow {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-1) var(--space-2);
-}
-
-.label {
-  color: var(--color-primary-foreground);
-  font-family: var(--text-label-family);
-  font-size: var(--text-label-size);
-  line-height: var(--text-label-line);
-  font-weight: var(--text-label-weight);
-  letter-spacing: var(--text-label-tracking);
-}
-
-.required {
-  color: var(--color-secondary-foreground);
-  font-size: var(--text-caption-lg-size);
-  line-height: var(--text-caption-lg-line);
-  font-weight: var(--font-weight-regular);
-}
-
 .description {
   margin: 0;
   color: var(--color-secondary-foreground);

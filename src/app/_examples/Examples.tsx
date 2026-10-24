@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import {
-  Alert, Avatar, Badge, Button, Card, CaretDownIcon, Checkbox, CheckIcon, Field, Heading, Input, Progress, Slider, Stack, Switch, Tabs, Text,
+  Alert, AlertDialog, AlertDialogClose, AlertDialogContent, AlertDialogTrigger, AspectRatio, Avatar, AvatarGroup, Badge, Button, ButtonGroup, ButtonGroupSeparator, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, CaretDownIcon, Checkbox, CheckIcon, Field, GearIcon, Heading, Input, Menu, Progress, Slider, Stack, Switch, Tabs, Text,
 } from "@/ui";
 import { CodeBlock } from "@/ui/server";
 import { Demo } from "./Demo";
@@ -43,6 +43,86 @@ const check = <CheckIcon />;
  * Components without an entry show only the main preview and the usage from the manifest.
  */
 const registry: Record<string, Example[]> = {
+  ButtonGroup: [
+    ex(
+      "Related actions",
+      `<ButtonGroup aria-label="Document actions">
+  <Button variant="outline">Save draft</Button>
+  <Button variant="outline">Preview</Button>
+  <Button variant="outline">Publish</Button>
+</ButtonGroup>`,
+      <ButtonGroup aria-label="Document actions"><Button variant="outline">Save draft</Button><Button variant="outline">Preview</Button><Button variant="outline">Publish</Button></ButtonGroup>,
+      "Outline buttons share one border and round only on the outside.",
+    ),
+    ex(
+      "With separator",
+      `<ButtonGroup aria-label="Export">
+  <Button variant="secondary">CSV</Button>
+  <Button variant="secondary">JSON</Button>
+  <ButtonGroupSeparator />
+  <Button variant="secondary">More</Button>
+</ButtonGroup>`,
+      <ButtonGroup aria-label="Export"><Button variant="secondary">CSV</Button><Button variant="secondary">JSON</Button><ButtonGroupSeparator /><Button variant="secondary">More</Button></ButtonGroup>,
+      "Non-outline variants have no visible shared border, so use a separator to mark the division.",
+    ),
+    ex(
+      "Vertical",
+      `<ButtonGroup aria-label="Document actions" orientation="vertical">
+  <Button variant="outline">Save draft</Button>
+  <Button variant="outline">Preview</Button>
+</ButtonGroup>`,
+      <ButtonGroup aria-label="Document actions" orientation="vertical"><Button variant="outline">Save draft</Button><Button variant="outline">Preview</Button></ButtonGroup>,
+    ),
+    ex(
+      "Split button with Menu",
+      `<ButtonGroup aria-label="Deploy">
+  <Button>Deploy</Button>
+  <Menu
+    label="Options"
+    variant="primary"
+    items={[
+      { label: "Deploy to staging", onSelect: () => {} },
+      { label: "Deploy to production", onSelect: () => {} },
+    ]}
+  />
+</ButtonGroup>`,
+      <ButtonGroup aria-label="Deploy"><Button>Deploy</Button><Menu label="Options" variant="primary" items={[{ label: "Deploy to staging", onSelect: () => {} }, { label: "Deploy to production", onSelect: () => {} }]} /></ButtonGroup>,
+      "A Menu trigger joins the group like a button, giving you a split-button pattern.",
+    ),
+  ],
+  AspectRatio: [
+    ex(
+      "Landscape (16 / 9)",
+      `<AspectRatio ratio={16 / 9}>
+  <img src="/window.svg" alt="A window" width={640} height={360} />
+</AspectRatio>`,
+      <AspectRatio ratio={16 / 9}>
+        {/* eslint-disable-next-line @next/next/no-img-element -- Local fixture for the example. */}
+        <img src="/window.svg" alt="A window" width={640} height={360} />
+      </AspectRatio>,
+      "The box keeps its 16:9 area before the image loads.",
+    ),
+    ex(
+      "Square",
+      `<AspectRatio ratio={1}>
+  <img src="/window.svg" alt="A window" width={480} height={480} />
+</AspectRatio>`,
+      <AspectRatio ratio={1}>
+        {/* eslint-disable-next-line @next/next/no-img-element -- Local fixture for the example. */}
+        <img src="/window.svg" alt="A window" width={480} height={480} />
+      </AspectRatio>,
+    ),
+    ex(
+      "Portrait",
+      `<AspectRatio ratio={3 / 4}>
+  <img src="/window.svg" alt="A window" width={480} height={640} />
+</AspectRatio>`,
+      <AspectRatio ratio={3 / 4}>
+        {/* eslint-disable-next-line @next/next/no-img-element -- Local fixture for the example. */}
+        <img src="/window.svg" alt="A window" width={480} height={640} />
+      </AspectRatio>,
+    ),
+  ],
   Button: [
     ex("Primary", `<Button>Save</Button>`, <Button>Save</Button>, "The main action of a view. Use only one."),
     ex("Secondary", `<Button variant="secondary">Cancel</Button>`, <Button variant="secondary">Cancel</Button>),
@@ -89,6 +169,20 @@ const registry: Record<string, Example[]> = {
     ex("Warning", `<Alert tone="warning" title="Almost full">You have used 90% of your storage.</Alert>`, <Alert tone="warning" title="Almost full">You have used 90% of your storage.</Alert>),
     ex("Danger", `<Alert tone="danger" title="Could not save">Check your connection and try again.</Alert>`, <Alert tone="danger" title="Could not save">Check your connection and try again.</Alert>, "Danger and warning are announced right away by screen readers."),
   ],
+  AlertDialog: [
+    ex(
+      "Destructive confirmation",
+      `<AlertDialog>\n  <AlertDialogTrigger variant="danger">Delete project</AlertDialogTrigger>\n  <AlertDialogContent title="Delete project?" description="This permanently removes the project and its data. This cannot be undone.">\n    <AlertDialogClose>Cancel</AlertDialogClose>\n    <AlertDialogClose variant="danger">Delete</AlertDialogClose>\n  </AlertDialogContent>\n</AlertDialog>`,
+      <AlertDialog>
+        <AlertDialogTrigger variant="danger">Delete project</AlertDialogTrigger>
+        <AlertDialogContent title="Delete project?" description="This permanently removes the project and its data. This cannot be undone.">
+          <AlertDialogClose>Cancel</AlertDialogClose>
+          <AlertDialogClose variant="danger">Delete</AlertDialogClose>
+        </AlertDialogContent>
+      </AlertDialog>,
+      "The safe action, Cancel, receives initial focus and the dialog does not close on outside click.",
+    ),
+  ],
   Field: [
     ex("Default", `<Field label="Email">\n  <Input type="email" autoComplete="email" />\n</Field>`, <Field label="Email"><Input type="email" autoComplete="email" /></Field>),
     ex("With description", `<Field label="Email" description="We only use it for receipts.">\n  <Input type="email" autoComplete="email" />\n</Field>`, <Field label="Email" description="We only use it for receipts."><Input type="email" autoComplete="email" /></Field>),
@@ -106,9 +200,66 @@ const registry: Record<string, Example[]> = {
     ex("Disabled", `<Switch label="Notifications" disabled />`, <Switch label="Notifications" disabled />),
   ],
   Card: [
-    ex("Outline", `<Card padding="5">\n  <Text>Related content.</Text>\n</Card>`, <Card padding="5"><Text>Related content.</Text></Card>),
-    ex("Surface", `<Card variant="surface" padding="5">\n  <Text>Related content.</Text>\n</Card>`, <Card variant="surface" padding="5"><Text>Related content.</Text></Card>),
-    ex("As an article", `<Card as="article" padding="5">\n  <Heading as="h3" size={6}>Title</Heading>\n  <Text>Self-contained content.</Text>\n</Card>`, <Card as="article" padding="5"><Heading as="h3" size={6}>Title</Heading><Text>Self-contained content.</Text></Card>, "Use article for content that makes sense on its own."),
+    ex(
+      "Basic",
+      `<Card variant="surface">
+  <CardHeader>
+    <CardTitle>Release notes</CardTitle>
+    <CardDescription>What changed in this version.</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <Text>Body content sits between the header and the footer.</Text>
+  </CardContent>
+  <CardFooter>
+    <Text size="sm" tone="muted">Updated today</Text>
+  </CardFooter>
+</Card>`,
+      <Card variant="surface"><CardHeader><CardTitle>Release notes</CardTitle><CardDescription>What changed in this version.</CardDescription></CardHeader><CardContent><Text>Body content sits between the header and the footer.</Text></CardContent><CardFooter><Text size="sm" tone="muted">Updated today</Text></CardFooter></Card>,
+    ),
+    ex(
+      "Small",
+      `<Card size="sm" variant="surface">
+  <CardHeader>
+    <CardTitle>Compact</CardTitle>
+  </CardHeader>
+  <CardContent><Text size="sm">A tighter inset for dense lists.</Text></CardContent>
+</Card>`,
+      <Card size="sm" variant="surface"><CardHeader><CardTitle>Compact</CardTitle></CardHeader><CardContent><Text size="sm">A tighter inset for dense lists.</Text></CardContent></Card>,
+      "Use small cards inside dense layouts such as sidebars or dashboards.",
+    ),
+    ex(
+      "Custom spacing",
+      `<Card variant="surface" style={{ "--card-spacing": "var(--space-3)" }}>
+  <CardContent><Text>Any spacing step.</Text></CardContent>
+</Card>`,
+      <Card variant="surface" style={{ "--card-spacing": "var(--space-3)" } as CSSProperties}><CardContent><Text>Any spacing step.</Text></CardContent></Card>,
+      "Change the shared `--card-spacing` variable once; every part follows it.",
+    ),
+    ex(
+      "With image",
+      `<Card variant="surface">
+  <img src="/window.svg" alt="" width="640" height="360" />
+  <CardHeader>
+    <CardTitle>Image first</CardTitle>
+    <CardDescription>The first image is full-bleed with rounded top corners.</CardDescription>
+  </CardHeader>
+</Card>`,
+      <Card variant="surface">
+        {/* eslint-disable-next-line @next/next/no-img-element -- Card styles the first <img> as full-bleed media. */}
+        <img src="/window.svg" alt="" width="640" height="360" /><CardHeader><CardTitle>Image first</CardTitle><CardDescription>The first image is full-bleed with rounded top corners.</CardDescription></CardHeader></Card>,
+      "An image as the first child spans the full width; there is no separate media part.",
+    ),
+    ex(
+      "With CardAction",
+      `<Card variant="surface">
+  <CardHeader>
+    <CardTitle>Release notes</CardTitle>
+    <CardAction><Button size="sm" variant="secondary">Share</Button></CardAction>
+  </CardHeader>
+  <CardContent><Text>Keep the primary action in the header.</Text></CardContent>
+</Card>`,
+      <Card variant="surface"><CardHeader><CardTitle>Release notes</CardTitle><CardAction><Button size="sm" variant="secondary">Share</Button></CardAction></CardHeader><CardContent><Text>Keep the primary action in the header.</Text></CardContent></Card>,
+    ),
   ],
   Progress: [
     ex("Determinate", `<Progress label="Uploading" value={40} />`, <Progress label="Uploading" value={40} />),
@@ -136,6 +287,42 @@ const registry: Record<string, Example[]> = {
     ),
   ],
   Avatar: [
+    ex("Sizes", `<Avatar name="Ada Lovelace" size="sm" />
+<Avatar name="Ada Lovelace" />
+<Avatar name="Ada Lovelace" size="lg" />`, <Stack direction="row" gap="3" align="center"><Avatar name="Ada Lovelace" size="sm" /><Avatar name="Ada Lovelace" /><Avatar name="Ada Lovelace" size="lg" /></Stack>),
+    ex(
+      "Status",
+      `<Avatar name="Ada Lovelace" status="online" />
+<Avatar name="Grace Hopper" status="away" />
+<Avatar name="Alan Turing" status="busy" />
+<Avatar name="Katherine Johnson" status="offline" />`,
+      <Stack direction="row" gap="3" align="center"><Avatar name="Ada Lovelace" status="online" /><Avatar name="Grace Hopper" status="away" /><Avatar name="Alan Turing" status="busy" /><Avatar name="Katherine Johnson" status="offline" /></Stack>,
+      "Each status has its own shape, and the state is appended to the accessible name.",
+    ),
+    ex(
+      "Badge",
+      `<Avatar name="Ada Lovelace" badge={<CheckIcon />} badgeLabel="Verified" />`,
+      <Avatar name="Ada Lovelace" badge={<CheckIcon />} badgeLabel="Verified" />,
+      "The badge label is required and appended to the accessible name.",
+    ),
+    ex(
+      "Icon fallback",
+      `<Avatar name="Build bot" icon={<GearIcon />} />`,
+      <Avatar name="Build bot" icon={<GearIcon />} />,
+      "Replaces the initials for bots or organizations while the name stays the accessible name.",
+    ),
+    ex(
+      "AvatarGroup",
+      `<AvatarGroup max={3} aria-label="Project members">
+  <Avatar name="Ada Lovelace" />
+  <Avatar name="Grace Hopper" />
+  <Avatar name="Alan Turing" />
+  <Avatar name="Katherine Johnson" />
+  <Avatar name="Margaret Hamilton" />
+</AvatarGroup>`,
+      <AvatarGroup max={3} aria-label="Project members"><Avatar name="Ada Lovelace" /><Avatar name="Grace Hopper" /><Avatar name="Alan Turing" /><Avatar name="Katherine Johnson" /><Avatar name="Margaret Hamilton" /></AvatarGroup>,
+      "Overlapping avatars share one size and collapse the rest into an accessible +N item.",
+    ),
     ex("Sizes", `<Avatar name="Ada Lovelace" size="sm" />\n<Avatar name="Ada Lovelace" />\n<Avatar name="Ada Lovelace" size="lg" />`, <Stack direction="row" gap="3" align="center"><Avatar name="Ada Lovelace" size="sm" /><Avatar name="Ada Lovelace" /><Avatar name="Ada Lovelace" size="lg" /></Stack>),
   ],
   Text: [

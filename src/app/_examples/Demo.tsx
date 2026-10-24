@@ -2,8 +2,8 @@
 
 import type { ReactNode } from "react";
 import {
-  Accordion, Alert, Avatar, Badge, Box, Breadcrumb, Button, ButtonLink, Card, Checkbox, CodeBlockView, Container,
-  Dialog, DialogClose, DialogContent, DialogTrigger, Divider, Field, Grid, Heading, CheckIcon, Input, Kbd, Link, Menu,
+  Accordion, Alert, AlertDialog, AlertDialogClose, AlertDialogContent, AlertDialogTrigger, AspectRatio, Avatar, Badge, Breadcrumb, Button, ButtonGroup, ButtonGroupSeparator, ButtonLink, Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle, Checkbox, CodeBlockView, Container,
+  Dialog, DialogClose, DialogContent, DialogTrigger, Field, Grid, Heading, CheckIcon, Input, Kbd, Link, Menu,
   Pagination, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, PlusIcon, Radio, RadioGroup, Select, Skeleton,
   Slider, Spinner, Stack, Switch, Table, Tabs, Text, Textarea, Tooltip, VisuallyHidden, useToast,
   Label, EmptyState, Sidebar, Collapsible, ToggleGroup, ScrollArea, Sheet, Combobox, ChartLineIcon, GearIcon,
@@ -54,7 +54,6 @@ const demos: Record<string, () => ReactNode> = {
       </Stack>
     </Stack>
   ),
-  Box: () => <Box bordered padding="4" radius="lg"><Text>A bordered box</Text></Box>,
   Stack: () => (
     <Stack direction="row" gap="3" align="center">
       <Badge>One</Badge><Badge>Two</Badge><Badge>Three</Badge>
@@ -62,13 +61,18 @@ const demos: Record<string, () => ReactNode> = {
   ),
   Grid: () => (
     <Grid columns="repeat(3, 1fr)" gap="3">
-      <Box bordered padding="3"><Text variant="caption" size="lg">A</Text></Box>
-      <Box bordered padding="3"><Text variant="caption" size="lg">B</Text></Box>
-      <Box bordered padding="3"><Text variant="caption" size="lg">C</Text></Box>
+      <Card size="sm" variant="surface"><Text variant="caption" size="lg">A</Text></Card>
+      <Card size="sm" variant="surface"><Text variant="caption" size="lg">B</Text></Card>
+      <Card size="sm" variant="surface"><Text variant="caption" size="lg">C</Text></Card>
     </Grid>
   ),
   Container: () => <Container size="sm"><Text variant="caption" size="lg" tone="muted">Content centered and limited in width.</Text></Container>,
-  Divider: () => <Divider />,
+  AspectRatio: () => (
+    <AspectRatio ratio={16 / 9}>
+      {/* eslint-disable-next-line @next/next/no-img-element -- Local fixture for the live demo. */}
+      <img src="/window.svg" alt="A window" width="640" height="360" />
+    </AspectRatio>
+  ),
   VisuallyHidden: () => (
     <Text>
       4 results <VisuallyHidden>(updated just now)</VisuallyHidden>
@@ -81,6 +85,14 @@ const demos: Record<string, () => ReactNode> = {
       <Skeleton shape="circle" />
       <Stack gap="2" style={{ flex: 1 }}><Skeleton width="60%" /><Skeleton width="35%" /></Stack>
     </Stack>
+  ),
+  ButtonGroup: () => (
+    <ButtonGroup aria-label="Export">
+      <Button variant="secondary">CSV</Button>
+      <Button variant="secondary">JSON</Button>
+      <ButtonGroupSeparator />
+      <Menu label="More" variant="secondary" items={[{ label: "Copy link", onSelect: () => {} }]} />
+    </ButtonGroup>
   ),
   Button: () => (
     <Stack direction="row" gap="3" wrap align="center" justify="center">
@@ -131,6 +143,15 @@ const demos: Record<string, () => ReactNode> = {
       </DialogContent>
     </Dialog>
   ),
+  AlertDialog: () => (
+    <AlertDialog>
+      <AlertDialogTrigger variant="danger">Delete project</AlertDialogTrigger>
+      <AlertDialogContent title="Delete project?" description="This permanently removes the project and its data. This cannot be undone.">
+        <AlertDialogClose>Cancel</AlertDialogClose>
+        <AlertDialogClose variant="danger">Delete</AlertDialogClose>
+      </AlertDialogContent>
+    </AlertDialog>
+  ),
   Tooltip: () => (
     <Tooltip content="Saved">
       <Button variant="secondary" aria-label="Saved" startIcon={<CheckIcon />} />
@@ -152,8 +173,13 @@ const demos: Record<string, () => ReactNode> = {
     </Stack>
   ),
   Card: () => (
-    <Card padding="5">
-      <Stack gap="1"><Heading as="h3" size={6}>Card title</Heading><Text tone="muted">Related content in one surface.</Text></Stack>
+    <Card variant="surface">
+      <CardHeader>
+        <CardTitle>Card title</CardTitle>
+        <CardDescription>Related content in one surface.</CardDescription>
+        <CardAction><Badge>New</Badge></CardAction>
+      </CardHeader>
+      <CardContent><Text>Body content sits between the header and the footer.</Text></CardContent>
     </Card>
   ),
   Alert: () => (
@@ -283,7 +309,11 @@ const demos: Record<string, () => ReactNode> = {
 
 const demoAlias: Record<string, string> = {
   DialogTrigger: "Dialog", DialogContent: "Dialog", DialogClose: "Dialog",
+  AlertDialogTrigger: "AlertDialog", AlertDialogContent: "AlertDialog", AlertDialogClose: "AlertDialog",
   PopoverTrigger: "Popover", PopoverContent: "Popover", PopoverClose: "Popover",
+  ButtonGroupSeparator: "ButtonGroup",
+  Radio: "RadioGroup",
+  CardHeader: "Card", CardTitle: "Card", CardDescription: "Card", CardAction: "Card", CardContent: "Card", CardFooter: "Card",
 };
 
 /** Renders the live example for a component export name, or nothing when it has none (providers, hooks without UI). */

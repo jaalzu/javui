@@ -1,0 +1,13 @@
+.group {
+  display: inline-flex;
+  align-items: center;
+}
+
+.group > * + * {
+  margin-inline-start: calc(-1 * var(--space-2));
+}
+
+.more {
+  justify-content: center;
+  color: var(--color-secondary-foreground);
+}

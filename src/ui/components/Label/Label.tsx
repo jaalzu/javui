@@ -23,7 +23,13 @@ export type LabelProps = {
  * <Label htmlFor="email">Email</Label>
  * <Label htmlFor="name" required>Name</Label>
  */
-export function Label({ children, required = false, disabled = false, className, ...rest }: LabelProps) {
+export function Label({
+  children,
+  required = false,
+  disabled = false,
+  className,
+  ...rest
+}: LabelProps) {
   return (
     <label
       className={cx(styles.label, disabled && styles.disabled, className)}

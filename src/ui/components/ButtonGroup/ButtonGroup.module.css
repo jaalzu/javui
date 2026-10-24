@@ -1,0 +1,92 @@
+.group {
+  display: inline-flex;
+  align-items: stretch;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.horizontal {
+  flex-direction: row;
+}
+
+.vertical {
+  flex-direction: column;
+  width: fit-content;
+}
+
+.horizontal > :is(button, span) + :is(button, span) {
+  margin-inline-start: calc(-1 * var(--border-width-thin));
+}
+
+.vertical > :is(button, span) + :is(button, span) {
+  margin-block-start: calc(-1 * var(--border-width-thin));
+}
+
+.horizontal > span {
+  flex: 1 1 0%;
+  min-width: 0;
+}
+
+.horizontal > :is(button, input),
+.horizontal > span > input,
+.vertical > :is(button, input),
+.vertical > span > input {
+  border-radius: 0;
+}
+
+.horizontal > :first-child:is(button, input),
+.horizontal > :first-child > input {
+  border-start-start-radius: var(--radius-md);
+  border-end-start-radius: var(--radius-md);
+}
+
+.horizontal > :last-child:is(button, input),
+.horizontal > :last-child > input {
+  border-start-end-radius: var(--radius-md);
+  border-end-end-radius: var(--radius-md);
+}
+
+.vertical > :first-child:is(button, input),
+.vertical > :first-child > input {
+  border-start-start-radius: var(--radius-md);
+  border-start-end-radius: var(--radius-md);
+}
+
+.vertical > :last-child:is(button, input),
+.vertical > :last-child > input {
+  border-end-start-radius: var(--radius-md);
+  border-end-end-radius: var(--radius-md);
+}
+
+.group :is(button, input):focus-visible,
+.group :is(button, input)[data-force="focus"] {
+  position: relative;
+  z-index: 1;
+}
+
+.separator {
+  flex: 0 0 auto;
+  background: var(--color-border-default);
+}
+
+.separator[data-orientation="vertical"] {
+  width: var(--border-width-thin);
+  align-self: stretch;
+}
+
+.separator[data-orientation="horizontal"] {
+  width: 100%;
+  height: var(--border-width-thin);
+}
+
+@media (pointer: coarse) {
+  .horizontal > :is(button, span)::after {
+    width: 100%;
+    height: max(100%, var(--size-target-comfortable));
+  }
+
+  .vertical > :is(button, span)::after {
+    width: max(100%, var(--size-target-comfortable));
+    height: 100%;
+  }
+}

@@ -17,7 +17,7 @@
 
 ## Components
 ### typography
-- **Text**: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls and fields (buttons, form labels, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
+- **Text**: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls (buttons, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
 - **Heading**: Page and section titles.
 - **Link**: Navigation to another page, section or resource.
 - **Kbd**: Keyboard shortcuts in docs and UI.
@@ -25,19 +25,18 @@
 - **CodeBlock** (parts: CodeBlockView): Showing code or commands the user will copy.
 
 ### layout
-- **Box**: A generic container with token padding, surface, border and radius.
 - **Stack**: Arranging children in one direction with a consistent gap.
 - **Grid**: Two-dimensional layouts and card grids.
 - **Container**: Page-level width limit and side padding.
-- **Divider**: A thematic break between groups of content.
-- **Card**: Grouping related content in a bordered surface.
+- **AspectRatio**: Images, video, embeds or maps whose size must be reserved before they load, preventing layout shift (CLS).
+- **Card** (parts: CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter): Grouping related content in a bordered surface.
 - **Table**: Comparing data across rows and columns.
 - **ScrollArea**: A fixed-height list, code area or panel that should scroll inside the page.
 
 ### utility
 - **VisuallyHidden**: Text that screen readers must read but sighted users should not see, such as the name of an icon-only button.
 - **Icon**: Any glyph. Named icons are decorative by default; pass `label` when the icon is the only carrier of meaning.
-- **Avatar**: Showing who a person or account is.
+- **Avatar** (parts: AvatarGroup): Showing who a person or account is.
 
 ### feedback
 - **Spinner**: Indeterminate loading of an action or small region.
@@ -48,12 +47,12 @@
 
 ### controls
 - **Button**: Any action: submit, open, confirm, cancel. Pass `loading` while the action runs.
+- **ButtonGroup** (parts: ButtonGroupSeparator): Related actions that belong together and read better as one unit, such as Save draft, Preview and Publish.
 - **Field**: Every form control, including its validation, required, read-only and loading states.
 - **Input**: Single-line text entry, read-only values and values that are still loading.
 - **Textarea**: Multi-line text entry, including read-only and loading values.
 - **Checkbox**: Independent yes/no choices, especially ones submitted with a form.
-- **Radio**: One option of a RadioGroup.
-- **RadioGroup**: Choosing exactly one option from a short list.
+- **RadioGroup** (parts: Radio): Choosing exactly one option from a short list.
 - **Switch**: A setting that turns on or off immediately.
 - **Select**: Choosing one option from a longer list, including read-only and loading states.
 - **Slider**: Choosing a number or range by dragging.
@@ -63,6 +62,7 @@
 
 ### overlays
 - **Dialog** (parts: DialogTrigger, DialogContent, DialogClose): Interrupting the user for a decision or focused task.
+- **AlertDialog** (parts: AlertDialogTrigger, AlertDialogContent, AlertDialogClose): Confirming a destructive or irreversible action before it runs, such as deleting data or leaving with unsaved changes.
 - **Tooltip**: Extra clarity for sighted mouse and keyboard users, such as naming an icon button.
 - **Popover** (parts: PopoverTrigger, PopoverContent, PopoverClose): Small interactive content tied to a button, such as a form or extra options.
 - **Menu**: A list of actions or links behind one button, such as account actions.
@@ -97,19 +97,20 @@ For headings use `Heading`; for links use `Link`.
 - Import: `import { Text } from "@/ui";`
 - Renders: p (body variants), span (label, caption), code (code); or the element in `as`
 - Composition: `as` accepts only: p, span, label, strong, em, small, div, code. No links or buttons.
-- Use when: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls and fields (buttons, form labels, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
+- Use when: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls (buttons, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
 - Avoid:
   - Headings: use Heading.
   - Links: use Link.
   - Actions: use Button.
   - Setting font-size or color by hand.
   - Caption size="sm" (10px) for lowercase running text: it is intentional for uppercase metadata, where the extra tracking keeps it legible.
-- Accessibility: Use `as="label"` with `htmlFor` for form labels when not using Field. Do not use tone="subtle" for required text.
+  - Form labels: use Label, or Field when you also need description and error.
+- Accessibility: Do not use tone="subtle" for required text.
 
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `as` | `"div" \| "code" \| "em" \| "label" \| "p" \| "small" \| "span" \| "strong"` | no |  | HTML element to render. Defaults by variant: `p` for body variants, `span` for `label` and `caption`, `code` for `code`. Use `label` with `htmlFor` for form labels. |
+| `as` | `"div" \| "code" \| "em" \| "label" \| "p" \| "small" \| "span" \| "strong"` | no |  | HTML element to render. Defaults by variant: `p` for body variants, `span` for `label` and `caption`, `code` for `code`. |
 | `casing` | `"normal" \| "uppercase"` | no | normal | Set to `uppercase` for small uppercase captions. |
 | `size` | `"base" \| "sm" \| "lg" \| "xs"` | no | base | Size within the variant: body is 18px (`lg`), 15px (`base`) or 13px (`sm`); caption is 12px, 11px or 10px; code is 14px (`base`), 13px (`sm`) or 12px (`xs`). Ignored by `label` and `emphasis`. |
 | `tone` | `"info" \| "success" \| "warning" \| "danger" \| "default" \| "brand" \| "muted" \| "subtle"` | no | default | Text color from the semantic color tokens. |
@@ -123,7 +124,6 @@ Also accepts the native props of the element it renders; they pass through.
 <Text>Default paragraph.</Text>
 <Text size="lg">Large body text</Text>
 <Text variant="caption" tone="muted">Helper text</Text>
-<Text as="label" htmlFor="email" variant="label">Email</Text>
 ```
 
 ## Heading
@@ -172,6 +172,7 @@ Put icons in `startIcon`/`endIcon`. An icon on its own is a valid link (`startIc
 - Avoid:
   - Actions that do not navigate: use Button.
   - Links without visible text.
+  - Button-styled navigation: use ButtonLink.
 - Accessibility: Always underlined so it does not rely on color (the underline gets stronger on hover). Use `target="_blank"` only with `rel="noopener noreferrer"`.
 
 ### Props
@@ -250,7 +251,7 @@ lg 24px.
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Height and type scale: `sm` 20px, `md` 24px, `lg` 28px. |
 | `spinnerPosition` | `"start" \| "end"` | no | start | Side the spinner sits on. |
 | `startIcon` | `ReactNode` | no |  | Icon before the text. Pass a generated icon without `size`; the badge sizes it. |
-| `variant` | `"success" \| "danger" \| "default" \| "inverted" \| "outline" \| "brand"` | no | default | Visual treatment. `default` is a quiet component surface, `inverted` a filled high-contrast pill, `outline` only an inset ring, and `brand`, `success` and `danger` are soft semantic tints (translucent background, colored text). |
+| `variant` | `"success" \| "danger" \| "outline" \| "default" \| "inverted" \| "brand"` | no | default | Visual treatment. `default` is a quiet component surface, `inverted` a filled high-contrast pill, `outline` only an inset ring, and `brand`, `success` and `danger` are soft semantic tints (translucent background, colored text). |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -264,40 +265,6 @@ Also accepts the native props of the element it renders; they pass through.
 <Badge variant="inverted" size="lg" spinnerPosition="end" loading>Syncing</Badge>
 <Badge variant="success" startIcon={<CheckIcon />}>Active</Badge>
 <Badge variant="default" render={<Link href="/docs" />}>Docs</Badge>
-```
-
-## Box
-
-Generic block container with token-based padding, surface, border and radius.
-Use it when no more specific component fits.
-
-- Category: layout
-- Base: Own component
-- Import: `import { Box } from "@/ui";`
-- Renders: div, or the container element in `as`
-- Composition: `as` accepts: div, section, article, main, nav, aside, header, footer, ul, ol, li.
-- Use when: A generic container with token padding, surface, border and radius.
-- Avoid:
-  - Pixel values: use the spacing scale keys.
-  - Using div for something that has a semantic element.
-- Accessibility: Landmark elements (nav, main, aside) need an accessible name if there is more than one of the same kind.
-
-### Props
-| Prop | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `as` | `"div" \| "article" \| "aside" \| "footer" \| "header" \| "li" \| "main" \| "nav" \| "ol" \| "section" \| "ul"` | no | "div" | Element to render. Pick the one that matches the meaning of the content (`section`, `nav`, `li`...). |
-| `bordered` | `boolean` | no |  | Draws a 1px border using the `border` color. |
-| `padding` | `"0" \| "1" \| "2" \| "3" \| "4" \| "5" \| "6" \| "8" \| "10" \| "12" \| "16"` | no |  | Padding on all sides, from the spacing scale. |
-| `paddingX` | `"0" \| "1" \| "2" \| "3" \| "4" \| "5" \| "6" \| "8" \| "10" \| "12" \| "16"` | no |  | Horizontal padding. Overrides `padding` on the inline axis. |
-| `paddingY` | `"0" \| "1" \| "2" \| "3" \| "4" \| "5" \| "6" \| "8" \| "10" \| "12" \| "16"` | no |  | Vertical padding. Overrides `padding` on the block axis. |
-| `radius` | `"none" \| "sm" \| "md" \| "lg" \| "xl" \| "full"` | no |  | Corner radius from the radius scale. |
-| `surface` | `boolean` | no |  | Draws the `surface` background. |
-
-Also accepts the native props of the element it renders; they pass through.
-
-### Example
-```tsx
-<Box as="section" padding="6" surface bordered radius="lg">...</Box>
 ```
 
 ## Stack
@@ -395,31 +362,39 @@ Also accepts the native props of the element it renders; they pass through.
 <Container as="main" size="md">...</Container>
 ```
 
-## Divider
+## AspectRatio
 
-A thematic break between groups of content. Renders a native `hr`.
-Do not use it for pure decoration; use spacing instead.
+Reserves space for media with the CSS `aspect-ratio` property. An `img`, `video` or `iframe`
+as a direct child fills the box; images and videos use `object-fit: cover`.
 
 - Category: layout
 - Base: Own component
-- Import: `import { Divider } from "@/ui";`
-- Renders: hr
-- Composition: Native hr props pass through; no children.
-- Use when: A thematic break between groups of content.
+- Import: `import { AspectRatio } from "@/ui";`
+- Renders: div by default; `as` can be figure
+- Composition: `ratio` is width divided by height (`16 / 9`, `4 / 3`, `1`) and defaults to 1. An `img`, `video` or `iframe` as a direct child fills the box; images and videos use `object-fit: cover`.
+- Use when: Images, video, embeds or maps whose size must be reserved before they load, preventing layout shift (CLS).
 - Avoid:
-  - Pure decoration: use spacing.
-- Accessibility: Exposed as a separator. Vertical sets aria-orientation.
+  - Decorative containers with no media.
+  - Text blocks: they size to their content, not a fixed ratio.
+- Accessibility: The child needs its own alt text (`img`) or title (`iframe`, `video`); the box adds no semantics.
 
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `orientation` | `"horizontal" \| "vertical"` | no | horizontal | Direction of the line. A vertical divider is still an `hr` and sets `aria-orientation`. |
+| `as` | `"div" \| "figure"` | no | "div" | Element to render. Use `figure` when the media needs a caption. |
+| `ratio` | `number` | no | 1 | Width divided by height, such as `16 / 9`, `4 / 3` or `1`. The box reserves that area before the media loads, which prevents layout shift. |
 
 Also accepts the native props of the element it renders; they pass through.
 
 ### Example
 ```tsx
-<Divider />
+<AspectRatio ratio={16 / 9}>
+  <img src="/cover.jpg" alt="A field at dusk" />
+</AspectRatio>
+<AspectRatio as="figure" ratio={4 / 3}>
+  <img src="/chart.png" alt="Revenue by quarter" />
+  <figcaption>Revenue by quarter</figcaption>
+</AspectRatio>
 ```
 
 ## VisuallyHidden
@@ -555,7 +530,7 @@ An icon-only button is valid only with `startIcon` and an accessible name (`aria
 - Composition: Defaults to type="button"; pass type="submit" explicitly. Put icons in `startIcon`/`endIcon` (generated icons, no `size`). Icon-only: `startIcon` is required and exactly one of `aria-label` or `aria-labelledby`. Heights: sm 1.75rem, md 2.25rem, lg 2.75rem. Icons follow the size: sm 16px, md 20px, lg 24px. Base UI props such as `render` and `nativeButton` are available but not needed for normal use.
 - Use when: Any action: submit, open, confirm, cancel. Pass `loading` while the action runs.
 - Avoid:
-  - Navigation: use Link.
+  - Navigation: use Link (inline text) or ButtonLink (looks like a button).
   - More than one primary button per view.
   - Disabling the button to show progress: use `loading`, it keeps the label and focus.
 - Accessibility: Icon-only buttons need `aria-label` (or `aria-labelledby`) and use `startIcon` instead of children; the types enforce it. `loading` sets `aria-busy` and counts as the start slot, and the spinner stays silent so the button's accessible name is the only announcement. Keyboard and disabled behavior come from Base UI.
@@ -570,7 +545,7 @@ undefined | Icon after the label. Pass a generated icon without `size`; the butt
 | `loading` | `boolean` | no | false | Shows a spinner and ignores clicks while an action is running. The button keeps its label and stays focusable, and `aria-busy` tells assistive technology it is working. |
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. |
 | `startIcon` | `ReactNode` | no | undefined | Icon before the label. Pass a generated icon without `size`; the button sizes it. The visible icon and accessible name. Pass a generated icon without `size`. |
-| `variant` | `"danger" \| "outline" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | primary | Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions, `outline` for a transparent button with a visible border, `ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions. |
+| `variant` | `"danger" \| "primary" \| "secondary" \| "outline" \| "ghost" \| "accent"` | no | primary | Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions, `outline` for a transparent button with a visible border, `ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -583,6 +558,76 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 <Button loading>Saving</Button>
 <Button variant="secondary" startIcon={<CheckIcon />}>Done</Button>
 <Button variant="outline" aria-label="Close" startIcon={<XIcon />} />
+```
+
+## ButtonGroup
+
+Joins related buttons into one control. Shared edges, outer-only corner rounding and a focus
+ring that stays above its neighbours keep the actions readable as a unit. Children can be
+`Button`, a `Menu` trigger or an `Input` for split-button patterns. Give the group an
+`aria-label` so its purpose is announced.
+
+- Category: controls
+- Base: Own component
+- Import: `import { ButtonGroup } from "@/ui";`
+- Renders: div role="group"
+- Composition: Pass `orientation` (horizontal or vertical, default horizontal) and one group of related children: `Button`, a `Menu` trigger or an `Input`. Put `ButtonGroupSeparator` between non-outline buttons. Give the group an `aria-label` that names the set of actions.
+- Use when: Related actions that belong together and read better as one unit, such as Save draft, Preview and Publish.
+- Avoid:
+  - Toggling state or choosing between options: use ToggleGroup.
+  - Unrelated actions that do not form a set.
+- Accessibility: Renders role="group"; recommend an `aria-label` so the group is announced. Each child keeps its own accessible name and focus ring, which stays above its neighbours.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `orientation` | `"horizontal" \| "vertical"` | no | horizontal | Direction the group lays out its children. Horizontal joins buttons side by side; vertical stacks them. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<ButtonGroup aria-label="Document actions">
+  <Button variant="outline">Save draft</Button>
+  <Button variant="outline">Preview</Button>
+  <Button variant="outline">Publish</Button>
+</ButtonGroup>
+```
+
+### Parts
+
+### ButtonGroupSeparator
+
+Divides adjacent buttons in a group. Use it with non-outline variants, whose shared edge has
+no visible border; outline buttons already show the division. The orientation describes the
+line itself, so a horizontal group uses a vertical separator.
+
+- Category: controls
+- Base: Own component
+- Import: `import { ButtonGroupSeparator } from "@/ui";`
+- Renders: div role="separator"
+- Composition: Place between adjacent buttons when their variants have no visible border. `orientation` describes the line: vertical inside a horizontal group (default), horizontal inside a vertical group.
+- Use when: Marking the division between non-outline buttons in a ButtonGroup.
+- Avoid:
+  - Separating outline buttons: their shared border already shows the division.
+  - Using it as decoration outside a ButtonGroup.
+- Accessibility: Exposes role="separator" with an `aria-orientation` that matches the line.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `orientation` | `"horizontal" \| "vertical"` | no | vertical | Direction of the divider line. Use `vertical` between side-by-side buttons (default) and `horizontal` between stacked buttons. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<ButtonGroup aria-label="Export">
+  <Button variant="secondary">CSV</Button>
+  <Button variant="secondary">JSON</Button>
+  <ButtonGroupSeparator />
+  <Button variant="secondary">More</Button>
+</ButtonGroup>
 ```
 
 ## Field
@@ -742,30 +787,6 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 <Checkbox label="Accept terms" error="You must accept the terms" required />
 ```
 
-## Radio
-
-One option inside a `RadioGroup`, built on Base UI Radio. The whole label is clickable.
-Validation state comes from the `RadioGroup` (`error`, `required`, `readOnly`, `loading`).
-
-- Category: controls
-- Base: Built on Base UI (@base-ui/react)
-- Import: `import { Radio } from "@/ui";`
-- Renders: span role="radio" with a hidden native input, inside a label
-- Composition: Only inside RadioGroup. `value` and `label` are required.
-- Use when: One option of a RadioGroup.
-- Avoid:
-  - Using it outside a RadioGroup.
-- Accessibility: The whole label is clickable.
-
-### Props
-| Prop | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `label` | `ReactNode` | yes |  | Visible label for this option. |
-| `value` | `string` | yes |  | Value submitted and reported when this option is selected. |
-| `className` | `string` | no |  |  |
-
-Also accepts the native/Base UI props of the element it renders; they pass through.
-
 ## RadioGroup
 
 A group of mutually exclusive options. Renders a `fieldset` with a `legend`, driven by Base UI
@@ -775,7 +796,7 @@ RadioGroup. Inside `Field` it inherits `error`, `required`, `readOnly` and `load
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { RadioGroup } from "@/ui";`
 - Renders: fieldset with a legend and a radiogroup
-- Composition: `legend` is required. Children are Radio elements. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend.
+- Composition: `legend` is required. Children are Radio elements. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend. Radio is documented under Parts.
 - Use when: Choosing exactly one option from a short list.
 - Avoid:
   - Long lists: use Select.
@@ -806,6 +827,32 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
   <Radio value="pro" label="Pro" />
 </RadioGroup>
 ```
+
+### Parts
+
+### Radio
+
+One option inside a `RadioGroup`, built on Base UI Radio. The whole label is clickable.
+Validation state comes from the `RadioGroup` (`error`, `required`, `readOnly`, `loading`).
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Radio } from "@/ui";`
+- Renders: span role="radio" with a hidden native input, inside a label
+- Composition: Only inside RadioGroup; it is documented under Parts. `value` and `label` are required.
+- Use when: One option of a RadioGroup.
+- Avoid:
+  - Using it outside a RadioGroup.
+- Accessibility: The whole label is clickable.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `label` | `ReactNode` | yes |  | Visible label for this option. |
+| `value` | `string` | yes |  | Value submitted and reported when this option is selected. |
+| `className` | `string` | no |  |  |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
 
 ## Switch
 
@@ -896,6 +943,7 @@ focus return and scroll lock come from there).
 - Avoid:
   - Non-essential information: use inline content or Tooltip.
   - Dialogs without a title.
+  - Confirming destructive actions: use AlertDialog.
 - Accessibility: Focus is trapped and returned, Escape closes, the page behind is inert. Title is the accessible name.
 
 ### Props
@@ -933,7 +981,7 @@ The button that opens the dialog. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
-| `variant` | `"danger" \| "outline" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | primary | Button style of the trigger. |
+| `variant` | `"danger" \| "primary" \| "secondary" \| "outline" \| "ghost" \| "accent"` | no | primary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -992,13 +1040,139 @@ A button that closes the dialog. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size. |
-| `variant` | `"danger" \| "outline" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style. |
+| `variant` | `"danger" \| "primary" \| "secondary" \| "outline" \| "ghost" \| "accent"` | no | secondary | Button style. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
 #### Example
 ```tsx
 <DialogClose>Cancel</DialogClose>
+```
+
+## AlertDialog
+
+Root of an alert dialog: a modal that asks for confirmation before a destructive or
+irreversible action. It shares Dialog's panel styles but behaves like an alert dialog:
+`role="alertdialog"`, no close on outside click, Escape to close, focus starts on the
+safest action and returns to the trigger.
+
+- Category: overlays
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { AlertDialog } from "@/ui";`
+- Renders: no element: it only holds the open state (Base UI AlertDialog.Root)
+- Composition: Structure: AlertDialog > AlertDialogTrigger + AlertDialogContent (title, description, AlertDialogClose actions). Put the safe action, usually Cancel, first.
+- Use when: Confirming a destructive or irreversible action before it runs, such as deleting data or leaving with unsaved changes.
+- Avoid:
+  - Forms or general content: use Dialog.
+  - Informational messages that need no decision: use Alert.
+  - Confirmations whose action can be undone: use a Dialog or an inline action instead.
+- Accessibility: Uses role="alertdialog"; it does not close on outside click, Escape closes, focus starts on the safe action and returns to the trigger. Title is the accessible name.
+
+### Props
+_No props of its own._
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<AlertDialog>
+  <AlertDialogTrigger variant="danger">Delete project</AlertDialogTrigger>
+  <AlertDialogContent title="Delete project?" description="This cannot be undone.">
+    <AlertDialogClose>Cancel</AlertDialogClose>
+    <AlertDialogClose variant="danger">Delete</AlertDialogClose>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+### Parts
+
+### AlertDialogTrigger
+
+The button that opens the alert dialog. It is rendered as a `Button`.
+
+- Category: overlays
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { AlertDialogTrigger } from "@/ui";`
+- Renders: button (a Button)
+- Composition: Direct child of AlertDialog. Accepts Button `variant` and `size`; use `danger` for the destructive trigger.
+- Use when: The button that opens the alert dialog.
+- Avoid:
+  - Using a plain Button to open it.
+- Accessibility: Gets aria-haspopup and expanded state from Base UI.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `size` | `"sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
+| `variant` | `"danger" \| "primary" \| "secondary" \| "outline" \| "ghost" \| "accent"` | no | primary | Button style of the trigger. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<AlertDialogTrigger variant="danger">Delete project</AlertDialogTrigger>
+```
+
+### AlertDialogContent
+
+The alert dialog panel with its backdrop, title and description. Place it inside
+`AlertDialog`. It does not close on outside click, so the user must choose an action.
+
+- Category: overlays
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { AlertDialogContent } from "@/ui";`
+- Renders: div role="alertdialog" in a portal, plus a backdrop
+- Composition: `title` is required; `description` is recommended. Children are the actions, usually AlertDialogClose. Put the safe action first: it receives initial focus.
+- Use when: The panel of the alert dialog.
+- Avoid:
+  - Omitting `title`.
+  - Content other than the actions.
+- Accessibility: title is the accessible name; description is the accessible description. Initial focus goes to the first action unless `initialFocus` overrides it.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `title` | `ReactNode` | yes |  | Dialog title. Required: it is the accessible name of the dialog. |
+| `children` | `ReactNode` | no |  | The actions. Put the safe action first (`AlertDialogClose` buttons): it receives initial focus. |
+| `className` | `string` | no |  |  |
+| `description` | `ReactNode` | no |  | Short explanation of what will happen, announced as the accessible description. |
+| `initialFocus` | `boolean \| RefObject<HTMLElement \| null> \| ((openType: InteractionType) => boolean \| void \| HTMLElement \| null)` | no |  | Element to focus when the dialog opens. Defaults to the first action, which should be the safe one. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<AlertDialogContent title="Delete project?" description="This cannot be undone.">
+  <AlertDialogClose>Cancel</AlertDialogClose>
+  <AlertDialogClose variant="danger">Delete</AlertDialogClose>
+</AlertDialogContent>
+```
+
+### AlertDialogClose
+
+A button that closes the alert dialog. It is rendered as a `Button`.
+
+- Category: overlays
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { AlertDialogClose } from "@/ui";`
+- Renders: button (a Button)
+- Composition: Inside AlertDialogContent. Accepts Button `variant` and `size`; use `danger` for the destructive action.
+- Use when: The cancel and confirm actions.
+- Avoid:
+  - Closing by custom onClick state when AlertDialogClose is enough.
+- Accessibility: Closing returns focus to the trigger.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `size` | `"sm" \| "md" \| "lg"` | no | md | Button size. |
+| `variant` | `"danger" \| "primary" \| "secondary" \| "outline" \| "ghost" \| "accent"` | no | secondary | Button style. Use `danger` for the destructive action. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<AlertDialogClose>Cancel</AlertDialogClose>
 ```
 
 ## Tooltip
@@ -1083,7 +1257,7 @@ An icon-only link is valid only with `startIcon` and an accessible name (`aria-l
 - Use when: A call to action that goes to another page, such as Get started or Docs.
 - Avoid:
   - Actions that do not navigate: use Button.
-  - Inline links inside text: use Link.
+  - Inline links inside text: use Link (inline text).
 - Accessibility: Icon-only buttons need `aria-label` (or `aria-labelledby`); the types enforce it. It is a real link (role link), so middle-click, open in new tab and prefetch work. Do not give it role button.
 
 ### Props
@@ -1095,7 +1269,7 @@ An icon-only link is valid only with `startIcon` and an accessible name (`aria-l
 undefined | Icon after the label. Pass a generated icon without `size`; the link sizes it. |
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. |
 | `startIcon` | `ReactNode` | no | undefined | Icon before the label. Pass a generated icon without `size`; the link sizes it. The visible icon and accessible name. Pass a generated icon without `size`. |
-| `variant` | `"danger" \| "outline" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | primary | Visual emphasis, the same as `Button`. `primary` is the main call to action (one per view). |
+| `variant` | `"danger" \| "primary" \| "secondary" \| "outline" \| "ghost" \| "accent"` | no | primary | Visual emphasis, the same as `Button`. `primary` is the main call to action (one per view). |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -1108,24 +1282,25 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## Card
 
-A bordered container that groups related content. Compose its content with `Stack`, `Heading` and `Text`.
+A bordered container that groups related content. Its parts share one inset through
+`--card-spacing`, and an `img` as the first child is full-bleed with rounded top corners.
 
 - Category: layout
 - Base: Own component
 - Import: `import { Card } from "@/ui";`
 - Renders: div by default; `as` can be article, section or li
-- Composition: Children go inside. Use `padding` (a Space key) and `variant` (outline or surface).
+- Composition: `CardHeader` (with `CardTitle`, optional `CardDescription` and `CardAction`) + `CardContent` + `CardFooter`. `size` sets the shared inset through `--card-spacing`; override that variable to use another spacing step. An `img` as the first child is full-bleed with rounded top corners.
 - Use when: Grouping related content in a bordered surface.
 - Avoid:
   - Making the whole card clickable: put a Link inside and keep the card as a container.
-  - Nesting cards.
-- Accessibility: A plain container with no role. Use `as="article"` for self-contained content and give it a heading.
+  - Nesting cards: use an `hr` hairline or a sunken region instead.
+- Accessibility: A plain container with no role. Use `as="article"` for self-contained content and give it a heading through CardTitle.
 
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `as` | `"div" \| "article" \| "li" \| "section"` | no | "div" | Element to render. `article` for self-contained content, `section` for a named group. |
-| `padding` | `"0" \| "1" \| "2" \| "3" \| "4" \| "5" \| "6" \| "8" \| "10" \| "12" \| "16"` | no | 6 | Inner padding from the spacing scale. |
+| `size` | `"sm" \| "default"` | no | default | Inset between the card edge and its content. `sm` is 1rem, `default` is 1.5rem. Override `--card-spacing` on the card to use another step of the spacing scale. |
 | `variant` | `"outline" \| "surface"` | no | outline | `outline` draws only a soft border; `surface` adds the surface fill. |
 
 Also accepts the native props of the element it renders; they pass through.
@@ -1133,9 +1308,136 @@ Also accepts the native props of the element it renders; they pass through.
 ### Example
 ```tsx
 <Card as="article" variant="surface">
-  <Stack gap="2"><Heading as="h3">Title</Heading><Text>Body</Text></Stack>
+  <CardHeader>
+    <CardTitle>Release notes</CardTitle>
+    <CardDescription>What changed in this version.</CardDescription>
+    <CardAction><Button variant="secondary">Share</Button></CardAction>
+  </CardHeader>
+  <CardContent><Text>Body of the card.</Text></CardContent>
+  <CardFooter><Text size="sm" tone="muted">Updated today</Text></CardFooter>
 </Card>
 ```
+
+### Parts
+
+### CardHeader
+
+The top region of a Card: a `CardTitle`, an optional `CardDescription` and an optional
+`CardAction` at the top end.
+
+- Category: layout
+- Base: Own component
+- Import: `import { CardHeader } from "@/ui";`
+- Renders: div
+- Composition: Holds `CardTitle`, optional `CardDescription` and `CardAction`. The action aligns with the title at the top end.
+- Use when: The title region of a Card.
+- Avoid:
+  - Using it without a CardTitle.
+- Accessibility: No role of its own; the heading comes from CardTitle.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+### CardTitle
+
+The heading of a Card. Renders a real heading; the default `h3` suits a card inside a section
+with an `h2`.
+
+- Category: layout
+- Base: Own component
+- Import: `import { CardTitle } from "@/ui";`
+- Renders: h3 by default; `as` sets the heading element
+- Composition: `as` sets the outline level (h2-h6) and `size` sets the look; it defaults to size 6.
+- Use when: The heading of a Card.
+- Avoid:
+  - Skipping heading levels to get a smaller look: change `size` instead.
+- Accessibility: A real heading, so it appears in the document outline.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `as` | `"h1" \| "h2" \| "h3" \| "h4" \| "h5" \| "h6"` | no | h3 | Heading level in the document outline. Keep the order of the page. |
+| `size` | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | no | 6 | Visual size from 1 (largest) to 6 (smallest). |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### CardDescription
+
+Supporting text below a `CardTitle`, in the muted body style.
+
+- Category: layout
+- Base: Own component
+- Import: `import { CardDescription } from "@/ui";`
+- Renders: p
+- Composition: Muted body text below `CardTitle`.
+- Use when: Supporting text directly under the card title.
+- Avoid:
+  - Long prose: put it in CardContent.
+- Accessibility: A plain paragraph.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+### CardAction
+
+A control at the top end of a Card, aligned with `CardTitle`.
+
+- Category: layout
+- Base: Own component
+- Import: `import { CardAction } from "@/ui";`
+- Renders: div
+- Composition: Holds a Button, ButtonLink or Badge at the top end of `CardHeader`, aligned with the title.
+- Use when: A control that belongs to the whole card.
+- Avoid:
+  - Hiding the card title to make room for the action.
+- Accessibility: Adds no semantics; the control inside needs its own accessible name.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+### CardContent
+
+The main content region of a Card, aligned with the header and footer.
+
+- Category: layout
+- Base: Own component
+- Import: `import { CardContent } from "@/ui";`
+- Renders: div
+- Composition: The main body between `CardHeader` and `CardFooter`, aligned with both.
+- Use when: The body of a Card.
+- Avoid:
+  - Repeating the header or footer content.
+- Accessibility: A plain container.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+### CardFooter
+
+The bottom region of a Card, aligned with the header and content.
+
+- Category: layout
+- Base: Own component
+- Import: `import { CardFooter } from "@/ui";`
+- Renders: div
+- Composition: The bottom region for metadata or actions, aligned with the header and content.
+- Use when: Metadata or closing actions at the bottom of a Card.
+- Avoid:
+  - Putting the only primary action at the bottom when CardAction would do.
+- Accessibility: A plain container.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
 
 ## Alert
 
@@ -1152,6 +1454,7 @@ For short-lived feedback after an action, use `useToast` instead.
 - Avoid:
   - Short-lived confirmations: use Toast.
   - Using color alone: the tone also changes the icon and you should say it in the text.
+  - Confirming a destructive action: use AlertDialog.
 - Accessibility: Announced by screen readers on render. The icon is decorative and each tone has a different shape.
 
 ### Props
@@ -1174,32 +1477,79 @@ Icons use the 20px medium size (the alert has no size variants).
 ## Avatar
 
 A round image of a person with an initials fallback, built on Base UI Avatar.
-The whole avatar is one image with the person's name as its label.
+The whole avatar is one image with the person's name as its label. Add a status, badge or icon
+fallback when needed; without them the markup and accessible name stay just the name.
 
 - Category: utility
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Avatar } from "@/ui";`
 - Renders: span with role img and the name as aria-label
-- Composition: Pass `name` (required), optional `src` and `size`. Initials are the fallback.
+- Composition: Pass `name` (required), `src` and `size`; initials are the fallback. `status` adds a shape at the bottom end and appends the state to the name; `badge` with `badgeLabel` adds a custom icon and appends its label; `icon` replaces the initials. `status` and `badge` cannot be combined. Every feature scales with `size`.
 - Use when: Showing who a person or account is.
 - Avoid:
   - Using it as a button: wrap it in a Button or Link.
   - Omitting `name`.
-- Accessibility: The name is the accessible name. The initials are hidden from assistive technology.
+  - Combining `status` and `badge`: they are mutually exclusive.
+- Accessibility: The name is the accessible name. A status appends the state, and a badge appends `badgeLabel`, such as "Ada Lovelace, online" or "Ada Lovelace, Verified". Initials, icon, status shape and badge are hidden from assistive technology; status is never color alone.
 
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `name` | `string` | yes |  | Full name of the person or entity. It is the accessible name and the source of the initials. Required. |
+| `badge` | `ReactNode` | no |  | Custom badge icon at the bottom end. Pass a generated icon without `size`. Cannot be combined with `status`. |
+| `badgeLabel` | `string` | no |  | Accessible label for the badge. Required with `badge`; appended to the accessible name. |
 | `className` | `string` | no |  |  |
+| `icon` | `ReactNode` | no |  | Replaces the initials fallback with an icon, for bots or organizations. Pass a generated icon without `size`. |
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Diameter: `sm` 2rem, `md` 2.5rem, `lg` 3.5rem. |
 | `src` | `string` | no |  | Image URL. If it is missing or fails to load, the initials are shown. |
+| `status` | `"online" \| "away" \| "busy" \| "offline"` | no |  | Presence state. Appended to the accessible name, such as "Ada Lovelace, online". Cannot be combined with `badge`. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
 ### Example
 ```tsx
 <Avatar name="Ada Lovelace" src="/ada.png" />
+<Avatar name="Ada Lovelace" status="online" />
+<Avatar name="Ada Lovelace" badge={<CheckIcon />} badgeLabel="Verified" />
+<Avatar name="Build bot" icon={<TerminalWindowIcon />} />
+```
+
+### Parts
+
+### AvatarGroup
+
+Overlapping avatars that share one size. When there are more than `max`, the extra avatars
+collapse into a "+N" item labelled "and N more". Used outside a group, Avatar is unchanged.
+
+- Category: utility
+- Base: Own component
+- Import: `import { AvatarGroup } from "@/ui";`
+- Renders: div role="group" with overlapping Avatar elements
+- Composition: Pass `children` (Avatar elements), `max` (default 4) and shared `size` (default md). Avatars beyond `max` collapse into a visible "+N" item labelled "and N more".
+- Use when: A compact summary of several people or accounts.
+- Avoid:
+  - One avatar: use Avatar directly.
+  - Long lists where every person matters: show them in a list.
+- Accessibility: The group has role="group"; give it an `aria-label`. Each avatar keeps its own name, and the overflow item is announced as "and N more".
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | yes |  | Avatars in the group. They share the group's `size`. |
+| `className` | `string` | no |  |  |
+| `max` | `number` | no | 4 | How many avatars stay visible before the rest collapse into a "+N" item. |
+| `size` | `"sm" \| "md" \| "lg"` | no | md | Diameter shared by every avatar in the group. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<AvatarGroup max={3} aria-label="Project members">
+  <Avatar name="Ada Lovelace" />
+  <Avatar name="Grace Hopper" />
+  <Avatar name="Alan Turing" />
+  <Avatar name="Katherine Johnson" />
+</AvatarGroup>
 ```
 
 ## Popover
@@ -1252,7 +1602,7 @@ The button that opens the popover. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
-| `variant` | `"danger" \| "outline" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
+| `variant` | `"danger" \| "primary" \| "secondary" \| "outline" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1312,7 +1662,7 @@ A button that closes the popover. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | sm | Button size. |
-| `variant` | `"danger" \| "outline" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style. |
+| `variant` | `"danger" \| "primary" \| "secondary" \| "outline" \| "ghost" \| "accent"` | no | secondary | Button style. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1347,7 +1697,7 @@ menu items are compact and use 16px icons.
 | `align` | `"center" \| "start" \| "end"` | no | start | Alignment of the menu against the trigger. |
 | `className` | `string` | no |  |  |
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
-| `variant` | `"danger" \| "outline" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
+| `variant` | `"danger" \| "primary" \| "secondary" \| "outline" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1740,6 +2090,7 @@ on/off choices use Checkbox.
   - Long content changes: use Tabs.
   - Independent on/off choices: use Checkbox or Switch.
   - More than five options: use Select.
+  - Related actions that are not a choice: use ButtonGroup.
 - Accessibility: Arrow keys move between toggles and roles come from Base UI. The group needs its `label`; selected state is exposed with aria-pressed.
 
 ### Props
@@ -2053,7 +2404,7 @@ The anchor component to render links with: the one from `LinkProvider`, or `a`.
 - Base: Own component
 - Import: `import { useLinkComponent } from "@/ui";`
 - Renders: hook, renders nothing
-- Composition: `const LinkEl = useLinkComponent()` returns the provided link component, or `"a"`.
+- Composition: Only needed when building your own link components that should respect LinkProvider. `const LinkEl = useLinkComponent()` returns the provided link component, or `"a"`.
 - Use when: Building your own navigation component that should follow LinkProvider.
 - Avoid:
   - Calling it in Server Components: it needs a client component.

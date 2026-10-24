@@ -105,6 +105,7 @@ const componentsManifest = allExported.map((name) => {
     whenToUse: m.whenToUse,
     avoid: m.avoid,
     accessibility: m.a11y,
+    callout: m.callout,
     props,
     extends: m.base === "base-ui" ? "Also accepts the native/Base UI props of the element it renders; they pass through." : "Also accepts the native props of the element it renders; they pass through.",
     examples: examplesFor(name, file),
@@ -135,8 +136,13 @@ for (const c of componentsManifest) {
 // ---- 2b. Group compound parts, and keep providers/hooks out of the component list ----
 const compoundParts = {
   Dialog: ["DialogTrigger", "DialogContent", "DialogClose"],
+  AlertDialog: ["AlertDialogTrigger", "AlertDialogContent", "AlertDialogClose"],
   Popover: ["PopoverTrigger", "PopoverContent", "PopoverClose"],
   CodeBlock: ["CodeBlockView"],
+  Card: ["CardHeader", "CardTitle", "CardDescription", "CardAction", "CardContent", "CardFooter"],
+  RadioGroup: ["Radio"],
+  ButtonGroup: ["ButtonGroupSeparator"],
+  Avatar: ["AvatarGroup"],
 };
 const providerAndHookNames = ["LinkProvider", "TooltipProvider", "ToastProvider", "useLinkComponent", "useToast"];
 const byName = new Map(componentsManifest.map((c) => [c.name, c]));

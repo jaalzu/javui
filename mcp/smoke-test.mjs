@@ -33,7 +33,7 @@ r = await call("list_components");
 check("lists 47 components", JSON.parse(r.text).length === 47, r.text.slice(0, 80));
 
 r = await call("list_components", { category: "overlays" });
-check("filters by category", JSON.parse(r.text).every((c) => c.category === "overlays") && JSON.parse(r.text).length === 5);
+check("filters by category", JSON.parse(r.text).every((c) => c.category === "overlays") && JSON.parse(r.text).length === 6);
 
 r = await call("list_components", { category: "nope" });
 check("unknown category is an error", r.error);

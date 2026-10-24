@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import manifest from "../../../../../public/agent/manifest.json";
-import { Heading, Skeleton, Stack, Table } from "@/ui";
+import { Alert, Heading, Skeleton, Stack, Table } from "@/ui";
 import { CodeBlock } from "@/ui/server";
 import { noDemo } from "@/app/_examples/demo-names";
 import { Examples, Preview } from "@/app/_examples/Examples";
@@ -13,6 +13,7 @@ type Prop = { name: string; type: string; required: boolean; default?: string; d
 type Entry = {
   name: string; category: string; base: string; description: string; import: string; renders: string;
   composition: string; whenToUse: string; avoid: string[]; accessibility: string; props: Prop[]; extends: string; examples: string[];
+  callout?: string;
   parts?: Entry[];
 };
 type Manifest = { components: Entry[]; providersAndHooks: Entry[] };
@@ -105,6 +106,8 @@ async function ComponentContent({ params }: ComponentPageProps) {
 
   return (
     <DocPage href={`/docs/components/${c.name}`} title={c.name} description={<Inline text={lead} />}>
+      {c.callout && <Alert tone="info">{c.callout}</Alert>}
+
       {!noDemo.has(c.name) && (
         <>
           <Heading as="h2" className={shell.srOnly} data-doc-skip>Preview</Heading>

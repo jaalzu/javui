@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Stack } from "./Stack";
-import { Box } from "../Box";
+import { Card } from "../Card";
 import { Text } from "../Text";
 
 const items = ["One", "Two", "Three"].map((t) => (
-  <Box key={t} padding="3" surface bordered radius="md">
+  <Card key={t} size="sm" variant="surface">
     <Text>{t}</Text>
-  </Box>
+  </Card>
 ));
 
 const meta = {

@@ -1,0 +1,22 @@
+.aspectRatio {
+  width: 100%;
+  aspect-ratio: var(--aspect-ratio);
+}
+
+figure.aspectRatio {
+  margin: 0;
+}
+
+.aspectRatio > :is(img, video, iframe) {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.aspectRatio > :is(img, video) {
+  object-fit: cover;
+}
+
+.aspectRatio > iframe {
+  border: 0;
+}

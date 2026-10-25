@@ -1,8 +1,9 @@
 import type { CSSProperties, ReactNode } from "react";
 import {
-  Alert, AlertDialog, AlertDialogClose, AlertDialogContent, AlertDialogTrigger, AspectRatio, Avatar, AvatarGroup, Badge, Button, ButtonGroup, ButtonGroupSeparator, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, CaretDownIcon, Checkbox, CheckIcon, Field, GearIcon, Heading, Input, Menu, Progress, Slider, Stack, Switch, Tabs, Text,
+  Alert, AlertDialog, AlertDialogClose, AlertDialogContent, AlertDialogTrigger, AspectRatio, Avatar, AvatarGroup, Badge, Button, ButtonGroup, ButtonGroupSeparator, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, CaretDownIcon, Checkbox, CheckIcon, Field, GearIcon, Heading, Input, Progress, Slider, Stack, Switch, Tabs, Text,
 } from "@/ui";
 import { CodeBlock } from "@/ui/server";
+import { ButtonGroupSplitExample } from "./ButtonGroupExamples";
 import { Demo } from "./Demo";
 import styles from "./Examples.module.css";
 
@@ -86,7 +87,7 @@ const registry: Record<string, Example[]> = {
     ]}
   />
 </ButtonGroup>`,
-      <ButtonGroup aria-label="Deploy"><Button>Deploy</Button><Menu label="Options" variant="primary" items={[{ label: "Deploy to staging", onSelect: () => {} }, { label: "Deploy to production", onSelect: () => {} }]} /></ButtonGroup>,
+      <ButtonGroupSplitExample />,
       "A Menu trigger joins the group like a button, giving you a split-button pattern.",
     ),
   ],

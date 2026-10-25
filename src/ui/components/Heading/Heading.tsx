@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react";
 import { cx } from "../../utils/cx";
+import { slugify, textFromNode } from "../../utils/slugify";
 import styles from "./Heading.module.css";
 
 /** Heading elements. The element sets the document outline; `size` sets only the look. */
@@ -27,11 +28,14 @@ export type HeadingProps = {
 
 /**
  * A heading. Separates semantics (`as`) from appearance (`size`). Headings are always upright and semibold.
+ * When `id` is omitted, a stable slug of the text is used, so anchors render the same on the server and the client.
  *
  * @example
  * <Heading as="h1">Page title</Heading>
  * <Heading as="h2" size={4}>Smaller-looking section title</Heading>
  */
-export function Heading({ as: Component = "h2", size, weight, className, ...rest }: HeadingProps) {
-  return <Component className={cx(styles.heading, styles[`s${size ?? defaultSize[Component]}`], weight && styles[`weight-${weight}`], className)} {...rest} />;
+export function Heading({ as: Component = "h2", size, weight, className, id, children, ...rest }: HeadingProps) {
+  const text = textFromNode(children).trim();
+  const headingId = id ?? (text ? slugify(text) : undefined);
+  return <Component id={headingId} className={cx(styles.heading, styles[`s${size ?? defaultSize[Component]}`], weight && styles[`weight-${weight}`], className)} {...rest}>{children}</Component>;
 }

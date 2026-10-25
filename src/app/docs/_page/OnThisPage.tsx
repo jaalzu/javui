@@ -7,14 +7,6 @@ import layout from "../_layout/DocsLayout.module.css";
 
 type Item = { id: string; label: string; level: 2 | 3 };
 
-const slug = (text: string) =>
-  text
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "") || "section";
-
 /** Index of the headings in the page that is being read. */
 export function OnThisPage() {
   const pathname = usePathname();
@@ -43,33 +35,18 @@ export function OnThisPage() {
       const article = main.querySelector("article");
       if (!article) return;
 
-      const used = new Set(
-        Array.from(article.querySelectorAll<HTMLElement>("[id]")).map(
-          (el) => el.id,
-        ),
-      );
       const headings = Array.from(
-        article.querySelectorAll<HTMLHeadingElement>("h2, h3"),
+        article.querySelectorAll<HTMLHeadingElement>("h2[id], h3[id]"),
       ).filter(
         (h) =>
           !h.closest("[data-doc-example]") && !h.closest("[data-doc-skip]"),
       );
 
-      const next = headings.map<Item>((heading) => {
-        if (!heading.id) {
-          const base = slug(heading.textContent ?? "");
-          let id = base;
-          let n = 2;
-          while (used.has(id)) id = `${base}-${n++}`;
-          heading.id = id;
-          used.add(id);
-        }
-        return {
-          id: heading.id,
-          label: heading.textContent?.trim() ?? heading.id,
-          level: heading.tagName === "H3" ? 3 : 2,
-        };
-      });
+      const next = headings.map<Item>((heading) => ({
+        id: heading.id,
+        label: heading.textContent?.trim() ?? heading.id,
+        level: heading.tagName === "H3" ? 3 : 2,
+      }));
 
       const same =
         next.length === latest.length &&
@@ -110,8 +87,8 @@ export function OnThisPage() {
       <div className={layout.tocScroll}>
         <p className={layout.tocTitle}>On this page</p>
         <ul className={layout.tocList}>
-          {items.map((item) => (
-            <li key={item.id}>
+          {items.map((item, i) => (
+            <li key={`${item.id}-${i}`}>
               <Link
                 href={`#${item.id}`}
                 tone="inherit"

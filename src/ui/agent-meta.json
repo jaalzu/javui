@@ -89,21 +89,27 @@
     "category": "layout",
     "base": "own",
     "renders": "div (or `as`) with display:grid",
-    "composition": "`columns` is a number (equal columns) or a full grid-template-columns string.",
+    "composition": "`columns` is a number (equal columns), a full grid-template-columns string, or a per-breakpoint object. `minColumnWidth` uses automatic columns and overrides `columns`.",
     "whenToUse": "Two-dimensional layouts and card grids.",
     "avoid": [
       "One-dimensional layouts: use Stack."
     ],
-    "a11y": "Visual order should match DOM order."
+    "a11y": "Visual order should match DOM order.",
+    "choosing": [
+      "Cards, tiles and galleries: use `minColumnWidth` (for example `\"16rem\"`). Columns fit automatically, with no breakpoints.",
+      "Fixed layouts that change by screen (sidebar plus content, 1/2/3 columns): use the responsive `columns` object, for example `{ base: 1, md: 2, lg: 4 }`.",
+      "Unequal columns: pass a string such as `\"2fr 1fr\"`, optionally per breakpoint, for example `{ base: 1, lg: \"2fr 1fr\" }`."
+    ]
   },
   "Container": {
     "category": "layout",
     "base": "own",
     "renders": "div (or `as`), centered with a max width",
-    "composition": "`size` is one of sm, md, lg, xl (container tokens).",
+    "composition": "`size` is one of sm, md, lg, xl (container tokens) and limits the content width, not the padding. `padding` uses the spacing scale.",
     "whenToUse": "Page-level width limit and side padding.",
     "avoid": [
-      "Nesting containers."
+      "Nesting containers.",
+      "Full-width sections: put the background on the section and the Container inside it."
     ],
     "a11y": "Use `as=\"main\"` once per page for the primary content."
   },

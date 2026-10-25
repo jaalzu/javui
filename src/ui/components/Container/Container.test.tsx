@@ -6,7 +6,12 @@ import { Container } from "./Container";
 describe("Container", () => {
   it("limits width with the size token", () => {
     render(<Container data-testid="c" size="md">x</Container>);
-    expect(screen.getByTestId("c").style.maxWidth).toBe("var(--container-md)");
+    expect(screen.getByTestId("c").style.getPropertyValue("--container-max")).toBe("var(--container-md)");
+  });
+
+  it("sets the padding variable only when padding is passed", () => {
+    render(<Container data-testid="c" padding="4">x</Container>);
+    expect(screen.getByTestId("c").style.getPropertyValue("--container-padding")).toBe("var(--space-4)");
   });
 
   it("renders main as a landmark", () => {

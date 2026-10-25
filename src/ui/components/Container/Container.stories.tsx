@@ -23,4 +23,5 @@ type Story = StoryObj<typeof meta>;
 
 export const Medium: Story = {};
 export const Small: Story = { args: { size: "sm" } };
+export const CustomPadding: Story = { args: { padding: "4" } };
 export const Dark: Story = { globals: { theme: "dark" } };

@@ -14,6 +14,7 @@ type Entry = {
   name: string; category: string; base: string; description: string; import: string; renders: string;
   composition: string; whenToUse: string; avoid: string[]; accessibility: string; props: Prop[]; extends: string; examples: string[];
   callout?: string;
+  choosing?: string[];
   parts?: Entry[];
 };
 type Manifest = { components: Entry[]; providersAndHooks: Entry[] };
@@ -128,6 +129,13 @@ async function ComponentContent({ params }: ComponentPageProps) {
       <p>Renders: {c.renders}.</p>
 
       <Examples name={c.name} />
+
+      {c.choosing?.length ? (
+        <>
+          <Heading as="h2" size={6}>Choosing</Heading>
+          <ul>{c.choosing.map((a) => <li key={a}><Inline text={a} /></li>)}</ul>
+        </>
+      ) : null}
 
       <Heading as="h2" size={6}>When to use it</Heading>
       <p><Inline text={c.whenToUse} /></p>

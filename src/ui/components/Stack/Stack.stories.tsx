@@ -32,4 +32,10 @@ export const AsList: Story = {
     )),
   },
 };
+export const Responsive: Story = {
+  args: {
+    direction: { base: "column", md: "row" },
+    gap: { base: "3", md: "6" },
+  },
+};
 export const Dark: Story = { globals: { theme: "dark" } };

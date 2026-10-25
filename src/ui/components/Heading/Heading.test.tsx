@@ -26,6 +26,11 @@ describe("Heading", () => {
     expect(el).toHaveClass("extra");
   });
 
+  it("derives a stable id from the text when none is given", () => {
+    render(<Heading>When to use it</Heading>);
+    expect(screen.getByRole("heading")).toHaveAttribute("id", "when-to-use-it");
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(
       <main>

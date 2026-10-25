@@ -88,7 +88,7 @@
       "name": "Heading",
       "category": "typography",
       "base": "Own component",
-      "description": "A heading. Separates semantics (`as`) from appearance (`size`). Headings are always upright and semibold.",
+      "description": "A heading. Separates semantics (`as`) from appearance (`size`). Headings are always upright and semibold.\nWhen `id` is omitted, a stable slug of the text is used, so anchors render the same on the server and the client.",
       "import": "import { Heading } from \"@/ui\";",
       "renders": "h1-h6 from `as` (default h2)",
       "composition": "`as` sets the outline level (h1-h6 only); `size` sets only the look.",
@@ -288,7 +288,7 @@
       "name": "Stack",
       "category": "layout",
       "base": "Own component",
-      "description": "One-dimensional layout: children in a row or column with a token-based gap.",
+      "description": "One-dimensional layout: children in a row or column with a token-based gap.\n\n`direction` and `gap` accept a per-breakpoint object. Breakpoints are mobile-first:\n`sm` 40rem, `md` 48rem, `lg` 64rem, `xl` 80rem. A missing breakpoint inherits the\nsmaller one, so `{ md: \"row\" }` stays `column` below 48rem.",
       "import": "import { Stack } from \"@/ui\";",
       "renders": "div (or `as`) with display:flex",
       "composition": "`as=\"ul\"` or `\"ol\"` requires `li` children.",
@@ -315,17 +315,17 @@
         },
         {
           "name": "direction",
-          "type": "\"row\" | \"column\"",
+          "type": "Responsive<\"row\" | \"column\">",
           "required": false,
           "default": "column",
-          "description": "Main axis. `column` stacks vertically."
+          "description": "Main axis. `column` stacks vertically. Pass a per-breakpoint object to change it responsively;\nmobile-first, a missing breakpoint inherits the smaller one."
         },
         {
           "name": "gap",
-          "type": "\"0\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\" | \"6\" | \"8\" | \"10\" | \"12\" | \"16\"",
+          "type": "Responsive<Space>",
           "required": false,
           "default": "4",
-          "description": "Space between children, from the spacing scale."
+          "description": "Space between children, from the spacing scale. Pass a per-breakpoint object to change it\nresponsively; mobile-first, a missing breakpoint inherits the smaller one."
         },
         {
           "name": "justify",
@@ -344,7 +344,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Stack gap=\"3\">\n  <Heading as=\"h2\">Title</Heading>\n  <Text>Body</Text>\n</Stack>\n<Stack as=\"ul\" gap=\"2\"><li>One</li><li>Two</li></Stack>"
+        "<Stack gap=\"3\">\n  <Heading as=\"h2\">Title</Heading>\n  <Text>Body</Text>\n</Stack>\n<Stack as=\"ul\" gap=\"2\"><li>One</li><li>Two</li></Stack>\n<Stack direction={{ base: \"column\", md: \"row\" }} gap={{ base: \"3\", md: \"6\" }}>\n  <Card>One</Card>\n  <Card>Two</Card>\n</Stack>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Stack/Stack.tsx"
     },
@@ -352,15 +352,20 @@
       "name": "Grid",
       "category": "layout",
       "base": "Own component",
-      "description": "Two-dimensional layout using CSS grid with a token-based gap.",
+      "description": "Two-dimensional layout using CSS grid with a token-based gap.\n\nBreakpoints are mobile-first: `sm` 40rem, `md` 48rem, `lg` 64rem, `xl` 80rem.\nA missing breakpoint inherits the smaller one.",
       "import": "import { Grid } from \"@/ui\";",
       "renders": "div (or `as`) with display:grid",
-      "composition": "`columns` is a number (equal columns) or a full grid-template-columns string.",
+      "composition": "`columns` is a number (equal columns), a full grid-template-columns string, or a per-breakpoint object. `minColumnWidth` uses automatic columns and overrides `columns`.",
       "whenToUse": "Two-dimensional layouts and card grids.",
       "avoid": [
         "One-dimensional layouts: use Stack."
       ],
       "accessibility": "Visual order should match DOM order.",
+      "choosing": [
+        "Cards, tiles and galleries: use `minColumnWidth` (for example `\"16rem\"`). Columns fit automatically, with no breakpoints.",
+        "Fixed layouts that change by screen (sidebar plus content, 1/2/3 columns): use the responsive `columns` object, for example `{ base: 1, md: 2, lg: 4 }`.",
+        "Unequal columns: pass a string such as `\"2fr 1fr\"`, optionally per breakpoint, for example `{ base: 1, lg: \"2fr 1fr\" }`."
+      ],
       "props": [
         {
           "name": "align",
@@ -384,17 +389,23 @@
         },
         {
           "name": "columns",
-          "type": "string | number",
+          "type": "Responsive<string | number>",
           "required": false,
           "default": "1",
-          "description": "Number of equal columns (`3`), or a full `grid-template-columns` value\n(`\"2fr 1fr\"`, `\"repeat(auto-fit, minmax(16rem, 1fr))\"`)."
+          "description": "Number of equal columns (`3`), or a full `grid-template-columns` value\n(`\"2fr 1fr\"`). Pass a per-breakpoint object to change it responsively;\nmobile-first, a missing breakpoint inherits the smaller one."
         },
         {
           "name": "gap",
-          "type": "\"0\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\" | \"6\" | \"8\" | \"10\" | \"12\" | \"16\"",
+          "type": "Responsive<Space>",
           "required": false,
           "default": "4",
-          "description": "Space between rows and columns, from the spacing scale."
+          "description": "Space between rows and columns, from the spacing scale. Pass a per-breakpoint object\nto change it responsively; mobile-first, a missing breakpoint inherits the smaller one."
+        },
+        {
+          "name": "minColumnWidth",
+          "type": "string",
+          "required": false,
+          "description": "Minimum width for automatic columns, for example `\"16rem\"`. Uses `auto-fit` with no\nbreakpoints and overrides `columns`. `min(100%, X)` prevents overflow on narrow screens."
         },
         {
           "name": "rowGap",
@@ -405,7 +416,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Grid columns={3} gap=\"4\">...</Grid>\n<Grid columns=\"repeat(auto-fit, minmax(16rem, 1fr))\">...</Grid>"
+        "<Grid columns={3} gap=\"4\">...</Grid>\n<Grid columns=\"2fr 1fr\">...</Grid>\n<Grid minColumnWidth=\"16rem\" gap=\"4\">...</Grid>\n<Grid columns={{ base: 1, md: 2, lg: 4 }} gap={{ base: \"3\", md: \"6\" }}>...</Grid>\n<Grid columns={{ base: 1, lg: \"2fr 1fr\" }}>...</Grid>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Grid/Grid.tsx"
     },
@@ -413,13 +424,14 @@
       "name": "Container",
       "category": "layout",
       "base": "Own component",
-      "description": "Centers content and limits its width, with side padding from the spacing scale.",
+      "description": "Centers content and limits its width, with side padding from the spacing scale.\nThe maximum width applies to the content, not to the padding.",
       "import": "import { Container } from \"@/ui\";",
       "renders": "div (or `as`), centered with a max width",
-      "composition": "`size` is one of sm, md, lg, xl (container tokens).",
+      "composition": "`size` is one of sm, md, lg, xl (container tokens) and limits the content width, not the padding. `padding` uses the spacing scale.",
       "whenToUse": "Page-level width limit and side padding.",
       "avoid": [
-        "Nesting containers."
+        "Nesting containers.",
+        "Full-width sections: put the background on the section and the Container inside it."
       ],
       "accessibility": "Use `as=\"main\"` once per page for the primary content.",
       "props": [
@@ -431,6 +443,13 @@
           "description": "Element to render. Use `main` once per page for the primary content."
         },
         {
+          "name": "padding",
+          "type": "\"0\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\" | \"6\" | \"8\" | \"10\" | \"12\" | \"16\"",
+          "required": false,
+          "default": "\"6\"",
+          "description": "Side padding from the spacing scale. Override `--container-padding` for a custom value."
+        },
+        {
           "name": "size",
           "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
           "required": false,
@@ -440,7 +459,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Container as=\"main\" size=\"md\">...</Container>"
+        "<Container as=\"main\" size=\"md\">...</Container>\n<Container size=\"lg\" padding=\"4\">...</Container>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Container/Container.tsx"
     },

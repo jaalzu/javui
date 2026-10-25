@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import {
-  Accordion, Alert, AlertDialog, AlertDialogClose, AlertDialogContent, AlertDialogTrigger, AspectRatio, Avatar, AvatarGroup, Badge, Button, ButtonGroup, ButtonGroupSeparator, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, CaretDownIcon, Checkbox, CheckIcon, Field, GearIcon, Heading, Input, Progress, Slider, Stack, Switch, Tabs, Text,
+  Accordion, Alert, AlertDialog, AlertDialogClose, AlertDialogContent, AlertDialogTrigger, AspectRatio, Avatar, AvatarGroup, Badge, Button, ButtonGroup, ButtonGroupSeparator, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, CaretDownIcon, Checkbox, CheckIcon, Field, GearIcon, Heading, Input, Link, Progress, Slider, Stack, Switch, Tabs, Text,
 } from "@/ui";
 import { CodeBlock } from "@/ui/server";
 import { ButtonGroupSplitExample } from "./ButtonGroupExamples";
@@ -193,10 +193,59 @@ const registry: Record<string, Example[]> = {
     ex("Outline", `<Badge variant="outline">3 sources</Badge>`, <Badge variant="outline">3 sources</Badge>),
   ],
   Alert: [
-    ex("Info", `<Alert tone="info" title="Heads up">Your trial ends in 3 days.</Alert>`, <Alert tone="info" title="Heads up">Your trial ends in 3 days.</Alert>),
-    ex("Success", `<Alert tone="success" title="Saved">Your changes are live.</Alert>`, <Alert tone="success" title="Saved">Your changes are live.</Alert>),
-    ex("Warning", `<Alert tone="warning" title="Almost full">You have used 90% of your storage.</Alert>`, <Alert tone="warning" title="Almost full">You have used 90% of your storage.</Alert>),
-    ex("Danger", `<Alert tone="danger" title="Could not save">Check your connection and try again.</Alert>`, <Alert tone="danger" title="Could not save">Check your connection and try again.</Alert>, "Danger and warning are announced right away by screen readers."),
+    ex(
+      "Basic",
+      `<Alert title="A new dashboard is available">
+  Your reports moved to the new overview.
+</Alert>`,
+      <Alert title="A new dashboard is available">Your reports moved to the new overview.</Alert>,
+      "The neutral tone for a general message.",
+    ),
+    ex(
+      "Error",
+      `<Alert tone="error" title="Could not save">Check your connection and try again.</Alert>`,
+      <Alert tone="error" title="Could not save">Check your connection and try again.</Alert>,
+      "Error and warning are announced right away by screen readers.",
+    ),
+    ex(
+      "Info",
+      `<Alert tone="info" title="Heads up">Your trial ends in 3 days.</Alert>`,
+      <Alert tone="info" title="Heads up">Your trial ends in 3 days.</Alert>,
+    ),
+    ex(
+      "Action",
+      `<Alert tone="warning" title="Storage almost full">
+  You have used 90% of your plan.
+  <Stack direction="row" gap="3" align="center">
+    <Button size="sm">Upgrade</Button>
+    <Text as="span" variant="body" size="sm">
+      <Link href="/docs" tone="muted">Compare plans</Link>
+    </Text>
+  </Stack>
+</Alert>`,
+      <Alert tone="warning" title="Storage almost full">
+        <Stack gap="3">
+          You have used 90% of your plan.
+          <Stack direction="row" gap="3" align="center">
+            <Button size="sm">Upgrade</Button>
+            <Text as="span" variant="body" size="sm">
+              <Link href="/docs" tone="muted">Compare plans</Link>
+            </Text>
+          </Stack>
+        </Stack>
+      </Alert>,
+      "Actions go in the content, left aligned: a primary button and a muted secondary link.",
+    ),
+    ex(
+      "Custom color",
+      `<Alert style={{ "--alert-tone": "oklch(55% 0.19 350)" }} title="Beta">
+  This page is part of the beta program.
+</Alert>`,
+      <Alert style={{ "--alert-tone": "oklch(55% 0.19 350)" } as CSSProperties} title="Beta">
+        This page is part of the beta program.
+      </Alert>,
+      "Override `--alert-tone` with any color: icon, title, border and background follow it.",
+    ),
   ],
   AlertDialog: [
     ex(
@@ -367,11 +416,12 @@ export function Examples({ name }: { name: string }) {
   const items = registry[name];
   if (!items) return null;
   const fixed = name === "Accordion";
+  const full = name === "Alert";
   const sections = items.map((e) => (
     <section key={e.title} aria-labelledby={`ex-${e.title.replace(/\W+/g, "-")}`}>
       <Heading as="h3" size={6} id={`ex-${e.title.replace(/\W+/g, "-")}`}>{e.title}</Heading>
       {e.description && <p className={styles.exampleNote}>{e.description}</p>}
-      <ExampleFrame code={e.code} fixed={fixed} stageHeight={e.stageHeight}>{e.node}</ExampleFrame>
+      <ExampleFrame code={e.code} full={full} fixed={fixed} stageHeight={e.stageHeight}>{e.node}</ExampleFrame>
     </section>
   ));
   return (

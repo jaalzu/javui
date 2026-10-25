@@ -152,6 +152,7 @@
   --motion-scale-tooltip: 0.97; /** Starting scale of tooltips. */
   --motion-scale-modal: 0.96; /** Starting scale of dialogs, which stay centered. */
   --color-component: oklch(0 0 0 / 0.05); /** Background of interactive controls at rest: inputs, secondary buttons, toggles. */
+  --color-warning-bright: oklch(0.62 0.16 88); /** Brighter, more saturated warning for a tone that must read as yellow, such as an alert icon, title, border and background. The solid step stays darker for text on a solid fill. */
   --color-overlay: oklch(0 0 0 / 0.4); /** Backdrop behind dialogs. */
   --shadow-inset-ring: inset 0 0 0 1px #00000014; /** A quiet 1px ring drawn inside the edge, so it never grows the box or reads as a heavy border. Use it on badges, chips and selected states. */
   --shadow-default: 0 0 0 1px #0000000f, 0 1px 2px #0000001a; /** A small lift for controls at rest that should feel pressable: slider thumbs, raised buttons, tabs. */
@@ -294,6 +295,7 @@
     color-scheme: dark;
       --color-component: oklch(1 0 0 / 0.102); /** Background of interactive controls at rest: inputs, secondary buttons, toggles. */
       --color-inverted-solid: #e5e5e6; /** Primary action background: the main button. */
+      --color-warning-bright: oklch(0.82 0.15 88); /** Brighter, more saturated warning for a tone that must read as yellow, such as an alert icon, title, border and background. The solid step stays darker for text on a solid fill. */
       --color-overlay: oklch(0 0 0 / 0.6); /** Backdrop behind dialogs. */
       --shadow-inset-ring: inset 0 0 0 1px #ffffff14; /** A quiet 1px ring drawn inside the edge, so it never grows the box or reads as a heavy border. Use it on badges, chips and selected states. */
       --shadow-default: 0 0 0 1px #ffffff12, 0 1px 2px #00000066; /** A small lift for controls at rest that should feel pressable: slider thumbs, raised buttons, tabs. */
@@ -372,6 +374,7 @@
   color-scheme: dark;
     --color-component: oklch(1 0 0 / 0.102); /** Background of interactive controls at rest: inputs, secondary buttons, toggles. */
     --color-inverted-solid: #e5e5e6; /** Primary action background: the main button. */
+    --color-warning-bright: oklch(0.82 0.15 88); /** Brighter, more saturated warning for a tone that must read as yellow, such as an alert icon, title, border and background. The solid step stays darker for text on a solid fill. */
     --color-overlay: oklch(0 0 0 / 0.6); /** Backdrop behind dialogs. */
     --shadow-inset-ring: inset 0 0 0 1px #ffffff14; /** A quiet 1px ring drawn inside the edge, so it never grows the box or reads as a heavy border. Use it on badges, chips and selected states. */
     --shadow-default: 0 0 0 1px #ffffff12, 0 1px 2px #00000066; /** A small lift for controls at rest that should feel pressable: slider thumbs, raised buttons, tabs. */

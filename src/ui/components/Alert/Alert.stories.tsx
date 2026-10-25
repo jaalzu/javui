@@ -15,17 +15,18 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Info: Story = {};
+export const Neutral: Story = {};
 export const WithIcons: Story = {
   args: { startIcon: <InfoIcon />, endIcon: <ArrowRightIcon /> },
 };
 export const Tones: Story = {
   render: () => (
     <Stack gap="3">
-      <Alert title="Info">Neutral information about the page.</Alert>
+      <Alert title="Note">A general message on the page.</Alert>
+      <Alert tone="info" title="Info">Relevant information about the page.</Alert>
       <Alert tone="success" title="Saved">Your changes were saved.</Alert>
       <Alert tone="warning" title="Careful">This action affects other people.</Alert>
-      <Alert tone="danger" title="Payment failed">Check your card details and try again.</Alert>
+      <Alert tone="error" title="Payment failed">Check your card details and try again.</Alert>
     </Stack>
   ),
 };

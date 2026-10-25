@@ -183,10 +183,7 @@ const demos: Record<string, () => ReactNode> = {
     </Card>
   ),
   Alert: () => (
-    <Stack gap="3">
-      <Alert tone="info" title="Heads up">Your trial ends in 3 days.</Alert>
-      <Alert tone="danger" title="Could not save">Check your connection and try again.</Alert>
-    </Stack>
+    <Alert title="A new dashboard is available">Your reports moved to the new overview.</Alert>
   ),
   Avatar: () => (
     <Stack direction="row" gap="3" align="center">

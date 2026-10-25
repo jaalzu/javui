@@ -5,10 +5,10 @@ import { IconSlot } from "../Icon/IconSlot";
 import { CheckCircleIcon, InfoIcon, WarningIcon, XCircleIcon } from "../../icons/icons.generated";
 import styles from "./Alert.module.css";
 
-export type AlertTone = "info" | "success" | "warning" | "danger";
+export type AlertTone = "neutral" | "info" | "success" | "warning" | "error";
 
 export type AlertProps = {
-  /** Meaning of the message. It changes the icon shape as well as the color, so it never relies on color alone. @default "info" */
+  /** Meaning of the message. It changes the icon shape as well as the color, so it never relies on color alone. @default "neutral" */
   tone?: AlertTone;
   /** Short heading of the message. */
   title?: ReactNode;
@@ -19,24 +19,28 @@ export type AlertProps = {
 } & Omit<ComponentProps<"div">, "color" | "title">;
 
 const glyph = {
+  neutral: InfoIcon,
   info: InfoIcon,
   success: CheckCircleIcon,
   warning: WarningIcon,
-  danger: XCircleIcon,
+  error: XCircleIcon,
 } satisfies Record<AlertTone, typeof InfoIcon>;
 
 /**
- * An inline message about the state of the page or a form. `danger` and `warning` use `role="alert"`
- * (announced immediately); `info` and `success` use `role="status"` (announced politely).
- * For short-lived feedback after an action, use `useToast` instead.
+ * An inline message about the state of the page or a form. `neutral` is the default; `error` and
+ * `warning` are announced immediately, the rest politely. Put optional actions in `children`;
+ * for short-lived feedback use `useToast` instead.
  *
  * @example
- * <Alert tone="danger" title="Payment failed">Check your card details and try again.</Alert>
+ * <Alert title="New dashboard">Take a look at your updated reports.</Alert>
+ *
+ * @example
+ * <Alert tone="error" title="Payment failed">Check your card details and try again.</Alert>
  *
  * Icons use the 20px medium size (the alert has no size variants).
  */
 export function Alert({
-  tone = "info",
+  tone = "neutral",
   title,
   startIcon,
   endIcon,
@@ -44,7 +48,7 @@ export function Alert({
   children,
   ...rest
 }: AlertProps) {
-  const role = tone === "danger" || tone === "warning" ? "alert" : "status";
+  const role = tone === "error" || tone === "warning" ? "alert" : "status";
   const Glyph = glyph[tone];
   const position = iconPosition({ startIcon: startIcon ?? Glyph, endIcon });
   return (

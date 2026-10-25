@@ -10,6 +10,7 @@
 
 @theme inline {
   --color-component: var(--color-component);
+  --color-warning-bright: var(--color-warning-bright);
   --color-overlay: var(--color-overlay);
   --color-page: var(--color-page);
   --color-card: var(--color-card);

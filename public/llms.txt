@@ -41,7 +41,7 @@
 ### feedback
 - **Spinner**: Indeterminate loading of an action or small region.
 - **Skeleton**: Placeholder for content whose layout is known while it loads.
-- **Alert**: A message that stays on the page and the user must notice, such as a failed save or a warning.
+- **Alert**: A message that stays on the page and the user must notice: a general note (neutral), relevant information (info), a completed operation (success), something that needs attention (warning) or a failed operation (error).
 - **Progress**: Showing how far a task has got.
 - **EmptyState**: A region that has no content yet, with a next step.
 

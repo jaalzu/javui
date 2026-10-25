@@ -41,7 +41,7 @@
 ### feedback
 - **Spinner**: Indeterminate loading of an action or small region.
 - **Skeleton**: Placeholder for content whose layout is known while it loads.
-- **Alert**: A message that stays on the page and the user must notice, such as a failed save or a warning.
+- **Alert**: A message that stays on the page and the user must notice: a general note (neutral), relevant information (info), a completed operation (success), something that needs attention (warning) or a failed operation (error).
 - **Progress**: Showing how far a task has got.
 - **EmptyState**: A region that has no content yet, with a next step.
 
@@ -252,7 +252,7 @@ lg 24px.
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Height and type scale: `sm` 20px, `md` 24px, `lg` 28px. |
 | `spinnerPosition` | `"start" \| "end"` | no | start | Side the spinner sits on. |
 | `startIcon` | `ReactNode` | no |  | Icon before the text. Pass a generated icon without `size`; the badge sizes it. |
-| `variant` | `"success" \| "danger" \| "outline" \| "default" \| "inverted" \| "brand"` | no | default | Visual treatment. `default` is a quiet component surface, `inverted` a filled high-contrast pill, `outline` only an inset ring, and `brand`, `success` and `danger` are soft semantic tints (translucent background, colored text). |
+| `variant` | `"success" \| "outline" \| "danger" \| "default" \| "inverted" \| "brand"` | no | default | Visual treatment. `default` is a quiet component surface, `inverted` a filled high-contrast pill, `outline` only an inset ring, and `brand`, `success` and `danger` are soft semantic tints (translucent background, colored text). |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -569,7 +569,7 @@ undefined | Icon after the label. Pass a generated icon without `size`; the butt
 | `loading` | `boolean` | no | false | Shows a spinner and ignores clicks while an action is running. The button keeps its label and stays focusable, and `aria-busy` tells assistive technology it is working. |
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. |
 | `startIcon` | `ReactNode` | no | undefined | Icon before the label. Pass a generated icon without `size`; the button sizes it. The visible icon and accessible name. Pass a generated icon without `size`. |
-| `variant` | `"danger" \| "primary" \| "secondary" \| "outline" \| "ghost" \| "accent"` | no | primary | Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions, `outline` for a transparent button with a visible border, `ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions. |
+| `variant` | `"primary" \| "secondary" \| "outline" \| "ghost" \| "accent" \| "danger"` | no | primary | Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions, `outline` for a transparent button with a visible border, `ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1005,7 +1005,7 @@ The button that opens the dialog. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
-| `variant` | `"danger" \| "primary" \| "secondary" \| "outline" \| "ghost" \| "accent"` | no | primary | Button style of the trigger. |
+| `variant` | `"primary" \| "secondary" \| "outline" \| "ghost" \| "accent" \| "danger"` | no | primary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1064,7 +1064,7 @@ A button that closes the dialog. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size. |
-| `variant` | `"danger" \| "primary" \| "secondary" \| "outline" \| "ghost" \| "accent"` | no | secondary | Button style. |
+| `variant` | `"primary" \| "secondary" \| "outline" \| "ghost" \| "accent" \| "danger"` | no | secondary | Button style. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1128,7 +1128,7 @@ The button that opens the alert dialog. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
-| `variant` | `"danger" \| "primary" \| "secondary" \| "outline" \| "ghost" \| "accent"` | no | primary | Button style of the trigger. |
+| `variant` | `"primary" \| "secondary" \| "outline" \| "ghost" \| "accent" \| "danger"` | no | primary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1190,7 +1190,7 @@ A button that closes the alert dialog. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size. |
-| `variant` | `"danger" \| "primary" \| "secondary" \| "outline" \| "ghost" \| "accent"` | no | secondary | Button style. Use `danger` for the destructive action. |
+| `variant` | `"primary" \| "secondary" \| "outline" \| "ghost" \| "accent" \| "danger"` | no | secondary | Button style. Use `danger` for the destructive action. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1293,7 +1293,7 @@ An icon-only link is valid only with `startIcon` and an accessible name (`aria-l
 undefined | Icon after the label. Pass a generated icon without `size`; the link sizes it. |
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. |
 | `startIcon` | `ReactNode` | no | undefined | Icon before the label. Pass a generated icon without `size`; the link sizes it. The visible icon and accessible name. Pass a generated icon without `size`. |
-| `variant` | `"danger" \| "primary" \| "secondary" \| "outline" \| "ghost" \| "accent"` | no | primary | Visual emphasis, the same as `Button`. `primary` is the main call to action (one per view). |
+| `variant` | `"primary" \| "secondary" \| "outline" \| "ghost" \| "accent" \| "danger"` | no | primary | Visual emphasis, the same as `Button`. `primary` is the main call to action (one per view). |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -1465,21 +1465,22 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## Alert
 
-An inline message about the state of the page or a form. `danger` and `warning` use `role="alert"`
-(announced immediately); `info` and `success` use `role="status"` (announced politely).
-For short-lived feedback after an action, use `useToast` instead.
+An inline message about the state of the page or a form. `neutral` is the default; `error` and
+`warning` are announced immediately, the rest politely. Put optional actions in `children`;
+for short-lived feedback use `useToast` instead.
 
 - Category: feedback
 - Base: Own component
 - Import: `import { Alert } from "@/ui";`
-- Renders: div with role alert (danger, warning) or role status (info, success)
-- Composition: Pass `tone`, optional `title`, and the message as children. `startIcon` replaces the tone glyph; `endIcon` adds a trailing icon (generated icons, no `size`; the single-size alert uses 20px icons).
-- Use when: A message that stays on the page and the user must notice, such as a failed save or a warning.
+- Renders: div with role alert (error, warning) or role status (neutral, info, success)
+- Composition: Pass `tone` (default `neutral`), an optional `title` and optional content; both can appear alone. Actions (Button, Link or both) go in the content. `startIcon` replaces the tone glyph and `endIcon` adds a trailing icon (no `size`). Icon, title, border and background share one tone color; override `--alert-tone` to change it.
+- Use when: A message that stays on the page and the user must notice: a general note (neutral), relevant information (info), a completed operation (success), something that needs attention (warning) or a failed operation (error).
 - Avoid:
   - Short-lived confirmations: use Toast.
   - Using color alone: the tone also changes the icon and you should say it in the text.
   - Confirming a destructive action: use AlertDialog.
-- Accessibility: Announced by screen readers on render. The icon is decorative and each tone has a different shape.
+  - Adding visual variants or extra props before a concrete need exists.
+- Accessibility: Announced by screen readers on render. The icon is decorative, and the tone never relies on color alone: the text says what happened.
 
 ### Props
 | Prop | Type | Required | Default | Description |
@@ -1487,15 +1488,13 @@ For short-lived feedback after an action, use `useToast` instead.
 | `endIcon` | `ReactNode` | no |  | Icon at the end, for example a link arrow. Pass a generated icon without `size`. |
 | `startIcon` | `ReactNode` | no |  | Replaces the tone icon at the start. Pass a generated icon without `size`. |
 | `title` | `ReactNode` | no |  | Short heading of the message. |
-| `tone` | `"info" \| "success" \| "warning" \| "danger"` | no | info | Meaning of the message. It changes the icon shape as well as the color, so it never relies on color alone. |
+| `tone` | `"neutral" \| "info" \| "success" \| "warning" \| "error"` | no | neutral | Meaning of the message. It changes the icon shape as well as the color, so it never relies on color alone. |
 
 Also accepts the native props of the element it renders; they pass through.
 
 ### Example
 ```tsx
-<Alert tone="danger" title="Payment failed">Check your card details and try again.</Alert>
-
-Icons use the 20px medium size (the alert has no size variants).
+<Alert title="New dashboard">Take a look at your updated reports.</Alert>
 ```
 
 ## Avatar
@@ -1626,7 +1625,7 @@ The button that opens the popover. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
-| `variant` | `"danger" \| "primary" \| "secondary" \| "outline" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
+| `variant` | `"primary" \| "secondary" \| "outline" \| "ghost" \| "accent" \| "danger"` | no | secondary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1686,7 +1685,7 @@ A button that closes the popover. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | sm | Button size. |
-| `variant` | `"danger" \| "primary" \| "secondary" \| "outline" \| "ghost" \| "accent"` | no | secondary | Button style. |
+| `variant` | `"primary" \| "secondary" \| "outline" \| "ghost" \| "accent" \| "danger"` | no | secondary | Button style. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1721,7 +1720,7 @@ menu items are compact and use 16px icons.
 | `align` | `"center" \| "start" \| "end"` | no | start | Alignment of the menu against the trigger. |
 | `className` | `string` | no |  |  |
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
-| `variant` | `"danger" \| "primary" \| "secondary" \| "outline" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
+| `variant` | `"primary" \| "secondary" \| "outline" \| "ghost" \| "accent" \| "danger"` | no | secondary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -2695,6 +2694,7 @@ show({ title: "Saved", tone: "success" });
 | `--color-warning-solid-hover` | color | light `color-mix(in oklab, var(--color-warning-solid) 88%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-warning-solid) 88%, var(--color-primary-foreground))` |
 | `--color-warning-subtle` | color | light `color-mix(in oklab, var(--color-warning-solid) 12%, transparent)` / dark `color-mix(in oklab, var(--color-warning-solid) 12%, transparent)` |
 | `--color-warning-foreground` | color | light `var(--color-warning-solid)` / dark `var(--color-warning-solid)` |
+| `--color-warning-bright` | color | light `oklch(0.62 0.16 88)` / dark `oklch(0.82 0.15 88)` |
 | `--color-on-warning-solid-foreground` | color | light `var(--primitive-color-white)` / dark `var(--color-page)` |
 | `--color-info-solid` | color | light `var(--primitive-color-info-700)` / dark `var(--primitive-color-info-400)` |
 | `--color-info-solid-hover` | color | light `color-mix(in oklab, var(--color-info-solid) 88%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-info-solid) 88%, var(--color-primary-foreground))` |

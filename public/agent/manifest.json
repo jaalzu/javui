@@ -272,7 +272,7 @@
         },
         {
           "name": "variant",
-          "type": "\"success\" | \"danger\" | \"outline\" | \"default\" | \"inverted\" | \"brand\"",
+          "type": "\"success\" | \"outline\" | \"danger\" | \"default\" | \"inverted\" | \"brand\"",
           "required": false,
           "default": "default",
           "description": "Visual treatment. `default` is a quiet component surface, `inverted` a filled\nhigh-contrast pill, `outline` only an inset ring, and `brand`, `success` and\n`danger` are soft semantic tints (translucent background, colored text)."
@@ -696,7 +696,7 @@
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\"",
+          "type": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\" | \"danger\"",
           "required": false,
           "default": "primary",
           "description": "Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions,\n`outline` for a transparent button with a visible border, `ghost` for low-emphasis actions,\n`accent` for brand emphasis, `danger` for destructive actions."
@@ -1300,7 +1300,7 @@
             },
             {
               "name": "variant",
-              "type": "\"danger\" | \"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\"",
+              "type": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\" | \"danger\"",
               "required": false,
               "default": "primary",
               "description": "Button style of the trigger."
@@ -1381,7 +1381,7 @@
             },
             {
               "name": "variant",
-              "type": "\"danger\" | \"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\"",
+              "type": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\" | \"danger\"",
               "required": false,
               "default": "secondary",
               "description": "Button style."
@@ -1441,7 +1441,7 @@
             },
             {
               "name": "variant",
-              "type": "\"danger\" | \"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\"",
+              "type": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\" | \"danger\"",
               "required": false,
               "default": "primary",
               "description": "Button style of the trigger."
@@ -1529,7 +1529,7 @@
             },
             {
               "name": "variant",
-              "type": "\"danger\" | \"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\"",
+              "type": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\" | \"danger\"",
               "required": false,
               "default": "secondary",
               "description": "Button style. Use `danger` for the destructive action."
@@ -1679,7 +1679,7 @@
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\"",
+          "type": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\" | \"danger\"",
           "required": false,
           "default": "primary",
           "description": "Visual emphasis, the same as `Button`. `primary` is the main call to action (one per view)."
@@ -1869,17 +1869,18 @@
       "name": "Alert",
       "category": "feedback",
       "base": "Own component",
-      "description": "An inline message about the state of the page or a form. `danger` and `warning` use `role=\"alert\"`\n(announced immediately); `info` and `success` use `role=\"status\"` (announced politely).\nFor short-lived feedback after an action, use `useToast` instead.",
+      "description": "An inline message about the state of the page or a form. `neutral` is the default; `error` and\n`warning` are announced immediately, the rest politely. Put optional actions in `children`;\nfor short-lived feedback use `useToast` instead.",
       "import": "import { Alert } from \"@/ui\";",
-      "renders": "div with role alert (danger, warning) or role status (info, success)",
-      "composition": "Pass `tone`, optional `title`, and the message as children. `startIcon` replaces the tone glyph; `endIcon` adds a trailing icon (generated icons, no `size`; the single-size alert uses 20px icons).",
-      "whenToUse": "A message that stays on the page and the user must notice, such as a failed save or a warning.",
+      "renders": "div with role alert (error, warning) or role status (neutral, info, success)",
+      "composition": "Pass `tone` (default `neutral`), an optional `title` and optional content; both can appear alone. Actions (Button, Link or both) go in the content. `startIcon` replaces the tone glyph and `endIcon` adds a trailing icon (no `size`). Icon, title, border and background share one tone color; override `--alert-tone` to change it.",
+      "whenToUse": "A message that stays on the page and the user must notice: a general note (neutral), relevant information (info), a completed operation (success), something that needs attention (warning) or a failed operation (error).",
       "avoid": [
         "Short-lived confirmations: use Toast.",
         "Using color alone: the tone also changes the icon and you should say it in the text.",
-        "Confirming a destructive action: use AlertDialog."
+        "Confirming a destructive action: use AlertDialog.",
+        "Adding visual variants or extra props before a concrete need exists."
       ],
-      "accessibility": "Announced by screen readers on render. The icon is decorative and each tone has a different shape.",
+      "accessibility": "Announced by screen readers on render. The icon is decorative, and the tone never relies on color alone: the text says what happened.",
       "props": [
         {
           "name": "endIcon",
@@ -1901,15 +1902,15 @@
         },
         {
           "name": "tone",
-          "type": "\"info\" | \"success\" | \"warning\" | \"danger\"",
+          "type": "\"neutral\" | \"info\" | \"success\" | \"warning\" | \"error\"",
           "required": false,
-          "default": "info",
+          "default": "neutral",
           "description": "Meaning of the message. It changes the icon shape as well as the color, so it never relies on color alone."
         }
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Alert tone=\"danger\" title=\"Payment failed\">Check your card details and try again.</Alert>\n\nIcons use the 20px medium size (the alert has no size variants)."
+        "<Alert title=\"New dashboard\">Take a look at your updated reports.</Alert>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Alert/Alert.tsx"
     },
@@ -2078,7 +2079,7 @@
             },
             {
               "name": "variant",
-              "type": "\"danger\" | \"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\"",
+              "type": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\" | \"danger\"",
               "required": false,
               "default": "secondary",
               "description": "Button style of the trigger."
@@ -2173,7 +2174,7 @@
             },
             {
               "name": "variant",
-              "type": "\"danger\" | \"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\"",
+              "type": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\" | \"danger\"",
               "required": false,
               "default": "secondary",
               "description": "Button style."
@@ -2236,7 +2237,7 @@
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\"",
+          "type": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\" | \"danger\"",
           "required": false,
           "default": "secondary",
           "description": "Button style of the trigger."

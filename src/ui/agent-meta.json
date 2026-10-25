@@ -548,15 +548,16 @@
   "Alert": {
     "category": "feedback",
     "base": "own",
-    "renders": "div with role alert (danger, warning) or role status (info, success)",
-    "composition": "Pass `tone`, optional `title`, and the message as children. `startIcon` replaces the tone glyph; `endIcon` adds a trailing icon (generated icons, no `size`; the single-size alert uses 20px icons).",
-    "whenToUse": "A message that stays on the page and the user must notice, such as a failed save or a warning.",
+    "renders": "div with role alert (error, warning) or role status (neutral, info, success)",
+    "composition": "Pass `tone` (default `neutral`), an optional `title` and optional content; both can appear alone. Actions (Button, Link or both) go in the content. `startIcon` replaces the tone glyph and `endIcon` adds a trailing icon (no `size`). Icon, title, border and background share one tone color; override `--alert-tone` to change it.",
+    "whenToUse": "A message that stays on the page and the user must notice: a general note (neutral), relevant information (info), a completed operation (success), something that needs attention (warning) or a failed operation (error).",
     "avoid": [
       "Short-lived confirmations: use Toast.",
       "Using color alone: the tone also changes the icon and you should say it in the text.",
-      "Confirming a destructive action: use AlertDialog."
+      "Confirming a destructive action: use AlertDialog.",
+      "Adding visual variants or extra props before a concrete need exists."
     ],
-    "a11y": "Announced by screen readers on render. The icon is decorative and each tone has a different shape."
+    "a11y": "Announced by screen readers on render. The icon is decorative, and the tone never relies on color alone: the text says what happened."
   },
   "Avatar": {
     "category": "utility",

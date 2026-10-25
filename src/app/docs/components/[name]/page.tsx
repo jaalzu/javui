@@ -112,7 +112,7 @@ async function ComponentContent({ params }: ComponentPageProps) {
       {!noDemo.has(c.name) && (
         <>
           <Heading as="h2" className={shell.srOnly} data-doc-skip>Preview</Heading>
-          <Preview name={c.name} code={c.examples[0]} />
+          <Preview name={c.name} code={c.examples[0]} fixed={c.name === "Accordion"} stageHeight={c.name === "Accordion" ? "lg" : undefined} />
         </>
       )}
 

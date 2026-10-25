@@ -1738,12 +1738,13 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 Collapsible sections built on Base UI Accordion. Each title is a button inside an `h3`
 (`aria-expanded` and `aria-controls` come from Base UI). Pass `items` instead of composing parts.
+The plus/minus sign sits at the end: its vertical stroke collapses while opening.
 
 - Category: navigation
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Accordion } from "@/ui";`
 - Renders: div with a heading (h3) and button per item and a region per panel
-- Composition: Pass `items` ({ value, title, content, startIcon?, endIcon?, disabled? }). Icons are generated icons without `size`. Use `multiple` to allow several open.
+- Composition: Pass `items` ({ value, title, content, startIcon?, endIcon?, disabled? }). Icons are generated icons without `size`. Use `multiple` to allow several open, `disabled` to disable every item and `bordered` for a border around the whole list. To place it inside a Card use `Card` + `CardContent`.
 - Use when: Showing long content in short sections, such as FAQs.
 - Avoid:
   - Hiding content users must read.
@@ -1754,8 +1755,10 @@ Collapsible sections built on Base UI Accordion. Each title is a button inside a
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `items` | `AccordionItem[]` | yes |  | The items, in order. |
+| `bordered` | `boolean` | no | false | Draw a border and rounded corners around the whole list, not only between items. |
 | `className` | `string` | no |  |  |
 | `defaultValue` | `string[]` | no |  | Ids of the panels open at first. |
+| `disabled` | `boolean` | no | false | Disable every item. A per-item `disabled` still applies on top. |
 | `multiple` | `boolean` | no | false | Allow several panels open at once. |
 | `onValueChange` | `((value: string[]) => void)` | no |  |  |
 | `value` | `string[]` | no |  | Ids of the open panels, when you control it. |

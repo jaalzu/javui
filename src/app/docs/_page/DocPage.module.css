@@ -140,7 +140,12 @@ a.pagerNext {
 }
 
 .prose section + section {
-  margin-top: var(--space-8);
+  margin-top: var(--examples-gap, var(--space-8));
+}
+
+/* Demo content keeps the component's own rhythm; docs prose must not leak into previews. */
+[data-doc-example] :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
 }
 
 .prose section > h3 {

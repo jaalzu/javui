@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import {
-  Alert, AlertDialog, AlertDialogClose, AlertDialogContent, AlertDialogTrigger, AspectRatio, Avatar, AvatarGroup, Badge, Button, ButtonGroup, ButtonGroupSeparator, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, CaretDownIcon, Checkbox, CheckIcon, Field, GearIcon, Heading, Input, Progress, Slider, Stack, Switch, Tabs, Text,
+  Accordion, Alert, AlertDialog, AlertDialogClose, AlertDialogContent, AlertDialogTrigger, AspectRatio, Avatar, AvatarGroup, Badge, Button, ButtonGroup, ButtonGroupSeparator, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, CaretDownIcon, Checkbox, CheckIcon, Field, GearIcon, Heading, Input, Progress, Slider, Stack, Switch, Tabs, Text,
 } from "@/ui";
 import { CodeBlock } from "@/ui/server";
 import { ButtonGroupSplitExample } from "./ButtonGroupExamples";
@@ -8,10 +8,11 @@ import { Demo } from "./Demo";
 import styles from "./Examples.module.css";
 
 /** A live preview with a collapsible "View code" underneath. Uses a native `details`, so it works without extra JavaScript. */
-export function ExampleFrame({ children, code, full = false }: { children: ReactNode; code?: string; full?: boolean }) {
+export function ExampleFrame({ children, code, full = false, fixed = false, stageHeight }: { children: ReactNode; code?: string; full?: boolean; fixed?: boolean; stageHeight?: StageHeight }) {
+  const sizeClass = stageHeight === "sm" ? styles.exampleStageSm : stageHeight === "md" ? styles.exampleStageMd : stageHeight === "lg" ? styles.exampleStageLg : "";
   return (
     <div className={styles.example} data-doc-example>
-      <div className={`${styles.exampleStage} ${full ? styles.exampleStageFull : ""}`}>{children}</div>
+      <div className={`${styles.exampleStage} ${full ? styles.exampleStageFull : ""} ${fixed ? styles.exampleStageFixed : ""} ${sizeClass}`}>{children}</div>
       {code && (
         <details className={styles.exampleCode}>
           <summary>
@@ -26,24 +27,51 @@ export function ExampleFrame({ children, code, full = false }: { children: React
 }
 
 /** The main preview of a component page: its live demo and the first example from the manifest as code. */
-export function Preview({ name, code }: { name: string; code?: string }) {
+export function Preview({ name, code, fixed = false, stageHeight }: { name: string; code?: string; fixed?: boolean; stageHeight?: StageHeight }) {
   return (
-    <ExampleFrame code={code} full>
+    <ExampleFrame code={code} full fixed={fixed} stageHeight={stageHeight}>
       <Demo name={name} />
     </ExampleFrame>
   );
 }
 
-type Example = { title: string; description?: string; node: ReactNode; code: string };
-const ex = (title: string, code: string, node: ReactNode, description?: string): Example => ({ title, description, code, node });
+type StageHeight = "sm" | "md" | "lg";
+type Example = { title: string; description?: string; node: ReactNode; code: string; stageHeight?: StageHeight };
+const ex = (title: string, code: string, node: ReactNode, description?: string, stageHeight?: StageHeight): Example => ({ title, description, code, node, stageHeight });
 
 const check = <CheckIcon />;
+
+const accordionItems = [
+  { value: "a", title: "Is it accessible?", content: <Text>Behavior and ARIA come from Base UI.</Text> },
+  { value: "b", title: "Is it themeable?", content: <Text>Light and dark use semantic tokens.</Text> },
+  { value: "c", title: "Can agents use it?", content: <Text>There is a manifest and an MCP server.</Text> },
+];
 
 /**
  * One section per case, each with its own preview and code, for the components where the cases matter.
  * Components without an entry show only the main preview and the usage from the manifest.
  */
 const registry: Record<string, Example[]> = {
+  Accordion: [
+    ex(
+      "Multiple",
+      `<Accordion
+  multiple
+  defaultValue={["a", "b", "c"]}
+  items={items}
+/>`,
+      <Accordion multiple defaultValue={["a", "b", "c"]} items={accordionItems} />,
+      "Several panels can stay open at the same time.",
+      "lg",
+    ),
+    ex(
+      "Bordered",
+      `<Accordion bordered items={items} />`,
+      <Accordion bordered items={accordionItems} />,
+      "A border wraps the whole list, not only the space between items.",
+      "lg",
+    ),
+  ],
   ButtonGroup: [
     ex(
       "Related actions",
@@ -338,16 +366,18 @@ const registry: Record<string, Example[]> = {
 export function Examples({ name }: { name: string }) {
   const items = registry[name];
   if (!items) return null;
+  const fixed = name === "Accordion";
+  const sections = items.map((e) => (
+    <section key={e.title} aria-labelledby={`ex-${e.title.replace(/\W+/g, "-")}`}>
+      <Heading as="h3" size={6} id={`ex-${e.title.replace(/\W+/g, "-")}`}>{e.title}</Heading>
+      {e.description && <p className={styles.exampleNote}>{e.description}</p>}
+      <ExampleFrame code={e.code} fixed={fixed} stageHeight={e.stageHeight}>{e.node}</ExampleFrame>
+    </section>
+  ));
   return (
     <>
       <Heading as="h2" size={6}>Examples</Heading>
-      {items.map((e) => (
-        <section key={e.title} aria-labelledby={`ex-${e.title.replace(/\W+/g, "-")}`}>
-          <Heading as="h3" size={6} id={`ex-${e.title.replace(/\W+/g, "-")}`}>{e.title}</Heading>
-          {e.description && <p className={styles.exampleNote}>{e.description}</p>}
-          <ExampleFrame code={e.code}>{e.node}</ExampleFrame>
-        </section>
-      ))}
+      {fixed ? <div className={styles.examplesCompact}>{sections}</div> : sections}
     </>
   );
 }

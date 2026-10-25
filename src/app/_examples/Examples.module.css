@@ -6,7 +6,7 @@
 }
 
 .exampleStage {
-  background: var(--color-card);
+  background: transparent;
   padding: var(--space-6) var(--space-5);
   display: flex;
   align-items: center;
@@ -22,7 +22,33 @@
   display: block;
 }
 
+.exampleStageFixed {
+  height: 20rem;
+  align-items: flex-start;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.exampleStageFixed > * {
+  width: 100%;
+}
+
+.exampleStageSm {
+  height: 10.5rem;
+}
+
+.exampleStageMd {
+  height: 11rem;
+}
+
+.exampleStageLg {
+  height: 18rem;
+}
+
 .exampleCode {
+  background: var(--color-card);
   border-top: var(--border-width-thin) solid var(--color-border-default);
 }
 
@@ -66,6 +92,18 @@
   border-radius: 0;
   border: 0;
   border-top: var(--border-width-thin) solid var(--color-border-default);
+  background: var(--color-card);
+}
+
+.examplesCompact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  --examples-gap: 0;
+}
+
+.examplesCompact section + section {
+  margin-top: 0;
 }
 
 .exampleNote {

@@ -2252,10 +2252,10 @@
       "name": "Accordion",
       "category": "navigation",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "Collapsible sections built on Base UI Accordion. Each title is a button inside an `h3`\n(`aria-expanded` and `aria-controls` come from Base UI). Pass `items` instead of composing parts.",
+      "description": "Collapsible sections built on Base UI Accordion. Each title is a button inside an `h3`\n(`aria-expanded` and `aria-controls` come from Base UI). Pass `items` instead of composing parts.\nThe plus/minus sign sits at the end: its vertical stroke collapses while opening.",
       "import": "import { Accordion } from \"@/ui\";",
       "renders": "div with a heading (h3) and button per item and a region per panel",
-      "composition": "Pass `items` ({ value, title, content, startIcon?, endIcon?, disabled? }). Icons are generated icons without `size`. Use `multiple` to allow several open.",
+      "composition": "Pass `items` ({ value, title, content, startIcon?, endIcon?, disabled? }). Icons are generated icons without `size`. Use `multiple` to allow several open, `disabled` to disable every item and `bordered` for a border around the whole list. To place it inside a Card use `Card` + `CardContent`.",
       "whenToUse": "Showing long content in short sections, such as FAQs.",
       "avoid": [
         "Hiding content users must read.",
@@ -2270,6 +2270,13 @@
           "description": "The items, in order."
         },
         {
+          "name": "bordered",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Draw a border and rounded corners around the whole list, not only between items."
+        },
+        {
           "name": "className",
           "type": "string",
           "required": false
@@ -2279,6 +2286,13 @@
           "type": "string[]",
           "required": false,
           "description": "Ids of the panels open at first."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Disable every item. A per-item `disabled` still applies on top."
         },
         {
           "name": "multiple",
@@ -2301,7 +2315,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Accordion items={[\r\n  { value: \"a\", title: \"Is it accessible?\", content: <p>Yes.</p> },\r\n  { value: \"b\", title: \"Is it themeable?\", content: <p>Yes.</p> },\r\n]} />"
+        "<Accordion items={[\n  { value: \"a\", title: \"Is it accessible?\", content: <p>Yes.</p> },\n  { value: \"b\", title: \"Is it themeable?\", content: <p>Yes.</p> },\n]} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Accordion/Accordion.tsx"
     },

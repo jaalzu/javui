@@ -218,8 +218,9 @@ const demos: Record<string, () => ReactNode> = {
     <Accordion
       defaultValue={["a"]}
       items={[
-        { value: "a", title: "Is it accessible?", content: <Text>Behavior comes from Base UI and every component is tested with axe.</Text> },
-        { value: "b", title: "Is it themeable?", content: <Text>Light and dark come from semantic tokens.</Text> },
+        { value: "a", title: "What does this component do?", content: <Text>It groups related sections and opens the one you need.</Text> },
+        { value: "b", title: "Which states are included?", content: <Text>Open, closed, focus and disabled come from Base UI.</Text> },
+        { value: "c", title: "How do I customize it?", content: <Text>Pass your own items and use the semantic tokens.</Text> },
       ]}
     />
   ),

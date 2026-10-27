@@ -59,7 +59,7 @@
         },
         {
           "name": "tone",
-          "type": "\"info\" | \"success\" | \"warning\" | \"danger\" | \"default\" | \"brand\" | \"muted\" | \"subtle\"",
+          "type": "\"info\" | \"success\" | \"warning\" | \"default\" | \"brand\" | \"danger\" | \"muted\" | \"subtle\"",
           "required": false,
           "default": "default",
           "description": "Text color from the semantic color tokens."
@@ -272,7 +272,7 @@
         },
         {
           "name": "variant",
-          "type": "\"success\" | \"outline\" | \"danger\" | \"default\" | \"inverted\" | \"brand\"",
+          "type": "\"success\" | \"default\" | \"inverted\" | \"outline\" | \"brand\" | \"danger\"",
           "required": false,
           "default": "default",
           "description": "Visual treatment. `default` is a quiet component surface, `inverted` a filled\nhigh-contrast pill, `outline` only an inset ring, and `brand`, `success` and\n`danger` are soft semantic tints (translucent background, colored text)."
@@ -696,7 +696,7 @@
         },
         {
           "name": "variant",
-          "type": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\" | \"danger\"",
+          "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "primary",
           "description": "Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions,\n`outline` for a transparent button with a visible border, `ghost` for low-emphasis actions,\n`accent` for brand emphasis, `danger` for destructive actions."
@@ -1256,177 +1256,113 @@
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Select/Select.tsx"
     },
     {
-      "name": "Dialog",
+      "name": "Modal",
       "category": "overlays",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "Root of a modal dialog. Holds the open state; use `open` and `onOpenChange` to control it,\nor `defaultOpen` to leave it uncontrolled. Built on Base UI Dialog (focus trap, Escape to close,\nfocus return and scroll lock come from there).",
-      "import": "import { Dialog } from \"@/ui\";",
-      "renders": "no element: it only holds the open state (Base UI Dialog.Root)",
-      "composition": "Structure: Dialog > DialogTrigger + DialogContent (title, description, DialogClose buttons).",
-      "whenToUse": "Interrupting the user for a decision or focused task.",
+      "description": "The root of a modal. Use `role=\"dialog\"` for content and forms, or `role=\"alertdialog\"` for a\ndecision that interrupts. The parts share one implementation; only the behavior and the header\ncolor change with props. The page behind stays inert and scroll-locked, focus is trapped and\nreturned, and Escape closes unless `dismissible` is false.",
+      "import": "import { Modal } from \"@/ui\";",
+      "renders": "no element: it holds the open state and provides the role (Base UI Dialog.Root, or AlertDialog.Root for role=alertdialog)",
+      "composition": "Structure: Modal > ModalTrigger + ModalContent (title, optional tagline/icon/description, body children, actions). Put one to three actions in `actions`: the safe action first and the primary action last. The form lives in the body; a submit button in the footer targets it with the `form` attribute.",
+      "whenToUse": "Interrupting the user for a decision or a focused task.",
       "avoid": [
-        "Non-essential information: use inline content or Tooltip.",
-        "Dialogs without a title.",
-        "Confirming destructive actions: use AlertDialog."
+        "Non-essential information: use inline content, Alert or Tooltip.",
+        "Short-lived confirmations: use Toast.",
+        "Modals without a title."
       ],
-      "accessibility": "Focus is trapped and returned, Escape closes, the page behind is inert. Title is the accessible name.",
-      "props": [],
-      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": [
-        "<Dialog>\n  <DialogTrigger>Delete project</DialogTrigger>\n  <DialogContent title=\"Delete project?\" description=\"This cannot be undone.\">\n    <DialogClose>Cancel</DialogClose>\n  </DialogContent>\n</Dialog>"
+      "accessibility": "The title is the accessible name and the description is the accessible description. Focus is trapped and returned, Escape closes unless dismissible is false, and the page behind is inert. Alert dialogs require a description and start focus on the safe action.",
+      "choosing": [
+        "Content and forms: Modal with the default role=\"dialog\".",
+        "A decision that interrupts: Modal role=\"alertdialog\"; add color=\"critical\" for a destructive action.",
+        "Blocking information that needs no form: Modal role=\"alertdialog\"."
       ],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Dialog/Dialog.tsx",
-      "parts": [
+      "props": [
         {
-          "name": "DialogTrigger",
-          "category": "overlays",
-          "base": "Built on Base UI (@base-ui/react)",
-          "description": "The button that opens the dialog. It is rendered as a `Button`.",
-          "import": "import { DialogTrigger } from \"@/ui\";",
-          "renders": "button (a Button)",
-          "composition": "Direct child of Dialog. Accepts Button `variant` and `size`.",
-          "whenToUse": "The button that opens the dialog.",
-          "avoid": [
-            "Using a plain Button to open it."
-          ],
-          "accessibility": "Gets aria-haspopup and expanded state from Base UI.",
-          "props": [
-            {
-              "name": "size",
-              "type": "\"sm\" | \"md\" | \"lg\"",
-              "required": false,
-              "default": "md",
-              "description": "Button size of the trigger."
-            },
-            {
-              "name": "variant",
-              "type": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\" | \"danger\"",
-              "required": false,
-              "default": "primary",
-              "description": "Button style of the trigger."
-            }
-          ],
-          "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-          "examples": [
-            "<DialogTrigger>Open settings</DialogTrigger>"
-          ],
-          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Dialog/Dialog.tsx",
-          "parent": "Dialog"
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "`ModalTrigger` and `ModalContent`."
         },
         {
-          "name": "DialogContent",
-          "category": "overlays",
-          "base": "Built on Base UI (@base-ui/react)",
-          "description": "The dialog panel with its backdrop, title and description.\nPlace it inside `Dialog`.",
-          "import": "import { DialogContent } from \"@/ui\";",
-          "renders": "div role=\"dialog\" in a portal, plus a backdrop",
-          "composition": "`title` is required; `description` is recommended. Children are the actions, usually DialogClose.",
-          "whenToUse": "The panel of the dialog.",
-          "avoid": [
-            "Omitting `title`."
-          ],
-          "accessibility": "title is the accessible name; description is the accessible description.",
-          "props": [
-            {
-              "name": "title",
-              "type": "ReactNode",
-              "required": true,
-              "description": "Dialog title. Required: it is the accessible name of the dialog."
-            },
-            {
-              "name": "children",
-              "type": "ReactNode",
-              "required": false,
-              "description": "Body and actions. Put `DialogClose` buttons here."
-            },
-            {
-              "name": "className",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "description",
-              "type": "ReactNode",
-              "required": false,
-              "description": "Short explanation, announced as the accessible description."
-            }
-          ],
-          "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-          "examples": [
-            "<DialogContent title=\"Delete project?\" description=\"This cannot be undone.\">\n  <DialogClose>Cancel</DialogClose>\n</DialogContent>"
-          ],
-          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Dialog/Dialog.tsx",
-          "parent": "Dialog"
+          "name": "color",
+          "type": "\"neutral\" | \"warning\" | \"critical\"",
+          "required": false,
+          "default": "neutral",
+          "description": "Tints the header icon, tagline and title. Behavior does not change; use `role` for that."
         },
         {
-          "name": "DialogClose",
-          "category": "overlays",
-          "base": "Built on Base UI (@base-ui/react)",
-          "description": "A button that closes the dialog. It is rendered as a `Button`.",
-          "import": "import { DialogClose } from \"@/ui\";",
-          "renders": "button (a Button)",
-          "composition": "Inside DialogContent. Accepts Button `variant` and `size`.",
-          "whenToUse": "Cancel and close actions.",
-          "avoid": [
-            "Closing by custom onClick state when DialogClose is enough."
-          ],
-          "accessibility": "Closing returns focus to the trigger.",
-          "props": [
-            {
-              "name": "size",
-              "type": "\"sm\" | \"md\" | \"lg\"",
-              "required": false,
-              "default": "md",
-              "description": "Button size."
-            },
-            {
-              "name": "variant",
-              "type": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\" | \"danger\"",
-              "required": false,
-              "default": "secondary",
-              "description": "Button style."
-            }
-          ],
-          "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-          "examples": [
-            "<DialogClose>Cancel</DialogClose>"
-          ],
-          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Dialog/Dialog.tsx",
-          "parent": "Dialog"
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether the modal starts open when uncontrolled."
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Description announced as the accessible description. Required for `role=\"alertdialog\"`.\nAlert dialogs need a description: it is part of the accessible name and explains the decision."
+        },
+        {
+          "name": "dismissible",
+          "type": "boolean",
+          "required": false,
+          "default": "true",
+          "description": "Shows the close button and allows Escape and outside click to close. When false, keep at least one\nfooter action so the user has a way out."
+        },
+        {
+          "name": "onBeforeClose",
+          "type": "(() => boolean | Promise<boolean>)",
+          "required": false,
+          "description": "Runs before every close. Return false (or a promise of false) to keep the modal open. Use it to\nprotect a form with unsaved changes, then open a confirmation with `role=\"alertdialog\"`.\n`onOpenChange` is still called once the close is allowed."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false,
+          "description": "Called with the next open state. It covers both opening and closing; there are no separate callbacks."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the modal is open. Use it with `onOpenChange` for a controlled modal."
+        },
+        {
+          "name": "returnFocusTo",
+          "type": "string | RefObject<HTMLElement | null>",
+          "required": false,
+          "description": "Where focus returns when the original trigger no longer exists. Pass an element ref or an id.\nRare: the trigger is the normal return target."
+        },
+        {
+          "name": "role",
+          "type": "\"dialog\" | \"alertdialog\"",
+          "required": false,
+          "default": "dialog",
+          "description": "Behavior only. Use alertdialog for a decision that interrupts."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "default": "md",
+          "description": "Width of the panel, from the container tokens."
         }
-      ]
-    },
-    {
-      "name": "AlertDialog",
-      "category": "overlays",
-      "base": "Built on Base UI (@base-ui/react)",
-      "description": "Root of an alert dialog: a modal that asks for confirmation before a destructive or\nirreversible action. It shares Dialog's panel styles but behaves like an alert dialog:\n`role=\"alertdialog\"`, no close on outside click, Escape to close, focus starts on the\nsafest action and returns to the trigger.",
-      "import": "import { AlertDialog } from \"@/ui\";",
-      "renders": "no element: it only holds the open state (Base UI AlertDialog.Root)",
-      "composition": "Structure: AlertDialog > AlertDialogTrigger + AlertDialogContent (title, description, AlertDialogClose actions). Put the safe action, usually Cancel, first.",
-      "whenToUse": "Confirming a destructive or irreversible action before it runs, such as deleting data or leaving with unsaved changes.",
-      "avoid": [
-        "Forms or general content: use Dialog.",
-        "Informational messages that need no decision: use Alert.",
-        "Confirmations whose action can be undone: use a Dialog or an inline action instead."
       ],
-      "accessibility": "Uses role=\"alertdialog\"; it does not close on outside click, Escape closes, focus starts on the safe action and returns to the trigger. Title is the accessible name.",
-      "props": [],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<AlertDialog>\n  <AlertDialogTrigger variant=\"danger\">Delete project</AlertDialogTrigger>\n  <AlertDialogContent title=\"Delete project?\" description=\"This cannot be undone.\">\n    <AlertDialogClose>Cancel</AlertDialogClose>\n    <AlertDialogClose variant=\"danger\">Delete</AlertDialogClose>\n  </AlertDialogContent>\n</AlertDialog>"
+        "<Modal role=\"alertdialog\" color=\"critical\" description=\"This permanently removes the project and its data.\">\n  <ModalTrigger variant=\"danger\">Delete project</ModalTrigger>\n  <ModalContent\n    title=\"Delete project?\"\n    actions={\n      <>\n        <ModalClose>Cancel</ModalClose>\n        <ModalClose variant=\"danger\">Delete</ModalClose>\n      </>\n    }\n  >\n    The project and all of its data will be gone.\n  </ModalContent>\n</Modal>"
       ],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/AlertDialog/AlertDialog.tsx",
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Modal/Modal.tsx",
       "parts": [
         {
-          "name": "AlertDialogTrigger",
+          "name": "ModalTrigger",
           "category": "overlays",
           "base": "Built on Base UI (@base-ui/react)",
-          "description": "The button that opens the alert dialog. It is rendered as a `Button`.",
-          "import": "import { AlertDialogTrigger } from \"@/ui\";",
+          "description": "The button that opens the modal. It renders a `Button` and inherits the behavior of the root.",
+          "import": "import { ModalTrigger } from \"@/ui\";",
           "renders": "button (a Button)",
-          "composition": "Direct child of AlertDialog. Accepts Button `variant` and `size`; use `danger` for the destructive trigger.",
-          "whenToUse": "The button that opens the alert dialog.",
+          "composition": "Direct child of Modal. Accepts Button `variant` and `size`; use `danger` for the destructive trigger.",
+          "whenToUse": "The button that opens the modal.",
           "avoid": [
             "Using a plain Button to open it."
           ],
@@ -1441,7 +1377,7 @@
             },
             {
               "name": "variant",
-              "type": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\" | \"danger\"",
+              "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
               "required": false,
               "default": "primary",
               "description": "Button style of the trigger."
@@ -1449,37 +1385,44 @@
           ],
           "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
           "examples": [
-            "<AlertDialogTrigger variant=\"danger\">Delete project</AlertDialogTrigger>"
+            "<ModalTrigger variant=\"secondary\">Open settings</ModalTrigger>"
           ],
-          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/AlertDialog/AlertDialog.tsx",
-          "parent": "AlertDialog"
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Modal/Modal.tsx",
+          "parent": "Modal"
         },
         {
-          "name": "AlertDialogContent",
+          "name": "ModalContent",
           "category": "overlays",
           "base": "Built on Base UI (@base-ui/react)",
-          "description": "The alert dialog panel with its backdrop, title and description. Place it inside\n`AlertDialog`. It does not close on outside click, so the user must choose an action.",
-          "import": "import { AlertDialogContent } from \"@/ui\";",
-          "renders": "div role=\"alertdialog\" in a portal, plus a backdrop",
-          "composition": "`title` is required; `description` is recommended. Children are the actions, usually AlertDialogClose. Put the safe action first: it receives initial focus.",
-          "whenToUse": "The panel of the alert dialog.",
+          "description": "The modal panel: header, scrollable body and footer. It reads the role and description from\n`Modal`. The footer stacks on mobile with the primary action on top, and sits in one row from\nthe `md` breakpoint.",
+          "import": "import { ModalContent } from \"@/ui\";",
+          "renders": "div role=\"dialog\" (or role=\"alertdialog\" from the root) in a portal, plus a backdrop",
+          "composition": "`title` is required and children are the body. `description`, `tagline`, `icon`, `actions` and `closeLabel` are optional. The body scrolls while the header and footer stay visible. Actions stack on mobile with the primary on top.",
+          "whenToUse": "The panel of the modal.",
           "avoid": [
             "Omitting `title`.",
-            "Content other than the actions."
+            "Putting the form in the footer instead of the body.",
+            "More than three actions."
           ],
-          "accessibility": "title is the accessible name; description is the accessible description. Initial focus goes to the first action unless `initialFocus` overrides it.",
+          "accessibility": "The title is the accessible name; the description is the accessible description. A dialog focuses the first field when the body has a form; an alert dialog focuses the safe action.",
           "props": [
+            {
+              "name": "children",
+              "type": "ReactNode",
+              "required": true,
+              "description": "Body content: text, custom content or a form. It scrolls when it exceeds the available height."
+            },
             {
               "name": "title",
               "type": "ReactNode",
               "required": true,
-              "description": "Dialog title. Required: it is the accessible name of the dialog."
+              "description": "Modal title. Required: it is the accessible name of the modal."
             },
             {
-              "name": "children",
+              "name": "actions",
               "type": "ReactNode",
               "required": false,
-              "description": "The actions. Put the safe action first (`AlertDialogClose` buttons): it receives initial focus."
+              "description": "Footer actions: one to three. Put the safe action first and the primary action last."
             },
             {
               "name": "className",
@@ -1487,39 +1430,59 @@
               "required": false
             },
             {
+              "name": "closeLabel",
+              "type": "string",
+              "required": false,
+              "default": "Close",
+              "description": "Accessible name of the close button."
+            },
+            {
               "name": "description",
               "type": "ReactNode",
               "required": false,
-              "description": "Short explanation of what will happen, announced as the accessible description."
+              "description": "Explanation announced as the accessible description. Falls back to the `description` on `Modal`."
             },
             {
-              "name": "initialFocus",
-              "type": "boolean | RefObject<HTMLElement | null> | ((openType: InteractionType) => boolean | void | HTMLElement | null)",
+              "name": "icon",
+              "type": "ReactNode",
               "required": false,
-              "description": "Element to focus when the dialog opens. Defaults to the first action, which should be the safe one."
+              "description": "Replaces the default icon for the color. Pass a generated icon without `size`."
+            },
+            {
+              "name": "tagline",
+              "type": "ReactNode",
+              "required": false,
+              "description": "Optional short label above the title, such as a category or a state."
             }
           ],
           "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
           "examples": [
-            "<AlertDialogContent title=\"Delete project?\" description=\"This cannot be undone.\">\n  <AlertDialogClose>Cancel</AlertDialogClose>\n  <AlertDialogClose variant=\"danger\">Delete</AlertDialogClose>\n</AlertDialogContent>"
+            "<ModalContent\n  title=\"Invite a teammate\"\n  tagline=\"Workspace\"\n  actions={<><ModalClose>Cancel</ModalClose><ModalClose>Send invite</ModalClose></>}\n>\n  <Field label=\"Email\"><Input type=\"email\" /></Field>\n</ModalContent>"
           ],
-          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/AlertDialog/AlertDialog.tsx",
-          "parent": "AlertDialog"
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Modal/Modal.tsx",
+          "parent": "Modal"
         },
         {
-          "name": "AlertDialogClose",
+          "name": "ModalClose",
           "category": "overlays",
           "base": "Built on Base UI (@base-ui/react)",
-          "description": "A button that closes the alert dialog. It is rendered as a `Button`.",
-          "import": "import { AlertDialogClose } from \"@/ui\";",
+          "description": "A button that closes the modal. It renders a `Button`. In an alert dialog, mark the safe action\nwith `initialFocus`; otherwise the first secondary action receives focus.",
+          "import": "import { ModalClose } from \"@/ui\";",
           "renders": "button (a Button)",
-          "composition": "Inside AlertDialogContent. Accepts Button `variant` and `size`; use `danger` for the destructive action.",
-          "whenToUse": "The cancel and confirm actions.",
+          "composition": "Inside ModalContent `actions`. Accepts Button `variant` and `size`; use `danger` for the destructive action. Mark the safe action with `initialFocus` in an alert dialog.",
+          "whenToUse": "Cancel, close and confirm actions.",
           "avoid": [
-            "Closing by custom onClick state when AlertDialogClose is enough."
+            "Closing by custom onClick state when ModalClose is enough."
           ],
-          "accessibility": "Closing returns focus to the trigger.",
+          "accessibility": "Closing returns focus to the trigger, or to returnFocusTo when the trigger no longer exists.",
           "props": [
+            {
+              "name": "initialFocus",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Marks the safe action that receives initial focus in `role=\"alertdialog\"`."
+            },
             {
               "name": "size",
               "type": "\"sm\" | \"md\" | \"lg\"",
@@ -1529,18 +1492,18 @@
             },
             {
               "name": "variant",
-              "type": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\" | \"danger\"",
+              "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
               "required": false,
               "default": "secondary",
-              "description": "Button style. Use `danger` for the destructive action."
+              "description": "Button style. Use `danger` for a destructive action."
             }
           ],
           "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
           "examples": [
-            "<AlertDialogClose>Cancel</AlertDialogClose>"
+            "<ModalClose>Cancel</ModalClose>\n<ModalClose variant=\"danger\">Delete</ModalClose>"
           ],
-          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/AlertDialog/AlertDialog.tsx",
-          "parent": "AlertDialog"
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Modal/Modal.tsx",
+          "parent": "Modal"
         }
       ]
     },
@@ -1679,7 +1642,7 @@
         },
         {
           "name": "variant",
-          "type": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\" | \"danger\"",
+          "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "primary",
           "description": "Visual emphasis, the same as `Button`. `primary` is the main call to action (one per view)."
@@ -1877,7 +1840,7 @@
       "avoid": [
         "Short-lived confirmations: use Toast.",
         "Using color alone: the tone also changes the icon and you should say it in the text.",
-        "Confirming a destructive action: use AlertDialog.",
+        "Blocking decisions: use Modal role=alertdialog.",
         "Adding visual variants or extra props before a concrete need exists."
       ],
       "accessibility": "Announced by screen readers on render. The icon is decorative, and the tone never relies on color alone: the text says what happened.",
@@ -2039,14 +2002,14 @@
       "name": "Popover",
       "category": "overlays",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "Root of a popover: a small panel anchored to a button, for extra controls or details the user asked for.\nBuilt on Base UI Popover (focus management, Escape to close, outside click and positioning come from there).\nFor decisions that must interrupt the user use `Dialog`; for a list of actions use `Menu`.",
+      "description": "Root of a popover: a small panel anchored to a button, for extra controls or details the user asked for.\nBuilt on Base UI Popover (focus management, Escape to close, outside click and positioning come from there).\nFor decisions that must interrupt the user use `Modal`; for a list of actions use `Menu`.",
       "import": "import { Popover } from \"@/ui\";",
       "renders": "no element: it only holds the open state (Base UI Popover.Root)",
       "composition": "Structure: Popover > PopoverTrigger + PopoverContent (title required, description optional, PopoverClose).",
       "whenToUse": "Small interactive content tied to a button, such as a form or extra options.",
       "avoid": [
         "Plain hints: use Tooltip.",
-        "Blocking decisions: use Dialog."
+        "Blocking decisions: use Modal."
       ],
       "accessibility": "Focus moves into the popup and Escape closes it. Title is the accessible name.",
       "props": [],
@@ -2079,7 +2042,7 @@
             },
             {
               "name": "variant",
-              "type": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\" | \"danger\"",
+              "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
               "required": false,
               "default": "secondary",
               "description": "Button style of the trigger."
@@ -2174,7 +2137,7 @@
             },
             {
               "name": "variant",
-              "type": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\" | \"danger\"",
+              "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
               "required": false,
               "default": "secondary",
               "description": "Button style."
@@ -2237,7 +2200,7 @@
         },
         {
           "name": "variant",
-          "type": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"accent\" | \"danger\"",
+          "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "secondary",
           "description": "Button style of the trigger."
@@ -3005,13 +2968,13 @@
       "name": "Sheet",
       "category": "overlays",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A side sheet for secondary tasks and settings, built on Base UI Drawer. Focus is trapped, Escape\ncloses it, and it can be swiped away on touch. For a centered decision use `Dialog`.",
+      "description": "A side sheet for secondary tasks and settings, built on Base UI Drawer. Focus is trapped, Escape\ncloses it, and it can be swiped away on touch. For a centered decision use `Modal`.",
       "import": "import { Sheet } from \"@/ui\";",
       "renders": "a trigger button; when open, a backdrop and a side panel in a portal",
       "composition": "Pass `trigger` (button text), `title`, optional `description`, `children`, `footer`, `side` (left or right, default right) and open state. One component, no parts.",
       "whenToUse": "Secondary tasks, settings and filters that slide in from an edge.",
       "avoid": [
-        "A centered decision: use Dialog.",
+        "A centered decision: use Modal.",
         "Non-essential information: use Tooltip or inline content.",
         "Sheets without a title."
       ],
@@ -3285,7 +3248,7 @@
         },
         {
           "name": "tone",
-          "type": "\"success\" | \"danger\" | \"default\" | \"brand\"",
+          "type": "\"success\" | \"default\" | \"brand\" | \"danger\"",
           "required": false,
           "default": "default",
           "description": "Color the frame for the kind of message: default, brand, success or danger."
@@ -3362,7 +3325,7 @@
             },
             {
               "name": "tone",
-              "type": "\"success\" | \"danger\" | \"default\" | \"brand\"",
+              "type": "\"success\" | \"default\" | \"brand\" | \"danger\"",
               "required": false,
               "default": "default",
               "description": "Color the frame for the kind of message: default, brand, success or danger."

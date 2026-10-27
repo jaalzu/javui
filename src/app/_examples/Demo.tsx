@@ -2,8 +2,8 @@
 
 import type { ReactNode } from "react";
 import {
-  Accordion, Alert, AlertDialog, AlertDialogClose, AlertDialogContent, AlertDialogTrigger, AspectRatio, Avatar, Badge, Breadcrumb, Button, ButtonGroup, ButtonGroupSeparator, ButtonLink, Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle, Checkbox, CodeBlockView, Container,
-  Dialog, DialogClose, DialogContent, DialogTrigger, Field, Grid, Heading, CheckIcon, Input, Kbd, Link, Menu,
+  Accordion, Alert, AspectRatio, Avatar, Badge, Breadcrumb, Button, ButtonGroup, ButtonGroupSeparator, ButtonLink, Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle, Checkbox, CodeBlockView, Container,
+  Field, Grid, Heading, CheckIcon, Input, Kbd, Link, Menu, Modal, ModalClose, ModalContent, ModalTrigger,
   Pagination, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, PlusIcon, Radio, RadioGroup, Select, Skeleton,
   Slider, Spinner, Stack, Switch, Table, Tabs, Text, Textarea, Tooltip, VisuallyHidden, useToast,
   Label, EmptyState, Sidebar, Collapsible, ToggleGroup, ScrollArea, Sheet, Combobox, ChartLineIcon, GearIcon,
@@ -134,23 +134,25 @@ const demos: Record<string, () => ReactNode> = {
   ),
   Switch: () => <Switch label="Notifications" defaultChecked />,
   Select: () => <Field label="Country"><Select items={countries} placeholder="Choose one" /></Field>,
-  Dialog: () => (
-    <Dialog>
-      <DialogTrigger variant="danger">Delete project</DialogTrigger>
-      <DialogContent title="Delete project?" description="This permanently removes the project and its data.">
-        <DialogClose>Cancel</DialogClose>
-        <DialogClose variant="danger">Delete</DialogClose>
-      </DialogContent>
-    </Dialog>
-  ),
-  AlertDialog: () => (
-    <AlertDialog>
-      <AlertDialogTrigger variant="danger">Delete project</AlertDialogTrigger>
-      <AlertDialogContent title="Delete project?" description="This permanently removes the project and its data. This cannot be undone.">
-        <AlertDialogClose>Cancel</AlertDialogClose>
-        <AlertDialogClose variant="danger">Delete</AlertDialogClose>
-      </AlertDialogContent>
-    </AlertDialog>
+  Modal: () => (
+    <Modal
+      role="alertdialog"
+      color="critical"
+      description="This permanently removes the project and its data. This cannot be undone."
+    >
+      <ModalTrigger variant="danger">Delete project</ModalTrigger>
+      <ModalContent
+        title="Delete project?"
+        actions={
+          <>
+            <ModalClose>Cancel</ModalClose>
+            <ModalClose variant="danger">Delete</ModalClose>
+          </>
+        }
+      >
+        This permanently removes the project and its data.
+      </ModalContent>
+    </Modal>
   ),
   Tooltip: () => (
     <Tooltip content="Saved">
@@ -306,8 +308,7 @@ const demos: Record<string, () => ReactNode> = {
 };
 
 const demoAlias: Record<string, string> = {
-  DialogTrigger: "Dialog", DialogContent: "Dialog", DialogClose: "Dialog",
-  AlertDialogTrigger: "AlertDialog", AlertDialogContent: "AlertDialog", AlertDialogClose: "AlertDialog",
+  ModalTrigger: "Modal", ModalContent: "Modal", ModalClose: "Modal",
   PopoverTrigger: "Popover", PopoverContent: "Popover", PopoverClose: "Popover",
   ButtonGroupSeparator: "ButtonGroup",
   Radio: "RadioGroup",

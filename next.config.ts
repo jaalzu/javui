@@ -12,6 +12,16 @@ const nextConfig: NextConfig = {
         destination: "/docs/components/RadioGroup",
         permanent: true,
       },
+      {
+        source: "/docs/components/Dialog",
+        destination: "/docs/components/Modal",
+        permanent: true,
+      },
+      {
+        source: "/docs/components/AlertDialog",
+        destination: "/docs/components/Modal",
+        permanent: true,
+      },
     ];
   },
 };

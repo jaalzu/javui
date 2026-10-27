@@ -77,6 +77,27 @@ export default function Agents() {
 </Stack>`}
       />
 
+      <Heading as="h2" size={6}>Modals</Heading>
+      <Table
+        caption="Modal intents"
+        columns={[
+          { key: "intent", header: "Intent" },
+          { key: "component", header: "Component" },
+          { key: "props", header: "Props" },
+        ]}
+        rows={[
+          { intent: "A form or content", component: <code>Modal</code>, props: <><code>role=&quot;dialog&quot;</code> (default)</> },
+          { intent: "A destructive confirmation", component: <code>Modal</code>, props: <><code>role=&quot;alertdialog&quot;</code> <code>color=&quot;critical&quot;</code></> },
+          { intent: "Blocking information", component: <code>Modal</code>, props: <><code>role=&quot;alertdialog&quot;</code></> },
+        ]}
+      />
+      <ul>
+        <li>If the modal asks for a decision, always set <code>role=&quot;alertdialog&quot;</code>.</li>
+        <li>One to three actions: the safe action on the left and the primary action on the right.</li>
+        <li>Never invent sizes or colors.</li>
+        <li>The form goes in the body.</li>
+      </ul>
+
       <Heading as="h2" size={6}>Overridable defaults</Heading>
       <p>Every fixed default value for padding, gap or spacing is exposed through a CSS variable, and, where it makes sense, an optional prop. Override the variable on the component instance for a one-off change; use the prop when the component offers one, such as <code>Container</code> <code>padding</code>, <code>Card</code> <code>size</code> or <code>Stack</code> <code>gap</code>. Never hardcode a replacement value when a semantic token or component variable exists.</p>
 

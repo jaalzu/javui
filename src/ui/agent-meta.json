@@ -4,7 +4,7 @@
   "$surfaceComposition": "There are five surfaces. Card sits on page, sunken and highlight sit inside card, and modal floats above the page. Table: page = the base; card = content block on the page (cards, panels, table rows); sunken = recessed area inside a card (code, wells, inset fields); highlight = highlighted panel inside a card (a metric, total or goal; dark lighter than the card, light soft gray); modal = floating layer above the page (dialog, menu, select list, popover). Rules: max 3 nested levels; never put a card inside a card (use sunken, highlight or an `hr` hairline instead); highlight sits inside a card, is never nested, and is not for code or inputs (use sunken); modal is never a page background; mark the sunken container with data-surface=\"sunken\" so controls inside use --color-component-on-sunken; controls placed on highlight use --color-component; at rest use a border or a shadow, never both.",
   "$brand": "Brand color tokens derive from --color-brand-solid through color-mix: brand-solid-hover, brand-subtle, brand-foreground (75% brand-solid + 25% primary-foreground), brand-foreground-soft and brand-border-default. The focus ring, brand-border-focus, stays text-colored for contrast. Changing --color-brand-solid rebrands the whole family; --color-on-brand-solid-foreground stays white because it is the text on the solid brand surface. Keep brand-foreground at least 4.5:1 on --color-page and --color-card in both themes.",
   "$radius": "The radius scale derives from --radius-base (0.5rem), the single source. sm = 0.5x, md = 1x, lg = 1.5x and xl = 2x via calc, so the default scale is 4/8/12/16px. none and full stay fixed. Nested-radius formulas read the same scale.",
-  "$motion": "Use motion tokens only. Durations stay under 300ms (fast 100, base 160, slow 240). Entrances and user-driven motion use easing-out; exits may use easing-in and the same duration or shorter. Never scale(0): minimum 0.9 (press/tooltip 0.97, popup 0.95, modal 0.96). Never transition: all. Animate only opacity, transform, color, background, box-shadow, plus Accordion and Collapsible height and the Tabs indicator. Anchored popups (Menu, Select, Popover, Tooltip) use transform-origin: var(--transform-origin); Dialog stays centered and composes translate(-50%, -50%) with scale. Do not animate theme changes, the focus ring, or list/menu items on hover. prefers-reduced-motion is global: drop scale/transform, keep short fades. Sheet slides from the side with slow/out and follows --drawer-swipe-movement-x. Toast, stagger, scroll-reveal, hold-to-confirm and drag are not implemented; when they exist, keep them under 300ms with easing-out and never scale(0).",
+  "$motion": "Use motion tokens only. Durations stay under 300ms (fast 100, base 160, slow 240). Entrances and user-driven motion use easing-out; exits may use easing-in and the same duration or shorter. Never scale(0): minimum 0.9 (press/tooltip 0.97, popup 0.95, modal 0.96). Never transition: all. Animate only opacity, transform, color, background, box-shadow, plus Accordion and Collapsible height and the Tabs indicator. Anchored popups (Menu, Select, Popover, Tooltip) use transform-origin: var(--transform-origin); Modal stays centered and composes translate(-50%, -50%) with scale. Do not animate theme changes, the focus ring, or list/menu items on hover. prefers-reduced-motion is global: drop scale/transform, keep short fades. Sheet slides from the side with slow/out and follows --drawer-swipe-movement-x. Toast, stagger, scroll-reveal, hold-to-confirm and drag are not implemented; when they exist, keep them under 300ms with easing-out and never scale(0).",
   "$headerHeight": "`--header-height` is the height of the sticky site header (3.55rem / 56.8px). The header uses it directly, and `html` uses `scroll-padding-top: calc(var(--header-height) + var(--space-4))` so in-page anchors clear the header.",
   "Text": {
     "category": "typography",
@@ -304,99 +304,6 @@
     ],
     "a11y": "Keyboard, typeahead and focus come from Base UI. Needs an accessible name. readOnly prevents choosing another option; loading is readOnly with aria-busy=true."
   },
-  "AlertDialog": {
-    "category": "overlays",
-    "base": "base-ui",
-    "renders": "no element: it only holds the open state (Base UI AlertDialog.Root)",
-    "composition": "Structure: AlertDialog > AlertDialogTrigger + AlertDialogContent (title, description, AlertDialogClose actions). Put the safe action, usually Cancel, first.",
-    "whenToUse": "Confirming a destructive or irreversible action before it runs, such as deleting data or leaving with unsaved changes.",
-    "avoid": [
-      "Forms or general content: use Dialog.",
-      "Informational messages that need no decision: use Alert.",
-      "Confirmations whose action can be undone: use a Dialog or an inline action instead."
-    ],
-    "a11y": "Uses role=\"alertdialog\"; it does not close on outside click, Escape closes, focus starts on the safe action and returns to the trigger. Title is the accessible name."
-  },
-  "AlertDialogTrigger": {
-    "category": "overlays",
-    "base": "base-ui",
-    "renders": "button (a Button)",
-    "composition": "Direct child of AlertDialog. Accepts Button `variant` and `size`; use `danger` for the destructive trigger.",
-    "whenToUse": "The button that opens the alert dialog.",
-    "avoid": [
-      "Using a plain Button to open it."
-    ],
-    "a11y": "Gets aria-haspopup and expanded state from Base UI."
-  },
-  "AlertDialogContent": {
-    "category": "overlays",
-    "base": "base-ui",
-    "renders": "div role=\"alertdialog\" in a portal, plus a backdrop",
-    "composition": "`title` is required; `description` is recommended. Children are the actions, usually AlertDialogClose. Put the safe action first: it receives initial focus.",
-    "whenToUse": "The panel of the alert dialog.",
-    "avoid": [
-      "Omitting `title`.",
-      "Content other than the actions."
-    ],
-    "a11y": "title is the accessible name; description is the accessible description. Initial focus goes to the first action unless `initialFocus` overrides it."
-  },
-  "AlertDialogClose": {
-    "category": "overlays",
-    "base": "base-ui",
-    "renders": "button (a Button)",
-    "composition": "Inside AlertDialogContent. Accepts Button `variant` and `size`; use `danger` for the destructive action.",
-    "whenToUse": "The cancel and confirm actions.",
-    "avoid": [
-      "Closing by custom onClick state when AlertDialogClose is enough."
-    ],
-    "a11y": "Closing returns focus to the trigger."
-  },
-  "Dialog": {
-    "category": "overlays",
-    "base": "base-ui",
-    "renders": "no element: it only holds the open state (Base UI Dialog.Root)",
-    "composition": "Structure: Dialog > DialogTrigger + DialogContent (title, description, DialogClose buttons).",
-    "whenToUse": "Interrupting the user for a decision or focused task.",
-    "avoid": [
-      "Non-essential information: use inline content or Tooltip.",
-      "Dialogs without a title.",
-      "Confirming destructive actions: use AlertDialog."
-    ],
-    "a11y": "Focus is trapped and returned, Escape closes, the page behind is inert. Title is the accessible name."
-  },
-  "DialogTrigger": {
-    "category": "overlays",
-    "base": "base-ui",
-    "renders": "button (a Button)",
-    "composition": "Direct child of Dialog. Accepts Button `variant` and `size`.",
-    "whenToUse": "The button that opens the dialog.",
-    "avoid": [
-      "Using a plain Button to open it."
-    ],
-    "a11y": "Gets aria-haspopup and expanded state from Base UI."
-  },
-  "DialogContent": {
-    "category": "overlays",
-    "base": "base-ui",
-    "renders": "div role=\"dialog\" in a portal, plus a backdrop",
-    "composition": "`title` is required; `description` is recommended. Children are the actions, usually DialogClose.",
-    "whenToUse": "The panel of the dialog.",
-    "avoid": [
-      "Omitting `title`."
-    ],
-    "a11y": "title is the accessible name; description is the accessible description."
-  },
-  "DialogClose": {
-    "category": "overlays",
-    "base": "base-ui",
-    "renders": "button (a Button)",
-    "composition": "Inside DialogContent. Accepts Button `variant` and `size`.",
-    "whenToUse": "Cancel and close actions.",
-    "avoid": [
-      "Closing by custom onClick state when DialogClose is enough."
-    ],
-    "a11y": "Closing returns focus to the trigger."
-  },
   "Tooltip": {
     "category": "overlays",
     "base": "base-ui",
@@ -554,7 +461,7 @@
     "avoid": [
       "Short-lived confirmations: use Toast.",
       "Using color alone: the tone also changes the icon and you should say it in the text.",
-      "Confirming a destructive action: use AlertDialog.",
+      "Blocking decisions: use Modal role=alertdialog.",
       "Adding visual variants or extra props before a concrete need exists."
     ],
     "a11y": "Announced by screen readers on render. The icon is decorative, and the tone never relies on color alone: the text says what happened."
@@ -592,7 +499,7 @@
     "whenToUse": "Small interactive content tied to a button, such as a form or extra options.",
     "avoid": [
       "Plain hints: use Tooltip.",
-      "Blocking decisions: use Dialog."
+      "Blocking decisions: use Modal."
     ],
     "a11y": "Focus moves into the popup and Escape closes it. Title is the accessible name."
   },
@@ -848,7 +755,7 @@
     "composition": "Pass `trigger` (button text), `title`, optional `description`, `children`, `footer`, `side` (left or right, default right) and open state. One component, no parts.",
     "whenToUse": "Secondary tasks, settings and filters that slide in from an edge.",
     "avoid": [
-      "A centered decision: use Dialog.",
+      "A centered decision: use Modal.",
       "Non-essential information: use Tooltip or inline content.",
       "Sheets without a title."
     ],
@@ -866,5 +773,58 @@
       "Free text that is not from the list: use Input."
     ],
     "a11y": "Filtering, keyboard navigation and focus come from Base UI. Needs an accessible name from `label`, `aria-label` or Field. The popup is announced with the result count."
+  },
+  "Modal": {
+    "category": "overlays",
+    "base": "base-ui",
+    "renders": "no element: it holds the open state and provides the role (Base UI Dialog.Root, or AlertDialog.Root for role=alertdialog)",
+    "composition": "Structure: Modal > ModalTrigger + ModalContent (title, optional tagline/icon/description, body children, actions). Put one to three actions in `actions`: the safe action first and the primary action last. The form lives in the body; a submit button in the footer targets it with the `form` attribute.",
+    "whenToUse": "Interrupting the user for a decision or a focused task.",
+    "avoid": [
+      "Non-essential information: use inline content, Alert or Tooltip.",
+      "Short-lived confirmations: use Toast.",
+      "Modals without a title."
+    ],
+    "choosing": [
+      "Content and forms: Modal with the default role=\"dialog\".",
+      "A decision that interrupts: Modal role=\"alertdialog\"; add color=\"critical\" for a destructive action.",
+      "Blocking information that needs no form: Modal role=\"alertdialog\"."
+    ],
+    "a11y": "The title is the accessible name and the description is the accessible description. Focus is trapped and returned, Escape closes unless dismissible is false, and the page behind is inert. Alert dialogs require a description and start focus on the safe action."
+  },
+  "ModalTrigger": {
+    "category": "overlays",
+    "base": "base-ui",
+    "renders": "button (a Button)",
+    "composition": "Direct child of Modal. Accepts Button `variant` and `size`; use `danger` for the destructive trigger.",
+    "whenToUse": "The button that opens the modal.",
+    "avoid": [
+      "Using a plain Button to open it."
+    ],
+    "a11y": "Gets aria-haspopup and expanded state from Base UI."
+  },
+  "ModalContent": {
+    "category": "overlays",
+    "base": "base-ui",
+    "renders": "div role=\"dialog\" (or role=\"alertdialog\" from the root) in a portal, plus a backdrop",
+    "composition": "`title` is required and children are the body. `description`, `tagline`, `icon`, `actions` and `closeLabel` are optional. The body scrolls while the header and footer stay visible. Actions stack on mobile with the primary on top.",
+    "whenToUse": "The panel of the modal.",
+    "avoid": [
+      "Omitting `title`.",
+      "Putting the form in the footer instead of the body.",
+      "More than three actions."
+    ],
+    "a11y": "The title is the accessible name; the description is the accessible description. A dialog focuses the first field when the body has a form; an alert dialog focuses the safe action."
+  },
+  "ModalClose": {
+    "category": "overlays",
+    "base": "base-ui",
+    "renders": "button (a Button)",
+    "composition": "Inside ModalContent `actions`. Accepts Button `variant` and `size`; use `danger` for the destructive action. Mark the safe action with `initialFocus` in an alert dialog.",
+    "whenToUse": "Cancel, close and confirm actions.",
+    "avoid": [
+      "Closing by custom onClick state when ModalClose is enough."
+    ],
+    "a11y": "Closing returns focus to the trigger, or to returnFocusTo when the trigger no longer exists."
   }
 }

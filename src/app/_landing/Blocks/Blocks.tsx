@@ -14,14 +14,14 @@ import {
   ChartLineUpIcon,
   ChartPieSliceIcon,
   Checkbox,
-  Dialog,
-  DialogClose,
-  DialogContent,
   Field,
   GearIcon,
   Heading,
   Input,
   Link,
+  Modal,
+  ModalClose,
+  ModalContent,
   Select,
   Stack,
   Switch,
@@ -145,18 +145,22 @@ function Sidebar() {
           </ul>
         </nav>
       </Stack>
-      <Dialog
+      <Modal
         open={active !== null}
         onOpenChange={(open) => {
           if (!open) setActive(null);
         }}
       >
         {active && (
-          <DialogContent title={active.label} description={active.description}>
-            <DialogClose>Close</DialogClose>
-          </DialogContent>
+          <ModalContent
+            title={active.label}
+            description={active.description}
+            actions={<ModalClose>Close</ModalClose>}
+          >
+            {null}
+          </ModalContent>
         )}
-      </Dialog>
+      </Modal>
     </Card>
   );
 }

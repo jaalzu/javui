@@ -114,7 +114,7 @@ const componentsManifest = allExported.map((name) => {
   };
 });
 
-// Components without a docgen entry (aliases such as Dialog = BaseDialog.Root) still get TSDoc from source.
+// Components without a docgen entry (for example aliases) still get TSDoc from source.
 for (const c of componentsManifest) {
   if (c.description) continue;
   const dir = c.name.replace(/(Trigger|Content|Close|Provider)$/, "") || c.name;
@@ -136,8 +136,7 @@ for (const c of componentsManifest) {
 
 // ---- 2b. Group compound parts, and keep providers/hooks out of the component list ----
 const compoundParts = {
-  Dialog: ["DialogTrigger", "DialogContent", "DialogClose"],
-  AlertDialog: ["AlertDialogTrigger", "AlertDialogContent", "AlertDialogClose"],
+  Modal: ["ModalTrigger", "ModalContent", "ModalClose"],
   Popover: ["PopoverTrigger", "PopoverContent", "PopoverClose"],
   CodeBlock: ["CodeBlockView"],
   Card: ["CardHeader", "CardTitle", "CardDescription", "CardAction", "CardContent", "CardFooter"],

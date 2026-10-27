@@ -19,8 +19,8 @@ const groups: { title: string; note?: string; tokens: Token[] }[] = [
         "highlight",
         "Highlighted panel inside a card: a metric, total or goal. Dark: lighter than the card; light: soft gray.",
       ],
-      ["modal", "Layers above the page: dialog, menu, select list, popover."],
-      ["overlay", "Backdrop behind dialogs."],
+      ["modal", "Layers above the page: modal, menu, select list, popover."],
+      ["overlay", "Backdrop behind modals."],
     ],
   },
   {
@@ -177,7 +177,7 @@ const shadows: {
     token: "shadow-raised",
     use: "A raised look for secondary controls.",
     yes: ["Secondary buttons"],
-    no: "Floating panels. Menus and dialogs get Large or Extra large.",
+    no: "Floating panels. Menus and modals get Large or Extra large.",
   },
   {
     name: "Large",
@@ -190,7 +190,7 @@ const shadows: {
     name: "Extra large",
     token: "shadow-extra-large",
     use: "Surfaces above the whole page, usually with an overlay behind.",
-    yes: ["Dialog and alert dialog", "Search palette"],
+    yes: ["Modal", "Search palette"],
     no: "Small floating things. A menu with this feels too heavy.",
   },
 ];

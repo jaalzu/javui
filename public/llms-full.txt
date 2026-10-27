@@ -61,8 +61,7 @@
 - **Combobox**: Choosing one option from a long list when typing to filter helps.
 
 ### overlays
-- **Dialog** (parts: DialogTrigger, DialogContent, DialogClose): Interrupting the user for a decision or focused task.
-- **AlertDialog** (parts: AlertDialogTrigger, AlertDialogContent, AlertDialogClose): Confirming a destructive or irreversible action before it runs, such as deleting data or leaving with unsaved changes.
+- **Modal** (parts: ModalTrigger, ModalContent, ModalClose): Interrupting the user for a decision or a focused task.
 - **Tooltip**: Extra clarity for sighted mouse and keyboard users, such as naming an icon button.
 - **Popover** (parts: PopoverTrigger, PopoverContent, PopoverClose): Small interactive content tied to a button, such as a form or extra options.
 - **Menu**: A list of actions or links behind one button, such as account actions.
@@ -113,7 +112,7 @@ For headings use `Heading`; for links use `Link`.
 | `as` | `"div" \| "code" \| "em" \| "label" \| "p" \| "small" \| "span" \| "strong"` | no |  | HTML element to render. Defaults by variant: `p` for body variants, `span` for `label` and `caption`, `code` for `code`. |
 | `casing` | `"normal" \| "uppercase"` | no | normal | Set to `uppercase` for small uppercase captions. |
 | `size` | `"base" \| "sm" \| "lg" \| "xs"` | no | base | Size within the variant: body is 18px (`lg`), 15px (`base`) or 13px (`sm`); caption is 12px, 11px or 10px; code is 14px (`base`), 13px (`sm`) or 12px (`xs`). Ignored by `label` and `emphasis`. |
-| `tone` | `"info" \| "success" \| "warning" \| "danger" \| "default" \| "brand" \| "muted" \| "subtle"` | no | default | Text color from the semantic color tokens. |
+| `tone` | `"info" \| "success" \| "warning" \| "default" \| "brand" \| "danger" \| "muted" \| "subtle"` | no | default | Text color from the semantic color tokens. |
 | `variant` | `"body" \| "caption" \| "code" \| "label" \| "emphasis"` | no | body | Which text style to apply. Appearance only; it does not change the element. |
 | `weight` | `"regular" \| "medium" \| "semibold"` | no |  | Font weight. Only three exist; there is no light. Defaults to the variant's own weight. |
 
@@ -252,7 +251,7 @@ lg 24px.
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Height and type scale: `sm` 20px, `md` 24px, `lg` 28px. |
 | `spinnerPosition` | `"start" \| "end"` | no | start | Side the spinner sits on. |
 | `startIcon` | `ReactNode` | no |  | Icon before the text. Pass a generated icon without `size`; the badge sizes it. |
-| `variant` | `"success" \| "outline" \| "danger" \| "default" \| "inverted" \| "brand"` | no | default | Visual treatment. `default` is a quiet component surface, `inverted` a filled high-contrast pill, `outline` only an inset ring, and `brand`, `success` and `danger` are soft semantic tints (translucent background, colored text). |
+| `variant` | `"success" \| "default" \| "inverted" \| "outline" \| "brand" \| "danger"` | no | default | Visual treatment. `default` is a quiet component surface, `inverted` a filled high-contrast pill, `outline` only an inset ring, and `brand`, `success` and `danger` are soft semantic tints (translucent background, colored text). |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -569,7 +568,7 @@ undefined | Icon after the label. Pass a generated icon without `size`; the butt
 | `loading` | `boolean` | no | false | Shows a spinner and ignores clicks while an action is running. The button keeps its label and stays focusable, and `aria-busy` tells assistive technology it is working. |
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. |
 | `startIcon` | `ReactNode` | no | undefined | Icon before the label. Pass a generated icon without `size`; the button sizes it. The visible icon and accessible name. Pass a generated icon without `size`. |
-| `variant` | `"primary" \| "secondary" \| "outline" \| "ghost" \| "accent" \| "danger"` | no | primary | Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions, `outline` for a transparent button with a visible border, `ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions. |
+| `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | primary | Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions, `outline` for a transparent button with a visible border, `ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -952,51 +951,76 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 <Field label="Role" required><Select items={roles} /></Field>
 ```
 
-## Dialog
+## Modal
 
-Root of a modal dialog. Holds the open state; use `open` and `onOpenChange` to control it,
-or `defaultOpen` to leave it uncontrolled. Built on Base UI Dialog (focus trap, Escape to close,
-focus return and scroll lock come from there).
+The root of a modal. Use `role="dialog"` for content and forms, or `role="alertdialog"` for a
+decision that interrupts. The parts share one implementation; only the behavior and the header
+color change with props. The page behind stays inert and scroll-locked, focus is trapped and
+returned, and Escape closes unless `dismissible` is false.
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Dialog } from "@/ui";`
-- Renders: no element: it only holds the open state (Base UI Dialog.Root)
-- Composition: Structure: Dialog > DialogTrigger + DialogContent (title, description, DialogClose buttons).
-- Use when: Interrupting the user for a decision or focused task.
+- Import: `import { Modal } from "@/ui";`
+- Renders: no element: it holds the open state and provides the role (Base UI Dialog.Root, or AlertDialog.Root for role=alertdialog)
+- Composition: Structure: Modal > ModalTrigger + ModalContent (title, optional tagline/icon/description, body children, actions). Put one to three actions in `actions`: the safe action first and the primary action last. The form lives in the body; a submit button in the footer targets it with the `form` attribute.
+- Use when: Interrupting the user for a decision or a focused task.
+- Choosing:
+  - Content and forms: Modal with the default role="dialog".
+  - A decision that interrupts: Modal role="alertdialog"; add color="critical" for a destructive action.
+  - Blocking information that needs no form: Modal role="alertdialog".
 - Avoid:
-  - Non-essential information: use inline content or Tooltip.
-  - Dialogs without a title.
-  - Confirming destructive actions: use AlertDialog.
-- Accessibility: Focus is trapped and returned, Escape closes, the page behind is inert. Title is the accessible name.
+  - Non-essential information: use inline content, Alert or Tooltip.
+  - Short-lived confirmations: use Toast.
+  - Modals without a title.
+- Accessibility: The title is the accessible name and the description is the accessible description. Focus is trapped and returned, Escape closes unless dismissible is false, and the page behind is inert. Alert dialogs require a description and start focus on the safe action.
 
 ### Props
-_No props of its own._
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | no |  | `ModalTrigger` and `ModalContent`. |
+| `color` | `"neutral" \| "warning" \| "critical"` | no | neutral | Tints the header icon, tagline and title. Behavior does not change; use `role` for that. |
+| `defaultOpen` | `boolean` | no | false | Whether the modal starts open when uncontrolled. |
+| `description` | `ReactNode` | no |  | Description announced as the accessible description. Required for `role="alertdialog"`. Alert dialogs need a description: it is part of the accessible name and explains the decision. |
+| `dismissible` | `boolean` | no | true | Shows the close button and allows Escape and outside click to close. When false, keep at least one footer action so the user has a way out. |
+| `onBeforeClose` | `(() => boolean \| Promise<boolean>)` | no |  | Runs before every close. Return false (or a promise of false) to keep the modal open. Use it to protect a form with unsaved changes, then open a confirmation with `role="alertdialog"`. `onOpenChange` is still called once the close is allowed. |
+| `onOpenChange` | `((open: boolean) => void)` | no |  | Called with the next open state. It covers both opening and closing; there are no separate callbacks. |
+| `open` | `boolean` | no |  | Whether the modal is open. Use it with `onOpenChange` for a controlled modal. |
+| `returnFocusTo` | `string \| RefObject<HTMLElement \| null>` | no |  | Where focus returns when the original trigger no longer exists. Pass an element ref or an id. Rare: the trigger is the normal return target. |
+| `role` | `"dialog" \| "alertdialog"` | no | dialog | Behavior only. Use alertdialog for a decision that interrupts. |
+| `size` | `"sm" \| "md" \| "lg"` | no | md | Width of the panel, from the container tokens. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
 ### Example
 ```tsx
-<Dialog>
-  <DialogTrigger>Delete project</DialogTrigger>
-  <DialogContent title="Delete project?" description="This cannot be undone.">
-    <DialogClose>Cancel</DialogClose>
-  </DialogContent>
-</Dialog>
+<Modal role="alertdialog" color="critical" description="This permanently removes the project and its data.">
+  <ModalTrigger variant="danger">Delete project</ModalTrigger>
+  <ModalContent
+    title="Delete project?"
+    actions={
+      <>
+        <ModalClose>Cancel</ModalClose>
+        <ModalClose variant="danger">Delete</ModalClose>
+      </>
+    }
+  >
+    The project and all of its data will be gone.
+  </ModalContent>
+</Modal>
 ```
 
 ### Parts
 
-### DialogTrigger
+### ModalTrigger
 
-The button that opens the dialog. It is rendered as a `Button`.
+The button that opens the modal. It renders a `Button` and inherits the behavior of the root.
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { DialogTrigger } from "@/ui";`
+- Import: `import { ModalTrigger } from "@/ui";`
 - Renders: button (a Button)
-- Composition: Direct child of Dialog. Accepts Button `variant` and `size`.
-- Use when: The button that opens the dialog.
+- Composition: Direct child of Modal. Accepts Button `variant` and `size`; use `danger` for the destructive trigger.
+- Use when: The button that opens the modal.
 - Avoid:
   - Using a plain Button to open it.
 - Accessibility: Gets aria-haspopup and expanded state from Base UI.
@@ -1005,198 +1029,86 @@ The button that opens the dialog. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
-| `variant` | `"primary" \| "secondary" \| "outline" \| "ghost" \| "accent" \| "danger"` | no | primary | Button style of the trigger. |
+| `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | primary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
 #### Example
 ```tsx
-<DialogTrigger>Open settings</DialogTrigger>
+<ModalTrigger variant="secondary">Open settings</ModalTrigger>
 ```
 
-### DialogContent
+### ModalContent
 
-The dialog panel with its backdrop, title and description.
-Place it inside `Dialog`.
+The modal panel: header, scrollable body and footer. It reads the role and description from
+`Modal`. The footer stacks on mobile with the primary action on top, and sits in one row from
+the `md` breakpoint.
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { DialogContent } from "@/ui";`
-- Renders: div role="dialog" in a portal, plus a backdrop
-- Composition: `title` is required; `description` is recommended. Children are the actions, usually DialogClose.
-- Use when: The panel of the dialog.
+- Import: `import { ModalContent } from "@/ui";`
+- Renders: div role="dialog" (or role="alertdialog" from the root) in a portal, plus a backdrop
+- Composition: `title` is required and children are the body. `description`, `tagline`, `icon`, `actions` and `closeLabel` are optional. The body scrolls while the header and footer stay visible. Actions stack on mobile with the primary on top.
+- Use when: The panel of the modal.
 - Avoid:
   - Omitting `title`.
-- Accessibility: title is the accessible name; description is the accessible description.
+  - Putting the form in the footer instead of the body.
+  - More than three actions.
+- Accessibility: The title is the accessible name; the description is the accessible description. A dialog focuses the first field when the body has a form; an alert dialog focuses the safe action.
 
 #### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `title` | `ReactNode` | yes |  | Dialog title. Required: it is the accessible name of the dialog. |
-| `children` | `ReactNode` | no |  | Body and actions. Put `DialogClose` buttons here. |
+| `children` | `ReactNode` | yes |  | Body content: text, custom content or a form. It scrolls when it exceeds the available height. |
+| `title` | `ReactNode` | yes |  | Modal title. Required: it is the accessible name of the modal. |
+| `actions` | `ReactNode` | no |  | Footer actions: one to three. Put the safe action first and the primary action last. |
 | `className` | `string` | no |  |  |
-| `description` | `ReactNode` | no |  | Short explanation, announced as the accessible description. |
+| `closeLabel` | `string` | no | Close | Accessible name of the close button. |
+| `description` | `ReactNode` | no |  | Explanation announced as the accessible description. Falls back to the `description` on `Modal`. |
+| `icon` | `ReactNode` | no |  | Replaces the default icon for the color. Pass a generated icon without `size`. |
+| `tagline` | `ReactNode` | no |  | Optional short label above the title, such as a category or a state. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
 #### Example
 ```tsx
-<DialogContent title="Delete project?" description="This cannot be undone.">
-  <DialogClose>Cancel</DialogClose>
-</DialogContent>
+<ModalContent
+  title="Invite a teammate"
+  tagline="Workspace"
+  actions={<><ModalClose>Cancel</ModalClose><ModalClose>Send invite</ModalClose></>}
+>
+  <Field label="Email"><Input type="email" /></Field>
+</ModalContent>
 ```
 
-### DialogClose
+### ModalClose
 
-A button that closes the dialog. It is rendered as a `Button`.
+A button that closes the modal. It renders a `Button`. In an alert dialog, mark the safe action
+with `initialFocus`; otherwise the first secondary action receives focus.
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { DialogClose } from "@/ui";`
+- Import: `import { ModalClose } from "@/ui";`
 - Renders: button (a Button)
-- Composition: Inside DialogContent. Accepts Button `variant` and `size`.
-- Use when: Cancel and close actions.
+- Composition: Inside ModalContent `actions`. Accepts Button `variant` and `size`; use `danger` for the destructive action. Mark the safe action with `initialFocus` in an alert dialog.
+- Use when: Cancel, close and confirm actions.
 - Avoid:
-  - Closing by custom onClick state when DialogClose is enough.
-- Accessibility: Closing returns focus to the trigger.
+  - Closing by custom onClick state when ModalClose is enough.
+- Accessibility: Closing returns focus to the trigger, or to returnFocusTo when the trigger no longer exists.
 
 #### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
+| `initialFocus` | `boolean` | no | false | Marks the safe action that receives initial focus in `role="alertdialog"`. |
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size. |
-| `variant` | `"primary" \| "secondary" \| "outline" \| "ghost" \| "accent" \| "danger"` | no | secondary | Button style. |
+| `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style. Use `danger` for a destructive action. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
 #### Example
 ```tsx
-<DialogClose>Cancel</DialogClose>
-```
-
-## AlertDialog
-
-Root of an alert dialog: a modal that asks for confirmation before a destructive or
-irreversible action. It shares Dialog's panel styles but behaves like an alert dialog:
-`role="alertdialog"`, no close on outside click, Escape to close, focus starts on the
-safest action and returns to the trigger.
-
-- Category: overlays
-- Base: Built on Base UI (@base-ui/react)
-- Import: `import { AlertDialog } from "@/ui";`
-- Renders: no element: it only holds the open state (Base UI AlertDialog.Root)
-- Composition: Structure: AlertDialog > AlertDialogTrigger + AlertDialogContent (title, description, AlertDialogClose actions). Put the safe action, usually Cancel, first.
-- Use when: Confirming a destructive or irreversible action before it runs, such as deleting data or leaving with unsaved changes.
-- Avoid:
-  - Forms or general content: use Dialog.
-  - Informational messages that need no decision: use Alert.
-  - Confirmations whose action can be undone: use a Dialog or an inline action instead.
-- Accessibility: Uses role="alertdialog"; it does not close on outside click, Escape closes, focus starts on the safe action and returns to the trigger. Title is the accessible name.
-
-### Props
-_No props of its own._
-
-Also accepts the native/Base UI props of the element it renders; they pass through.
-
-### Example
-```tsx
-<AlertDialog>
-  <AlertDialogTrigger variant="danger">Delete project</AlertDialogTrigger>
-  <AlertDialogContent title="Delete project?" description="This cannot be undone.">
-    <AlertDialogClose>Cancel</AlertDialogClose>
-    <AlertDialogClose variant="danger">Delete</AlertDialogClose>
-  </AlertDialogContent>
-</AlertDialog>
-```
-
-### Parts
-
-### AlertDialogTrigger
-
-The button that opens the alert dialog. It is rendered as a `Button`.
-
-- Category: overlays
-- Base: Built on Base UI (@base-ui/react)
-- Import: `import { AlertDialogTrigger } from "@/ui";`
-- Renders: button (a Button)
-- Composition: Direct child of AlertDialog. Accepts Button `variant` and `size`; use `danger` for the destructive trigger.
-- Use when: The button that opens the alert dialog.
-- Avoid:
-  - Using a plain Button to open it.
-- Accessibility: Gets aria-haspopup and expanded state from Base UI.
-
-#### Props
-| Prop | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `size` | `"sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
-| `variant` | `"primary" \| "secondary" \| "outline" \| "ghost" \| "accent" \| "danger"` | no | primary | Button style of the trigger. |
-
-Also accepts the native/Base UI props of the element it renders; they pass through.
-
-#### Example
-```tsx
-<AlertDialogTrigger variant="danger">Delete project</AlertDialogTrigger>
-```
-
-### AlertDialogContent
-
-The alert dialog panel with its backdrop, title and description. Place it inside
-`AlertDialog`. It does not close on outside click, so the user must choose an action.
-
-- Category: overlays
-- Base: Built on Base UI (@base-ui/react)
-- Import: `import { AlertDialogContent } from "@/ui";`
-- Renders: div role="alertdialog" in a portal, plus a backdrop
-- Composition: `title` is required; `description` is recommended. Children are the actions, usually AlertDialogClose. Put the safe action first: it receives initial focus.
-- Use when: The panel of the alert dialog.
-- Avoid:
-  - Omitting `title`.
-  - Content other than the actions.
-- Accessibility: title is the accessible name; description is the accessible description. Initial focus goes to the first action unless `initialFocus` overrides it.
-
-#### Props
-| Prop | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `title` | `ReactNode` | yes |  | Dialog title. Required: it is the accessible name of the dialog. |
-| `children` | `ReactNode` | no |  | The actions. Put the safe action first (`AlertDialogClose` buttons): it receives initial focus. |
-| `className` | `string` | no |  |  |
-| `description` | `ReactNode` | no |  | Short explanation of what will happen, announced as the accessible description. |
-| `initialFocus` | `boolean \| RefObject<HTMLElement \| null> \| ((openType: InteractionType) => boolean \| void \| HTMLElement \| null)` | no |  | Element to focus when the dialog opens. Defaults to the first action, which should be the safe one. |
-
-Also accepts the native/Base UI props of the element it renders; they pass through.
-
-#### Example
-```tsx
-<AlertDialogContent title="Delete project?" description="This cannot be undone.">
-  <AlertDialogClose>Cancel</AlertDialogClose>
-  <AlertDialogClose variant="danger">Delete</AlertDialogClose>
-</AlertDialogContent>
-```
-
-### AlertDialogClose
-
-A button that closes the alert dialog. It is rendered as a `Button`.
-
-- Category: overlays
-- Base: Built on Base UI (@base-ui/react)
-- Import: `import { AlertDialogClose } from "@/ui";`
-- Renders: button (a Button)
-- Composition: Inside AlertDialogContent. Accepts Button `variant` and `size`; use `danger` for the destructive action.
-- Use when: The cancel and confirm actions.
-- Avoid:
-  - Closing by custom onClick state when AlertDialogClose is enough.
-- Accessibility: Closing returns focus to the trigger.
-
-#### Props
-| Prop | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `size` | `"sm" \| "md" \| "lg"` | no | md | Button size. |
-| `variant` | `"primary" \| "secondary" \| "outline" \| "ghost" \| "accent" \| "danger"` | no | secondary | Button style. Use `danger` for the destructive action. |
-
-Also accepts the native/Base UI props of the element it renders; they pass through.
-
-#### Example
-```tsx
-<AlertDialogClose>Cancel</AlertDialogClose>
+<ModalClose>Cancel</ModalClose>
+<ModalClose variant="danger">Delete</ModalClose>
 ```
 
 ## Tooltip
@@ -1293,7 +1205,7 @@ An icon-only link is valid only with `startIcon` and an accessible name (`aria-l
 undefined | Icon after the label. Pass a generated icon without `size`; the link sizes it. |
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. |
 | `startIcon` | `ReactNode` | no | undefined | Icon before the label. Pass a generated icon without `size`; the link sizes it. The visible icon and accessible name. Pass a generated icon without `size`. |
-| `variant` | `"primary" \| "secondary" \| "outline" \| "ghost" \| "accent" \| "danger"` | no | primary | Visual emphasis, the same as `Button`. `primary` is the main call to action (one per view). |
+| `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | primary | Visual emphasis, the same as `Button`. `primary` is the main call to action (one per view). |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -1478,7 +1390,7 @@ for short-lived feedback use `useToast` instead.
 - Avoid:
   - Short-lived confirmations: use Toast.
   - Using color alone: the tone also changes the icon and you should say it in the text.
-  - Confirming a destructive action: use AlertDialog.
+  - Blocking decisions: use Modal role=alertdialog.
   - Adding visual variants or extra props before a concrete need exists.
 - Accessibility: Announced by screen readers on render. The icon is decorative, and the tone never relies on color alone: the text says what happened.
 
@@ -1579,7 +1491,7 @@ Also accepts the native props of the element it renders; they pass through.
 
 Root of a popover: a small panel anchored to a button, for extra controls or details the user asked for.
 Built on Base UI Popover (focus management, Escape to close, outside click and positioning come from there).
-For decisions that must interrupt the user use `Dialog`; for a list of actions use `Menu`.
+For decisions that must interrupt the user use `Modal`; for a list of actions use `Menu`.
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
@@ -1589,7 +1501,7 @@ For decisions that must interrupt the user use `Dialog`; for a list of actions u
 - Use when: Small interactive content tied to a button, such as a form or extra options.
 - Avoid:
   - Plain hints: use Tooltip.
-  - Blocking decisions: use Dialog.
+  - Blocking decisions: use Modal.
 - Accessibility: Focus moves into the popup and Escape closes it. Title is the accessible name.
 
 ### Props
@@ -1625,7 +1537,7 @@ The button that opens the popover. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
-| `variant` | `"primary" \| "secondary" \| "outline" \| "ghost" \| "accent" \| "danger"` | no | secondary | Button style of the trigger. |
+| `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1685,7 +1597,7 @@ A button that closes the popover. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg"` | no | sm | Button size. |
-| `variant` | `"primary" \| "secondary" \| "outline" \| "ghost" \| "accent" \| "danger"` | no | secondary | Button style. |
+| `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1720,7 +1632,7 @@ menu items are compact and use 16px icons.
 | `align` | `"center" \| "start" \| "end"` | no | start | Alignment of the menu against the trigger. |
 | `className` | `string` | no |  |  |
 | `size` | `"sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
-| `variant` | `"primary" \| "secondary" \| "outline" \| "ghost" \| "accent" \| "danger"` | no | secondary | Button style of the trigger. |
+| `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -2182,7 +2094,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 ## Sheet
 
 A side sheet for secondary tasks and settings, built on Base UI Drawer. Focus is trapped, Escape
-closes it, and it can be swiped away on touch. For a centered decision use `Dialog`.
+closes it, and it can be swiped away on touch. For a centered decision use `Modal`.
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
@@ -2191,7 +2103,7 @@ closes it, and it can be swiped away on touch. For a centered decision use `Dial
 - Composition: Pass `trigger` (button text), `title`, optional `description`, `children`, `footer`, `side` (left or right, default right) and open state. One component, no parts.
 - Use when: Secondary tasks, settings and filters that slide in from an edge.
 - Avoid:
-  - A centered decision: use Dialog.
+  - A centered decision: use Modal.
   - Non-essential information: use Tooltip or inline content.
   - Sheets without a title.
 - Accessibility: Focus is trapped and returned, Escape closes, the page behind is inert, and the title names the sheet. The close button has an accessible label.
@@ -2306,7 +2218,7 @@ and dark work without extra code. Unknown languages are shown as plain text.
 | `label` | `string` | no | Code | Accessible name of the scrollable code region. |
 | `language` | `string` | no |  | Language name. `bash`, `sh` and `shell` show a small terminal icon instead of the word. |
 | `tabs` | `CodeTab[]` | no |  | Alternative versions of the same code, usually one command per package manager. The first tab is selected first. |
-| `tone` | `"success" \| "danger" \| "default" \| "brand"` | no | default | Color the frame for the kind of message: default, brand, success or danger. |
+| `tone` | `"success" \| "default" \| "brand" \| "danger"` | no | default | Color the frame for the kind of message: default, brand, success or danger. |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -2339,7 +2251,7 @@ The server passes highlighted HTML; without it the code stays plain text.
 | `language` | `string` | no |  | Language name. `bash`, `sh` and `shell` show a small terminal icon instead of the word. |
 | `tabHtml` | `Record<string, string \| null>` | no |  | Highlighted HTML per tab label, produced on the server. |
 | `tabs` | `CodeTab[]` | no |  | Alternative versions of the same code, usually one command per package manager. The first tab is selected first. |
-| `tone` | `"success" \| "danger" \| "default" \| "brand"` | no | default | Color the frame for the kind of message: default, brand, success or danger. |
+| `tone` | `"success" \| "default" \| "brand" \| "danger"` | no | default | Color the frame for the kind of message: default, brand, success or danger. |
 
 Also accepts the native props of the element it renders; they pass through.
 

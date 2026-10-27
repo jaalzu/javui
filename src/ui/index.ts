@@ -56,14 +56,16 @@ export { Select } from "./components/Select";
 export type { SelectProps, SelectItem } from "./components/Select";
 
 // Overlays and navigation (built on Base UI)
-export { Dialog, DialogTrigger, DialogContent, DialogClose } from "./components/Dialog";
-export type { DialogTriggerProps, DialogContentProps, DialogCloseProps } from "./components/Dialog";
-export { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogClose } from "./components/AlertDialog";
+export { Modal, ModalTrigger, ModalContent, ModalClose } from "./components/Modal";
 export type {
-  AlertDialogTriggerProps,
-  AlertDialogContentProps,
-  AlertDialogCloseProps,
-} from "./components/AlertDialog";
+  ModalProps,
+  ModalTriggerProps,
+  ModalContentProps,
+  ModalCloseProps,
+  ModalRole,
+  ModalSize,
+  ModalColor,
+} from "./components/Modal";
 export { Tooltip, TooltipProvider } from "./components/Tooltip";
 export type { TooltipProps, TooltipProviderProps } from "./components/Tooltip";
 export { Tabs } from "./components/Tabs";

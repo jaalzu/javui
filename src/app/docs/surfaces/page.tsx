@@ -23,7 +23,7 @@ export default function Surfaces() {
           { token: <code>--color-card</code>, use: "Content blocks on the page: cards, panels and table rows." },
           { token: <code>--color-sunken</code>, use: "Recessed areas inside a card: code blocks, wells and inset fields." },
           { token: <code>--color-highlight</code>, use: "Highlighted panel inside a card: a metric, total or goal. Dark: lighter than the card; light: soft gray." },
-          { token: <code>--color-modal</code>, use: "Layers above the page: dialogs, menus, select lists and popovers." },
+          { token: <code>--color-modal</code>, use: "Layers above the page: modals, menus, select lists and popovers." },
         ]}
       />
 

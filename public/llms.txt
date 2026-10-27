@@ -61,8 +61,7 @@
 - **Combobox**: Choosing one option from a long list when typing to filter helps.
 
 ### overlays
-- **Dialog** (parts: DialogTrigger, DialogContent, DialogClose): Interrupting the user for a decision or focused task.
-- **AlertDialog** (parts: AlertDialogTrigger, AlertDialogContent, AlertDialogClose): Confirming a destructive or irreversible action before it runs, such as deleting data or leaving with unsaved changes.
+- **Modal** (parts: ModalTrigger, ModalContent, ModalClose): Interrupting the user for a decision or a focused task.
 - **Tooltip**: Extra clarity for sighted mouse and keyboard users, such as naming an icon button.
 - **Popover** (parts: PopoverTrigger, PopoverContent, PopoverClose): Small interactive content tied to a button, such as a form or extra options.
 - **Menu**: A list of actions or links behind one button, such as account actions.

@@ -42,15 +42,15 @@ r = await call("get_component", { name: "button" });
 const btn = JSON.parse(r.text);
 check("get_component is case-insensitive and has props", btn.name === "Button" && btn.props.some((p) => p.name === "variant" && p.type.includes('"danger"')), r.text.slice(0, 120));
 
-r = await call("get_component", { name: "Dialo" });
-check("unknown component suggests a name", r.error && /Dialog/.test(r.text), r.text);
+r = await call("get_component", { name: "Moda" });
+check("unknown component suggests a name", r.error && /Modal/.test(r.text), r.text);
 
-r = await call("get_component", { name: "Dialog" });
-const dialog = JSON.parse(r.text);
-check("groups compound parts under their parent", dialog.parts?.map((p) => p.name).join() === "DialogTrigger,DialogContent,DialogClose", r.text.slice(0, 120));
+r = await call("get_component", { name: "Modal" });
+const modal = JSON.parse(r.text);
+check("groups compound parts under their parent", modal.parts?.map((p) => p.name).join() === "ModalTrigger,ModalContent,ModalClose", r.text.slice(0, 120));
 
-r = await call("get_component", { name: "DialogContent" });
-check("gets a compound part by name", !r.error && JSON.parse(r.text).name === "DialogContent", r.text.slice(0, 120));
+r = await call("get_component", { name: "ModalContent" });
+check("gets a compound part by name", !r.error && JSON.parse(r.text).name === "ModalContent", r.text.slice(0, 120));
 
 r = await call("get_component", { name: "useToast" });
 check("gets providers and hooks by name", !r.error && JSON.parse(r.text).name === "useToast", r.text.slice(0, 120));

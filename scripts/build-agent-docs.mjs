@@ -105,6 +105,8 @@ const componentsManifest = allExported.map((name) => {
     whenToUse: m.whenToUse,
     avoid: m.avoid,
     accessibility: m.a11y,
+    callout: m.callout,
+    choosing: m.choosing,
     props,
     extends: m.base === "base-ui" ? "Also accepts the native/Base UI props of the element it renders; they pass through." : "Also accepts the native props of the element it renders; they pass through.",
     examples: examplesFor(name, file),
@@ -112,7 +114,7 @@ const componentsManifest = allExported.map((name) => {
   };
 });
 
-// Components without a docgen entry (aliases such as Dialog = BaseDialog.Root) still get TSDoc from source.
+// Components without a docgen entry (for example aliases) still get TSDoc from source.
 for (const c of componentsManifest) {
   if (c.description) continue;
   const dir = c.name.replace(/(Trigger|Content|Close|Provider)$/, "") || c.name;
@@ -134,9 +136,13 @@ for (const c of componentsManifest) {
 
 // ---- 2b. Group compound parts, and keep providers/hooks out of the component list ----
 const compoundParts = {
-  Dialog: ["DialogTrigger", "DialogContent", "DialogClose"],
+  Modal: ["ModalTrigger", "ModalContent", "ModalClose"],
   Popover: ["PopoverTrigger", "PopoverContent", "PopoverClose"],
   CodeBlock: ["CodeBlockView"],
+  Card: ["CardHeader", "CardTitle", "CardDescription", "CardAction", "CardContent", "CardFooter"],
+  RadioGroup: ["Radio"],
+  ButtonGroup: ["ButtonGroupSeparator"],
+  Avatar: ["AvatarGroup"],
 };
 const providerAndHookNames = ["LinkProvider", "TooltipProvider", "ToastProvider", "useLinkComponent", "useToast"];
 const byName = new Map(componentsManifest.map((c) => [c.name, c]));
@@ -276,6 +282,7 @@ const entryMarkdown = (c, level = 2) => {
     `- Renders: ${c.renders}`,
     `- Composition: ${c.composition}`,
     `- Use when: ${c.whenToUse}`,
+    ...(c.choosing?.length ? ["- Choosing:", ...c.choosing.map((a) => `  - ${a}`)] : []),
     `- Avoid:`,
     ...c.avoid.map((a) => `  - ${a}`),
     `- Accessibility: ${c.accessibility}`,

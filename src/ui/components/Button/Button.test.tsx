@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { axe } from "vitest-axe";
 import { describe, expect, it, vi } from "vitest";
 import { Button } from "./Button";
+import styles from "./Button.module.css";
 import { ArrowRightIcon, CheckIcon } from "../../icons/icons.generated";
 
 describe("Button loading", () => {
@@ -98,6 +99,24 @@ describe("Button", () => {
     expect(saving).toHaveAttribute("data-icon", "start");
     expect(screen.getByText("Saving")).toBeVisible();
     expect(saving.querySelector("svg")).toHaveAttribute("aria-hidden", "true");
+  });
+
+  it("applies the xs size and keeps an icon-only button square", () => {
+    render(<Button size="xs" aria-label="Add" startIcon={<CheckIcon />} />);
+    const button = screen.getByRole("button", { name: "Add" });
+    expect(button).toHaveClass(styles.xs);
+    expect(button).toHaveAttribute("data-icon", "only");
+  });
+
+  it("applies the pill shape to labeled and icon-only buttons", () => {
+    const { rerender } = render(<Button pill>Save</Button>);
+    expect(screen.getByRole("button", { name: "Save" })).toHaveClass(styles.pill);
+
+    rerender(<Button pill size="xs" aria-label="Add" startIcon={<CheckIcon />} />);
+    const iconOnly = screen.getByRole("button", { name: "Add" });
+    expect(iconOnly).toHaveClass(styles.pill);
+    expect(iconOnly).toHaveClass(styles.xs);
+    expect(iconOnly).toHaveAttribute("data-icon", "only");
   });
 
   it("has no accessibility violations", async () => {

@@ -77,7 +77,7 @@ server.registerTool(
   {
     title: "Get component",
     description: "Full reference for one component: description, props with types and defaults, what it renders, composition rules, things to avoid, accessibility notes and examples.",
-    inputSchema: { name: z.string().describe("Component name, for example Button or DialogContent") },
+    inputSchema: { name: z.string().describe("Component name, for example Button or ModalContent") },
   },
   async ({ name }) => {
     const c = find(name);

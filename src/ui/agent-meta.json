@@ -1,25 +1,26 @@
 {
   "$comment": "Hand-written guidance for agents that cannot be derived from types or TSDoc. Props, descriptions and examples are generated from the source. scripts/build-agent-docs.mjs fails if an export in src/ui/index.ts has no entry here, or the other way around.",
   "$touchTargets": "Every interactive control must have a hit area of at least 44px on touch devices (pointer: coarse) and at least 24px otherwise. Use the shared mechanism; never enlarge the visible control for this.",
-  "$surfaceComposition": "There are five surfaces. Card sits on page, sunken and highlight sit inside card, and modal floats above the page. Table: page = the base; card = content block on the page (cards, panels, table rows); sunken = recessed area inside a card (code, wells, inset fields); highlight = highlighted panel inside a card (a metric, total or goal; dark lighter than the card, light soft gray); modal = floating layer above the page (dialog, menu, select list, popover). Rules: max 3 nested levels; never put a card inside a card (use sunken, highlight or Divider instead); highlight sits inside a card, is never nested, and is not for code or inputs (use sunken); modal is never a page background; mark the sunken container with data-surface=\"sunken\" so controls inside use --color-component-on-sunken; controls placed on highlight use --color-component; at rest use a border or a shadow, never both.",
+  "$surfaceComposition": "There are five surfaces. Card sits on page, sunken and highlight sit inside card, and modal floats above the page. Table: page = the base; card = content block on the page (cards, panels, table rows); sunken = recessed area inside a card (code, wells, inset fields); highlight = highlighted panel inside a card (a metric, total or goal; dark lighter than the card, light soft gray); modal = floating layer above the page (dialog, menu, select list, popover). Rules: max 3 nested levels; never put a card inside a card (use sunken, highlight or an `hr` hairline instead); highlight sits inside a card, is never nested, and is not for code or inputs (use sunken); modal is never a page background; mark the sunken container with data-surface=\"sunken\" so controls inside use --color-component-on-sunken; controls placed on highlight use --color-component; at rest use a border or a shadow, never both.",
   "$brand": "Brand color tokens derive from --color-brand-solid through color-mix: brand-solid-hover, brand-subtle, brand-foreground (75% brand-solid + 25% primary-foreground), brand-foreground-soft and brand-border-default. The focus ring, brand-border-focus, stays text-colored for contrast. Changing --color-brand-solid rebrands the whole family; --color-on-brand-solid-foreground stays white because it is the text on the solid brand surface. Keep brand-foreground at least 4.5:1 on --color-page and --color-card in both themes.",
   "$radius": "The radius scale derives from --radius-base (0.5rem), the single source. sm = 0.5x, md = 1x, lg = 1.5x and xl = 2x via calc, so the default scale is 4/8/12/16px. none and full stay fixed. Nested-radius formulas read the same scale.",
-  "$motion": "Use motion tokens only. Durations stay under 300ms (fast 100, base 160, slow 240). Entrances and user-driven motion use easing-out; exits may use easing-in and the same duration or shorter. Never scale(0): minimum 0.9 (press/tooltip 0.97, popup 0.95, modal 0.96). Never transition: all. Animate only opacity, transform, color, background, box-shadow, plus Accordion and Collapsible height and the Tabs indicator. Anchored popups (Menu, Select, Popover, Tooltip) use transform-origin: var(--transform-origin); Dialog stays centered and composes translate(-50%, -50%) with scale. Do not animate theme changes, the focus ring, or list/menu items on hover. prefers-reduced-motion is global: drop scale/transform, keep short fades. Sheet slides from the side with slow/out and follows --drawer-swipe-movement-x. Toast, stagger, scroll-reveal, hold-to-confirm and drag are not implemented; when they exist, keep them under 300ms with easing-out and never scale(0).",
+  "$motion": "Use motion tokens only. Durations stay under 300ms (fast 100, base 160, slow 240). Entrances and user-driven motion use easing-out; exits may use easing-in and the same duration or shorter. Never scale(0): minimum 0.9 (press/tooltip 0.97, popup 0.95, modal 0.96). Never transition: all. Animate only opacity, transform, color, background, box-shadow, plus Accordion and Collapsible height and the Tabs indicator. Anchored popups (Menu, Select, Popover, Tooltip) use transform-origin: var(--transform-origin); Modal stays centered and composes translate(-50%, -50%) with scale. Do not animate theme changes, the focus ring, or list/menu items on hover. prefers-reduced-motion is global: drop scale/transform, keep short fades. Sheet slides from the side with slow/out and follows --drawer-swipe-movement-x. Toast, stagger, scroll-reveal, hold-to-confirm and drag are not implemented; when they exist, keep them under 300ms with easing-out and never scale(0).",
   "$headerHeight": "`--header-height` is the height of the sticky site header (3.55rem / 56.8px). The header uses it directly, and `html` uses `scroll-padding-top: calc(var(--header-height) + var(--space-4))` so in-page anchors clear the header.",
   "Text": {
     "category": "typography",
     "base": "own",
     "renders": "p (body variants), span (label, caption), code (code); or the element in `as`",
     "composition": "`as` accepts only: p, span, label, strong, em, small, div, code. No links or buttons.",
-    "whenToUse": "Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls and fields (buttons, form labels, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).",
+    "whenToUse": "Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls (buttons, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).",
     "avoid": [
       "Headings: use Heading.",
       "Links: use Link.",
       "Actions: use Button.",
       "Setting font-size or color by hand.",
-      "Caption size=\"sm\" (10px) for lowercase running text: it is intentional for uppercase metadata, where the extra tracking keeps it legible."
+      "Caption size=\"sm\" (10px) for lowercase running text: it is intentional for uppercase metadata, where the extra tracking keeps it legible.",
+      "Form labels: use Label, or Field when you also need description and error."
     ],
-    "a11y": "Use `as=\"label\"` with `htmlFor` for form labels when not using Field. Do not use tone=\"subtle\" for required text."
+    "a11y": "Do not use tone=\"subtle\" for required text."
   },
   "Heading": {
     "category": "typography",
@@ -38,11 +39,12 @@
     "category": "typography",
     "base": "own",
     "renders": "a",
-    "composition": "Native anchor props pass through. `href` is required. Put a trailing icon in `endIcon` (no `size`). Set `standalone` for a link used as a standalone action; inline links in a sentence stay inline.",
-    "whenToUse": "Navigation to another page, section or resource.",
+    "composition": "Native anchor props pass through. `href` is required. Put a trailing icon in `endIcon` (no `size`). Set `standalone` for a link used as a standalone action; inline links in a sentence stay inline. For a link styled as a button, use `Button` with `href`.",
+    "whenToUse": "Navigation to another page, section or resource, inline in text.",
     "avoid": [
-      "Actions that do not navigate: use Button.",
-      "Links without visible text."
+      "Actions that do not navigate: use Button with onClick.",
+      "Links without visible text.",
+      "Button-styled navigation: use Button with href."
     ],
     "a11y": "Always underlined so it does not rely on color (the underline gets stronger on hover). Use `target=\"_blank\"` only with `rel=\"noopener noreferrer\"`."
   },
@@ -61,27 +63,15 @@
     "category": "typography",
     "base": "own",
     "renders": "span, or the element passed in `render`",
-    "composition": "Text children, plus optional `startIcon`/`endIcon` (generated icons, no `size`); never put icons in children. `loading` adds a spinner (`spinnerPosition`: start or end). `variant`: default, inverted, outline, brand, success or danger. `size`: sm, md or lg. Icons follow the size: sm 16px, md 20px, lg 24px. `shape`: pill (default) or rounded. Pass `render={<Link href=\"…\" />}` to render a link. Keep text to one or two words; truncate counts to two digits (`99+`).",
+    "composition": "Text children, plus optional `startIcon`/`endIcon` (generated icons, no `size`); never put icons in children. `loading` adds a spinner (`spinnerPosition`: start or end). `variant`: default, inverted, outline, brand, success or danger. Pass `render={<Link href=\"…\" />}` to render a link. Keep text to one or two words; truncate counts to two digits (`99+`).",
     "whenToUse": "Short status or count labels next to other content.",
     "avoid": [
       "Using color as the only signal: always include text.",
       "Badges as headings or key indicators: they are secondary and supportive.",
-      "Long descriptions, or mixing different badge sizes side by side.",
+      "Long descriptions: badges are for short labels.",
       "Styling a badge like a button when it acts as one: use Button."
     ],
     "a11y": "Meaning must be in the text; the variant only reinforces it. A badge rendered as a link keeps the link's own accessible name."
-  },
-  "Box": {
-    "category": "layout",
-    "base": "own",
-    "renders": "div, or the container element in `as`",
-    "composition": "`as` accepts: div, section, article, main, nav, aside, header, footer, ul, ol, li.",
-    "whenToUse": "A generic container with token padding, surface, border and radius.",
-    "avoid": [
-      "Pixel values: use the spacing scale keys.",
-      "Using div for something that has a semantic element."
-    ],
-    "a11y": "Landmark elements (nav, main, aside) need an accessible name if there is more than one of the same kind."
   },
   "Stack": {
     "category": "layout",
@@ -99,34 +89,41 @@
     "category": "layout",
     "base": "own",
     "renders": "div (or `as`) with display:grid",
-    "composition": "`columns` is a number (equal columns) or a full grid-template-columns string.",
+    "composition": "`columns` is a number (equal columns), a full grid-template-columns string, or a per-breakpoint object. `minColumnWidth` uses automatic columns and overrides `columns`.",
     "whenToUse": "Two-dimensional layouts and card grids.",
     "avoid": [
       "One-dimensional layouts: use Stack."
     ],
-    "a11y": "Visual order should match DOM order."
+    "a11y": "Visual order should match DOM order.",
+    "choosing": [
+      "Cards, tiles and galleries: use `minColumnWidth` (for example `\"16rem\"`). Columns fit automatically, with no breakpoints.",
+      "Fixed layouts that change by screen (sidebar plus content, 1/2/3 columns): use the responsive `columns` object, for example `{ base: 1, md: 2, lg: 4 }`.",
+      "Unequal columns: pass a string such as `\"2fr 1fr\"`, optionally per breakpoint, for example `{ base: 1, lg: \"2fr 1fr\" }`."
+    ]
   },
   "Container": {
     "category": "layout",
     "base": "own",
     "renders": "div (or `as`), centered with a max width",
-    "composition": "`size` is one of sm, md, lg, xl (container tokens).",
+    "composition": "`size` is one of sm, md, lg, xl (container tokens) and limits the content width, not the padding. `padding` uses the spacing scale.",
     "whenToUse": "Page-level width limit and side padding.",
     "avoid": [
-      "Nesting containers."
+      "Nesting containers.",
+      "Full-width sections: put the background on the section and the Container inside it."
     ],
     "a11y": "Use `as=\"main\"` once per page for the primary content."
   },
-  "Divider": {
+  "AspectRatio": {
     "category": "layout",
     "base": "own",
-    "renders": "hr",
-    "composition": "Native hr props pass through; no children.",
-    "whenToUse": "A thematic break between groups of content.",
+    "renders": "div",
+    "composition": "Reserves space for media before it loads, preventing layout shift (CLS). `ratio` is width divided by height (`16 / 9`, `4 / 3`, `1`) and defaults to 1. Only `div` is rendered; when the media needs a caption, wrap the box in a `figure` yourself. A direct child `img`, `video`, `iframe`, `picture`, `canvas` or `svg` fills the box; images and videos use `object-fit: cover`.",
+    "whenToUse": "Images, video, embeds or maps whose size must be reserved before they load, preventing layout shift (CLS).",
     "avoid": [
-      "Pure decoration: use spacing."
+      "Text boxes: the box grows with its content.",
+      "Decorative containers with no media."
     ],
-    "a11y": "Exposed as a separator. Vertical sets aria-orientation."
+    "a11y": "The child needs its own alt text (`img`) or title (`iframe`, `video`); the box adds no semantics."
   },
   "VisuallyHidden": {
     "category": "utility",
@@ -143,7 +140,7 @@
     "category": "utility",
     "base": "own",
     "renders": "svg on a 256x256 viewBox, filled with currentColor",
-    "composition": "Do not pass paths. Import a named icon from the set (CheckIcon, ArrowRightIcon ...) generated by `bun run icons` and listed in /agent/icons.json. Each icon takes `size` (sm 16, md 20, lg 24, xl 32) and `weight` (regular | fill).",
+    "composition": "Do not pass paths. Import a named icon from the set (CheckIcon, ArrowRightIcon ...) generated by `bun run icons` and listed in /agent/icons.json. Each icon takes `size` (xs 12, sm 16, md 20, lg 24, xl 32) and `weight` (regular | fill). Do not pass `size` to icons inside `startIcon`/`endIcon`; `xs` is for standalone use, inline with text or in small badges.",
     "whenToUse": "Any glyph. Named icons are decorative by default; pass `label` when the icon is the only carrier of meaning.",
     "avoid": [
       "Hand-written <path> children: every icon comes from the generated set.",
@@ -178,15 +175,58 @@
   "Button": {
     "category": "controls",
     "base": "base-ui",
-    "renders": "button",
-    "composition": "Defaults to type=\"button\"; pass type=\"submit\" explicitly. Put icons in `startIcon`/`endIcon` (generated icons, no `size`). Icon-only: `startIcon` is required and exactly one of `aria-label` or `aria-labelledby`. Heights: sm 1.75rem, md 2.25rem, lg 2.75rem. Icons follow the size: sm 16px, md 20px, lg 24px. Base UI props such as `render` and `nativeButton` are available but not needed for normal use.",
-    "whenToUse": "Any action: submit, open, confirm, cancel. Pass `loading` while the action runs.",
+    "renders": "button without `href`; a (or the LinkProvider component) with `href`",
+    "composition": "`href` decides the element: a Base UI button (`type=\"button\"` by default) or a link from `LinkProvider` that rejects `disabled`, `loading` and `type`. Put icons in `startIcon`/`endIcon` (no `size`). Icon-only needs `startIcon` and one of `aria-label` or `aria-labelledby`. Sizes: xs 1.5rem/12px icon, sm 1.75rem/16px, md 2.25rem/20px, lg 2.75rem/24px. `pill` uses `--radius-full`; inside ButtonGroup only the outer corners keep it.",
+    "whenToUse": "An action with onClick (submit, open, confirm, cancel), or navigation that looks like a button with href. Pass `loading` while an action runs.",
     "avoid": [
-      "Navigation: use Link.",
+      "Navigation as inline text: use Link.",
+      "onClick plus router.push to navigate: use href, or right-click and new-tab semantics are lost.",
       "More than one primary button per view.",
-      "Disabling the button to show progress: use `loading`, it keeps the label and focus."
+      "Disabling the button to show progress: use `loading`."
     ],
-    "a11y": "Icon-only buttons need `aria-label` (or `aria-labelledby`) and use `startIcon` instead of children; the types enforce it. `loading` sets `aria-busy` and counts as the start slot, and the spinner stays silent so the button's accessible name is the only announcement. Keyboard and disabled behavior come from Base UI."
+    "a11y": "Icon-only controls need `aria-label` (or `aria-labelledby`) and use `startIcon` instead of children; the types enforce it. `loading` sets `aria-busy` and counts as the start slot, and the spinner stays silent so the button's accessible name is the only announcement. With `href` it is a real link (role link), never role button. Keyboard and disabled behavior on the button branch come from Base UI."
+  },
+  "ButtonGroup": {
+    "category": "controls",
+    "base": "own",
+    "renders": "div role=\"group\"",
+    "composition": "Pass `orientation` and one group of related children: `Button`, a `Menu` trigger, `Input`, `Select` or `ButtonGroupText`. Use the same size and variant in every child; the group does not inherit either. `stackBelow` stacks it below `sm` or `md` and returns to `orientation` above it. Default internal lines are drawn by the children.",
+    "whenToUse": "Related actions (2-4 buttons) with short labels and the same size, such as Save draft, Preview and Publish.",
+    "avoid": [
+      "Loose or unrelated actions that do not form a set.",
+      "Long groups: split them or use a Menu.",
+      "Selection state: use ToggleGroup.",
+      "The `ghost` variant."
+    ],
+    "choosing": [
+      "Actions: use ButtonGroup. Selection state: use ToggleGroup."
+    ],
+    "a11y": "Renders role=\"group\"; add an `aria-label` that names the set of actions. Each child keeps its own accessible name and focus ring, which stays above its neighbours."
+  },
+  "ButtonGroupSeparator": {
+    "category": "controls",
+    "base": "own",
+    "renders": "div role=\"separator\"",
+    "composition": "A 1px line with `align-self: stretch` and `--color-border-default`. Use it only when a filled variant (`primary`, `accent`, `danger`) hides the default internal border. It follows the group's active axis, including `stackBelow`.",
+    "whenToUse": "Adding a visible division between controls whose default border is hidden by a filled background.",
+    "avoid": [
+      "Groups of `secondary` buttons, where the default border already divides.",
+      "Using it as decoration outside a ButtonGroup."
+    ],
+    "a11y": "Exposes role=\"separator\" with an `aria-orientation` that describes the line."
+  },
+  "ButtonGroupText": {
+    "category": "controls",
+    "base": "own",
+    "renders": "div",
+    "composition": "Static text only, such as `https://` or `USD`. It takes the height of the other controls in the group and uses the group's shared border. No `render`.",
+    "whenToUse": "A short prefix or unit next to an Input or a Button inside a ButtonGroup.",
+    "avoid": [
+      "Interactive content or actions: use Button.",
+      "Long labels: the addon is a short prefix or unit.",
+      "Use outside a ButtonGroup."
+    ],
+    "a11y": "Plain text; it does not add a role or a name. Keep the adjacent control's accessible name complete."
   },
   "Field": {
     "category": "controls",
@@ -241,7 +281,7 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "fieldset with a legend and a radiogroup",
-    "composition": "`legend` is required. Children are Radio elements. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend.",
+    "composition": "`legend` is required. Children are Radio elements. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend. Radio is documented under Parts.",
     "whenToUse": "Choosing exactly one option from a short list.",
     "avoid": [
       "Long lists: use Select."
@@ -252,7 +292,7 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "span role=\"radio\" with a hidden native input, inside a label",
-    "composition": "Only inside RadioGroup. `value` and `label` are required.",
+    "composition": "Only inside RadioGroup; it is documented under Parts. `value` and `label` are required.",
     "whenToUse": "One option of a RadioGroup.",
     "avoid": [
       "Using it outside a RadioGroup."
@@ -282,51 +322,6 @@
       "Hand-wiring validation ARIA: use Field error."
     ],
     "a11y": "Keyboard, typeahead and focus come from Base UI. Needs an accessible name. readOnly prevents choosing another option; loading is readOnly with aria-busy=true."
-  },
-  "Dialog": {
-    "category": "overlays",
-    "base": "base-ui",
-    "renders": "no element: it only holds the open state (Base UI Dialog.Root)",
-    "composition": "Structure: Dialog > DialogTrigger + DialogContent (title, description, DialogClose buttons).",
-    "whenToUse": "Interrupting the user for a decision or focused task.",
-    "avoid": [
-      "Non-essential information: use inline content or Tooltip.",
-      "Dialogs without a title."
-    ],
-    "a11y": "Focus is trapped and returned, Escape closes, the page behind is inert. Title is the accessible name."
-  },
-  "DialogTrigger": {
-    "category": "overlays",
-    "base": "base-ui",
-    "renders": "button (a Button)",
-    "composition": "Direct child of Dialog. Accepts Button `variant` and `size`.",
-    "whenToUse": "The button that opens the dialog.",
-    "avoid": [
-      "Using a plain Button to open it."
-    ],
-    "a11y": "Gets aria-haspopup and expanded state from Base UI."
-  },
-  "DialogContent": {
-    "category": "overlays",
-    "base": "base-ui",
-    "renders": "div role=\"dialog\" in a portal, plus a backdrop",
-    "composition": "`title` is required; `description` is recommended. Children are the actions, usually DialogClose.",
-    "whenToUse": "The panel of the dialog.",
-    "avoid": [
-      "Omitting `title`."
-    ],
-    "a11y": "title is the accessible name; description is the accessible description."
-  },
-  "DialogClose": {
-    "category": "overlays",
-    "base": "base-ui",
-    "renders": "button (a Button)",
-    "composition": "Inside DialogContent. Accepts Button `variant` and `size`.",
-    "whenToUse": "Cancel and close actions.",
-    "avoid": [
-      "Closing by custom onClick state when DialogClose is enough."
-    ],
-    "a11y": "Closing returns focus to the trigger."
   },
   "Tooltip": {
     "category": "overlays",
@@ -363,23 +358,11 @@
     ],
     "a11y": "Arrow keys move between tabs; roles and aria-controls come from Base UI."
   },
-  "ButtonLink": {
-    "category": "navigation",
-    "base": "own",
-    "renders": "a (rendered by the LinkProvider component, `next/link` in this app) styled like a Button",
-    "composition": "Pass `href`, `variant`, `size` and optional `startIcon`/`endIcon` (generated icons, no `size`). Children are the visible label. Icon-only: `startIcon` is required and exactly one of `aria-label` or `aria-labelledby`. Icons follow the size: sm 16px, md 20px, lg 24px.",
-    "whenToUse": "A call to action that goes to another page, such as Get started or Docs.",
-    "avoid": [
-      "Actions that do not navigate: use Button.",
-      "Inline links inside text: use Link."
-    ],
-    "a11y": "Icon-only buttons need `aria-label` (or `aria-labelledby`); the types enforce it. It is a real link (role link), so middle-click, open in new tab and prefetch work. Do not give it role button."
-  },
   "LinkProvider": {
     "category": "utility",
     "base": "own",
     "renders": "no element: it provides the link component through context",
-    "composition": "Place once near the app root: `<LinkProvider component={NextLink}>`. Link, ButtonLink, Menu link items, Breadcrumb and Pagination then render with it.",
+    "composition": "Place once near the app root: `<LinkProvider component={NextLink}>`. Link, Button with href, Menu link items, Breadcrumb and Pagination then render with it.",
     "whenToUse": "Making every link in the library use `next/link` (or another router link) from a single place.",
     "avoid": [
       "Passing a `render` prop to individual links.",
@@ -391,7 +374,7 @@
     "category": "utility",
     "base": "own",
     "renders": "hook, renders nothing",
-    "composition": "`const LinkEl = useLinkComponent()` returns the provided link component, or `\"a\"`.",
+    "composition": "Only needed when building your own link components that should respect LinkProvider. `const LinkEl = useLinkComponent()` returns the provided link component, or `\"a\"`.",
     "whenToUse": "Building your own navigation component that should follow LinkProvider.",
     "avoid": [
       "Calling it in Server Components: it needs a client component."
@@ -402,37 +385,118 @@
     "category": "layout",
     "base": "own",
     "renders": "div by default; `as` can be article, section or li",
-    "composition": "Children go inside. Use `padding` (a Space key) and `variant` (outline or surface).",
+    "composition": "`CardHeader` (with `CardTitle`, optional `CardDescription` and `CardAction`) + `CardContent` + `CardFooter`. `size` sets the shared inset through `--card-spacing`; override that variable to use another spacing step. An `img` as the first child is full-bleed with rounded top corners.",
     "whenToUse": "Grouping related content in a bordered surface.",
     "avoid": [
       "Making the whole card clickable: put a Link inside and keep the card as a container.",
-      "Nesting cards."
+      "Nesting cards: use an `hr` hairline or a sunken region instead."
     ],
-    "a11y": "A plain container with no role. Use `as=\"article\"` for self-contained content and give it a heading."
+    "a11y": "A plain container with no role. Use `as=\"article\"` for self-contained content and give it a heading through CardTitle."
+  },
+  "CardHeader": {
+    "category": "layout",
+    "base": "own",
+    "renders": "div",
+    "composition": "Holds `CardTitle`, optional `CardDescription` and `CardAction`. The action aligns with the title at the top end.",
+    "whenToUse": "The title region of a Card.",
+    "avoid": [
+      "Using it without a CardTitle."
+    ],
+    "a11y": "No role of its own; the heading comes from CardTitle."
+  },
+  "CardTitle": {
+    "category": "layout",
+    "base": "own",
+    "renders": "h3 by default; `as` sets the heading element",
+    "composition": "`as` sets the outline level (h2-h6) and `size` sets the look; it defaults to size 6.",
+    "whenToUse": "The heading of a Card.",
+    "avoid": [
+      "Skipping heading levels to get a smaller look: change `size` instead."
+    ],
+    "a11y": "A real heading, so it appears in the document outline."
+  },
+  "CardDescription": {
+    "category": "layout",
+    "base": "own",
+    "renders": "p",
+    "composition": "Muted body text below `CardTitle`.",
+    "whenToUse": "Supporting text directly under the card title.",
+    "avoid": [
+      "Long prose: put it in CardContent."
+    ],
+    "a11y": "A plain paragraph."
+  },
+  "CardAction": {
+    "category": "layout",
+    "base": "own",
+    "renders": "div",
+    "composition": "Holds a Button (with `href` for navigation) or Badge at the top end of `CardHeader`, aligned with the title.",
+    "whenToUse": "A control that belongs to the whole card.",
+    "avoid": [
+      "Hiding the card title to make room for the action."
+    ],
+    "a11y": "Adds no semantics; the control inside needs its own accessible name."
+  },
+  "CardContent": {
+    "category": "layout",
+    "base": "own",
+    "renders": "div",
+    "composition": "The main body between `CardHeader` and `CardFooter`, aligned with both.",
+    "whenToUse": "The body of a Card.",
+    "avoid": [
+      "Repeating the header or footer content."
+    ],
+    "a11y": "A plain container."
+  },
+  "CardFooter": {
+    "category": "layout",
+    "base": "own",
+    "renders": "div",
+    "composition": "The bottom region for metadata or actions, aligned with the header and content.",
+    "whenToUse": "Metadata or closing actions at the bottom of a Card.",
+    "avoid": [
+      "Putting the only primary action at the bottom when CardAction would do."
+    ],
+    "a11y": "A plain container."
   },
   "Alert": {
     "category": "feedback",
     "base": "own",
-    "renders": "div with role alert (danger, warning) or role status (info, success)",
-    "composition": "Pass `tone`, optional `title`, and the message as children. `startIcon` replaces the tone glyph; `endIcon` adds a trailing icon (generated icons, no `size`; the single-size alert uses 20px icons).",
-    "whenToUse": "A message that stays on the page and the user must notice, such as a failed save or a warning.",
+    "renders": "div with role alert (error, warning) or role status (neutral, info, success)",
+    "composition": "Pass `tone` (default `neutral`), an optional `title` and optional content; both can appear alone. Actions (Button, Link or both) go in the content. `startIcon` replaces the tone glyph and `endIcon` adds a trailing icon (no `size`). Icon, title, border and background share one tone color; override `--alert-tone` to change it.",
+    "whenToUse": "A message that stays on the page and the user must notice: a general note (neutral), relevant information (info), a completed operation (success), something that needs attention (warning) or a failed operation (error).",
     "avoid": [
       "Short-lived confirmations: use Toast.",
-      "Using color alone: the tone also changes the icon and you should say it in the text."
+      "Using color alone: the tone also changes the icon and you should say it in the text.",
+      "Blocking decisions: use Modal role=alertdialog.",
+      "Adding visual variants or extra props before a concrete need exists."
     ],
-    "a11y": "Announced by screen readers on render. The icon is decorative and each tone has a different shape."
+    "a11y": "Announced by screen readers on render. The icon is decorative, and the tone never relies on color alone: the text says what happened."
   },
   "Avatar": {
     "category": "utility",
     "base": "base-ui",
     "renders": "span with role img and the name as aria-label",
-    "composition": "Pass `name` (required), optional `src` and `size`. Initials are the fallback.",
+    "composition": "Pass `name` (required), `src` and `size` (`xs`, `sm`, `md`, `lg` or `xl`); initials are the fallback. For bots, companies or systems, use `src` with the logo; without it the initials are shown. `status` adds a solid dot at the bottom end with a page-colored ring and appends the state to the name; `badge` with `badgeLabel` adds an avatar badge with an icon inside and appends its label; `outline={false}` removes the avatar border. `status` and `badge` cannot be combined. Every feature scales with `size`.",
     "whenToUse": "Showing who a person or account is.",
     "avoid": [
       "Using it as a button: wrap it in a Button or Link.",
-      "Omitting `name`."
+      "Omitting `name`.",
+      "Combining `status` and `badge`: they are mutually exclusive."
     ],
-    "a11y": "The name is the accessible name. The initials are hidden from assistive technology."
+    "a11y": "The name is the accessible name. A status appends the state, and an avatar badge appends `badgeLabel`, such as \"Ada Lovelace, online\" or \"Ada Lovelace, Verified\". Initials, status dot and avatar badge are hidden from assistive technology; the status is a plain solid dot whose color is not the only signal, because the state is announced in the accessible name."
+  },
+  "AvatarGroup": {
+    "category": "utility",
+    "base": "own",
+    "renders": "div role=\"group\" with overlapping Avatar elements",
+    "composition": "Pass `children` (Avatar elements), `max` (default 4) and shared `size` (default md). Avatars overlap by about 25% and each gets a 2px page-colored ring; later avatars stack on top. Avatars beyond `max` collapse into a \"+N\" item with the component background and label style, labelled \"and N more\".",
+    "whenToUse": "A compact summary of several people or accounts.",
+    "avoid": [
+      "One avatar: use Avatar directly.",
+      "Long lists where every person matters: show them in a list."
+    ],
+    "a11y": "The group has role=\"group\"; give it an `aria-label`. Each avatar keeps its own name, and the overflow item is announced as \"and N more\"."
   },
   "Popover": {
     "category": "overlays",
@@ -442,7 +506,7 @@
     "whenToUse": "Small interactive content tied to a button, such as a form or extra options.",
     "avoid": [
       "Plain hints: use Tooltip.",
-      "Blocking decisions: use Dialog."
+      "Blocking decisions: use Modal."
     ],
     "a11y": "Focus moves into the popup and Escape closes it. Title is the accessible name."
   },
@@ -519,7 +583,7 @@
     "category": "navigation",
     "base": "base-ui",
     "renders": "div with a heading (h3) and button per item and a region per panel",
-    "composition": "Pass `items` ({ value, title, content, startIcon?, endIcon?, disabled? }). Icons are generated icons without `size`. Use `multiple` to allow several open.",
+    "composition": "Pass `items` ({ value, title, content, startIcon?, endIcon?, disabled? }). Icons are generated icons without `size`. Use `multiple` to allow several open, `disabled` to disable every item and `bordered` for a border around the whole list. To place it inside a Card use `Card` + `CardContent`.",
     "whenToUse": "Showing long content in short sections, such as FAQs.",
     "avoid": [
       "Hiding content users must read.",
@@ -543,13 +607,13 @@
     "category": "navigation",
     "base": "own",
     "renders": "nav with an ordered list; the last item has aria-current page",
-    "composition": "Pass `items` ({ label, href?, startIcon?, endIcon? }) from root to current page. Icons are generated icons without `size`.",
-    "whenToUse": "Showing where the page sits in the site.",
+    "composition": "Pass `items` ({ label, href?, startIcon?, endIcon? }) from root to current page. `separator` defaults to `>` and accepts any node, such as `/` or `·`; it is always hidden from assistive technology. Use `maxItems` (3 or more) to collapse the middle items into an ellipsis menu opened from an icon button labelled Show hidden pages and sized to its content; omit it to show every item. Icons are generated icons without `size`.",
+    "whenToUse": "Hierarchical navigation: showing where a page sits in a site with 3 or more levels.",
     "avoid": [
-      "Primary navigation.",
-      "Linking the last item."
+      "Wizards or steps: not a breadcrumb.",
+      "Using the current page as a link: it is a span with aria-current=\"page\"."
     ],
-    "a11y": "nav labelled Breadcrumb; the current page is marked with aria-current."
+    "a11y": "nav > ol; the nav is labelled Breadcrumb by default; the current page is a span with aria-current=\"page\"; separators are hidden from assistive technology; plain links keep keyboard navigation and a visible focus ring."
   },
   "Pagination": {
     "category": "navigation",
@@ -614,6 +678,7 @@
   "Label": {
     "category": "controls",
     "base": "own",
+    "callout": "For form fields, use Field, which includes built-in label, description, and error handling.",
     "renders": "label",
     "composition": "Text children, `htmlFor`, and optional `required` (prints \"Required\"; the control still needs its own required attribute) and `disabled`. Prefer Field, which wires description, error and ARIA.",
     "whenToUse": "A visible label for a custom control composition outside Field.",
@@ -628,7 +693,7 @@
     "category": "feedback",
     "base": "own",
     "renders": "section with a heading",
-    "composition": "Pass `title` (required), optional `description`, `icon` (generated icon, no `size`), `action` (usually Button or ButtonLink) and `as` for the heading level (h2-h4, default h3).",
+    "composition": "Pass `title` (required), optional `description`, `icon` (generated icon, no `size`), `action` (usually a Button, with `href` for navigation) and `as` for the heading level (h2-h4, default h3).",
     "whenToUse": "A region that has no content yet, with a next step.",
     "avoid": [
       "Errors and failures: use Alert.",
@@ -672,7 +737,8 @@
     "avoid": [
       "Long content changes: use Tabs.",
       "Independent on/off choices: use Checkbox or Switch.",
-      "More than five options: use Select."
+      "More than five options: use Select.",
+      "Related actions that are not a choice: use ButtonGroup."
     ],
     "a11y": "Arrow keys move between toggles and roles come from Base UI. The group needs its `label`; selected state is exposed with aria-pressed."
   },
@@ -696,7 +762,7 @@
     "composition": "Pass `trigger` (button text), `title`, optional `description`, `children`, `footer`, `side` (left or right, default right) and open state. One component, no parts.",
     "whenToUse": "Secondary tasks, settings and filters that slide in from an edge.",
     "avoid": [
-      "A centered decision: use Dialog.",
+      "A centered decision: use Modal.",
       "Non-essential information: use Tooltip or inline content.",
       "Sheets without a title."
     ],
@@ -714,5 +780,58 @@
       "Free text that is not from the list: use Input."
     ],
     "a11y": "Filtering, keyboard navigation and focus come from Base UI. Needs an accessible name from `label`, `aria-label` or Field. The popup is announced with the result count."
+  },
+  "Modal": {
+    "category": "overlays",
+    "base": "base-ui",
+    "renders": "no element: it holds the open state and provides the role (Base UI Dialog.Root, or AlertDialog.Root for role=alertdialog)",
+    "composition": "Structure: Modal > ModalTrigger + ModalContent (title, optional tagline/icon/description, body children, actions). Put one to three actions in `actions`: the safe action first and the primary action last. The form lives in the body; a submit button in the footer targets it with the `form` attribute.",
+    "whenToUse": "Interrupting the user for a decision or a focused task.",
+    "avoid": [
+      "Non-essential information: use inline content, Alert or Tooltip.",
+      "Short-lived confirmations: use Toast.",
+      "Modals without a title."
+    ],
+    "choosing": [
+      "Content and forms: Modal with the default role=\"dialog\".",
+      "A decision that interrupts: Modal role=\"alertdialog\"; add color=\"critical\" for a destructive action.",
+      "Blocking information that needs no form: Modal role=\"alertdialog\"."
+    ],
+    "a11y": "The title is the accessible name and the description is the accessible description. Focus is trapped and returned, Escape closes unless dismissible is false, and the page behind is inert. Alert dialogs require a description and start focus on the safe action."
+  },
+  "ModalTrigger": {
+    "category": "overlays",
+    "base": "base-ui",
+    "renders": "button (a Button)",
+    "composition": "Direct child of Modal. Accepts Button `variant` and `size`; use `danger` for the destructive trigger.",
+    "whenToUse": "The button that opens the modal.",
+    "avoid": [
+      "Using a plain Button to open it."
+    ],
+    "a11y": "Gets aria-haspopup and expanded state from Base UI."
+  },
+  "ModalContent": {
+    "category": "overlays",
+    "base": "base-ui",
+    "renders": "div role=\"dialog\" (or role=\"alertdialog\" from the root) in a portal, plus a backdrop",
+    "composition": "`title` is required and children are the body. `description`, `tagline`, `icon`, `actions` and `closeLabel` are optional. The body scrolls while the header and footer stay visible. Actions stack on mobile with the primary on top.",
+    "whenToUse": "The panel of the modal.",
+    "avoid": [
+      "Omitting `title`.",
+      "Putting the form in the footer instead of the body.",
+      "More than three actions."
+    ],
+    "a11y": "The title is the accessible name; the description is the accessible description. A dialog focuses the first field when the body has a form; an alert dialog focuses the safe action."
+  },
+  "ModalClose": {
+    "category": "overlays",
+    "base": "base-ui",
+    "renders": "button (a Button)",
+    "composition": "Inside ModalContent `actions`. Accepts Button `variant` and `size`; use `danger` for the destructive action. Mark the safe action with `initialFocus` in an alert dialog.",
+    "whenToUse": "Cancel, close and confirm actions.",
+    "avoid": [
+      "Closing by custom onClick state when ModalClose is enough."
+    ],
+    "a11y": "Closing returns focus to the trigger, or to returnFocusTo when the trigger no longer exists."
   }
 }

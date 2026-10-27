@@ -1,10 +1,78 @@
-.grid {
-  display: grid;
-  min-width: 0;
-}
+@layer ui {
+  .grid {
+    display: grid;
+    min-width: 0;
+    grid-template-columns: var(--grid-columns, minmax(0, 1fr));
+    gap: var(--grid-row-gap, var(--grid-gap, var(--space-4)))
+      var(--grid-column-gap, var(--grid-gap, var(--space-4)));
+    align-items: var(--grid-align, stretch);
+  }
 
-.list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  @media (min-width: 40rem) {
+    .grid {
+      grid-template-columns: var(--grid-columns-sm, var(--grid-columns, minmax(0, 1fr)));
+      gap: var(--grid-row-gap, var(--grid-gap-sm, var(--grid-gap, var(--space-4))))
+        var(--grid-column-gap, var(--grid-gap-sm, var(--grid-gap, var(--space-4))));
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .grid {
+      grid-template-columns: var(
+        --grid-columns-md,
+        var(--grid-columns-sm, var(--grid-columns, minmax(0, 1fr)))
+      );
+      gap: var(--grid-row-gap, var(--grid-gap-md, var(--grid-gap-sm, var(--grid-gap, var(--space-4)))))
+        var(--grid-column-gap, var(--grid-gap-md, var(--grid-gap-sm, var(--grid-gap, var(--space-4)))));
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .grid {
+      grid-template-columns: var(
+        --grid-columns-lg,
+        var(--grid-columns-md, var(--grid-columns-sm, var(--grid-columns, minmax(0, 1fr))))
+      );
+      gap: var(
+          --grid-row-gap,
+          var(--grid-gap-lg, var(--grid-gap-md, var(--grid-gap-sm, var(--grid-gap, var(--space-4)))))
+        )
+        var(
+          --grid-column-gap,
+          var(--grid-gap-lg, var(--grid-gap-md, var(--grid-gap-sm, var(--grid-gap, var(--space-4)))))
+        );
+    }
+  }
+
+  @media (min-width: 80rem) {
+    .grid {
+      grid-template-columns: var(
+        --grid-columns-xl,
+        var(
+          --grid-columns-lg,
+          var(--grid-columns-md, var(--grid-columns-sm, var(--grid-columns, minmax(0, 1fr))))
+        )
+      );
+      gap: var(
+          --grid-row-gap,
+          var(
+            --grid-gap-xl,
+            var(--grid-gap-lg, var(--grid-gap-md, var(--grid-gap-sm, var(--grid-gap, var(--space-4)))))
+          )
+        )
+        var(
+          --grid-column-gap,
+          var(
+            --grid-gap-xl,
+            var(--grid-gap-lg, var(--grid-gap-md, var(--grid-gap-sm, var(--grid-gap, var(--space-4)))))
+          )
+        );
+    }
+  }
+
+  .list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
 }

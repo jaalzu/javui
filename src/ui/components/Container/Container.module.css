@@ -1,5 +1,14 @@
-.container {
-  width: 100%;
-  margin-inline: auto;
-  padding-inline: var(--space-6);
+@layer ui {
+  .container {
+    /* The global reset sets border-box outside @layer ui; important is required so max-width
+       keeps referring to the content, not to the content plus its side padding. */
+    box-sizing: content-box !important;
+    width: min(
+      calc(100% - 2 * var(--container-padding, var(--space-6))),
+      calc(var(--container-max) + 2 * var(--container-padding, var(--space-6)))
+    );
+    margin-inline: auto;
+    padding-inline: var(--container-padding, var(--space-6));
+    max-width: var(--container-max, var(--container-lg));
+  }
 }

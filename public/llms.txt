@@ -17,43 +17,43 @@
 
 ## Components
 ### typography
-- **Text**: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls and fields (buttons, form labels, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
+- **Text**: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls (buttons, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
 - **Heading**: Page and section titles.
-- **Link**: Navigation to another page, section or resource.
+- **Link**: Navigation to another page, section or resource, inline in text.
 - **Kbd**: Keyboard shortcuts in docs and UI.
 - **Badge**: Short status or count labels next to other content.
 - **CodeBlock** (parts: CodeBlockView): Showing code or commands the user will copy.
 
 ### layout
-- **Box**: A generic container with token padding, surface, border and radius.
 - **Stack**: Arranging children in one direction with a consistent gap.
 - **Grid**: Two-dimensional layouts and card grids.
 - **Container**: Page-level width limit and side padding.
-- **Divider**: A thematic break between groups of content.
-- **Card**: Grouping related content in a bordered surface.
+- **AspectRatio**: Images, video, embeds or maps whose size must be reserved before they load, preventing layout shift (CLS).
+- **Card** (parts: CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter): Grouping related content in a bordered surface.
 - **Table**: Comparing data across rows and columns.
 - **ScrollArea**: A fixed-height list, code area or panel that should scroll inside the page.
 
 ### utility
 - **VisuallyHidden**: Text that screen readers must read but sighted users should not see, such as the name of an icon-only button.
 - **Icon**: Any glyph. Named icons are decorative by default; pass `label` when the icon is the only carrier of meaning.
-- **Avatar**: Showing who a person or account is.
+- **Avatar** (parts: AvatarGroup): Showing who a person or account is.
 
 ### feedback
 - **Spinner**: Indeterminate loading of an action or small region.
 - **Skeleton**: Placeholder for content whose layout is known while it loads.
-- **Alert**: A message that stays on the page and the user must notice, such as a failed save or a warning.
+- **Alert**: A message that stays on the page and the user must notice: a general note (neutral), relevant information (info), a completed operation (success), something that needs attention (warning) or a failed operation (error).
 - **Progress**: Showing how far a task has got.
 - **EmptyState**: A region that has no content yet, with a next step.
 
 ### controls
-- **Button**: Any action: submit, open, confirm, cancel. Pass `loading` while the action runs.
+- **Button**: An action with onClick (submit, open, confirm, cancel), or navigation that looks like a button with href. Pass `loading` while an action runs.
+- **ButtonGroup** (parts: ButtonGroupSeparator): Related actions (2-4 buttons) with short labels and the same size, such as Save draft, Preview and Publish.
+- **ButtonGroupText**: A short prefix or unit next to an Input or a Button inside a ButtonGroup.
 - **Field**: Every form control, including its validation, required, read-only and loading states.
 - **Input**: Single-line text entry, read-only values and values that are still loading.
 - **Textarea**: Multi-line text entry, including read-only and loading values.
 - **Checkbox**: Independent yes/no choices, especially ones submitted with a form.
-- **Radio**: One option of a RadioGroup.
-- **RadioGroup**: Choosing exactly one option from a short list.
+- **RadioGroup** (parts: Radio): Choosing exactly one option from a short list.
 - **Switch**: A setting that turns on or off immediately.
 - **Select**: Choosing one option from a longer list, including read-only and loading states.
 - **Slider**: Choosing a number or range by dragging.
@@ -62,7 +62,7 @@
 - **Combobox**: Choosing one option from a long list when typing to filter helps.
 
 ### overlays
-- **Dialog** (parts: DialogTrigger, DialogContent, DialogClose): Interrupting the user for a decision or focused task.
+- **Modal** (parts: ModalTrigger, ModalContent, ModalClose): Interrupting the user for a decision or a focused task.
 - **Tooltip**: Extra clarity for sighted mouse and keyboard users, such as naming an icon button.
 - **Popover** (parts: PopoverTrigger, PopoverContent, PopoverClose): Small interactive content tied to a button, such as a form or extra options.
 - **Menu**: A list of actions or links behind one button, such as account actions.
@@ -70,9 +70,8 @@
 
 ### navigation
 - **Tabs**: Switching between related panels in the same place.
-- **ButtonLink**: A call to action that goes to another page, such as Get started or Docs.
 - **Accordion**: Showing long content in short sections, such as FAQs.
-- **Breadcrumb**: Showing where the page sits in the site.
+- **Breadcrumb**: Hierarchical navigation: showing where a page sits in a site with 3 or more levels.
 - **Pagination**: Moving through content split across URLs.
 - **Sidebar**: Primary vertical navigation beside an app's content, especially on desktop.
 - **Collapsible**: A single section that expands, such as advanced options or extra details.

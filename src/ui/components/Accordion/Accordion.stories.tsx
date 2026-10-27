@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Accordion } from "./Accordion";
+import { Card, CardContent } from "../Card";
 import { StateMatrix } from "../../stories/StateMatrix";
-import { CaretDownIcon, GearIcon, InfoIcon } from "../../icons/icons.generated";
+import { GearIcon, InfoIcon } from "../../icons/icons.generated";
 import styles from "./Accordion.module.css";
 
 const items = [
@@ -23,6 +24,35 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 export const Multiple: Story = { args: { multiple: true, defaultValue: ["a", "b"] } };
+export const Bordered: Story = { args: { bordered: true } };
+
+export const InCard: Story = {
+  name: "In a Card",
+  render: (args) => (
+    <Card size="sm">
+      <CardContent>
+        <Accordion {...args} />
+      </CardContent>
+    </Card>
+  ),
+};
+
+export const Disabled: Story = {
+  args: {
+    defaultValue: ["b"],
+    items: [
+      items[0],
+      { ...items[1], disabled: true },
+      items[2],
+    ],
+  },
+};
+
+export const DisabledAll: Story = {
+  name: "Disabled (all)",
+  args: { disabled: true, defaultValue: ["a"] },
+};
+
 export const WithIcons: Story = {
   args: {
     items: [
@@ -48,8 +78,13 @@ export const States: Story = {
               disabled={state === "disabled"}
               aria-expanded={state === "selected"}
             >
-              <span>Is it accessible?</span>
-              <CaretDownIcon size="sm" className={styles.chevron} />
+              <span className={styles.label}>
+                <span className={styles.title}>Is it accessible?</span>
+              </span>
+              <span className={styles.indicator} aria-hidden="true">
+                <span className={styles.indicatorBar} />
+                <span className={styles.indicatorBarVertical} />
+              </span>
             </button>
           ),
         },

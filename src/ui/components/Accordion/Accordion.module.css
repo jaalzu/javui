@@ -1,12 +1,22 @@
 .root {
   display: flex;
   flex-direction: column;
-  border-top: var(--border-width-thin) solid var(--color-border-default);
   color: var(--color-primary-foreground);
+}
+
+.bordered {
+  padding-block: var(--space-1);
+  padding-inline: var(--space-4);
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
 }
 
 .item {
   border-bottom: var(--border-width-thin) solid var(--color-border-default);
+}
+
+.item:last-child {
+  border-bottom: 0;
 }
 
 .header {
@@ -23,28 +33,20 @@
   gap: var(--space-4);
   box-sizing: border-box;
   width: 100%;
-  min-height: var(--size-target-comfortable);
-  padding: var(--space-3) 0;
+  min-height: var(--size-target-min);
+  padding-block: var(--space-3);
+  padding-inline: 0;
   border: 0;
   background: transparent;
+
   color: inherit;
   font-family: var(--text-label-family);
   font-size: var(--text-body-size);
   line-height: var(--text-label-line);
   font-weight: var(--font-weight-medium);
-  text-align: left;
+  text-align: start;
   border-radius: var(--radius-sm);
   cursor: pointer;
-}
-
-.trigger:hover:not([data-disabled]),
-.trigger[data-force="hover"]:not([data-disabled]) {
-  background: var(--color-transparent-hover);
-}
-
-.trigger:active:not([data-disabled]),
-.trigger[data-force="active"]:not([data-disabled]) {
-  background: var(--color-transparent-active);
 }
 
 .trigger:focus-visible,
@@ -65,20 +67,69 @@
   min-width: 0;
 }
 
-.chevron {
-  flex-shrink: 0;
-  color: var(--color-secondary-foreground);
-  transition: transform var(--motion-duration-base) var(--motion-easing-out);
+.title {
+  min-width: 0;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color var(--motion-duration-fast)
+    var(--motion-easing-standard);
 }
 
-.trigger[data-panel-open] .chevron {
-  transform: rotate(180deg);
+.trigger:hover:not([data-disabled]) .title,
+.trigger[data-force="hover"]:not([data-disabled]) .title,
+.trigger:active:not([data-disabled]) .title,
+.trigger[data-force="active"]:not([data-disabled]) .title {
+  text-decoration-color: currentColor;
+}
+
+.indicator {
+  position: relative;
+  flex-shrink: 0;
+  align-self: center;
+  inline-size: var(--size-icon-sm);
+  block-size: var(--size-icon-sm);
+  color: var(--color-secondary-foreground);
+}
+
+.trigger[data-disabled] .indicator {
+  color: var(--color-disabled-foreground);
+}
+
+.indicatorBar,
+.indicatorBarVertical {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  border-radius: var(--radius-full);
+  background: currentColor;
+}
+
+.indicatorBar {
+  inline-size: calc(var(--size-icon-sm) * 0.75);
+  block-size: var(--border-width-thick);
+  transform: translate(-50%, -50%);
+}
+
+.indicatorBarVertical {
+  inline-size: var(--border-width-thick);
+  block-size: calc(var(--size-icon-sm) * 0.75);
+  transform: translate(-50%, -50%);
+  transition:
+    opacity var(--motion-duration-fast) var(--motion-easing-out),
+    transform var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+.trigger[data-panel-open] .indicatorBarVertical {
+  opacity: 0;
+  transform: translate(-50%, -50%) scaleY(0);
 }
 
 .panel {
   height: var(--accordion-panel-height);
   overflow: hidden;
-  transition: height var(--motion-duration-base) var(--motion-easing-out);
+  transition: height var(--motion-duration-fast) var(--motion-easing-out);
 }
 
 .panel[data-starting-style],
@@ -87,9 +138,25 @@
 }
 
 .content {
-  padding: 0 0 var(--space-4);
+  padding-block: 0 var(--space-2);
   color: var(--color-secondary-foreground);
   font-size: var(--text-body-size);
   line-height: var(--text-body-line);
+  transition:
+    opacity var(--motion-duration-fast) var(--motion-easing-out),
+    transform var(--motion-duration-fast) var(--motion-easing-out);
 }
 
+.panel[data-starting-style] .content,
+.panel[data-ending-style] .content {
+  opacity: 0;
+  transform: translateY(calc(var(--space-1) * -1));
+}
+
+.content > :first-child {
+  margin-block-start: 0;
+}
+
+.content > :last-child {
+  margin-block-end: 0;
+}

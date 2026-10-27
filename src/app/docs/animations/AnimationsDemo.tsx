@@ -24,7 +24,7 @@ const durations = [
     name: "Slow",
     token: "--motion-duration-slow",
     className: s.slow,
-    note: "Dialogs and their backdrop.",
+    note: "Modals and their backdrop.",
   },
 ];
 
@@ -78,7 +78,7 @@ const scales = [
     name: "Modal",
     token: "--motion-scale-modal",
     className: s.modalScale,
-    note: "Dialog, still centered.",
+    note: "Modal, still centered.",
   },
 ];
 

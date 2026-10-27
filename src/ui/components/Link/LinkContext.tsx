@@ -8,7 +8,7 @@ export type LinkComponent = ComponentType<AnchorHTMLAttributes<HTMLAnchorElement
 const LinkContext = createContext<LinkComponent | "a">("a");
 
 export type LinkProviderProps = {
-  /** The component every `Link`, `ButtonLink`, `Breadcrumb`, `Pagination` and `Menu` link renders with. Pass `next/link` in a Next.js app. */
+  /** The component every `Link`, `Breadcrumb`, `Pagination` and `Menu` link renders with. Pass `next/link` in a Next.js app. */
   component: LinkComponent;
   children: ReactNode;
 };

@@ -171,6 +171,11 @@
       "$type": "color",
       "$description": "Warning colored text and icons."
     },
+    "warning-bright": {
+      "$value": "oklch(0.62 0.16 88)",
+      "$type": "color",
+      "$description": "Brighter, more saturated warning for a tone that must read as yellow, such as an alert icon, title, border and background. The solid step stays darker for text on a solid fill."
+    },
     "on-warning-solid-foreground": {
       "$value": "{primitive.color.white}",
       "$type": "color",
@@ -346,7 +351,7 @@
     }
   },
   "shadow": {
-    "$description": "Elevation, four levels, plus `inset-ring` for quiet outlines. Each elevation level starts with a 1px ring so the edge reads on any surface. Dark values are the reference; light values are the same shapes with dark alphas.",
+    "$description": "Elevation, four levels, plus `inset-ring` for quiet outlines. Each elevation level starts with a 1px ring so the edge reads on any surface. Dark values are the reference; light values are the same shapes with dark alphas, except `raised`, which drops the soft drop.",
     "inset-ring": {
       "$value": "inset 0 0 0 1px #00000014",
       "$type": "shadow",
@@ -358,9 +363,9 @@
       "$description": "A small lift for controls at rest that should feel pressable: slider thumbs, raised buttons, tabs."
     },
     "raised": {
-      "$value": "inset 0 0 0 1px transparent, inset 0 1px #ffffffcc, 0 0 0 1px #00000014, 0 4px 4px #0000000d",
+      "$value": "inset 0 0 0 1px transparent, inset 0 1px #ffffffcc, 0 0 0 1px #00000014",
       "$type": "shadow",
-      "$description": "Raised look for secondary controls: inner hairline, top highlight, outer edge and soft drop."
+      "$description": "Raised look for secondary controls in light: inner hairline, top highlight and outer edge, with no soft drop so the control stays flat."
     },
     "large": {
       "$value": "0 0 0 1px #00000014, 0 2px 3px -2px #0000001a, 0 3px 8px -2px #00000014, 0 4px 12px -4px #0000001f",

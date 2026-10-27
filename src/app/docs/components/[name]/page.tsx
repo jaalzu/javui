@@ -2,17 +2,17 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import manifest from "../../../../../public/agent/manifest.json";
-import { Heading, Skeleton, Stack, Table } from "@/ui";
+import { Alert, Heading, Skeleton, Stack, Table } from "@/ui";
 import { CodeBlock } from "@/ui/server";
-import { noDemo } from "@/app/_examples/demo-names";
 import { Examples, Preview } from "@/app/_examples/Examples";
-import shell from "../../../_shell/shell.module.css";
 import { DocPage } from "@/app/docs/_page/DocPage";
 
 type Prop = { name: string; type: string; required: boolean; default?: string; description?: string };
 type Entry = {
   name: string; category: string; base: string; description: string; import: string; renders: string;
   composition: string; whenToUse: string; avoid: string[]; accessibility: string; props: Prop[]; extends: string; examples: string[];
+  callout?: string;
+  choosing?: string[];
   parts?: Entry[];
 };
 type Manifest = { components: Entry[]; providersAndHooks: Entry[] };
@@ -105,12 +105,9 @@ async function ComponentContent({ params }: ComponentPageProps) {
 
   return (
     <DocPage href={`/docs/components/${c.name}`} title={c.name} description={<Inline text={lead} />}>
-      {!noDemo.has(c.name) && (
-        <>
-          <Heading as="h2" className={shell.srOnly} data-doc-skip>Preview</Heading>
-          <Preview name={c.name} code={c.examples[0]} />
-        </>
-      )}
+      {c.callout && <Alert tone="info">{c.callout}</Alert>}
+
+      <Preview name={c.name} />
 
       <Heading as="h2" size={6}>Installation</Heading>
       <p>Add the library first (see the installation guide), then import the component.</p>
@@ -125,6 +122,13 @@ async function ComponentContent({ params }: ComponentPageProps) {
       <p>Renders: {c.renders}.</p>
 
       <Examples name={c.name} />
+
+      {c.choosing?.length ? (
+        <>
+          <Heading as="h2" size={6}>Choosing</Heading>
+          <ul>{c.choosing.map((a) => <li key={a}><Inline text={a} /></li>)}</ul>
+        </>
+      ) : null}
 
       <Heading as="h2" size={6}>When to use it</Heading>
       <p><Inline text={c.whenToUse} /></p>

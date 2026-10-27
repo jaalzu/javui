@@ -17,6 +17,9 @@
       }
     },
     "control": {
+      "xs": {
+        "$value": "1.5rem"
+      },
       "sm": {
         "$value": "1.75rem"
       },
@@ -28,6 +31,10 @@
       }
     },
     "icon": {
+      "xs": {
+        "$value": "0.75rem",
+        "$description": "Icon in extra small elements such as small badges (12px)."
+      },
       "sm": {
         "$value": "1rem",
         "$description": "Icon in small controls, menu items and inline with text (16px)."
@@ -49,6 +56,10 @@
   "icon": {
     "$description": "Gap between an icon and its label, matched to the icon size. Never smaller than the text it sits next to.",
     "gap": {
+      "xs": {
+        "$value": "{space.1}",
+        "$description": "Icon-label gap with a 12px icon."
+      },
       "sm": {
         "$value": "{space.1-5}",
         "$description": "Icon-label gap with a 16px icon."

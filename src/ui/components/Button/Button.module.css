@@ -11,13 +11,14 @@
   --btn-px: var(--space-3);
   --btn-gap: var(--icon-gap-md);
   --btn-icon: var(--size-icon-md);
+  --btn-radius: var(--radius-md);
   --icon-size: var(--btn-icon); /* Slot icons follow the button size. */
   gap: var(--btn-gap);
   min-width: var(--size-target-min);
   margin: 0;
   padding: 0 var(--btn-px);
   border: var(--border-width-thin) solid transparent;
-  border-radius: var(--radius-md);
+  border-radius: var(--btn-radius);
   background: none;
   position: relative;
   isolation: isolate;
@@ -38,8 +39,10 @@
   inset: calc(-1 * var(--border-width-thin));
   z-index: -1;
   box-sizing: border-box;
+  /* Follows `--btn-radius`, plus any per-corner override the parent group applies. */
   border-radius: inherit;
-  box-shadow: var(--btn-ring, none);
+  /* ButtonGroup uses `--btn-divider` to draw its inner hairline without a second border. */
+  box-shadow: var(--btn-divider, var(--btn-ring, none));
   -webkit-backdrop-filter: var(--btn-backdrop, none);
   backdrop-filter: var(--btn-backdrop, none);
   background-color: var(--btn-bg);
@@ -47,6 +50,12 @@
     background-color var(--motion-duration-fast) var(--motion-easing-standard),
     box-shadow var(--motion-duration-fast) var(--motion-easing-standard),
     transform var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+/* The link branch: no underline and no inherited link color, only the button's own foreground. */
+.asLink {
+  text-decoration: none;
+  color: var(--btn-fg);
 }
 
 .button:hover:not([data-disabled])::before,
@@ -93,13 +102,6 @@
   --btn-bg-hover: var(--color-transparent-hover);
 }
 
-.outline {
-  --btn-bg: transparent;
-  --btn-fg: var(--color-primary-foreground);
-  --btn-bg-hover: var(--color-transparent-hover);
-  border-color: var(--color-border-default);
-}
-
 .accent {
   --btn-bg: var(--color-brand-solid);
   --btn-fg: var(--color-on-brand-solid-foreground);
@@ -110,6 +112,14 @@
   --btn-bg: var(--color-danger-solid);
   --btn-fg: var(--color-on-danger-solid-foreground);
   --btn-bg-hover: var(--color-danger-solid-hover);
+}
+
+.xs {
+  --btn-px: var(--space-2);
+  --btn-gap: var(--icon-gap-xs);
+  --btn-icon: var(--size-icon-xs);
+  height: var(--size-control-xs);
+  font-size: var(--font-size-12);
 }
 
 .sm {
@@ -133,18 +143,22 @@
   height: var(--size-control-lg);
 }
 
+.pill {
+  --btn-radius: var(--radius-full);
+}
+
 /* Optical balance: Phosphor glyphs carry their own empty space and look heavier than a letter, so the
   icon side gets less padding while the text side keeps the normal one. `data-icon` is set by the component. */
 .button[data-icon="start"] {
-  padding-inline-start: calc(var(--btn-px) * 0.75);
+  padding-inline-start: calc(var(--btn-px) * 0.5);
 }
 
 .button[data-icon="end"] {
-  padding-inline-end: calc(var(--btn-px) * 0.75);
+  padding-inline-end: calc(var(--btn-px) * 0.5);
 }
 
 .button[data-icon="both"] {
-  padding-inline: calc(var(--btn-px) * 0.75);
+  padding-inline: calc(var(--btn-px) * 0.5);
 }
 
 /* Icon only: a square, no side padding. */

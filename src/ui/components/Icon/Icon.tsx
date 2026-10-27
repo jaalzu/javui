@@ -9,12 +9,16 @@ export type IconProps = {
    */
   label?: string;
   /**
-   * Fixed size: `sm` 16px, `md` 20px, `lg` 24px, `xl` 32px. Without it the icon is 20px,
-   * or the size its parent sets (inside a `Button` it follows the button).
+   * Fixed size: `xs` 12px, `sm` 16px, `md` 20px, `lg` 24px, `xl` 32px. Without it the icon is
+   * 20px, or the size its parent sets (inside a `Button` it follows the button). `xs` is for
+   * standalone use: inline with text or in small badges.
    * @default undefined
    */
-  size?: "sm" | "md" | "lg" | "xl";
-} & Omit<ComponentProps<"svg">, "color" | "viewBox" | "fill" | "stroke">;
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
+} & Omit<
+  ComponentProps<"svg">,
+  "color" | "viewBox" | "fill" | "stroke" | "role" | "aria-label" | "aria-hidden"
+>;
 
 /**
  * Container for a Phosphor glyph (256x256 grid, filled shapes, `currentColor`).

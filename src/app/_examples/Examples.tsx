@@ -1,16 +1,16 @@
 import type { ReactNode } from "react";
-import {
-  Alert, Avatar, Badge, Button, Card, CaretDownIcon, Checkbox, CheckIcon, Field, Heading, Input, Progress, Slider, Stack, Switch, Tabs, Text,
-} from "@/ui";
+import { CaretDownIcon, Heading } from "@/ui";
 import { CodeBlock } from "@/ui/server";
-import { Demo } from "./Demo";
+import type { Example, Hero, StageHeight } from "@/docs/example";
+import shell from "@/app/_shell/shell.module.css";
 import styles from "./Examples.module.css";
 
 /** A live preview with a collapsible "View code" underneath. Uses a native `details`, so it works without extra JavaScript. */
-export function ExampleFrame({ children, code, full = false }: { children: ReactNode; code?: string; full?: boolean }) {
+export function ExampleFrame({ children, code, full = false, fixed = false, stageHeight }: { children: ReactNode; code?: string; full?: boolean; fixed?: boolean; stageHeight?: StageHeight }) {
+  const sizeClass = stageHeight === "sm" ? styles.exampleStageSm : stageHeight === "md" ? styles.exampleStageMd : stageHeight === "lg" ? styles.exampleStageLg : "";
   return (
     <div className={styles.example} data-doc-example>
-      <div className={`${styles.exampleStage} ${full ? styles.exampleStageFull : ""}`}>{children}</div>
+      <div className={`${styles.exampleStage} ${full ? styles.exampleStageFull : ""} ${fixed ? styles.exampleStageFixed : ""} ${sizeClass}`}>{children}</div>
       {code && (
         <details className={styles.exampleCode}>
           <summary>
@@ -24,142 +24,96 @@ export function ExampleFrame({ children, code, full = false }: { children: React
   );
 }
 
-/** The main preview of a component page: its live demo and the first example from the manifest as code. */
-export function Preview({ name, code }: { name: string; code?: string }) {
+type ExamplesModule = { hero?: Hero; examples: Example[] };
+
+/** The hero showcase of each component. The cases live next to the component that owns them. */
+const loaders: Record<string, () => Promise<ExamplesModule>> = {
+  Accordion: () => import("@/ui/components/Accordion/Accordion.examples"),
+  Alert: () => import("@/ui/components/Alert/Alert.examples"),
+  AspectRatio: () => import("@/ui/components/AspectRatio/AspectRatio.examples"),
+  Avatar: () => import("@/ui/components/Avatar/Avatar.examples"),
+  Badge: () => import("@/ui/components/Badge/Badge.examples"),
+  Breadcrumb: () => import("@/ui/components/Breadcrumb/Breadcrumb.examples"),
+  Button: () => import("@/ui/components/Button/Button.examples"),
+  ButtonGroup: () => import("@/ui/components/ButtonGroup/ButtonGroup.examples"),
+  Card: () => import("@/ui/components/Card/Card.examples"),
+  Checkbox: () => import("@/ui/components/Checkbox/Checkbox.examples"),
+  CodeBlock: () => import("@/ui/components/CodeBlock/CodeBlock.examples"),
+  Collapsible: () => import("@/ui/components/Collapsible/Collapsible.examples"),
+  Combobox: () => import("@/ui/components/Combobox/Combobox.examples"),
+  Container: () => import("@/ui/components/Container/Container.examples"),
+  EmptyState: () => import("@/ui/components/EmptyState/EmptyState.examples"),
+  Field: () => import("@/ui/components/Field/Field.examples"),
+  Grid: () => import("@/ui/components/Grid/Grid.examples"),
+  Heading: () => import("@/ui/components/Heading/Heading.examples"),
+  Icon: () => import("@/ui/components/Icon/Icon.examples"),
+  Input: () => import("@/ui/components/Input/Input.examples"),
+  Kbd: () => import("@/ui/components/Kbd/Kbd.examples"),
+  Label: () => import("@/ui/components/Label/Label.examples"),
+  Link: () => import("@/ui/components/Link/Link.examples"),
+  Menu: () => import("@/ui/components/Menu/Menu.examples"),
+  Modal: () => import("@/ui/components/Modal/Modal.examples"),
+  Pagination: () => import("@/ui/components/Pagination/Pagination.examples"),
+  Popover: () => import("@/ui/components/Popover/Popover.examples"),
+  Progress: () => import("@/ui/components/Progress/Progress.examples"),
+  RadioGroup: () => import("@/ui/components/Radio/RadioGroup.examples"),
+  ScrollArea: () => import("@/ui/components/ScrollArea/ScrollArea.examples"),
+  Select: () => import("@/ui/components/Select/Select.examples"),
+  Sheet: () => import("@/ui/components/Sheet/Sheet.examples"),
+  Sidebar: () => import("@/ui/components/Sidebar/Sidebar.examples"),
+  Skeleton: () => import("@/ui/components/Skeleton/Skeleton.examples"),
+  Slider: () => import("@/ui/components/Slider/Slider.examples"),
+  Spinner: () => import("@/ui/components/Spinner/Spinner.examples"),
+  Stack: () => import("@/ui/components/Stack/Stack.examples"),
+  Switch: () => import("@/ui/components/Switch/Switch.examples"),
+  Table: () => import("@/ui/components/Table/Table.examples"),
+  Tabs: () => import("@/ui/components/Tabs/Tabs.examples"),
+  Text: () => import("@/ui/components/Text/Text.examples"),
+  Textarea: () => import("@/ui/components/Textarea/Textarea.examples"),
+  ToggleGroup: () => import("@/ui/components/ToggleGroup/ToggleGroup.examples"),
+  Tooltip: () => import("@/ui/components/Tooltip/Tooltip.examples"),
+  VisuallyHidden: () => import("@/ui/components/VisuallyHidden/VisuallyHidden.examples"),
+  useToast: () => import("@/ui/components/Toast/Toast.examples"),
+};
+
+/** The hero of a component page: title and subtitle come from the page header; the showcase comes from the component's own examples. */
+export async function Preview({ name }: { name: string }) {
+  const load = loaders[name];
+  if (!load) return null;
+  const { hero } = await load();
+  if (!hero) return null;
   return (
-    <ExampleFrame code={code} full>
-      <Demo name={name} />
-    </ExampleFrame>
+    <>
+      <Heading as="h2" className={shell.srOnly} data-doc-skip>Preview</Heading>
+      <ExampleFrame code={hero.code} full fixed={hero.fixed} stageHeight={hero.stageHeight}>
+        {hero.node}
+      </ExampleFrame>
+    </>
   );
 }
 
-type Example = { title: string; description?: string; node: ReactNode; code: string };
-const ex = (title: string, code: string, node: ReactNode, description?: string): Example => ({ title, description, code, node });
-
-const check = <CheckIcon />;
-
-/**
- * One section per case, each with its own preview and code, for the components where the cases matter.
- * Components without an entry show only the main preview and the usage from the manifest.
- */
-const registry: Record<string, Example[]> = {
-  Button: [
-    ex("Primary", `<Button>Save</Button>`, <Button>Save</Button>, "The main action of a view. Use only one."),
-    ex("Secondary", `<Button variant="secondary">Cancel</Button>`, <Button variant="secondary">Cancel</Button>),
-    ex("Ghost", `<Button variant="ghost">Skip</Button>`, <Button variant="ghost">Skip</Button>, "Low emphasis, for actions that should not compete."),
-    ex("Outline", `<Button variant="outline">Learn more</Button>`, <Button variant="outline">Learn more</Button>, "A transparent button with a visible border."),
-    ex("Accent", `<Button variant="accent">Upgrade</Button>`, <Button variant="accent">Upgrade</Button>, "Brand emphasis. This is the color you change for your brand."),
-    ex("Danger", `<Button variant="danger">Delete</Button>`, <Button variant="danger">Delete</Button>, "Destructive actions."),
-    ex(
-      "Size",
-      `<Button size="sm">Small</Button>\n<Button size="md">Medium</Button>\n<Button size="lg">Large</Button>`,
-      <Stack direction="row" gap="3" align="center" wrap><Button size="sm">Small</Button><Button size="md">Medium</Button><Button size="lg">Large</Button></Stack>,
-    ),
-    ex("Disabled", `<Button disabled>Disabled</Button>`, <Button disabled>Disabled</Button>),
-    ex(
-      "Loading",
-      `<Button loading>Saving</Button>`,
-      <Button loading>Saving</Button>,
-      "Shows a spinner and ignores clicks while an action runs. It keeps its label and stays focusable.",
-    ),
-    ex(
-      "With icon",
-      `<Button variant="secondary" startIcon={<CheckIcon />}>Done</Button>`,
-      <Button variant="secondary" startIcon={check}>Done</Button>,
-      "Icons are decorative when there is text next to them.",
-    ),
-    ex(
-      "Icon only",
-      `<Button variant="secondary" aria-label="Done" startIcon={<CheckIcon />} />`,
-      <Button variant="secondary" aria-label="Done" startIcon={check} />,
-      "Always give an icon-only button an accessible name.",
-    ),
-  ],
-  Badge: [
-    ex("Default", `<Badge>Draft</Badge>`, <Badge>Draft</Badge>),
-    ex("Success", `<Badge variant="success">Active</Badge>`, <Badge variant="success">Active</Badge>),
-    ex("Danger", `<Badge variant="danger">Failed</Badge>`, <Badge variant="danger">Failed</Badge>),
-    ex("Brand", `<Badge variant="brand">Beta</Badge>`, <Badge variant="brand">Beta</Badge>),
-    ex("Inverted", `<Badge variant="inverted">New</Badge>`, <Badge variant="inverted">New</Badge>),
-    ex("Outline", `<Badge variant="outline">3 sources</Badge>`, <Badge variant="outline">3 sources</Badge>),
-  ],
-  Alert: [
-    ex("Info", `<Alert tone="info" title="Heads up">Your trial ends in 3 days.</Alert>`, <Alert tone="info" title="Heads up">Your trial ends in 3 days.</Alert>),
-    ex("Success", `<Alert tone="success" title="Saved">Your changes are live.</Alert>`, <Alert tone="success" title="Saved">Your changes are live.</Alert>),
-    ex("Warning", `<Alert tone="warning" title="Almost full">You have used 90% of your storage.</Alert>`, <Alert tone="warning" title="Almost full">You have used 90% of your storage.</Alert>),
-    ex("Danger", `<Alert tone="danger" title="Could not save">Check your connection and try again.</Alert>`, <Alert tone="danger" title="Could not save">Check your connection and try again.</Alert>, "Danger and warning are announced right away by screen readers."),
-  ],
-  Field: [
-    ex("Default", `<Field label="Email">\n  <Input type="email" autoComplete="email" />\n</Field>`, <Field label="Email"><Input type="email" autoComplete="email" /></Field>),
-    ex("With description", `<Field label="Email" description="We only use it for receipts.">\n  <Input type="email" autoComplete="email" />\n</Field>`, <Field label="Email" description="We only use it for receipts."><Input type="email" autoComplete="email" /></Field>),
-    ex("With error", `<Field label="Name" error="Enter your name">\n  <Input autoComplete="name" />\n</Field>`, <Field label="Name" error="Enter your name"><Input autoComplete="name" /></Field>, "The error is linked to the input for screen readers."),
-  ],
-  Checkbox: [
-    ex("Default", `<Checkbox label="Send me updates" />`, <Checkbox label="Send me updates" />),
-    ex("Checked", `<Checkbox label="Send me updates" defaultChecked />`, <Checkbox label="Send me updates" defaultChecked />),
-    ex("Indeterminate", `<Checkbox label="Select all" indeterminate />`, <Checkbox label="Select all" indeterminate />),
-    ex("Disabled", `<Checkbox label="Not available" disabled />`, <Checkbox label="Not available" disabled />),
-  ],
-  Switch: [
-    ex("Default", `<Switch label="Notifications" />`, <Switch label="Notifications" />),
-    ex("On", `<Switch label="Notifications" defaultChecked />`, <Switch label="Notifications" defaultChecked />),
-    ex("Disabled", `<Switch label="Notifications" disabled />`, <Switch label="Notifications" disabled />),
-  ],
-  Card: [
-    ex("Outline", `<Card padding="5">\n  <Text>Related content.</Text>\n</Card>`, <Card padding="5"><Text>Related content.</Text></Card>),
-    ex("Surface", `<Card variant="surface" padding="5">\n  <Text>Related content.</Text>\n</Card>`, <Card variant="surface" padding="5"><Text>Related content.</Text></Card>),
-    ex("As an article", `<Card as="article" padding="5">\n  <Heading as="h3" size={6}>Title</Heading>\n  <Text>Self-contained content.</Text>\n</Card>`, <Card as="article" padding="5"><Heading as="h3" size={6}>Title</Heading><Text>Self-contained content.</Text></Card>, "Use article for content that makes sense on its own."),
-  ],
-  Progress: [
-    ex("Determinate", `<Progress label="Uploading" value={40} />`, <Progress label="Uploading" value={40} />),
-    ex("Indeterminate", `<Progress label="Working" value={null} />`, <Progress label="Working" value={null} />, "Use null when you do not know how long it will take."),
-  ],
-  Slider: [
-    ex("Single", `<Slider label="Volume" defaultValue={40} />`, <Slider label="Volume" defaultValue={40} />),
-    ex("Range", `<Slider label="Price" defaultValue={[20, 80]} thumbLabels={["Minimum price", "Maximum price"]} />`, <Slider label="Price" defaultValue={[20, 80]} thumbLabels={["Minimum price", "Maximum price"]} />),
-    ex("Disabled", `<Slider label="Volume" defaultValue={40} disabled />`, <Slider label="Volume" defaultValue={40} disabled />),
-  ],
-  Tabs: [
-    ex(
-      "Vertical",
-      `<Tabs\n  orientation="vertical"\n  aria-label="Account sections"\n  items={[\n    { value: "profile", label: "Profile", content: <p>Your name and photo.</p> },\n    { value: "billing", label: "Billing", content: <p>Plan and invoices.</p> },\n    { value: "team", label: "Team", content: <p>Members and roles.</p> },\n  ]}\n/>`,
-      <Tabs
-        orientation="vertical"
-        aria-label="Account sections"
-        items={[
-          { value: "profile", label: "Profile", content: <Text>Your name and photo.</Text> },
-          { value: "billing", label: "Billing", content: <Text>Plan and invoices.</Text> },
-          { value: "team", label: "Team", content: <Text>Members and roles.</Text> },
-        ]}
-      />,
-      "Vertical tabs sit in a column next to their panel, for settings and compact spaces.",
-    ),
-  ],
-  Avatar: [
-    ex("Sizes", `<Avatar name="Ada Lovelace" size="sm" />\n<Avatar name="Ada Lovelace" />\n<Avatar name="Ada Lovelace" size="lg" />`, <Stack direction="row" gap="3" align="center"><Avatar name="Ada Lovelace" size="sm" /><Avatar name="Ada Lovelace" /><Avatar name="Ada Lovelace" size="lg" /></Stack>),
-  ],
-  Text: [
-    ex("Body", `<Text>Regular body text.</Text>`, <Text>Regular body text.</Text>),
-    ex("Muted", `<Text tone="muted">Secondary text.</Text>`, <Text tone="muted">Secondary text.</Text>),
-    ex("Emphasis", `<Text variant="emphasis">A short line that deserves attention.</Text>`, <Text variant="emphasis">A short line that deserves attention.</Text>, "Serif italic (Source Serif 4). Use it for one lead sentence or a quote, never for long text."),
-    ex("Code", `<Text variant="code">const x = 1;</Text>`, <Text variant="code">const x = 1;</Text>),
-  ],
-};
-
-/** The cases of a component, one section each. Renders nothing when the component has no entry. */
-export function Examples({ name }: { name: string }) {
-  const items = registry[name];
-  if (!items) return null;
+/** The cases of a component, one section each. Renders nothing when the component has no examples. */
+export async function Examples({ name }: { name: string }) {
+  const load = loaders[name];
+  if (!load) return null;
+  const { examples: items } = await load();
+  if (!items.length) return null;
+  const fixed = name === "Accordion";
+  const full = name === "Alert";
+  const sections = items.map((e) => {
+    const id = `ex-${e.title.replace(/\W+/g, "-")}`;
+    return (
+      <section key={e.title} aria-labelledby={id}>
+        <Heading as="h3" size={6} id={id}>{e.title}</Heading>
+        {e.description && <p className={styles.exampleNote}>{e.description}</p>}
+        <ExampleFrame code={e.code} full={full} fixed={fixed} stageHeight={e.stageHeight}>{e.node}</ExampleFrame>
+      </section>
+    );
+  });
   return (
     <>
       <Heading as="h2" size={6}>Examples</Heading>
-      {items.map((e) => (
-        <section key={e.title} aria-labelledby={`ex-${e.title.replace(/\W+/g, "-")}`}>
-          <Heading as="h3" size={6} id={`ex-${e.title.replace(/\W+/g, "-")}`}>{e.title}</Heading>
-          {e.description && <p className={styles.exampleNote}>{e.description}</p>}
-          <ExampleFrame code={e.code}>{e.node}</ExampleFrame>
-        </section>
-      ))}
+      {fixed ? <div className={styles.examplesCompact}>{sections}</div> : sections}
     </>
   );
 }

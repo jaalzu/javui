@@ -6,7 +6,7 @@
 // Run: bun run tokens
 import StyleDictionary from "style-dictionary";
 import { formattedVariables } from "style-dictionary/utils";
-import { writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -78,6 +78,32 @@ ${indent(darkVars, 2)}
 mkdirSync(dirname(outFile), { recursive: true });
 writeFileSync(outFile, css);
 console.log(`wrote ${outFile} (${css.split("\n").length} lines)`);
+
+// ---- Breakpoint check ----
+// Media queries cannot read var(), so Stack and Grid repeat the breakpoint values as literals.
+// Fail fast when those literals drift from the tokens, instead of silently changing behavior.
+const breakpointNames = ["sm", "md", "lg", "xl"];
+const layoutTokens = JSON.parse(readFileSync(`${tokensDir}/layout.json`, "utf8"));
+const expected = breakpointNames.map((name) => layoutTokens.breakpoint[name].$value);
+const breakpointFiles = [
+  resolve(root, "src/ui/components/Stack/Stack.module.css"),
+  resolve(root, "src/ui/components/Grid/Grid.module.css"),
+];
+let breakpointMismatch = false;
+for (const file of breakpointFiles) {
+  const source = readFileSync(file, "utf8");
+  const found = [...source.matchAll(/@media\s*\(min-width:\s*([^)]+)\)/g)].map((m) => m[1].trim());
+  if (found.length !== expected.length || found.some((value, i) => value !== expected[i])) {
+    breakpointMismatch = true;
+    console.error(
+      `Breakpoint mismatch in ${file.replace(root + "/", "")}:\n` +
+        `  found:    ${found.length ? found.join(", ") : "(none)"}\n` +
+        `  expected: ${expected.map((value, i) => `--breakpoint-${breakpointNames[i]} ${value}`).join(", ")}\n` +
+        "  Media queries cannot use var(), so update the literal min-width values in the CSS or the tokens in src/ui/tokens/layout.json.",
+    );
+  }
+}
+if (breakpointMismatch) process.exit(1);
 
 // ---- Tailwind v4 bridge ----
 // `@theme inline` makes utilities (bg-page, text-primary-foreground, rounded-md, shadow-sm, font-emphasis) read our variables

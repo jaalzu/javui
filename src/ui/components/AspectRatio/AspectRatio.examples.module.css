@@ -1,0 +1,22 @@
+@layer ui {
+  .tile {
+    background: var(--color-component);
+    border: var(--border-width-thin) solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+  }
+
+  .narrow {
+    width: 9rem;
+    max-width: 100%;
+  }
+
+  .wide {
+    width: 100%;
+    max-width: 28rem;
+  }
+
+  .preview {
+    width: 14rem;
+    max-width: 100%;
+  }
+}

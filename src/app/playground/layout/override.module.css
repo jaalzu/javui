@@ -1,0 +1,5 @@
+/* Deliberately outside @layer ui: an unlayered class must beat the library layer. */
+.gapOverride {
+  --playground-class-gap: 2rem;
+  gap: var(--playground-class-gap);
+}

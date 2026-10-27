@@ -32,7 +32,7 @@ export type SheetProps = {
 
 /**
  * A side sheet for secondary tasks and settings, built on Base UI Drawer. Focus is trapped, Escape
- * closes it, and it can be swiped away on touch. For a centered decision use `Dialog`.
+ * closes it, and it can be swiped away on touch. For a centered decision use `Modal`.
  *
  * @example
  * <Sheet

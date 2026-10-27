@@ -19,7 +19,8 @@ const groups: { title: string; note?: string; tokens: Token[] }[] = [
         "highlight",
         "Highlighted panel inside a card: a metric, total or goal. Dark: lighter than the card; light: soft gray.",
       ],
-      ["modal", "Layers above the page: dialog, menu, select list, popover."],
+      ["modal", "Layers above the page: modal, menu, select list, popover."],
+      ["overlay", "Backdrop behind modals."],
     ],
   },
   {
@@ -77,6 +78,8 @@ const groups: { title: string; note?: string; tokens: Token[] }[] = [
       ["brand-foreground", "Brand text and icons, derived from brand-solid."],
       ["brand-foreground-soft", "Brand text on brand-subtle, derived from brand-solid."],
       ["on-brand-solid-foreground", "Text on brand solid."],
+      ["brand-border-default", "Brand border: selected card, active field."],
+      ["brand-border-focus", "Focus ring. Stays text-colored."],
     ],
   },
   {
@@ -87,6 +90,7 @@ const groups: { title: string; note?: string; tokens: Token[] }[] = [
       ["positive-subtle", "Soft positive tint behind text or icons."],
       ["positive-foreground", "Positive colored text and icons."],
       ["on-positive-solid-foreground", "Text on positive solid."],
+      ["positive-border-default", "Positive border."],
     ],
   },
   {
@@ -97,6 +101,7 @@ const groups: { title: string; note?: string; tokens: Token[] }[] = [
       ["warning-subtle", "Soft warning tint behind text or icons."],
       ["warning-foreground", "Warning colored text and icons."],
       ["on-warning-solid-foreground", "Text on warning solid."],
+      ["warning-border-default", "Warning border."],
     ],
   },
   {
@@ -107,6 +112,7 @@ const groups: { title: string; note?: string; tokens: Token[] }[] = [
       ["info-subtle", "Soft info tint behind text or icons."],
       ["info-foreground", "Info colored text and icons."],
       ["on-info-solid-foreground", "Text on info solid."],
+      ["info-border-default", "Info border."],
     ],
   },
   {
@@ -122,22 +128,7 @@ const groups: { title: string; note?: string; tokens: Token[] }[] = [
       ],
       ["danger-foreground", "Danger colored text and icons."],
       ["on-danger-solid-foreground", "Text on danger solid."],
-    ],
-  },
-  {
-    title: "Syntax",
-    note: "Code highlighting. One layer on top of sunken; the CodeBlock tone is separate.",
-    tokens: [
-      ["syntax-text", "Default code text: variables, operators, plain identifiers."],
-      ["syntax-keyword", "Language keywords and control flow."],
-      ["syntax-string", "Strings and template literals."],
-      ["syntax-number", "Numbers, units and constants."],
-      ["syntax-function", "Function and method names."],
-      ["syntax-comment", "Comments, quieter than code."],
-      ["syntax-punctuation", "Braces, brackets and separators."],
-      ["syntax-danger", "Removed code in a diff."],
-      ["syntax-diff-added-bg", "Background of an added line in a diff."],
-      ["syntax-diff-removed-bg", "Background of a removed line in a diff."],
+      ["danger-border-default", "Danger border."],
     ],
   },
   {
@@ -148,12 +139,6 @@ const groups: { title: string; note?: string; tokens: Token[] }[] = [
         "border-strong",
         "Edges of form controls, checked at 3:1 contrast.",
       ],
-      ["brand-border-default", "Brand border: selected card, active field."],
-      ["brand-border-focus", "Focus ring. Stays text-colored."],
-      ["positive-border-default", "Positive border."],
-      ["warning-border-default", "Warning border."],
-      ["info-border-default", "Info border."],
-      ["danger-border-default", "Danger border."],
     ],
   },
   {
@@ -164,7 +149,6 @@ const groups: { title: string; note?: string; tokens: Token[] }[] = [
       ["border-disabled", "Borders of disabled controls."],
     ],
   },
-  { title: "Other", tokens: [["overlay", "Backdrop behind dialogs."]] },
 ];
 
 const shadows: {
@@ -193,7 +177,7 @@ const shadows: {
     token: "shadow-raised",
     use: "A raised look for secondary controls.",
     yes: ["Secondary buttons"],
-    no: "Floating panels. Menus and dialogs get Large or Extra large.",
+    no: "Floating panels. Menus and modals get Large or Extra large.",
   },
   {
     name: "Large",
@@ -206,7 +190,7 @@ const shadows: {
     name: "Extra large",
     token: "shadow-extra-large",
     use: "Surfaces above the whole page, usually with an overlay behind.",
-    yes: ["Dialog and alert dialog", "Search palette"],
+    yes: ["Modal", "Search palette"],
     no: "Small floating things. A menu with this feels too heavy.",
   },
 ];

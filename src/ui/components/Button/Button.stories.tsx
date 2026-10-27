@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { Button, type ButtonVariant } from "./Button";
+import { Button, type ButtonSize, type ButtonVariant } from "./Button";
 import { Stack } from "../Stack";
 import { StateMatrix, forceProps } from "../../stories/StateMatrix";
 import { ArrowRightIcon, CheckIcon, PlusIcon } from "../../icons/icons.generated";
@@ -14,6 +14,25 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+const sizes: ButtonSize[] = ["xs", "sm", "md", "lg"];
+
+function AllSizes() {
+  return (
+    <Stack gap="4" align="start">
+      {sizes.map((size) => (
+        <Stack key={size} direction="row" gap="3" align="center" wrap>
+          <Button size={size}>{size.toUpperCase()}</Button>
+          <Button size={size} variant="secondary" startIcon={<PlusIcon />}>
+            {size.toUpperCase()}
+          </Button>
+          <Button size={size} aria-label={`Add ${size}`} startIcon={<PlusIcon />} />
+          <Button size={size} pill aria-label={`Pill ${size}`} startIcon={<PlusIcon />} />
+        </Stack>
+      ))}
+    </Stack>
+  );
+}
 
 export const Primary: Story = {};
 
@@ -30,11 +49,17 @@ export const Variants: Story = {
 };
 
 export const Sizes: Story = {
+  render: () => <AllSizes />,
+};
+
+export const Pill: Story = {
   render: () => (
-    <Stack direction="row" gap="3" align="center">
-      <Button size="sm">Small</Button>
-      <Button size="md">Medium</Button>
-      <Button size="lg">Large</Button>
+    <Stack direction="row" gap="3" align="center" wrap>
+      <Button pill>Save</Button>
+      <Button pill size="sm" aria-label="Add" startIcon={<PlusIcon />} />
+      <Button pill variant="secondary" size="xs">
+        Filter
+      </Button>
     </Stack>
   ),
 };
@@ -58,7 +83,7 @@ export const IconSizes: Story = {
   name: "Icon sizes",
   render: () => (
     <Stack gap="3" align="start">
-      {(["sm", "md", "lg"] as const).map((size) => (
+      {sizes.map((size) => (
         <Stack key={size} direction="row" gap="3" align="center">
           <Button size={size} startIcon={<PlusIcon />}>New</Button>
           <Button size={size} endIcon={<ArrowRightIcon />}>Next</Button>
@@ -97,15 +122,16 @@ export const TouchTargets: Story = {
   render: () => (
     <div data-touch-debug>
       <Stack direction="row" gap="3" wrap align="center">
+        <Button size="xs">Extra small</Button>
         <Button size="sm">Small</Button>
         <Button size="md">Medium</Button>
         <Button size="lg">Large</Button>
-        <Button size="sm" variant="secondary">Secondary</Button>
-        <Button size="sm" variant="ghost">Ghost</Button>
+        <Button size="xs" variant="secondary">Secondary</Button>
+        <Button size="xs" variant="ghost">Ghost</Button>
       </Stack>
     </div>
   ),
 };
 
-export const Dark: Story = { ...States, globals: { theme: "dark" } };
-export const Light: Story = { ...States, globals: { theme: "light" } };
+export const Dark: Story = { render: () => <AllSizes />, globals: { theme: "dark" } };
+export const Light: Story = { render: () => <AllSizes />, globals: { theme: "light" } };

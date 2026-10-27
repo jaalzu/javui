@@ -1,0 +1,382 @@
+/*
+ * The group is a dumb container: it never sets size or variant. Each child keeps its own
+ * `--btn-radius` (or its own border radius) and the group only zeros the inner edges. Ends are
+ * found with sibling combinators, never `:first-child`/`:last-child`, so a sibling inserted by a
+ * portal (Modal, Menu) cannot turn an outer corner square.
+ */
+
+.group {
+  /* 1x radius for Input, Select and ButtonGroupText, which do not expose `--btn-radius`. */
+  --group-radius: var(--radius-base);
+  display: inline-flex;
+  align-items: stretch;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.horizontal {
+  flex-direction: row;
+}
+
+.vertical {
+  flex-direction: column;
+  width: fit-content;
+}
+
+/* Mobile first: column below the breakpoint, declared orientation above it. */
+.group[data-stack-below] {
+  flex-direction: column;
+  width: 100%;
+}
+
+/* A nested group gets room instead of touching its siblings. */
+.group:has(> .group) {
+  gap: var(--space-2);
+}
+
+/* Secondary is flat inside a group: no raised ring and no backdrop blur. */
+.group > [data-variant="secondary"] {
+  --btn-ring: none;
+  --btn-backdrop: none;
+}
+
+/* The four control faces, including Input and Select wrappers. */
+.group > :is(button, a, input, [data-button-group-text]),
+.group > span > input,
+.group > div > [role="combobox"] {
+  border-start-start-radius: var(--face-ss, var(--btn-radius, var(--group-radius)));
+  border-start-end-radius: var(--face-se, var(--btn-radius, var(--group-radius)));
+  border-end-start-radius: var(--face-es, var(--btn-radius, var(--group-radius)));
+  border-end-end-radius: var(--face-ee, var(--btn-radius, var(--group-radius)));
+}
+
+/* ---- Vertical axis (declared, or the stacked state below the breakpoint) ---- */
+
+.group[data-orientation="vertical"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])),
+.group[data-stack-below] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) {
+  --face-ss: 0;
+  --face-se: 0;
+}
+
+.group[data-orientation="vertical"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])):has(~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"]))),
+.group[data-stack-below] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])):has(~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"]))) {
+  --face-es: 0;
+  --face-ee: 0;
+}
+
+.group[data-orientation="vertical"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ :is(button, a)[data-variant="secondary"],
+.group[data-stack-below] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ :is(button, a)[data-variant="secondary"] {
+  --btn-divider: inset 0 var(--border-width-thin) 0 0 var(--color-border-default);
+}
+
+/* A bordered face already draws the shared line; the next bordered face must not double it. */
+.group[data-orientation="vertical"] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"]), .separator) + :is([data-button-group-text]),
+.group[data-orientation="vertical"] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"]), .separator) + span > input,
+.group[data-orientation="vertical"] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"]), .separator) + div > [role="combobox"],
+.group[data-stack-below] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"]), .separator) + :is([data-button-group-text]),
+.group[data-stack-below] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"]), .separator) + span > input,
+.group[data-stack-below] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"]), .separator) + div > [role="combobox"] {
+  border-block-start-width: 0;
+}
+
+/* The divider of a bordered face is the default border color, never the field's strong border. */
+.group[data-orientation="vertical"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ :is([data-button-group-text]),
+.group[data-orientation="vertical"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ span > input,
+.group[data-orientation="vertical"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ div > [role="combobox"],
+.group[data-stack-below] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ :is([data-button-group-text]),
+.group[data-stack-below] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ span > input,
+.group[data-stack-below] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ div > [role="combobox"] {
+  border-block-start-color: var(--color-border-default);
+}
+
+.group[data-orientation="vertical"] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"])):has(~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"]))),
+.group[data-orientation="vertical"] > span:has(~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"]))) > input,
+.group[data-orientation="vertical"] > div:has(~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"]))) > [role="combobox"],
+.group[data-stack-below] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"])):has(~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"]))),
+.group[data-stack-below] > span:has(~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"]))) > input,
+.group[data-stack-below] > div:has(~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"]))) > [role="combobox"] {
+  border-block-end-color: var(--color-border-default);
+}
+
+.group[data-orientation="vertical"] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"])):has(+ .separator),
+.group[data-orientation="vertical"] > span:has(+ .separator) > input,
+.group[data-orientation="vertical"] > div:has(+ .separator) > [role="combobox"],
+.group[data-stack-below] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"])):has(+ .separator),
+.group[data-stack-below] > span:has(+ .separator) > input,
+.group[data-stack-below] > div:has(+ .separator) > [role="combobox"] {
+  border-block-end-width: 0;
+}
+
+/* A horizontal line in a vertical group, regardless of the separator's declared orientation. */
+.group[data-orientation="vertical"] > .separator,
+.group[data-stack-below] > .separator {
+  width: 100%;
+  height: var(--border-width-thin);
+  align-self: stretch;
+}
+
+/* ---- Horizontal axis ---- */
+
+.group[data-orientation="horizontal"]:not([data-stack-below]) > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) {
+  --face-ss: 0;
+  --face-es: 0;
+}
+
+.group[data-orientation="horizontal"]:not([data-stack-below]) > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])):has(~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"]))) {
+  --face-se: 0;
+  --face-ee: 0;
+}
+
+.group[data-orientation="horizontal"]:not([data-stack-below]) > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ :is(button, a)[data-variant="secondary"] {
+  --btn-divider: inset var(--border-width-thin) 0 0 0 var(--color-border-default);
+}
+
+.group[data-orientation="horizontal"]:not([data-stack-below]) > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"]), .separator) + :is([data-button-group-text]),
+.group[data-orientation="horizontal"]:not([data-stack-below]) > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"]), .separator) + span > input,
+.group[data-orientation="horizontal"]:not([data-stack-below]) > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"]), .separator) + div > [role="combobox"] {
+  border-inline-start-width: 0;
+}
+
+.group[data-orientation="horizontal"]:not([data-stack-below]) > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ :is([data-button-group-text]),
+.group[data-orientation="horizontal"]:not([data-stack-below]) > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ span > input,
+.group[data-orientation="horizontal"]:not([data-stack-below]) > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ div > [role="combobox"] {
+  border-inline-start-color: var(--color-border-default);
+}
+
+.group[data-orientation="horizontal"]:not([data-stack-below]) > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"])):has(~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"]))),
+.group[data-orientation="horizontal"]:not([data-stack-below]) > span:has(~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"]))) > input,
+.group[data-orientation="horizontal"]:not([data-stack-below]) > div:has(~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"]))) > [role="combobox"] {
+  border-inline-end-color: var(--color-border-default);
+}
+
+.group[data-orientation="horizontal"]:not([data-stack-below]) > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"])):has(+ .separator),
+.group[data-orientation="horizontal"]:not([data-stack-below]) > span:has(+ .separator) > input,
+.group[data-orientation="horizontal"]:not([data-stack-below]) > div:has(+ .separator) > [role="combobox"] {
+  border-inline-end-width: 0;
+}
+
+/* A vertical line in a horizontal group, regardless of the separator's declared orientation. */
+.group[data-orientation="horizontal"]:not([data-stack-below]) > .separator {
+  width: var(--border-width-thin);
+  height: auto;
+  align-self: stretch;
+}
+
+/* Field controls fill the remaining width; the button keeps its natural size. */
+.group[data-orientation="horizontal"]:not([data-stack-below]) > span:has(> input),
+.group[data-orientation="horizontal"]:not([data-stack-below]) > div:has(> [role="combobox"]) {
+  flex: 1 1 0%;
+  min-width: 0;
+}
+
+/* ---- Stacked groups: return to the horizontal axis at the breakpoint ---- */
+
+@media (min-width: 40rem) {
+  .group[data-stack-below="sm"][data-orientation="horizontal"] {
+    flex-direction: row;
+    width: auto;
+  }
+
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) {
+    --face-ss: initial;
+    --face-se: initial;
+    --face-es: initial;
+    --face-ee: initial;
+    --btn-divider: initial;
+  }
+
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"])) {
+    border-block-start-width: var(--border-width-thin);
+    border-block-end-width: var(--border-width-thin);
+  }
+
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > span > input,
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > div > [role="combobox"] {
+    border-block-start-width: var(--border-width-thin);
+    border-block-end-width: var(--border-width-thin);
+    border-block-start-color: var(--color-border-strong);
+    border-block-end-color: var(--color-border-strong);
+  }
+
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) {
+    --face-ss: 0;
+    --face-es: 0;
+  }
+
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])):has(~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"]))) {
+    --face-se: 0;
+    --face-ee: 0;
+  }
+
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ :is(button, a)[data-variant="secondary"] {
+    --btn-divider: inset var(--border-width-thin) 0 0 0 var(--color-border-default);
+  }
+
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"]), .separator) + :is([data-button-group-text]),
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"]), .separator) + span > input,
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"]), .separator) + div > [role="combobox"] {
+    border-inline-start-width: 0;
+  }
+
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ :is([data-button-group-text]),
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ span > input,
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ div > [role="combobox"] {
+    border-inline-start-color: var(--color-border-default);
+  }
+
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"])):has(~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"]))),
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > span:has(~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"]))) > input,
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > div:has(~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"]))) > [role="combobox"] {
+    border-inline-end-color: var(--color-border-default);
+  }
+
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"])):has(+ .separator),
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > span:has(+ .separator) > input,
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > div:has(+ .separator) > [role="combobox"] {
+    border-inline-end-width: 0;
+  }
+
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > .separator {
+    width: var(--border-width-thin);
+    height: auto;
+    align-self: stretch;
+  }
+
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > span:has(> input),
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > div:has(> [role="combobox"]) {
+    flex: 1 1 0%;
+    min-width: 0;
+  }
+}
+
+@media (min-width: 48rem) {
+  .group[data-stack-below="md"][data-orientation="horizontal"] {
+    flex-direction: row;
+    width: auto;
+  }
+
+  .group[data-stack-below="md"][data-orientation="horizontal"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) {
+    --face-ss: initial;
+    --face-se: initial;
+    --face-es: initial;
+    --face-ee: initial;
+    --btn-divider: initial;
+  }
+
+  .group[data-stack-below="md"][data-orientation="horizontal"] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"])) {
+    border-block-start-width: var(--border-width-thin);
+    border-block-end-width: var(--border-width-thin);
+  }
+
+  .group[data-stack-below="md"][data-orientation="horizontal"] > span > input,
+  .group[data-stack-below="md"][data-orientation="horizontal"] > div > [role="combobox"] {
+    border-block-start-width: var(--border-width-thin);
+    border-block-end-width: var(--border-width-thin);
+    border-block-start-color: var(--color-border-strong);
+    border-block-end-color: var(--color-border-strong);
+  }
+
+  .group[data-stack-below="md"][data-orientation="horizontal"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) {
+    --face-ss: 0;
+    --face-es: 0;
+  }
+
+  .group[data-stack-below="md"][data-orientation="horizontal"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])):has(~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"]))) {
+    --face-se: 0;
+    --face-ee: 0;
+  }
+
+  .group[data-stack-below="md"][data-orientation="horizontal"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ :is(button, a)[data-variant="secondary"] {
+    --btn-divider: inset var(--border-width-thin) 0 0 0 var(--color-border-default);
+  }
+
+  .group[data-stack-below="md"][data-orientation="horizontal"] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"]), .separator) + :is([data-button-group-text]),
+  .group[data-stack-below="md"][data-orientation="horizontal"] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"]), .separator) + span > input,
+  .group[data-stack-below="md"][data-orientation="horizontal"] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"]), .separator) + div > [role="combobox"] {
+    border-inline-start-width: 0;
+  }
+
+  .group[data-stack-below="md"][data-orientation="horizontal"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ :is([data-button-group-text]),
+  .group[data-stack-below="md"][data-orientation="horizontal"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ span > input,
+  .group[data-stack-below="md"][data-orientation="horizontal"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ div > [role="combobox"] {
+    border-inline-start-color: var(--color-border-default);
+  }
+
+  .group[data-stack-below="md"][data-orientation="horizontal"] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"])):has(~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"]))),
+  .group[data-stack-below="md"][data-orientation="horizontal"] > span:has(~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"]))) > input,
+  .group[data-stack-below="md"][data-orientation="horizontal"] > div:has(~ :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"]))) > [role="combobox"] {
+    border-inline-end-color: var(--color-border-default);
+  }
+
+  .group[data-stack-below="md"][data-orientation="horizontal"] > :is([data-button-group-text], span:has(> input), div:has(> [role="combobox"])):has(+ .separator),
+  .group[data-stack-below="md"][data-orientation="horizontal"] > span:has(+ .separator) > input,
+  .group[data-stack-below="md"][data-orientation="horizontal"] > div:has(+ .separator) > [role="combobox"] {
+    border-inline-end-width: 0;
+  }
+
+  .group[data-stack-below="md"][data-orientation="horizontal"] > .separator {
+    width: var(--border-width-thin);
+    height: auto;
+    align-self: stretch;
+  }
+
+  .group[data-stack-below="md"][data-orientation="horizontal"] > span:has(> input),
+  .group[data-stack-below="md"][data-orientation="horizontal"] > div:has(> [role="combobox"]) {
+    flex: 1 1 0%;
+    min-width: 0;
+  }
+}
+
+/* Focus ring above a neighbour, so the 1px shared edge never covers it. */
+.group :is(button, a, input, [role="combobox"]):focus-visible,
+.group :is(button, a, input, [role="combobox"])[data-force="focus"] {
+  position: relative;
+  z-index: 1;
+}
+
+.separator {
+  flex: 0 0 auto;
+  background: var(--color-border-default);
+}
+
+.separator[data-orientation="vertical"] {
+  width: var(--border-width-thin);
+  align-self: stretch;
+}
+
+.separator[data-orientation="horizontal"] {
+  width: 100%;
+  height: var(--border-width-thin);
+}
+
+@media (pointer: coarse) {
+  .group[data-orientation="horizontal"]:not([data-stack-below]) > :is(button, a, span:has(> input))::after,
+  .group[data-orientation="horizontal"]:not([data-stack-below]) > div > [role="combobox"]::after {
+    width: 100%;
+    height: max(100%, var(--size-target-comfortable));
+  }
+
+  .group[data-orientation="vertical"] > :is(button, a, span:has(> input))::after,
+  .group[data-orientation="vertical"] > div > [role="combobox"]::after,
+  .group[data-stack-below] > :is(button, a, span:has(> input))::after,
+  .group[data-stack-below] > div > [role="combobox"]::after {
+    width: max(100%, var(--size-target-comfortable));
+    height: 100%;
+  }
+
+  @media (min-width: 40rem) {
+    .group[data-stack-below="sm"][data-orientation="horizontal"] > :is(button, a, span:has(> input))::after,
+    .group[data-stack-below="sm"][data-orientation="horizontal"] > div > [role="combobox"]::after {
+      width: 100%;
+      height: max(100%, var(--size-target-comfortable));
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .group[data-stack-below="md"][data-orientation="horizontal"] > :is(button, a, span:has(> input))::after,
+    .group[data-stack-below="md"][data-orientation="horizontal"] > div > [role="combobox"]::after {
+      width: 100%;
+      height: max(100%, var(--size-target-comfortable));
+    }
+  }
+}

@@ -4,16 +4,31 @@ import { describe, expect, it } from "vitest";
 import { Stack } from "./Stack";
 
 describe("Stack", () => {
-  it("stacks in a column with the gap token", () => {
+  it("sets a plain gap as a single CSS variable", () => {
     render(<Stack data-testid="s" gap="2">x</Stack>);
     const el = screen.getByTestId("s");
-    expect(el.style.flexDirection).toBe("column");
-    expect(el.style.gap).toBe("var(--space-2)");
+    expect(el.style.getPropertyValue("--stack-gap")).toBe("var(--space-2)");
+    expect(el.style.getPropertyValue("--stack-gap-md")).toBe("");
   });
 
-  it("supports row direction", () => {
-    render(<Stack data-testid="s" direction="row">x</Stack>);
-    expect(screen.getByTestId("s").style.flexDirection).toBe("row");
+  it("sets per-breakpoint variables from an object", () => {
+    render(
+      <Stack data-testid="s" gap={{ base: "2", md: "6" }}>
+        x
+      </Stack>,
+    );
+    expect(screen.getByTestId("s").style.getPropertyValue("--stack-gap-md")).toBe("var(--space-6)");
+  });
+
+  it("renders without a base value", () => {
+    render(
+      <Stack data-testid="s" direction={{ md: "row" }}>
+        x
+      </Stack>,
+    );
+    const el = screen.getByTestId("s");
+    expect(el.style.getPropertyValue("--stack-direction-md")).toBe("row");
+    expect(el.style.getPropertyValue("--stack-direction")).toBe("");
   });
 
   it("keeps list semantics when rendered as ul", () => {

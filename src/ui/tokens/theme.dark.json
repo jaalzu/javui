@@ -171,6 +171,11 @@
       "$type": "color",
       "$description": "Warning colored text and icons."
     },
+    "warning-bright": {
+      "$value": "oklch(0.82 0.15 88)",
+      "$type": "color",
+      "$description": "Brighter, more saturated warning for a tone that must read as yellow, such as an alert icon, title, border and background. The solid step stays darker for text on a solid fill."
+    },
     "on-warning-solid-foreground": {
       "$value": "{color.page}",
       "$type": "color",

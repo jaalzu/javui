@@ -14,6 +14,8 @@ describe("Icon", () => {
   it("is an image with a name when labelled", () => {
     render(<CheckIcon label="Success" />);
     const img = screen.getByRole("img", { name: "Success" });
+    expect(img).toHaveAttribute("role", "img");
+    expect(img).toHaveAttribute("aria-label", "Success");
     expect(img).not.toHaveAttribute("aria-hidden");
   });
 

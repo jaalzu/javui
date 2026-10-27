@@ -23,7 +23,7 @@ export default function Surfaces() {
           { token: <code>--color-card</code>, use: "Content blocks on the page: cards, panels and table rows." },
           { token: <code>--color-sunken</code>, use: "Recessed areas inside a card: code blocks, wells and inset fields." },
           { token: <code>--color-highlight</code>, use: "Highlighted panel inside a card: a metric, total or goal. Dark: lighter than the card; light: soft gray." },
-          { token: <code>--color-modal</code>, use: "Layers above the page: dialogs, menus, select lists and popovers." },
+          { token: <code>--color-modal</code>, use: "Layers above the page: modals, menus, select lists and popovers." },
         ]}
       />
 
@@ -31,7 +31,7 @@ export default function Surfaces() {
       <ul>
         <li>A card sits on the page. Sunken and highlight areas sit inside a card.</li>
         <li>A highlight sits inside a card, is never nested, and is not for code or inputs (use sunken).</li>
-        <li>Never put a card inside another card. Use a sunken area or a <code>Divider</code> instead.</li>
+        <li>Never put a card inside another card. Use a sunken area or a hairline <code>hr</code> instead.</li>
         <li>Modal floats above the page and is never used as a page background.</li>
         <li>Use at most three nested levels.</li>
         <li>Mark a sunken container with <code>data-surface=&quot;sunken&quot;</code>. Controls inside use <code>--color-component-on-sunken</code> through the local <code>--color-component</code>.</li>

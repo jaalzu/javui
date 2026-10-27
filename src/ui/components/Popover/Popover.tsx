@@ -7,7 +7,7 @@ import styles from "./Popover.module.css";
 /**
  * Root of a popover: a small panel anchored to a button, for extra controls or details the user asked for.
  * Built on Base UI Popover (focus management, Escape to close, outside click and positioning come from there).
- * For decisions that must interrupt the user use `Dialog`; for a list of actions use `Menu`.
+ * For decisions that must interrupt the user use `Modal`; for a list of actions use `Menu`.
  *
  * @example
  * <Popover>

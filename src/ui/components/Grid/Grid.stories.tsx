@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Grid } from "./Grid";
-import { Box } from "../Box";
+import { Card } from "../Card";
 import { Text } from "../Text";
 
 const cells = Array.from({ length: 6 }, (_, i) => (
-  <Box key={i} padding="4" surface bordered radius="md">
+  <Card key={i} size="sm" variant="surface">
     <Text>Cell {i + 1}</Text>
-  </Box>
+  </Card>
 ));
 
 const meta = {
@@ -21,5 +21,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const ThreeColumns: Story = {};
-export const Responsive: Story = { args: { columns: "repeat(auto-fit, minmax(10rem, 1fr))" } };
+export const AutoFit: Story = { args: { minColumnWidth: "16rem" } };
+export const Responsive: Story = {
+  args: { columns: { base: 1, md: 2, lg: 4 }, gap: { base: "3", md: "6" } },
+};
+export const UnequalColumns: Story = { args: { columns: "2fr 1fr" } };
 export const Dark: Story = { globals: { theme: "dark" } };

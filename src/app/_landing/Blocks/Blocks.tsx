@@ -7,22 +7,20 @@ import {
   Avatar,
   Badge,
   Button,
-  ButtonLink,
   Card,
   ChartBarIcon,
   ChartLineIcon,
   ChartLineUpIcon,
   ChartPieSliceIcon,
   Checkbox,
-  Dialog,
-  DialogClose,
-  DialogContent,
-  Divider,
   Field,
   GearIcon,
   Heading,
   Input,
   Link,
+  Modal,
+  ModalClose,
+  ModalContent,
   Select,
   Stack,
   Switch,
@@ -32,8 +30,8 @@ import {
 import styles from "./Blocks.module.css";
 
 const cardPadding = {
-  paddingInline: "calc(var(--space-5) + var(--space-1) / 2)",
-  paddingBlock: "calc(var(--space-5) + var(--space-1) / 2)",
+  paddingInline: "calc(var(--space-4) + var(--space-1) / 2)",
+  paddingBlock: "calc(var(--space-4) + var(--space-1) / 2)",
 } satisfies CSSProperties;
 
 /** Shared shell for every block: a surface card with a title, optional description and action. */
@@ -128,9 +126,6 @@ function Sidebar() {
       aria-label="Sidebar example"
     >
       <Stack gap="3">
-        <div className={styles.blockHead}>
-          <span className={styles.personName}>Northwind</span>
-        </div>
         <nav aria-label="Main" className={styles.sidebar}>
           <span className={styles.navTitle}>Overview</span>
           <ul className={styles.navList}>
@@ -138,11 +133,9 @@ function Sidebar() {
               <li key={item.label}>
                 <Button
                   variant="ghost"
-                  size="sm"
+                  size="md"
                   className={styles.navLink}
                   startIcon={item.icon}
-                  aria-haspopup="dialog"
-                  onClick={() => setActive(item)}
                 >
                   {item.label}
                 </Button>
@@ -151,18 +144,22 @@ function Sidebar() {
           </ul>
         </nav>
       </Stack>
-      <Dialog
+      <Modal
         open={active !== null}
         onOpenChange={(open) => {
           if (!open) setActive(null);
         }}
       >
         {active && (
-          <DialogContent title={active.label} description={active.description}>
-            <DialogClose>Close</DialogClose>
-          </DialogContent>
+          <ModalContent
+            title={active.label}
+            description={active.description}
+            actions={<ModalClose>Close</ModalClose>}
+          >
+            {null}
+          </ModalContent>
         )}
-      </Dialog>
+      </Modal>
     </Card>
   );
 }
@@ -274,7 +271,7 @@ function Claimable() {
           <dt>Processing Fee</dt>
           <dd className={styles.negative}>-$37.46</dd>
         </div>
-        <Divider />
+        <hr className={styles.ledgerDivider} />
         <div className={`${styles.ledgerRow} ${styles.ledgerTotal}`}>
           <dt>Total Ready to Claim</dt>
           <dd>$1,211.29 USD</dd>
@@ -345,13 +342,13 @@ function Usage() {
         <div className={styles.usageActions}>
           <Button
             variant="ghost"
-            size="lg"
+            size="md"
             aria-label="View usage chart"
             startIcon={<ChartBarIcon />}
           />
           <Button
             variant="ghost"
-            size="lg"
+            size="md"
             aria-label="Usage settings"
             startIcon={<GearIcon />}
           />
@@ -437,58 +434,7 @@ function Plan() {
         <li>Ten team members</li>
         <li>Priority support</li>
       </ul>
-      <ButtonLink href="/docs/installation">Choose Pro</ButtonLink>
-    </Block>
-  );
-}
-
-function Notifications() {
-  return (
-    <Block
-      id="blk-notify"
-      title="Notifications"
-      description="Choose what we send you."
-    >
-      <Switch label="Email updates" defaultChecked />
-      <Switch label="Push notifications" />
-      <Switch label="Weekly digest" defaultChecked />
-      <Select
-        label="Language"
-        items={[
-          { value: "en", label: "English" },
-          { value: "es", label: "Español" },
-        ]}
-        defaultValue="en"
-      />
-      <Button variant="secondary">Save changes</Button>
-    </Block>
-  );
-}
-
-function Invite() {
-  return (
-    <Block
-      id="blk-invite"
-      title="Invite a teammate"
-      description="They will get an email with a link."
-    >
-      <Field label="Email">
-        <Input type="email" autoComplete="off" placeholder="name@company.com" />
-      </Field>
-      <Field label="Role">
-        <Select
-          items={[
-            { value: "viewer", label: "Viewer" },
-            { value: "editor", label: "Editor" },
-            { value: "admin", label: "Admin" },
-          ]}
-          defaultValue="editor"
-        />
-      </Field>
-      <Stack direction="row" gap="3">
-        <Button>Send invite</Button>
-        <Button variant="ghost">Cancel</Button>
-      </Stack>
+      <Button href="/docs/installation">Choose Pro</Button>
     </Block>
   );
 }

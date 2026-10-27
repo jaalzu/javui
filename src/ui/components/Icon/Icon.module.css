@@ -6,6 +6,10 @@
   vertical-align: middle;
 }
 
+.xs {
+  --icon-size: var(--size-icon-xs);
+}
+
 .sm {
   --icon-size: var(--size-icon-sm);
 }

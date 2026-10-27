@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Container } from "./Container";
-import { Box } from "../Box";
+import { Card } from "../Card";
 import { Text } from "../Text";
 
 const meta = {
@@ -11,9 +11,9 @@ const meta = {
   args: {
     size: "md",
     children: (
-      <Box padding="6" surface bordered radius="lg">
+      <Card variant="surface">
         <Text>Centered content with a maximum width.</Text>
-      </Box>
+      </Card>
     ),
   },
 } satisfies Meta<typeof Container>;
@@ -23,4 +23,5 @@ type Story = StoryObj<typeof meta>;
 
 export const Medium: Story = {};
 export const Small: Story = { args: { size: "sm" } };
+export const CustomPadding: Story = { args: { padding: "4" } };
 export const Dark: Story = { globals: { theme: "dark" } };

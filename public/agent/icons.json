@@ -782,5 +782,88 @@
       "regular",
       "fill"
     ]
+  },
+  {
+    "name": "floppy-disk",
+    "component": "FloppyDiskIcon",
+    "categories": [
+      "office",
+      "editor",
+      "system"
+    ],
+    "tags": [
+      "diskette",
+      "directory",
+      "directories",
+      "folders",
+      "documents",
+      "files",
+      "save",
+      "write"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "skip-forward",
+    "component": "SkipForwardIcon",
+    "categories": [
+      "media",
+      "system"
+    ],
+    "tags": [
+      "music",
+      "audio",
+      "seek",
+      "scrub",
+      "scan",
+      "ahead",
+      "next"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "sparkle",
+    "component": "SparkleIcon",
+    "categories": [
+      "communications",
+      "nature"
+    ],
+    "tags": [
+      "star",
+      "rate",
+      "ratings",
+      "favorites",
+      "favorited"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "prohibit",
+    "component": "ProhibitIcon",
+    "categories": [
+      "maps & travel",
+      "system"
+    ],
+    "tags": [
+      "forbidden",
+      "prohibited",
+      "cancelled",
+      "prevent",
+      "stop",
+      "do not enter"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
   }
 ]

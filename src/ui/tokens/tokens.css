@@ -118,9 +118,11 @@
   --header-height: 3.55rem; /** Height of the sticky site header. Used by the header and by scroll-padding. */
   --size-target-min: 1.5rem; /** WCAG 2.2 minimum pointer target (24px). */
   --size-target-comfortable: 2.75rem; /** Recommended hit area on touch devices. Controls may look smaller if they extend their hit area under `@media (pointer: coarse)`. */
+  --size-control-xs: 1.5rem;
   --size-control-sm: 1.75rem;
   --size-control-md: 2.25rem;
   --size-control-lg: 2.75rem;
+  --size-icon-xs: 0.75rem; /** Icon in extra small elements such as small badges (12px). */
   --size-icon-sm: 1rem; /** Icon in small controls, menu items and inline with text (16px). */
   --size-icon-md: 1.25rem; /** Default icon, and icons in large buttons (20px). */
   --size-icon-lg: 1.5rem; /** Large standalone icons (24px). */
@@ -152,10 +154,11 @@
   --motion-scale-tooltip: 0.97; /** Starting scale of tooltips. */
   --motion-scale-modal: 0.96; /** Starting scale of dialogs, which stay centered. */
   --color-component: oklch(0 0 0 / 0.05); /** Background of interactive controls at rest: inputs, secondary buttons, toggles. */
+  --color-warning-bright: oklch(0.62 0.16 88); /** Brighter, more saturated warning for a tone that must read as yellow, such as an alert icon, title, border and background. The solid step stays darker for text on a solid fill. */
   --color-overlay: oklch(0 0 0 / 0.4); /** Backdrop behind dialogs. */
   --shadow-inset-ring: inset 0 0 0 1px #00000014; /** A quiet 1px ring drawn inside the edge, so it never grows the box or reads as a heavy border. Use it on badges, chips and selected states. */
   --shadow-default: 0 0 0 1px #0000000f, 0 1px 2px #0000001a; /** A small lift for controls at rest that should feel pressable: slider thumbs, raised buttons, tabs. */
-  --shadow-raised: inset 0 0 0 1px transparent, inset 0 1px #ffffffcc, 0 0 0 1px #00000014, 0 4px 4px #0000000d; /** Raised look for secondary controls: inner hairline, top highlight, outer edge and soft drop. */
+  --shadow-raised: inset 0 0 0 1px transparent, inset 0 1px #ffffffcc, 0 0 0 1px #00000014; /** Raised look for secondary controls in light: inner hairline, top highlight and outer edge, with no soft drop so the control stays flat. */
   --shadow-large: 0 0 0 1px #00000014, 0 2px 3px -2px #0000001a, 0 3px 8px -2px #00000014, 0 4px 12px -4px #0000001f; /** Floating panels anchored to a trigger: menus, select lists, popovers, tooltips and toasts. */
   --shadow-extra-large: 0 0 0 .5px #00000014, 0 8px 40px 0px #0000001a, 0 12px 32px -16px #00000040; /** Surfaces that sit above the whole page: dialogs and the search palette. */
   --text-heading-1-weight: var(--font-weight-semibold);
@@ -213,6 +216,7 @@
   --text-code-xs-weight: var(--font-weight-regular);
   --text-code-xs-style: var(--font-style-body);
   --text-code-xs-family: var(--font-family-mono);
+  --icon-gap-xs: var(--space-1); /** Icon-label gap with a 12px icon. */
   --icon-gap-sm: var(--space-1-5); /** Icon-label gap with a 16px icon. */
   --icon-gap-md: var(--space-2); /** Icon-label gap with a 20px icon. */
   --icon-gap-lg: var(--space-2); /** Icon-label gap with a 24px icon. */
@@ -294,6 +298,7 @@
     color-scheme: dark;
       --color-component: oklch(1 0 0 / 0.102); /** Background of interactive controls at rest: inputs, secondary buttons, toggles. */
       --color-inverted-solid: #e5e5e6; /** Primary action background: the main button. */
+      --color-warning-bright: oklch(0.82 0.15 88); /** Brighter, more saturated warning for a tone that must read as yellow, such as an alert icon, title, border and background. The solid step stays darker for text on a solid fill. */
       --color-overlay: oklch(0 0 0 / 0.6); /** Backdrop behind dialogs. */
       --shadow-inset-ring: inset 0 0 0 1px #ffffff14; /** A quiet 1px ring drawn inside the edge, so it never grows the box or reads as a heavy border. Use it on badges, chips and selected states. */
       --shadow-default: 0 0 0 1px #ffffff12, 0 1px 2px #00000066; /** A small lift for controls at rest that should feel pressable: slider thumbs, raised buttons, tabs. */
@@ -372,6 +377,7 @@
   color-scheme: dark;
     --color-component: oklch(1 0 0 / 0.102); /** Background of interactive controls at rest: inputs, secondary buttons, toggles. */
     --color-inverted-solid: #e5e5e6; /** Primary action background: the main button. */
+    --color-warning-bright: oklch(0.82 0.15 88); /** Brighter, more saturated warning for a tone that must read as yellow, such as an alert icon, title, border and background. The solid step stays darker for text on a solid fill. */
     --color-overlay: oklch(0 0 0 / 0.6); /** Backdrop behind dialogs. */
     --shadow-inset-ring: inset 0 0 0 1px #ffffff14; /** A quiet 1px ring drawn inside the edge, so it never grows the box or reads as a heavy border. Use it on badges, chips and selected states. */
     --shadow-default: 0 0 0 1px #ffffff12, 0 1px 2px #00000066; /** A small lift for controls at rest that should feel pressable: slider thumbs, raised buttons, tabs. */

@@ -12,7 +12,7 @@ export type EmptyStateProps = {
   description?: ReactNode;
   /** Icon above the title. Pass a generated icon without `size`; the component sizes it. */
   icon?: ReactNode;
-  /** Main action, usually a Button or ButtonLink. */
+  /** Main action, usually a Button (with `href` for navigation) or Link. */
   action?: ReactNode;
   /** Heading level for the title. Keep the page outline in order. @default "h3" */
   as?: "h2" | "h3" | "h4";

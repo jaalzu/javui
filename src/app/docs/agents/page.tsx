@@ -22,6 +22,102 @@ export default function Agents() {
         <li><Link href="/agent/manifest.json">/agent/manifest.json</Link> and <Link href="/agent/tokens.json">/agent/tokens.json</Link>: the same content as JSON.</li>
       </ul>
 
+      <Heading as="h2" size={6}>Layout</Heading>
+      <ul>
+        <li>Vertical flow or a row of items: Stack. Never write flex by hand.</li>
+        <li>Equal cards, tiles, galleries: Grid with <code>minColumnWidth</code>. No breakpoints needed.</li>
+        <li>Layout that changes by screen: responsive objects, mobile-first. <code>direction=&#123;&#123; base: &quot;column&quot;, md: &quot;row&quot; &#125;&#125;</code>, <code>columns=&#123;&#123; base: 1, md: 2, lg: 3 &#125;&#125;</code>. A missing breakpoint inherits the smaller one. Always define <code>base</code> first.</li>
+        <li>Page width and side padding: Container once per page section. Never nest Containers.</li>
+        <li>Never use pixel values or arbitrary classes; use the spacing scale keys and the breakpoint names sm, md, lg, xl.</li>
+      </ul>
+      <Table
+        caption="Layout intents"
+        columns={[
+          { key: "intent", header: "Intent" },
+          { key: "component", header: "Component" },
+          { key: "props", header: "Props" },
+        ]}
+        rows={[
+          { intent: "Vertical flow or a row", component: <code>Stack</code>, props: <><code>direction</code>, <code>gap</code></> },
+          { intent: "Equal cards, tiles, galleries", component: <code>Grid</code>, props: <><code>minColumnWidth</code>, <code>gap</code></> },
+          { intent: "Layout that changes by screen", component: <><code>Stack</code> or <code>Grid</code></>, props: "responsive objects" },
+          { intent: "Page width and side padding", component: <code>Container</code>, props: <><code>size</code>, <code>padding</code></> },
+        ]}
+      />
+      <p>Page with a sidebar:</p>
+      <CodeBlock
+        language="tsx"
+        label="Page with sidebar"
+        code={`<Container size="xl">
+  <Grid columns={{ base: 1, lg: "16rem 1fr" }} gap="6">
+    <Sidebar>...</Sidebar>
+    <main>...</main>
+  </Grid>
+</Container>`}
+      />
+      <p>Card grid:</p>
+      <CodeBlock
+        language="tsx"
+        label="Card grid"
+        code={`<Grid minColumnWidth="16rem" gap="4">
+  {cards.map((card) => <Card key={card.id}>{card.title}</Card>)}
+</Grid>`}
+      />
+      <p>Toolbar that stacks on mobile:</p>
+      <CodeBlock
+        language="tsx"
+        label="Responsive toolbar"
+        code={`<Stack
+  direction={{ base: "column", md: "row" }}
+  gap={{ base: "2", md: "3" }}
+  align="center"
+>
+  <Button variant="secondary">Cancel</Button>
+  <Button>Save</Button>
+</Stack>`}
+      />
+
+      <Heading as="h2" size={6}>Buttons and links</Heading>
+      <Table
+        caption="Actions and navigation"
+        columns={[
+          { key: "intent", header: "Intent" },
+          { key: "component", header: "Component" },
+          { key: "props", header: "Props" },
+        ]}
+        rows={[
+          { intent: "An action", component: <code>Button</code>, props: <code>onClick</code> },
+          { intent: "Navigation shown as a button", component: <code>Button</code>, props: <code>href</code> },
+          { intent: "Navigation as inline text", component: <code>Link</code>, props: <code>href</code> },
+          { intent: "Hierarchical location", component: <code>Breadcrumb</code>, props: <><code>maxItems</code> when the path can exceed 4 levels</> },
+        ]}
+      />
+      <p>To navigate, use <code>href</code>. Do not render a button with <code>onClick</code> and <code>router.push</code>: it loses right-click, open in new tab and link semantics.</p>
+
+      <Heading as="h2" size={6}>Modals</Heading>
+      <Table
+        caption="Modal intents"
+        columns={[
+          { key: "intent", header: "Intent" },
+          { key: "component", header: "Component" },
+          { key: "props", header: "Props" },
+        ]}
+        rows={[
+          { intent: "A form or content", component: <code>Modal</code>, props: <><code>role=&quot;dialog&quot;</code> (default)</> },
+          { intent: "A destructive confirmation", component: <code>Modal</code>, props: <><code>role=&quot;alertdialog&quot;</code> <code>color=&quot;critical&quot;</code></> },
+          { intent: "Blocking information", component: <code>Modal</code>, props: <><code>role=&quot;alertdialog&quot;</code></> },
+        ]}
+      />
+      <ul>
+        <li>If the modal asks for a decision, always set <code>role=&quot;alertdialog&quot;</code>.</li>
+        <li>One to three actions: the safe action on the left and the primary action on the right.</li>
+        <li>Never invent sizes or colors.</li>
+        <li>The form goes in the body.</li>
+      </ul>
+
+      <Heading as="h2" size={6}>Overridable defaults</Heading>
+      <p>Every fixed default value for padding, gap or spacing is exposed through a CSS variable, and, where it makes sense, an optional prop. Override the variable on the component instance for a one-off change; use the prop when the component offers one, such as <code>Container</code> <code>padding</code>, <code>Card</code> <code>size</code> or <code>Stack</code> <code>gap</code>. Never hardcode a replacement value when a semantic token or component variable exists.</p>
+
       <Heading as="h2" size={6}>Use the MCP server</Heading>
       <p>Add the server to your MCP client, with the path to your copy of the repository.</p>
       <CodeBlock language="json" label="MCP configuration" code={mcp} />

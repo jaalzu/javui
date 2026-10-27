@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { ButtonLink, CaretLeftIcon, CaretRightIcon, Heading, Link } from "@/ui";
+import { Button, CaretLeftIcon, CaretRightIcon, Heading, Link } from "@/ui";
 import styles from "./DocPage.module.css";
 import { CopyPage } from "./CopyPage";
 import { neighbors } from "@/app/docs/_layout/nav";
@@ -27,10 +27,10 @@ export function DocPage({ href, title, description, children }: DocPageProps) {
           <div className={styles.docActions}>
             <CopyPage />
             {prev && (
-              <ButtonLink href={prev.href} variant="secondary" size="sm" aria-label={`Previous: ${prev.label}`} className={styles.iconBtn} startIcon={chevronLeft} />
+              <Button href={prev.href} variant="secondary" size="sm" aria-label={`Previous: ${prev.label}`} className={styles.iconBtn} startIcon={chevronLeft} />
             )}
             {next && (
-              <ButtonLink href={next.href} variant="secondary" size="sm" aria-label={`Next: ${next.label}`} className={styles.iconBtn} startIcon={chevronRight} />
+              <Button href={next.href} variant="secondary" size="sm" aria-label={`Next: ${next.label}`} className={styles.iconBtn} startIcon={chevronRight} />
             )}
           </div>
         </div>

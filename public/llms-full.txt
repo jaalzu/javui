@@ -47,8 +47,7 @@
 
 ### controls
 - **Button**: An action with onClick (submit, open, confirm, cancel), or navigation that looks like a button with href. Pass `loading` while an action runs.
-- **ButtonGroup** (parts: ButtonGroupSeparator): Related actions (2-4 buttons) with short labels and the same size, such as Save draft, Preview and Publish.
-- **ButtonGroupText**: A short prefix or unit next to an Input or a Button inside a ButtonGroup.
+- **ButtonGroup** (parts: ButtonGroupSeparator, ButtonGroupText): 2-4 related actions with short labels, all the same size and variant.
 - **Field**: Every form control, including its validation, required, read-only and loading states.
 - **Input**: Single-line text entry, read-only values and values that are still loading.
 - **Textarea**: Multi-line text entry, including read-only and loading values.
@@ -225,7 +224,7 @@ variant only reinforces it.
 Keep the text to one or two words and truncate counts to two digits (`99+`).
 Badges are secondary and supportive: never use one as a heading or a key
 indicator. Put icons in `startIcon`/`endIcon`; they follow the badge size: sm 12px, md 16px,
-lg 20px.
+lg 20px. An icon-only badge needs `aria-label`; it then renders with `role="img"`.
 
 - Category: typography
 - Base: Own component
@@ -590,23 +589,20 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## ButtonGroup
 
-Joins related actions into one control. Each child draws its own border and radius; the group
-only zeros the inner edges. Use the same size and variant in every child.
-
-Use `ButtonGroup` for actions and `ToggleGroup` for a selected state.
+Joins 2-4 related actions into one control. Children draw their border and radius; the group only zeros the inner edges. It never inherits `size` or `variant`.
 
 - Category: controls
 - Base: Own component
 - Import: `import { ButtonGroup } from "@/ui";`
 - Renders: div role="group"
-- Composition: Pass `orientation` and one group of related children: `Button`, a `Menu` trigger, `Input`, `Select` or `ButtonGroupText`. Use the same size and variant in every child; the group does not inherit either. `stackBelow` stacks it below `sm` or `md` and returns to `orientation` above it. Default internal lines are drawn by the children.
-- Use when: Related actions (2-4 buttons) with short labels and the same size, such as Save draft, Preview and Publish.
+- Composition: One group of related children: `Button`, a `Menu` trigger, `Input`, `Select` or `ButtonGroupText`. The group does not inherit `size` or `variant`; set both on every child. `stackBelow` stacks it below `sm` or `md`. Children draw the internal 1px line.
+- Use when: 2-4 related actions with short labels, all the same size and variant.
 - Choosing:
-  - Actions: use ButtonGroup. Selection state: use ToggleGroup.
+  - Actions → `ButtonGroup`; selection state → `ToggleGroup`.
 - Avoid:
-  - Loose or unrelated actions that do not form a set.
+  - Loose actions that do not form a set.
+  - Unrelated actions.
   - Long groups: split them or use a Menu.
-  - Selection state: use ToggleGroup.
   - The `ghost` variant.
 - Accessibility: Renders role="group"; add an `aria-label` that names the set of actions. Each child keeps its own accessible name and focus ring, which stays above its neighbours.
 
@@ -631,19 +627,17 @@ Also accepts the native props of the element it renders; they pass through.
 
 ### ButtonGroupSeparator
 
-A 1px divider between controls. Use it only when the default internal border is hidden by a
-filled variant (`primary`, `accent`, `danger`); it stretches to the group's height and never
-doubles the default border.
+A 1px divider between controls, for a filled variant (`primary`, `accent`, `danger`) that hides the default border; it follows the group's active axis.
 
 - Category: controls
 - Base: Own component
 - Import: `import { ButtonGroupSeparator } from "@/ui";`
 - Renders: div role="separator"
-- Composition: A 1px line with `align-self: stretch` and `--color-border-default`. Use it only when a filled variant (`primary`, `accent`, `danger`) hides the default internal border. It follows the group's active axis, including `stackBelow`.
-- Use when: Adding a visible division between controls whose default border is hidden by a filled background.
+- Composition: A 1px `--color-border-default` line with `align-self: stretch`. Use it when a filled variant hides the default border; it follows the active axis, including `stackBelow`.
+- Use when: Inside a filled group (`primary`, `accent`, `danger`), where the default border is hidden.
 - Avoid:
   - Groups of `secondary` buttons, where the default border already divides.
-  - Using it as decoration outside a ButtonGroup.
+  - Decoration outside a ButtonGroup.
 - Accessibility: Exposes role="separator" with an `aria-orientation` that describes the line.
 
 #### Props
@@ -662,24 +656,23 @@ Also accepts the native props of the element it renders; they pass through.
 </ButtonGroup>
 ```
 
-## ButtonGroupText
+### ButtonGroupText
 
-A static text addon for a `ButtonGroup`, such as a protocol prefix or a currency code.
-It is not interactive and takes the height of the other controls in the group.
+A static text addon for a `ButtonGroup`, such as `https://` or `USD`, that matches the height of the controls and shares the group border.
 
 - Category: controls
 - Base: Own component
 - Import: `import { ButtonGroupText } from "@/ui";`
 - Renders: div
-- Composition: Static text only, such as `https://` or `USD`. It takes the height of the other controls in the group and uses the group's shared border. No `render`.
-- Use when: A short prefix or unit next to an Input or a Button inside a ButtonGroup.
+- Composition: Static text only, such as `https://` or `USD`. It matches the height of the controls and shares the group border. No `render`.
+- Use when: A short prefix or unit next to an `Input` or a `Button`.
 - Avoid:
   - Interactive content or actions: use Button.
   - Long labels: the addon is a short prefix or unit.
   - Use outside a ButtonGroup.
 - Accessibility: Plain text; it does not add a role or a name. Keep the adjacent control's accessible name complete.
 
-### Props
+#### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `children` | `ReactNode` | yes |  | The addon text, such as `https://` or `USD`. |
@@ -687,7 +680,7 @@ It is not interactive and takes the height of the other controls in the group.
 
 Also accepts the native props of the element it renders; they pass through.
 
-### Example
+#### Example
 ```tsx
 <ButtonGroup aria-label="Price">
   <ButtonGroupText>USD</ButtonGroupText>

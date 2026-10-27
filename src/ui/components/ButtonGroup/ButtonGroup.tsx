@@ -18,10 +18,7 @@ export type ButtonGroupProps = {
 } & Omit<ComponentProps<"div">, "color">;
 
 /**
- * Joins related actions into one control. Each child draws its own border and radius; the group
- * only zeros the inner edges. Use the same size and variant in every child.
- *
- * Use `ButtonGroup` for actions and `ToggleGroup` for a selected state.
+ * Joins 2-4 related actions into one control. Children draw their border and radius; the group only zeros the inner edges. It never inherits `size` or `variant`.
  *
  * @example
  * <ButtonGroup aria-label="Document actions">

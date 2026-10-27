@@ -33,7 +33,7 @@ export const examples: Example[] = [
       "Action",
       `<Alert tone="warning" title="Storage almost full">
   You have used 90% of your plan.
-  <Stack direction="row" gap="3" align="center">
+  <Stack direction="row" gap="3" align="center" justify="end">
     <Button size="sm">Upgrade</Button>
     <Text as="span" variant="body" size="sm">
       <Link href="/docs" tone="muted">Compare plans</Link>
@@ -43,7 +43,7 @@ export const examples: Example[] = [
       <Alert tone="warning" title="Storage almost full">
         <Stack gap="3">
           You have used 90% of your plan.
-          <Stack direction="row" gap="3" align="center">
+          <Stack direction="row" gap="3" align="center" justify="end">
             <Button size="sm">Upgrade</Button>
             <Text as="span" variant="body" size="sm">
               <Link href="/docs" tone="muted">Compare plans</Link>
@@ -51,7 +51,7 @@ export const examples: Example[] = [
           </Stack>
         </Stack>
       </Alert>,
-      "Actions go in the content, left aligned: a primary button and a muted secondary link.",
+      "Actions go at the end of the content: a primary button and a muted secondary link.",
     ),
     ex(
       "Custom color",

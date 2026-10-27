@@ -12,9 +12,7 @@ export type ButtonGroupSeparatorProps = {
 } & Omit<ComponentProps<"div">, "color" | "role">;
 
 /**
- * A 1px divider between controls. Use it only when the default internal border is hidden by a
- * filled variant (`primary`, `accent`, `danger`); it stretches to the group's height and never
- * doubles the default border.
+ * A 1px divider between controls, for a filled variant (`primary`, `accent`, `danger`) that hides the default border; it follows the group's active axis.
  *
  * @example
  * <ButtonGroup aria-label="Export">

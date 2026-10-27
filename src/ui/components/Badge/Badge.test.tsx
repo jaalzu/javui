@@ -39,10 +39,32 @@ describe("Badge", () => {
     expect(both.firstElementChild).toHaveAttribute("data-icon", "both");
   });
 
+  it("exposes an icon-only badge as an image", async () => {
+    const { container } = render(
+      <Badge aria-label="Verified" variant="success" startIcon={<CheckIcon />} />,
+    );
+    const badge = screen.getByRole("img", { name: "Verified" });
+    expect(badge.tagName).toBe("SPAN");
+    expect(await axe(container)).toHaveNoViolations();
+  });
+
+  it("keeps an explicit role on an icon-only badge", () => {
+    render(
+      <Badge
+        aria-label="Verified"
+        role="status"
+        variant="success"
+        startIcon={<CheckIcon />}
+      />,
+    );
+    expect(screen.getByRole("status", { name: "Verified" })).toBeInTheDocument();
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(
       <p>
         <Badge>Draft</Badge> <Badge variant="danger">Failed</Badge>
+        <Badge aria-label="Verified" variant="success" startIcon={<CheckIcon />} />
       </p>,
     );
     expect(await axe(container)).toHaveNoViolations();

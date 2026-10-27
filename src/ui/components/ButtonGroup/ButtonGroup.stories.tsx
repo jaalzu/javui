@@ -35,7 +35,16 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Horizontal: Story = {};
+export const Horizontal: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const [save, preview] = canvas.getAllByRole("button");
+
+    // One 1px default divider between flat faces, drawn by the following face only.
+    expect(getComputedStyle(save, "::before").boxShadow).toBe("none");
+    expect(getComputedStyle(preview, "::before").boxShadow).not.toBe("none");
+  },
+};
 
 export const Vertical: Story = {
   args: {
@@ -67,6 +76,30 @@ export const WithSeparator: Story = {
     const separator = canvas.getByRole("separator");
     expect(getComputedStyle(separator).alignSelf).toBe("stretch");
     expect(getComputedStyle(separator).width).toBe("1px");
+  },
+};
+
+export const SeparatorWithFlatButtons: Story = {
+  name: "Separator with secondary",
+  args: {
+    "aria-label": "Export",
+    children: (
+      <>
+        <Button variant="secondary">CSV</Button>
+        <ButtonGroupSeparator />
+        <Button variant="secondary">JSON</Button>
+      </>
+    ),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const [, json] = canvas.getAllByRole("button");
+    const separator = canvas.getByRole("separator");
+
+    expect(getComputedStyle(separator).width).toBe("1px");
+    expect(getComputedStyle(separator).alignSelf).toBe("stretch");
+    // The separator draws the edge; the next flat button must not add its own divider.
+    expect(getComputedStyle(json, "::before").boxShadow).toBe("none");
   },
 };
 

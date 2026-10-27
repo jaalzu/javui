@@ -141,7 +141,7 @@ const compoundParts = {
   CodeBlock: ["CodeBlockView"],
   Card: ["CardHeader", "CardTitle", "CardDescription", "CardAction", "CardContent", "CardFooter"],
   RadioGroup: ["Radio"],
-  ButtonGroup: ["ButtonGroupSeparator"],
+  ButtonGroup: ["ButtonGroupSeparator", "ButtonGroupText"],
   Avatar: ["AvatarGroup"],
 };
 const providerAndHookNames = ["LinkProvider", "TooltipProvider", "ToastProvider", "useLinkComponent", "useToast"];

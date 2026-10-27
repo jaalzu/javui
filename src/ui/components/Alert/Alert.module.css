@@ -28,6 +28,12 @@
   --alert-tone: var(--color-warning-bright);
 }
 
+/* The bright tone stays on the icon, border and background; warning text needs 4.5:1. */
+.warning .title,
+.warning .text {
+  color: var(--color-warning-foreground);
+}
+
 .error {
   --alert-tone: var(--color-danger-solid);
 }

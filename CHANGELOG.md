@@ -20,3 +20,8 @@
 - **`ButtonGroupText`.** A static text addon for `ButtonGroup`, such as `https://` or `USD`.
 - **`ButtonGroup` `stackBelow`.** Stacks the group into a column below `sm` or `md` and returns to its orientation above the breakpoint.
 - **Button `xs` size and `pill` shape.** `xs` is 1.5rem tall with a 12px icon and 12px text, for inline use; `pill` uses `--radius-full` in every variant and size. Layout gains `--size-control-xs`.
+
+### Fixed
+
+- **Alert `warning` contrast.** The title and text use `--color-warning-foreground` and meet 4.5:1; `--color-warning-bright` stays on the icon, border and background.
+- **Badge icon-only role.** An icon-only Badge with `aria-label` renders `role="img"`, so the accessible name is valid.

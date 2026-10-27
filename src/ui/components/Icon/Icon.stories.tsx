@@ -33,6 +33,7 @@ export const Labelled: Story = {
 export const Sizes: Story = {
   render: () => (
     <Stack direction="row" gap="4" align="center">
+      <CheckIcon size="xs" />
       <CheckIcon size="sm" />
       <CheckIcon size="md" />
       <CheckIcon size="lg" />

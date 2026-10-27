@@ -37,5 +37,9 @@
   "file-text",
   "list",
   "target",
-  "calendar-dots"
+  "calendar-dots",
+  "floppy-disk",
+  "skip-forward",
+  "sparkle",
+  "prohibit"
 ]

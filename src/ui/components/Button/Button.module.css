@@ -113,7 +113,7 @@
 
 .xs {
   --btn-px: var(--space-2);
-  --btn-gap: var(--space-1);
+  --btn-gap: var(--icon-gap-xs);
   --btn-icon: var(--size-icon-xs);
   height: var(--size-control-xs);
   font-size: var(--font-size-12);

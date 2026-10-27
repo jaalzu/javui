@@ -216,6 +216,7 @@
   --text-code-xs-weight: var(--font-weight-regular);
   --text-code-xs-style: var(--font-style-body);
   --text-code-xs-family: var(--font-family-mono);
+  --icon-gap-xs: var(--space-1); /** Icon-label gap with a 12px icon. */
   --icon-gap-sm: var(--space-1-5); /** Icon-label gap with a 16px icon. */
   --icon-gap-md: var(--space-2); /** Icon-label gap with a 20px icon. */
   --icon-gap-lg: var(--space-2); /** Icon-label gap with a 24px icon. */

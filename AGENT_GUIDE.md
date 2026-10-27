@@ -76,4 +76,4 @@ Set `data-theme="light"` or `"dark"` on `<html>`. Without it the OS preference a
 
 ## 6. Links and navigation
 
-Wrap the app once in `<LinkProvider component={NextLink}>` (see `src/app/providers.tsx`). Then `Link`, `ButtonLink`, `Menu` link items, `Breadcrumb` and `Pagination` all render with `next/link`. Never pass a `render` prop per link. Use `ButtonLink` for a link that looks like a button, and `Button` only for actions that do not navigate. `Pagination` takes `hrefTemplate` (a string with `{page}`), not a function, so it works from Server Components.
+Wrap the app once in `<LinkProvider component={NextLink}>` (see `src/app/providers.tsx`). Then `Link`, `Button` with `href`, `Menu` link items, `Breadcrumb` and `Pagination` all render with `next/link`. Never pass a `render` prop per link. Use `Button` with `href` for a link that looks like a button, `Button` with `onClick` for actions that do not navigate, and `Link` for navigation as inline text. `href` decides the element, so do not render a button with `onClick` and `router.push` to navigate. `Pagination` takes `hrefTemplate` (a string with `{page}`), not a function, so it works from Server Components.

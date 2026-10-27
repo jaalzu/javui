@@ -1,22 +1,26 @@
-.aspectRatio {
-  width: 100%;
-  aspect-ratio: var(--aspect-ratio);
-}
+@layer ui {
+  .aspectRatio {
+    width: 100%;
+    aspect-ratio: var(--aspect-ratio, 1);
+  }
 
-figure.aspectRatio {
-  margin: 0;
-}
+  .aspectRatio > * {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+  }
 
-.aspectRatio > :is(img, video, iframe) {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
+  .aspectRatio > :is(img, video, iframe, picture, canvas, svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
 
-.aspectRatio > :is(img, video) {
-  object-fit: cover;
-}
+  .aspectRatio > :is(img, video) {
+    object-fit: cover;
+  }
 
-.aspectRatio > iframe {
-  border: 0;
+  .aspectRatio > iframe {
+    border: 0;
+  }
 }

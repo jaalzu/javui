@@ -26,7 +26,7 @@
 
 /* Sizes */
 .sm {
-  --icon-size: var(--size-icon-sm);
+  --icon-size: var(--size-icon-xs);
   --badge-gap: var(--icon-gap-sm);
   height: 1.25rem;
   padding-inline: var(--space-2);
@@ -34,14 +34,14 @@
 }
 
 .md {
-  --icon-size: var(--size-icon-md);
+  --icon-size: var(--size-icon-sm);
   --badge-gap: var(--icon-gap-md);
   height: 1.5rem;
   font-size: var(--font-size-13);
 }
 
 .lg {
-  --icon-size: var(--size-icon-lg);
+  --icon-size: var(--size-icon-md);
   --badge-gap: var(--icon-gap-lg);
   height: 1.75rem;
   padding-inline: var(--space-3);

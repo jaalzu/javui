@@ -7,7 +7,6 @@ import {
   Avatar,
   Badge,
   Button,
-  ButtonLink,
   Card,
   ChartBarIcon,
   ChartLineIcon,
@@ -435,7 +434,7 @@ function Plan() {
         <li>Ten team members</li>
         <li>Priority support</li>
       </ul>
-      <ButtonLink href="/docs/installation">Choose Pro</ButtonLink>
+      <Button href="/docs/installation">Choose Pro</Button>
     </Block>
   );
 }

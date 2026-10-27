@@ -17,6 +17,9 @@
       }
     },
     "control": {
+      "xs": {
+        "$value": "1.5rem"
+      },
       "sm": {
         "$value": "1.75rem"
       },
@@ -28,6 +31,10 @@
       }
     },
     "icon": {
+      "xs": {
+        "$value": "0.75rem",
+        "$description": "Icon in extra small elements such as small badges (12px)."
+      },
       "sm": {
         "$value": "1rem",
         "$description": "Icon in small controls, menu items and inline with text (16px)."

@@ -1,36 +1,55 @@
-import { AspectRatio } from "@/ui";
+import { AspectRatio, Grid } from "@/ui";
 import { ex, type Example } from "@/docs/example";
+import styles from "./AspectRatio.examples.module.css";
+
+const Tile = () => <div className={styles.tile} />;
 
 export const examples: Example[] = [
-    ex(
-      "Landscape (16 / 9)",
-      `<AspectRatio ratio={16 / 9}>
-  <img src="/window.svg" alt="A window" width={640} height={360} />
+  ex(
+    "Square",
+    `<AspectRatio ratio={1}>
+  <div />
 </AspectRatio>`,
-      <AspectRatio ratio={16 / 9}>
-        {/* eslint-disable-next-line @next/next/no-img-element -- Local fixture for the example. */}
-        <img src="/window.svg" alt="A window" width={640} height={360} />
-      </AspectRatio>,
-      "The box keeps its 16:9 area before the image loads.",
-    ),
-    ex(
-      "Square",
-      `<AspectRatio ratio={1}>
-  <img src="/window.svg" alt="A window" width={480} height={480} />
-</AspectRatio>`,
+    <div className={styles.narrow}>
       <AspectRatio ratio={1}>
-        {/* eslint-disable-next-line @next/next/no-img-element -- Local fixture for the example. */}
-        <img src="/window.svg" alt="A window" width={480} height={480} />
-      </AspectRatio>,
-    ),
-    ex(
-      "Portrait",
-      `<AspectRatio ratio={3 / 4}>
-  <img src="/window.svg" alt="A window" width={480} height={640} />
+        <Tile />
+      </AspectRatio>
+    </div>,
+  ),
+  ex(
+    "Portrait",
+    `<AspectRatio ratio={3 / 4}>
+  <div />
 </AspectRatio>`,
+    <div className={styles.narrow}>
       <AspectRatio ratio={3 / 4}>
-        {/* eslint-disable-next-line @next/next/no-img-element -- Local fixture for the example. */}
-        <img src="/window.svg" alt="A window" width={480} height={640} />
-      </AspectRatio>,
-    ),
+        <Tile />
+      </AspectRatio>
+    </div>,
+  ),
+  ex(
+    "Gallery",
+    `<Grid columns={2} gap="3">
+  <AspectRatio ratio={16 / 9}><div /></AspectRatio>
+  <AspectRatio ratio={16 / 9}><div /></AspectRatio>
+  <AspectRatio ratio={16 / 9}><div /></AspectRatio>
+  <AspectRatio ratio={16 / 9}><div /></AspectRatio>
+</Grid>`,
+    <div className={styles.wide}>
+      <Grid columns={2} gap="3">
+        <AspectRatio ratio={16 / 9}>
+          <Tile />
+        </AspectRatio>
+        <AspectRatio ratio={16 / 9}>
+          <Tile />
+        </AspectRatio>
+        <AspectRatio ratio={16 / 9}>
+          <Tile />
+        </AspectRatio>
+        <AspectRatio ratio={16 / 9}>
+          <Tile />
+        </AspectRatio>
+      </Grid>
+    </div>,
+  ),
 ];

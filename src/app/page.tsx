@@ -1,4 +1,4 @@
-import { ButtonLink, Heading, Link } from "@/ui";
+import { Button, Heading, Link } from "@/ui";
 import { Blocks } from "@/app/_landing/Blocks/Blocks";
 import landing from "./_landing/landing.module.css";
 import shell from "./_shell/shell.module.css";
@@ -16,10 +16,10 @@ export default function Home() {
             for humans and <span className={landing.heroMuted}>agents.</span>
           </p>
           <div className={landing.heroActions}>
-            <ButtonLink href="/docs/installation">Get started</ButtonLink>
-            <ButtonLink href="/docs/components" variant="secondary">
+            <Button href="/docs/installation">Get started</Button>
+            <Button href="/docs/components" variant="secondary">
               View components
-            </ButtonLink>
+            </Button>
           </div>
         </section>
       </div>

@@ -52,18 +52,18 @@ export type BadgeProps = {
  *
  * Keep the text to one or two words and truncate counts to two digits (`99+`).
  * Badges are secondary and supportive: never use one as a heading or a key
- * indicator. Put icons in `startIcon`/`endIcon`; they follow the badge size: sm 16px, md 20px,
- * lg 24px.
+ * indicator. Put icons in `startIcon`/`endIcon`; they follow the badge size: sm 12px, md 16px,
+ * lg 20px.
  *
  * @example
- * <Badge>Draft</Badge>
- * <Badge variant="success">Active</Badge>
- * <Badge variant="danger">99+</Badge>
- * <Badge variant="outline" shape="rounded">Beta</Badge>
- * <Badge variant="brand" loading>Saving</Badge>
- * <Badge variant="inverted" size="lg" spinnerPosition="end" loading>Syncing</Badge>
- * <Badge variant="success" startIcon={<CheckIcon />}>Active</Badge>
- * <Badge variant="default" render={<Link href="/docs" />}>Docs</Badge>
+ * <Badge>Default</Badge>
+ * <Badge variant="inverted">Inverted</Badge>
+ * <Badge variant="outline">Outline</Badge>
+ * <Badge variant="brand">Brand</Badge>
+ * <Badge variant="success">Success</Badge>
+ * <Badge variant="danger">Danger</Badge>
+ * <Badge variant="success" startIcon={<CheckIcon />}>Success</Badge>
+ * <Badge render={<a href="#link" />}>Open link</Badge>
  */
 export function Badge({
   variant = "default",

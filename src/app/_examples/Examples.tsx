@@ -40,6 +40,7 @@ const loaders: Record<string, () => Promise<{ examples: Example[] }>> = {
   AspectRatio: () => import("@/ui/components/AspectRatio/AspectRatio.examples"),
   Button: () => import("@/ui/components/Button/Button.examples"),
   Badge: () => import("@/ui/components/Badge/Badge.examples"),
+  Breadcrumb: () => import("@/ui/components/Breadcrumb/Breadcrumb.examples"),
   Alert: () => import("@/ui/components/Alert/Alert.examples"),
   Modal: () => import("@/ui/components/Modal/Modal.examples"),
   Field: () => import("@/ui/components/Field/Field.examples"),

@@ -1,13 +1,24 @@
-.group {
-  display: inline-flex;
-  align-items: center;
-}
+@layer ui {
+  .group {
+    --avatar-ring: var(--border-width-thick);
+    display: inline-flex;
+    align-items: center;
+    isolation: isolate;
+  }
 
-.group > * + * {
-  margin-inline-start: calc(-1 * var(--space-2));
-}
+  .group > * {
+    position: relative;
+    isolation: isolate;
+    border-radius: var(--radius-full);
+    box-shadow: 0 0 0 var(--avatar-ring) var(--color-page);
+  }
 
-.more {
-  justify-content: center;
-  color: var(--color-secondary-foreground);
+  .group > * + * {
+    margin-inline-start: calc(0px - var(--avatar-overlap));
+  }
+
+  .more {
+    justify-content: center;
+    color: var(--color-secondary-foreground);
+  }
 }

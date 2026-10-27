@@ -19,9 +19,9 @@ export type ButtonGroupProps = {
  *
  * @example
  * <ButtonGroup aria-label="Document actions">
- *   <Button variant="outline">Save draft</Button>
- *   <Button variant="outline">Preview</Button>
- *   <Button variant="outline">Publish</Button>
+ *   <Button variant="secondary">Save draft</Button>
+ *   <Button variant="secondary">Preview</Button>
+ *   <Button variant="secondary">Publish</Button>
  * </ButtonGroup>
  */
 export function ButtonGroup({ orientation = "horizontal", className, ...rest }: ButtonGroupProps) {

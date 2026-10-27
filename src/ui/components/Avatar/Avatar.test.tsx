@@ -43,12 +43,6 @@ describe("Avatar", () => {
     expect(container.querySelector("[data-avatar-badge]")).toBeInTheDocument();
   });
 
-  it("uses an icon instead of the initials", () => {
-    render(<Avatar name="Build bot" icon={<CheckIcon />} />);
-    expect(screen.queryByText("BB")).not.toBeInTheDocument();
-    expect(screen.getByRole("img", { name: "Build bot" }).querySelector("svg")).toBeInTheDocument();
-  });
-
   it("has no accessibility violations", async () => {
     const { container } = render(<div><Avatar name="Ada Lovelace" /><Avatar name="Grace Hopper" src="/none.png" size="lg" /></div>);
     expect(await axe(container)).toHaveNoViolations();

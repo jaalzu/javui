@@ -24,10 +24,10 @@ export function Contact() {
   );
 }`;
 
-const nav = `import { ButtonLink, Link } from "@/ui";
+const nav = `import { Button, Link } from "@/ui";
 
 <Link href="/pricing">Pricing</Link>
-<ButtonLink href="/signup">Create account</ButtonLink>`;
+<Button href="/signup">Create account</Button>`;
 
 const toast = `"use client";
 
@@ -55,8 +55,8 @@ export default function Usage() {
       <CodeBlock language="tsx" label="Contact form" code={form} />
 
       <Heading as="h2" size={6}>Links and navigation</Heading>
-      <p>Once <code>LinkProvider</code> is in your providers, <code>Link</code>, <code>ButtonLink</code>, Menu link items, <code>Breadcrumb</code> and <code>Pagination</code> all render with <code>next/link</code>, so you get prefetching and client navigation without passing anything per link.</p>
-      <p>Use <code>ButtonLink</code> for a link that looks like a button. Use <code>Button</code> only for actions that do not navigate.</p>
+      <p>Once <code>LinkProvider</code> is in your providers, <code>Link</code>, <code>Button</code> with <code>href</code>, Menu link items, <code>Breadcrumb</code> and <code>Pagination</code> all render with <code>next/link</code>, so you get prefetching and client navigation without passing anything per link.</p>
+      <p>Use <code>Button</code> with <code>href</code> for a link that looks like a button. Use <code>Button</code> with <code>onClick</code> for actions that do not navigate, and <code>Link</code> for navigation as inline text.</p>
       <CodeBlock language="tsx" label="Links" code={nav} />
 
       <Heading as="h2" size={6}>Feedback after an action</Heading>

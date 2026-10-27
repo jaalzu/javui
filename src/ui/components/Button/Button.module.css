@@ -49,6 +49,12 @@
     transform var(--motion-duration-fast) var(--motion-easing-out);
 }
 
+/* The link branch: no underline and no inherited link color, only the button's own foreground. */
+.asLink {
+  text-decoration: none;
+  color: var(--btn-fg);
+}
+
 .button:hover:not([data-disabled])::before,
 .button[data-force="hover"]:not([data-disabled])::before {
   background-color: var(--btn-bg-hover);
@@ -93,13 +99,6 @@
   --btn-bg-hover: var(--color-transparent-hover);
 }
 
-.outline {
-  --btn-bg: transparent;
-  --btn-fg: var(--color-primary-foreground);
-  --btn-bg-hover: var(--color-transparent-hover);
-  border-color: var(--color-border-default);
-}
-
 .accent {
   --btn-bg: var(--color-brand-solid);
   --btn-fg: var(--color-on-brand-solid-foreground);
@@ -110,6 +109,14 @@
   --btn-bg: var(--color-danger-solid);
   --btn-fg: var(--color-on-danger-solid-foreground);
   --btn-bg-hover: var(--color-danger-solid-hover);
+}
+
+.xs {
+  --btn-px: var(--space-2);
+  --btn-gap: var(--space-1);
+  --btn-icon: var(--size-icon-xs);
+  height: var(--size-control-xs);
+  font-size: var(--font-size-12);
 }
 
 .sm {
@@ -133,18 +140,22 @@
   height: var(--size-control-lg);
 }
 
+.pill {
+  border-radius: var(--radius-full);
+}
+
 /* Optical balance: Phosphor glyphs carry their own empty space and look heavier than a letter, so the
   icon side gets less padding while the text side keeps the normal one. `data-icon` is set by the component. */
 .button[data-icon="start"] {
-  padding-inline-start: calc(var(--btn-px) * 0.75);
+  padding-inline-start: calc(var(--btn-px) * 0.5);
 }
 
 .button[data-icon="end"] {
-  padding-inline-end: calc(var(--btn-px) * 0.75);
+  padding-inline-end: calc(var(--btn-px) * 0.5);
 }
 
 .button[data-icon="both"] {
-  padding-inline: calc(var(--btn-px) * 0.75);
+  padding-inline: calc(var(--btn-px) * 0.5);
 }
 
 /* Icon only: a square, no side padding. */

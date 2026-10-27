@@ -77,6 +77,23 @@ export default function Agents() {
 </Stack>`}
       />
 
+      <Heading as="h2" size={6}>Buttons and links</Heading>
+      <Table
+        caption="Actions and navigation"
+        columns={[
+          { key: "intent", header: "Intent" },
+          { key: "component", header: "Component" },
+          { key: "props", header: "Props" },
+        ]}
+        rows={[
+          { intent: "An action", component: <code>Button</code>, props: <code>onClick</code> },
+          { intent: "Navigation shown as a button", component: <code>Button</code>, props: <code>href</code> },
+          { intent: "Navigation as inline text", component: <code>Link</code>, props: <code>href</code> },
+          { intent: "Hierarchical location", component: <code>Breadcrumb</code>, props: <><code>maxItems</code> when the path can exceed 4 levels</> },
+        ]}
+      />
+      <p>To navigate, use <code>href</code>. Do not render a button with <code>onClick</code> and <code>router.push</code>: it loses right-click, open in new tab and link semantics.</p>
+
       <Heading as="h2" size={6}>Modals</Heading>
       <Table
         caption="Modal intents"

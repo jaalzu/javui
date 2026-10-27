@@ -12,9 +12,8 @@ export type ButtonGroupSeparatorProps = {
 } & Omit<ComponentProps<"div">, "color" | "role">;
 
 /**
- * Divides adjacent buttons in a group. Use it with non-outline variants, whose shared edge has
- * no visible border; outline buttons already show the division. The orientation describes the
- * line itself, so a horizontal group uses a vertical separator.
+ * Divides adjacent buttons in a group. The orientation describes the line itself, so a horizontal
+ * group uses a vertical separator.
  *
  * @example
  * <ButtonGroup aria-label="Export">

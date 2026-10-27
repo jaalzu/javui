@@ -39,12 +39,12 @@
     "category": "typography",
     "base": "own",
     "renders": "a",
-    "composition": "Native anchor props pass through. `href` is required. Put a trailing icon in `endIcon` (no `size`). Set `standalone` for a link used as a standalone action; inline links in a sentence stay inline.",
-    "whenToUse": "Navigation to another page, section or resource.",
+    "composition": "Native anchor props pass through. `href` is required. Put a trailing icon in `endIcon` (no `size`). Set `standalone` for a link used as a standalone action; inline links in a sentence stay inline. For a link styled as a button, use `Button` with `href`.",
+    "whenToUse": "Navigation to another page, section or resource, inline in text.",
     "avoid": [
-      "Actions that do not navigate: use Button.",
+      "Actions that do not navigate: use Button with onClick.",
       "Links without visible text.",
-      "Button-styled navigation: use ButtonLink."
+      "Button-styled navigation: use Button with href."
     ],
     "a11y": "Always underlined so it does not rely on color (the underline gets stronger on hover). Use `target=\"_blank\"` only with `rel=\"noopener noreferrer\"`."
   },
@@ -63,12 +63,12 @@
     "category": "typography",
     "base": "own",
     "renders": "span, or the element passed in `render`",
-    "composition": "Text children, plus optional `startIcon`/`endIcon` (generated icons, no `size`); never put icons in children. `loading` adds a spinner (`spinnerPosition`: start or end). `variant`: default, inverted, outline, brand, success or danger. `size`: sm, md or lg. Icons follow the size: sm 16px, md 20px, lg 24px. `shape`: pill (default) or rounded. Pass `render={<Link href=\"…\" />}` to render a link. Keep text to one or two words; truncate counts to two digits (`99+`).",
+    "composition": "Text children, plus optional `startIcon`/`endIcon` (generated icons, no `size`); never put icons in children. `loading` adds a spinner (`spinnerPosition`: start or end). `variant`: default, inverted, outline, brand, success or danger. Pass `render={<Link href=\"…\" />}` to render a link. Keep text to one or two words; truncate counts to two digits (`99+`).",
     "whenToUse": "Short status or count labels next to other content.",
     "avoid": [
       "Using color as the only signal: always include text.",
       "Badges as headings or key indicators: they are secondary and supportive.",
-      "Long descriptions, or mixing different badge sizes side by side.",
+      "Long descriptions: badges are for short labels.",
       "Styling a badge like a button when it acts as one: use Button."
     ],
     "a11y": "Meaning must be in the text; the variant only reinforces it. A badge rendered as a link keeps the link's own accessible name."
@@ -116,12 +116,12 @@
   "AspectRatio": {
     "category": "layout",
     "base": "own",
-    "renders": "div by default; `as` can be figure",
-    "composition": "`ratio` is width divided by height (`16 / 9`, `4 / 3`, `1`) and defaults to 1. An `img`, `video` or `iframe` as a direct child fills the box; images and videos use `object-fit: cover`.",
+    "renders": "div",
+    "composition": "Reserves space for media before it loads, preventing layout shift (CLS). `ratio` is width divided by height (`16 / 9`, `4 / 3`, `1`) and defaults to 1. Only `div` is rendered; when the media needs a caption, wrap the box in a `figure` yourself. A direct child `img`, `video`, `iframe`, `picture`, `canvas` or `svg` fills the box; images and videos use `object-fit: cover`.",
     "whenToUse": "Images, video, embeds or maps whose size must be reserved before they load, preventing layout shift (CLS).",
     "avoid": [
-      "Decorative containers with no media.",
-      "Text blocks: they size to their content, not a fixed ratio."
+      "Text boxes: the box grows with its content.",
+      "Decorative containers with no media."
     ],
     "a11y": "The child needs its own alt text (`img`) or title (`iframe`, `video`); the box adds no semantics."
   },
@@ -175,21 +175,22 @@
   "Button": {
     "category": "controls",
     "base": "base-ui",
-    "renders": "button",
-    "composition": "Defaults to type=\"button\"; pass type=\"submit\" explicitly. Put icons in `startIcon`/`endIcon` (generated icons, no `size`). Icon-only: `startIcon` is required and exactly one of `aria-label` or `aria-labelledby`. Heights: sm 1.75rem, md 2.25rem, lg 2.75rem. Icons follow the size: sm 16px, md 20px, lg 24px. Base UI props such as `render` and `nativeButton` are available but not needed for normal use.",
-    "whenToUse": "Any action: submit, open, confirm, cancel. Pass `loading` while the action runs.",
+    "renders": "button without `href`; a (or the LinkProvider component) with `href`",
+    "composition": "`href` decides the element: a Base UI button (`type=\"button\"` by default) or a link from `LinkProvider` that rejects `disabled`, `loading` and `type`. Put icons in `startIcon`/`endIcon` (no `size`). Icon-only needs `startIcon` and one of `aria-label` or `aria-labelledby`. Sizes: xs 1.5rem/12px icon, sm 1.75rem/16px, md 2.25rem/20px, lg 2.75rem/24px. `pill` uses `--radius-full`; inside ButtonGroup the group's outer-only rounding wins.",
+    "whenToUse": "An action with onClick (submit, open, confirm, cancel), or navigation that looks like a button with href. Pass `loading` while an action runs.",
     "avoid": [
-      "Navigation: use Link (inline text) or ButtonLink (looks like a button).",
+      "Navigation as inline text: use Link.",
+      "onClick plus router.push to navigate: use href, or right-click and new-tab semantics are lost.",
       "More than one primary button per view.",
-      "Disabling the button to show progress: use `loading`, it keeps the label and focus."
+      "Disabling the button to show progress: use `loading`."
     ],
-    "a11y": "Icon-only buttons need `aria-label` (or `aria-labelledby`) and use `startIcon` instead of children; the types enforce it. `loading` sets `aria-busy` and counts as the start slot, and the spinner stays silent so the button's accessible name is the only announcement. Keyboard and disabled behavior come from Base UI."
+    "a11y": "Icon-only controls need `aria-label` (or `aria-labelledby`) and use `startIcon` instead of children; the types enforce it. `loading` sets `aria-busy` and counts as the start slot, and the spinner stays silent so the button's accessible name is the only announcement. With `href` it is a real link (role link), never role button. Keyboard and disabled behavior on the button branch come from Base UI."
   },
   "ButtonGroup": {
     "category": "controls",
     "base": "own",
     "renders": "div role=\"group\"",
-    "composition": "Pass `orientation` (horizontal or vertical, default horizontal) and one group of related children: `Button`, a `Menu` trigger or an `Input`. Put `ButtonGroupSeparator` between non-outline buttons. Give the group an `aria-label` that names the set of actions.",
+    "composition": "Pass `orientation` (horizontal or vertical, default horizontal) and one group of related children: `Button`, a `Menu` trigger or an `Input`. Put `ButtonGroupSeparator` between buttons when the shared edge needs a visible division. Give the group an `aria-label` that names the set of actions.",
     "whenToUse": "Related actions that belong together and read better as one unit, such as Save draft, Preview and Publish.",
     "avoid": [
       "Toggling state or choosing between options: use ToggleGroup.",
@@ -201,10 +202,10 @@
     "category": "controls",
     "base": "own",
     "renders": "div role=\"separator\"",
-    "composition": "Place between adjacent buttons when their variants have no visible border. `orientation` describes the line: vertical inside a horizontal group (default), horizontal inside a vertical group.",
-    "whenToUse": "Marking the division between non-outline buttons in a ButtonGroup.",
+    "composition": "Place between adjacent buttons when the shared edge needs a visible division. `orientation` describes the line: vertical inside a horizontal group (default), horizontal inside a vertical group.",
+    "whenToUse": "Marking the division between buttons in a ButtonGroup.",
     "avoid": [
-      "Separating outline buttons: their shared border already shows the division.",
+      "Separating buttons whose shared edge already reads as a division.",
       "Using it as decoration outside a ButtonGroup."
     ],
     "a11y": "Exposes role=\"separator\" with an `aria-orientation` that matches the line."
@@ -339,23 +340,11 @@
     ],
     "a11y": "Arrow keys move between tabs; roles and aria-controls come from Base UI."
   },
-  "ButtonLink": {
-    "category": "navigation",
-    "base": "own",
-    "renders": "a (rendered by the LinkProvider component, `next/link` in this app) styled like a Button",
-    "composition": "Pass `href`, `variant`, `size` and optional `startIcon`/`endIcon` (generated icons, no `size`). Children are the visible label. Icon-only: `startIcon` is required and exactly one of `aria-label` or `aria-labelledby`. Icons follow the size: sm 16px, md 20px, lg 24px.",
-    "whenToUse": "A call to action that goes to another page, such as Get started or Docs.",
-    "avoid": [
-      "Actions that do not navigate: use Button.",
-      "Inline links inside text: use Link (inline text)."
-    ],
-    "a11y": "Icon-only buttons need `aria-label` (or `aria-labelledby`); the types enforce it. It is a real link (role link), so middle-click, open in new tab and prefetch work. Do not give it role button."
-  },
   "LinkProvider": {
     "category": "utility",
     "base": "own",
     "renders": "no element: it provides the link component through context",
-    "composition": "Place once near the app root: `<LinkProvider component={NextLink}>`. Link, ButtonLink, Menu link items, Breadcrumb and Pagination then render with it.",
+    "composition": "Place once near the app root: `<LinkProvider component={NextLink}>`. Link, Button with href, Menu link items, Breadcrumb and Pagination then render with it.",
     "whenToUse": "Making every link in the library use `next/link` (or another router link) from a single place.",
     "avoid": [
       "Passing a `render` prop to individual links.",
@@ -423,7 +412,7 @@
     "category": "layout",
     "base": "own",
     "renders": "div",
-    "composition": "Holds a Button, ButtonLink or Badge at the top end of `CardHeader`, aligned with the title.",
+    "composition": "Holds a Button (with `href` for navigation) or Badge at the top end of `CardHeader`, aligned with the title.",
     "whenToUse": "A control that belongs to the whole card.",
     "avoid": [
       "Hiding the card title to make room for the action."
@@ -470,20 +459,20 @@
     "category": "utility",
     "base": "base-ui",
     "renders": "span with role img and the name as aria-label",
-    "composition": "Pass `name` (required), `src` and `size`; initials are the fallback. `status` adds a shape at the bottom end and appends the state to the name; `badge` with `badgeLabel` adds a custom icon and appends its label; `icon` replaces the initials. `status` and `badge` cannot be combined. Every feature scales with `size`.",
+    "composition": "Pass `name` (required), `src` and `size` (`xs`, `sm`, `md`, `lg` or `xl`); initials are the fallback. For bots, companies or systems, use `src` with the logo; without it the initials are shown. `status` adds a solid dot at the bottom end with a page-colored ring and appends the state to the name; `badge` with `badgeLabel` adds an avatar badge with an icon inside and appends its label; `outline={false}` removes the avatar border. `status` and `badge` cannot be combined. Every feature scales with `size`.",
     "whenToUse": "Showing who a person or account is.",
     "avoid": [
       "Using it as a button: wrap it in a Button or Link.",
       "Omitting `name`.",
       "Combining `status` and `badge`: they are mutually exclusive."
     ],
-    "a11y": "The name is the accessible name. A status appends the state, and a badge appends `badgeLabel`, such as \"Ada Lovelace, online\" or \"Ada Lovelace, Verified\". Initials, icon, status shape and badge are hidden from assistive technology; status is never color alone."
+    "a11y": "The name is the accessible name. A status appends the state, and an avatar badge appends `badgeLabel`, such as \"Ada Lovelace, online\" or \"Ada Lovelace, Verified\". Initials, status dot and avatar badge are hidden from assistive technology; the status is a plain solid dot whose color is not the only signal, because the state is announced in the accessible name."
   },
   "AvatarGroup": {
     "category": "utility",
     "base": "own",
     "renders": "div role=\"group\" with overlapping Avatar elements",
-    "composition": "Pass `children` (Avatar elements), `max` (default 4) and shared `size` (default md). Avatars beyond `max` collapse into a visible \"+N\" item labelled \"and N more\".",
+    "composition": "Pass `children` (Avatar elements), `max` (default 4) and shared `size` (default md). Avatars overlap by about 25% and each gets a 2px page-colored ring; later avatars stack on top. Avatars beyond `max` collapse into a \"+N\" item with the component background and label style, labelled \"and N more\".",
     "whenToUse": "A compact summary of several people or accounts.",
     "avoid": [
       "One avatar: use Avatar directly.",
@@ -600,13 +589,13 @@
     "category": "navigation",
     "base": "own",
     "renders": "nav with an ordered list; the last item has aria-current page",
-    "composition": "Pass `items` ({ label, href?, startIcon?, endIcon? }) from root to current page. Icons are generated icons without `size`.",
-    "whenToUse": "Showing where the page sits in the site.",
+    "composition": "Pass `items` ({ label, href?, startIcon?, endIcon? }) from root to current page. `separator` defaults to `>` and accepts any node, such as `/` or `·`; it is always hidden from assistive technology. Use `maxItems` (3 or more) to collapse the middle items into an ellipsis menu opened from an icon button labelled Show hidden pages and sized to its content; omit it to show every item. Icons are generated icons without `size`.",
+    "whenToUse": "Hierarchical navigation: showing where a page sits in a site with 3 or more levels.",
     "avoid": [
-      "Primary navigation.",
-      "Linking the last item."
+      "Wizards or steps: not a breadcrumb.",
+      "Using the current page as a link: it is a span with aria-current=\"page\"."
     ],
-    "a11y": "nav labelled Breadcrumb; the current page is marked with aria-current."
+    "a11y": "nav > ol; the nav is labelled Breadcrumb by default; the current page is a span with aria-current=\"page\"; separators are hidden from assistive technology; plain links keep keyboard navigation and a visible focus ring."
   },
   "Pagination": {
     "category": "navigation",
@@ -686,7 +675,7 @@
     "category": "feedback",
     "base": "own",
     "renders": "section with a heading",
-    "composition": "Pass `title` (required), optional `description`, `icon` (generated icon, no `size`), `action` (usually Button or ButtonLink) and `as` for the heading level (h2-h4, default h3).",
+    "composition": "Pass `title` (required), optional `description`, `icon` (generated icon, no `size`), `action` (usually a Button, with `href` for navigation) and `as` for the heading level (h2-h4, default h3).",
     "whenToUse": "A region that has no content yet, with a next step.",
     "avoid": [
       "Errors and failures: use Alert.",

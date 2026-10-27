@@ -71,11 +71,9 @@ export type { TooltipProps, TooltipProviderProps } from "./components/Tooltip";
 export { Tabs } from "./components/Tabs";
 export type { TabsProps, TabItem } from "./components/Tabs";
 
-// Navigation wiring and links that look like buttons
+// Navigation wiring
 export { LinkProvider, useLinkComponent } from "./components/Link";
 export type { LinkComponent, LinkProviderProps } from "./components/Link";
-export { ButtonLink } from "./components/ButtonLink";
-export type { ButtonLinkProps } from "./components/ButtonLink";
 
 // Surfaces, feedback and overlays
 export {

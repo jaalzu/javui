@@ -52,7 +52,7 @@
         },
         {
           "name": "size",
-          "type": "\"base\" | \"sm\" | \"lg\" | \"xs\"",
+          "type": "\"base\" | \"xs\" | \"sm\" | \"lg\"",
           "required": false,
           "default": "base",
           "description": "Size within the variant: body is 18px (`lg`), 15px (`base`) or 13px (`sm`); caption is 12px, 11px or 10px;\ncode is 14px (`base`), 13px (`sm`) or 12px (`xs`). Ignored by `label` and `emphasis`."
@@ -134,12 +134,12 @@
       "description": "A link for navigation. It renders an `a`, or the component given to `LinkProvider` (such as `next/link`).\nLinks with a label always show an underline so they do not rely on color alone. For actions that do not navigate, use `Button`.\nPut icons in `startIcon`/`endIcon`. An icon on its own is a valid link (`startIcon` + `aria-label`).",
       "import": "import { Link } from \"@/ui\";",
       "renders": "a",
-      "composition": "Native anchor props pass through. `href` is required. Put a trailing icon in `endIcon` (no `size`). Set `standalone` for a link used as a standalone action; inline links in a sentence stay inline.",
-      "whenToUse": "Navigation to another page, section or resource.",
+      "composition": "Native anchor props pass through. `href` is required. Put a trailing icon in `endIcon` (no `size`). Set `standalone` for a link used as a standalone action; inline links in a sentence stay inline. For a link styled as a button, use `Button` with `href`.",
+      "whenToUse": "Navigation to another page, section or resource, inline in text.",
       "avoid": [
-        "Actions that do not navigate: use Button.",
+        "Actions that do not navigate: use Button with onClick.",
         "Links without visible text.",
-        "Button-styled navigation: use ButtonLink."
+        "Button-styled navigation: use Button with href."
       ],
       "accessibility": "Always underlined so it does not rely on color (the underline gets stronger on hover). Use `target=\"_blank\"` only with `rel=\"noopener noreferrer\"`.",
       "props": [
@@ -206,15 +206,15 @@
       "name": "Badge",
       "category": "typography",
       "base": "Own component",
-      "description": "Small status, category or count label. Text is always the primary signal; the\nvariant only reinforces it.\n\nKeep the text to one or two words and truncate counts to two digits (`99+`).\nBadges are secondary and supportive: never use one as a heading or a key\nindicator. Put icons in `startIcon`/`endIcon`; they follow the badge size: sm 16px, md 20px,\nlg 24px.",
+      "description": "Small status, category or count label. Text is always the primary signal; the\nvariant only reinforces it.\n\nKeep the text to one or two words and truncate counts to two digits (`99+`).\nBadges are secondary and supportive: never use one as a heading or a key\nindicator. Put icons in `startIcon`/`endIcon`; they follow the badge size: sm 12px, md 16px,\nlg 20px.",
       "import": "import { Badge } from \"@/ui\";",
       "renders": "span, or the element passed in `render`",
-      "composition": "Text children, plus optional `startIcon`/`endIcon` (generated icons, no `size`); never put icons in children. `loading` adds a spinner (`spinnerPosition`: start or end). `variant`: default, inverted, outline, brand, success or danger. `size`: sm, md or lg. Icons follow the size: sm 16px, md 20px, lg 24px. `shape`: pill (default) or rounded. Pass `render={<Link href=\"…\" />}` to render a link. Keep text to one or two words; truncate counts to two digits (`99+`).",
+      "composition": "Text children, plus optional `startIcon`/`endIcon` (generated icons, no `size`); never put icons in children. `loading` adds a spinner (`spinnerPosition`: start or end). `variant`: default, inverted, outline, brand, success or danger. Pass `render={<Link href=\"…\" />}` to render a link. Keep text to one or two words; truncate counts to two digits (`99+`).",
       "whenToUse": "Short status or count labels next to other content.",
       "avoid": [
         "Using color as the only signal: always include text.",
         "Badges as headings or key indicators: they are secondary and supportive.",
-        "Long descriptions, or mixing different badge sizes side by side.",
+        "Long descriptions: badges are for short labels.",
         "Styling a badge like a button when it acts as one: use Button."
       ],
       "accessibility": "Meaning must be in the text; the variant only reinforces it. A badge rendered as a link keeps the link's own accessible name.",
@@ -280,7 +280,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Badge>Draft</Badge>\n<Badge variant=\"success\">Active</Badge>\n<Badge variant=\"danger\">99+</Badge>\n<Badge variant=\"outline\" shape=\"rounded\">Beta</Badge>\n<Badge variant=\"brand\" loading>Saving</Badge>\n<Badge variant=\"inverted\" size=\"lg\" spinnerPosition=\"end\" loading>Syncing</Badge>\n<Badge variant=\"success\" startIcon={<CheckIcon />}>Active</Badge>\n<Badge variant=\"default\" render={<Link href=\"/docs\" />}>Docs</Badge>"
+        "<Badge>Default</Badge>\n<Badge variant=\"inverted\">Inverted</Badge>\n<Badge variant=\"outline\">Outline</Badge>\n<Badge variant=\"brand\">Brand</Badge>\n<Badge variant=\"success\">Success</Badge>\n<Badge variant=\"danger\">Danger</Badge>\n<Badge variant=\"success\" startIcon={<CheckIcon />}>Success</Badge>\n<Badge render={<a href=\"#link\" />}>Open link</Badge>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Badge/Badge.tsx"
     },
@@ -467,23 +467,23 @@
       "name": "AspectRatio",
       "category": "layout",
       "base": "Own component",
-      "description": "Reserves space for media with the CSS `aspect-ratio` property. An `img`, `video` or `iframe`\nas a direct child fills the box; images and videos use `object-fit: cover`.",
+      "description": "Reserves space for media with the CSS `asspect-ratio` property. An `img`, `video`, `iframe`,\n`picture`, `canvas` or `svg` as a direct child fills the box; images and videos use\n`object-fit: cover`. It only renders a `div`: when the media needs a caption, wrap the box\nin a `figure` yourself.",
       "import": "import { AspectRatio } from \"@/ui\";",
-      "renders": "div by default; `as` can be figure",
-      "composition": "`ratio` is width divided by height (`16 / 9`, `4 / 3`, `1`) and defaults to 1. An `img`, `video` or `iframe` as a direct child fills the box; images and videos use `object-fit: cover`.",
+      "renders": "div",
+      "composition": "Reserves space for media before it loads, preventing layout shift (CLS). `ratio` is width divided by height (`16 / 9`, `4 / 3`, `1`) and defaults to 1. Only `div` is rendered; when the media needs a caption, wrap the box in a `figure` yourself. A direct child `img`, `video`, `iframe`, `picture`, `canvas` or `svg` fills the box; images and videos use `object-fit: cover`.",
       "whenToUse": "Images, video, embeds or maps whose size must be reserved before they load, preventing layout shift (CLS).",
       "avoid": [
-        "Decorative containers with no media.",
-        "Text blocks: they size to their content, not a fixed ratio."
+        "Text boxes: the box grows with its content.",
+        "Decorative containers with no media."
       ],
       "accessibility": "The child needs its own alt text (`img`) or title (`iframe`, `video`); the box adds no semantics.",
       "props": [
         {
           "name": "as",
-          "type": "\"div\" | \"figure\"",
+          "type": "\"div\"",
           "required": false,
           "default": "\"div\"",
-          "description": "Element to render. Use `figure` when the media needs a caption."
+          "description": "Element to render. Only `div` is supported: when the media needs a caption, wrap\nthe box in a `figure` yourself."
         },
         {
           "name": "ratio",
@@ -495,7 +495,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<AspectRatio ratio={16 / 9}>\n  <img src=\"/cover.jpg\" alt=\"A field at dusk\" />\n</AspectRatio>\n<AspectRatio as=\"figure\" ratio={4 / 3}>\n  <img src=\"/chart.png\" alt=\"Revenue by quarter\" />\n  <figcaption>Revenue by quarter</figcaption>\n</AspectRatio>"
+        "<AspectRatio ratio={16 / 9}>\n  <img src=\"/cover.jpg\" alt=\"A field at dusk\" />\n</AspectRatio>\n<AspectRatio ratio={16 / 9}>\n  <Image src=\"/cover.jpg\" alt=\"A field at dusk\" fill />\n</AspectRatio>\n<figure>\n  <AspectRatio ratio={4 / 3}>\n    <img src=\"/chart.png\" alt=\"Revenue by quarter\" />\n  </AspectRatio>\n  <figcaption>Revenue by quarter</figcaption>\n</figure>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/AspectRatio/AspectRatio.tsx"
     },
@@ -643,23 +643,24 @@
       "name": "Button",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "Displays an action button. It is built on Base UI Button, so keyboard, focus and disabled behavior come from there.\nIt defaults to `type=\"button\"` so it never submits a form by accident; set `type=\"submit\"` explicitly.\nFor navigation use `ButtonLink` or `Link`.\nPut icons in `startIcon`/`endIcon`. They follow the control size: sm 16px, md 20px, lg 24px.\nAn icon-only button is valid only with `startIcon` and an accessible name (`aria-label` or\n`aria-labelledby`); with visible children both icons are optional.",
+      "description": "Action button, or a link when given `href`.\n\nIcon-only controls need an accessible name (`aria-label` or `aria-labelledby`).",
       "import": "import { Button } from \"@/ui\";",
-      "renders": "button",
-      "composition": "Defaults to type=\"button\"; pass type=\"submit\" explicitly. Put icons in `startIcon`/`endIcon` (generated icons, no `size`). Icon-only: `startIcon` is required and exactly one of `aria-label` or `aria-labelledby`. Heights: sm 1.75rem, md 2.25rem, lg 2.75rem. Icons follow the size: sm 16px, md 20px, lg 24px. Base UI props such as `render` and `nativeButton` are available but not needed for normal use.",
-      "whenToUse": "Any action: submit, open, confirm, cancel. Pass `loading` while the action runs.",
+      "renders": "button without `href`; a (or the LinkProvider component) with `href`",
+      "composition": "`href` decides the element: a Base UI button (`type=\"button\"` by default) or a link from `LinkProvider` that rejects `disabled`, `loading` and `type`. Put icons in `startIcon`/`endIcon` (no `size`). Icon-only needs `startIcon` and one of `aria-label` or `aria-labelledby`. Sizes: xs 1.5rem/12px icon, sm 1.75rem/16px, md 2.25rem/20px, lg 2.75rem/24px. `pill` uses `--radius-full`; inside ButtonGroup the group's outer-only rounding wins.",
+      "whenToUse": "An action with onClick (submit, open, confirm, cancel), or navigation that looks like a button with href. Pass `loading` while an action runs.",
       "avoid": [
-        "Navigation: use Link (inline text) or ButtonLink (looks like a button).",
+        "Navigation as inline text: use Link.",
+        "onClick plus router.push to navigate: use href, or right-click and new-tab semantics are lost.",
         "More than one primary button per view.",
-        "Disabling the button to show progress: use `loading`, it keeps the label and focus."
+        "Disabling the button to show progress: use `loading`."
       ],
-      "accessibility": "Icon-only buttons need `aria-label` (or `aria-labelledby`) and use `startIcon` instead of children; the types enforce it. `loading` sets `aria-busy` and counts as the start slot, and the spinner stays silent so the button's accessible name is the only announcement. Keyboard and disabled behavior come from Base UI.",
+      "accessibility": "Icon-only controls need `aria-label` (or `aria-labelledby`) and use `startIcon` instead of children; the types enforce it. `loading` sets `aria-busy` and counts as the start slot, and the spinner stays silent so the button's accessible name is the only announcement. With `href` it is a real link (role link), never role button. Keyboard and disabled behavior on the button branch come from Base UI.",
       "props": [
         {
           "name": "children",
           "type": "ReactNode",
           "required": false,
-          "description": "The visible label.\nIcon-only buttons have no visible children."
+          "description": "The visible label.\nIcon-only controls have no visible children."
         },
         {
           "name": "className",
@@ -670,8 +671,14 @@
           "name": "endIcon",
           "type": "ReactNode",
           "required": false,
-          "default": "undefined\nundefined",
-          "description": "Icon after the label. Pass a generated icon without `size`; the button sizes it."
+          "default": "undefined",
+          "description": "Icon after the label. Pass a generated icon without `size`; the control sizes it."
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "required": false,
+          "description": "Never on an action button. Pass `href` to render a link instead.\nWhere the link goes. To navigate, pass `href`; do not wire `onClick` to `router.push`, which loses right-click and new-tab semantics."
         },
         {
           "name": "loading",
@@ -681,30 +688,37 @@
           "description": "Shows a spinner and ignores clicks while an action is running. The button keeps its label and stays\nfocusable, and `aria-busy` tells assistive technology it is working."
         },
         {
-          "name": "size",
-          "type": "\"sm\" | \"md\" | \"lg\"",
+          "name": "pill",
+          "type": "boolean",
           "required": false,
-          "default": "md",
-          "description": "Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem."
+          "default": "false",
+          "description": "Fully rounded shape (`--radius-full`). Inside `ButtonGroup` the group's outer-only rounding wins."
+        },
+        {
+          "name": "size",
+          "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "default": "\"md\"",
+          "description": "Control height and icon size: `xs` 1.5rem and 12px, `sm` 1.75rem and 16px, `md` 2.25rem and\n20px, `lg` 2.75rem and 24px."
         },
         {
           "name": "startIcon",
           "type": "ReactNode",
           "required": false,
           "default": "undefined",
-          "description": "Icon before the label. Pass a generated icon without `size`; the button sizes it.\nThe visible icon and accessible name. Pass a generated icon without `size`."
+          "description": "Icon before the label. Pass a generated icon without `size`; the control sizes it.\nThe visible icon and accessible name. Pass a generated icon without `size`."
         },
         {
           "name": "variant",
-          "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+          "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
-          "default": "primary",
-          "description": "Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions,\n`outline` for a transparent button with a visible border, `ghost` for low-emphasis actions,\n`accent` for brand emphasis, `danger` for destructive actions."
+          "default": "\"primary\"",
+          "description": "Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions,\n`ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Button>Save</Button>\n<Button variant=\"secondary\" size=\"sm\">Cancel</Button>\n<Button variant=\"outline\">Learn more</Button>\n<Button type=\"submit\">Send</Button>\n<Button loading>Saving</Button>\n<Button variant=\"secondary\" startIcon={<CheckIcon />}>Done</Button>\n<Button variant=\"outline\" aria-label=\"Close\" startIcon={<XIcon />} />"
+        "<Button>Save</Button>\n<Button variant=\"secondary\" size=\"sm\">Cancel</Button>\n<Button variant=\"accent\" pill>Upgrade</Button>\n<Button loading>Saving</Button>\n<Button aria-label=\"Close\" startIcon={<XIcon />} />\n<Button href=\"/docs/installation\">Get started</Button>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Button/Button.tsx"
     },
@@ -715,7 +729,7 @@
       "description": "Joins related buttons into one control. Shared edges, outer-only corner rounding and a focus\nring that stays above its neighbours keep the actions readable as a unit. Children can be\n`Button`, a `Menu` trigger or an `Input` for split-button patterns. Give the group an\n`aria-label` so its purpose is announced.",
       "import": "import { ButtonGroup } from \"@/ui\";",
       "renders": "div role=\"group\"",
-      "composition": "Pass `orientation` (horizontal or vertical, default horizontal) and one group of related children: `Button`, a `Menu` trigger or an `Input`. Put `ButtonGroupSeparator` between non-outline buttons. Give the group an `aria-label` that names the set of actions.",
+      "composition": "Pass `orientation` (horizontal or vertical, default horizontal) and one group of related children: `Button`, a `Menu` trigger or an `Input`. Put `ButtonGroupSeparator` between buttons when the shared edge needs a visible division. Give the group an `aria-label` that names the set of actions.",
       "whenToUse": "Related actions that belong together and read better as one unit, such as Save draft, Preview and Publish.",
       "avoid": [
         "Toggling state or choosing between options: use ToggleGroup.",
@@ -733,7 +747,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<ButtonGroup aria-label=\"Document actions\">\n  <Button variant=\"outline\">Save draft</Button>\n  <Button variant=\"outline\">Preview</Button>\n  <Button variant=\"outline\">Publish</Button>\n</ButtonGroup>"
+        "<ButtonGroup aria-label=\"Document actions\">\n  <Button variant=\"secondary\">Save draft</Button>\n  <Button variant=\"secondary\">Preview</Button>\n  <Button variant=\"secondary\">Publish</Button>\n</ButtonGroup>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ButtonGroup/ButtonGroup.tsx",
       "parts": [
@@ -741,13 +755,13 @@
           "name": "ButtonGroupSeparator",
           "category": "controls",
           "base": "Own component",
-          "description": "Divides adjacent buttons in a group. Use it with non-outline variants, whose shared edge has\nno visible border; outline buttons already show the division. The orientation describes the\nline itself, so a horizontal group uses a vertical separator.",
+          "description": "Divides adjacent buttons in a group. The orientation describes the line itself, so a horizontal\ngroup uses a vertical separator.",
           "import": "import { ButtonGroupSeparator } from \"@/ui\";",
           "renders": "div role=\"separator\"",
-          "composition": "Place between adjacent buttons when their variants have no visible border. `orientation` describes the line: vertical inside a horizontal group (default), horizontal inside a vertical group.",
-          "whenToUse": "Marking the division between non-outline buttons in a ButtonGroup.",
+          "composition": "Place between adjacent buttons when the shared edge needs a visible division. `orientation` describes the line: vertical inside a horizontal group (default), horizontal inside a vertical group.",
+          "whenToUse": "Marking the division between buttons in a ButtonGroup.",
           "avoid": [
-            "Separating outline buttons: their shared border already shows the division.",
+            "Separating buttons whose shared edge already reads as a division.",
             "Using it as decoration outside a ButtonGroup."
           ],
           "accessibility": "Exposes role=\"separator\" with an `aria-orientation` that matches the line.",
@@ -1370,14 +1384,14 @@
           "props": [
             {
               "name": "size",
-              "type": "\"sm\" | \"md\" | \"lg\"",
+              "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
               "required": false,
               "default": "md",
               "description": "Button size of the trigger."
             },
             {
               "name": "variant",
-              "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+              "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
               "required": false,
               "default": "primary",
               "description": "Button style of the trigger."
@@ -1485,14 +1499,14 @@
             },
             {
               "name": "size",
-              "type": "\"sm\" | \"md\" | \"lg\"",
+              "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
               "required": false,
               "default": "md",
               "description": "Button size."
             },
             {
               "name": "variant",
-              "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+              "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
               "required": false,
               "default": "secondary",
               "description": "Button style. Use `danger` for a destructive action."
@@ -1591,68 +1605,6 @@
         "<Tabs aria-label=\"Account\" items={[\n  { value: \"profile\", label: \"Profile\", content: <p>Profile</p> },\n  { value: \"billing\", label: \"Billing\", content: <p>Billing</p> },\n]} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Tabs/Tabs.tsx"
-    },
-    {
-      "name": "ButtonLink",
-      "category": "navigation",
-      "base": "Own component",
-      "description": "A link that looks like a `Button`. It renders an `a` (or the component given to `LinkProvider`, such as\n`next/link`), because something that navigates is a link, not a button. For actions use `Button`.\nPut icons in `startIcon`/`endIcon`. They follow the control size: sm 16px, md 20px, lg 24px.\nAn icon-only link is valid only with `startIcon` and an accessible name (`aria-label` or\n`aria-labelledby`); with visible children both icons are optional.",
-      "import": "import { ButtonLink } from \"@/ui\";",
-      "renders": "a (rendered by the LinkProvider component, `next/link` in this app) styled like a Button",
-      "composition": "Pass `href`, `variant`, `size` and optional `startIcon`/`endIcon` (generated icons, no `size`). Children are the visible label. Icon-only: `startIcon` is required and exactly one of `aria-label` or `aria-labelledby`. Icons follow the size: sm 16px, md 20px, lg 24px.",
-      "whenToUse": "A call to action that goes to another page, such as Get started or Docs.",
-      "avoid": [
-        "Actions that do not navigate: use Button.",
-        "Inline links inside text: use Link (inline text)."
-      ],
-      "accessibility": "Icon-only buttons need `aria-label` (or `aria-labelledby`); the types enforce it. It is a real link (role link), so middle-click, open in new tab and prefetch work. Do not give it role button.",
-      "props": [
-        {
-          "name": "href",
-          "type": "string",
-          "required": true,
-          "description": "Where the link goes. Required."
-        },
-        {
-          "name": "children",
-          "type": "ReactNode",
-          "required": false,
-          "description": "The visible label.\nIcon-only links have no visible children."
-        },
-        {
-          "name": "endIcon",
-          "type": "ReactNode",
-          "required": false,
-          "default": "undefined\nundefined",
-          "description": "Icon after the label. Pass a generated icon without `size`; the link sizes it."
-        },
-        {
-          "name": "size",
-          "type": "\"sm\" | \"md\" | \"lg\"",
-          "required": false,
-          "default": "md",
-          "description": "Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem."
-        },
-        {
-          "name": "startIcon",
-          "type": "ReactNode",
-          "required": false,
-          "default": "undefined",
-          "description": "Icon before the label. Pass a generated icon without `size`; the link sizes it.\nThe visible icon and accessible name. Pass a generated icon without `size`."
-        },
-        {
-          "name": "variant",
-          "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
-          "required": false,
-          "default": "primary",
-          "description": "Visual emphasis, the same as `Button`. `primary` is the main call to action (one per view)."
-        }
-      ],
-      "extends": "Also accepts the native props of the element it renders; they pass through.",
-      "examples": [
-        "<ButtonLink href=\"/docs/installation\">Get started</ButtonLink>\n<ButtonLink href=\"/docs\" variant=\"secondary\" endIcon={<ArrowRightIcon />}>Docs</ButtonLink>\n<ButtonLink href=\"/docs\" aria-label=\"Next page\" startIcon={<ArrowRightIcon />} />"
-      ],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ButtonLink/ButtonLink.tsx"
     },
     {
       "name": "Card",
@@ -1776,7 +1728,7 @@
           "description": "A control at the top end of a Card, aligned with `CardTitle`.",
           "import": "import { CardAction } from \"@/ui\";",
           "renders": "div",
-          "composition": "Holds a Button, ButtonLink or Badge at the top end of `CardHeader`, aligned with the title.",
+          "composition": "Holds a Button (with `href` for navigation) or Badge at the top end of `CardHeader`, aligned with the title.",
           "whenToUse": "A control that belongs to the whole card.",
           "avoid": [
             "Hiding the card title to make room for the action."
@@ -1881,17 +1833,17 @@
       "name": "Avatar",
       "category": "utility",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A round image of a person with an initials fallback, built on Base UI Avatar.\nThe whole avatar is one image with the person's name as its label. Add a status, badge or icon\nfallback when needed; without them the markup and accessible name stay just the name.",
+      "description": "A round image of a person with an initials fallback, built on Base UI Avatar.\nThe whole avatar is one image with the person's name as its label. Add a status or an avatar badge\nwith an icon inside when needed; without them the markup and accessible name stay just the name.\nFor bots, companies or systems, use `src` with the logo; without it the initials are shown.",
       "import": "import { Avatar } from \"@/ui\";",
       "renders": "span with role img and the name as aria-label",
-      "composition": "Pass `name` (required), `src` and `size`; initials are the fallback. `status` adds a shape at the bottom end and appends the state to the name; `badge` with `badgeLabel` adds a custom icon and appends its label; `icon` replaces the initials. `status` and `badge` cannot be combined. Every feature scales with `size`.",
+      "composition": "Pass `name` (required), `src` and `size` (`xs`, `sm`, `md`, `lg` or `xl`); initials are the fallback. For bots, companies or systems, use `src` with the logo; without it the initials are shown. `status` adds a solid dot at the bottom end with a page-colored ring and appends the state to the name; `badge` with `badgeLabel` adds an avatar badge with an icon inside and appends its label; `outline={false}` removes the avatar border. `status` and `badge` cannot be combined. Every feature scales with `size`.",
       "whenToUse": "Showing who a person or account is.",
       "avoid": [
         "Using it as a button: wrap it in a Button or Link.",
         "Omitting `name`.",
         "Combining `status` and `badge`: they are mutually exclusive."
       ],
-      "accessibility": "The name is the accessible name. A status appends the state, and a badge appends `badgeLabel`, such as \"Ada Lovelace, online\" or \"Ada Lovelace, Verified\". Initials, icon, status shape and badge are hidden from assistive technology; status is never color alone.",
+      "accessibility": "The name is the accessible name. A status appends the state, and an avatar badge appends `badgeLabel`, such as \"Ada Lovelace, online\" or \"Ada Lovelace, Verified\". Initials, status dot and avatar badge are hidden from assistive technology; the status is a plain solid dot whose color is not the only signal, because the state is announced in the accessible name.",
       "props": [
         {
           "name": "name",
@@ -1903,13 +1855,13 @@
           "name": "badge",
           "type": "ReactNode",
           "required": false,
-          "description": "Custom badge icon at the bottom end. Pass a generated icon without `size`. Cannot be combined with `status`."
+          "description": "Avatar badge with an icon inside, at the bottom end. Pass a generated icon without `size`. Cannot be combined with `status`."
         },
         {
           "name": "badgeLabel",
           "type": "string",
           "required": false,
-          "description": "Accessible label for the badge. Required with `badge`; appended to the accessible name."
+          "description": "Accessible label for the avatar badge. Required with `badge`; appended to the accessible name."
         },
         {
           "name": "className",
@@ -1917,17 +1869,18 @@
           "required": false
         },
         {
-          "name": "icon",
-          "type": "ReactNode",
+          "name": "outline",
+          "type": "boolean",
           "required": false,
-          "description": "Replaces the initials fallback with an icon, for bots or organizations. Pass a generated icon without `size`."
+          "default": "true",
+          "description": "Whether the avatar keeps its visible border. Set to `false` for a borderless filled circle or image."
         },
         {
           "name": "size",
-          "type": "\"sm\" | \"md\" | \"lg\"",
+          "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
           "required": false,
           "default": "md",
-          "description": "Diameter: `sm` 2rem, `md` 2.5rem, `lg` 3.5rem."
+          "description": "Diameter: `xs` 1.5rem, `sm` 2rem, `md` 2.5rem, `lg` 3.5rem, `xl` 4.5rem."
         },
         {
           "name": "src",
@@ -1944,7 +1897,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Avatar name=\"Ada Lovelace\" src=\"/ada.png\" />\r\n<Avatar name=\"Ada Lovelace\" status=\"online\" />\r\n<Avatar name=\"Ada Lovelace\" badge={<CheckIcon />} badgeLabel=\"Verified\" />\r\n<Avatar name=\"Build bot\" icon={<TerminalWindowIcon />} />"
+        "<Stack direction=\"row\" gap=\"3\" align=\"center\">\r\n  <Avatar name=\"Ada Lovelace\" />\r\n  <Avatar name=\"Grace Hopper\" status=\"online\" />\r\n  <AvatarGroup aria-label=\"Project members\">\r\n    <Avatar name=\"Ada Lovelace\" />\r\n    <Avatar name=\"Grace Hopper\" />\r\n    <Avatar name=\"Alan Turing\" />\r\n    <Avatar name=\"Katherine Johnson\" />\r\n  </AvatarGroup>\r\n</Stack>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Avatar/Avatar.tsx",
       "parts": [
@@ -1952,10 +1905,10 @@
           "name": "AvatarGroup",
           "category": "utility",
           "base": "Own component",
-          "description": "Overlapping avatars that share one size. When there are more than `max`, the extra avatars\ncollapse into a \"+N\" item labelled \"and N more\". Used outside a group, Avatar is unchanged.",
+          "description": "Overlapping avatars that share one size, with a page-colored ring so the overlaps stay clean.\nWhen there are more than `max`, the extra avatars collapse into a \"+N\" item labelled \"and N more\".\nUsed outside a group, Avatar is unchanged.",
           "import": "import { AvatarGroup } from \"@/ui\";",
           "renders": "div role=\"group\" with overlapping Avatar elements",
-          "composition": "Pass `children` (Avatar elements), `max` (default 4) and shared `size` (default md). Avatars beyond `max` collapse into a visible \"+N\" item labelled \"and N more\".",
+          "composition": "Pass `children` (Avatar elements), `max` (default 4) and shared `size` (default md). Avatars overlap by about 25% and each gets a 2px page-colored ring; later avatars stack on top. Avatars beyond `max` collapse into a \"+N\" item with the component background and label style, labelled \"and N more\".",
           "whenToUse": "A compact summary of several people or accounts.",
           "avoid": [
             "One avatar: use Avatar directly.",
@@ -1983,7 +1936,7 @@
             },
             {
               "name": "size",
-              "type": "\"sm\" | \"md\" | \"lg\"",
+              "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
               "required": false,
               "default": "md",
               "description": "Diameter shared by every avatar in the group."
@@ -2035,14 +1988,14 @@
           "props": [
             {
               "name": "size",
-              "type": "\"sm\" | \"md\" | \"lg\"",
+              "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
               "required": false,
               "default": "md",
               "description": "Button size of the trigger."
             },
             {
               "name": "variant",
-              "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+              "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
               "required": false,
               "default": "secondary",
               "description": "Button style of the trigger."
@@ -2130,14 +2083,14 @@
           "props": [
             {
               "name": "size",
-              "type": "\"sm\" | \"md\" | \"lg\"",
+              "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
               "required": false,
               "default": "sm",
               "description": "Button size."
             },
             {
               "name": "variant",
-              "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+              "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
               "required": false,
               "default": "secondary",
               "description": "Button style."
@@ -2193,14 +2146,14 @@
         },
         {
           "name": "size",
-          "type": "\"sm\" | \"md\" | \"lg\"",
+          "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
           "required": false,
           "default": "md",
           "description": "Button size of the trigger."
         },
         {
           "name": "variant",
-          "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+          "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "secondary",
           "description": "Button style of the trigger."
@@ -2348,13 +2301,13 @@
       "description": "Where the current page sits in the site. Renders `nav > ol` and marks the last item with\n`aria-current=\"page\"`. Links use whatever `LinkProvider` provides (`next/link` in this app).",
       "import": "import { Breadcrumb } from \"@/ui\";",
       "renders": "nav with an ordered list; the last item has aria-current page",
-      "composition": "Pass `items` ({ label, href?, startIcon?, endIcon? }) from root to current page. Icons are generated icons without `size`.",
-      "whenToUse": "Showing where the page sits in the site.",
+      "composition": "Pass `items` ({ label, href?, startIcon?, endIcon? }) from root to current page. `separator` defaults to `>` and accepts any node, such as `/` or `·`; it is always hidden from assistive technology. Use `maxItems` (3 or more) to collapse the middle items into an ellipsis menu opened from an icon button labelled Show hidden pages and sized to its content; omit it to show every item. Icons are generated icons without `size`.",
+      "whenToUse": "Hierarchical navigation: showing where a page sits in a site with 3 or more levels.",
       "avoid": [
-        "Primary navigation.",
-        "Linking the last item."
+        "Wizards or steps: not a breadcrumb.",
+        "Using the current page as a link: it is a span with aria-current=\"page\"."
       ],
-      "accessibility": "nav labelled Breadcrumb; the current page is marked with aria-current.",
+      "accessibility": "nav > ol; the nav is labelled Breadcrumb by default; the current page is a span with aria-current=\"page\"; separators are hidden from assistive technology; plain links keep keyboard navigation and a visible focus ring.",
       "props": [
         {
           "name": "items",
@@ -2373,11 +2326,24 @@
           "name": "className",
           "type": "string",
           "required": false
+        },
+        {
+          "name": "maxItems",
+          "type": "number",
+          "required": false,
+          "description": "How many items to show before collapsing the middle ones into an ellipsis menu.\nValues below 3 are ignored. Omit it to show every item."
+        },
+        {
+          "name": "separator",
+          "type": "ReactNode",
+          "required": false,
+          "default": ">",
+          "description": "Node between items. Any node is allowed; it is always hidden from assistive technology."
         }
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Breadcrumb items={[{ label: \"Docs\", href: \"/docs\" }, { label: \"Components\", href: \"/docs/components\" }, { label: \"Button\" }]} />"
+        "<Breadcrumb items={[{ label: \"Docs\", href: \"/docs\" }, { label: \"Components\", href: \"/docs/components\" }, { label: \"Button\" }]} />\n<Breadcrumb maxItems={4} items={[{ label: \"Docs\", href: \"/docs\" }, { label: \"Components\", href: \"/docs/components\" }, { label: \"Navigation\", href: \"/docs/components/navigation\" }, { label: \"Breadcrumb\", href: \"/docs/components/breadcrumb\" }, { label: \"Examples\" }]} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Breadcrumb/Breadcrumb.tsx"
     },
@@ -2664,7 +2630,7 @@
       "description": "A quiet placeholder for a region with no content, with an optional icon and action.\nThe icon is decorative; the title carries the meaning.",
       "import": "import { EmptyState } from \"@/ui\";",
       "renders": "section with a heading",
-      "composition": "Pass `title` (required), optional `description`, `icon` (generated icon, no `size`), `action` (usually Button or ButtonLink) and `as` for the heading level (h2-h4, default h3).",
+      "composition": "Pass `title` (required), optional `description`, `icon` (generated icon, no `size`), `action` (usually a Button, with `href` for navigation) and `as` for the heading level (h2-h4, default h3).",
       "whenToUse": "A region that has no content yet, with a next step.",
       "avoid": [
         "Errors and failures: use Alert.",
@@ -2683,7 +2649,7 @@
           "name": "action",
           "type": "ReactNode",
           "required": false,
-          "description": "Main action, usually a Button or ButtonLink."
+          "description": "Main action, usually a Button (with `href` for navigation) or Link."
         },
         {
           "name": "as",
@@ -3347,7 +3313,7 @@
       "description": "Wires navigation once for the whole app. In Next.js pass `next/link` so every library link gets\nclient-side navigation and prefetching, with no `render` prop on each one. Without it links are plain `a` elements.",
       "import": "import { LinkProvider } from \"@/ui\";",
       "renders": "no element: it provides the link component through context",
-      "composition": "Place once near the app root: `<LinkProvider component={NextLink}>`. Link, ButtonLink, Menu link items, Breadcrumb and Pagination then render with it.",
+      "composition": "Place once near the app root: `<LinkProvider component={NextLink}>`. Link, Button with href, Menu link items, Breadcrumb and Pagination then render with it.",
       "whenToUse": "Making every link in the library use `next/link` (or another router link) from a single place.",
       "avoid": [
         "Passing a `render` prop to individual links.",
@@ -3359,7 +3325,7 @@
           "name": "component",
           "type": "LinkComponent",
           "required": true,
-          "description": "The component every `Link`, `ButtonLink`, `Breadcrumb`, `Pagination` and `Menu` link renders with. Pass `next/link` in a Next.js app."
+          "description": "The component every `Link`, `Breadcrumb`, `Pagination` and `Menu` link renders with. Pass `next/link` in a Next.js app."
         }
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",

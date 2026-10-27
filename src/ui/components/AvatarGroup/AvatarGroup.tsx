@@ -22,8 +22,9 @@ export type AvatarGroupProps = {
 } & Omit<ComponentProps<"div">, "color" | "children">;
 
 /**
- * Overlapping avatars that share one size. When there are more than `max`, the extra avatars
- * collapse into a "+N" item labelled "and N more". Used outside a group, Avatar is unchanged.
+ * Overlapping avatars that share one size, with a page-colored ring so the overlaps stay clean.
+ * When there are more than `max`, the extra avatars collapse into a "+N" item labelled "and N more".
+ * Used outside a group, Avatar is unchanged.
  *
  * @example
  * <AvatarGroup max={3} aria-label="Project members">

@@ -19,7 +19,7 @@
 ### typography
 - **Text**: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls (buttons, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
 - **Heading**: Page and section titles.
-- **Link**: Navigation to another page, section or resource.
+- **Link**: Navigation to another page, section or resource, inline in text.
 - **Kbd**: Keyboard shortcuts in docs and UI.
 - **Badge**: Short status or count labels next to other content.
 - **CodeBlock** (parts: CodeBlockView): Showing code or commands the user will copy.
@@ -46,7 +46,7 @@
 - **EmptyState**: A region that has no content yet, with a next step.
 
 ### controls
-- **Button**: Any action: submit, open, confirm, cancel. Pass `loading` while the action runs.
+- **Button**: An action with onClick (submit, open, confirm, cancel), or navigation that looks like a button with href. Pass `loading` while an action runs.
 - **ButtonGroup** (parts: ButtonGroupSeparator): Related actions that belong together and read better as one unit, such as Save draft, Preview and Publish.
 - **Field**: Every form control, including its validation, required, read-only and loading states.
 - **Input**: Single-line text entry, read-only values and values that are still loading.
@@ -69,9 +69,8 @@
 
 ### navigation
 - **Tabs**: Switching between related panels in the same place.
-- **ButtonLink**: A call to action that goes to another page, such as Get started or Docs.
 - **Accordion**: Showing long content in short sections, such as FAQs.
-- **Breadcrumb**: Showing where the page sits in the site.
+- **Breadcrumb**: Hierarchical navigation: showing where a page sits in a site with 3 or more levels.
 - **Pagination**: Moving through content split across URLs.
 - **Sidebar**: Primary vertical navigation beside an app's content, especially on desktop.
 - **Collapsible**: A single section that expands, such as advanced options or extra details.

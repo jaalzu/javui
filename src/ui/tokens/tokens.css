@@ -118,9 +118,11 @@
   --header-height: 3.55rem; /** Height of the sticky site header. Used by the header and by scroll-padding. */
   --size-target-min: 1.5rem; /** WCAG 2.2 minimum pointer target (24px). */
   --size-target-comfortable: 2.75rem; /** Recommended hit area on touch devices. Controls may look smaller if they extend their hit area under `@media (pointer: coarse)`. */
+  --size-control-xs: 1.5rem;
   --size-control-sm: 1.75rem;
   --size-control-md: 2.25rem;
   --size-control-lg: 2.75rem;
+  --size-icon-xs: 0.75rem; /** Icon in extra small elements such as small badges (12px). */
   --size-icon-sm: 1rem; /** Icon in small controls, menu items and inline with text (16px). */
   --size-icon-md: 1.25rem; /** Default icon, and icons in large buttons (20px). */
   --size-icon-lg: 1.5rem; /** Large standalone icons (24px). */

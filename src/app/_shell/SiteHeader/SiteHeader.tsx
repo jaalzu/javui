@@ -1,4 +1,4 @@
-import { ButtonLink, Link } from "@/ui";
+import { Button, Link } from "@/ui";
 import {
   componentLinks,
   componentsIndex,
@@ -91,9 +91,9 @@ export function SiteHeader() {
             <ul className={styles.navList}>
               {mainLinks.map((l) => (
                 <li key={l.href}>
-                  <ButtonLink href={l.href} variant="ghost" size="md">
+                  <Button href={l.href} variant="ghost" size="md">
                     {l.label}
-                  </ButtonLink>
+                  </Button>
                 </li>
               ))}
             </ul>
@@ -101,7 +101,7 @@ export function SiteHeader() {
           <div className={styles.actions}>
             <Search items={searchItems} />
             <span className={styles.divider} aria-hidden="true" />
-            <ButtonLink
+            <Button
               href={repoUrl}
               variant="ghost"
               size="sm"

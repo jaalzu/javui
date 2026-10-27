@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ButtonLink, Heading, Link } from "@/ui";
+import { Button, Heading, Link } from "@/ui";
 import landing from "../_landing/landing.module.css";
 import { DocPage } from "@/app/docs/_page/DocPage";
 
@@ -28,8 +28,8 @@ export default function Introduction() {
         <li><Link href="/docs/components">Components</Link>: every component with a live preview, code and notes.</li>
       </ul>
       <div className={landing.heroActions} style={{ justifyContent: "flex-start" }}>
-        <ButtonLink href="/docs/installation">Get started</ButtonLink>
-        <ButtonLink href="/docs/components" variant="secondary">Browse components</ButtonLink>
+        <Button href="/docs/installation">Get started</Button>
+        <Button href="/docs/components" variant="secondary">Browse components</Button>
       </div>
     </DocPage>
   );

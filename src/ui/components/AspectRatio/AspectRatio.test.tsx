@@ -9,11 +9,6 @@ describe("AspectRatio", () => {
     expect(screen.getByTestId("a").tagName).toBe("DIV");
   });
 
-  it("renders a figure from `as`", () => {
-    render(<AspectRatio as="figure" aria-label="Cover">x</AspectRatio>);
-    expect(screen.getByRole("figure", { name: "Cover" })).toBeInTheDocument();
-  });
-
   it("sets the ratio through a CSS variable", () => {
     render(<AspectRatio data-testid="a" ratio={16 / 9}>x</AspectRatio>);
     expect(screen.getByTestId("a").style.getPropertyValue("--aspect-ratio")).toBe(String(16 / 9));

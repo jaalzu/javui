@@ -5,9 +5,9 @@ import { IconSlot } from "../Icon/IconSlot";
 import styles from "./Avatar.module.css";
 
 /** Avatar diameter. */
-export type AvatarSize = "sm" | "md" | "lg";
+export type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl";
 
-/** Presence shown by a small shape at the bottom end of the avatar. */
+/** Presence shown by a small solid dot at the bottom end of the avatar. */
 export type AvatarStatus = "online" | "away" | "busy" | "offline";
 
 type AvatarBaseProps = {
@@ -15,10 +15,10 @@ type AvatarBaseProps = {
   name: string;
   /** Image URL. If it is missing or fails to load, the initials are shown. */
   src?: string;
-  /** Diameter: `sm` 2rem, `md` 2.5rem, `lg` 3.5rem. @default "md" */
+  /** Diameter: `xs` 1.5rem, `sm` 2rem, `md` 2.5rem, `lg` 3.5rem, `xl` 4.5rem. @default "md" */
   size?: AvatarSize;
-  /** Replaces the initials fallback with an icon, for bots or organizations. Pass a generated icon without `size`. */
-  icon?: ReactNode;
+  /** Whether the avatar keeps its visible border. Set to `false` for a borderless filled circle or image. @default true */
+  outline?: boolean;
   className?: string;
 };
 
@@ -31,9 +31,9 @@ export type AvatarProps = AvatarBaseProps &
         badgeLabel?: never;
       }
     | {
-        /** Custom badge icon at the bottom end. Pass a generated icon without `size`. Cannot be combined with `status`. */
+        /** Avatar badge with an icon inside, at the bottom end. Pass a generated icon without `size`. Cannot be combined with `status`. */
         badge: ReactNode;
-        /** Accessible label for the badge. Required with `badge`; appended to the accessible name. */
+        /** Accessible label for the avatar badge. Required with `badge`; appended to the accessible name. */
         badgeLabel: string;
         status?: never;
       }
@@ -59,20 +59,27 @@ const statusClass: Record<AvatarStatus, string> = {
 
 /**
  * A round image of a person with an initials fallback, built on Base UI Avatar.
- * The whole avatar is one image with the person's name as its label. Add a status, badge or icon
- * fallback when needed; without them the markup and accessible name stay just the name.
+ * The whole avatar is one image with the person's name as its label. Add a status or an avatar badge
+ * with an icon inside when needed; without them the markup and accessible name stay just the name.
+ * For bots, companies or systems, use `src` with the logo; without it the initials are shown.
  *
  * @example
- * <Avatar name="Ada Lovelace" src="/ada.png" />
- * <Avatar name="Ada Lovelace" status="online" />
- * <Avatar name="Ada Lovelace" badge={<CheckIcon />} badgeLabel="Verified" />
- * <Avatar name="Build bot" icon={<TerminalWindowIcon />} />
+ * <Stack direction="row" gap="3" align="center">
+ *   <Avatar name="Ada Lovelace" />
+ *   <Avatar name="Grace Hopper" status="online" />
+ *   <AvatarGroup aria-label="Project members">
+ *     <Avatar name="Ada Lovelace" />
+ *     <Avatar name="Grace Hopper" />
+ *     <Avatar name="Alan Turing" />
+ *     <Avatar name="Katherine Johnson" />
+ *   </AvatarGroup>
+ * </Stack>
  */
 export function Avatar({
   name,
   src,
   size = "md",
-  icon,
+  outline = true,
   status,
   badge,
   badgeLabel,
@@ -82,10 +89,15 @@ export function Avatar({
   const label = status ? `${name}, ${status}` : activeBadge ? `${name}, ${badgeLabel}` : name;
 
   return (
-    <BaseAvatar.Root role="img" aria-label={label} className={cx(styles.avatar, styles[size], className)}>
+    <BaseAvatar.Root
+      role="img"
+      aria-label={label}
+      data-outline={outline}
+      className={cx(styles.avatar, styles[size], className)}
+    >
       {src ? <BaseAvatar.Image src={src} alt="" className={styles.image} /> : null}
       <BaseAvatar.Fallback aria-hidden="true" className={styles.fallback}>
-        {icon ? <IconSlot className={styles.icon}>{icon}</IconSlot> : initials(name)}
+        {initials(name)}
       </BaseAvatar.Fallback>
       {status ? (
         <span

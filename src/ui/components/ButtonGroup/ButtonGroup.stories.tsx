@@ -13,9 +13,9 @@ const meta = {
     "aria-label": "Document actions",
     children: (
       <>
-        <Button variant="outline">Save draft</Button>
-        <Button variant="outline">Preview</Button>
-        <Button variant="outline">Publish</Button>
+        <Button variant="secondary">Save draft</Button>
+        <Button variant="secondary">Preview</Button>
+        <Button variant="secondary">Publish</Button>
       </>
     ),
   },
@@ -31,9 +31,9 @@ export const Vertical: Story = {
     orientation: "vertical",
     children: (
       <>
-        <Button variant="outline">Save draft</Button>
-        <Button variant="outline">Preview</Button>
-        <Button variant="outline">Publish</Button>
+        <Button variant="secondary">Save draft</Button>
+        <Button variant="secondary">Preview</Button>
+        <Button variant="secondary">Publish</Button>
       </>
     ),
   },

@@ -6,12 +6,12 @@ export const examples: Example[] = [
     ex(
       "Related actions",
       `<ButtonGroup aria-label="Document actions">
-  <Button variant="outline">Save draft</Button>
-  <Button variant="outline">Preview</Button>
-  <Button variant="outline">Publish</Button>
+  <Button variant="secondary">Save draft</Button>
+  <Button variant="secondary">Preview</Button>
+  <Button variant="secondary">Publish</Button>
 </ButtonGroup>`,
-      <ButtonGroup aria-label="Document actions"><Button variant="outline">Save draft</Button><Button variant="outline">Preview</Button><Button variant="outline">Publish</Button></ButtonGroup>,
-      "Outline buttons share one border and round only on the outside.",
+      <ButtonGroup aria-label="Document actions"><Button variant="secondary">Save draft</Button><Button variant="secondary">Preview</Button><Button variant="secondary">Publish</Button></ButtonGroup>,
+      "The group rounds only the outer corners.",
     ),
     ex(
       "With separator",
@@ -22,15 +22,15 @@ export const examples: Example[] = [
   <Button variant="secondary">More</Button>
 </ButtonGroup>`,
       <ButtonGroup aria-label="Export"><Button variant="secondary">CSV</Button><Button variant="secondary">JSON</Button><ButtonGroupSeparator /><Button variant="secondary">More</Button></ButtonGroup>,
-      "Non-outline variants have no visible shared border, so use a separator to mark the division.",
+      "Use a separator when the shared edge needs a visible division.",
     ),
     ex(
       "Vertical",
       `<ButtonGroup aria-label="Document actions" orientation="vertical">
-  <Button variant="outline">Save draft</Button>
-  <Button variant="outline">Preview</Button>
+  <Button variant="secondary">Save draft</Button>
+  <Button variant="secondary">Preview</Button>
 </ButtonGroup>`,
-      <ButtonGroup aria-label="Document actions" orientation="vertical"><Button variant="outline">Save draft</Button><Button variant="outline">Preview</Button></ButtonGroup>,
+      <ButtonGroup aria-label="Document actions" orientation="vertical"><Button variant="secondary">Save draft</Button><Button variant="secondary">Preview</Button></ButtonGroup>,
     ),
     ex(
       "Split button with Menu",

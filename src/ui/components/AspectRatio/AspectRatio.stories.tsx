@@ -30,6 +30,5 @@ export const Portrait: Story = {
     ),
   },
 };
-export const AsFigure: Story = { args: { as: "figure", ratio: 4 / 3 } };
 export const Dark: Story = { globals: { theme: "dark" } };
 export const Light: Story = { globals: { theme: "light" } };

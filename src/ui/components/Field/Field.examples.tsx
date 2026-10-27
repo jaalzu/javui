@@ -1,5 +1,14 @@
 import { Field, Input } from "@/ui";
-import { ex, type Example } from "@/docs/example";
+import { defineHero, ex, type Example } from "@/docs/example";
+
+export const hero = defineHero(
+  `<Field label="Email" description="We only use it for receipts.">
+  <Input type="email" autoComplete="email" placeholder="you@example.com" />
+</Field>`,
+  <Field label="Email" description="We only use it for receipts.">
+    <Input type="email" autoComplete="email" placeholder="you@example.com" />
+  </Field>,
+);
 
 export const examples: Example[] = [
     ex("Default", `<Field label="Email">\n  <Input type="email" autoComplete="email" />\n</Field>`, <Field label="Email"><Input type="email" autoComplete="email" /></Field>),

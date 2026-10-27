@@ -11,13 +11,14 @@
   --btn-px: var(--space-3);
   --btn-gap: var(--icon-gap-md);
   --btn-icon: var(--size-icon-md);
+  --btn-radius: var(--radius-md);
   --icon-size: var(--btn-icon); /* Slot icons follow the button size. */
   gap: var(--btn-gap);
   min-width: var(--size-target-min);
   margin: 0;
   padding: 0 var(--btn-px);
   border: var(--border-width-thin) solid transparent;
-  border-radius: var(--radius-md);
+  border-radius: var(--btn-radius);
   background: none;
   position: relative;
   isolation: isolate;
@@ -38,8 +39,10 @@
   inset: calc(-1 * var(--border-width-thin));
   z-index: -1;
   box-sizing: border-box;
+  /* Follows `--btn-radius`, plus any per-corner override the parent group applies. */
   border-radius: inherit;
-  box-shadow: var(--btn-ring, none);
+  /* ButtonGroup uses `--btn-divider` to draw its inner hairline without a second border. */
+  box-shadow: var(--btn-divider, var(--btn-ring, none));
   -webkit-backdrop-filter: var(--btn-backdrop, none);
   backdrop-filter: var(--btn-backdrop, none);
   background-color: var(--btn-bg);
@@ -141,7 +144,7 @@
 }
 
 .pill {
-  border-radius: var(--radius-full);
+  --btn-radius: var(--radius-full);
 }
 
 /* Optical balance: Phosphor glyphs carry their own empty space and look heavier than a letter, so the

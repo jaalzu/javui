@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import { CaretDownIcon, Heading } from "@/ui";
 import { CodeBlock } from "@/ui/server";
-import type { Example, StageHeight } from "@/docs/example";
-import { Demo } from "./Demo";
+import type { Example, Hero, StageHeight } from "@/docs/example";
+import shell from "@/app/_shell/shell.module.css";
 import styles from "./Examples.module.css";
 
 /** A live preview with a collapsible "View code" underneath. Uses a native `details`, so it works without extra JavaScript. */
@@ -24,50 +24,92 @@ export function ExampleFrame({ children, code, full = false, fixed = false, stag
   );
 }
 
-/** The main preview of a component page: its live demo and the first example from the manifest as code. */
-export function Preview({ name, code, fixed = false, stageHeight }: { name: string; code?: string; fixed?: boolean; stageHeight?: StageHeight }) {
-  return (
-    <ExampleFrame code={code} full fixed={fixed} stageHeight={stageHeight}>
-      <Demo name={name} />
-    </ExampleFrame>
-  );
-}
+type ExamplesModule = { hero?: Hero; examples: Example[] };
 
-/** The cases of each component live next to it; only the page's own examples are loaded. */
-const loaders: Record<string, () => Promise<{ examples: Example[] }>> = {
+/** The hero showcase of each component. The cases live next to the component that owns them. */
+const loaders: Record<string, () => Promise<ExamplesModule>> = {
   Accordion: () => import("@/ui/components/Accordion/Accordion.examples"),
-  ButtonGroup: () => import("@/ui/components/ButtonGroup/ButtonGroup.examples"),
+  Alert: () => import("@/ui/components/Alert/Alert.examples"),
   AspectRatio: () => import("@/ui/components/AspectRatio/AspectRatio.examples"),
-  Button: () => import("@/ui/components/Button/Button.examples"),
+  Avatar: () => import("@/ui/components/Avatar/Avatar.examples"),
   Badge: () => import("@/ui/components/Badge/Badge.examples"),
   Breadcrumb: () => import("@/ui/components/Breadcrumb/Breadcrumb.examples"),
-  Alert: () => import("@/ui/components/Alert/Alert.examples"),
-  Modal: () => import("@/ui/components/Modal/Modal.examples"),
-  Field: () => import("@/ui/components/Field/Field.examples"),
-  Checkbox: () => import("@/ui/components/Checkbox/Checkbox.examples"),
-  Switch: () => import("@/ui/components/Switch/Switch.examples"),
+  Button: () => import("@/ui/components/Button/Button.examples"),
+  ButtonGroup: () => import("@/ui/components/ButtonGroup/ButtonGroup.examples"),
   Card: () => import("@/ui/components/Card/Card.examples"),
+  Checkbox: () => import("@/ui/components/Checkbox/Checkbox.examples"),
+  CodeBlock: () => import("@/ui/components/CodeBlock/CodeBlock.examples"),
+  Collapsible: () => import("@/ui/components/Collapsible/Collapsible.examples"),
+  Combobox: () => import("@/ui/components/Combobox/Combobox.examples"),
+  Container: () => import("@/ui/components/Container/Container.examples"),
+  EmptyState: () => import("@/ui/components/EmptyState/EmptyState.examples"),
+  Field: () => import("@/ui/components/Field/Field.examples"),
+  Grid: () => import("@/ui/components/Grid/Grid.examples"),
+  Heading: () => import("@/ui/components/Heading/Heading.examples"),
+  Icon: () => import("@/ui/components/Icon/Icon.examples"),
+  Input: () => import("@/ui/components/Input/Input.examples"),
+  Kbd: () => import("@/ui/components/Kbd/Kbd.examples"),
+  Label: () => import("@/ui/components/Label/Label.examples"),
+  Link: () => import("@/ui/components/Link/Link.examples"),
+  Menu: () => import("@/ui/components/Menu/Menu.examples"),
+  Modal: () => import("@/ui/components/Modal/Modal.examples"),
+  Pagination: () => import("@/ui/components/Pagination/Pagination.examples"),
+  Popover: () => import("@/ui/components/Popover/Popover.examples"),
   Progress: () => import("@/ui/components/Progress/Progress.examples"),
+  RadioGroup: () => import("@/ui/components/Radio/RadioGroup.examples"),
+  ScrollArea: () => import("@/ui/components/ScrollArea/ScrollArea.examples"),
+  Select: () => import("@/ui/components/Select/Select.examples"),
+  Sheet: () => import("@/ui/components/Sheet/Sheet.examples"),
+  Sidebar: () => import("@/ui/components/Sidebar/Sidebar.examples"),
+  Skeleton: () => import("@/ui/components/Skeleton/Skeleton.examples"),
   Slider: () => import("@/ui/components/Slider/Slider.examples"),
+  Spinner: () => import("@/ui/components/Spinner/Spinner.examples"),
+  Stack: () => import("@/ui/components/Stack/Stack.examples"),
+  Switch: () => import("@/ui/components/Switch/Switch.examples"),
+  Table: () => import("@/ui/components/Table/Table.examples"),
   Tabs: () => import("@/ui/components/Tabs/Tabs.examples"),
-  Avatar: () => import("@/ui/components/Avatar/Avatar.examples"),
   Text: () => import("@/ui/components/Text/Text.examples"),
+  Textarea: () => import("@/ui/components/Textarea/Textarea.examples"),
+  ToggleGroup: () => import("@/ui/components/ToggleGroup/ToggleGroup.examples"),
+  Tooltip: () => import("@/ui/components/Tooltip/Tooltip.examples"),
+  VisuallyHidden: () => import("@/ui/components/VisuallyHidden/VisuallyHidden.examples"),
+  useToast: () => import("@/ui/components/Toast/Toast.examples"),
 };
+
+/** The hero of a component page: title and subtitle come from the page header; the showcase comes from the component's own examples. */
+export async function Preview({ name }: { name: string }) {
+  const load = loaders[name];
+  if (!load) return null;
+  const { hero } = await load();
+  if (!hero) return null;
+  return (
+    <>
+      <Heading as="h2" className={shell.srOnly} data-doc-skip>Preview</Heading>
+      <ExampleFrame code={hero.code} full fixed={hero.fixed} stageHeight={hero.stageHeight}>
+        {hero.node}
+      </ExampleFrame>
+    </>
+  );
+}
 
 /** The cases of a component, one section each. Renders nothing when the component has no examples. */
 export async function Examples({ name }: { name: string }) {
   const load = loaders[name];
   if (!load) return null;
   const { examples: items } = await load();
+  if (!items.length) return null;
   const fixed = name === "Accordion";
   const full = name === "Alert";
-  const sections = items.map((e) => (
-    <section key={e.title} aria-labelledby={`ex-${e.title.replace(/\W+/g, "-")}`}>
-      <Heading as="h3" size={6} id={`ex-${e.title.replace(/\W+/g, "-")}`}>{e.title}</Heading>
-      {e.description && <p className={styles.exampleNote}>{e.description}</p>}
-      <ExampleFrame code={e.code} full={full} fixed={fixed} stageHeight={e.stageHeight}>{e.node}</ExampleFrame>
-    </section>
-  ));
+  const sections = items.map((e) => {
+    const id = `ex-${e.title.replace(/\W+/g, "-")}`;
+    return (
+      <section key={e.title} aria-labelledby={id}>
+        <Heading as="h3" size={6} id={id}>{e.title}</Heading>
+        {e.description && <p className={styles.exampleNote}>{e.description}</p>}
+        <ExampleFrame code={e.code} full={full} fixed={fixed} stageHeight={e.stageHeight}>{e.node}</ExampleFrame>
+      </section>
+    );
+  });
   return (
     <>
       <Heading as="h2" size={6}>Examples</Heading>

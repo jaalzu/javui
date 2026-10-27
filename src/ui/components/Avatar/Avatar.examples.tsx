@@ -1,5 +1,30 @@
 import { Avatar, AvatarGroup, CheckIcon, GearIcon, Stack } from "@/ui";
-import { ex, type Example } from "@/docs/example";
+import { defineHero, ex, type Example } from "@/docs/example";
+
+export const hero = defineHero(
+  `<Stack direction="row" gap="3" align="center">
+  <Avatar name="Ada Lovelace" />
+  <Avatar name="Grace Hopper" src="/avatars/avatar-1.svg" />
+  <Avatar name="Alan Turing" status="online" />
+  <AvatarGroup aria-label="Project members">
+    <Avatar name="Ada Lovelace" />
+    <Avatar name="Grace Hopper" />
+    <Avatar name="Alan Turing" />
+    <Avatar name="Katherine Johnson" />
+  </AvatarGroup>
+</Stack>`,
+  <Stack direction="row" gap="3" align="center">
+    <Avatar name="Ada Lovelace" />
+    <Avatar name="Grace Hopper" src="/avatars/avatar-1.svg" />
+    <Avatar name="Alan Turing" status="online" />
+    <AvatarGroup aria-label="Project members">
+      <Avatar name="Ada Lovelace" />
+      <Avatar name="Grace Hopper" />
+      <Avatar name="Alan Turing" />
+      <Avatar name="Katherine Johnson" />
+    </AvatarGroup>
+  </Stack>,
+);
 
 export const examples: Example[] = [
     ex(

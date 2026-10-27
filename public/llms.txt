@@ -47,7 +47,8 @@
 
 ### controls
 - **Button**: An action with onClick (submit, open, confirm, cancel), or navigation that looks like a button with href. Pass `loading` while an action runs.
-- **ButtonGroup** (parts: ButtonGroupSeparator): Related actions that belong together and read better as one unit, such as Save draft, Preview and Publish.
+- **ButtonGroup** (parts: ButtonGroupSeparator): Related actions (2-4 buttons) with short labels and the same size, such as Save draft, Preview and Publish.
+- **ButtonGroupText**: A short prefix or unit next to an Input or a Button inside a ButtonGroup.
 - **Field**: Every form control, including its validation, required, read-only and loading states.
 - **Input**: Single-line text entry, read-only values and values that are still loading.
 - **Textarea**: Multi-line text entry, including read-only and loading values.

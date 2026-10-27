@@ -1,6 +1,45 @@
 import { Modal, ModalClose, ModalContent, ModalTrigger, Stack } from "@/ui";
-import { ex, type Example } from "@/docs/example";
+import { defineHero, ex, type Example } from "@/docs/example";
 import { ModalFormExample, ModalNestedExample } from "./ModalExampleScenarios";
+
+export const hero = defineHero(
+  `<Modal
+  role="alertdialog"
+  color="critical"
+  description="This permanently removes the project and its data. This cannot be undone."
+>
+  <ModalTrigger variant="danger">Delete project</ModalTrigger>
+  <ModalContent
+    title="Delete project?"
+    actions={
+      <>
+        <ModalClose>Cancel</ModalClose>
+        <ModalClose variant="danger">Delete</ModalClose>
+      </>
+    }
+  >
+    This permanently removes the project and its data.
+  </ModalContent>
+</Modal>`,
+  <Modal
+    role="alertdialog"
+    color="critical"
+    description="This permanently removes the project and its data. This cannot be undone."
+  >
+    <ModalTrigger variant="danger">Delete project</ModalTrigger>
+    <ModalContent
+      title="Delete project?"
+      actions={
+        <>
+          <ModalClose>Cancel</ModalClose>
+          <ModalClose variant="danger">Delete</ModalClose>
+        </>
+      }
+    >
+      This permanently removes the project and its data.
+    </ModalContent>
+  </Modal>,
+);
 
 export const examples: Example[] = [
   ex(

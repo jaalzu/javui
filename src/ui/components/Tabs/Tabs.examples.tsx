@@ -1,5 +1,22 @@
 import { Tabs, Text } from "@/ui";
-import { ex, type Example } from "@/docs/example";
+import { defineHero, ex, type Example } from "@/docs/example";
+
+export const hero = defineHero(
+  `<Tabs
+  aria-label="Account sections"
+  items={[
+    { value: "profile", label: "Profile", content: <Text>Your name and photo.</Text> },
+    { value: "billing", label: "Billing", content: <Text>Plan and invoices.</Text> },
+  ]}
+/>`,
+  <Tabs
+    aria-label="Account sections"
+    items={[
+      { value: "profile", label: "Profile", content: <Text>Your name and photo.</Text> },
+      { value: "billing", label: "Billing", content: <Text>Plan and invoices.</Text> },
+    ]}
+  />,
+);
 
 export const examples: Example[] = [
     ex(

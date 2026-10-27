@@ -38,8 +38,12 @@ export type { SkeletonProps } from "./components/Skeleton";
 // Controls (built on Base UI)
 export { Button } from "./components/Button";
 export type { ButtonProps, ButtonVariant, ButtonSize } from "./components/Button";
-export { ButtonGroup, ButtonGroupSeparator } from "./components/ButtonGroup";
-export type { ButtonGroupProps, ButtonGroupSeparatorProps } from "./components/ButtonGroup";
+export { ButtonGroup, ButtonGroupSeparator, ButtonGroupText } from "./components/ButtonGroup";
+export type {
+  ButtonGroupProps,
+  ButtonGroupSeparatorProps,
+  ButtonGroupTextProps,
+} from "./components/ButtonGroup";
 export { Field } from "./components/Field";
 export type { FieldProps } from "./components/Field";
 export { Input } from "./components/Input";

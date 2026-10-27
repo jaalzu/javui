@@ -30,7 +30,7 @@ let r = await call("get_guidelines");
 check("guidelines mention HTML first", /HTML first/.test(r.text));
 
 r = await call("list_components");
-check("lists 45 components", JSON.parse(r.text).length === 45, r.text.slice(0, 80));
+check("lists 46 components", JSON.parse(r.text).length === 46, r.text.slice(0, 80));
 
 r = await call("list_components", { category: "overlays" });
 check("filters by category", JSON.parse(r.text).every((c) => c.category === "overlays") && JSON.parse(r.text).length === 5);

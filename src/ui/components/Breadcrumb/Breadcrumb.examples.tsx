@@ -1,5 +1,20 @@
 import { Breadcrumb, FileTextIcon, Stack } from "@/ui";
-import { ex, type Example } from "@/docs/example";
+import { defineHero, ex, type Example } from "@/docs/example";
+
+export const hero = defineHero(
+  `<Breadcrumb items={[
+  { label: "Docs", href: "/docs" },
+  { label: "Components", href: "/docs/components" },
+  { label: "Breadcrumb" },
+]} />`,
+  <Breadcrumb
+    items={[
+      { label: "Docs", href: "/docs" },
+      { label: "Components", href: "/docs/components" },
+      { label: "Breadcrumb" },
+    ]}
+  />,
+);
 
 const trail = [
   { label: "Docs", href: "/docs" },

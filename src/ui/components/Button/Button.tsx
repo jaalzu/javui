@@ -33,7 +33,7 @@ type ButtonSharedProps = {
    */
   size?: ButtonSize;
   /**
-   * Fully rounded shape (`--radius-full`). Inside `ButtonGroup` the group's outer-only rounding wins.
+   * Fully rounded shape (`--radius-full`). Inside `ButtonGroup` only the outer corners keep it.
    * @default false
    */
   pill?: boolean;
@@ -179,6 +179,7 @@ export function Button(props: ButtonProps) {
           styles.asLink,
           className,
         )}
+        data-variant={variant}
         data-icon={position}
       >
         <ButtonContent
@@ -215,6 +216,7 @@ export function Button(props: ButtonProps) {
       focusableWhenDisabled={isLoading || rest.focusableWhenDisabled}
       aria-busy={isLoading || undefined}
       data-loading={isLoading ? "" : undefined}
+      data-variant={variant}
       data-icon={position}
     >
       <ButtonContent startIcon={startIcon} endIcon={endIcon} loading={isLoading}>

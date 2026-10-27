@@ -1,8 +1,17 @@
 import { AspectRatio, Grid } from "@/ui";
-import { ex, type Example } from "@/docs/example";
+import { defineHero, ex, type Example } from "@/docs/example";
 import styles from "./AspectRatio.examples.module.css";
 
 const Tile = () => <div className={styles.tile} />;
+
+export const hero = defineHero(
+  `<AspectRatio ratio={16 / 9}>
+  <div />
+</AspectRatio>`,
+  <AspectRatio ratio={16 / 9}>
+    <Tile />
+  </AspectRatio>,
+);
 
 export const examples: Example[] = [
   ex(

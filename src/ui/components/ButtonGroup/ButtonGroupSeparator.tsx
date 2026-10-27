@@ -4,23 +4,23 @@ import styles from "./ButtonGroup.module.css";
 
 export type ButtonGroupSeparatorProps = {
   /**
-   * Direction of the divider line. Use `vertical` between side-by-side buttons (default) and
-   * `horizontal` between stacked buttons.
+   * Direction of the line for assistive technology. The visible line follows the group's active
+   * axis, including `stackBelow`.
    * @default "vertical"
    */
   orientation?: "horizontal" | "vertical";
 } & Omit<ComponentProps<"div">, "color" | "role">;
 
 /**
- * Divides adjacent buttons in a group. The orientation describes the line itself, so a horizontal
- * group uses a vertical separator.
+ * A 1px divider between controls. Use it only when the default internal border is hidden by a
+ * filled variant (`primary`, `accent`, `danger`); it stretches to the group's height and never
+ * doubles the default border.
  *
  * @example
  * <ButtonGroup aria-label="Export">
- *   <Button variant="secondary">CSV</Button>
- *   <Button variant="secondary">JSON</Button>
+ *   <Button>CSV</Button>
  *   <ButtonGroupSeparator />
- *   <Button variant="secondary">More</Button>
+ *   <Button>JSON</Button>
  * </ButtonGroup>
  */
 export function ButtonGroupSeparator({

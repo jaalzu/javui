@@ -1,6 +1,25 @@
 import type { CSSProperties } from "react";
 import { ArrowRightIcon, Badge, CheckIcon, Stack } from "@/ui";
-import { ex, type Example } from "@/docs/example";
+import { defineHero, ex, type Example } from "@/docs/example";
+
+export const hero = defineHero(
+  `<Stack direction="row" gap="2" wrap align="center">
+  <Badge>Default</Badge>
+  <Badge variant="inverted">Inverted</Badge>
+  <Badge variant="outline">Outline</Badge>
+  <Badge variant="danger">Danger</Badge>
+  <Badge variant="brand">Brand</Badge>
+  <Badge loading>Pending</Badge>
+</Stack>`,
+  <Stack direction="row" gap="2" wrap align="center">
+    <Badge>Default</Badge>
+    <Badge variant="inverted">Inverted</Badge>
+    <Badge variant="outline">Outline</Badge>
+    <Badge variant="danger">Danger</Badge>
+    <Badge variant="brand">Brand</Badge>
+    <Badge loading>Pending</Badge>
+  </Stack>,
+);
 
 export const examples: Example[] = [
     ex(

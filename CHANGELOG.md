@@ -11,6 +11,12 @@
 - **Avatar `icon` prop removed.** Use `src` with the logo; without it the initials are shown. Statuses are now plain solid dots with the state announced in the accessible name, and the avatar badge is smaller.
 - **Button `outline` variant removed.** Use `secondary` for a filled surface or `ghost` for a plain transparent action. ButtonGroup examples and separator guidance now use `secondary`.
 
+### Changed
+
+- **ButtonGroup borders and shadows.** Children draw the default 1px divider and their own radius; `secondary` is flat inside a group, and the group no longer depends on positional selectors, so opening a Modal cannot square a trigger. Use `ButtonGroupSeparator` only when a filled variant hides the default border.
+
 ### Added
 
+- **`ButtonGroupText`.** A static text addon for `ButtonGroup`, such as `https://` or `USD`.
+- **`ButtonGroup` `stackBelow`.** Stacks the group into a column below `sm` or `md` and returns to its orientation above the breakpoint.
 - **Button `xs` size and `pill` shape.** `xs` is 1.5rem tall with a 12px icon and 12px text, for inline use; `pill` uses `--radius-full` in every variant and size. Layout gains `--size-control-xs`.

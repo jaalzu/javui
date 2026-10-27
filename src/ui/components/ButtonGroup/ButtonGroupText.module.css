@@ -1,0 +1,17 @@
+.text {
+  --btn-radius: var(--radius-base);
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-3);
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--btn-radius);
+  background: var(--color-sunken);
+  color: var(--color-secondary-foreground);
+  font-family: var(--text-body-family);
+  font-size: var(--text-body-size);
+  line-height: 1;
+  white-space: nowrap;
+}

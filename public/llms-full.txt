@@ -47,7 +47,8 @@
 
 ### controls
 - **Button**: An action with onClick (submit, open, confirm, cancel), or navigation that looks like a button with href. Pass `loading` while an action runs.
-- **ButtonGroup** (parts: ButtonGroupSeparator): Related actions that belong together and read better as one unit, such as Save draft, Preview and Publish.
+- **ButtonGroup** (parts: ButtonGroupSeparator): Related actions (2-4 buttons) with short labels and the same size, such as Save draft, Preview and Publish.
+- **ButtonGroupText**: A short prefix or unit next to an Input or a Button inside a ButtonGroup.
 - **Field**: Every form control, including its validation, required, read-only and loading states.
 - **Input**: Single-line text entry, read-only values and values that are still loading.
 - **Textarea**: Multi-line text entry, including read-only and loading values.
@@ -110,7 +111,7 @@ For headings use `Heading`; for links use `Link`.
 |---|---|---|---|---|
 | `as` | `"div" \| "code" \| "em" \| "label" \| "p" \| "small" \| "span" \| "strong"` | no |  | HTML element to render. Defaults by variant: `p` for body variants, `span` for `label` and `caption`, `code` for `code`. |
 | `casing` | `"normal" \| "uppercase"` | no | normal | Set to `uppercase` for small uppercase captions. |
-| `size` | `"base" \| "xs" \| "sm" \| "lg"` | no | base | Size within the variant: body is 18px (`lg`), 15px (`base`) or 13px (`sm`); caption is 12px, 11px or 10px; code is 14px (`base`), 13px (`sm`) or 12px (`xs`). Ignored by `label` and `emphasis`. |
+| `size` | `"sm" \| "lg" \| "base" \| "xs"` | no | base | Size within the variant: body is 18px (`lg`), 15px (`base`) or 13px (`sm`); caption is 12px, 11px or 10px; code is 14px (`base`), 13px (`sm`) or 12px (`xs`). Ignored by `label` and `emphasis`. |
 | `tone` | `"info" \| "success" \| "warning" \| "default" \| "brand" \| "danger" \| "muted" \| "subtle"` | no | default | Text color from the semantic color tokens. |
 | `variant` | `"body" \| "caption" \| "code" \| "label" \| "emphasis"` | no | body | Which text style to apply. Appearance only; it does not change the element. |
 | `weight` | `"regular" \| "medium" \| "semibold"` | no |  | Font weight. Only three exist; there is no light. Defaults to the variant's own weight. |
@@ -474,7 +475,7 @@ Do not use it with hand-written paths: import a named icon (`ArrowRightIcon`) in
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `label` | `string` | no |  | Accessible name. Provide it when the icon carries meaning on its own (no visible text next to it). Without `label` the icon is decorative and hidden from assistive technology. |
-| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | no | undefined | Fixed size: `xs` 12px, `sm` 16px, `md` 20px, `lg` 24px, `xl` 32px. Without it the icon is 20px, or the size its parent sets (inside a `Button` it follows the button). `xs` is for standalone use: inline with text or in small badges. |
+| `size` | `"sm" \| "md" \| "lg" \| "xs" \| "xl"` | no | undefined | Fixed size: `xs` 12px, `sm` 16px, `md` 20px, `lg` 24px, `xl` 32px. Without it the icon is 20px, or the size its parent sets (inside a `Button` it follows the button). `xs` is for standalone use: inline with text or in small badges. |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -553,7 +554,7 @@ Icon-only controls need an accessible name (`aria-label` or `aria-labelledby`).
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Button } from "@/ui";`
 - Renders: button without `href`; a (or the LinkProvider component) with `href`
-- Composition: `href` decides the element: a Base UI button (`type="button"` by default) or a link from `LinkProvider` that rejects `disabled`, `loading` and `type`. Put icons in `startIcon`/`endIcon` (no `size`). Icon-only needs `startIcon` and one of `aria-label` or `aria-labelledby`. Sizes: xs 1.5rem/12px icon, sm 1.75rem/16px, md 2.25rem/20px, lg 2.75rem/24px. `pill` uses `--radius-full`; inside ButtonGroup the group's outer-only rounding wins.
+- Composition: `href` decides the element: a Base UI button (`type="button"` by default) or a link from `LinkProvider` that rejects `disabled`, `loading` and `type`. Put icons in `startIcon`/`endIcon` (no `size`). Icon-only needs `startIcon` and one of `aria-label` or `aria-labelledby`. Sizes: xs 1.5rem/12px icon, sm 1.75rem/16px, md 2.25rem/20px, lg 2.75rem/24px. `pill` uses `--radius-full`; inside ButtonGroup only the outer corners keep it.
 - Use when: An action with onClick (submit, open, confirm, cancel), or navigation that looks like a button with href. Pass `loading` while an action runs.
 - Avoid:
   - Navigation as inline text: use Link.
@@ -570,8 +571,8 @@ Icon-only controls need an accessible name (`aria-label` or `aria-labelledby`).
 | `endIcon` | `ReactNode` | no | undefined | Icon after the label. Pass a generated icon without `size`; the control sizes it. |
 | `href` | `string` | no |  | Never on an action button. Pass `href` to render a link instead. Where the link goes. To navigate, pass `href`; do not wire `onClick` to `router.push`, which loses right-click and new-tab semantics. |
 | `loading` | `boolean` | no | false | Shows a spinner and ignores clicks while an action is running. The button keeps its label and stays focusable, and `aria-busy` tells assistive technology it is working. |
-| `pill` | `boolean` | no | false | Fully rounded shape (`--radius-full`). Inside `ButtonGroup` the group's outer-only rounding wins. |
-| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Control height and icon size: `xs` 1.5rem and 12px, `sm` 1.75rem and 16px, `md` 2.25rem and 20px, `lg` 2.75rem and 24px. |
+| `pill` | `boolean` | no | false | Fully rounded shape (`--radius-full`). Inside `ButtonGroup` only the outer corners keep it. |
+| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | "md" | Control height and icon size: `xs` 1.5rem and 12px, `sm` 1.75rem and 16px, `md` 2.25rem and 20px, `lg` 2.75rem and 24px. |
 | `startIcon` | `ReactNode` | no | undefined | Icon before the label. Pass a generated icon without `size`; the control sizes it. The visible icon and accessible name. Pass a generated icon without `size`. |
 | `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | "primary" | Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions, `ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions. |
 
@@ -589,26 +590,31 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## ButtonGroup
 
-Joins related buttons into one control. Shared edges, outer-only corner rounding and a focus
-ring that stays above its neighbours keep the actions readable as a unit. Children can be
-`Button`, a `Menu` trigger or an `Input` for split-button patterns. Give the group an
-`aria-label` so its purpose is announced.
+Joins related actions into one control. Each child draws its own border and radius; the group
+only zeros the inner edges. Use the same size and variant in every child.
+
+Use `ButtonGroup` for actions and `ToggleGroup` for a selected state.
 
 - Category: controls
 - Base: Own component
 - Import: `import { ButtonGroup } from "@/ui";`
 - Renders: div role="group"
-- Composition: Pass `orientation` (horizontal or vertical, default horizontal) and one group of related children: `Button`, a `Menu` trigger or an `Input`. Put `ButtonGroupSeparator` between buttons when the shared edge needs a visible division. Give the group an `aria-label` that names the set of actions.
-- Use when: Related actions that belong together and read better as one unit, such as Save draft, Preview and Publish.
+- Composition: Pass `orientation` and one group of related children: `Button`, a `Menu` trigger, `Input`, `Select` or `ButtonGroupText`. Use the same size and variant in every child; the group does not inherit either. `stackBelow` stacks it below `sm` or `md` and returns to `orientation` above it. Default internal lines are drawn by the children.
+- Use when: Related actions (2-4 buttons) with short labels and the same size, such as Save draft, Preview and Publish.
+- Choosing:
+  - Actions: use ButtonGroup. Selection state: use ToggleGroup.
 - Avoid:
-  - Toggling state or choosing between options: use ToggleGroup.
-  - Unrelated actions that do not form a set.
-- Accessibility: Renders role="group"; recommend an `aria-label` so the group is announced. Each child keeps its own accessible name and focus ring, which stays above its neighbours.
+  - Loose or unrelated actions that do not form a set.
+  - Long groups: split them or use a Menu.
+  - Selection state: use ToggleGroup.
+  - The `ghost` variant.
+- Accessibility: Renders role="group"; add an `aria-label` that names the set of actions. Each child keeps its own accessible name and focus ring, which stays above its neighbours.
 
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `orientation` | `"horizontal" \| "vertical"` | no | horizontal | Direction the group lays out its children. Horizontal joins buttons side by side; vertical stacks them. |
+| `orientation` | `"horizontal" \| "vertical"` | no | horizontal | Layout above the `stackBelow` breakpoint. `horizontal` joins the controls side by side; `vertical` stacks them. |
+| `stackBelow` | `"sm" \| "md"` | no | undefined | Stacks the group into a column below this breakpoint and returns to `orientation` above it. Omit it to keep one orientation at every width. |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -625,34 +631,67 @@ Also accepts the native props of the element it renders; they pass through.
 
 ### ButtonGroupSeparator
 
-Divides adjacent buttons in a group. The orientation describes the line itself, so a horizontal
-group uses a vertical separator.
+A 1px divider between controls. Use it only when the default internal border is hidden by a
+filled variant (`primary`, `accent`, `danger`); it stretches to the group's height and never
+doubles the default border.
 
 - Category: controls
 - Base: Own component
 - Import: `import { ButtonGroupSeparator } from "@/ui";`
 - Renders: div role="separator"
-- Composition: Place between adjacent buttons when the shared edge needs a visible division. `orientation` describes the line: vertical inside a horizontal group (default), horizontal inside a vertical group.
-- Use when: Marking the division between buttons in a ButtonGroup.
+- Composition: A 1px line with `align-self: stretch` and `--color-border-default`. Use it only when a filled variant (`primary`, `accent`, `danger`) hides the default internal border. It follows the group's active axis, including `stackBelow`.
+- Use when: Adding a visible division between controls whose default border is hidden by a filled background.
 - Avoid:
-  - Separating buttons whose shared edge already reads as a division.
+  - Groups of `secondary` buttons, where the default border already divides.
   - Using it as decoration outside a ButtonGroup.
-- Accessibility: Exposes role="separator" with an `aria-orientation` that matches the line.
+- Accessibility: Exposes role="separator" with an `aria-orientation` that describes the line.
 
 #### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `orientation` | `"horizontal" \| "vertical"` | no | vertical | Direction of the divider line. Use `vertical` between side-by-side buttons (default) and `horizontal` between stacked buttons. |
+| `orientation` | `"horizontal" \| "vertical"` | no | vertical | Direction of the line for assistive technology. The visible line follows the group's active axis, including `stackBelow`. |
 
 Also accepts the native props of the element it renders; they pass through.
 
 #### Example
 ```tsx
 <ButtonGroup aria-label="Export">
-  <Button variant="secondary">CSV</Button>
-  <Button variant="secondary">JSON</Button>
+  <Button>CSV</Button>
   <ButtonGroupSeparator />
-  <Button variant="secondary">More</Button>
+  <Button>JSON</Button>
+</ButtonGroup>
+```
+
+## ButtonGroupText
+
+A static text addon for a `ButtonGroup`, such as a protocol prefix or a currency code.
+It is not interactive and takes the height of the other controls in the group.
+
+- Category: controls
+- Base: Own component
+- Import: `import { ButtonGroupText } from "@/ui";`
+- Renders: div
+- Composition: Static text only, such as `https://` or `USD`. It takes the height of the other controls in the group and uses the group's shared border. No `render`.
+- Use when: A short prefix or unit next to an Input or a Button inside a ButtonGroup.
+- Avoid:
+  - Interactive content or actions: use Button.
+  - Long labels: the addon is a short prefix or unit.
+  - Use outside a ButtonGroup.
+- Accessibility: Plain text; it does not add a role or a name. Keep the adjacent control's accessible name complete.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | yes |  | The addon text, such as `https://` or `USD`. |
+| `className` | `string` | no |  | Extra classes for the addon surface. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<ButtonGroup aria-label="Price">
+  <ButtonGroupText>USD</ButtonGroupText>
+  <Input aria-label="Amount" inputMode="decimal" />
 </ButtonGroup>
 ```
 
@@ -1031,7 +1070,7 @@ The button that opens the modal. It renders a `Button` and inherits the behavior
 #### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
+| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | md | Button size of the trigger. |
 | `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | primary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -1103,7 +1142,7 @@ with `initialFocus`; otherwise the first secondary action receives focus.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `initialFocus` | `boolean` | no | false | Marks the safe action that receives initial focus in `role="alertdialog"`. |
-| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | md | Button size. |
+| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | md | Button size. |
 | `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style. Use `danger` for a destructive action. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -1400,7 +1439,7 @@ For bots, companies or systems, use `src` with the logo; without it the initials
 | `badgeLabel` | `string` | no |  | Accessible label for the avatar badge. Required with `badge`; appended to the accessible name. |
 | `className` | `string` | no |  |  |
 | `outline` | `boolean` | no | true | Whether the avatar keeps its visible border. Set to `false` for a borderless filled circle or image. |
-| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | no | md | Diameter: `xs` 1.5rem, `sm` 2rem, `md` 2.5rem, `lg` 3.5rem, `xl` 4.5rem. |
+| `size` | `"sm" \| "md" \| "lg" \| "xs" \| "xl"` | no | md | Diameter: `xs` 1.5rem, `sm` 2rem, `md` 2.5rem, `lg` 3.5rem, `xl` 4.5rem. |
 | `src` | `string` | no |  | Image URL. If it is missing or fails to load, the initials are shown. |
 | `status` | `"online" \| "away" \| "busy" \| "offline"` | no |  | Presence state. Appended to the accessible name, such as "Ada Lovelace, online". Cannot be combined with `badge`. |
 
@@ -1445,7 +1484,7 @@ Used outside a group, Avatar is unchanged.
 | `children` | `ReactNode` | yes |  | Avatars in the group. They share the group's `size`. |
 | `className` | `string` | no |  |  |
 | `max` | `number` | no | 4 | How many avatars stay visible before the rest collapse into a "+N" item. |
-| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | no | md | Diameter shared by every avatar in the group. |
+| `size` | `"sm" \| "md" \| "lg" \| "xs" \| "xl"` | no | md | Diameter shared by every avatar in the group. |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -1508,7 +1547,7 @@ The button that opens the popover. It is rendered as a `Button`.
 #### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
+| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | md | Button size of the trigger. |
 | `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -1568,7 +1607,7 @@ A button that closes the popover. It is rendered as a `Button`.
 #### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | sm | Button size. |
+| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | sm | Button size. |
 | `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -1603,7 +1642,7 @@ menu items are compact and use 16px icons.
 | `label` | `string` | yes |  | Text of the button that opens the menu. |
 | `align` | `"center" \| "start" \| "end"` | no | start | Alignment of the menu against the trigger. |
 | `className` | `string` | no |  |  |
-| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
+| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | md | Button size of the trigger. |
 | `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -2621,6 +2660,6 @@ show({ title: "Saved", tone: "success" });
 | `--syntax-diff-removed-bg` | color | light `var(--color-danger-subtle)` / dark `var(--color-danger-subtle)` |
 | `--shadow-inset-ring` | shadow | light `inset 0 0 0 1px #00000014` / dark `inset 0 0 0 1px #ffffff14` |
 | `--shadow-default` | shadow | light `0 0 0 1px #0000000f, 0 1px 2px #0000001a` / dark `0 0 0 1px #ffffff12, 0 1px 2px #00000066` |
-| `--shadow-raised` | shadow | light `inset 0 0 0 1px transparent, inset 0 1px #ffffffcc, 0 0 0 1px #00000014, 0 4px 4px #0000000d` / dark `inset 0 0 0 1px #ffffff08, inset 0 1px #ffffff0a, 0 0 0 1px #0009, 0 4px 4px #0000001a` |
+| `--shadow-raised` | shadow | light `inset 0 0 0 1px transparent, inset 0 1px #ffffffcc, 0 0 0 1px #00000014` / dark `inset 0 0 0 1px #ffffff08, inset 0 1px #ffffff0a, 0 0 0 1px #0009, 0 4px 4px #0000001a` |
 | `--shadow-large` | shadow | light `0 0 0 1px #00000014, 0 2px 3px -2px #0000001a, 0 3px 8px -2px #00000014, 0 4px 12px -4px #0000001f` / dark `0 0 0 1px color-mix(in oklab, #ffffff12, #3a3a3a 25%), 0 2px 3px -2px #00000026, 0 3px 8px -2px #0006, 0 4px 12px -4px #00000080` |
 | `--shadow-extra-large` | shadow | light `0 0 0 .5px #00000014, 0 8px 40px 0px #0000001a, 0 12px 32px -16px #00000040` / dark `0 0 0 .5px #ffffff12 inset, 0 0 0 .5px #0000, 0 8px 40px 0px #0000000d, 0 12px 32px -16px #00000026` |

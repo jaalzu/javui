@@ -1,5 +1,10 @@
 import { Progress } from "@/ui";
-import { ex, type Example } from "@/docs/example";
+import { defineHero, ex, type Example } from "@/docs/example";
+
+export const hero = defineHero(
+  `<Progress label="Uploading" value={40} />`,
+  <Progress label="Uploading" value={40} />,
+);
 
 export const examples: Example[] = [
     ex("Determinate", `<Progress label="Uploading" value={40} />`, <Progress label="Uploading" value={40} />),

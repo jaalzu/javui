@@ -52,7 +52,7 @@
         },
         {
           "name": "size",
-          "type": "\"base\" | \"xs\" | \"sm\" | \"lg\"",
+          "type": "\"sm\" | \"lg\" | \"base\" | \"xs\"",
           "required": false,
           "default": "base",
           "description": "Size within the variant: body is 18px (`lg`), 15px (`base`) or 13px (`sm`); caption is 12px, 11px or 10px;\ncode is 14px (`base`), 13px (`sm`) or 12px (`xs`). Ignored by `label` and `emphasis`."
@@ -551,7 +551,7 @@
         },
         {
           "name": "size",
-          "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xs\" | \"xl\"",
           "required": false,
           "default": "undefined",
           "description": "Fixed size: `xs` 12px, `sm` 16px, `md` 20px, `lg` 24px, `xl` 32px. Without it the icon is\n20px, or the size its parent sets (inside a `Button` it follows the button). `xs` is for\nstandalone use: inline with text or in small badges."
@@ -646,7 +646,7 @@
       "description": "Action button, or a link when given `href`.\n\nIcon-only controls need an accessible name (`aria-label` or `aria-labelledby`).",
       "import": "import { Button } from \"@/ui\";",
       "renders": "button without `href`; a (or the LinkProvider component) with `href`",
-      "composition": "`href` decides the element: a Base UI button (`type=\"button\"` by default) or a link from `LinkProvider` that rejects `disabled`, `loading` and `type`. Put icons in `startIcon`/`endIcon` (no `size`). Icon-only needs `startIcon` and one of `aria-label` or `aria-labelledby`. Sizes: xs 1.5rem/12px icon, sm 1.75rem/16px, md 2.25rem/20px, lg 2.75rem/24px. `pill` uses `--radius-full`; inside ButtonGroup the group's outer-only rounding wins.",
+      "composition": "`href` decides the element: a Base UI button (`type=\"button\"` by default) or a link from `LinkProvider` that rejects `disabled`, `loading` and `type`. Put icons in `startIcon`/`endIcon` (no `size`). Icon-only needs `startIcon` and one of `aria-label` or `aria-labelledby`. Sizes: xs 1.5rem/12px icon, sm 1.75rem/16px, md 2.25rem/20px, lg 2.75rem/24px. `pill` uses `--radius-full`; inside ButtonGroup only the outer corners keep it.",
       "whenToUse": "An action with onClick (submit, open, confirm, cancel), or navigation that looks like a button with href. Pass `loading` while an action runs.",
       "avoid": [
         "Navigation as inline text: use Link.",
@@ -692,11 +692,11 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Fully rounded shape (`--radius-full`). Inside `ButtonGroup` the group's outer-only rounding wins."
+          "description": "Fully rounded shape (`--radius-full`). Inside `ButtonGroup` only the outer corners keep it."
         },
         {
           "name": "size",
-          "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xs\"",
           "required": false,
           "default": "\"md\"",
           "description": "Control height and icon size: `xs` 1.5rem and 12px, `sm` 1.75rem and 16px, `md` 2.25rem and\n20px, `lg` 2.75rem and 24px."
@@ -726,23 +726,35 @@
       "name": "ButtonGroup",
       "category": "controls",
       "base": "Own component",
-      "description": "Joins related buttons into one control. Shared edges, outer-only corner rounding and a focus\nring that stays above its neighbours keep the actions readable as a unit. Children can be\n`Button`, a `Menu` trigger or an `Input` for split-button patterns. Give the group an\n`aria-label` so its purpose is announced.",
+      "description": "Joins related actions into one control. Each child draws its own border and radius; the group\nonly zeros the inner edges. Use the same size and variant in every child.\n\nUse `ButtonGroup` for actions and `ToggleGroup` for a selected state.",
       "import": "import { ButtonGroup } from \"@/ui\";",
       "renders": "div role=\"group\"",
-      "composition": "Pass `orientation` (horizontal or vertical, default horizontal) and one group of related children: `Button`, a `Menu` trigger or an `Input`. Put `ButtonGroupSeparator` between buttons when the shared edge needs a visible division. Give the group an `aria-label` that names the set of actions.",
-      "whenToUse": "Related actions that belong together and read better as one unit, such as Save draft, Preview and Publish.",
+      "composition": "Pass `orientation` and one group of related children: `Button`, a `Menu` trigger, `Input`, `Select` or `ButtonGroupText`. Use the same size and variant in every child; the group does not inherit either. `stackBelow` stacks it below `sm` or `md` and returns to `orientation` above it. Default internal lines are drawn by the children.",
+      "whenToUse": "Related actions (2-4 buttons) with short labels and the same size, such as Save draft, Preview and Publish.",
       "avoid": [
-        "Toggling state or choosing between options: use ToggleGroup.",
-        "Unrelated actions that do not form a set."
+        "Loose or unrelated actions that do not form a set.",
+        "Long groups: split them or use a Menu.",
+        "Selection state: use ToggleGroup.",
+        "The `ghost` variant."
       ],
-      "accessibility": "Renders role=\"group\"; recommend an `aria-label` so the group is announced. Each child keeps its own accessible name and focus ring, which stays above its neighbours.",
+      "accessibility": "Renders role=\"group\"; add an `aria-label` that names the set of actions. Each child keeps its own accessible name and focus ring, which stays above its neighbours.",
+      "choosing": [
+        "Actions: use ButtonGroup. Selection state: use ToggleGroup."
+      ],
       "props": [
         {
           "name": "orientation",
           "type": "\"horizontal\" | \"vertical\"",
           "required": false,
           "default": "horizontal",
-          "description": "Direction the group lays out its children. Horizontal joins buttons side by side;\nvertical stacks them."
+          "description": "Layout above the `stackBelow` breakpoint. `horizontal` joins the controls side by side;\n`vertical` stacks them."
+        },
+        {
+          "name": "stackBelow",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "default": "undefined",
+          "description": "Stacks the group into a column below this breakpoint and returns to `orientation` above it.\nOmit it to keep one orientation at every width."
         }
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
@@ -755,33 +767,68 @@
           "name": "ButtonGroupSeparator",
           "category": "controls",
           "base": "Own component",
-          "description": "Divides adjacent buttons in a group. The orientation describes the line itself, so a horizontal\ngroup uses a vertical separator.",
+          "description": "A 1px divider between controls. Use it only when the default internal border is hidden by a\nfilled variant (`primary`, `accent`, `danger`); it stretches to the group's height and never\ndoubles the default border.",
           "import": "import { ButtonGroupSeparator } from \"@/ui\";",
           "renders": "div role=\"separator\"",
-          "composition": "Place between adjacent buttons when the shared edge needs a visible division. `orientation` describes the line: vertical inside a horizontal group (default), horizontal inside a vertical group.",
-          "whenToUse": "Marking the division between buttons in a ButtonGroup.",
+          "composition": "A 1px line with `align-self: stretch` and `--color-border-default`. Use it only when a filled variant (`primary`, `accent`, `danger`) hides the default internal border. It follows the group's active axis, including `stackBelow`.",
+          "whenToUse": "Adding a visible division between controls whose default border is hidden by a filled background.",
           "avoid": [
-            "Separating buttons whose shared edge already reads as a division.",
+            "Groups of `secondary` buttons, where the default border already divides.",
             "Using it as decoration outside a ButtonGroup."
           ],
-          "accessibility": "Exposes role=\"separator\" with an `aria-orientation` that matches the line.",
+          "accessibility": "Exposes role=\"separator\" with an `aria-orientation` that describes the line.",
           "props": [
             {
               "name": "orientation",
               "type": "\"horizontal\" | \"vertical\"",
               "required": false,
               "default": "vertical",
-              "description": "Direction of the divider line. Use `vertical` between side-by-side buttons (default) and\n`horizontal` between stacked buttons."
+              "description": "Direction of the line for assistive technology. The visible line follows the group's active\naxis, including `stackBelow`."
             }
           ],
           "extends": "Also accepts the native props of the element it renders; they pass through.",
           "examples": [
-            "<ButtonGroup aria-label=\"Export\">\n  <Button variant=\"secondary\">CSV</Button>\n  <Button variant=\"secondary\">JSON</Button>\n  <ButtonGroupSeparator />\n  <Button variant=\"secondary\">More</Button>\n</ButtonGroup>"
+            "<ButtonGroup aria-label=\"Export\">\n  <Button>CSV</Button>\n  <ButtonGroupSeparator />\n  <Button>JSON</Button>\n</ButtonGroup>"
           ],
           "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ButtonGroup/ButtonGroupSeparator.tsx",
           "parent": "ButtonGroup"
         }
       ]
+    },
+    {
+      "name": "ButtonGroupText",
+      "category": "controls",
+      "base": "Own component",
+      "description": "A static text addon for a `ButtonGroup`, such as a protocol prefix or a currency code.\nIt is not interactive and takes the height of the other controls in the group.",
+      "import": "import { ButtonGroupText } from \"@/ui\";",
+      "renders": "div",
+      "composition": "Static text only, such as `https://` or `USD`. It takes the height of the other controls in the group and uses the group's shared border. No `render`.",
+      "whenToUse": "A short prefix or unit next to an Input or a Button inside a ButtonGroup.",
+      "avoid": [
+        "Interactive content or actions: use Button.",
+        "Long labels: the addon is a short prefix or unit.",
+        "Use outside a ButtonGroup."
+      ],
+      "accessibility": "Plain text; it does not add a role or a name. Keep the adjacent control's accessible name complete.",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "The addon text, such as `https://` or `USD`."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "description": "Extra classes for the addon surface."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<ButtonGroup aria-label=\"Price\">\n  <ButtonGroupText>USD</ButtonGroupText>\n  <Input aria-label=\"Amount\" inputMode=\"decimal\" />\n</ButtonGroup>"
+      ],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ButtonGroup/ButtonGroupText.tsx"
     },
     {
       "name": "Field",
@@ -1384,7 +1431,7 @@
           "props": [
             {
               "name": "size",
-              "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
+              "type": "\"sm\" | \"md\" | \"lg\" | \"xs\"",
               "required": false,
               "default": "md",
               "description": "Button size of the trigger."
@@ -1499,7 +1546,7 @@
             },
             {
               "name": "size",
-              "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
+              "type": "\"sm\" | \"md\" | \"lg\" | \"xs\"",
               "required": false,
               "default": "md",
               "description": "Button size."
@@ -1877,7 +1924,7 @@
         },
         {
           "name": "size",
-          "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xs\" | \"xl\"",
           "required": false,
           "default": "md",
           "description": "Diameter: `xs` 1.5rem, `sm` 2rem, `md` 2.5rem, `lg` 3.5rem, `xl` 4.5rem."
@@ -1936,7 +1983,7 @@
             },
             {
               "name": "size",
-              "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+              "type": "\"sm\" | \"md\" | \"lg\" | \"xs\" | \"xl\"",
               "required": false,
               "default": "md",
               "description": "Diameter shared by every avatar in the group."
@@ -1988,7 +2035,7 @@
           "props": [
             {
               "name": "size",
-              "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
+              "type": "\"sm\" | \"md\" | \"lg\" | \"xs\"",
               "required": false,
               "default": "md",
               "description": "Button size of the trigger."
@@ -2083,7 +2130,7 @@
           "props": [
             {
               "name": "size",
-              "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
+              "type": "\"sm\" | \"md\" | \"lg\" | \"xs\"",
               "required": false,
               "default": "sm",
               "description": "Button size."
@@ -2146,7 +2193,7 @@
         },
         {
           "name": "size",
-          "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xs\"",
           "required": false,
           "default": "md",
           "description": "Button size of the trigger."

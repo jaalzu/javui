@@ -1,6 +1,13 @@
 import type { CSSProperties } from "react";
 import { Alert, Button, Link, Stack, Text } from "@/ui";
-import { ex, type Example } from "@/docs/example";
+import { defineHero, ex, type Example } from "@/docs/example";
+
+export const hero = defineHero(
+  `<Alert title="A new dashboard is available">
+  Your reports moved to the new overview.
+</Alert>`,
+  <Alert title="A new dashboard is available">Your reports moved to the new overview.</Alert>,
+);
 
 export const examples: Example[] = [
     ex(

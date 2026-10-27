@@ -11,7 +11,7 @@ import {
   TrashIcon,
   XIcon,
 } from "@/ui";
-import { ex, type Example } from "@/docs/example";
+import { defineHero, ex, type Example } from "@/docs/example";
 
 const check = <CheckIcon />;
 const plus = <PlusIcon />;
@@ -21,6 +21,27 @@ const sparkle = <SparkleIcon />;
 const trash = <TrashIcon />;
 const x = <XIcon />;
 const prohibit = <ProhibitIcon />;
+
+export const hero = defineHero(
+  `<Stack direction="row" gap="3" wrap align="center" justify="center">
+  <Button>Primary</Button>
+  <Button variant="secondary">Secondary</Button>
+  <Button variant="ghost">Ghost</Button>
+  <Button variant="danger">Danger</Button>
+  <Button variant="secondary" startIcon={<PlusIcon />}>New</Button>
+  <Button loading>Saving</Button>
+</Stack>`,
+  <Stack direction="row" gap="3" wrap align="center" justify="center">
+    <Button>Primary</Button>
+    <Button variant="secondary">Secondary</Button>
+    <Button variant="ghost">Ghost</Button>
+    <Button variant="danger">Danger</Button>
+    <Button variant="secondary" startIcon={plus}>
+      New
+    </Button>
+    <Button loading>Saving</Button>
+  </Stack>,
+);
 
 export const examples: Example[] = [
   ex(

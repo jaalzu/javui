@@ -1,5 +1,14 @@
 import { Text } from "@/ui";
-import { ex, type Example } from "@/docs/example";
+import { defineHero, ex, type Example } from "@/docs/example";
+
+export const hero = defineHero(
+  `<Text>
+  Body text with <Text as="span" variant="code">inline code</Text>.
+</Text>`,
+  <Text>
+    Body text with <Text as="span" variant="code">inline code</Text>.
+  </Text>,
+);
 
 export const examples: Example[] = [
     ex("Body", `<Text>Regular body text.</Text>`, <Text>Regular body text.</Text>),

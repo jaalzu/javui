@@ -4,18 +4,24 @@ import styles from "./ButtonGroup.module.css";
 
 export type ButtonGroupProps = {
   /**
-   * Direction the group lays out its children. Horizontal joins buttons side by side;
-   * vertical stacks them.
+   * Layout above the `stackBelow` breakpoint. `horizontal` joins the controls side by side;
+   * `vertical` stacks them.
    * @default "horizontal"
    */
   orientation?: "horizontal" | "vertical";
+  /**
+   * Stacks the group into a column below this breakpoint and returns to `orientation` above it.
+   * Omit it to keep one orientation at every width.
+   * @default undefined
+   */
+  stackBelow?: "sm" | "md";
 } & Omit<ComponentProps<"div">, "color">;
 
 /**
- * Joins related buttons into one control. Shared edges, outer-only corner rounding and a focus
- * ring that stays above its neighbours keep the actions readable as a unit. Children can be
- * `Button`, a `Menu` trigger or an `Input` for split-button patterns. Give the group an
- * `aria-label` so its purpose is announced.
+ * Joins related actions into one control. Each child draws its own border and radius; the group
+ * only zeros the inner edges. Use the same size and variant in every child.
+ *
+ * Use `ButtonGroup` for actions and `ToggleGroup` for a selected state.
  *
  * @example
  * <ButtonGroup aria-label="Document actions">
@@ -24,12 +30,18 @@ export type ButtonGroupProps = {
  *   <Button variant="secondary">Publish</Button>
  * </ButtonGroup>
  */
-export function ButtonGroup({ orientation = "horizontal", className, ...rest }: ButtonGroupProps) {
+export function ButtonGroup({
+  orientation = "horizontal",
+  stackBelow,
+  className,
+  ...rest
+}: ButtonGroupProps) {
   return (
     <div
       {...rest}
       role="group"
       data-orientation={orientation}
+      data-stack-below={stackBelow}
       className={cx(styles.group, styles[orientation], className)}
     />
   );

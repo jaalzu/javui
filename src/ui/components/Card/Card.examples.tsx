@@ -1,6 +1,29 @@
 import type { CSSProperties } from "react";
-import { Button, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Text } from "@/ui";
-import { ex, type Example } from "@/docs/example";
+import { Badge, Button, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Text } from "@/ui";
+import { defineHero, ex, type Example } from "@/docs/example";
+
+export const hero = defineHero(
+  `<Card variant="surface">
+  <CardHeader>
+    <CardTitle>Card title</CardTitle>
+    <CardDescription>Related content in one surface.</CardDescription>
+    <CardAction><Badge>New</Badge></CardAction>
+  </CardHeader>
+  <CardContent>
+    <Text>Body content sits between the header and the footer.</Text>
+  </CardContent>
+</Card>`,
+  <Card variant="surface">
+    <CardHeader>
+      <CardTitle>Card title</CardTitle>
+      <CardDescription>Related content in one surface.</CardDescription>
+      <CardAction><Badge>New</Badge></CardAction>
+    </CardHeader>
+    <CardContent>
+      <Text>Body content sits between the header and the footer.</Text>
+    </CardContent>
+  </Card>,
+);
 
 export const examples: Example[] = [
     ex(

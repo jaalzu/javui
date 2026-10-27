@@ -1,5 +1,10 @@
 import { Switch } from "@/ui";
-import { ex, type Example } from "@/docs/example";
+import { defineHero, ex, type Example } from "@/docs/example";
+
+export const hero = defineHero(
+  `<Switch label="Notifications" defaultChecked />`,
+  <Switch label="Notifications" defaultChecked />,
+);
 
 export const examples: Example[] = [
     ex("Default", `<Switch label="Notifications" />`, <Switch label="Notifications" />),

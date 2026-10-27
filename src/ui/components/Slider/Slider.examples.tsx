@@ -1,5 +1,10 @@
 import { Slider } from "@/ui";
-import { ex, type Example } from "@/docs/example";
+import { defineHero, ex, type Example } from "@/docs/example";
+
+export const hero = defineHero(
+  `<Slider label="Volume" defaultValue={40} />`,
+  <Slider label="Volume" defaultValue={40} />,
+);
 
 export const examples: Example[] = [
     ex("Single", `<Slider label="Volume" defaultValue={40} />`, <Slider label="Volume" defaultValue={40} />),

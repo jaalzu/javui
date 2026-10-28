@@ -18,6 +18,9 @@
     "10": { "$value": "2.5rem" },
     "12": { "$value": "3rem" },
     "16": { "$value": "4rem" },
-    "20": { "$value": "5rem" }
+    "20": { "$value": "5rem" },
+    "24": { "$value": "6rem" },
+    "28": { "$value": "7rem" },
+    "36": { "$value": "9rem" }
   }
 }

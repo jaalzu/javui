@@ -280,7 +280,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Badge>Default</Badge>\n<Badge variant=\"inverted\">Inverted</Badge>\n<Badge variant=\"outline\">Outline</Badge>\n<Badge variant=\"brand\">Brand</Badge>\n<Badge variant=\"success\">Success</Badge>\n<Badge variant=\"danger\">Danger</Badge>\n<Badge variant=\"success\" startIcon={<CheckIcon />}>Success</Badge>\n<Badge render={<a href=\"#link\" />}>Open link</Badge>"
+        "<Badge>Default</Badge>\r\n<Badge variant=\"inverted\">Inverted</Badge>\r\n<Badge variant=\"outline\">Outline</Badge>\r\n<Badge variant=\"brand\">Brand</Badge>\r\n<Badge variant=\"success\">Success</Badge>\r\n<Badge variant=\"danger\">Danger</Badge>\r\n<Badge variant=\"success\" startIcon={<CheckIcon />}>Success</Badge>\r\n<Badge render={<a href=\"#link\" />}>Open link</Badge>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Badge/Badge.tsx"
     },
@@ -344,7 +344,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Stack gap=\"3\">\n  <Heading as=\"h2\">Title</Heading>\n  <Text>Body</Text>\n</Stack>\n<Stack as=\"ul\" gap=\"2\"><li>One</li><li>Two</li></Stack>\n<Stack direction={{ base: \"column\", md: \"row\" }} gap={{ base: \"3\", md: \"6\" }}>\n  <Card>One</Card>\n  <Card>Two</Card>\n</Stack>"
+        "<Stack gap=\"3\">\r\n  <Heading as=\"h2\">Title</Heading>\r\n  <Text>Body</Text>\r\n</Stack>\r\n<Stack as=\"ul\" gap=\"2\"><li>One</li><li>Two</li></Stack>\r\n<Stack direction={{ base: \"column\", md: \"row\" }} gap={{ base: \"3\", md: \"6\" }}>\r\n  <Card>One</Card>\r\n  <Card>Two</Card>\r\n</Stack>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Stack/Stack.tsx"
     },
@@ -416,7 +416,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Grid columns={3} gap=\"4\">...</Grid>\n<Grid columns=\"2fr 1fr\">...</Grid>\n<Grid minColumnWidth=\"16rem\" gap=\"4\">...</Grid>\n<Grid columns={{ base: 1, md: 2, lg: 4 }} gap={{ base: \"3\", md: \"6\" }}>...</Grid>\n<Grid columns={{ base: 1, lg: \"2fr 1fr\" }}>...</Grid>"
+        "<Grid columns={3} gap=\"4\">...</Grid>\r\n<Grid columns=\"2fr 1fr\">...</Grid>\r\n<Grid minColumnWidth=\"16rem\" gap=\"4\">...</Grid>\r\n<Grid columns={{ base: 1, md: 2, lg: 4 }} gap={{ base: \"3\", md: \"6\" }}>...</Grid>\r\n<Grid columns={{ base: 1, lg: \"2fr 1fr\" }}>...</Grid>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Grid/Grid.tsx"
     },
@@ -459,7 +459,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Container as=\"main\" size=\"md\">...</Container>\n<Container size=\"lg\" padding=\"4\">...</Container>"
+        "<Container as=\"main\" size=\"md\">...</Container>\r\n<Container size=\"lg\" padding=\"4\">...</Container>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Container/Container.tsx"
     },
@@ -495,7 +495,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<AspectRatio ratio={16 / 9}>\n  <img src=\"/cover.jpg\" alt=\"A field at dusk\" />\n</AspectRatio>\n<AspectRatio ratio={16 / 9}>\n  <Image src=\"/cover.jpg\" alt=\"A field at dusk\" fill />\n</AspectRatio>\n<figure>\n  <AspectRatio ratio={4 / 3}>\n    <img src=\"/chart.png\" alt=\"Revenue by quarter\" />\n  </AspectRatio>\n  <figcaption>Revenue by quarter</figcaption>\n</figure>"
+        "<AspectRatio ratio={16 / 9}>\r\n  <img src=\"/cover.jpg\" alt=\"A field at dusk\" />\r\n</AspectRatio>\r\n<AspectRatio ratio={16 / 9}>\r\n  <Image src=\"/cover.jpg\" alt=\"A field at dusk\" fill />\r\n</AspectRatio>\r\n<figure>\r\n  <AspectRatio ratio={4 / 3}>\r\n    <img src=\"/chart.png\" alt=\"Revenue by quarter\" />\r\n  </AspectRatio>\r\n  <figcaption>Revenue by quarter</figcaption>\r\n</figure>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/AspectRatio/AspectRatio.tsx"
     },
@@ -718,7 +718,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Button>Save</Button>\n<Button variant=\"secondary\" size=\"sm\">Cancel</Button>\n<Button variant=\"accent\" pill>Upgrade</Button>\n<Button loading>Saving</Button>\n<Button aria-label=\"Close\" startIcon={<XIcon />} />\n<Button href=\"/docs/installation\">Get started</Button>"
+        "<Button>Save</Button>\r\n<Button variant=\"secondary\" size=\"sm\">Cancel</Button>\r\n<Button variant=\"accent\" pill>Upgrade</Button>\r\n<Button loading>Saving</Button>\r\n<Button aria-label=\"Close\" startIcon={<XIcon />} />\r\n<Button href=\"/docs/installation\">Get started</Button>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Button/Button.tsx"
     },
@@ -759,7 +759,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<ButtonGroup aria-label=\"Document actions\">\n  <Button variant=\"secondary\">Save draft</Button>\n  <Button variant=\"secondary\">Preview</Button>\n  <Button variant=\"secondary\">Publish</Button>\n</ButtonGroup>"
+        "<ButtonGroup aria-label=\"Document actions\">\r\n  <Button variant=\"secondary\">Save draft</Button>\r\n  <Button variant=\"secondary\">Preview</Button>\r\n  <Button variant=\"secondary\">Publish</Button>\r\n</ButtonGroup>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ButtonGroup/ButtonGroup.tsx",
       "parts": [
@@ -788,7 +788,7 @@
           ],
           "extends": "Also accepts the native props of the element it renders; they pass through.",
           "examples": [
-            "<ButtonGroup aria-label=\"Export\">\n  <Button>CSV</Button>\n  <ButtonGroupSeparator />\n  <Button>JSON</Button>\n</ButtonGroup>"
+            "<ButtonGroup aria-label=\"Export\">\r\n  <Button>CSV</Button>\r\n  <ButtonGroupSeparator />\r\n  <Button>JSON</Button>\r\n</ButtonGroup>"
           ],
           "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ButtonGroup/ButtonGroupSeparator.tsx",
           "parent": "ButtonGroup"
@@ -824,7 +824,7 @@
           ],
           "extends": "Also accepts the native props of the element it renders; they pass through.",
           "examples": [
-            "<ButtonGroup aria-label=\"Price\">\n  <ButtonGroupText>USD</ButtonGroupText>\n  <Input aria-label=\"Amount\" inputMode=\"decimal\" />\n</ButtonGroup>"
+            "<ButtonGroup aria-label=\"Price\">\r\n  <ButtonGroupText>USD</ButtonGroupText>\r\n  <Input aria-label=\"Amount\" inputMode=\"decimal\" />\r\n</ButtonGroup>"
           ],
           "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ButtonGroup/ButtonGroupText.tsx",
           "parent": "ButtonGroup"
@@ -953,7 +953,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Field label=\"Email\"><Input type=\"email\" autoComplete=\"email\" /></Field>\n<Input aria-label=\"Search\" startIcon={<MagnifyingGlassIcon />} />\n<Field label=\"Tax ID\" loading><Input /></Field>"
+        "<Field label=\"Email\"><Input type=\"email\" autoComplete=\"email\" /></Field>\r\n<Input aria-label=\"Search\" startIcon={<MagnifyingGlassIcon />} />\r\n<Field label=\"Tax ID\" loading><Input /></Field>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Input/Input.tsx"
     },
@@ -999,7 +999,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Field label=\"Message\"><Textarea rows={4} /></Field>\n<Field label=\"Notes\" readOnly><Textarea defaultValue=\"Locked for review.\" /></Field>"
+        "<Field label=\"Message\"><Textarea rows={4} /></Field>\r\n<Field label=\"Notes\" readOnly><Textarea defaultValue=\"Locked for review.\" /></Field>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Textarea/Textarea.tsx"
     },
@@ -1313,7 +1313,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Select label=\"Country\" placeholder=\"Choose one\" items={[{ value: \"ar\", label: \"Argentina\" }]} />\n<Field label=\"Role\" required><Select items={roles} /></Field>"
+        "<Select label=\"Country\" placeholder=\"Choose one\" items={[{ value: \"ar\", label: \"Argentina\" }]} />\r\n<Field label=\"Role\" required><Select items={roles} /></Field>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Select/Select.tsx"
     },
@@ -1412,7 +1412,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Modal role=\"alertdialog\" color=\"critical\" description=\"This permanently removes the project and its data.\">\n  <ModalTrigger variant=\"danger\">Delete project</ModalTrigger>\n  <ModalContent\n    title=\"Delete project?\"\n    actions={\n      <>\n        <ModalClose>Cancel</ModalClose>\n        <ModalClose variant=\"danger\">Delete</ModalClose>\n      </>\n    }\n  >\n    The project and all of its data will be gone.\n  </ModalContent>\n</Modal>"
+        "<Modal role=\"alertdialog\" color=\"critical\" description=\"This permanently removes the project and its data.\">\r\n  <ModalTrigger variant=\"danger\">Delete project</ModalTrigger>\r\n  <ModalContent\r\n    title=\"Delete project?\"\r\n    actions={\r\n      <>\r\n        <ModalClose>Cancel</ModalClose>\r\n        <ModalClose variant=\"danger\">Delete</ModalClose>\r\n      </>\r\n    }\r\n  >\r\n    The project and all of its data will be gone.\r\n  </ModalContent>\r\n</Modal>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Modal/Modal.tsx",
       "parts": [
@@ -1519,7 +1519,7 @@
           ],
           "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
           "examples": [
-            "<ModalContent\n  title=\"Invite a teammate\"\n  tagline=\"Workspace\"\n  actions={<><ModalClose>Cancel</ModalClose><ModalClose>Send invite</ModalClose></>}\n>\n  <Field label=\"Email\"><Input type=\"email\" /></Field>\n</ModalContent>"
+            "<ModalContent\r\n  title=\"Invite a teammate\"\r\n  tagline=\"Workspace\"\r\n  actions={<><ModalClose>Cancel</ModalClose><ModalClose>Send invite</ModalClose></>}\r\n>\r\n  <Field label=\"Email\"><Input type=\"email\" /></Field>\r\n</ModalContent>"
           ],
           "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Modal/Modal.tsx",
           "parent": "Modal"
@@ -1562,7 +1562,7 @@
           ],
           "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
           "examples": [
-            "<ModalClose>Cancel</ModalClose>\n<ModalClose variant=\"danger\">Delete</ModalClose>"
+            "<ModalClose>Cancel</ModalClose>\r\n<ModalClose variant=\"danger\">Delete</ModalClose>"
           ],
           "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Modal/Modal.tsx",
           "parent": "Modal"
@@ -1650,7 +1650,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Tabs aria-label=\"Account\" items={[\n  { value: \"profile\", label: \"Profile\", content: <p>Profile</p> },\n  { value: \"billing\", label: \"Billing\", content: <p>Billing</p> },\n]} />"
+        "<Tabs aria-label=\"Account\" items={[\r\n  { value: \"profile\", label: \"Profile\", content: <p>Profile</p> },\r\n  { value: \"billing\", label: \"Billing\", content: <p>Billing</p> },\r\n]} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Tabs/Tabs.tsx"
     },
@@ -1693,7 +1693,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Card as=\"article\" variant=\"surface\">\n  <CardHeader>\n    <CardTitle>Release notes</CardTitle>\n    <CardDescription>What changed in this version.</CardDescription>\n    <CardAction><Button variant=\"secondary\">Share</Button></CardAction>\n  </CardHeader>\n  <CardContent><Text>Body of the card.</Text></CardContent>\n  <CardFooter><Text size=\"sm\" tone=\"muted\">Updated today</Text></CardFooter>\n</Card>"
+        "<Card as=\"article\" variant=\"surface\">\r\n  <CardHeader>\r\n    <CardTitle>Release notes</CardTitle>\r\n    <CardDescription>What changed in this version.</CardDescription>\r\n    <CardAction><Button variant=\"secondary\">Share</Button></CardAction>\r\n  </CardHeader>\r\n  <CardContent><Text>Body of the card.</Text></CardContent>\r\n  <CardFooter><Text size=\"sm\" tone=\"muted\">Updated today</Text></CardFooter>\r\n</Card>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Card/Card.tsx",
       "parts": [
@@ -1835,16 +1835,24 @@
       "description": "An inline message about the state of the page or a form. `neutral` is the default; `error` and\n`warning` are announced immediately, the rest politely. Put optional actions in `children`;\nfor short-lived feedback use `useToast` instead.",
       "import": "import { Alert } from \"@/ui\";",
       "renders": "div with role alert (error, warning) or role status (neutral, info, success)",
-      "composition": "Pass `tone` (default `neutral`), an optional `title` and optional content; both can appear alone. Actions (Button, Link or both) go in the content. `startIcon` replaces the tone glyph and `endIcon` adds a trailing icon (no `size`). Icon, title, border and background share one tone color; override `--alert-tone` to change it.",
+      "composition": "Pass `tone` (default `neutral`), an optional `title` and optional content; both can appear alone. `action` reserves space on the right for a `Button size=\"xs\"`; use it with `title`, not with `endIcon`. For several actions, put them in the content. `startIcon` replaces the tone glyph and `endIcon` adds a trailing icon (no `size`). Icon, title, border and background share one tone color; override `--alert-tone` to change it.",
       "whenToUse": "A message that stays on the page and the user must notice: a general note (neutral), relevant information (info), a completed operation (success), something that needs attention (warning) or a failed operation (error).",
       "avoid": [
         "Short-lived confirmations: use Toast.",
         "Using color alone: the tone also changes the icon and you should say it in the text.",
         "Blocking decisions: use Modal role=alertdialog.",
-        "Adding visual variants or extra props before a concrete need exists."
+        "Adding visual variants or extra props before a concrete need exists.",
+        "`action` without `title`.",
+        "`action` together with `endIcon`."
       ],
       "accessibility": "Announced by screen readers on render. The icon is decorative, and the tone never relies on color alone: the text says what happened.",
       "props": [
+        {
+          "name": "action",
+          "type": "ReactNode",
+          "required": false,
+          "description": "A button at the end of the alert, aligned with the title. Reserves space on the right for a `Button size=\"xs\"`; for longer labels or several actions, put them in the content. Use it with `title`, not with `endIcon`."
+        },
         {
           "name": "endIcon",
           "type": "ReactNode",
@@ -2016,7 +2024,7 @@
       "props": [],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Popover>\n  <PopoverTrigger variant=\"secondary\">Filters</PopoverTrigger>\n  <PopoverContent title=\"Filters\" description=\"Narrow the results.\">...</PopoverContent>\n</Popover>"
+        "<Popover>\r\n  <PopoverTrigger variant=\"secondary\">Filters</PopoverTrigger>\r\n  <PopoverContent title=\"Filters\" description=\"Narrow the results.\">...</PopoverContent>\r\n</Popover>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Popover/Popover.tsx",
       "parts": [
@@ -2110,7 +2118,7 @@
           ],
           "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
           "examples": [
-            "<PopoverContent title=\"Filters\" description=\"Narrow the results.\">\n  <PopoverClose>Done</PopoverClose>\n</PopoverContent>"
+            "<PopoverContent title=\"Filters\" description=\"Narrow the results.\">\r\n  <PopoverClose>Done</PopoverClose>\r\n</PopoverContent>"
           ],
           "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Popover/Popover.tsx",
           "parent": "Popover"
@@ -2209,7 +2217,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Menu label=\"Account\" items={[\n  { label: \"Profile\", href: \"/profile\" },\n  { type: \"separator\" },\n  { label: \"Sign out\", onSelect: signOut },\n]} />"
+        "<Menu label=\"Account\" items={[\r\n  { label: \"Profile\", href: \"/profile\" },\r\n  { type: \"separator\" },\r\n  { label: \"Sign out\", onSelect: signOut },\r\n]} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Menu/Menu.tsx"
     },
@@ -2280,7 +2288,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Accordion items={[\n  { value: \"a\", title: \"Is it accessible?\", content: <p>Yes.</p> },\n  { value: \"b\", title: \"Is it themeable?\", content: <p>Yes.</p> },\n]} />"
+        "<Accordion items={[\r\n  { value: \"a\", title: \"Is it accessible?\", content: <p>Yes.</p> },\r\n  { value: \"b\", title: \"Is it themeable?\", content: <p>Yes.</p> },\r\n]} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Accordion/Accordion.tsx"
     },
@@ -2391,7 +2399,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Breadcrumb items={[{ label: \"Docs\", href: \"/docs\" }, { label: \"Components\", href: \"/docs/components\" }, { label: \"Button\" }]} />\n<Breadcrumb maxItems={4} items={[{ label: \"Docs\", href: \"/docs\" }, { label: \"Components\", href: \"/docs/components\" }, { label: \"Navigation\", href: \"/docs/components/navigation\" }, { label: \"Breadcrumb\", href: \"/docs/components/breadcrumb\" }, { label: \"Examples\" }]} />"
+        "<Breadcrumb items={[{ label: \"Docs\", href: \"/docs\" }, { label: \"Components\", href: \"/docs/components\" }, { label: \"Button\" }]} />\r\n<Breadcrumb maxItems={4} items={[{ label: \"Docs\", href: \"/docs\" }, { label: \"Components\", href: \"/docs/components\" }, { label: \"Navigation\", href: \"/docs/components/navigation\" }, { label: \"Breadcrumb\", href: \"/docs/components/breadcrumb\" }, { label: \"Examples\" }]} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Breadcrumb/Breadcrumb.tsx"
     },
@@ -2667,7 +2675,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Label htmlFor=\"email\">Email</Label>\n<Label htmlFor=\"name\" required>Name</Label>"
+        "<Label htmlFor=\"email\">Email</Label>\r\n<Label htmlFor=\"name\" required>Name</Label>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Label/Label.tsx"
     },
@@ -2726,7 +2734,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<EmptyState\n  icon={<FolderIcon />}\n  title=\"No projects yet\"\n  description=\"Create a project to start collecting feedback.\"\n  action={<Button>New project</Button>}\n/>"
+        "<EmptyState\r\n  icon={<FolderIcon />}\r\n  title=\"No projects yet\"\r\n  description=\"Create a project to start collecting feedback.\"\r\n  action={<Button>New project</Button>}\r\n/>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/EmptyState/EmptyState.tsx"
     },
@@ -2778,7 +2786,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Sidebar\n  label=\"Workspace\"\n  header={<Heading as=\"h2\" size={6}>Acme</Heading>}\n  items={[\n    { label: \"Overview\", href: \"/\", startIcon: <HouseIcon />, active: true },\n    { label: \"Settings\", href: \"/settings\", startIcon: <GearIcon /> },\n  ]}\n/>"
+        "<Sidebar\r\n  label=\"Workspace\"\r\n  header={<Heading as=\"h2\" size={6}>Acme</Heading>}\r\n  items={[\r\n    { label: \"Overview\", href: \"/\", startIcon: <HouseIcon />, active: true },\r\n    { label: \"Settings\", href: \"/settings\", startIcon: <GearIcon /> },\r\n  ]}\r\n/>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Sidebar/Sidebar.tsx"
     },
@@ -2855,7 +2863,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Collapsible title=\"Advanced settings\">\n  <p>Only the options most people need are visible.</p>\n</Collapsible>"
+        "<Collapsible title=\"Advanced settings\">\r\n  <p>Only the options most people need are visible.</p>\r\n</Collapsible>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Collapsible/Collapsible.tsx"
     },
@@ -2927,7 +2935,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<ToggleGroup\n  label=\"View\"\n  defaultValue=\"list\"\n  items={[\n    { value: \"list\", label: \"List\" },\n    { value: \"grid\", label: \"Grid\" },\n  ]}\n/>"
+        "<ToggleGroup\r\n  label=\"View\"\r\n  defaultValue=\"list\"\r\n  items={[\r\n    { value: \"list\", label: \"List\" },\r\n    { value: \"grid\", label: \"Grid\" },\r\n  ]}\r\n/>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ToggleGroup/ToggleGroup.tsx"
     },
@@ -2974,7 +2982,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<ScrollArea label=\"Activity\" className=\"h-64\">\n  <Stack gap=\"3\">{items}</Stack>\n</ScrollArea>"
+        "<ScrollArea label=\"Activity\" className=\"h-64\">\r\n  <Stack gap=\"3\">{items}</Stack>\r\n</ScrollArea>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ScrollArea/ScrollArea.tsx"
     },
@@ -3064,7 +3072,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Sheet\n  trigger=\"Filters\"\n  title=\"Filters\"\n  description=\"Narrow the results.\"\n  footer={<Button>Apply</Button>}\n>\n  <Field label=\"Status\"><Select items={statuses} /></Field>\n</Sheet>"
+        "<Sheet\r\n  trigger=\"Filters\"\r\n  title=\"Filters\"\r\n  description=\"Narrow the results.\"\r\n  footer={<Button>Apply</Button>}\r\n>\r\n  <Field label=\"Status\"><Select items={statuses} /></Field>\r\n</Sheet>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Sheet/Sheet.tsx"
     },
@@ -3196,7 +3204,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Combobox\n  label=\"Assignee\"\n  placeholder=\"Search people\"\n  items={[\n    { value: \"ada\", label: \"Ada Lovelace\", description: \"Engineering\" },\n    { value: \"grace\", label: \"Grace Hopper\", description: \"Research\" },\n  ]}\n/>"
+        "<Combobox\r\n  label=\"Assignee\"\r\n  placeholder=\"Search people\"\r\n  items={[\r\n    { value: \"ada\", label: \"Ada Lovelace\", description: \"Engineering\" },\r\n    { value: \"grace\", label: \"Grace Hopper\", description: \"Research\" },\r\n  ]}\r\n/>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Combobox/Combobox.tsx"
     },
@@ -3378,7 +3386,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "\"use client\";\nimport NextLink from \"next/link\";\n<LinkProvider component={NextLink}>{children}</LinkProvider>"
+        "\"use client\";\r\nimport NextLink from \"next/link\";\r\n<LinkProvider component={NextLink}>{children}</LinkProvider>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Link/LinkContext.tsx"
     },

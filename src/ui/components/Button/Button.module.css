@@ -86,6 +86,7 @@
 }
 
 .primary {
+  --btn-ring: var(--shadow-raised);
 }
 
 .secondary {

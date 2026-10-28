@@ -1381,18 +1381,21 @@ for short-lived feedback use `useToast` instead.
 - Base: Own component
 - Import: `import { Alert } from "@/ui";`
 - Renders: div with role alert (error, warning) or role status (neutral, info, success)
-- Composition: Pass `tone` (default `neutral`), an optional `title` and optional content; both can appear alone. Actions (Button, Link or both) go in the content. `startIcon` replaces the tone glyph and `endIcon` adds a trailing icon (no `size`). Icon, title, border and background share one tone color; override `--alert-tone` to change it.
+- Composition: Pass `tone` (default `neutral`), an optional `title` and optional content; both can appear alone. `action` reserves space on the right for a `Button size="xs"`; use it with `title`, not with `endIcon`. For several actions, put them in the content. `startIcon` replaces the tone glyph and `endIcon` adds a trailing icon (no `size`). Icon, title, border and background share one tone color; override `--alert-tone` to change it.
 - Use when: A message that stays on the page and the user must notice: a general note (neutral), relevant information (info), a completed operation (success), something that needs attention (warning) or a failed operation (error).
 - Avoid:
   - Short-lived confirmations: use Toast.
   - Using color alone: the tone also changes the icon and you should say it in the text.
   - Blocking decisions: use Modal role=alertdialog.
   - Adding visual variants or extra props before a concrete need exists.
+  - `action` without `title`.
+  - `action` together with `endIcon`.
 - Accessibility: Announced by screen readers on render. The icon is decorative, and the tone never relies on color alone: the text says what happened.
 
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
+| `action` | `ReactNode` | no |  | A button at the end of the alert, aligned with the title. Reserves space on the right for a `Button size="xs"`; for longer labels or several actions, put them in the content. Use it with `title`, not with `endIcon`. |
 | `endIcon` | `ReactNode` | no |  | Icon at the end, for example a link arrow. Pass a generated icon without `size`. |
 | `startIcon` | `ReactNode` | no |  | Replaces the tone icon at the start. Pass a generated icon without `size`. |
 | `title` | `ReactNode` | no |  | Short heading of the message. |
@@ -2525,6 +2528,9 @@ show({ title: "Saved", tone: "success" });
 | `--space-12` | dimension | `3rem` |
 | `--space-16` | dimension | `4rem` |
 | `--space-20` | dimension | `5rem` |
+| `--space-24` | dimension | `6rem` |
+| `--space-28` | dimension | `7rem` |
+| `--space-36` | dimension | `9rem` |
 | `--space-1-5` | dimension | `0.375rem` |
 | `--space-2-5` | dimension | `0.6rem` |
 | `--radius-none` | dimension | `0` |
@@ -2656,6 +2662,6 @@ show({ title: "Saved", tone: "success" });
 | `--syntax-diff-removed-bg` | color | light `var(--color-danger-subtle)` / dark `var(--color-danger-subtle)` |
 | `--shadow-inset-ring` | shadow | light `inset 0 0 0 1px #00000014` / dark `inset 0 0 0 1px #ffffff14` |
 | `--shadow-default` | shadow | light `0 0 0 1px #0000000f, 0 1px 2px #0000001a` / dark `0 0 0 1px #ffffff12, 0 1px 2px #00000066` |
-| `--shadow-raised` | shadow | light `inset 0 0 0 1px transparent, inset 0 1px #ffffffcc, 0 0 0 1px #00000014` / dark `inset 0 0 0 1px #ffffff08, inset 0 1px #ffffff0a, 0 0 0 1px #0009, 0 4px 4px #0000001a` |
+| `--shadow-raised` | shadow | light `inset 0 0 0 1px transparent, inset 0 1px #ffffffb3, 0 0 0 1px #00000014` / dark `inset 0 0 0 1px #ffffff06, inset 0 1px #ffffff08, 0 0 0 1px #0009, 0 4px 4px #0000001a` |
 | `--shadow-large` | shadow | light `0 0 0 1px #00000014, 0 2px 3px -2px #0000001a, 0 3px 8px -2px #00000014, 0 4px 12px -4px #0000001f` / dark `0 0 0 1px color-mix(in oklab, #ffffff12, #3a3a3a 25%), 0 2px 3px -2px #00000026, 0 3px 8px -2px #0006, 0 4px 12px -4px #00000080` |
 | `--shadow-extra-large` | shadow | light `0 0 0 .5px #00000014, 0 8px 40px 0px #0000001a, 0 12px 32px -16px #00000040` / dark `0 0 0 .5px #ffffff12 inset, 0 0 0 .5px #0000, 0 8px 40px 0px #0000000d, 0 12px 32px -16px #00000026` |

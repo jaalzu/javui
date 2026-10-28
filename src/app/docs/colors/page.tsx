@@ -175,8 +175,8 @@ const shadows: {
   {
     name: "Raised",
     token: "shadow-raised",
-    use: "A raised look for secondary controls.",
-    yes: ["Secondary buttons"],
+    use: "A raised look for primary and secondary controls.",
+    yes: ["Primary and secondary buttons"],
     no: "Floating panels. Menus and modals get Large or Extra large.",
   },
   {

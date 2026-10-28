@@ -23,7 +23,7 @@
     "ring": {
       "$type": "dimension",
       "$description": "Focus ring: outline: var(--focus-ring-width) solid var(--color-brand-border-focus); outline-offset: var(--focus-ring-offset). Never remove it without a replacement.",
-      "width": { "$value": "3px" },
+      "width": { "$value": "2px" },
       "offset": { "$value": "2px" }
     }
   },

@@ -101,6 +101,9 @@
   --space-12: 3rem;
   --space-16: 4rem;
   --space-20: 5rem;
+  --space-24: 6rem;
+  --space-28: 7rem;
+  --space-36: 9rem;
   --space-1-5: 0.375rem;
   --space-2-5: 0.6rem; /** Half step between space.2 and space.3. Used for the inline padding of Badges. */
   --radius-none: 0;
@@ -112,7 +115,7 @@
   --radius-full: 9999px;
   --border-width-thin: 1px;
   --border-width-thick: 2px;
-  --focus-ring-width: 3px;
+  --focus-ring-width: 2px;
   --focus-ring-offset: 2px;
   --opacity-disabled: 0.5;
   --header-height: 3.55rem; /** Height of the sticky site header. Used by the header and by scroll-padding. */
@@ -158,7 +161,7 @@
   --color-overlay: oklch(0 0 0 / 0.4); /** Backdrop behind dialogs. */
   --shadow-inset-ring: inset 0 0 0 1px #00000014; /** A quiet 1px ring drawn inside the edge, so it never grows the box or reads as a heavy border. Use it on badges, chips and selected states. */
   --shadow-default: 0 0 0 1px #0000000f, 0 1px 2px #0000001a; /** A small lift for controls at rest that should feel pressable: slider thumbs, raised buttons, tabs. */
-  --shadow-raised: inset 0 0 0 1px transparent, inset 0 1px #ffffffcc, 0 0 0 1px #00000014; /** Raised look for secondary controls in light: inner hairline, top highlight and outer edge, with no soft drop so the control stays flat. */
+  --shadow-raised: inset 0 0 0 1px transparent, inset 0 1px #ffffffb3, 0 0 0 1px #00000014; /** Raised look for primary and secondary controls in light: inner hairline, top highlight and outer edge, with no soft drop so the control stays flat. */
   --shadow-large: 0 0 0 1px #00000014, 0 2px 3px -2px #0000001a, 0 3px 8px -2px #00000014, 0 4px 12px -4px #0000001f; /** Floating panels anchored to a trigger: menus, select lists, popovers, tooltips and toasts. */
   --shadow-extra-large: 0 0 0 .5px #00000014, 0 8px 40px 0px #0000001a, 0 12px 32px -16px #00000040; /** Surfaces that sit above the whole page: dialogs and the search palette. */
   --text-heading-1-weight: var(--font-weight-semibold);
@@ -274,7 +277,7 @@
   --color-border-strong: color-mix(in oklch, var(--color-primary-foreground) 9%, transparent); /** Emphasized borders and hover. */
   --color-border-disabled: color-mix(in oklab, var(--color-primary-foreground) 10%, transparent); /** Borders of disabled controls. */
   --color-brand-border-default: color-mix(in oklab, var(--color-brand-solid) 40%, transparent); /** Brand border: selected card, active field. */
-  --color-brand-border-focus: var(--color-primary-foreground); /** Focus ring. */
+  --color-brand-border-focus: var(--color-brand-solid); /** Focus ring, in the brand color. */
   --color-positive-border-default: color-mix(in oklab, var(--color-positive-solid) 40%, transparent); /** Positive border. */
   --color-warning-border-default: color-mix(in oklab, var(--color-warning-solid) 40%, transparent); /** Warning border. */
   --color-info-border-default: color-mix(in oklab, var(--color-info-solid) 40%, transparent); /** Info border. */
@@ -305,7 +308,7 @@
       --color-overlay: oklch(0 0 0 / 0.6); /** Backdrop behind dialogs. */
       --shadow-inset-ring: inset 0 0 0 1px #ffffff14; /** A quiet 1px ring drawn inside the edge, so it never grows the box or reads as a heavy border. Use it on badges, chips and selected states. */
       --shadow-default: 0 0 0 1px #ffffff12, 0 1px 2px #00000066; /** A small lift for controls at rest that should feel pressable: slider thumbs, raised buttons, tabs. */
-      --shadow-raised: inset 0 0 0 1px #ffffff08, inset 0 1px #ffffff0a, 0 0 0 1px #0009, 0 4px 4px #0000001a; /** Raised look for secondary controls: inner hairline, top highlight, outer edge and soft drop. */
+      --shadow-raised: inset 0 0 0 1px #ffffff06, inset 0 1px #ffffff08, 0 0 0 1px #0009, 0 4px 4px #0000001a; /** Raised look for primary and secondary controls: inner hairline, top highlight, outer edge and soft drop. */
       --shadow-large: 0 0 0 1px color-mix(in oklab, #ffffff12, #3a3a3a 25%), 0 2px 3px -2px #00000026, 0 3px 8px -2px #0006, 0 4px 12px -4px #00000080; /** Floating panels anchored to a trigger: menus, select lists, popovers, tooltips and toasts. */
       --shadow-extra-large: 0 0 0 .5px #ffffff12 inset, 0 0 0 .5px #0000, 0 8px 40px 0px #0000000d, 0 12px 32px -16px #00000026; /** Surfaces that sit above the whole page: dialogs and the search palette. */
       --color-page: color-mix(in oklab, var(--primitive-color-neutral-950) 70%, var(--primitive-color-black)); /** The page itself. Everything sits on it. */
@@ -356,7 +359,7 @@
       --color-border-strong: color-mix(in oklch, var(--color-primary-foreground) 9%, transparent); /** Emphasized borders and hover. */
       --color-border-disabled: color-mix(in oklab, var(--color-primary-foreground) 10%, transparent); /** Borders of disabled controls. */
       --color-brand-border-default: color-mix(in oklab, var(--color-brand-solid) 40%, transparent); /** Brand border: selected card, active field. */
-      --color-brand-border-focus: var(--color-primary-foreground); /** Focus ring. */
+      --color-brand-border-focus: var(--color-brand-solid); /** Focus ring. */
       --color-positive-border-default: color-mix(in oklab, var(--color-positive-solid) 40%, transparent); /** Positive border. */
       --color-warning-border-default: color-mix(in oklab, var(--color-warning-solid) 40%, transparent); /** Warning border. */
       --color-info-border-default: color-mix(in oklab, var(--color-info-solid) 40%, transparent); /** Info border. */
@@ -384,7 +387,7 @@
     --color-overlay: oklch(0 0 0 / 0.6); /** Backdrop behind dialogs. */
     --shadow-inset-ring: inset 0 0 0 1px #ffffff14; /** A quiet 1px ring drawn inside the edge, so it never grows the box or reads as a heavy border. Use it on badges, chips and selected states. */
     --shadow-default: 0 0 0 1px #ffffff12, 0 1px 2px #00000066; /** A small lift for controls at rest that should feel pressable: slider thumbs, raised buttons, tabs. */
-    --shadow-raised: inset 0 0 0 1px #ffffff08, inset 0 1px #ffffff0a, 0 0 0 1px #0009, 0 4px 4px #0000001a; /** Raised look for secondary controls: inner hairline, top highlight, outer edge and soft drop. */
+    --shadow-raised: inset 0 0 0 1px #ffffff06, inset 0 1px #ffffff08, 0 0 0 1px #0009, 0 4px 4px #0000001a; /** Raised look for primary and secondary controls: inner hairline, top highlight, outer edge and soft drop. */
     --shadow-large: 0 0 0 1px color-mix(in oklab, #ffffff12, #3a3a3a 25%), 0 2px 3px -2px #00000026, 0 3px 8px -2px #0006, 0 4px 12px -4px #00000080; /** Floating panels anchored to a trigger: menus, select lists, popovers, tooltips and toasts. */
     --shadow-extra-large: 0 0 0 .5px #ffffff12 inset, 0 0 0 .5px #0000, 0 8px 40px 0px #0000000d, 0 12px 32px -16px #00000026; /** Surfaces that sit above the whole page: dialogs and the search palette. */
     --color-page: color-mix(in oklab, var(--primitive-color-neutral-950) 70%, var(--primitive-color-black)); /** The page itself. Everything sits on it. */
@@ -435,7 +438,7 @@
     --color-border-strong: color-mix(in oklch, var(--color-primary-foreground) 9%, transparent); /** Emphasized borders and hover. */
     --color-border-disabled: color-mix(in oklab, var(--color-primary-foreground) 10%, transparent); /** Borders of disabled controls. */
     --color-brand-border-default: color-mix(in oklab, var(--color-brand-solid) 40%, transparent); /** Brand border: selected card, active field. */
-    --color-brand-border-focus: var(--color-primary-foreground); /** Focus ring. */
+    --color-brand-border-focus: var(--color-brand-solid); /** Focus ring. */
     --color-positive-border-default: color-mix(in oklab, var(--color-positive-solid) 40%, transparent); /** Positive border. */
     --color-warning-border-default: color-mix(in oklab, var(--color-warning-solid) 40%, transparent); /** Warning border. */
     --color-info-border-default: color-mix(in oklab, var(--color-info-solid) 40%, transparent); /** Info border. */

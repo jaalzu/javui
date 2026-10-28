@@ -2,6 +2,7 @@
 /* Options and the backdrop are mouse conveniences: the keyboard path is the combobox input (arrows, Enter, Escape). */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events, jsx-a11y/click-events-have-key-events */
 
+import { Mark } from "@/app/_shell/Logo/Logo";
 import { useRouter } from "next/navigation";
 import {
   useEffect,
@@ -206,6 +207,9 @@ export function Search({ items }: { items: SearchItem[] }) {
           <span className={styles.searchHint}>
             <Kbd>Esc</Kbd>
             Close
+          </span>
+          <span className={styles.searchFooterLogo}>
+            <Mark />
           </span>
         </div>
       </dialog>

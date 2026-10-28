@@ -11,11 +11,7 @@
     vertical-align: middle;
     border: var(--border-width-thin) solid var(--color-border-default);
     border-radius: var(--radius-full);
-    background: color-mix(
-      in oklab,
-      var(--color-primary-foreground) 10%,
-      var(--color-card)
-    );
+    background: var(--color-surface-solid);
     color: var(--color-primary-foreground);
     font-family: var(--text-label-family);
     font-weight: var(--font-weight-medium);

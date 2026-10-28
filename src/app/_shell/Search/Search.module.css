@@ -41,8 +41,8 @@
 
 @media (min-width: 48rem) {
   .searchButton {
-    height: calc(var(--size-control-sm) + var(--space-2));
-    width: 18rem;
+    height: calc(var(--size-control-sm) + var(--space-1));
+    width: 19rem;
     justify-content: flex-start;
     padding: 0 var(--space-2);
     border-color: var(--color-border-strong);
@@ -118,7 +118,7 @@
   background: transparent;
   color: var(--color-primary-foreground);
   font: inherit;
-  font-size: var(--font-size-15);
+  font-size: var(--font-size-14);
 }
 
 .searchInput::placeholder {
@@ -131,7 +131,7 @@
 
 .searchList {
   flex: 1;
-  max-height: 16.5rem;
+  max-height: 23rem;
   margin: 0;
   padding: var(--space-2);
   overflow-y: auto;
@@ -195,7 +195,7 @@
   gap: var(--space-4);
   padding: var(--space-2) var(--space-3);
   border-top: var(--border-width-thin) solid var(--color-border-default);
-  background: var(--color-sunken);
+  background: var(--color-highlight);
   color: var(--color-secondary-foreground);
   font-size: var(--text-caption-size);
   line-height: var(--text-caption-line);
@@ -218,12 +218,26 @@
 .searchHint {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
+  gap: var(--space-2);
 }
 
 .searchHintKeys {
   display: inline-flex;
   gap: var(--space-1);
+}
+
+/* Decorative logo in the footer corner: shrunk and knocked back so it reads as a watermark, not a control. */
+.searchFooterLogo {
+  display: inline-flex;
+  align-items: center;
+  margin-inline-start: auto;
+  padding-inline-start: var(--space-2);
+  opacity: var(--opacity-disabled);
+}
+
+.searchFooterLogo img {
+  width: var(--size-icon-md);
+  height: var(--size-icon-md);
 }
 
 .closeButton {

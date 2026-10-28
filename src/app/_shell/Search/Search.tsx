@@ -11,7 +11,14 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
-import { Button, Kbd, MagnifyingGlassIcon, XIcon } from "@/ui";
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  Button,
+  Kbd,
+  MagnifyingGlassIcon,
+  XIcon,
+} from "@/ui";
 import styles from "./Search.module.css";
 
 export type SearchItem = {
@@ -184,6 +191,23 @@ export function Search({ items }: { items: SearchItem[] }) {
         <p className={styles.searchStatus} role="status">
           {results.length} {results.length === 1 ? "result" : "results"}
         </p>
+        <div className={styles.searchFooter} aria-hidden="true">
+          <span className={styles.searchHint}>
+            <span className={styles.searchHintKeys}>
+              <Kbd><ArrowUpIcon size="xs" /></Kbd>
+              <Kbd><ArrowDownIcon size="xs" /></Kbd>
+            </span>
+            Navigate
+          </span>
+          <span className={styles.searchHint}>
+            <Kbd className={styles.searchEnterKey}>↵</Kbd>
+            Select
+          </span>
+          <span className={styles.searchHint}>
+            <Kbd>Esc</Kbd>
+            Close
+          </span>
+        </div>
       </dialog>
     </>
   );

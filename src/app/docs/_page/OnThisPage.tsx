@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { Popover } from "@base-ui/react/popover";
 import { Link } from "@/ui";
+import touchTarget from "@/ui/styles/touchTarget.module.css";
 import layout from "../_layout/DocsLayout.module.css";
+import styles from "./OnThisPage.module.css";
 
 type Item = { id: string; label: string; level: 2 | 3 };
 
@@ -12,6 +15,8 @@ export function OnThisPage() {
   const pathname = usePathname();
   const [items, setItems] = useState<Item[]>([]);
   const [active, setActive] = useState<string>();
+  const [open, setOpen] = useState(false);
+  const suppressFocusOpen = useRef(false);
 
   useEffect(() => {
     const main = document.getElementById("main");
@@ -54,7 +59,9 @@ export function OnThisPage() {
           (item, i) =>
             item.id === latest[i].id && item.label === latest[i].label,
         );
-      if (same) return;
+      // An empty page must still clear the index: the effect starts with `latest = []`,
+      // so without this a page without headings would keep the previous page's items.
+      if (same && next.length > 0) return;
 
       latest = next;
       setItems(next);
@@ -84,24 +91,81 @@ export function OnThisPage() {
 
   return (
     <nav aria-label="On this page" className={layout.toc}>
-      <div className={layout.tocScroll}>
-        <p className={layout.tocTitle}>On this page</p>
-        <ul className={layout.tocList}>
+      <Popover.Root
+        open={open}
+        onOpenChange={(next, details) => {
+          if (!next && details.reason === "escape-key") {
+            suppressFocusOpen.current = true;
+          }
+          setOpen(next);
+        }}
+      >
+        <Popover.Trigger
+          className={`${styles.trigger} ${touchTarget.touchTarget}`}
+          aria-label="On this page"
+          openOnHover
+          delay={0}
+          onClickCapture={(event) => {
+            // The rail opens on hover and keyboard focus; pointer clicks do not toggle it.
+            if (event.detail > 0) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+          }}
+          onFocus={(event) => {
+            if (
+              !suppressFocusOpen.current &&
+              event.currentTarget.matches(":focus-visible")
+            ) {
+              setOpen(true);
+            }
+          }}
+          onBlur={() => {
+            suppressFocusOpen.current = false;
+          }}
+        >
           {items.map((item, i) => (
-            <li key={`${item.id}-${i}`}>
-              <Link
-                href={`#${item.id}`}
-                tone="inherit"
-                className={layout.tocLink}
-                data-level={item.level}
-                aria-current={active === item.id ? "location" : undefined}
-              >
-                {item.label}
-              </Link>
-            </li>
+            <span
+              key={`${item.id}-${i}`}
+              aria-hidden="true"
+              className={styles.line}
+              data-level={item.level}
+              data-active={active === item.id ? "" : undefined}
+            />
           ))}
-        </ul>
-      </div>
+        </Popover.Trigger>
+        <Popover.Portal>
+          <Popover.Positioner
+            side="left"
+            align="start"
+            sideOffset={8}
+            className={styles.positioner}
+          >
+            <Popover.Popup className={styles.popup}>
+              <Popover.Title className={styles.title}>
+                On this page
+              </Popover.Title>
+              <ul className={styles.list}>
+                {items.map((item, i) => (
+                  <li key={`${item.id}-${i}`}>
+                    <Link
+                      href={`#${item.id}`}
+                      tone="inherit"
+                      data-level={item.level}
+                      aria-current={
+                        active === item.id ? "location" : undefined
+                      }
+                      onClick={() => setOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </Popover.Popup>
+          </Popover.Positioner>
+        </Popover.Portal>
+      </Popover.Root>
     </nav>
   );
 }

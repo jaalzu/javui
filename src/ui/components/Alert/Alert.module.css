@@ -1,14 +1,14 @@
 .alert {
   --alert-tone: var(--color-primary-foreground);
+  --alert-border: var(--color-neutral-subtle);
   --icon-size: var(--size-icon-md);
   display: flex;
   align-items: flex-start;
   gap: var(--icon-gap-md);
   padding: var(--space-3);
-  border: var(--border-width-thin) solid
-    color-mix(in oklab, var(--alert-tone) 12%, transparent);
+  border: var(--border-width-thin) solid var(--alert-border);
   border-radius: var(--radius-lg);
-  background: color-mix(in oklab, var(--alert-tone) 6%, transparent);
+  background: transparent;
   color: var(--color-primary-foreground);
 }
 
@@ -18,18 +18,28 @@
 
 .info {
   --alert-tone: var(--color-info-solid);
+  --alert-border: var(--color-info-subtle);
 }
 
 .success {
   --alert-tone: var(--color-positive-solid);
+  --alert-border: var(--color-positive-subtle);
 }
 
 .warning {
   --alert-tone: var(--color-warning-bright);
+  --alert-border: var(--color-warning-subtle);
+}
+
+/* The bright tone stays on the icon; warning text needs 4.5:1. */
+.warning .title,
+.warning .text {
+  color: var(--color-warning-foreground);
 }
 
 .error {
   --alert-tone: var(--color-danger-solid);
+  --alert-border: var(--color-danger-subtle);
 }
 
 .icon {

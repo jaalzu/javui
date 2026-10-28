@@ -65,7 +65,7 @@
   width: 1.25rem;
   height: 1.25rem;
   box-sizing: border-box;
-  border: 2px solid var(--color-inverted-solid);
+  border: var(--border-width-thick) solid var(--color-inverted-solid);
   border-radius: var(--radius-full);
   background: var(--color-page);
   box-shadow: var(--shadow-default);

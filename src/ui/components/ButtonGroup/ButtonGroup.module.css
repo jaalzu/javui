@@ -64,8 +64,13 @@
   --face-ee: 0;
 }
 
-.group[data-orientation="vertical"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ :is(button, a)[data-variant="secondary"],
-.group[data-stack-below] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ :is(button, a)[data-variant="secondary"] {
+/*
+ * The default divider belongs to the secondary face and only when the face right before it draws
+ * no border of its own. A bordered face (Input, Select, text addon) or a separator already draws
+ * that line, so adding another one would double it.
+ */
+.group[data-orientation="vertical"] > :is(button, a) + :is(button, a)[data-variant="secondary"],
+.group[data-stack-below] > :is(button, a) + :is(button, a)[data-variant="secondary"] {
   --btn-divider: inset 0 var(--border-width-thin) 0 0 var(--color-border-default);
 }
 
@@ -127,7 +132,7 @@
   --face-ee: 0;
 }
 
-.group[data-orientation="horizontal"]:not([data-stack-below]) > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ :is(button, a)[data-variant="secondary"] {
+.group[data-orientation="horizontal"]:not([data-stack-below]) > :is(button, a) + :is(button, a)[data-variant="secondary"] {
   --btn-divider: inset var(--border-width-thin) 0 0 0 var(--color-border-default);
 }
 
@@ -208,7 +213,7 @@
     --face-ee: 0;
   }
 
-  .group[data-stack-below="sm"][data-orientation="horizontal"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ :is(button, a)[data-variant="secondary"] {
+  .group[data-stack-below="sm"][data-orientation="horizontal"] > :is(button, a) + :is(button, a)[data-variant="secondary"] {
     --btn-divider: inset var(--border-width-thin) 0 0 0 var(--color-border-default);
   }
 
@@ -286,7 +291,7 @@
     --face-ee: 0;
   }
 
-  .group[data-stack-below="md"][data-orientation="horizontal"] > :is(button, a, input, [data-button-group-text], span:has(> input), div:has(> [role="combobox"])) ~ :is(button, a)[data-variant="secondary"] {
+  .group[data-stack-below="md"][data-orientation="horizontal"] > :is(button, a) + :is(button, a)[data-variant="secondary"] {
     --btn-divider: inset var(--border-width-thin) 0 0 0 var(--color-border-default);
   }
 

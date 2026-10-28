@@ -190,16 +190,16 @@
     "category": "controls",
     "base": "own",
     "renders": "div role=\"group\"",
-    "composition": "Pass `orientation` and one group of related children: `Button`, a `Menu` trigger, `Input`, `Select` or `ButtonGroupText`. Use the same size and variant in every child; the group does not inherit either. `stackBelow` stacks it below `sm` or `md` and returns to `orientation` above it. Default internal lines are drawn by the children.",
-    "whenToUse": "Related actions (2-4 buttons) with short labels and the same size, such as Save draft, Preview and Publish.",
+    "composition": "One group of related children: `Button`, a `Menu` trigger, `Input`, `Select` or `ButtonGroupText`. The group does not inherit `size` or `variant`; set both on every child. `stackBelow` stacks it below `sm` or `md`. Children draw the internal 1px line.",
+    "whenToUse": "2-4 related actions with short labels, all the same size and variant.",
     "avoid": [
-      "Loose or unrelated actions that do not form a set.",
+      "Loose actions that do not form a set.",
+      "Unrelated actions.",
       "Long groups: split them or use a Menu.",
-      "Selection state: use ToggleGroup.",
       "The `ghost` variant."
     ],
     "choosing": [
-      "Actions: use ButtonGroup. Selection state: use ToggleGroup."
+      "Actions → `ButtonGroup`; selection state → `ToggleGroup`."
     ],
     "a11y": "Renders role=\"group\"; add an `aria-label` that names the set of actions. Each child keeps its own accessible name and focus ring, which stays above its neighbours."
   },
@@ -207,11 +207,11 @@
     "category": "controls",
     "base": "own",
     "renders": "div role=\"separator\"",
-    "composition": "A 1px line with `align-self: stretch` and `--color-border-default`. Use it only when a filled variant (`primary`, `accent`, `danger`) hides the default internal border. It follows the group's active axis, including `stackBelow`.",
-    "whenToUse": "Adding a visible division between controls whose default border is hidden by a filled background.",
+    "composition": "A 1px `--color-border-default` line with `align-self: stretch`. Use it when a filled variant hides the default border; it follows the active axis, including `stackBelow`.",
+    "whenToUse": "Inside a filled group (`primary`, `accent`, `danger`), where the default border is hidden.",
     "avoid": [
       "Groups of `secondary` buttons, where the default border already divides.",
-      "Using it as decoration outside a ButtonGroup."
+      "Decoration outside a ButtonGroup."
     ],
     "a11y": "Exposes role=\"separator\" with an `aria-orientation` that describes the line."
   },
@@ -219,8 +219,8 @@
     "category": "controls",
     "base": "own",
     "renders": "div",
-    "composition": "Static text only, such as `https://` or `USD`. It takes the height of the other controls in the group and uses the group's shared border. No `render`.",
-    "whenToUse": "A short prefix or unit next to an Input or a Button inside a ButtonGroup.",
+    "composition": "Static text only, such as `https://` or `USD`. It matches the height of the controls and shares the group border. No `render`.",
+    "whenToUse": "A short prefix or unit next to an `Input` or a `Button`.",
     "avoid": [
       "Interactive content or actions: use Button.",
       "Long labels: the addon is a short prefix or unit.",

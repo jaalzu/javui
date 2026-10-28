@@ -18,7 +18,6 @@
 }
 
 .searchButton:hover {
-  background: var(--color-transparent-active);
   color: var(--color-primary-foreground);
 }
 
@@ -43,7 +42,7 @@
 @media (min-width: 48rem) {
   .searchButton {
     height: calc(var(--size-control-sm) + var(--space-1));
-    width: 18rem;
+    width: 19rem;
     justify-content: flex-start;
     padding: 0 var(--space-2);
     border-color: var(--color-border-strong);
@@ -64,7 +63,7 @@
   }
   .searchKeys {
     display: inline-flex;
-    gap: 2px;
+    gap: 3px;
   }
 }
 
@@ -119,7 +118,7 @@
   background: transparent;
   color: var(--color-primary-foreground);
   font: inherit;
-  font-size: var(--font-size-15);
+  font-size: var(--font-size-14);
 }
 
 .searchInput::placeholder {
@@ -132,7 +131,7 @@
 
 .searchList {
   flex: 1;
-  max-height: 16.5rem;
+  max-height: 23rem;
   margin: 0;
   padding: var(--space-2);
   overflow-y: auto;
@@ -165,13 +164,9 @@
 
 .searchGroup {
   margin-inline-start: auto;
-  padding: 0.15rem var(--space-2);
+  padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-full);
-  background: color-mix(
-    in oklab,
-    var(--color-primary-foreground) 9%,
-    transparent
-  );
+  background: var(--color-component);
   color: var(--color-primary-foreground);
   font-size: var(--font-size-13);
 }
@@ -191,6 +186,58 @@
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+.searchFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-2) var(--space-3);
+  border-top: var(--border-width-thin) solid var(--color-border-default);
+  background: var(--color-highlight);
+  color: var(--color-secondary-foreground);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line);
+}
+
+.searchFooter kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--size-control-xs);
+  height: var(--size-control-xs);
+  padding: 0;
+}
+
+.searchFooter kbd.searchEnterKey {
+  font-size: var(--font-size-15);
+}
+
+.searchHint {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.searchHintKeys {
+  display: inline-flex;
+  gap: var(--space-1);
+}
+
+/* Decorative logo in the footer corner: shrunk and knocked back so it reads as a watermark, not a control. */
+.searchFooterLogo {
+  display: inline-flex;
+  align-items: center;
+  margin-inline-start: auto;
+  padding-inline-start: var(--space-2);
+  opacity: var(--opacity-disabled);
+}
+
+.searchFooterLogo img {
+  width: var(--size-icon-md);
+  height: var(--size-icon-md);
 }
 
 .closeButton {

@@ -28,13 +28,16 @@
   --color-on-info-solid-foreground: var(--color-on-info-solid-foreground);
   --color-danger-solid: var(--color-danger-solid);
   --color-on-danger-solid-foreground: var(--color-on-danger-solid-foreground);
+  --color-page-translucent: var(--color-page-translucent);
   --color-sunken: var(--color-sunken);
+  --color-surface-solid: var(--color-surface-solid);
   --color-highlight: var(--color-highlight);
   --color-component-hover: var(--color-component-hover);
   --color-component-active: var(--color-component-active);
   --color-component-on-sunken: var(--color-component-on-sunken);
   --color-transparent-hover: var(--color-transparent-hover);
   --color-transparent-active: var(--color-transparent-active);
+  --color-neutral-subtle: var(--color-neutral-subtle);
   --color-secondary-foreground: var(--color-secondary-foreground);
   --color-tertiary-foreground: var(--color-tertiary-foreground);
   --color-disabled-foreground: var(--color-disabled-foreground);

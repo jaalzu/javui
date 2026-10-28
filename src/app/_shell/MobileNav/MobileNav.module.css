@@ -61,7 +61,7 @@
   overflow-y: auto;
   overscroll-behavior: contain;
 
-  background: color-mix(in oklab, var(--color-page) 94%, transparent);
+  background: var(--color-page-translucent);
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   color: var(--color-primary-foreground);

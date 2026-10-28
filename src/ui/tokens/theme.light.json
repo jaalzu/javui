@@ -6,6 +6,11 @@
       "$type": "color",
       "$description": "The page itself. Everything sits on it."
     },
+    "page-translucent": {
+      "$value": "color-mix(in oklab, {color.page} 94%, transparent)",
+      "$type": "color",
+      "$description": "Page color slightly translucent. Used by sticky headers and floating panels so content shows faintly through."
+    },
     "card": {
       "$value": "{primitive.color.white}",
       "$type": "color",
@@ -15,6 +20,11 @@
       "$value": "color-mix(in oklab, {color.primary-foreground} 4%, {color.page})",
       "$type": "color",
       "$description": "Recessed areas: code blocks, wells, inset fields."
+    },
+    "surface-solid": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 10%, {color.card})",
+      "$type": "color",
+      "$description": "Solid neutral surface that does not show what is behind it. Used by avatars."
     },
     "highlight": {
       "$value": "color-mix(in oklab, {color.primary-foreground} 3%, {color.card})",
@@ -55,6 +65,11 @@
       "$value": "color-mix(in oklab, {color.primary-foreground} 10%, transparent)",
       "$type": "color",
       "$description": "Ghost control pressed, or list item selected or highlighted."
+    },
+    "neutral-subtle": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 12%, transparent)",
+      "$type": "color",
+      "$description": "Soft neutral tint behind text or icons."
     },
     "primary-foreground": {
       "$value": "{primitive.color.neutral.950}",

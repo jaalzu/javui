@@ -53,7 +53,7 @@ export type BadgeProps = {
  * Keep the text to one or two words and truncate counts to two digits (`99+`).
  * Badges are secondary and supportive: never use one as a heading or a key
  * indicator. Put icons in `startIcon`/`endIcon`; they follow the badge size: sm 12px, md 16px,
- * lg 20px.
+ * lg 20px. An icon-only badge needs `aria-label`; it then renders with `role="img"`.
  *
  * @example
  * <Badge>Default</Badge>
@@ -92,11 +92,19 @@ export function Badge({
     <Spinner size="sm" label="" role="presentation" aria-hidden="true" />
   ) : null;
 
+  const ariaLabel = rest["aria-label"];
+  const role =
+    rest.role ??
+    (!render && position === "only" && typeof ariaLabel === "string" && ariaLabel.trim()
+      ? "img"
+      : undefined);
+
   return useRender({
     render,
     defaultTagName: "span",
     props: {
       ...rest,
+      ...(role ? { role } : {}),
       className: cx(
         styles.badge,
         styles[variant],

@@ -10,8 +10,7 @@ export type ButtonGroupTextProps = {
 };
 
 /**
- * A static text addon for a `ButtonGroup`, such as a protocol prefix or a currency code.
- * It is not interactive and takes the height of the other controls in the group.
+ * A static text addon for a `ButtonGroup`, such as `https://` or `USD`, that matches the height of the controls and shares the group border.
  *
  * @example
  * <ButtonGroup aria-label="Price">

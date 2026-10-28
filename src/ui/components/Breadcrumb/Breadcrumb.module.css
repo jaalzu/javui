@@ -66,8 +66,8 @@
   }
 
   .separatorGlyph {
-    /* Optical centering: the ">" ink sits 0.0455em below the DM Sans line-box center. */
-    --breadcrumb-separator-optical-y: -0.0455em;
+    /* Optical centering: the ">" ink sits slightly below the DM Sans line-box center. */
+    --breadcrumb-separator-optical-y: -0.03em;
     transform: translateY(var(--breadcrumb-separator-optical-y));
   }
 

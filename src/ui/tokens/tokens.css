@@ -237,13 +237,16 @@
   --color-on-info-solid-foreground: var(--primitive-color-white); /** Text on info solid. */
   --color-danger-solid: var(--primitive-color-danger-700); /** Danger background for strong feedback. */
   --color-on-danger-solid-foreground: var(--primitive-color-white); /** Text on danger solid. */
+  --color-page-translucent: color-mix(in oklab, var(--color-page) 94%, transparent); /** Page color slightly translucent. Used by sticky headers and floating panels so content shows faintly through. */
   --color-sunken: color-mix(in oklab, var(--color-primary-foreground) 4%, var(--color-page)); /** Recessed areas: code blocks, wells, inset fields. */
+  --color-surface-solid: color-mix(in oklab, var(--color-primary-foreground) 10%, var(--color-card)); /** Solid neutral surface that does not show what is behind it. Used by avatars. */
   --color-highlight: color-mix(in oklab, var(--color-primary-foreground) 3%, var(--color-card)); /** Highlighted panel inside a card: a metric, total or goal that should stand out. Lighter than the card in dark, soft gray in light. Never nest a highlight inside another highlight. */
   --color-component-hover: color-mix(in oklab, var(--color-primary-foreground) 8%, transparent); /** Component hovered. */
   --color-component-active: color-mix(in oklab, var(--color-primary-foreground) 12%, transparent); /** Component pressed. */
   --color-component-on-sunken: var(--color-card); /** Component placed on a sunken area, so it still stands out. */
   --color-transparent-hover: color-mix(in oklab, var(--color-primary-foreground) 6%, transparent); /** Ghost control or list item hovered. */
   --color-transparent-active: color-mix(in oklab, var(--color-primary-foreground) 10%, transparent); /** Ghost control pressed, or list item selected or highlighted. */
+  --color-neutral-subtle: color-mix(in oklab, var(--color-primary-foreground) 12%, transparent); /** Soft neutral tint behind text or icons. */
   --color-secondary-foreground: color-mix(in oklch, var(--color-primary-foreground) 70%, transparent); /** Supporting text. */
   --color-tertiary-foreground: color-mix(in oklch, var(--color-primary-foreground) 62%, transparent); /** Hints, placeholders, metadata. */
   --color-disabled-foreground: color-mix(in oklab, var(--color-primary-foreground) 62%, transparent); /** Text and icons of disabled controls. */

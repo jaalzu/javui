@@ -66,13 +66,13 @@ Keep `--inner-gap` equal to the container's real padding (use the same token in 
 
 The same policy applies to Input, Textarea, Select, Checkbox, RadioGroup, Switch and Slider.
 
-| State | Rule |
-|---|---|
-| Invalid | Border `--color-danger-border-default` (the focus ring stays the standard one). The error message sits below the control in `--color-danger-foreground` and always has a small `WarningIcon`, so color is never the only signal. `aria-invalid="true"`; the message is linked with `aria-describedby` and announced politely (`aria-live="polite"`). |
-| Required | The label shows the word "Required" in `--color-secondary-foreground` (not just an asterisk), and the control gets the native/ARIA `required` attribute. |
-| Read-only | Background `--color-sunken`, no hover change, text color unchanged (never dimmed), still focusable and selectable. Distinct from disabled. |
-| Loading | A small `Spinner` at the end of the control or next to its label, the control is not interactive, and `aria-busy="true"`. |
-| Timing | Errors show after blur or submit, never on the first keystroke. Field defaults to `validationMode="onBlur"`; the consumer shows `error` from a validation run on blur/submit. |
+| State     | Rule                                                                                                                                                                                                                                                                                                                                                 |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Invalid   | Border `--color-danger-border-default` (the focus ring stays the standard one). The error message sits below the control in `--color-danger-foreground` and always has a small `WarningIcon`, so color is never the only signal. `aria-invalid="true"`; the message is linked with `aria-describedby` and announced politely (`aria-live="polite"`). |
+| Required  | The label shows the word "Required" in `--color-secondary-foreground` (not just an asterisk), and the control gets the native/ARIA `required` attribute.                                                                                                                                                                                             |
+| Read-only | Background `--color-sunken`, no hover change, text color unchanged (never dimmed), still focusable and selectable. Distinct from disabled.                                                                                                                                                                                                           |
+| Loading   | A small `Spinner` at the end of the control or next to its label, the control is not interactive, and `aria-busy="true"`.                                                                                                                                                                                                                            |
+| Timing    | Errors show after blur or submit, never on the first keystroke. Field defaults to `validationMode="onBlur"`; the consumer shows `error` from a validation run on blur/submit.                                                                                                                                                                        |
 
 Pass validation state to `Field` (`error`, `required`, `readOnly`, `loading`), never wire `aria-describedby` or render a loose red error text by hand. Omit `Field` `label` when the control renders its own label or legend (Checkbox, RadioGroup, Switch, Slider); those controls also accept the four props directly and inherit them inside `Field`. State colors use the motion tokens (`fast`/`standard`).
 
@@ -80,13 +80,13 @@ Pass validation state to `Field` (`error`, `required`, `readOnly`, `loading`), n
 
 There are five surfaces. Card sits on page, sunken and highlight sit inside card, and modal floats above the page.
 
-| Level | Token | Use |
-|---|---|---|
-| Page | `--color-page` | The base surface. Everything sits on it. |
-| Card | `--color-card` | Content blocks on the page: cards, panels, table rows. |
-| Sunken | `--color-sunken` | Recessed areas inside a card: code blocks, wells, inset fields. |
+| Level     | Token               | Use                                                                                                      |
+| --------- | ------------------- | -------------------------------------------------------------------------------------------------------- |
+| Page      | `--color-page`      | The base surface. Everything sits on it.                                                                 |
+| Card      | `--color-card`      | Content blocks on the page: cards, panels, table rows.                                                   |
+| Sunken    | `--color-sunken`    | Recessed areas inside a card: code blocks, wells, inset fields.                                          |
 | Highlight | `--color-highlight` | Highlighted panel inside a card: a metric, total or goal. Dark: lighter than the card; light: soft gray. |
-| Floating | `--color-modal` | Layers above the page: dialog, menu, select list, popover. |
+| Floating  | `--color-modal`     | Layers above the page: dialog, menu, select list, popover.                                               |
 
 Rules:
 
@@ -141,3 +141,25 @@ Rules that matter when using them:
 ## Navigation (LinkProvider)
 
 Components that navigate read the link component from `LinkProvider` (`src/ui/components/Link/LinkContext.tsx`) through `useLinkComponent()`. A new component that renders a link must use that hook instead of a bare `a`, and must be a client component. Do not add per-link `render` props.
+
+## Qué correr y cuándo
+
+| Cambio                                                                     | Correr                                                                    |
+| -------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| Solo docs, ejemplos o CSS de la app de docs                                | Nada. Verificar a ojo en el navegador.                                    |
+| Solo CSS de un componente                                                  | Nada, o `bun run typecheck`. Ver la story.                                |
+| Un componente (props, lógica, estados)                                     | `bun run typecheck` + `bunx vitest run src/ui/components/<Nombre>`        |
+| Componente con cambio visual o de a11y                                     | Lo anterior + `bunx vitest run --project storybook` (solo ese componente) |
+| Tokens (JSON)                                                              | `bun run tokens` + `bun run typecheck`                                    |
+| Props, TSDoc o `agent-meta.json`                                           | `bun run agent-docs` + `bun mcp/smoke-test.mjs`                           |
+| Iconos                                                                     | `bun run icons` + `bun run typecheck`                                     |
+| API pública o varios componentes (quitar una variante, renombrar una prop) | Set completo, una sola vez al cerrar                                      |
+| Antes de commitear                                                         | `bun run typecheck && bun run lint && bun run test`                       |
+| Antes de un release o merge grande                                         | Todo lo anterior + `bunx vitest run --project storybook` global           |
+
+**Reglas rápidas**
+
+- `typecheck` es el más barato y el que más atrapa: ante la duda, correr ese.
+- `lint` solo antes de commitear, no en cada paso.
+- Storybook global solo al cerrar un componente o antes de release; es el único que revisa contraste y ARIA reales.
+- Un fallo ajeno al cambio no se arregla en el mismo paso: se anota y se hace aparte.

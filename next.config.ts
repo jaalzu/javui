@@ -22,6 +22,11 @@ const nextConfig: NextConfig = {
         destination: "/docs/components/Modal",
         permanent: true,
       },
+      {
+        source: "/docs/components/ButtonGroupText",
+        destination: "/docs/components/ButtonGroup",
+        permanent: true,
+      },
     ];
   },
 };

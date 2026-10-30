@@ -221,12 +221,39 @@
     "base": "base-ui",
     "renders": "div containing an optional label, the control, a description and an error",
     "composition": "Wrap one control: Input, Textarea, Select, Checkbox, RadioGroup, Switch or Slider. `label` is optional: omit it when the control renders its own label or legend (Checkbox, RadioGroup, Switch, Slider). Pass `error`, `required`, `readOnly` and `loading` to Field instead of wiring the control. Controls that carry their own label or legend also accept these props directly.",
-    "whenToUse": "Every form control, including its validation, required, read-only and loading states.",
+    "whenToUse": "Combine labels, controls, and help text to compose accessible form fields and grouped inputs.",
     "avoid": [
       "A loose red error text below the control: use Field `error`.",
       "Wiring aria-describedby or aria-invalid by hand."
     ],
-    "a11y": "Base UI wires the label, aria-describedby and aria-invalid; the error is announced politely. `required` sets the native/ARIA required state and prints Required next to the label, or in the control's own label when Field has no label. Errors show after blur or submit, not on the first keystroke (validationMode defaults to onBlur)."
+    "a11y": "Field wires the label, aria-describedby and aria-invalid; the error is announced politely. `required` sets the native/ARIA required state and prints Required next to the label, or in the control's own label when Field has no label. Errors show after blur or submit, not on the first keystroke (validationMode defaults to onBlur)."
+  },
+  "FieldSet": {
+    "category": "controls",
+    "base": "own",
+    "renders": "fieldset with a legend, optional description and stacked controls",
+    "composition": "Pass required `legend`, optional `description` and `disabled`, then compose different controls as children. Use CheckboxGroup or RadioGroup for same-type options.",
+    "whenToUse": "Grouping different controls under one accessible name, such as a shipping address.",
+    "avoid": ["Using it for same-type choices: use CheckboxGroup or RadioGroup.", "Grouping unrelated controls.", "Using it without a legend."],
+    "a11y": "The native fieldset and legend name the group; the description is linked with aria-describedby. Disabled passes to the native fieldset."
+  },
+  "FieldSeparator": {
+    "category": "controls",
+    "base": "own",
+    "renders": "decorative separator, optionally with readable text between two lines",
+    "composition": "Place between fields; pass children for text such as `Or continue with`.",
+    "whenToUse": "Dividing alternatives within a form.",
+    "avoid": ["Using it outside a form: use Separator.", "Using it for spacing: use Stack gap."],
+    "a11y": "Lines are decorative; children remain readable content when present."
+  },
+  "Separator": {
+    "category": "layout",
+    "base": "own",
+    "renders": "hr horizontally or div vertically",
+    "composition": "Set `orientation` and `decorative`; it does not accept children.",
+    "whenToUse": "Visually dividing sections.",
+    "avoid": ["Using it for spacing: use gap.", "Using it inside ButtonGroup: use ButtonGroupSeparator."],
+    "a11y": "Decorative separators are presentation-only; non-decorative separators expose the separator role and orientation."
   },
   "Input": {
     "category": "controls",
@@ -699,15 +726,17 @@
   "EmptyState": {
     "category": "feedback",
     "base": "own",
-    "renders": "section with a heading",
-    "composition": "Pass `title` (required), optional `description`, `icon` (generated icon, no `size`), `action` (usually a Button, with `href` for navigation) and `as` for the heading level (h2-h4, default h3).",
-    "whenToUse": "A region that has no content yet, with a next step.",
+    "renders": "section with a labelled heading when `title` is present, otherwise a div",
+    "composition": "Pass required `description`, optional `title`, decorative `illustration`, `actions` (usually one or two Buttons), `size` (`md`, `sm` or `xs`) and `as` for the heading level (`h2`-`h4`, default `h3`).",
+    "whenToUse": "A region without content that needs to explain why it is empty and how to fill it.",
     "avoid": [
-      "Errors and failures: use Alert.",
+      "Using it as a generic illustration component.",
+      "Adding content beyond illustration, title, description and actions.",
+      "Errors or failures: use Alert.",
       "Loading placeholders: use Skeleton.",
-      "Decorating a section that already has content."
+      "More than one primary button."
     ],
-    "a11y": "The title is a real heading and carries the meaning; the icon is decorative. Keep the heading level in order with the page."
+    "a11y": "The illustration is decorative (`aria-hidden`); the description carries the meaning. Vary empty-state text within a page to avoid redundancy for screen readers, and keep it short but meaningful."
   },
   "Sidebar": {
     "category": "navigation",

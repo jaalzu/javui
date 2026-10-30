@@ -5,12 +5,14 @@ import type { Example, Hero, StageHeight } from "@/docs/example";
 import shell from "@/app/_shell/shell.module.css";
 import styles from "./Examples.module.css";
 
+const centeredExamples = new Set(["Alert", "Avatar", "Badge", "Breadcrumb", "Button", "Checkbox"]);
+
 /** A live preview with a collapsible "View code" underneath. Uses a native `details`, so it works without extra JavaScript. */
-export function ExampleFrame({ children, code, full = false, fixed = false, stageHeight }: { children: ReactNode; code?: string; full?: boolean; fixed?: boolean; stageHeight?: StageHeight }) {
+export function ExampleFrame({ children, code, full = false, fixed = false, center = false, stageHeight }: { children: ReactNode; code?: string; full?: boolean; fixed?: boolean; center?: boolean; stageHeight?: StageHeight }) {
   const sizeClass = stageHeight === "sm" ? styles.exampleStageSm : stageHeight === "md" ? styles.exampleStageMd : stageHeight === "lg" ? styles.exampleStageLg : "";
   return (
     <div className={styles.example} data-doc-example>
-      <div className={`${styles.exampleStage} ${full ? styles.exampleStageFull : ""} ${fixed ? styles.exampleStageFixed : ""} ${sizeClass}`}>{children}</div>
+      <div className={`${styles.exampleStage} ${full ? styles.exampleStageFull : ""} ${fixed ? styles.exampleStageFixed : ""} ${center ? styles.exampleStageCentered : ""} ${sizeClass}`}>{children}</div>
       {code && (
         <details className={styles.exampleCode}>
           <summary>
@@ -57,6 +59,7 @@ const loaders: Record<string, () => Promise<ExamplesModule>> = {
   Progress: () => import("@/ui/components/Progress/Progress.examples"),
   RadioGroup: () => import("@/ui/components/Radio/RadioGroup.examples"),
   ScrollArea: () => import("@/ui/components/ScrollArea/ScrollArea.examples"),
+  Separator: () => import("@/ui/components/Separator/Separator.examples"),
   Select: () => import("@/ui/components/Select/Select.examples"),
   Sheet: () => import("@/ui/components/Sheet/Sheet.examples"),
   Sidebar: () => import("@/ui/components/Sidebar/Sidebar.examples"),
@@ -84,7 +87,7 @@ export async function Preview({ name }: { name: string }) {
   return (
     <>
       <Heading as="h2" className={shell.srOnly} data-doc-skip>Preview</Heading>
-      <ExampleFrame code={hero.code} full fixed={hero.fixed} stageHeight={hero.stageHeight}>
+      <ExampleFrame code={hero.code} full center={centeredExamples.has(name)} fixed={hero.fixed} stageHeight={hero.stageHeight}>
         {hero.node}
       </ExampleFrame>
     </>
@@ -105,7 +108,7 @@ export async function Examples({ name }: { name: string }) {
       <section key={e.title} aria-labelledby={id}>
         <Heading as="h3" size={6} id={id}>{e.title}</Heading>
         {e.description && <p className={styles.exampleNote}>{e.description}</p>}
-        <ExampleFrame code={e.code} full={full} fixed={fixed} stageHeight={e.stageHeight}>{e.node}</ExampleFrame>
+        <ExampleFrame code={e.code} full={full} center={centeredExamples.has(name)} fixed={fixed} stageHeight={e.stageHeight}>{e.node}</ExampleFrame>
       </section>
     );
   });

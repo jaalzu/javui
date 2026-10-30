@@ -3,8 +3,9 @@
 import { useMemo, type ReactNode } from "react";
 import { Field as BaseField } from "@base-ui/react/field";
 import { cx } from "../../utils/cx";
-import { WarningIcon } from "../../icons/icons.generated";
 import { FieldControlContext } from "./FieldContext";
+import { FieldErrorMessages } from "./FieldErrorMessages";
+import { normalizeFieldErrors, type FieldErrorProp } from "./fieldErrors";
 import styles from "./Field.module.css";
 import labelStyles from "../Label/Label.module.css";
 
@@ -21,7 +22,11 @@ export type FieldProps = {
    * Pass an empty string when there is no error. Show it from validation that runs on blur or submit,
    * not on the first keystroke (Field defaults to `validationMode="onBlur"`).
    */
-  error?: string;
+  error?: FieldErrorProp;
+  /** Layout with label beside the control. Ignored when `label` is omitted. @default "vertical" */
+  orientation?: "vertical" | "horizontal";
+  /** Return to vertical below this breakpoint (`sm` = 40rem, `md` = 48rem). */
+  stackBelow?: "sm" | "md";
   /**
    * Marks the control as required and prints "Required" next to the label. The control also gets
    * `required` so browsers and assistive technology enforce it. @default false
@@ -46,7 +51,8 @@ export type FieldProps = {
 } & Omit<BaseField.Root.Props, "className" | "children" | "invalid">;
 
 /**
- * Wraps one control with its label, description and error, wired for accessibility by Base UI Field
+ * Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
+ * Wraps one control with its label, description and error, wired for accessibility by Field
  * (`label` association, `aria-describedby`, `aria-invalid`). Pass `error`, `required`, `readOnly` and
  * `loading` here; never wire `aria-describedby` or show a loose red error text by hand. When the
  * control renders its own label or legend, omit `label`; the control prints Required and keeps its
@@ -75,23 +81,27 @@ export function Field({
   required = false,
   readOnly = false,
   loading = false,
+  orientation = "vertical",
+  stackBelow,
   validationMode = "onBlur",
   children,
   className,
   ...rest
 }: FieldProps) {
-  const hasError = typeof error === "string" && error.length > 0;
+  const errors = normalizeFieldErrors(error);
+  const errorKey = errors.join("\n");
+  const hasError = errors.length > 0;
   const hasLabel = label !== undefined && label !== null;
   const context = useMemo(
     () => ({
-      error: hasError ? error : undefined,
+      errors: normalizeFieldErrors(error),
       invalid: hasError,
       required,
       readOnly,
       loading,
       hasLabel,
     }),
-    [error, hasError, required, readOnly, loading, hasLabel],
+    [errorKey, hasError, required, readOnly, loading, hasLabel],
   );
 
   return (
@@ -99,22 +109,23 @@ export function Field({
       invalid={hasError ? true : undefined}
       validationMode={validationMode}
       className={cx(styles.field, className)}
+      data-orientation={hasLabel ? orientation : "vertical"}
+      data-stack-below={hasLabel ? stackBelow : undefined}
       {...rest}
     >
       {hasLabel ? (
-        <BaseField.Label className={labelStyles.label}>
+        <BaseField.Label className={cx(labelStyles.label, styles.label)}>
           {label}
           {required ? <span className={labelStyles.required}>Required</span> : null}
         </BaseField.Label>
       ) : null}
-      <FieldControlContext.Provider value={context}>{children}</FieldControlContext.Provider>
+      <FieldControlContext.Provider value={context}><div className={styles.control}>{children}</div></FieldControlContext.Provider>
       {description ? (
         <BaseField.Description className={styles.description}>{description}</BaseField.Description>
       ) : null}
       {hasError ? (
         <BaseField.Error match className={styles.error} aria-live="polite">
-          <WarningIcon size="sm" />
-          <span>{error}</span>
+          <FieldErrorMessages errors={errors} />
         </BaseField.Error>
       ) : (
         <BaseField.Error className={styles.error} />

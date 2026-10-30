@@ -43,7 +43,10 @@ export type {
   ButtonGroupTextProps,
 } from "./components/ButtonGroup";
 export { Field } from "./components/Field";
-export type { FieldProps } from "./components/Field";
+export { FieldSet, FieldSeparator } from "./components/Field";
+export type { FieldProps, FieldSetProps } from "./components/Field";
+export { Separator } from "./components/Separator";
+export type { SeparatorProps } from "./components/Separator";
 export { Input } from "./components/Input";
 export type { InputProps } from "./components/Input";
 export { Textarea } from "./components/Textarea";

@@ -792,16 +792,16 @@
       "name": "Field",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "Wraps one control with its label, description and error, wired for accessibility by Base UI Field\n(`label` association, `aria-describedby`, `aria-invalid`). Pass `error`, `required`, `readOnly` and\n`loading` here; never wire `aria-describedby` or show a loose red error text by hand. When the\ncontrol renders its own label or legend, omit `label`; the control prints Required and keeps its\naccessible name.\n\nErrors are shown after the field is blurred or the form is submitted, not on the first keystroke.",
+      "description": "Combine labels, controls, and help text to compose accessible form fields and grouped inputs.\nWraps one control with its label, description and error, wired for accessibility by Field\n(`label` association, `aria-describedby`, `aria-invalid`). Pass `error`, `required`, `readOnly` and\n`loading` here; never wire `aria-describedby` or show a loose red error text by hand. When the\ncontrol renders its own label or legend, omit `label`; the control prints Required and keeps its\naccessible name.\n\nErrors are shown after the field is blurred or the form is submitted, not on the first keystroke.",
       "import": "import { Field } from \"@/ui\";",
       "renders": "div containing an optional label, the control, a description and an error",
       "composition": "Wrap one control: Input, Textarea, Select, Checkbox, RadioGroup, Switch or Slider. `label` is optional: omit it when the control renders its own label or legend (Checkbox, RadioGroup, Switch, Slider). Pass `error`, `required`, `readOnly` and `loading` to Field instead of wiring the control. Controls that carry their own label or legend also accept these props directly.",
-      "whenToUse": "Every form control, including its validation, required, read-only and loading states.",
+      "whenToUse": "Combine labels, controls, and help text to compose accessible form fields and grouped inputs.",
       "avoid": [
         "A loose red error text below the control: use Field `error`.",
         "Wiring aria-describedby or aria-invalid by hand."
       ],
-      "accessibility": "Base UI wires the label, aria-describedby and aria-invalid; the error is announced politely. `required` sets the native/ARIA required state and prints Required next to the label, or in the control's own label when Field has no label. Errors show after blur or submit, not on the first keystroke (validationMode defaults to onBlur).",
+      "accessibility": "Field wires the label, aria-describedby and aria-invalid; the error is announced politely. `required` sets the native/ARIA required state and prints Required next to the label, or in the control's own label when Field has no label. Errors show after blur or submit, not on the first keystroke (validationMode defaults to onBlur).",
       "props": [
         {
           "name": "children",
@@ -822,7 +822,7 @@
         },
         {
           "name": "error",
-          "type": "string",
+          "type": "FieldErrorProp",
           "required": false,
           "description": "Error message. When set, the field is marked invalid and the message is linked to the control.\nPass an empty string when there is no error. Show it from validation that runs on blur or submit,\nnot on the first keystroke (Field defaults to `validationMode=\"onBlur\"`)."
         },
@@ -840,6 +840,13 @@
           "description": "Shows a small spinner at the end of the control, marks it `aria-busy`, and makes it not editable."
         },
         {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "default": "vertical",
+          "description": "Layout with label beside the control. Ignored when `label` is omitted."
+        },
+        {
           "name": "readOnly",
           "type": "boolean",
           "required": false,
@@ -852,13 +859,120 @@
           "required": false,
           "default": "false",
           "description": "Marks the control as required and prints \"Required\" next to the label. The control also gets\n`required` so browsers and assistive technology enforce it."
+        },
+        {
+          "name": "stackBelow",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "description": "Return to vertical below this breakpoint (`sm` = 40rem, `md` = 48rem)."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
         "<Field label=\"Email\" description=\"We never share it.\" error={errors.email} required>\r\n  <Input type=\"email\" autoComplete=\"email\" />\r\n</Field>\r\n<Field label=\"API key\" readOnly>\r\n  <Input defaultValue=\"sk-live-…\" />\r\n</Field>\r\n<Field label=\"Tax ID\" loading>\r\n  <Input />\r\n</Field>\r\n<Field error=\"Turn this on to continue\" required>\r\n  <Switch label=\"Notifications\" />\r\n</Field>"
       ],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Field/Field.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Field/Field.tsx",
+      "parts": [
+        {
+          "name": "FieldSet",
+          "category": "controls",
+          "base": "Own component",
+          "description": "Groups different controls under one accessible legend. Use CheckboxGroup or RadioGroup for same-type options.",
+          "import": "import { FieldSet } from \"@/ui\";",
+          "renders": "fieldset with a legend, optional description and stacked controls",
+          "composition": "Pass required `legend`, optional `description` and `disabled`, then compose different controls as children. Use CheckboxGroup or RadioGroup for same-type options.",
+          "whenToUse": "Grouping different controls under one accessible name, such as a shipping address.",
+          "avoid": [
+            "Using it for same-type choices: use CheckboxGroup or RadioGroup.",
+            "Grouping unrelated controls.",
+            "Using it without a legend."
+          ],
+          "accessibility": "The native fieldset and legend name the group; the description is linked with aria-describedby. Disabled passes to the native fieldset.",
+          "props": [
+            {
+              "name": "legend",
+              "type": "ReactNode",
+              "required": true
+            },
+            {
+              "name": "className",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "description",
+              "type": "ReactNode",
+              "required": false
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "required": false
+            }
+          ],
+          "extends": "Also accepts the native props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Field/FieldSet.tsx",
+          "parent": "Field"
+        },
+        {
+          "name": "FieldSeparator",
+          "category": "controls",
+          "base": "Own component",
+          "description": "Divides alternatives between fields, optionally with readable text between the lines.",
+          "import": "import { FieldSeparator } from \"@/ui\";",
+          "renders": "decorative separator, optionally with readable text between two lines",
+          "composition": "Place between fields; pass children for text such as `Or continue with`.",
+          "whenToUse": "Dividing alternatives within a form.",
+          "avoid": [
+            "Using it outside a form: use Separator.",
+            "Using it for spacing: use Stack gap."
+          ],
+          "accessibility": "Lines are decorative; children remain readable content when present.",
+          "props": [],
+          "extends": "Also accepts the native props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Field/FieldSeparator.tsx",
+          "parent": "Field"
+        }
+      ]
+    },
+    {
+      "name": "Separator",
+      "category": "layout",
+      "base": "Own component",
+      "description": "Divides sections. Use gap for spacing and ButtonGroupSeparator inside ButtonGroup.",
+      "import": "import { Separator } from \"@/ui\";",
+      "renders": "hr horizontally or div vertically",
+      "composition": "Set `orientation` and `decorative`; it does not accept children.",
+      "whenToUse": "Visually dividing sections.",
+      "avoid": [
+        "Using it for spacing: use gap.",
+        "Using it inside ButtonGroup: use ButtonGroupSeparator."
+      ],
+      "accessibility": "Decorative separators are presentation-only; non-decorative separators expose the separator role and orientation.",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "decorative",
+          "type": "boolean",
+          "required": false,
+          "default": "true"
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "default": "horizontal"
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Separator/Separator.tsx"
     },
     {
       "name": "Input",
@@ -990,7 +1104,7 @@
         },
         {
           "name": "error",
-          "type": "string",
+          "type": "FieldErrorProp",
           "required": false,
           "description": "Error message. Marks the checkbox invalid and links the message with `aria-describedby`.\nInside `Field`, omit it and pass `error` to the Field instead."
         },
@@ -1075,7 +1189,7 @@
             },
             {
               "name": "error",
-              "type": "string",
+              "type": "FieldErrorProp",
               "required": false,
               "description": "Error message. Marks the group invalid and links the message with `aria-describedby`.\nInside `Field`, omit it and pass `error` to the Field instead."
             },
@@ -1143,7 +1257,7 @@
         },
         {
           "name": "error",
-          "type": "string",
+          "type": "FieldErrorProp",
           "required": false,
           "description": "Error message. Marks the group invalid and links the message with `aria-describedby`.\nInside `Field`, omit it and pass `error` to the Field instead."
         },
@@ -1248,7 +1362,7 @@
         },
         {
           "name": "error",
-          "type": "string",
+          "type": "FieldErrorProp",
           "required": false,
           "description": "Error message. Marks the switch invalid and links the message with `aria-describedby`.\nInside `Field`, omit it and pass `error` to the Field instead."
         },
@@ -2603,7 +2717,7 @@
         },
         {
           "name": "error",
-          "type": "string",
+          "type": "FieldErrorProp",
           "required": false,
           "description": "Error message. Marks the slider invalid and links the message with `aria-describedby`.\nInside `Field`, omit it and pass `error` to the Field instead."
         },
@@ -2733,36 +2847,38 @@
       "name": "EmptyState",
       "category": "feedback",
       "base": "Own component",
-      "description": "A quiet placeholder for a region with no content, with an optional icon and action.\nThe icon is decorative; the title carries the meaning.",
+      "description": "Explains why a region is empty and how to fill it.",
       "import": "import { EmptyState } from \"@/ui\";",
-      "renders": "section with a heading",
-      "composition": "Pass `title` (required), optional `description`, `icon` (generated icon, no `size`), `action` (usually a Button, with `href` for navigation) and `as` for the heading level (h2-h4, default h3).",
-      "whenToUse": "A region that has no content yet, with a next step.",
+      "renders": "section with a labelled heading when `title` is present, otherwise a div",
+      "composition": "Pass required `description`, optional `title`, decorative `illustration`, `actions` (usually one or two Buttons), `size` (`md`, `sm` or `xs`) and `as` for the heading level (`h2`-`h4`, default `h3`).",
+      "whenToUse": "A region without content that needs to explain why it is empty and how to fill it.",
       "avoid": [
-        "Errors and failures: use Alert.",
+        "Using it as a generic illustration component.",
+        "Adding content beyond illustration, title, description and actions.",
+        "Errors or failures: use Alert.",
         "Loading placeholders: use Skeleton.",
-        "Decorating a section that already has content."
+        "More than one primary button."
       ],
-      "accessibility": "The title is a real heading and carries the meaning; the icon is decorative. Keep the heading level in order with the page.",
+      "accessibility": "The illustration is decorative (`aria-hidden`); the description carries the meaning. Vary empty-state text within a page to avoid redundancy for screen readers, and keep it short but meaningful.",
       "props": [
         {
-          "name": "title",
+          "name": "description",
           "type": "ReactNode",
           "required": true,
-          "description": "Short title of the empty state."
+          "description": "Explains the current situation and, if possible, what to do next. Required. Keep it to one short paragraph."
         },
         {
-          "name": "action",
+          "name": "actions",
           "type": "ReactNode",
           "required": false,
-          "description": "Main action, usually a Button (with `href` for navigation) or Link."
+          "description": "Actions that resolve the empty state, usually one or two Buttons. Optional."
         },
         {
           "name": "as",
           "type": "\"h2\" | \"h3\" | \"h4\"",
           "required": false,
           "default": "h3",
-          "description": "Heading level for the title. Keep the page outline in order."
+          "description": "Heading level of the title."
         },
         {
           "name": "className",
@@ -2770,22 +2886,27 @@
           "required": false
         },
         {
-          "name": "description",
+          "name": "illustration",
           "type": "ReactNode",
           "required": false,
-          "description": "One or two sentences that explain what to do next."
+          "description": "Decorative illustration. Hidden from assistive technology and never shown at size `xs`."
         },
         {
-          "name": "icon",
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"xs\"",
+          "required": false,
+          "default": "md",
+          "description": "`md` for screens, tables and large cards; `sm` for cards and panels; `xs` for nested containers."
+        },
+        {
+          "name": "title",
           "type": "ReactNode",
           "required": false,
-          "description": "Icon above the title. Pass a generated icon without `size`; the component sizes it."
+          "description": "Short message that introduces the scenario. Optional."
         }
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
-      "examples": [
-        "<EmptyState\r\n  icon={<FolderIcon />}\r\n  title=\"No projects yet\"\r\n  description=\"Create a project to start collecting feedback.\"\r\n  action={<Button>New project</Button>}\r\n/>"
-      ],
+      "examples": [],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/EmptyState/EmptyState.tsx"
     },
     {
@@ -2895,68 +3016,72 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Collapsible/Collapsible.tsx"
-    },
-    {
-      "name": "CollapsibleContent",
-      "category": "navigation",
-      "base": "Built on Base UI (@base-ui/react)",
-      "description": "Expandable content for its parent `Collapsible`.",
-      "import": "import { CollapsibleContent } from \"@/ui\";",
-      "renders": "div with role region",
-      "composition": "Child of Collapsible. Holds the content that is shown or hidden.",
-      "whenToUse": "The panel of a Collapsible.",
-      "avoid": [
-        "Using it outside Collapsible.",
-        "Hiding content users must read."
-      ],
-      "accessibility": "Labelled by its trigger. The closed panel stays mounted in the DOM.",
-      "props": [
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Collapsible/Collapsible.tsx",
+      "parts": [
         {
-          "name": "className",
-          "type": "string",
-          "required": false
-        }
-      ],
-      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": [],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Collapsible/Collapsible.tsx"
-    },
-    {
-      "name": "CollapsibleTrigger",
-      "category": "navigation",
-      "base": "Built on Base UI (@base-ui/react)",
-      "description": "Button that toggles its parent `Collapsible`.",
-      "import": "import { CollapsibleTrigger } from \"@/ui\";",
-      "renders": "button with aria-expanded and aria-controls",
-      "composition": "Child of Collapsible. Children are the label; accepts Button props.",
-      "whenToUse": "The button that shows or hides a Collapsible panel.",
-      "avoid": [
-        "Using it outside Collapsible.",
-        "Icon-only without an accessible name."
-      ],
-      "accessibility": "A real button; expanded state and the controlled region come from Base UI.",
-      "props": [
-        {
-          "name": "active",
-          "type": "boolean",
-          "required": false,
-          "default": "false"
+          "name": "CollapsibleTrigger",
+          "category": "navigation",
+          "base": "Built on Base UI (@base-ui/react)",
+          "description": "Button that toggles its parent `Collapsible`.",
+          "import": "import { CollapsibleTrigger } from \"@/ui\";",
+          "renders": "button with aria-expanded and aria-controls",
+          "composition": "Child of Collapsible. Children are the label; accepts Button props.",
+          "whenToUse": "The button that shows or hides a Collapsible panel.",
+          "avoid": [
+            "Using it outside Collapsible.",
+            "Icon-only without an accessible name."
+          ],
+          "accessibility": "A real button; expanded state and the controlled region come from Base UI.",
+          "props": [
+            {
+              "name": "active",
+              "type": "boolean",
+              "required": false,
+              "default": "false"
+            },
+            {
+              "name": "className",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "render",
+              "type": "ReactElement<unknown, string | JSXElementConstructor<any>>",
+              "required": false
+            }
+          ],
+          "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Collapsible/Collapsible.tsx",
+          "parent": "Collapsible"
         },
         {
-          "name": "className",
-          "type": "string",
-          "required": false
-        },
-        {
-          "name": "render",
-          "type": "ReactElement<unknown, string | JSXElementConstructor<any>>",
-          "required": false
+          "name": "CollapsibleContent",
+          "category": "navigation",
+          "base": "Built on Base UI (@base-ui/react)",
+          "description": "Expandable content for its parent `Collapsible`.",
+          "import": "import { CollapsibleContent } from \"@/ui\";",
+          "renders": "div with role region",
+          "composition": "Child of Collapsible. Holds the content that is shown or hidden.",
+          "whenToUse": "The panel of a Collapsible.",
+          "avoid": [
+            "Using it outside Collapsible.",
+            "Hiding content users must read."
+          ],
+          "accessibility": "Labelled by its trigger. The closed panel stays mounted in the DOM.",
+          "props": [
+            {
+              "name": "className",
+              "type": "string",
+              "required": false
+            }
+          ],
+          "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Collapsible/Collapsible.tsx",
+          "parent": "Collapsible"
         }
-      ],
-      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": [],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Collapsible/Collapsible.tsx"
+      ]
     },
     {
       "name": "ToggleGroup",

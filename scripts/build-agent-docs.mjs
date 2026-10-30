@@ -144,6 +144,8 @@ const compoundParts = {
   Checkbox: ["CheckboxGroup"],
   ButtonGroup: ["ButtonGroupSeparator", "ButtonGroupText"],
   Avatar: ["AvatarGroup"],
+  Collapsible: ["CollapsibleTrigger", "CollapsibleContent"],
+  Field: ["FieldSet", "FieldSeparator"],
 };
 const providerAndHookNames = ["LinkProvider", "TooltipProvider", "ToastProvider", "useLinkComponent", "useToast"];
 const byName = new Map(componentsManifest.map((c) => [c.name, c]));

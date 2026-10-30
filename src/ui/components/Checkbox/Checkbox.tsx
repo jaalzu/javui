@@ -7,6 +7,7 @@ import type { AccessibleName } from "../../utils/accessibleName";
 import { CheckIcon, MinusIcon } from "../../icons/icons.generated";
 import { Spinner } from "../Spinner";
 import { FieldError } from "../Field/FieldError";
+import type { FieldErrorProp } from "../Field/fieldErrors";
 import { useControlValidation } from "../Field/useControlValidation";
 import fieldStyles from "../Field/Field.module.css";
 import { useCheckboxGroupControlState } from "./CheckboxGroup";
@@ -33,7 +34,7 @@ type CheckboxSharedProps = {
    * Error message. Marks the checkbox invalid and links the message with `aria-describedby`.
    * Inside `Field`, omit it and pass `error` to the Field instead.
    */
-  error?: string;
+  error?: FieldErrorProp;
   /**
    * The checkbox must be ticked before the form can be submitted. The label prints "Required".
    * Without a visible label there is nowhere to print it: let `Field` show it instead.
@@ -175,8 +176,8 @@ export function Checkbox({
   ) : null;
 
   const errorMessage =
-    state.showError && state.error ? (
-      <FieldError id={state.errorId}>{state.error}</FieldError>
+    state.showError && state.errors.length ? (
+      <FieldError id={state.errorId} errors={state.errors} />
     ) : null;
 
   if (!hasLabel) {

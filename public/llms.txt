@@ -28,6 +28,7 @@
 - **Stack**: Arranging children in one direction with a consistent gap.
 - **Grid**: Two-dimensional layouts and card grids.
 - **AspectRatio**: Images, video, embeds or maps whose size must be reserved before they load, preventing layout shift (CLS).
+- **Separator**: Visually dividing sections.
 - **Card** (parts: CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter): Grouping related information into a single idea, with a short title.
 - **Table**: Comparing data across rows and columns.
 - **ScrollArea**: A fixed-height list, code area or panel that should scroll inside the page.
@@ -42,12 +43,12 @@
 - **Skeleton**: Placeholder for content whose layout is known while it loads.
 - **Alert**: A message that stays on the page and the user must notice: a general note (neutral), relevant information (info), a completed operation (success), something that needs attention (warning) or a failed operation (error).
 - **Progress**: Showing how far a task has got.
-- **EmptyState**: A region that has no content yet, with a next step.
+- **EmptyState**: A region without content that needs to explain why it is empty and how to fill it.
 
 ### controls
 - **Button**: An action with onClick (submit, open, confirm, cancel), or navigation that looks like a button with href. Pass `loading` while an action runs.
 - **ButtonGroup** (parts: ButtonGroupSeparator, ButtonGroupText): 2-4 related actions with short labels, all the same size and variant.
-- **Field**: Every form control, including its validation, required, read-only and loading states.
+- **Field** (parts: FieldSet, FieldSeparator): Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
 - **Input**: Single-line text entry, read-only values and values that are still loading.
 - **Textarea**: Multi-line text entry, including read-only and loading values.
 - **Checkbox** (parts: CheckboxGroup): Choosing several independent options, or one confirmation that is saved when the form is submitted.
@@ -72,9 +73,7 @@
 - **Breadcrumb**: Hierarchical navigation: showing where a page sits in a site with 3 or more levels.
 - **Pagination**: Moving through content split across URLs.
 - **Sidebar**: Primary vertical navigation beside an app's content, especially on desktop.
-- **Collapsible**: A single section that shows or hides content, such as advanced options or extra details.
-- **CollapsibleContent**: The panel of a Collapsible.
-- **CollapsibleTrigger**: The button that shows or hides a Collapsible panel.
+- **Collapsible** (parts: CollapsibleTrigger, CollapsibleContent): A single section that shows or hides content, such as advanced options or extra details.
 
 ## Providers and hooks
 - **LinkProvider**: Making every link in the library use `next/link` (or another router link) from a single place.

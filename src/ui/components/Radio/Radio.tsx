@@ -7,6 +7,7 @@ import { RadioGroup as BaseRadioGroup } from "@base-ui/react/radio-group";
 import { cx } from "../../utils/cx";
 import { Spinner } from "../Spinner";
 import { FieldError } from "../Field/FieldError";
+import type { FieldErrorProp } from "../Field/fieldErrors";
 import { useControlValidation } from "../Field/useControlValidation";
 import fieldStyles from "../Field/Field.module.css";
 import styles from "./Radio.module.css";
@@ -22,7 +23,7 @@ export type RadioGroupProps = {
    * Error message. Marks the group invalid and links the message with `aria-describedby`.
    * Inside `Field`, omit it and pass `error` to the Field instead.
    */
-  error?: string;
+  error?: FieldErrorProp;
   /**
    * The group must have a selection before the form can be submitted. The legend prints "Required".
    * Inside `Field`, omit it and pass `required` to the Field instead. @default false
@@ -111,8 +112,8 @@ export function RadioGroup({
         </BaseFieldset.Legend>
         <div className={cx(styles.options, orientation === "horizontal" && styles.horizontal)}>{children}</div>
       </BaseFieldset.Root>
-      {state.showError && state.error ? (
-        <FieldError id={state.errorId}>{state.error}</FieldError>
+      {state.showError && state.errors.length ? (
+        <FieldError id={state.errorId} errors={state.errors} />
       ) : null}
     </>
   );

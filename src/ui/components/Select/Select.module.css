@@ -151,11 +151,11 @@
 .item {
   --icon-size: var(--size-icon-sm);
   display: grid;
-  grid-template-columns: var(--size-icon-sm) 1fr;
+  grid-template-columns: 1fr var(--size-icon-sm);
   align-items: center;
   gap: var(--icon-gap-sm);
   min-height: var(--size-control-sm);
-  padding: var(--space-1-5) var(--space-3) var(--space-1-5) var(--space-2);
+  padding: var(--space-1-5) var(--space-2);
   border-radius: max(var(--radius-sm), calc(var(--radius-outer) - var(--inner-gap)));
   font-family: var(--text-body-family);
   font-size: var(--text-body-size);
@@ -172,6 +172,11 @@
 
 .item:hover:not([data-disabled]) {
   background: var(--color-transparent-hover);
+}
+
+.itemIndicator {
+  grid-column: 2;
+  justify-self: end;
 }
 
 .item:focus-visible,
@@ -198,10 +203,11 @@
 }
 
 .itemIndicator {
-  grid-column: 1;
+  grid-column: 2;
   display: inline-flex;
+  justify-self: end;
 }
 
 .itemText {
-  grid-column: 2;
+  grid-column: 1;
 }

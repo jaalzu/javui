@@ -6,6 +6,34 @@
   width: 100%;
 }
 
+.control { display: contents; }
+.fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+.legend { color: var(--color-primary-foreground); font-family: var(--text-label-family); font-size: var(--text-label-size); line-height: var(--text-label-line); font-weight: var(--text-label-weight); }
+.fieldSeparator { display: flex; align-items: center; gap: var(--space-3); }
+.separatorLine { flex: 1; }
+
+.field[data-orientation="horizontal"] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas: "label control" "description control" "error error";
+  column-gap: var(--space-4);
+  row-gap: 0;
+  align-items: start;
+}
+
+.field[data-orientation="horizontal"] .label { grid-area: label; }
+.field[data-orientation="horizontal"] .control { grid-area: control; display: block; min-width: 0; }
+.field[data-orientation="horizontal"] .description { grid-area: description; padding-block-start: var(--space-1-5); }
+.field[data-orientation="horizontal"] .error:not(:empty) { grid-area: error; padding-block-start: var(--space-1-5); }
+
+@media (max-width: 39.99rem) {
+  .field[data-stack-below="sm"][data-orientation="horizontal"] { display: flex; }
+}
+
+@media (max-width: 47.99rem) {
+  .field[data-stack-below="md"][data-orientation="horizontal"] { display: flex; }
+}
+
 .description {
   margin: 0;
   color: var(--color-secondary-foreground);
@@ -24,4 +52,9 @@
 
 .error > svg {
   flex-shrink: 0;
+}
+
+.error > ul {
+  margin: 0;
+  padding-inline-start: var(--space-4);
 }

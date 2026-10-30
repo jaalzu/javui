@@ -10,8 +10,8 @@ const meta = {
   args: {
     title: "No reports yet",
     description: "Connect a data source to see your first report.",
-    icon: <ChartLineIcon />,
-    action: <Button size="sm">Connect source</Button>,
+    illustration: <ChartLineIcon />,
+    actions: <Button size="sm">Connect source</Button>,
   },
   decorators: [(Story) => <div style={{ maxWidth: "28rem" }}><Story /></div>],
 } satisfies Meta<typeof EmptyState>;
@@ -21,7 +21,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 export const TitleOnly: Story = {
-  args: { description: undefined, icon: undefined, action: undefined },
+  args: { title: undefined, illustration: undefined, actions: undefined, description: "Connect a data source to see your first report." },
 };
 export const Dark: Story = { ...Default, globals: { theme: "dark" } };
 export const Light: Story = { ...Default, globals: { theme: "light" } };

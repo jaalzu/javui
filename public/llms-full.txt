@@ -28,6 +28,7 @@
 - **Stack**: Arranging children in one direction with a consistent gap.
 - **Grid**: Two-dimensional layouts and card grids.
 - **AspectRatio**: Images, video, embeds or maps whose size must be reserved before they load, preventing layout shift (CLS).
+- **Separator**: Visually dividing sections.
 - **Card** (parts: CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter): Grouping related information into a single idea, with a short title.
 - **Table**: Comparing data across rows and columns.
 - **ScrollArea**: A fixed-height list, code area or panel that should scroll inside the page.
@@ -42,12 +43,12 @@
 - **Skeleton**: Placeholder for content whose layout is known while it loads.
 - **Alert**: A message that stays on the page and the user must notice: a general note (neutral), relevant information (info), a completed operation (success), something that needs attention (warning) or a failed operation (error).
 - **Progress**: Showing how far a task has got.
-- **EmptyState**: A region that has no content yet, with a next step.
+- **EmptyState**: A region without content that needs to explain why it is empty and how to fill it.
 
 ### controls
 - **Button**: An action with onClick (submit, open, confirm, cancel), or navigation that looks like a button with href. Pass `loading` while an action runs.
 - **ButtonGroup** (parts: ButtonGroupSeparator, ButtonGroupText): 2-4 related actions with short labels, all the same size and variant.
-- **Field**: Every form control, including its validation, required, read-only and loading states.
+- **Field** (parts: FieldSet, FieldSeparator): Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
 - **Input**: Single-line text entry, read-only values and values that are still loading.
 - **Textarea**: Multi-line text entry, including read-only and loading values.
 - **Checkbox** (parts: CheckboxGroup): Choosing several independent options, or one confirmation that is saved when the form is submitted.
@@ -72,9 +73,7 @@
 - **Breadcrumb**: Hierarchical navigation: showing where a page sits in a site with 3 or more levels.
 - **Pagination**: Moving through content split across URLs.
 - **Sidebar**: Primary vertical navigation beside an app's content, especially on desktop.
-- **Collapsible**: A single section that shows or hides content, such as advanced options or extra details.
-- **CollapsibleContent**: The panel of a Collapsible.
-- **CollapsibleTrigger**: The button that shows or hides a Collapsible panel.
+- **Collapsible** (parts: CollapsibleTrigger, CollapsibleContent): A single section that shows or hides content, such as advanced options or extra details.
 
 ## Providers and hooks
 - **LinkProvider**: Making every link in the library use `next/link` (or another router link) from a single place.
@@ -660,7 +659,8 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## Field
 
-Wraps one control with its label, description and error, wired for accessibility by Base UI Field
+Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
+Wraps one control with its label, description and error, wired for accessibility by Field
 (`label` association, `aria-describedby`, `aria-invalid`). Pass `error`, `required`, `readOnly` and
 `loading` here; never wire `aria-describedby` or show a loose red error text by hand. When the
 control renders its own label or legend, omit `label`; the control prints Required and keeps its
@@ -673,11 +673,11 @@ Errors are shown after the field is blurred or the form is submitted, not on the
 - Import: `import { Field } from "@/ui";`
 - Renders: div containing an optional label, the control, a description and an error
 - Composition: Wrap one control: Input, Textarea, Select, Checkbox, RadioGroup, Switch or Slider. `label` is optional: omit it when the control renders its own label or legend (Checkbox, RadioGroup, Switch, Slider). Pass `error`, `required`, `readOnly` and `loading` to Field instead of wiring the control. Controls that carry their own label or legend also accept these props directly.
-- Use when: Every form control, including its validation, required, read-only and loading states.
+- Use when: Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
 - Avoid:
   - A loose red error text below the control: use Field `error`.
   - Wiring aria-describedby or aria-invalid by hand.
-- Accessibility: Base UI wires the label, aria-describedby and aria-invalid; the error is announced politely. `required` sets the native/ARIA required state and prints Required next to the label, or in the control's own label when Field has no label. Errors show after blur or submit, not on the first keystroke (validationMode defaults to onBlur).
+- Accessibility: Field wires the label, aria-describedby and aria-invalid; the error is announced politely. `required` sets the native/ARIA required state and prints Required next to the label, or in the control's own label when Field has no label. Errors show after blur or submit, not on the first keystroke (validationMode defaults to onBlur).
 
 ### Props
 | Prop | Type | Required | Default | Description |
@@ -685,11 +685,13 @@ Errors are shown after the field is blurred or the form is submitted, not on the
 | `children` | `ReactNode` | yes |  | The control: `Input`, `Textarea`, `Select`, `Checkbox`, `RadioGroup`, `Switch` or `Slider`. Controls that carry their own label or legend also accept these validation props directly. |
 | `className` | `string` | no |  |  |
 | `description` | `ReactNode` | no |  | Help text shown under the control and linked with `aria-describedby`. |
-| `error` | `string` | no |  | Error message. When set, the field is marked invalid and the message is linked to the control. Pass an empty string when there is no error. Show it from validation that runs on blur or submit, not on the first keystroke (Field defaults to `validationMode="onBlur"`). |
+| `error` | `FieldErrorProp` | no |  | Error message. When set, the field is marked invalid and the message is linked to the control. Pass an empty string when there is no error. Show it from validation that runs on blur or submit, not on the first keystroke (Field defaults to `validationMode="onBlur"`). |
 | `label` | `ReactNode` | no |  | Visible label. Required unless the control renders its own label or legend (Checkbox, RadioGroup, Switch, Slider). |
 | `loading` | `boolean` | no | false | Shows a small spinner at the end of the control, marks it `aria-busy`, and makes it not editable. |
+| `orientation` | `"horizontal" \| "vertical"` | no | vertical | Layout with label beside the control. Ignored when `label` is omitted. |
 | `readOnly` | `boolean` | no | false | Makes the control read-only: sunken background, no hover, text not dimmed, still focusable and selectable. Distinct from `disabled`. |
 | `required` | `boolean` | no | false | Marks the control as required and prints "Required" next to the label. The control also gets `required` so browsers and assistive technology enforce it. |
+| `stackBelow` | `"sm" \| "md"` | no |  | Return to vertical below this breakpoint (`sm` = 40rem, `md` = 48rem). |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -708,6 +710,78 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
   <Switch label="Notifications" />
 </Field>
 ```
+
+### Parts
+
+### FieldSet
+
+Groups different controls under one accessible legend. Use CheckboxGroup or RadioGroup for same-type options.
+
+- Category: controls
+- Base: Own component
+- Import: `import { FieldSet } from "@/ui";`
+- Renders: fieldset with a legend, optional description and stacked controls
+- Composition: Pass required `legend`, optional `description` and `disabled`, then compose different controls as children. Use CheckboxGroup or RadioGroup for same-type options.
+- Use when: Grouping different controls under one accessible name, such as a shipping address.
+- Avoid:
+  - Using it for same-type choices: use CheckboxGroup or RadioGroup.
+  - Grouping unrelated controls.
+  - Using it without a legend.
+- Accessibility: The native fieldset and legend name the group; the description is linked with aria-describedby. Disabled passes to the native fieldset.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `legend` | `ReactNode` | yes |  |  |
+| `className` | `string` | no |  |  |
+| `description` | `ReactNode` | no |  |  |
+| `disabled` | `boolean` | no |  |  |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### FieldSeparator
+
+Divides alternatives between fields, optionally with readable text between the lines.
+
+- Category: controls
+- Base: Own component
+- Import: `import { FieldSeparator } from "@/ui";`
+- Renders: decorative separator, optionally with readable text between two lines
+- Composition: Place between fields; pass children for text such as `Or continue with`.
+- Use when: Dividing alternatives within a form.
+- Avoid:
+  - Using it outside a form: use Separator.
+  - Using it for spacing: use Stack gap.
+- Accessibility: Lines are decorative; children remain readable content when present.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+## Separator
+
+Divides sections. Use gap for spacing and ButtonGroupSeparator inside ButtonGroup.
+
+- Category: layout
+- Base: Own component
+- Import: `import { Separator } from "@/ui";`
+- Renders: hr horizontally or div vertically
+- Composition: Set `orientation` and `decorative`; it does not accept children.
+- Use when: Visually dividing sections.
+- Avoid:
+  - Using it for spacing: use gap.
+  - Using it inside ButtonGroup: use ButtonGroupSeparator.
+- Accessibility: Decorative separators are presentation-only; non-decorative separators expose the separator role and orientation.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `className` | `string` | no |  |  |
+| `decorative` | `boolean` | no | true |  |
+| `orientation` | `"horizontal" \| "vertical"` | no | horizontal |  |
+
+Also accepts the native props of the element it renders; they pass through.
 
 ## Input
 
@@ -808,7 +882,7 @@ message; `error` adds a linked message. `description` renders help text below th
 |---|---|---|---|---|
 | `className` | `string` | no |  |  |
 | `description` | `ReactNode` | no |  | Help text below the label, linked to it with `aria-describedby`. Inside `Field`, use the Field `description` instead. |
-| `error` | `string` | no |  | Error message. Marks the checkbox invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
+| `error` | `FieldErrorProp` | no |  | Error message. Marks the checkbox invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
 | `invalid` | `boolean` | no | false | Marks the checkbox invalid without an error message and tints the label and box with the danger color. Prefer `error` so the reason is announced; use this only when the label itself explains the problem. Inside `Field`, pass `error` to the Field instead. |
 | `label` | `ReactNode` | no |  | Visible label, rendered next to the box. In the card variant it fills the card. Omit the visible label and the wrapping `<label>`; only the box is rendered. |
 | `loading` | `boolean` | no | false | Shows a small spinner next to the label, sets `aria-busy`, and makes the checkbox not interactive. |
@@ -853,7 +927,7 @@ Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.
 | `children` | `ReactNode` | yes |  | The `Checkbox` options. |
 | `legend` | `ReactNode` | yes |  | Visible group label, rendered as the `legend` of a `fieldset`. Required: the group needs a name. |
 | `className` | `string` | no |  |  |
-| `error` | `string` | no |  | Error message. Marks the group invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
+| `error` | `FieldErrorProp` | no |  | Error message. Marks the group invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
 | `loading` | `boolean` | no | false | Shows a small spinner next to the legend, sets `aria-busy`, and makes the group not interactive. |
 | `readOnly` | `boolean` | no | false | The group can be focused and read but not changed. Keeps the options at full contrast. Distinct from `disabled`. |
 | `required` | `boolean` | no | false | The group must include at least one ticked option before the form can be submitted. The legend prints "Required". Inside `Field`, omit it and pass `required` to the Field. |
@@ -894,7 +968,7 @@ RadioGroup. Inside `Field` it inherits `error`, `required`, `readOnly` and `load
 | `children` | `ReactNode` | yes |  | The `Radio` options. |
 | `legend` | `ReactNode` | yes |  | Visible group label, rendered as the `legend` of a `fieldset`. Required: the group needs a name. |
 | `className` | `string` | no |  |  |
-| `error` | `string` | no |  | Error message. Marks the group invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
+| `error` | `FieldErrorProp` | no |  | Error message. Marks the group invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
 | `loading` | `boolean` | no | false | Shows a small spinner next to the legend, sets `aria-busy`, and makes the group not interactive. |
 | `orientation` | `"horizontal" \| "vertical"` | no | vertical | Layout of the options. |
 | `readOnly` | `boolean` | no | false | The group can be focused and read but not changed. Keeps the options at full contrast. Distinct from `disabled`. |
@@ -961,7 +1035,7 @@ For choices that are submitted with a form, prefer `Checkbox`. Inside `Field` it
 |---|---|---|---|---|
 | `label` | `ReactNode` | yes |  | Visible label, rendered next to the switch. Required: every control needs an accessible name. |
 | `className` | `string` | no |  |  |
-| `error` | `string` | no |  | Error message. Marks the switch invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
+| `error` | `FieldErrorProp` | no |  | Error message. Marks the switch invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
 | `loading` | `boolean` | no | false | Shows a small spinner next to the label, sets `aria-busy`, and makes the switch not interactive. |
 | `readOnly` | `boolean` | no | false | The switch can be focused and read but not changed. Uses the sunken background when off and keeps the label text at full contrast. Distinct from `disabled`. |
 | `required` | `boolean` | no | false | The switch must be on before the form can be submitted. The label prints "Required". Inside `Field`, omit it and pass `required` to the Field instead. |
@@ -1887,7 +1961,7 @@ Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.
 | `data-force` | `"focus"` | no |  | Story/test hook: force the focus ring without moving focus. |
 | `defaultValue` | `number \| number[]` | no |  | Initial value, or `[min, max]` for a range. |
 | `disabled` | `boolean` | no |  |  |
-| `error` | `string` | no |  | Error message. Marks the slider invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
+| `error` | `FieldErrorProp` | no |  | Error message. Marks the slider invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
 | `loading` | `boolean` | no | false | Shows a small spinner next to the value, sets `aria-busy`, and makes the slider not interactive. |
 | `max` | `number` | no |  |  |
 | `min` | `number` | no |  |  |
@@ -1945,42 +2019,34 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## EmptyState
 
-A quiet placeholder for a region with no content, with an optional icon and action.
-The icon is decorative; the title carries the meaning.
+Explains why a region is empty and how to fill it.
 
 - Category: feedback
 - Base: Own component
 - Import: `import { EmptyState } from "@/ui";`
-- Renders: section with a heading
-- Composition: Pass `title` (required), optional `description`, `icon` (generated icon, no `size`), `action` (usually a Button, with `href` for navigation) and `as` for the heading level (h2-h4, default h3).
-- Use when: A region that has no content yet, with a next step.
+- Renders: section with a labelled heading when `title` is present, otherwise a div
+- Composition: Pass required `description`, optional `title`, decorative `illustration`, `actions` (usually one or two Buttons), `size` (`md`, `sm` or `xs`) and `as` for the heading level (`h2`-`h4`, default `h3`).
+- Use when: A region without content that needs to explain why it is empty and how to fill it.
 - Avoid:
-  - Errors and failures: use Alert.
+  - Using it as a generic illustration component.
+  - Adding content beyond illustration, title, description and actions.
+  - Errors or failures: use Alert.
   - Loading placeholders: use Skeleton.
-  - Decorating a section that already has content.
-- Accessibility: The title is a real heading and carries the meaning; the icon is decorative. Keep the heading level in order with the page.
+  - More than one primary button.
+- Accessibility: The illustration is decorative (`aria-hidden`); the description carries the meaning. Vary empty-state text within a page to avoid redundancy for screen readers, and keep it short but meaningful.
 
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `title` | `ReactNode` | yes |  | Short title of the empty state. |
-| `action` | `ReactNode` | no |  | Main action, usually a Button (with `href` for navigation) or Link. |
-| `as` | `"h2" \| "h3" \| "h4"` | no | h3 | Heading level for the title. Keep the page outline in order. |
+| `description` | `ReactNode` | yes |  | Explains the current situation and, if possible, what to do next. Required. Keep it to one short paragraph. |
+| `actions` | `ReactNode` | no |  | Actions that resolve the empty state, usually one or two Buttons. Optional. |
+| `as` | `"h2" \| "h3" \| "h4"` | no | h3 | Heading level of the title. |
 | `className` | `string` | no |  |  |
-| `description` | `ReactNode` | no |  | One or two sentences that explain what to do next. |
-| `icon` | `ReactNode` | no |  | Icon above the title. Pass a generated icon without `size`; the component sizes it. |
+| `illustration` | `ReactNode` | no |  | Decorative illustration. Hidden from assistive technology and never shown at size `xs`. |
+| `size` | `"sm" \| "md" \| "xs"` | no | md | `md` for screens, tables and large cards; `sm` for cards and panels; `xs` for nested containers. |
+| `title` | `ReactNode` | no |  | Short message that introduces the scenario. Optional. |
 
 Also accepts the native props of the element it renders; they pass through.
-
-### Example
-```tsx
-<EmptyState
-  icon={<FolderIcon />}
-  title="No projects yet"
-  description="Create a project to start collecting feedback."
-  action={<Button>New project</Button>}
-/>
-```
 
 ## Sidebar
 
@@ -2049,29 +2115,9 @@ Root for a single disclosure. Compose it with `CollapsibleTrigger` and `Collapsi
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
-## CollapsibleContent
+### Parts
 
-Expandable content for its parent `Collapsible`.
-
-- Category: navigation
-- Base: Built on Base UI (@base-ui/react)
-- Import: `import { CollapsibleContent } from "@/ui";`
-- Renders: div with role region
-- Composition: Child of Collapsible. Holds the content that is shown or hidden.
-- Use when: The panel of a Collapsible.
-- Avoid:
-  - Using it outside Collapsible.
-  - Hiding content users must read.
-- Accessibility: Labelled by its trigger. The closed panel stays mounted in the DOM.
-
-### Props
-| Prop | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `className` | `string` | no |  |  |
-
-Also accepts the native/Base UI props of the element it renders; they pass through.
-
-## CollapsibleTrigger
+### CollapsibleTrigger
 
 Button that toggles its parent `Collapsible`.
 
@@ -2086,12 +2132,34 @@ Button that toggles its parent `Collapsible`.
   - Icon-only without an accessible name.
 - Accessibility: A real button; expanded state and the controlled region come from Base UI.
 
-### Props
+#### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `active` | `boolean` | no | false |  |
 | `className` | `string` | no |  |  |
 | `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>>` | no |  |  |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### CollapsibleContent
+
+Expandable content for its parent `Collapsible`.
+
+- Category: navigation
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { CollapsibleContent } from "@/ui";`
+- Renders: div with role region
+- Composition: Child of Collapsible. Holds the content that is shown or hidden.
+- Use when: The panel of a Collapsible.
+- Avoid:
+  - Using it outside Collapsible.
+  - Hiding content users must read.
+- Accessibility: Labelled by its trigger. The closed panel stays mounted in the DOM.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `className` | `string` | no |  |  |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 

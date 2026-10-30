@@ -124,10 +124,10 @@ export function Select({
             <BaseSelect.List className={styles.list}>
               {items.map((item) => (
                 <BaseSelect.Item key={item.value} value={item.value} disabled={item.disabled} className={styles.item}>
+                  <BaseSelect.ItemText className={styles.itemText}>{item.label}</BaseSelect.ItemText>
                   <BaseSelect.ItemIndicator className={styles.itemIndicator}>
                     <CheckIcon />
                   </BaseSelect.ItemIndicator>
-                  <BaseSelect.ItemText className={styles.itemText}>{item.label}</BaseSelect.ItemText>
                 </BaseSelect.Item>
               ))}
             </BaseSelect.List>

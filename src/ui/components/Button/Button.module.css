@@ -85,10 +85,6 @@
   opacity: 1;
 }
 
-.primary {
-  --btn-ring: var(--shadow-raised);
-}
-
 .secondary {
   --btn-bg: var(--color-component);
   --btn-fg: var(--color-primary-foreground);

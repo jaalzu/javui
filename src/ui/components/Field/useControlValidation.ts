@@ -2,10 +2,11 @@
 
 import { useId } from "react";
 import { useFieldControlState } from "./FieldContext";
+import { normalizeFieldErrors, type FieldErrorProp } from "./fieldErrors";
 
 /** Validation props accepted directly by a control. */
 export type ControlValidationProps = {
-  error?: string;
+  error?: FieldErrorProp;
   required?: boolean;
   readOnly?: boolean;
   loading?: boolean;
@@ -22,8 +23,9 @@ export function useControlValidation({
   loading,
 }: ControlValidationProps) {
   const field = useFieldControlState();
-  const invalid = (field?.invalid ?? false) || Boolean(error);
-  const showError = Boolean(error) && !(field?.invalid ?? false);
+  const directErrors = normalizeFieldErrors(error);
+  const invalid = (field?.invalid ?? false) || directErrors.length > 0;
+  const showError = directErrors.length > 0 && !(field?.invalid ?? false);
   const effectiveRequired = required ?? field?.required ?? false;
   const fieldShowsRequired = Boolean(field?.required) && (field?.hasLabel ?? false);
   const showRequired = effectiveRequired && !fieldShowsRequired;
@@ -31,7 +33,7 @@ export function useControlValidation({
 
   return {
     field,
-    error: error ?? field?.error,
+    errors: directErrors.length > 0 ? directErrors : (field?.errors ?? []),
     errorId,
     invalid,
     showError,

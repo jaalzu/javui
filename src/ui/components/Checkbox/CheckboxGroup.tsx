@@ -5,6 +5,7 @@ import { CheckboxGroup as BaseCheckboxGroup } from "@base-ui/react/checkbox-grou
 import { cx } from "../../utils/cx";
 import { Spinner } from "../Spinner";
 import { FieldError } from "../Field/FieldError";
+import type { FieldErrorProp } from "../Field/fieldErrors";
 import { useControlValidation } from "../Field/useControlValidation";
 import fieldStyles from "../Field/Field.module.css";
 import radioStyles from "../Radio/Radio.module.css";
@@ -32,7 +33,7 @@ export type CheckboxGroupProps = {
    * Error message. Marks the group invalid and links the message with `aria-describedby`.
    * Inside `Field`, omit it and pass `error` to the Field instead.
    */
-  error?: string;
+  error?: FieldErrorProp;
   /**
    * The group must include at least one ticked option before the form can be submitted.
    * The legend prints "Required". Inside `Field`, omit it and pass `required` to the Field.
@@ -124,8 +125,8 @@ export function CheckboxGroup({
           <div className={styles.options}>{children}</div>
         </BaseCheckboxGroup>
       </CheckboxGroupControlContext.Provider>
-      {state.showError && state.error ? (
-        <FieldError id={state.errorId}>{state.error}</FieldError>
+      {state.showError && state.errors.length ? (
+        <FieldError id={state.errorId} errors={state.errors} />
       ) : null}
     </>
   );

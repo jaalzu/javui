@@ -320,6 +320,7 @@
     "avoid": [
       "Two or three options: use RadioGroup.",
       "Free text: use Input.",
+      "Long lists where users need to type to find an option: use Combobox.",
       "Hand-wiring validation ARIA: use Field error."
     ],
     "a11y": "Keyboard, typeahead and focus come from Base UI. Needs an accessible name. readOnly prevents choosing another option; loading is readOnly with aria-busy=true."
@@ -733,6 +734,24 @@
     ],
     "a11y": "The trigger is a button with aria-expanded and aria-controls; the panel is its region. Keyboard behavior comes from Base UI. The closed panel remains mounted in the DOM, so descendants such as form fields remain in the document and can be submitted by the surrounding form."
   },
+  "CollapsibleTrigger": {
+    "category": "navigation",
+    "base": "base-ui",
+    "renders": "button with aria-expanded and aria-controls",
+    "composition": "Child of Collapsible. Children are the label; accepts Button props.",
+    "whenToUse": "The button that shows or hides a Collapsible panel.",
+    "avoid": ["Using it outside Collapsible.", "Icon-only without an accessible name."],
+    "a11y": "A real button; expanded state and the controlled region come from Base UI."
+  },
+  "CollapsibleContent": {
+    "category": "navigation",
+    "base": "base-ui",
+    "renders": "div with role region",
+    "composition": "Child of Collapsible. Holds the content that is shown or hidden.",
+    "whenToUse": "The panel of a Collapsible.",
+    "avoid": ["Using it outside Collapsible.", "Hiding content users must read."],
+    "a11y": "Labelled by its trigger. The closed panel stays mounted in the DOM."
+  },
   "ToggleGroup": {
     "category": "controls",
     "base": "base-ui",
@@ -777,14 +796,15 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "input role=\"combobox\" with a filterable listbox popup",
-    "composition": "Pass `items` with `group`, `description` and `startIcon`; `multiple` changes the value to `string[]`; provide `label`, `aria-label` or Field. The placeholder does not replace a label; empty is `\"\"` or `[]`.",
-    "whenToUse": "Choosing one or several options from a long list where typing filters the choices.",
+    "composition": "Pass `items` ({ value, label, description?, group?, startIcon?, disabled? }). `multiple` shows chips. `clearable` shows a button to clear the selection. `icon` is the end icon: omit for the caret, `null` to hide. Label through Field, or `aria-label`.",
+    "whenToUse": "Choosing from a long list where typing to filter helps, or choosing several values.",
     "avoid": [
-      "Fewer than about seven options or a list without search: use Select.",
-      "Free text outside the list: use Input.",
-      "Several options without a need to search: use CheckboxGroup."
+      "Short lists or no typing needed: use Select.",
+      "Two or three options: use RadioGroup.",
+      "Binary choices: use Checkbox or Switch.",
+      "Free text with no fixed options: use Input."
     ],
-    "a11y": "The input is the combobox. Filtering and keyboard navigation come from Base UI; Field associates help and error with `aria-describedby`."
+    "a11y": "Enter or Arrow Down opens; Arrow Up/Down navigate; Enter selects; Escape closes; Backspace removes the last chip in multiple mode. Keyboard, filtering and ARIA come from Base UI."
   },
   "Modal": {
     "category": "overlays",

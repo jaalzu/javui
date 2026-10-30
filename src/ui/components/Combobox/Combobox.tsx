@@ -1,111 +1,295 @@
 "use client";
 
-import { useId, useState, type ReactNode } from "react";
+import { useEffect, useId, useRef, type ReactNode } from "react";
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { cx } from "../../utils/cx";
 import { IconSlot } from "../Icon/IconSlot";
 import { Spinner } from "../Spinner";
 import { useFieldControlState } from "../Field/FieldContext";
 import { CaretDownIcon, CheckIcon, XIcon } from "../../icons/icons.generated";
-import styles from "./Combobox.module.css";
+import controlStyles from "./Combobox.module.css";
+import popupStyles from "./ComboboxPopup.module.css";
 
 export type ComboboxOption = {
-  /** Value stored in the form and passed to `onValueChange`. */
   value: string;
-  /** Visible label and filtering text. */
   label: string;
-  /** Optional second line under the label. */
   description?: string;
-  /** Optional group heading. @default undefined */
   group?: string;
-  /** Icon before the label. */
   startIcon?: ReactNode;
   disabled?: boolean;
 };
 
-type ComboboxSharedProps = {
+type BaseProps = {
+  /** The options. Each has a machine `value` and a visible `label`. */
   items: ComboboxOption[];
-  label?: string;
+  /** Accessible name when there is no `Field` label. */
   "aria-label"?: string;
   placeholder?: string;
+  /** Text shown when the filter matches nothing. @default "No results." */
   emptyMessage?: string;
   name?: string;
+  /** Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. @default "md" */
   size?: "sm" | "md" | "lg";
   startIcon?: ReactNode;
+  /** End icon. Omit for the caret, `null` to hide it. */
+  icon?: ReactNode | null;
+  /** Shows a button to clear the selection. @default false */
+  clearable?: boolean;
   disabled?: boolean;
   required?: boolean;
   readOnly?: boolean;
+  /** Shows a spinner and blocks editing. Inside `Field`, pass it to the Field. */
   loading?: boolean;
-  "data-force"?: "focus";
   id?: string;
   className?: string;
 };
 
-export type ComboboxProps = ComboboxSharedProps & (
-  | {
-      /** Allow selecting multiple options. @default false */
-      multiple?: false;
-      value?: string;
-      defaultValue?: string;
-      onValueChange?: (value: string) => void;
-    }
-  | {
-      /** Allow selecting multiple options. @default false
-       * @example <Combobox multiple defaultValue={["ada", "grace"]} items={items} />
-       */
-      multiple: true;
-      value?: string[];
-      defaultValue?: string[];
-      onValueChange?: (value: string[]) => void;
-    }
-);
+export type ComboboxProps = BaseProps &
+  (
+    | {
+        multiple?: false;
+        value?: string;
+        defaultValue?: string;
+        onValueChange?: (value: string) => void;
+      }
+    | {
+        multiple: true;
+        value?: string[];
+        defaultValue?: string[];
+        onValueChange?: (value: string[]) => void;
+      }
+  );
 
-/** Searchable single- or multi-choice field built on Base UI Combobox. */
-export function Combobox(props: ComboboxProps) {
-  const {
-    items, label, "aria-label": ariaLabel, placeholder, emptyMessage = "No results.", name,
-    size = "md", startIcon, disabled = false, required: requiredProp = false,
-    readOnly: readOnlyProp = false, loading: loadingProp = false, "data-force": dataForce,
-    id, className,
-  } = props;
-  const multiple = props.multiple === true;
-  const generatedId = useId();
-  const inputId = id ?? generatedId;
-  const field = useFieldControlState();
-  const loading = loadingProp || field?.loading || false;
-  const readOnly = readOnlyProp || field?.readOnly || false;
-  const required = requiredProp || field?.required || false;
-  const [internal, setInternal] = useState<string | string[]>(multiple ? (props.defaultValue ?? []) : (props.defaultValue ?? ""));
-  const selectedValues = props.value ?? internal;
-  const selectedItems = items.filter((item) => multiple ? (selectedValues as string[]).includes(item.value) : item.value === selectedValues);
-  const selected = multiple ? selectedItems : selectedItems[0] ?? null;
-  const initial = props.defaultValue === undefined ? undefined : multiple ? items.filter((item) => (props.defaultValue as string[]).includes(item.value)) : items.find((item) => item.value === props.defaultValue) ?? null;
-  const emit = (next: unknown) => {
-    const nextValue = multiple ? ((next as ComboboxOption[]).map((item) => item.value)) : ((next as ComboboxOption | null)?.value ?? "");
-    if (props.value === undefined) setInternal(nextValue);
-    if (multiple) (props.onValueChange as ((value: string[]) => void) | undefined)?.(nextValue as string[]);
-    else (props.onValueChange as ((value: string) => void) | undefined)?.(nextValue as string);
-  };
-  const itemNode = (item: ComboboxOption) => (
-    <BaseCombobox.Item key={item.value} value={item} disabled={item.disabled} className={styles.item} data-icon={item.startIcon ? "start" : undefined}>
-      <IconSlot className={styles.itemIcon}>{item.startIcon}</IconSlot>
-      <span className={styles.itemText}><span className={styles.itemLabel}>{item.label}</span>{item.description ? <span className={styles.itemDescription}>{item.description}</span> : null}</span>
-      <BaseCombobox.ItemIndicator className={styles.indicator}><CheckIcon /></BaseCombobox.ItemIndicator>
+const getValue = (item: ComboboxOption) => item.value;
+
+function ComboboxItem({ item }: { item: ComboboxOption }) {
+  return (
+    <BaseCombobox.Item
+      value={item}
+      disabled={item.disabled}
+      className={popupStyles.item}
+    >
+      <IconSlot className={popupStyles.itemIcon}>{item.startIcon}</IconSlot>
+      <span className={popupStyles.itemText}>
+        <span className={popupStyles.itemLabel}>{item.label}</span>
+        {item.description ? (
+          <span className={popupStyles.itemDescription}>
+            {item.description}
+          </span>
+        ) : null}
+      </span>
+      <BaseCombobox.ItemIndicator className={popupStyles.indicator}>
+        <CheckIcon />
+      </BaseCombobox.ItemIndicator>
     </BaseCombobox.Item>
   );
-  const grouped = items.some((item) => item.group);
-  const list = grouped ? Array.from(new Set(items.map((item) => item.group ?? ""))).map((group) => group ? <BaseCombobox.Group key={group} items={items.filter((item) => item.group === group)}><BaseCombobox.GroupLabel className={styles.groupLabel}>{group}</BaseCombobox.GroupLabel>{items.filter((item) => item.group === group).map(itemNode)}</BaseCombobox.Group> : items.filter((item) => !item.group).map(itemNode)) : items.map(itemNode);
+}
 
-  return <BaseCombobox.Root items={items} multiple={multiple} value={selected} defaultValue={initial} onValueChange={emit as never} autoHighlight name={name} disabled={disabled || loading} readOnly={readOnly || loading} required={required}>
-    <div className={cx(styles.wrapper, className)}>
-      {label ? <label className={styles.label} htmlFor={inputId}>{label}{required ? <span className={styles.required}>Required</span> : null}</label> : null}
-      <BaseCombobox.InputGroup className={cx(styles.group, styles[size], multiple && styles.multiple)} data-force={dataForce} data-invalid={field?.invalid ? "" : undefined} data-readonly={readOnly ? "" : undefined} data-loading={loading ? "" : undefined} data-disabled={disabled ? "" : undefined}>
-        <IconSlot className={styles.lead}>{startIcon}</IconSlot>
-        {multiple ? <BaseCombobox.Chips className={styles.chips}>{selectedItems.map((item) => <BaseCombobox.Chip key={item.value} className={styles.chip}>{item.label}{!readOnly && !loading ? <BaseCombobox.ChipRemove className={styles.chipRemove} aria-label={`Remove ${item.label}`}><XIcon /></BaseCombobox.ChipRemove> : null}</BaseCombobox.Chip>)}</BaseCombobox.Chips> : null}
-        <BaseCombobox.Input className={styles.input} id={inputId} placeholder={selectedItems.length ? undefined : placeholder} aria-label={ariaLabel} aria-busy={loading || undefined} disabled={disabled || loading} />
-        {loading ? <span className={styles.loading}><Spinner size="sm" label="" /></span> : <><BaseCombobox.Clear className={styles.action} aria-label="Clear selection"><XIcon /></BaseCombobox.Clear><BaseCombobox.Trigger className={styles.action} aria-label="Open list"><CaretDownIcon /></BaseCombobox.Trigger></>}
-      </BaseCombobox.InputGroup>
-    </div>
-    <BaseCombobox.Portal><BaseCombobox.Positioner sideOffset={4} align="start" className={styles.positioner}><BaseCombobox.Popup className={styles.popup}><BaseCombobox.Empty className={styles.empty}>{emptyMessage}</BaseCombobox.Empty><BaseCombobox.List className={styles.list}>{list}</BaseCombobox.List></BaseCombobox.Popup></BaseCombobox.Positioner></BaseCombobox.Portal>
-  </BaseCombobox.Root>;
+function ComboboxList({ items }: { items: ComboboxOption[] }) {
+  const groups = new Map<string, ComboboxOption[]>();
+  for (const item of items) {
+    const key = item.group ?? "";
+    groups.set(key, [...(groups.get(key) ?? []), item]);
+  }
+  return (
+    <>
+      {[...groups].map(([group, groupItems]) =>
+        group ? (
+          <BaseCombobox.Group key={group} items={groupItems}>
+            <BaseCombobox.GroupLabel className={popupStyles.groupLabel}>
+              {group}
+            </BaseCombobox.GroupLabel>
+            {groupItems.map((item) => (
+              <ComboboxItem key={item.value} item={item} />
+            ))}
+          </BaseCombobox.Group>
+        ) : (
+          groupItems.map((item) => (
+            <ComboboxItem key={item.value} item={item} />
+          ))
+        ),
+      )}
+    </>
+  );
+}
+
+/** Searchable single- or multi-choice field. Labels come from `Field`. */
+export function Combobox(props: ComboboxProps) {
+  const {
+    items,
+    placeholder,
+    emptyMessage = "No results.",
+    name,
+    size = "md",
+    startIcon,
+    icon,
+    clearable = false,
+    className,
+    id,
+    "aria-label": ariaLabel,
+  } = props;
+
+  const field = useFieldControlState();
+  const generatedId = useId();
+  const groupRef = useRef<HTMLDivElement>(null);
+
+  const multiple = props.multiple === true;
+  const loading = props.loading || field?.loading || false;
+  const disabled = props.disabled || loading;
+  const readOnly = props.readOnly || field?.readOnly || loading;
+  const required = props.required || field?.required || false;
+  const invalid = Boolean(field?.invalid);
+  const endIcon = icon === undefined ? <CaretDownIcon /> : icon;
+
+  useEffect(() => {
+    if (
+      process.env.NODE_ENV !== "production" &&
+      !field?.hasLabel &&
+      !ariaLabel
+    ) {
+      console.warn("Combobox needs a Field label or aria-label.");
+    }
+  }, [field?.hasLabel, ariaLabel]);
+
+  const toOption = (value?: string) =>
+    items.find((item) => item.value === value) ?? null;
+  const toOptions = (values?: string[]) =>
+    items.filter((item) => values?.includes(item.value));
+  const mapValue = (value?: string | string[]) =>
+    multiple
+      ? toOptions(value as string[] | undefined)
+      : toOption(value as string | undefined);
+
+  const handleValueChange = (
+    next: ComboboxOption[] | ComboboxOption | null,
+  ) => {
+    const onChange = props.onValueChange as
+      ((value: string | string[]) => void) | undefined;
+    onChange?.(Array.isArray(next) ? next.map(getValue) : (next?.value ?? ""));
+  };
+
+  const valueProps =
+    props.value !== undefined
+      ? { value: mapValue(props.value) }
+      : { defaultValue: mapValue(props.defaultValue) };
+
+  const markPointer = () =>
+    groupRef.current?.setAttribute("data-pointer-action", "");
+  const clearPointer = () =>
+    groupRef.current?.removeAttribute("data-pointer-action");
+
+  return (
+    <BaseCombobox.Root
+      items={items}
+      multiple={multiple}
+      itemToStringValue={getValue}
+      onValueChange={handleValueChange as never}
+      name={name}
+      disabled={disabled}
+      readOnly={readOnly}
+      required={required}
+      autoHighlight
+      {...valueProps}
+    >
+      <div className={cx(controlStyles.wrapper, className)}>
+        <BaseCombobox.InputGroup
+          ref={groupRef}
+          className={cx(
+            controlStyles.group,
+            controlStyles[size],
+            multiple && controlStyles.multiple,
+          )}
+          data-invalid={invalid ? "" : undefined}
+          data-readonly={readOnly ? "" : undefined}
+          data-loading={loading ? "" : undefined}
+          data-disabled={disabled ? "" : undefined}
+        >
+          <IconSlot className={controlStyles.lead}>{startIcon}</IconSlot>
+
+          {multiple ? (
+            <BaseCombobox.Chips className={controlStyles.chips}>
+              <BaseCombobox.Value>
+                {(values: ComboboxOption[]) =>
+                  values.map((item) => (
+                    <BaseCombobox.Chip
+                      key={item.value}
+                      className={controlStyles.chip}
+                    >
+                      {item.label}
+                      {!readOnly ? (
+                        <BaseCombobox.ChipRemove
+                          className={controlStyles.chipRemove}
+                          aria-label={`Remove ${item.label}`}
+                        >
+                          <XIcon />
+                        </BaseCombobox.ChipRemove>
+                      ) : null}
+                    </BaseCombobox.Chip>
+                  ))
+                }
+              </BaseCombobox.Value>
+            </BaseCombobox.Chips>
+          ) : null}
+
+          <BaseCombobox.Input
+            className={controlStyles.input}
+            id={id ?? generatedId}
+            placeholder={placeholder}
+            aria-label={ariaLabel}
+            aria-busy={loading || undefined}
+            disabled={disabled}
+            onBlur={clearPointer}
+            onKeyDown={clearPointer}
+          />
+
+          {loading ? (
+            <span className={controlStyles.loading}>
+              <Spinner size="sm" label="" />
+            </span>
+          ) : (
+            <>
+              {clearable ? (
+                <BaseCombobox.Clear
+                  className={controlStyles.action}
+                  aria-label="Clear selection"
+                  onPointerDown={markPointer}
+                >
+                  <XIcon />
+                </BaseCombobox.Clear>
+              ) : null}
+              {endIcon !== null ? (
+                <BaseCombobox.Trigger
+                  className={cx(
+                    controlStyles.action,
+                    icon === undefined && controlStyles.chevronTrigger,
+                  )}
+                  aria-label="Open list"
+                  onPointerDown={markPointer}
+                >
+                  {endIcon}
+                </BaseCombobox.Trigger>
+              ) : null}
+            </>
+          )}
+        </BaseCombobox.InputGroup>
+      </div>
+
+      <BaseCombobox.Portal>
+        <BaseCombobox.Positioner
+          sideOffset={4}
+          align="start"
+          className={popupStyles.positioner}
+        >
+          <BaseCombobox.Popup className={popupStyles.popup}>
+            <BaseCombobox.Empty className={popupStyles.empty}>
+              {emptyMessage}
+            </BaseCombobox.Empty>
+            <BaseCombobox.List className={popupStyles.list}>
+              <ComboboxList items={items} />
+            </BaseCombobox.List>
+          </BaseCombobox.Popup>
+        </BaseCombobox.Positioner>
+      </BaseCombobox.Portal>
+    </BaseCombobox.Root>
+  );
 }

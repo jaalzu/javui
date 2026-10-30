@@ -57,7 +57,7 @@
 - **Slider**: Choosing a number or range by dragging.
 - **Label**: A visible label for a custom control composition outside Field.
 - **ToggleGroup**: Two to five short, mutually exclusive options, such as a view switch.
-- **Combobox**: Choosing one or several options from a long list where typing filters the choices.
+- **Combobox**: Choosing from a long list where typing to filter helps, or choosing several values.
 
 ### overlays
 - **Modal** (parts: ModalTrigger, ModalContent, ModalClose): Interrupting the user for a decision or a focused task.
@@ -73,6 +73,8 @@
 - **Pagination**: Moving through content split across URLs.
 - **Sidebar**: Primary vertical navigation beside an app's content, especially on desktop.
 - **Collapsible**: A single section that shows or hides content, such as advanced options or extra details.
+- **CollapsibleContent**: The panel of a Collapsible.
+- **CollapsibleTrigger**: The button that shows or hides a Collapsible panel.
 
 ## Providers and hooks
 - **LinkProvider**: Making every link in the library use `next/link` (or another router link) from a single place.

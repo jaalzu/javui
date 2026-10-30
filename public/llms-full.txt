@@ -57,7 +57,7 @@
 - **Slider**: Choosing a number or range by dragging.
 - **Label**: A visible label for a custom control composition outside Field.
 - **ToggleGroup**: Two to five short, mutually exclusive options, such as a view switch.
-- **Combobox**: Choosing one or several options from a long list where typing filters the choices.
+- **Combobox**: Choosing from a long list where typing to filter helps, or choosing several values.
 
 ### overlays
 - **Modal** (parts: ModalTrigger, ModalContent, ModalClose): Interrupting the user for a decision or a focused task.
@@ -73,6 +73,8 @@
 - **Pagination**: Moving through content split across URLs.
 - **Sidebar**: Primary vertical navigation beside an app's content, especially on desktop.
 - **Collapsible**: A single section that shows or hides content, such as advanced options or extra details.
+- **CollapsibleContent**: The panel of a Collapsible.
+- **CollapsibleTrigger**: The button that shows or hides a Collapsible panel.
 
 ## Providers and hooks
 - **LinkProvider**: Making every link in the library use `next/link` (or another router link) from a single place.
@@ -987,6 +989,7 @@ Icons follow the trigger size: sm 16px, md 20px, lg 24px.
 - Avoid:
   - Two or three options: use RadioGroup.
   - Free text: use Input.
+  - Long lists where users need to type to find an option: use Combobox.
   - Hand-wiring validation ARIA: use Field error.
 - Accessibility: Keyboard, typeahead and focus come from Base UI. Needs an accessible name. readOnly prevents choosing another option; loading is readOnly with aria-busy=true.
 
@@ -2021,8 +2024,7 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## Collapsible
 
-One section that expands and collapses, built on Base UI Collapsible. Use `Accordion` for
-several sections.
+Root for a single disclosure. Compose it with `CollapsibleTrigger` and `CollapsibleContent`.
 
 - Category: navigation
 - Base: Built on Base UI (@base-ui/react)
@@ -2038,28 +2040,60 @@ several sections.
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `children` | `ReactNode` | yes |  | Panel content. |
+| `children` | `ReactNode` | yes |  | Content containing a `CollapsibleTrigger` and `CollapsibleContent`. |
 | `className` | `string` | no |  |  |
 | `defaultOpen` | `boolean` | no | false | Open at first render, when uncontrolled. |
 | `disabled` | `boolean` | no | false | Disables the trigger. |
-| `endIcon` | `ReactNode` | no |  | Icon after the title, before the chevron. Pass a generated icon without `size`. |
-| `onOpenChange` | `((open: boolean) => void)` | no |  |  |
+| `onOpenChange` | `((open: boolean) => void)` | no |  | Called when the open state changes. |
 | `open` | `boolean` | no |  | Controlled open state. |
-| `startIcon` | `ReactNode` | no |  | Icon before the title. Pass a generated icon without `size`; the trigger sizes it. |
-| `title` | `ReactNode` | no |  | Visible title. It is the button that opens the panel. |
-| `trigger` | `ReactElement<unknown, string \| JSXElementConstructor<any>>` | no |  | Replaces the default trigger row with your own element, such as a `Button`. It receives the open state and keyboard behavior from Base UI. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
-### Example
-```tsx
-<Collapsible title="Advanced settings">
-  <p>Only the options most people need are visible.</p>
-</Collapsible>
-<Collapsible trigger={<Button variant="secondary">Show more</Button>}>
-  <p>Additional content.</p>
-</Collapsible>
-```
+## CollapsibleContent
+
+Expandable content for its parent `Collapsible`.
+
+- Category: navigation
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { CollapsibleContent } from "@/ui";`
+- Renders: div with role region
+- Composition: Child of Collapsible. Holds the content that is shown or hidden.
+- Use when: The panel of a Collapsible.
+- Avoid:
+  - Using it outside Collapsible.
+  - Hiding content users must read.
+- Accessibility: Labelled by its trigger. The closed panel stays mounted in the DOM.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `className` | `string` | no |  |  |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+## CollapsibleTrigger
+
+Button that toggles its parent `Collapsible`.
+
+- Category: navigation
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { CollapsibleTrigger } from "@/ui";`
+- Renders: button with aria-expanded and aria-controls
+- Composition: Child of Collapsible. Children are the label; accepts Button props.
+- Use when: The button that shows or hides a Collapsible panel.
+- Avoid:
+  - Using it outside Collapsible.
+  - Icon-only without an accessible name.
+- Accessibility: A real button; expanded state and the controlled region come from Base UI.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `active` | `boolean` | no | false |  |
+| `className` | `string` | no |  |  |
+| `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>>` | no |  |  |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
 
 ## ToggleGroup
 
@@ -2188,41 +2222,41 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## Combobox
 
-Searchable single- or multi-choice field built on Base UI Combobox.
+Searchable single- or multi-choice field. Labels come from `Field`.
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Combobox } from "@/ui";`
 - Renders: input role="combobox" with a filterable listbox popup
-- Composition: Pass `items` with `group`, `description` and `startIcon`; `multiple` changes the value to `string[]`; provide `label`, `aria-label` or Field. The placeholder does not replace a label; empty is `""` or `[]`.
-- Use when: Choosing one or several options from a long list where typing filters the choices.
+- Composition: Pass `items` ({ value, label, description?, group?, startIcon?, disabled? }). `multiple` shows chips. `clearable` shows a button to clear the selection. `icon` is the end icon: omit for the caret, `null` to hide. Label through Field, or `aria-label`.
+- Use when: Choosing from a long list where typing to filter helps, or choosing several values.
 - Avoid:
-  - Fewer than about seven options or a list without search: use Select.
-  - Free text outside the list: use Input.
-  - Several options without a need to search: use CheckboxGroup.
-- Accessibility: The input is the combobox. Filtering and keyboard navigation come from Base UI; Field associates help and error with `aria-describedby`.
+  - Short lists or no typing needed: use Select.
+  - Two or three options: use RadioGroup.
+  - Binary choices: use Checkbox or Switch.
+  - Free text with no fixed options: use Input.
+- Accessibility: Enter or Arrow Down opens; Arrow Up/Down navigate; Enter selects; Escape closes; Backspace removes the last chip in multiple mode. Keyboard, filtering and ARIA come from Base UI.
 
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `items` | `ComboboxOption[]` | yes |  |  |
-| `aria-label` | `string` | no |  |  |
+| `items` | `ComboboxOption[]` | yes |  | The options. Each has a machine `value` and a visible `label`. |
+| `aria-label` | `string` | no |  | Accessible name when there is no `Field` label. |
 | `className` | `string` | no |  |  |
-| `data-force` | `"focus"` | no |  |  |
+| `clearable` | `boolean` | no | false | Shows a button to clear the selection. |
 | `defaultValue` | `string \| string[]` | no |  |  |
 | `disabled` | `boolean` | no |  |  |
-| `emptyMessage` | `string` | no |  |  |
+| `emptyMessage` | `string` | no | "No results." | Text shown when the filter matches nothing. |
+| `icon` | `ReactNode` | no |  | End icon. Omit for the caret, `null` to hide it. |
 | `id` | `string` | no |  |  |
-| `label` | `string` | no |  |  |
-| `loading` | `boolean` | no |  |  |
-| `multiple` | `boolean` | no | false
-false | Allow selecting multiple options. @example <Combobox multiple defaultValue={["ada", "grace"]} items={items} /> |
+| `loading` | `boolean` | no |  | Shows a spinner and blocks editing. Inside `Field`, pass it to the Field. |
+| `multiple` | `boolean` | no |  |  |
 | `name` | `string` | no |  |  |
 | `onValueChange` | `((value: string) => void) \| ((value: string[]) => void)` | no |  |  |
 | `placeholder` | `string` | no |  |  |
 | `readOnly` | `boolean` | no |  |  |
 | `required` | `boolean` | no |  |  |
-| `size` | `"sm" \| "md" \| "lg"` | no |  |  |
+| `size` | `"sm" \| "md" \| "lg"` | no | "md" | Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. |
 | `startIcon` | `ReactNode` | no |  |  |
 | `value` | `string \| string[]` | no |  |  |
 

@@ -1292,6 +1292,7 @@
       "avoid": [
         "Two or three options: use RadioGroup.",
         "Free text: use Input.",
+        "Long lists where users need to type to find an option: use Combobox.",
         "Hand-wiring validation ARIA: use Field error."
       ],
       "accessibility": "Keyboard, typeahead and focus come from Base UI. Needs an accessible name. readOnly prevents choosing another option; loading is readOnly with aria-busy=true.",
@@ -2843,7 +2844,7 @@
       "name": "Collapsible",
       "category": "navigation",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "One section that expands and collapses, built on Base UI Collapsible. Use `Accordion` for\nseveral sections.",
+      "description": "Root for a single disclosure. Compose it with `CollapsibleTrigger` and `CollapsibleContent`.",
       "import": "import { Collapsible } from \"@/ui\";",
       "renders": "div with a button trigger and a region panel",
       "composition": "Pass `title` or a custom `trigger`, panel `children`, optional `startIcon`/`endIcon`, open state (`defaultOpen`, `open`, `onOpenChange`) and `disabled`.",
@@ -2858,7 +2859,7 @@
           "name": "children",
           "type": "ReactNode",
           "required": true,
-          "description": "Panel content."
+          "description": "Content containing a `CollapsibleTrigger` and `CollapsibleContent`."
         },
         {
           "name": "className",
@@ -2880,45 +2881,81 @@
           "description": "Disables the trigger."
         },
         {
-          "name": "endIcon",
-          "type": "ReactNode",
-          "required": false,
-          "description": "Icon after the title, before the chevron. Pass a generated icon without `size`."
-        },
-        {
           "name": "onOpenChange",
           "type": "((open: boolean) => void)",
-          "required": false
+          "required": false,
+          "description": "Called when the open state changes."
         },
         {
           "name": "open",
           "type": "boolean",
           "required": false,
           "description": "Controlled open state."
-        },
-        {
-          "name": "startIcon",
-          "type": "ReactNode",
-          "required": false,
-          "description": "Icon before the title. Pass a generated icon without `size`; the trigger sizes it."
-        },
-        {
-          "name": "title",
-          "type": "ReactNode",
-          "required": false,
-          "description": "Visible title. It is the button that opens the panel."
-        },
-        {
-          "name": "trigger",
-          "type": "ReactElement<unknown, string | JSXElementConstructor<any>>",
-          "required": false,
-          "description": "Replaces the default trigger row with your own element, such as a `Button`. It receives the open state and keyboard behavior from Base UI."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": [
-        "<Collapsible title=\"Advanced settings\">\r\n  <p>Only the options most people need are visible.</p>\r\n</Collapsible>\r\n<Collapsible trigger={<Button variant=\"secondary\">Show more</Button>}>\r\n  <p>Additional content.</p>\r\n</Collapsible>"
+      "examples": [],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Collapsible/Collapsible.tsx"
+    },
+    {
+      "name": "CollapsibleContent",
+      "category": "navigation",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "Expandable content for its parent `Collapsible`.",
+      "import": "import { CollapsibleContent } from \"@/ui\";",
+      "renders": "div with role region",
+      "composition": "Child of Collapsible. Holds the content that is shown or hidden.",
+      "whenToUse": "The panel of a Collapsible.",
+      "avoid": [
+        "Using it outside Collapsible.",
+        "Hiding content users must read."
       ],
+      "accessibility": "Labelled by its trigger. The closed panel stays mounted in the DOM.",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Collapsible/Collapsible.tsx"
+    },
+    {
+      "name": "CollapsibleTrigger",
+      "category": "navigation",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "Button that toggles its parent `Collapsible`.",
+      "import": "import { CollapsibleTrigger } from \"@/ui\";",
+      "renders": "button with aria-expanded and aria-controls",
+      "composition": "Child of Collapsible. Children are the label; accepts Button props.",
+      "whenToUse": "The button that shows or hides a Collapsible panel.",
+      "avoid": [
+        "Using it outside Collapsible.",
+        "Icon-only without an accessible name."
+      ],
+      "accessibility": "A real button; expanded state and the controlled region come from Base UI.",
+      "props": [
+        {
+          "name": "active",
+          "type": "boolean",
+          "required": false,
+          "default": "false"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "render",
+          "type": "ReactElement<unknown, string | JSXElementConstructor<any>>",
+          "required": false
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Collapsible/Collapsible.tsx"
     },
     {
@@ -3134,27 +3171,30 @@
       "name": "Combobox",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "Searchable single- or multi-choice field built on Base UI Combobox.",
+      "description": "Searchable single- or multi-choice field. Labels come from `Field`.",
       "import": "import { Combobox } from \"@/ui\";",
       "renders": "input role=\"combobox\" with a filterable listbox popup",
-      "composition": "Pass `items` with `group`, `description` and `startIcon`; `multiple` changes the value to `string[]`; provide `label`, `aria-label` or Field. The placeholder does not replace a label; empty is `\"\"` or `[]`.",
-      "whenToUse": "Choosing one or several options from a long list where typing filters the choices.",
+      "composition": "Pass `items` ({ value, label, description?, group?, startIcon?, disabled? }). `multiple` shows chips. `clearable` shows a button to clear the selection. `icon` is the end icon: omit for the caret, `null` to hide. Label through Field, or `aria-label`.",
+      "whenToUse": "Choosing from a long list where typing to filter helps, or choosing several values.",
       "avoid": [
-        "Fewer than about seven options or a list without search: use Select.",
-        "Free text outside the list: use Input.",
-        "Several options without a need to search: use CheckboxGroup."
+        "Short lists or no typing needed: use Select.",
+        "Two or three options: use RadioGroup.",
+        "Binary choices: use Checkbox or Switch.",
+        "Free text with no fixed options: use Input."
       ],
-      "accessibility": "The input is the combobox. Filtering and keyboard navigation come from Base UI; Field associates help and error with `aria-describedby`.",
+      "accessibility": "Enter or Arrow Down opens; Arrow Up/Down navigate; Enter selects; Escape closes; Backspace removes the last chip in multiple mode. Keyboard, filtering and ARIA come from Base UI.",
       "props": [
         {
           "name": "items",
           "type": "ComboboxOption[]",
-          "required": true
+          "required": true,
+          "description": "The options. Each has a machine `value` and a visible `label`."
         },
         {
           "name": "aria-label",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Accessible name when there is no `Field` label."
         },
         {
           "name": "className",
@@ -3162,9 +3202,11 @@
           "required": false
         },
         {
-          "name": "data-force",
-          "type": "\"focus\"",
-          "required": false
+          "name": "clearable",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Shows a button to clear the selection."
         },
         {
           "name": "defaultValue",
@@ -3179,7 +3221,15 @@
         {
           "name": "emptyMessage",
           "type": "string",
-          "required": false
+          "required": false,
+          "default": "\"No results.\"",
+          "description": "Text shown when the filter matches nothing."
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "End icon. Omit for the caret, `null` to hide it."
         },
         {
           "name": "id",
@@ -3187,21 +3237,15 @@
           "required": false
         },
         {
-          "name": "label",
-          "type": "string",
-          "required": false
-        },
-        {
           "name": "loading",
           "type": "boolean",
-          "required": false
+          "required": false,
+          "description": "Shows a spinner and blocks editing. Inside `Field`, pass it to the Field."
         },
         {
           "name": "multiple",
           "type": "boolean",
-          "required": false,
-          "default": "false\nfalse",
-          "description": "Allow selecting multiple options.\n@example <Combobox multiple defaultValue={[\"ada\", \"grace\"]} items={items} />"
+          "required": false
         },
         {
           "name": "name",
@@ -3231,7 +3275,9 @@
         {
           "name": "size",
           "type": "\"sm\" | \"md\" | \"lg\"",
-          "required": false
+          "required": false,
+          "default": "\"md\"",
+          "description": "Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem."
         },
         {
           "name": "startIcon",

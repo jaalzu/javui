@@ -1,10 +1,10 @@
 import type { ComponentProps, CSSProperties, ElementType } from "react";
 import { cx } from "../../utils/cx";
 import { responsiveVars, type Responsive } from "../../utils/responsive";
-import { space, type ContainerOrListElement, type Space } from "../../types";
+import { space, type LayoutOrListElement, type Space } from "../../types";
 import styles from "./Grid.module.css";
 
-export type GridProps<T extends ContainerOrListElement = "div"> = {
+export type GridProps<T extends LayoutOrListElement = "div"> = {
   /** Element to render. With `ul` or `ol`, children must be `li` elements. @default "div" */
   as?: T;
   /**
@@ -48,7 +48,7 @@ const toTemplate = (v: number | string) =>
  * <Grid columns={{ base: 1, md: 2, lg: 4 }} gap={{ base: "3", md: "6" }}>...</Grid>
  * <Grid columns={{ base: 1, lg: "2fr 1fr" }}>...</Grid>
  */
-export function Grid<T extends ContainerOrListElement = "div">({
+export function Grid<T extends LayoutOrListElement = "div">({
   as,
   columns = 1,
   minColumnWidth,

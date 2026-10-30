@@ -44,7 +44,7 @@ type ModalCommonProps = {
   defaultOpen?: boolean;
   /** Called with the next open state. It covers both opening and closing; there are no separate callbacks. */
   onOpenChange?: (open: boolean) => void;
-  /** Width of the panel, from the container tokens. @default "md" */
+  /** Width of the panel, from the layout width tokens. @default "md" */
   size?: ModalSize;
   /** Tints the header icon, tagline and title. Behavior does not change; use `role` for that. @default "neutral" */
   color?: ModalColor;

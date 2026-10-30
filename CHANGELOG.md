@@ -1,5 +1,7 @@
 # Changelog
 
+- **Container removed.** Limit page width with `max-width: var(--container-lg)` and `margin-inline: auto`; the `--container-*` tokens stay.
+
 ## Unreleased
 
 ### Breaking

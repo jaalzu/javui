@@ -13,7 +13,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Library code lives in `src/ui`. Tokens are DTCG JSON in `src/ui/tokens/*.json`; `bun run tokens` generates `tokens.css` and `tailwind.css`. Never edit those by hand, and rerun `bun run tokens` after every JSON change (the JSON is the source, the CSS is not regenerated automatically).
 - Components use only semantic tokens. Never use `--primitive-*` or hardcoded colors, sizes or fonts.
 - Controls with behavior (Button, Input, Checkbox, Radio, Switch, Select, Modal, Tooltip, Tabs, Field, Menu, Popover, Slider...) are built on Base UI (`@base-ui/react`); do not reimplement its keyboard, focus or ARIA logic.
-- Own components (Text, Heading, Card, Stack, Grid, Container, ...) render correct semantic HTML. `as` only accepts elements valid for that component.
+- Own components (Text, Heading, Card, Stack, Grid, ...) render correct semantic HTML. `as` only accepts elements valid for that component.
 - Every component needs: TSDoc on props, a story (light and dark), a Testing Library test, and passing axe checks.
 - Breakpoints: mobile first with `min-width`. `--breakpoint-sm|md|lg|xl` (40/48/64/80rem) are documentation only, since CSS cannot read variables in `@media`; write the rem value. Max-width queries use `value - 0.01rem`.
 - Commands: `bun run storybook`, `bun run typecheck`, `bun run lint`, `bun run test`, `bun run icons`.
@@ -58,7 +58,7 @@ Keep `--inner-gap` equal to the container's real padding (use the same token in 
 - No background at rest (ghost, menu items, select options, tabs, list and table rows): hover `--color-transparent-hover`, pressed/selected/highlighted `--color-transparent-active`.
 - Background at rest (input, secondary button, toggle): hover `--color-component-hover`. Pressed uses `--color-component-active` for input and toggle; Button pressed does not change background.
 - Filled variants (inverted, brand, danger): use their own `-hover` tokens. Button pressed does not change background.
-- `:focus-visible` on every interactive component: `outline: var(--focus-ring-width) solid var(--color-brand-border-focus); outline-offset: var(--focus-ring-offset);`.
+- `:focus-visible` on every interactive component: `outline: var(--focus-ring-width) solid var(--color-brand-border-focus); outline-offset: var(--focus-ring-offset);`. Controls with a box of 16px or less use `--focus-ring-width-small` and `--focus-ring-offset-small` instead.
 - Disabled: `--color-disabled` background, `--color-disabled-foreground` text, `--color-border-disabled` border, no hover, `cursor: not-allowed`.
 - Never hand-write `color-mix` for a state when a token exists. If a token is missing, report it instead of inventing one.
 
@@ -111,7 +111,7 @@ Every interactive control must have a hit area of at least 44px on touch devices
 ## Component catalog (src/ui, import from `@/ui`)
 
 - Typography/content: `Text`, `Heading`, `Link`, `Kbd`, `Badge`, `Label`, `CodeBlock` (server entry `@/ui/server`)
-- Layout: `Stack`, `Grid`, `Container`, `AspectRatio`, `Card` (+ `CardHeader`, `CardTitle`, `CardDescription`, `CardAction`, `CardContent`, `CardFooter`), `Table`, `ScrollArea`
+- Layout: `Stack`, `Grid`, `AspectRatio`, `Card` (+ `CardHeader`, `CardTitle`, `CardDescription`, `CardAction`, `CardContent`, `CardFooter`), `Table`, `ScrollArea`
 - Utilities/feedback: `VisuallyHidden`, `Icon`, `Spinner`, `Skeleton`, `Progress`, `Alert`, `Toast`, `Avatar` (+ `AvatarGroup`), `EmptyState`
 - Controls (Base UI): `Button`, `ButtonGroup` (+ `ButtonGroupSeparator`), `Field`, `Input`, `Textarea`, `Checkbox`, `RadioGroup` + `Radio`, `Switch`, `Select`, `Combobox`, `Slider`, `ToggleGroup`
 - Overlays/navigation (Base UI): `Modal`, `Tooltip` (+ `TooltipProvider`), `Popover`, `Menu`, `Tabs`, `Accordion`, `Collapsible`, `Sheet`, `Breadcrumb`, `Pagination`, `Sidebar`

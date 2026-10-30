@@ -21,7 +21,7 @@ export type IconProps = {
 >;
 
 /**
- * Container for a Phosphor glyph (256x256 grid, filled shapes, `currentColor`).
+ * Wrapper for a Phosphor glyph (256x256 grid, filled shapes, `currentColor`).
  * Do not use it with hand-written paths: import a named icon (`ArrowRightIcon`) instead.
  *
  * @example

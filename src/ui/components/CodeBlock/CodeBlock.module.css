@@ -14,6 +14,7 @@
   --shiki-token-deleted: var(--syntax-danger);
   --shiki-token-changed: var(--syntax-number);
   overflow: hidden;
+  width: 100%;
   border: var(--border-width-thin) solid var(--color-border-default);
   border-radius: var(--radius-lg);
   background: var(--color-sunken);
@@ -70,9 +71,9 @@
 
 .tab {
   min-height: var(--size-target-min);
-  padding: 0 var(--space-2);
+  padding: 0 var(--space-3);
   border: 0;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   background: transparent;
   color: var(--color-secondary-foreground);
   font: inherit;
@@ -154,7 +155,8 @@
 }
 
 .scroll {
-  overflow-x: auto;
+  max-block-size: calc(var(--space-8) * 10);
+  overflow: auto;
   scrollbar-width: none;
 }
 
@@ -164,30 +166,53 @@
 
 .pre {
   margin: 0;
-  padding: var(--space-6) var(--space-5);
+  padding: var(--space-3) var(--space-3);
   font-family: var(--text-code-family);
-  font-size: var(--text-code-size);
-  line-height: var(--text-code-line);
+  font-size: var(--text-code-sm-size);
+  line-height: var(--text-heading-1-line);
   tab-size: 2;
 }
 
 .pre .line {
   display: block;
-  min-height: calc(var(--text-code-size) * var(--text-code-line));
+  min-height: calc(var(--text-code-sm-size) * var(--text-heading-1-line));
+}
+
+.root[data-line-numbers] .pre,
+.root[data-line-numbers] .highlight :global(.shiki) {
+  counter-reset: code-line;
+}
+
+.root[data-line-numbers] .pre .line,
+.root[data-line-numbers] .highlight :global(.line) {
+  counter-increment: code-line;
+}
+
+.root[data-line-numbers] .pre .line::before,
+.root[data-line-numbers] .highlight :global(.line)::before {
+  display: inline-block;
+  width: var(--size-icon-lg);
+  margin-inline-start: calc(-1 * var(--space-3));
+  margin-inline-end: var(--space-4);
+  color: var(--color-tertiary-foreground);
+
+  content: counter(code-line);
+  text-align: end;
+  user-select: none;
 }
 
 .pre .line[data-highlight],
 .highlight :global(.line[data-highlight]) {
   border-left: var(--border-width-thick) solid var(--color-border-strong);
-  background: var(--color-transparent-hover);
+  background: var(--color-card);
 }
 
 .highlight :global(.shiki) {
   margin: 0;
-  padding: var(--space-6) var(--space-5);
+  padding: var(--space-3) var(--space-3);
   font-family: var(--text-code-family);
-  font-size: var(--text-code-size);
-  line-height: var(--text-code-line);
+  font-size: var(--text-code-sm-size);
+  line-height: var(--text-heading-1-line);
   tab-size: 2;
 }
 

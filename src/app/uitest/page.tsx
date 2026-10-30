@@ -4,7 +4,6 @@ import {
   Avatar,
   Badge,
   CheckIcon,
-  Container,
   Grid,
   Modal,
   ModalClose,
@@ -44,7 +43,7 @@ const accordionItems = [
 export default function UiTestPage() {
   return (
     <main className="workspace">
-      <Container size="md">
+      <div className="page-width">
         <div className="project-page">
           <header className="project-header">
             <div className="breadcrumbs">
@@ -165,7 +164,7 @@ export default function UiTestPage() {
             <span>Component library / v1.4.0</span>
           </footer>
         </div>
-      </Container>
+      </div>
     </main>
   );
 }

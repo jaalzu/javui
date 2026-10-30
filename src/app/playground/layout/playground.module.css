@@ -7,11 +7,22 @@
 }
 
 .page {
+  max-width: var(--container-xl);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
   padding-block: var(--space-8);
 }
 
 .embedPage {
+  max-width: var(--container-xl);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
   padding-block: var(--space-4);
+}
+
+.pageWidthSm {
+  max-width: var(--container-sm);
+  margin-inline: auto;
 }
 
 .toolbar {
@@ -336,7 +347,7 @@
   color: var(--color-on-inverted-foreground);
 }
 
-.visibleContainer {
+.visibleRegion {
   padding-block: var(--space-3);
   border: var(--border-width-thin) solid var(--color-brand-border-default);
   border-radius: var(--radius-md);
@@ -394,7 +405,7 @@
   background: var(--color-card);
 }
 
-.nestedContainer {
+.nestedRegion {
   padding-block: var(--space-3);
   border: var(--border-width-thin) solid var(--color-border-default);
   border-radius: var(--radius-md);

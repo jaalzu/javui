@@ -4,8 +4,8 @@ export type Space = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "8" | "10" | "12" 
 /** Keys of the radius scale. Maps to `--radius-<key>`. */
 export type Radius = "none" | "sm" | "md" | "lg" | "xl" | "full";
 
-/** Elements that are safe containers for layout components. */
-export type ContainerElement =
+/** Elements that are safe layout roots. */
+export type LayoutElement =
   | "div"
   | "section"
   | "article"
@@ -15,7 +15,7 @@ export type ContainerElement =
   | "header"
   | "footer";
 
-/** Container elements plus lists. Children of `ul` and `ol` must be `li` elements. */
-export type ContainerOrListElement = ContainerElement | "ul" | "ol" | "li";
+/** Layout elements plus lists. Children of `ul` and `ol` must be `li` elements. */
+export type LayoutOrListElement = LayoutElement | "ul" | "ol" | "li";
 
 export const space = (key: Space) => `var(--space-${key})`;

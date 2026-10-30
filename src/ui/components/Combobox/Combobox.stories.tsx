@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import type { ReactNode } from "react";
 import { Combobox } from "./Combobox";
 import { Field } from "../Field";
 import { MagnifyingGlassIcon } from "../../icons/icons.generated";
@@ -21,7 +22,15 @@ const meta = {
 } satisfies Meta<typeof Combobox>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<{
+  label?: string;
+  placeholder?: string;
+  items: typeof items;
+  defaultValue?: string;
+  disabled?: boolean;
+  loading?: boolean;
+  startIcon?: ReactNode;
+}>;
 
 export const Default: Story = {};
 export const WithValue: Story = { args: { defaultValue: "grace" } };

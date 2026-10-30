@@ -41,6 +41,7 @@ export function CodeBlockView({
   html,
   tabHtml,
   highlightLines,
+  lineNumbers = false,
 }: CodeBlockViewProps) {
   const [copied, setCopied] = useState(false);
   const [active, setActive] = useState(tabs?.[0]?.label ?? "");
@@ -85,23 +86,19 @@ export function CodeBlockView({
           className={styles.highlight}
           dangerouslySetInnerHTML={{ __html: markLines(highlighted, highlightLines) }}
         />
-      ) : highlightLines?.length ? (
+      ) : (
         <pre className={styles.pre}>
           <code>
             {text.split("\n").map((line, i) => (
               <span
                 key={i}
                 className={styles.line}
-                data-highlight={highlightLines.includes(i + 1) ? "" : undefined}
+                data-highlight={highlightLines?.includes(i + 1) ? "" : undefined}
               >
                 {line}
               </span>
             ))}
           </code>
-        </pre>
-      ) : (
-        <pre className={styles.pre}>
-          <code>{text}</code>
         </pre>
       )}
     </div>
@@ -109,7 +106,7 @@ export function CodeBlockView({
 
   if (!tabs?.length) {
     return (
-      <div className={cx(styles.root, className)} data-tone={tone}>
+      <div className={cx(styles.root, className)} data-tone={tone} data-line-numbers={lineNumbers ? "" : undefined}>
         <div className={styles.bar}>
           {lead}
           {copyButton}
@@ -123,6 +120,7 @@ export function CodeBlockView({
     <BaseTabs.Root
       className={cx(styles.root, className)}
       data-tone={tone}
+      data-line-numbers={lineNumbers ? "" : undefined}
       value={active}
       onValueChange={(v) => setActive(String(v))}
     >

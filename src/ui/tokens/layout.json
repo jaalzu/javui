@@ -80,7 +80,7 @@
   },
   "container": {
     "$type": "dimension",
-    "$description": "Max content widths used by the Container component.",
+    "$description": "Max content widths for page layouts.",
     "sm": {
       "$value": "40rem"
     },

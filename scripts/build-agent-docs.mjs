@@ -141,6 +141,7 @@ const compoundParts = {
   CodeBlock: ["CodeBlockView"],
   Card: ["CardHeader", "CardTitle", "CardDescription", "CardAction", "CardContent", "CardFooter"],
   RadioGroup: ["Radio"],
+  Checkbox: ["CheckboxGroup"],
   ButtonGroup: ["ButtonGroupSeparator", "ButtonGroupText"],
   Avatar: ["AvatarGroup"],
 };

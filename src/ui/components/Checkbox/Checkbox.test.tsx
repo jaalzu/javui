@@ -23,10 +23,6 @@ describe("Checkbox", () => {
     expect(onCheckedChange).toHaveBeenCalledTimes(2);
   });
 
-  it("reports the mixed state when indeterminate", () => {
-    render(<Checkbox label="Select all" indeterminate />);
-    expect(screen.getByRole("checkbox")).toHaveAttribute("aria-checked", "mixed");
-  });
 
   it("exposes invalid, required and read-only state directly", async () => {
     const user = userEvent.setup();

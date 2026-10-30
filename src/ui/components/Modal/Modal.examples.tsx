@@ -82,7 +82,7 @@ export const examples: Example[] = [
         </ModalContent>
       </Modal>
     </Stack>,
-    "Widths come from the container tokens. The panel never grows past the viewport.",
+    "Widths come from the layout width tokens. The panel never grows past the viewport.",
   ),
   ex(
     "Colors",

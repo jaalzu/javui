@@ -24,7 +24,7 @@ export function ExampleFrame({ children, code, full = false, fixed = false, stag
   );
 }
 
-type ExamplesModule = { hero?: Hero; examples: Example[] };
+type ExamplesModule = { hero?: Hero; examples: Example[]; extras?: ReactNode };
 
 /** The hero showcase of each component. The cases live next to the component that owns them. */
 const loaders: Record<string, () => Promise<ExamplesModule>> = {
@@ -41,7 +41,6 @@ const loaders: Record<string, () => Promise<ExamplesModule>> = {
   CodeBlock: () => import("@/ui/components/CodeBlock/CodeBlock.examples"),
   Collapsible: () => import("@/ui/components/Collapsible/Collapsible.examples"),
   Combobox: () => import("@/ui/components/Combobox/Combobox.examples"),
-  Container: () => import("@/ui/components/Container/Container.examples"),
   EmptyState: () => import("@/ui/components/EmptyState/EmptyState.examples"),
   Field: () => import("@/ui/components/Field/Field.examples"),
   Grid: () => import("@/ui/components/Grid/Grid.examples"),
@@ -96,7 +95,7 @@ export async function Preview({ name }: { name: string }) {
 export async function Examples({ name }: { name: string }) {
   const load = loaders[name];
   if (!load) return null;
-  const { examples: items } = await load();
+  const { examples: items, extras } = await load();
   if (!items.length) return null;
   const fixed = name === "Accordion";
   const full = name === "Alert";
@@ -112,6 +111,7 @@ export async function Examples({ name }: { name: string }) {
   });
   return (
     <>
+      {extras}
       <Heading as="h2" size={6}>Examples</Heading>
       {fixed ? <div className={styles.examplesCompact}>{sections}</div> : sections}
     </>

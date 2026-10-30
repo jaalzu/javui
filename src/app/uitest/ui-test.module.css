@@ -16,6 +16,12 @@
   -webkit-font-smoothing: antialiased;
 }
 
+.page-width {
+  max-width: var(--container-md);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
 .project-page {
   display: grid;
   gap: 2rem;

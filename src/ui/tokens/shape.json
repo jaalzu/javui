@@ -24,7 +24,15 @@
       "$type": "dimension",
       "$description": "Focus ring: outline: var(--focus-ring-width) solid var(--color-brand-border-focus); outline-offset: var(--focus-ring-offset). Never remove it without a replacement.",
       "width": { "$value": "2px" },
-      "offset": { "$value": "2px" }
+      "offset": { "$value": "2px" },
+      "width-small": {
+        "$value": "3px",
+        "$description": "Focus ring width for controls whose box is 16px or less; use the -small variant for checkbox, radio and switch boxes."
+      },
+      "offset-small": {
+        "$value": "3px",
+        "$description": "Focus ring offset for controls whose box is 16px or less; use the -small variant for checkbox, radio and switch boxes."
+      }
     }
   },
   "opacity": {

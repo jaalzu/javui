@@ -27,9 +27,8 @@
 ### layout
 - **Stack**: Arranging children in one direction with a consistent gap.
 - **Grid**: Two-dimensional layouts and card grids.
-- **Container**: Page-level width limit and side padding.
 - **AspectRatio**: Images, video, embeds or maps whose size must be reserved before they load, preventing layout shift (CLS).
-- **Card** (parts: CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter): Grouping related content in a bordered surface.
+- **Card** (parts: CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter): Grouping related information into a single idea, with a short title.
 - **Table**: Comparing data across rows and columns.
 - **ScrollArea**: A fixed-height list, code area or panel that should scroll inside the page.
 
@@ -51,14 +50,14 @@
 - **Field**: Every form control, including its validation, required, read-only and loading states.
 - **Input**: Single-line text entry, read-only values and values that are still loading.
 - **Textarea**: Multi-line text entry, including read-only and loading values.
-- **Checkbox**: Independent yes/no choices, especially ones submitted with a form.
+- **Checkbox** (parts: CheckboxGroup): Choosing several independent options, or one confirmation that is saved when the form is submitted.
 - **RadioGroup** (parts: Radio): Choosing exactly one option from a short list.
 - **Switch**: A setting that turns on or off immediately.
 - **Select**: Choosing one option from a longer list, including read-only and loading states.
 - **Slider**: Choosing a number or range by dragging.
 - **Label**: A visible label for a custom control composition outside Field.
 - **ToggleGroup**: Two to five short, mutually exclusive options, such as a view switch.
-- **Combobox**: Choosing one option from a long list when typing to filter helps.
+- **Combobox**: Choosing one or several options from a long list where typing filters the choices.
 
 ### overlays
 - **Modal** (parts: ModalTrigger, ModalContent, ModalClose): Interrupting the user for a decision or a focused task.
@@ -73,7 +72,7 @@
 - **Breadcrumb**: Hierarchical navigation: showing where a page sits in a site with 3 or more levels.
 - **Pagination**: Moving through content split across URLs.
 - **Sidebar**: Primary vertical navigation beside an app's content, especially on desktop.
-- **Collapsible**: A single section that expands, such as advanced options or extra details.
+- **Collapsible**: A single section that shows or hides content, such as advanced options or extra details.
 
 ## Providers and hooks
 - **LinkProvider**: Making every link in the library use `next/link` (or another router link) from a single place.

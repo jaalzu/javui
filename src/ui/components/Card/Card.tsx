@@ -8,11 +8,17 @@ import styles from "./Card.module.css";
 export type CardElement = "div" | "article" | "section" | "li";
 
 export type CardProps<T extends CardElement = "div"> = {
-  /** Element to render. `article` for self-contained content, `section` for a named group. @default "div" */
+  /**
+   * Element to render. Prefer `article` for self-contained content: it can stand alone outside
+   * the page context, with its own heading. If you use `section`, give it `aria-labelledby`
+   * pointing to the `CardTitle` id. `li` only as a direct child of a `ul` or `ol`.
+   * @default "div"
+   */
   as?: T;
   /**
    * Inset between the card edge and its content. `sm` is 1rem, `default` is 1.5rem.
-   * Override `--card-spacing` on the card to use another step of the spacing scale.
+   * It sets `--card-spacing`, shared by the parts and the gap between them.
+   * An inline `--card-spacing` on the card overrides `size`.
    * @default "default"
    */
   size?: "default" | "sm";
@@ -21,8 +27,13 @@ export type CardProps<T extends CardElement = "div"> = {
 } & Omit<ComponentProps<T>, "as" | "color">;
 
 /**
- * A bordered container that groups related content. Its parts share one inset through
- * `--card-spacing`, and an `img` as the first child is full-bleed with rounded top corners.
+ * A bordered container that groups related content into one idea, with a short title.
+ * Its parts share one inset through `--card-spacing`, and an `img` as the first child is
+ * full-bleed with rounded top corners.
+ *
+ * Use `as="article"` for self-contained content. If you render a `section`, point
+ * `aria-labelledby` at the `CardTitle`. For state, mark the card with `aria-busy="true"`
+ * while its content loads and let `Skeleton` stand in for the text.
  *
  * @example
  * <Card as="article" variant="surface">
@@ -55,7 +66,8 @@ export type CardHeaderProps = ComponentProps<"div">;
 
 /**
  * The top region of a Card: a `CardTitle`, an optional `CardDescription` and an optional
- * `CardAction` at the top end.
+ * `CardAction` at the top end. A child marked with `data-card-media` (an icon or avatar)
+ * adds a leading column, aligned with the title.
  */
 export function CardHeader({ className, ...rest }: CardHeaderProps) {
   return <div className={cx(styles.header, className)} {...rest} />;
@@ -92,7 +104,11 @@ export function CardAction({ className, ...rest }: CardActionProps) {
 
 export type CardContentProps = ComponentProps<"div">;
 
-/** The main content region of a Card, aligned with the header and footer. */
+/**
+ * The main content region of a Card, aligned with the header and footer.
+ * Add `data-flush` to drop the side inset so the body can reach the card edges,
+ * for example when it holds a `Table`.
+ */
 export function CardContent({ className, ...rest }: CardContentProps) {
   return <div className={cx(styles.content, className)} {...rest} />;
 }

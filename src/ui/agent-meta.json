@@ -101,18 +101,6 @@
       "Unequal columns: pass a string such as `\"2fr 1fr\"`, optionally per breakpoint, for example `{ base: 1, lg: \"2fr 1fr\" }`."
     ]
   },
-  "Container": {
-    "category": "layout",
-    "base": "own",
-    "renders": "div (or `as`), centered with a max width",
-    "composition": "`size` is one of sm, md, lg, xl (container tokens) and limits the content width, not the padding. `padding` uses the spacing scale.",
-    "whenToUse": "Page-level width limit and side padding.",
-    "avoid": [
-      "Nesting containers.",
-      "Full-width sections: put the background on the section and the Container inside it."
-    ],
-    "a11y": "Use `as=\"main\"` once per page for the primary content."
-  },
   "AspectRatio": {
     "category": "layout",
     "base": "own",
@@ -268,14 +256,27 @@
   "Checkbox": {
     "category": "controls",
     "base": "base-ui",
-    "renders": "span role=\"checkbox\" with a hidden native input, inside a label",
-    "composition": "`label` is required. Use `indeterminate` for a partial parent state. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field.",
-    "whenToUse": "Independent yes/no choices, especially ones submitted with a form.",
+    "renders": "span role=\"checkbox\" with a hidden native input, optionally inside a label",
+    "composition": "`variant=\"card\"` turns the label into a card; the dash exists only on the `parent` of a `CheckboxGroup`; `invalid` paints without a message, while `error` adds a message. `label` is optional, but then it needs `aria-label` or `aria-labelledby`; `description` adds helper text below the label.",
+    "whenToUse": "Choosing several independent options, or one confirmation that is saved when the form is submitted.",
     "avoid": [
-      "Mutually exclusive options: use RadioGroup.",
-      "Settings that apply instantly: use Switch."
+      "A single option among several: use RadioGroup.",
+      "Settings that apply instantly: use Switch.",
+      "Long lists without grouping.",
+      "A Card with a Checkbox inside; use `variant=\"card\"`."
     ],
-    "a11y": "The whole label is clickable. Base UI handles keyboard and the mixed state. Invalid uses the danger border and an error linked with aria-describedby; required prints Required; read-only stays focusable and uses the sunken background; loading sets aria-busy and blocks changes."
+    "a11y": "Groups use fieldset and legend; every checkbox without a visible label needs an accessible name. `invalid` tints the label and box; use `error` or Field when the reason should be announced."
+  },
+  "CheckboxGroup": {
+    "category": "controls",
+    "base": "base-ui",
+    "renders": "fieldset with a legend",
+    "composition": "`legend` is required; children are Checkbox elements. For a working select-all, pass `allValues` to the group and mark one Checkbox as `parent`. Documented under Checkbox parts.",
+    "whenToUse": "Grouping a short set of related checkboxes under one name.",
+    "avoid": [
+      "One option among several: use RadioGroup."
+    ],
+    "a11y": "The fieldset and legend name the group; each option keeps its own label."
   },
   "RadioGroup": {
     "category": "controls",
@@ -385,13 +386,15 @@
     "category": "layout",
     "base": "own",
     "renders": "div by default; `as` can be article, section or li",
-    "composition": "`CardHeader` (with `CardTitle`, optional `CardDescription` and `CardAction`) + `CardContent` + `CardFooter`. `size` sets the shared inset through `--card-spacing`; override that variable to use another spacing step. An `img` as the first child is full-bleed with rounded top corners.",
-    "whenToUse": "Grouping related content in a bordered surface.",
+    "composition": "`CardHeader`, `CardContent` and `CardFooter` are all optional. `size` covers the common insets; set `--card-spacing` on the card for another step of the scale (`--space-5`, `--space-8`). For a full-bleed table, add `data-flush` to `CardContent`. Width is fluid: the container decides it. A link in the title goes as `Link` inside `CardTitle`. For an icon, put an element with `data-card-media` inside `CardHeader`.",
+    "whenToUse": "Grouping related information into a single idea, with a short title.",
     "avoid": [
-      "Making the whole card clickable: put a Link inside and keep the card as a container.",
-      "Nesting cards: use an `hr` hairline or a sunken region instead."
+      "Making the whole card clickable: put a `Link` in the title or actions in the footer.",
+      "A card inside a card: use `--color-sunken` or an `hr` hairline instead.",
+      "Too many actions in the body.",
+      "More than one primary CTA."
     ],
-    "a11y": "A plain container with no role. Use `as=\"article\"` for self-contained content and give it a heading through CardTitle."
+    "a11y": "Use `article` for self-contained content. The `CardTitle` level follows the page outline."
   },
   "CardHeader": {
     "category": "layout",
@@ -657,13 +660,14 @@
     "category": "typography",
     "base": "own",
     "renders": "server component that highlights with Shiki, wrapped around a client view with an icon-only copy button, optional tabs and a focusable region",
-    "composition": "Pass `code`, optional `language` and `label`. For alternatives such as package managers pass `tabs` ({ label, code }[]) instead of `code`. Use `highlight={false}` for plain text. Never color code by hand; use CodeBlock.",
+    "composition": "Pass `code` and a `language`. `tone` is `default`, `brand`, `success` or `danger`; `highlight={false}` shows plain text; `highlightLines` marks lines from 1; `lineNumbers` shows decorative line numbers. For alternatives, pass `tabs` instead of `code`.",
     "whenToUse": "Showing code or commands the user will copy.",
     "avoid": [
+      "Long documents.",
       "Inline code: use Kbd or a code element.",
-      "Long documents."
+      "Expecting syntax color for unsupported languages."
     ],
-    "a11y": "The code region is focusable and named; the copy result is announced via role status."
+    "a11y": "The code region is focusable with a `label`; line numbers are decorative and the copy result is announced via role status."
   },
   "CodeBlockView": {
     "category": "typography",
@@ -721,14 +725,13 @@
     "category": "navigation",
     "base": "base-ui",
     "renders": "div with a button trigger and a region panel",
-    "composition": "Pass `title`, panel `children`, optional `startIcon`/`endIcon` (generated icons, no `size`), open state (`defaultOpen`, `open`, `onOpenChange`) and `disabled`.",
-    "whenToUse": "A single section that expands, such as advanced options or extra details.",
+    "composition": "Pass `title` or a custom `trigger`, panel `children`, optional `startIcon`/`endIcon`, open state (`defaultOpen`, `open`, `onOpenChange`) and `disabled`.",
+    "whenToUse": "A single section that shows or hides content, such as advanced options or extra details.",
     "avoid": [
-      "A set of sections: use Accordion.",
-      "Hiding critical content users must read.",
-      "Navigation between pages."
+      "Several sections that coordinate: use Accordion.",
+      "Content the user must read without interaction."
     ],
-    "a11y": "The trigger is a button with aria-expanded and aria-controls; the panel is its region. Keyboard behavior comes from Base UI."
+    "a11y": "The trigger is a button with aria-expanded and aria-controls; the panel is its region. Keyboard behavior comes from Base UI. The closed panel remains mounted in the DOM, so descendants such as form fields remain in the document and can be submitted by the surrounding form."
   },
   "ToggleGroup": {
     "category": "controls",
@@ -774,14 +777,14 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "input role=\"combobox\" with a filterable listbox popup",
-    "composition": "Pass `items` ({ value, label, description?, startIcon?, disabled? }), a `label` or `aria-label`, and optional `placeholder`, `emptyMessage`, `startIcon`, `size` (sm, md, lg) and open/selection state. Inside Field, omit required/readOnly/loading and pass them to Field. Icons are generated icons without `size`.",
-    "whenToUse": "Choosing one option from a long list when typing to filter helps.",
+    "composition": "Pass `items` with `group`, `description` and `startIcon`; `multiple` changes the value to `string[]`; provide `label`, `aria-label` or Field. The placeholder does not replace a label; empty is `\"\"` or `[]`.",
+    "whenToUse": "Choosing one or several options from a long list where typing filters the choices.",
     "avoid": [
-      "Fewer than about seven options: use Select.",
-      "Several choices: use Checkbox or a multi-select pattern.",
-      "Free text that is not from the list: use Input."
+      "Fewer than about seven options or a list without search: use Select.",
+      "Free text outside the list: use Input.",
+      "Several options without a need to search: use CheckboxGroup."
     ],
-    "a11y": "Filtering, keyboard navigation and focus come from Base UI. Needs an accessible name from `label`, `aria-label` or Field. The popup is announced with the result count."
+    "a11y": "The input is the combobox. Filtering and keyboard navigation come from Base UI; Field associates help and error with `aria-describedby`."
   },
   "Modal": {
     "category": "overlays",

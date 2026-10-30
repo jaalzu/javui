@@ -1,10 +1,10 @@
 import type { ComponentProps, CSSProperties, ElementType } from "react";
 import { cx } from "../../utils/cx";
 import { responsiveVars, type Responsive } from "../../utils/responsive";
-import { space, type ContainerOrListElement, type Space } from "../../types";
+import { space, type LayoutOrListElement, type Space } from "../../types";
 import styles from "./Stack.module.css";
 
-export type StackProps<T extends ContainerOrListElement = "div"> = {
+export type StackProps<T extends LayoutOrListElement = "div"> = {
   /**
    * Element to render. With `ul` or `ol`, children must be `li` elements.
    * @default "div"
@@ -51,7 +51,7 @@ const justifyMap = { start: "flex-start", center: "center", end: "flex-end", bet
  *   <Card>Two</Card>
  * </Stack>
  */
-export function Stack<T extends ContainerOrListElement = "div">({
+export function Stack<T extends LayoutOrListElement = "div">({
   as,
   direction = "column",
   gap = "4",

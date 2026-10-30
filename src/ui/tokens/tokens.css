@@ -117,6 +117,8 @@
   --border-width-thick: 2px;
   --focus-ring-width: 2px;
   --focus-ring-offset: 2px;
+  --focus-ring-width-small: 3px; /** Focus ring width for controls whose box is 16px or less; use the -small variant for checkbox, radio and switch boxes. */
+  --focus-ring-offset-small: 3px; /** Focus ring offset for controls whose box is 16px or less; use the -small variant for checkbox, radio and switch boxes. */
   --opacity-disabled: 0.5;
   --header-height: 3.55rem; /** Height of the sticky site header. Used by the header and by scroll-padding. */
   --size-target-min: 1.5rem; /** WCAG 2.2 minimum pointer target (24px). */

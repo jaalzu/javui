@@ -12,9 +12,10 @@
   box-sizing: border-box;
   width: 100%;
   min-height: var(--size-target-comfortable);
-  padding: var(--space-3) 0;
+  padding: var(--space-3) var(--space-2);
+  margin-inline: calc(-1 * var(--space-2));
   border: 0;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   background: transparent;
   color: inherit;
   font-family: var(--text-label-family);
@@ -25,13 +26,22 @@
   cursor: pointer;
 }
 
-.trigger:hover:not([data-disabled]),
-.trigger[data-force="hover"]:not([data-disabled]) {
+.trigger:hover:not([data-disabled]):not([data-panel-open]),
+.trigger[data-force="hover"]:not([data-disabled]):not([data-panel-open]) {
   background: var(--color-transparent-hover);
 }
 
-.trigger:active:not([data-disabled]),
-.trigger[data-force="active"]:not([data-disabled]) {
+.trigger:active:not([data-disabled]):not([data-panel-open]),
+.trigger[data-force="active"]:not([data-disabled]):not([data-panel-open]) {
+  background: var(--color-transparent-active);
+}
+
+.activeTrigger[data-panel-open],
+.activeTrigger[data-open] {
+  background: var(--color-transparent-active);
+}
+
+.root[data-open] .activeTrigger {
   background: var(--color-transparent-active);
 }
 
@@ -53,14 +63,22 @@
   min-width: 0;
 }
 
-.chevron {
+.label > span {
+  overflow-wrap: anywhere;
+}
+
+.triggerIcon {
   flex-shrink: 0;
   color: var(--color-secondary-foreground);
   transition: transform var(--motion-duration-base) var(--motion-easing-out);
 }
 
-.trigger[data-panel-open] .chevron {
+.trigger[data-panel-open] .triggerIcon:not(.customTriggerIcon) {
   transform: rotate(180deg);
+}
+
+.trigger[data-panel-open] {
+  background: transparent;
 }
 
 .panel {
@@ -75,8 +93,13 @@
 }
 
 .content {
-  padding: 0 0 var(--space-4);
+  box-sizing: border-box;
+  padding: var(--space-1) var(--space-2);
   color: var(--color-secondary-foreground);
   font-size: var(--text-body-size);
   line-height: var(--text-body-line);
+}
+
+.contentBackground {
+  background: inherit;
 }

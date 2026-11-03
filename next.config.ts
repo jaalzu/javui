@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["192.168.100.*"],
   cacheComponents: true,
   partialPrefetching: true,
+  experimental: {
+    // Set by `next upgrade --agent=security`: the upgrade fixes a published advisory.
+    agentUpgrade: "security",
+  },
   async redirects() {
     return [
       {

@@ -25,6 +25,9 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+// The live playground reads `searchParams` for its embed and case views; keep it as a blocking route.
+export const instant = false;
+
 type Expected = Partial<Record<BreakpointName, string>> & { base: string };
 
 type CaseProps = {

@@ -1,8 +1,6 @@
-"use client";
-
 import { useId, type ReactNode } from "react";
 import { cx } from "../../utils/cx";
-import { Heading } from "../Heading";
+import { Heading } from "../../typography/Heading";
 import { Text } from "../Text";
 import styles from "./EmptyState.module.css";
 

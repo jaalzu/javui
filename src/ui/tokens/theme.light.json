@@ -2,7 +2,7 @@
   "color": {
     "$description": "Semantic color tokens, light theme. Same keys as the dark theme. Components use only these.",
     "page": {
-      "$value": "color-mix(in oklab, {primitive.color.white} 70%, {primitive.color.neutral.50})",
+      "$value": "color-mix(in oklab, {primitive.color.white} 84%, {primitive.color.neutral.50})",
       "$type": "color",
       "$description": "The page itself. Everything sits on it."
     },
@@ -17,7 +17,7 @@
       "$description": "Content blocks on the page: cards, panels, table rows."
     },
     "sunken": {
-      "$value": "color-mix(in oklab, {color.primary-foreground} 4%, {color.page})",
+      "$value": "oklch(0.97913 0 0)",
       "$type": "color",
       "$description": "Recessed areas: code blocks, wells, inset fields."
     },
@@ -45,6 +45,11 @@
       "$value": "color-mix(in oklab, {color.primary-foreground} 8%, transparent)",
       "$type": "color",
       "$description": "Component hovered."
+    },
+    "component-hover-subtle": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 3%, transparent)",
+      "$type": "color",
+      "$description": "Very subtle component hover for quiet controls."
     },
     "component-active": {
       "$value": "color-mix(in oklab, {color.primary-foreground} 12%, transparent)",

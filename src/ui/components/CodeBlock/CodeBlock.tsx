@@ -26,6 +26,7 @@ export async function CodeBlock({
   highlight = true,
   highlightLines,
   lineNumbers = false,
+  minimal = false,
 }: CodeBlockProps) {
   const html = highlight ? await highlightCode(code, language) : null;
   const tabHtml = tabs && highlight
@@ -48,6 +49,7 @@ export async function CodeBlock({
       tabHtml={tabHtml}
       highlightLines={highlightLines}
       lineNumbers={lineNumbers}
+      minimal={minimal}
     />
   );
 }

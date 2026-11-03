@@ -1,5 +1,5 @@
 // Generates everything agents read, from the single source of truth:
-//   - props, descriptions and examples: TypeScript types + TSDoc in src/ui/components
+//   - props, descriptions and examples: TypeScript types + TSDoc in src/ui/components and src/ui/typography
 //   - tokens: src/ui/tokens/*.json (DTCG)
 //   - what cannot be derived (when to use, a11y notes): src/ui/agent-meta.json
 // Outputs (never edit by hand):
@@ -40,13 +40,16 @@ if (missingMeta.length || unknownMeta.length) {
 }
 
 // ---- 2. Props, descriptions and examples from types + TSDoc ----
-const componentFiles = readdirSync(join(uiDir, "components"), { withFileTypes: true })
-  .filter((d) => d.isDirectory())
-  .flatMap((d) =>
-    readdirSync(join(uiDir, "components", d.name))
-      .filter((f) => f.endsWith(".tsx") && !f.endsWith(".test.tsx") && !f.endsWith(".stories.tsx"))
-      .map((f) => join(uiDir, "components", d.name, f)),
-  );
+const componentRoots = ["components", "typography"];
+const componentFiles = componentRoots.flatMap((rootName) =>
+  readdirSync(join(uiDir, rootName), { withFileTypes: true })
+    .filter((d) => d.isDirectory())
+    .flatMap((d) =>
+      readdirSync(join(uiDir, rootName, d.name))
+        .filter((f) => f.endsWith(".tsx") && !f.endsWith(".test.tsx") && !f.endsWith(".stories.tsx"))
+        .map((f) => join(uiDir, rootName, d.name, f)),
+    ),
+);
 
 const parser = withCustomConfig(join(root, "tsconfig.json"), {
   savePropValueAsString: true,
@@ -114,6 +117,10 @@ const componentsManifest = allExported.map((name) => {
   };
 });
 
+// Foundations are public primitives, but they belong with foundation docs rather than the component catalog.
+const foundationNames = new Set(["Heading"]);
+const foundationsManifest = componentsManifest.filter((c) => foundationNames.has(c.name));
+
 // Components without a docgen entry (for example aliases) still get TSDoc from source.
 for (const c of componentsManifest) {
   if (c.description) continue;
@@ -146,6 +153,8 @@ const compoundParts = {
   Avatar: ["AvatarGroup"],
   Collapsible: ["CollapsibleTrigger", "CollapsibleContent"],
   Field: ["FieldSet", "FieldSeparator"],
+  InputGroup: ["InputGroupInput", "InputGroupAddon", "InputGroupText", "InputGroupButton"],
+  DescriptionList: ["DescriptionListTerm", "DescriptionListDetails"],
 };
 const providerAndHookNames = ["LinkProvider", "TooltipProvider", "ToastProvider", "useLinkComponent", "useToast"];
 const byName = new Map(componentsManifest.map((c) => [c.name, c]));
@@ -157,7 +166,7 @@ for (const [parent, names] of Object.entries(compoundParts)) {
 const providersAndHooks = providerAndHookNames.map((name) => byName.get(name));
 const topLevelComponents = componentsManifest.filter(
   (c) => !partNames.has(c.name) && !providerAndHookNames.includes(c.name),
-);
+).filter((c) => !foundationNames.has(c.name));
 
 // ---- 3. Tokens ----
 const tokenFiles = ["primitive", "typography", "spacing", "shape", "layout", "motion", "theme.light", "theme.dark"];
@@ -229,6 +238,7 @@ const manifest = {
   ],
   categories: [...new Set(topLevelComponents.map((c) => c.category))],
   components: topLevelComponents,
+  foundations: foundationsManifest,
   providersAndHooks,
 };
 writeFileSync(join(outDir, "manifest.json"), JSON.stringify(manifest, null, 2));

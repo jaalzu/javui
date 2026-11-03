@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, type ReactNode } from "react";
+import { memo, useEffect, useId, useMemo, useRef, type ReactNode } from "react";
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { cx } from "../../utils/cx";
 import { IconSlot } from "../Icon/IconSlot";
@@ -62,7 +62,7 @@ export type ComboboxProps = BaseProps &
 
 const getValue = (item: ComboboxOption) => item.value;
 
-function ComboboxItem({ item }: { item: ComboboxOption }) {
+const ComboboxItem = memo(function ComboboxItem({ item }: { item: ComboboxOption }) {
   return (
     <BaseCombobox.Item
       value={item}
@@ -83,17 +83,22 @@ function ComboboxItem({ item }: { item: ComboboxOption }) {
       </BaseCombobox.ItemIndicator>
     </BaseCombobox.Item>
   );
-}
+});
 
 function ComboboxList({ items }: { items: ComboboxOption[] }) {
-  const groups = new Map<string, ComboboxOption[]>();
-  for (const item of items) {
-    const key = item.group ?? "";
-    groups.set(key, [...(groups.get(key) ?? []), item]);
-  }
+  const groups = useMemo(() => {
+    const next = new Map<string, ComboboxOption[]>();
+    for (const item of items) {
+      const key = item.group ?? "";
+      const group = next.get(key);
+      if (group) group.push(item);
+      else next.set(key, [item]);
+    }
+    return [...next];
+  }, [items]);
   return (
     <>
-      {[...groups].map(([group, groupItems]) =>
+      {groups.map(([group, groupItems]) =>
         group ? (
           <BaseCombobox.Group key={group} items={groupItems}>
             <BaseCombobox.GroupLabel className={popupStyles.groupLabel}>

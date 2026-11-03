@@ -42,6 +42,7 @@ export function CodeBlockView({
   tabHtml,
   highlightLines,
   lineNumbers = false,
+  minimal = false,
 }: CodeBlockViewProps) {
   const [copied, setCopied] = useState(false);
   const [active, setActive] = useState(tabs?.[0]?.label ?? "");
@@ -106,12 +107,10 @@ export function CodeBlockView({
 
   if (!tabs?.length) {
     return (
-      <div className={cx(styles.root, className)} data-tone={tone} data-line-numbers={lineNumbers ? "" : undefined}>
-        <div className={styles.bar}>
-          {lead}
-          {copyButton}
-        </div>
+      <div className={cx(styles.root, className)} data-tone={tone} data-line-numbers={lineNumbers ? "" : undefined} data-minimal={minimal ? "" : undefined}>
+        {!minimal && <div className={styles.bar}>{lead}{copyButton}</div>}
         {region(code, label, html)}
+        {minimal && <div className={styles.footer}>{copyButton}</div>}
       </div>
     );
   }
@@ -121,6 +120,7 @@ export function CodeBlockView({
       className={cx(styles.root, className)}
       data-tone={tone}
       data-line-numbers={lineNumbers ? "" : undefined}
+      data-minimal={minimal ? "" : undefined}
       value={active}
       onValueChange={(v) => setActive(String(v))}
     >

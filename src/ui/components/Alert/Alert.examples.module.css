@@ -1,0 +1,5 @@
+.custom {
+  --alert-tone: oklch(55% 0.19 350);
+  --alert-bg: oklch(55% 0.19 350 / 0.12);
+  --alert-border: oklch(55% 0.19 350 / 0.4);
+}

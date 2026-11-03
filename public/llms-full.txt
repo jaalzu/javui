@@ -18,15 +18,20 @@
 ## Components
 ### typography
 - **Text**: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls (buttons, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
-- **Heading**: Page and section titles.
 - **Link**: Navigation to another page, section or resource, inline in text.
 - **Kbd**: Keyboard shortcuts in docs and UI.
 - **Badge**: Short status or count labels next to other content.
 - **CodeBlock** (parts: CodeBlockView): Showing code or commands the user will copy.
 
+### patterns
+- **DescriptionList** (parts: DescriptionListTerm, DescriptionListDetails): Semantic term/description content such as metadata, settings or record details.
+- **NameValueList**: Data-driven name/value pairs where a semantic description list is appropriate.
+
 ### layout
 - **Stack**: Arranging children in one direction with a consistent gap.
 - **Grid**: Two-dimensional layouts and card grids.
+- **Container**: Page shells, readable content boundaries and sections that need a consistent max width.
+- **Box**: A bordered or recessed content area that is not a full Card and does not need Card parts.
 - **AspectRatio**: Images, video, embeds or maps whose size must be reserved before they load, preventing layout shift (CLS).
 - **Separator**: Visually dividing sections.
 - **Card** (parts: CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter): Grouping related information into a single idea, with a short title.
@@ -34,6 +39,7 @@
 - **ScrollArea**: A fixed-height list, code area or panel that should scroll inside the page.
 
 ### utility
+- **useControllableState**: Interactive components that support both controlled and uncontrolled state.
 - **VisuallyHidden**: Text that screen readers must read but sighted users should not see, such as the name of an icon-only button.
 - **Icon**: Any glyph. Named icons are decorative by default; pass `label` when the icon is the only carrier of meaning.
 - **Avatar** (parts: AvatarGroup): Showing who a person or account is.
@@ -50,6 +56,8 @@
 - **ButtonGroup** (parts: ButtonGroupSeparator, ButtonGroupText): 2-4 related actions with short labels, all the same size and variant.
 - **Field** (parts: FieldSet, FieldSeparator): Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
 - **Input**: Single-line text entry, read-only values and values that are still loading.
+- **InputOTP**: Verification codes, one-time passwords and recovery codes.
+- **InputGroup** (parts: InputGroupInput, InputGroupAddon, InputGroupText, InputGroupButton): A text input that needs a prefix, suffix, keyboard hint or action inside the same visual control.
 - **Textarea**: Multi-line text entry, including read-only and loading values.
 - **Checkbox** (parts: CheckboxGroup): Choosing several independent options, or one confirmation that is saved when the form is submitted.
 - **RadioGroup** (parts: Radio): Choosing exactly one option from a short list.
@@ -110,8 +118,11 @@ For headings use `Heading`; for links use `Link`.
 |---|---|---|---|---|
 | `as` | `"div" \| "code" \| "em" \| "label" \| "p" \| "small" \| "span" \| "strong"` | no |  | HTML element to render. Defaults by variant: `p` for body variants, `span` for `label` and `caption`, `code` for `code`. |
 | `casing` | `"normal" \| "uppercase"` | no | normal | Set to `uppercase` for small uppercase captions. |
+| `hyphenate` | `boolean` | no | false | Allow the browser to hyphenate words when the line needs to break. |
+| `lineClamp` | `2 \| 3 \| 4 \| 5` | no |  | Clamp direct text content to this many lines. Do not use on elements containing nested HTML. |
 | `size` | `"sm" \| "lg" \| "base" \| "xs"` | no | base | Size within the variant: body is 18px (`lg`), 15px (`base`) or 13px (`sm`); caption is 12px, 11px or 10px; code is 14px (`base`), 13px (`sm`) or 12px (`xs`). Ignored by `label` and `emphasis`. |
 | `tone` | `"info" \| "success" \| "warning" \| "default" \| "brand" \| "danger" \| "muted" \| "subtle"` | no | default | Text color from the semantic color tokens. |
+| `truncate` | `boolean` | no | false | Keep one line and show an ellipsis when the text does not fit. |
 | `variant` | `"body" \| "caption" \| "code" \| "label" \| "emphasis"` | no | body | Which text style to apply. Appearance only; it does not change the element. |
 | `weight` | `"regular" \| "medium" \| "semibold"` | no |  | Font weight. Only three exist; there is no light. Defaults to the variant's own weight. |
 
@@ -122,38 +133,7 @@ Also accepts the native props of the element it renders; they pass through.
 <Text>Default paragraph.</Text>
 <Text size="lg">Large body text</Text>
 <Text variant="caption" tone="muted">Helper text</Text>
-```
-
-## Heading
-
-A heading. Separates semantics (`as`) from appearance (`size`). Headings are always upright and semibold.
-When `id` is omitted, a stable slug of the text is used, so anchors render the same on the server and the client.
-
-- Category: typography
-- Base: Own component
-- Import: `import { Heading } from "@/ui";`
-- Renders: h1-h6 from `as` (default h2)
-- Composition: `as` sets the outline level (h1-h6 only); `size` sets only the look.
-- Use when: Page and section titles.
-- Avoid:
-  - Skipping levels (h1 then h3).
-  - More than one h1 per page.
-  - Choosing a level for its look: change `size` instead.
-- Accessibility: Heading order is part of the page structure for screen reader users.
-
-### Props
-| Prop | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `as` | `"h1" \| "h2" \| "h3" \| "h4" \| "h5" \| "h6"` | no | h2 | Heading level in the document outline. Keep one `h1` per page and do not skip levels. |
-| `size` | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | no |  | Visual size from 1 (56px) to 6 (20px) on wide screens. Defaults to the size that matches `as`. Use it to get an `h2` that looks like a size 4. |
-| `weight` | `"regular" \| "medium" \| "semibold"` | no | "semibold" | Font weight. There is no light; headings are semibold unless you set another. |
-
-Also accepts the native props of the element it renders; they pass through.
-
-### Example
-```tsx
-<Heading as="h1">Page title</Heading>
-<Heading as="h2" size={4}>Smaller-looking section title</Heading>
+<Text lineClamp={2}>A long description that can safely truncate...</Text>
 ```
 
 ## Link
@@ -266,6 +246,94 @@ Also accepts the native props of the element it renders; they pass through.
 <Badge render={<a href="#link" />}>Open link</Badge>
 ```
 
+## DescriptionList
+
+Semantic `dl` structure for terms and descriptions. It does not impose a data model.
+
+- Category: patterns
+- Base: Own component
+- Import: `import { DescriptionList } from "@/ui";`
+- Renders: dl with native dt/dd children
+- Composition: Compose `DescriptionListTerm` and `DescriptionListDetails` in alternating pairs. `layout` is `stacked`, `inline` or `horizontal`; `narrow` reduces the horizontal label column.
+- Use when: Semantic term/description content such as metadata, settings or record details.
+- Avoid:
+  - Using a div-based grid for term/value semantics.
+  - Putting unrelated content into one list.
+- Accessibility: Uses native description-list semantics; keep each term paired with its following description.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | yes |  | Term and detail children, normally alternating `DescriptionListTerm` and `DescriptionListDetails`. |
+| `layout` | `"inline" \| "horizontal" \| "stacked"` | no | stacked | Layout for the term/detail pairs. |
+| `narrow` | `boolean` | no | false | Uses a narrower label column in `horizontal` layout. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Parts
+
+### DescriptionListTerm
+
+A term inside `DescriptionList`.
+
+- Category: patterns
+- Base: Own component
+- Import: `import { DescriptionListTerm } from "@/ui";`
+- Renders: dt
+- Composition: Child of `DescriptionList`; accepts native dt props.
+- Use when: The name or term in a description list.
+- Avoid:
+  - Using it outside a description list.
+- Accessibility: Native term semantics.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+### DescriptionListDetails
+
+A description/value inside `DescriptionList`.
+
+- Category: patterns
+- Base: Own component
+- Import: `import { DescriptionListDetails } from "@/ui";`
+- Renders: dd
+- Composition: Child of `DescriptionList`; accepts native dd props.
+- Use when: The description or value paired with a term.
+- Avoid:
+  - Using it outside a description list.
+- Accessibility: Native description semantics.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+## NameValueList
+
+Data-driven name/value presentation built on native description-list semantics.
+
+- Category: patterns
+- Base: Own component
+- Import: `import { NameValueList } from "@/ui";`
+- Renders: dl with generated dt/dd pairs
+- Composition: Pass `items` with `label` and `value`, then choose `layout` (`stacked`, `inline` or `horizontal`).
+- Use when: Data-driven name/value pairs where a semantic description list is appropriate.
+- Avoid:
+  - Using it when each value needs custom structural markup; use DescriptionList directly.
+  - Using it for tabular data; use Table.
+- Accessibility: Renders native description-list semantics for every item.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `items` | `readonly NameValueItem[]` | yes |  | Data pairs to render as `dt`/`dd`. |
+| `layout` | `"inline" \| "horizontal" \| "stacked"` | no | stacked | Visual arrangement of the pairs. |
+| `narrow` | `boolean` | no | false | Uses a narrower label column in `horizontal` layout. |
+
+Also accepts the native props of the element it renders; they pass through.
+
 ## Stack
 
 One-dimensional layout: children in a row or column with a token-based gap.
@@ -288,11 +356,11 @@ smaller one, so `{ md: "row" }` stays `column` below 48rem.
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `align` | `"center" \| "start" \| "end" \| "stretch" \| "baseline"` | no | stretch | Alignment on the cross axis. |
+| `align` | `Responsive<"center" \| "start" \| "end" \| "stretch" \| "baseline">` | no | stretch | Alignment on the cross axis. Accepts per-breakpoint values. |
 | `as` | `"div" \| "article" \| "aside" \| "footer" \| "header" \| "li" \| "main" \| "nav" \| "ol" \| "section" \| "ul"` | no | "div" | Element to render. With `ul` or `ol`, children must be `li` elements. |
 | `direction` | `Responsive<"row" \| "column">` | no | column | Main axis. `column` stacks vertically. Pass a per-breakpoint object to change it responsively; mobile-first, a missing breakpoint inherits the smaller one. |
 | `gap` | `Responsive<Space>` | no | 4 | Space between children, from the spacing scale. Pass a per-breakpoint object to change it responsively; mobile-first, a missing breakpoint inherits the smaller one. |
-| `justify` | `"center" \| "start" \| "end" \| "between"` | no | start | Distribution on the main axis. |
+| `justify` | `Responsive<"center" \| "start" \| "end" \| "between">` | no | start | Distribution on the main axis. Accepts per-breakpoint values. |
 | `wrap` | `boolean` | no | false | Lets children wrap onto new lines. |
 
 Also accepts the native props of the element it renders; they pass through.
@@ -304,7 +372,7 @@ Also accepts the native props of the element it renders; they pass through.
   <Text>Body</Text>
 </Stack>
 <Stack as="ul" gap="2"><li>One</li><li>Two</li></Stack>
-<Stack direction={{ base: "column", md: "row" }} gap={{ base: "3", md: "6" }}>
+<Stack direction={{ base: "column", md: "row" }} gap={{ base: "3", md: "6" }} align={{ base: "stretch", md: "center" }}>
   <Card>One</Card>
   <Card>Two</Card>
 </Stack>
@@ -334,13 +402,14 @@ A missing breakpoint inherits the smaller one.
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `align` | `"center" \| "start" \| "end" \| "stretch"` | no | stretch | Alignment of items inside their cells on the block axis. |
+| `align` | `Responsive<"center" \| "start" \| "end" \| "stretch">` | no | stretch | Alignment of items inside their cells on the block axis. Accepts per-breakpoint values. |
 | `as` | `"div" \| "article" \| "aside" \| "footer" \| "header" \| "li" \| "main" \| "nav" \| "ol" \| "section" \| "ul"` | no | "div" | Element to render. With `ul` or `ol`, children must be `li` elements. |
-| `columnGap` | `"0" \| "1" \| "2" \| "3" \| "4" \| "5" \| "6" \| "8" \| "10" \| "12" \| "16"` | no |  | Column gap override. |
+| `columnGap` | `"0" \| "1" \| "2" \| "3" \| "4" \| "5" \| "6" \| "8" \| "10" \| "12" \| "16" \| "20" \| "24" \| "28" \| "36"` | no |  | Column gap override. |
 | `columns` | `Responsive<string \| number>` | no | 1 | Number of equal columns (`3`), or a full `grid-template-columns` value (`"2fr 1fr"`). Pass a per-breakpoint object to change it responsively; mobile-first, a missing breakpoint inherits the smaller one. |
 | `gap` | `Responsive<Space>` | no | 4 | Space between rows and columns, from the spacing scale. Pass a per-breakpoint object to change it responsively; mobile-first, a missing breakpoint inherits the smaller one. |
+| `justify` | `Responsive<"center" \| "start" \| "end" \| "stretch">` | no | stretch | Alignment of items inside their cells on the inline axis. Accepts per-breakpoint values. |
 | `minColumnWidth` | `string` | no |  | Minimum width for automatic columns, for example `"16rem"`. Uses `auto-fit` with no breakpoints and overrides `columns`. `min(100%, X)` prevents overflow on narrow screens. |
-| `rowGap` | `"0" \| "1" \| "2" \| "3" \| "4" \| "5" \| "6" \| "8" \| "10" \| "12" \| "16"` | no |  | Row gap override. |
+| `rowGap` | `"0" \| "1" \| "2" \| "3" \| "4" \| "5" \| "6" \| "8" \| "10" \| "12" \| "16" \| "20" \| "24" \| "28" \| "36"` | no |  | Row gap override. |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -350,8 +419,83 @@ Also accepts the native props of the element it renders; they pass through.
 <Grid columns="2fr 1fr">...</Grid>
 <Grid minColumnWidth="16rem" gap="4">...</Grid>
 <Grid columns={{ base: 1, md: 2, lg: 4 }} gap={{ base: "3", md: "6" }}>...</Grid>
-<Grid columns={{ base: 1, lg: "2fr 1fr" }}>...</Grid>
+<Grid columns={{ base: 1, lg: "2fr 1fr" }} align="start" justify={{ base: "stretch", md: "center" }}>...</Grid>
 ```
+
+## Container
+
+Centers content, constrains its readable width and applies responsive horizontal gutters.
+
+- Category: layout
+- Base: Own component
+- Import: `import { Container } from "@/ui";`
+- Renders: div (or `as`) with a centered max width and horizontal gutters
+- Composition: `size` selects a semantic container width (`xs`, `sm`, `md`, `lg`, `xl`) and `gutter` selects responsive horizontal padding from the spacing scale.
+- Use when: Page shells, readable content boundaries and sections that need a consistent max width.
+- Avoid:
+  - Using arbitrary max-width values when a container token fits.
+  - Nesting containers without a deliberate change in content width.
+- Accessibility: The default element is a neutral div; choose `as` to provide the correct landmark or section semantics.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `as` | `"div" \| "article" \| "aside" \| "footer" \| "header" \| "main" \| "nav" \| "section"` | no | "div" | Element to render. |
+| `gutter` | `Responsive<Space>` | no | 4 | Horizontal gutter from the spacing scale. Accepts per-breakpoint values. |
+| `size` | `Responsive<ContainerSize>` | no | xl | Maximum content width. Accepts per-breakpoint values. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Container size="lg" gutter={{ base: "4", md: "8" }}>Page content</Container>
+```
+
+## Box
+
+A bordered content region with token-based inset and optional semantic surface.
+
+- Category: layout
+- Base: Own component
+- Import: `import { Box } from "@/ui";`
+- Renders: div (or `as`) with token-based inset, optional border and semantic surface
+- Composition: Use `size` (`default`, `sm`, `xs`, `xxs`), `surface` (`none`, `card`, `sunken`, `highlight`) and `bordered` to define a content region.
+- Use when: A bordered or recessed content area that is not a full Card and does not need Card parts.
+- Avoid:
+  - Nesting cards inside cards.
+  - Using Box as a replacement for Stack or Grid.
+  - Using arbitrary backgrounds instead of semantic surfaces.
+- Accessibility: The default element is a neutral div; choose `as` when the region has section or landmark semantics.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `as` | `"div" \| "article" \| "aside" \| "footer" \| "header" \| "main" \| "nav" \| "section"` | no | "div" | Element to render. |
+| `bordered` | `boolean` | no | true | Whether to show the default border. |
+| `size` | `"sm" \| "xs" \| "default" \| "xxs"` | no | default | Inset from the spacing scale. |
+| `surface` | `"none" \| "card" \| "sunken" \| "highlight"` | no | none | Surface inside the box. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+## useControllableState
+
+
+
+- Category: utility
+- Base: Own component
+- Import: `import { useControllableState } from "@/ui";`
+- Renders: no element; returns the current value and a setter
+- Composition: Use for controlled/uncontrolled component state. Pass `value`, `defaultValue` and optional `onChange`; domain-specific guards stay in the component.
+- Use when: Interactive components that support both controlled and uncontrolled state.
+- Avoid:
+  - Using it for state that has no controlled API.
+  - Putting accessibility or domain-specific close/validation rules inside the generic hook.
+- Accessibility: The hook renders no DOM and does not replace component-level accessibility behavior.
+
+### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
 
 ## AspectRatio
 
@@ -789,12 +933,14 @@ A native text input built on Base UI Input. Inside `Field` it is labelled and wi
 description and error automatically, and it inherits `required`, `readOnly` and `loading`.
 Outside `Field` it needs an accessible name (`aria-label` or an associated `label`).
 Icons follow the control size: sm 16px, md 20px, lg 24px.
+Styling hooks: set `--input-radius` or `--input-px` on the input wrapper or an ancestor; they
+default to `--radius-md` and `--space-3` and are useful when composing with ButtonGroup.
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Input } from "@/ui";`
 - Renders: input
-- Composition: Native input props pass through (type, autoComplete, name, required...). Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Icons follow the size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.
+- Composition: Native input props pass through (type, autoComplete, name, required...). `variant="ghost"` removes resting chrome for low-emphasis fields. Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Icons follow the size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.
 - Use when: Single-line text entry, read-only values and values that are still loading.
 - Avoid:
   - Using it without Field or aria-label.
@@ -808,8 +954,9 @@ Icons follow the control size: sm 16px, md 20px, lg 24px.
 | `className` | `string` | no |  |  |
 | `endIcon` | `ReactNode` | no |  | Icon after the text. Pass a generated icon without `size`; the input sizes it. |
 | `loading` | `boolean` | no | false | Shows a small spinner at the end and makes the input not editable. `aria-busy` is set. Inside `Field`, omit it and pass `loading` to the Field instead. |
-| `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. |
+| `size` | `"sm" \| "md" \| "lg" \| "xl"` | no | md | Control height: `sm` 1.5rem, `md` 1.75rem, `lg` 2rem, `xl` 2.5rem. |
 | `startIcon` | `ReactNode` | no |  | Icon before the text. Pass a generated icon without `size`; the input sizes it. |
+| `variant` | `"default" \| "ghost"` | no | default | Visual treatment: `ghost` removes the resting chrome for low-emphasis fields. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -818,6 +965,225 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 <Field label="Email"><Input type="email" autoComplete="email" /></Field>
 <Input aria-label="Search" startIcon={<MagnifyingGlassIcon />} />
 <Field label="Tax ID" loading><Input /></Field>
+```
+
+## InputOTP
+
+One-time code entry split into character slots, built on Base UI OTP Field. Typing advances the
+focus, backspace and arrow keys move it back, and pasting or the browser's SMS autofill
+(`autoComplete="one-time-code"`, the default) fills every slot. Inside `Field` it is labelled by
+the Field label and inherits `invalid`, `required`, `readOnly` and `loading`.
+
+The first slot takes the label as its name; the others are named "Character n of N" so a screen
+reader says which slot has focus. Outside `Field`, pass `aria-label` for the first slot.
+
+`validationType` is `"numeric"` by default; use `"alphanumeric"` for recovery codes. `mask` hides
+the characters, which also turns the slots into password inputs, so password managers may react.
+Use `onValueComplete` to verify the code, or `autoSubmit` to submit the owning form.
+
+Styling hook: `--input-radius` (default `--radius-md`).
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { InputOTP } from "@/ui";`
+- Renders: one-time-code input with character slots
+- Composition: Use as one component. Set `length`, optional `groups`, `validationType`, `mask` and `onValueComplete` as needed.
+- Use when: Verification codes, one-time passwords and recovery codes.
+- Avoid:
+  - Splitting it into slot components; Base UI manages slot indexes and focus.
+  - Using it for arbitrary multi-field data entry.
+- Accessibility: Inside Field, the first slot uses the Field label and the remaining slots announce their character position. Outside Field, provide aria-label. Loading is read-only with aria-busy=true.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `className` | `string` | no |  |  |
+| `getSlotLabel` | `((slot: number, length: number) => string)` | no | (slot: number, length: number) => `Character ${slot} of ${length}` | Accessible name of each slot after the first, which uses the `Field` label. Pass it to translate the default "Character 2 of 6". |
+| `groups` | `readonly number[]` | no |  | Splits the slots into visual chunks with a separator between them, e.g. `[3, 3]` for `123-456`. The numbers must add up to `length`; otherwise they are ignored. |
+| `length` | `number` | no | 6 | Number of character slots. |
+| `loading` | `boolean` | no | false | Makes the slots not editable, marks the field `aria-busy` and shows a spinner after the last slot. Use it while the code is being verified. Inside `Field`, pass `loading` to the Field instead. |
+| `size` | `"sm" \| "md"` | no | md | Slot size: `sm` 2.25rem, `md` 2.75rem. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Field label="Verification code" description="Enter the 6 digits we sent you.">
+  <InputOTP onValueComplete={verify} />
+</Field>
+<Field label="Backup code" error={errors.code}>
+  <InputOTP length={8} groups={[4, 4]} validationType="alphanumeric" normalizeValue={(v) => v.toUpperCase()} />
+</Field>
+<Field label="Code" loading>
+  <InputOTP />
+</Field>
+<InputOTP aria-label="Authenticator code" />
+```
+
+## InputGroup
+
+Text input with addons (icons, text, buttons, keyboard hints) inside one bordered control.
+The border, background, hover, focus ring, invalid, disabled and read-only states live on the group;
+`InputGroupInput` is the borderless input inside it. Invalid, disabled, required and read-only come
+from `Field` exactly as they do for `Input`.
+
+Put `InputGroupInput` first in the DOM and the addons after it. Visual order comes from `align`, so
+keyboard order stays input, then buttons. For a plain icon use `Input` with `startIcon`/`endIcon`.
+
+Styling hooks: `--input-radius` (default `--radius-md`) and `--input-px` (default `--space-3`).
+
+- Category: controls
+- Base: Own component
+- Import: `import { InputGroup } from "@/ui";`
+- Renders: div containing one borderless input and optional addons
+- Composition: Put `InputGroupInput` first in the DOM, followed by `InputGroupAddon` elements. Use `InputGroupText` for prefixes or units and `InputGroupButton` for actions.
+- Use when: A text input that needs a prefix, suffix, keyboard hint or action inside the same visual control.
+- Avoid:
+  - Using it only for spacing; use Stack or Grid.
+  - Putting units only in an addon; repeat them in the Field label or description.
+- Accessibility: The input needs an accessible name from Field or aria-label. Addon text is not part of the input's accessible name. Icon-only buttons need aria-label.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `className` | `string` | no |  |  |
+| `loading` | `boolean` | no | false | Shows a spinner after the last addon, marks the input `aria-busy` and makes it not editable. Inside `Field`, omit it and pass `loading` to the Field instead. |
+| `size` | `"sm" \| "md" \| "lg" \| "xl"` | no | md | Control height: `sm` 1.5rem, `md` 1.75rem, `lg` 2rem, `xl` 2.5rem. Flows to every part. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Field label="Search">
+  <InputGroup>
+    <InputGroupInput type="search" />
+    <InputGroupAddon><MagnifyingGlassIcon /></InputGroupAddon>
+  </InputGroup>
+</Field>
+<Field label="Website" description="Without the protocol.">
+  <InputGroup>
+    <InputGroupInput />
+    <InputGroupAddon><InputGroupText>https://</InputGroupText></InputGroupAddon>
+    <InputGroupAddon align="end"><InputGroupText>.com</InputGroupText></InputGroupAddon>
+  </InputGroup>
+</Field>
+```
+
+### Parts
+
+### InputGroupInput
+
+The input of an `InputGroup`: borderless and transparent, with the same text styles as `Input`.
+Inherits `required`, `readOnly` and `loading` from the group and `Field`. Needs an accessible name
+(`Field label` or `aria-label`).
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { InputGroupInput } from "@/ui";`
+- Renders: input
+- Composition: Use only inside InputGroup. It inherits size, loading, required and readOnly from InputGroup and Field.
+- Use when: The editable control inside InputGroup.
+- Avoid:
+  - Using it outside InputGroup; use Input instead.
+- Accessibility: Needs an accessible name from Field or aria-label; loading is read-only with aria-busy=true.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `className` | `string` | no |  |  |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<InputGroupInput aria-label="Amount" inputMode="decimal" />
+```
+
+### InputGroupAddon
+
+Holds icons, `InputGroupText`, `InputGroupButton` or a keyboard hint beside the input. Icons passed
+directly are sized by the group. Text that names the value ("USD", ".com") is not read when the input
+is focused, so also say it in the `Field` label or description.
+
+- Category: controls
+- Base: Own component
+- Import: `import { InputGroupAddon } from "@/ui";`
+- Renders: span
+- Composition: Place after InputGroupInput in the DOM; `align` changes visual placement without changing keyboard order.
+- Use when: Icons, text, units, keyboard hints or buttons attached to an InputGroup.
+- Avoid:
+  - Using addon text as the only place to communicate a unit.
+- Accessibility: Decorative icons are not the input's name; unit text should also appear in the Field label or description.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `align` | `"start" \| "end"` | no | start | Which side of the input it sits on. Visual only; keep it after the input in the DOM. |
+| `className` | `string` | no |  |  |
+
+Also accepts the native props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<InputGroupAddon align="end"><InputGroupText>USD</InputGroupText></InputGroupAddon>
+```
+
+### InputGroupText
+
+Plain text inside an addon: a prefix, suffix or unit.
+
+- Category: controls
+- Base: Own component
+- Import: `import { InputGroupText } from "@/ui";`
+- Renders: span
+- Composition: Use inside InputGroupAddon for a prefix, suffix or unit.
+- Use when: Plain text attached to an InputGroup.
+- Avoid:
+  - Using it as a standalone text style.
+- Accessibility: Repeat meaningful units in the Field label or description.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<InputGroupText>https://</InputGroupText>
+```
+
+### InputGroupButton
+
+A `Button` sized for the group. Icon-only buttons need `aria-label` (change it when the state
+changes, e.g. "Show password" / "Hide password").
+
+- Category: controls
+- Base: Own component
+- Import: `import { InputGroupButton } from "@/ui";`
+- Renders: Button
+- Composition: Use inside InputGroupAddon; it inherits the group's size and supports ghost or secondary variants.
+- Use when: An action tightly attached to an InputGroup, such as clear, copy or show password.
+- Avoid:
+  - Using it for unrelated actions; use Button outside the group.
+- Accessibility: Icon-only buttons need aria-label; changing actions such as show/hide password must update the label.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | no |  | The visible label. Icon-only controls have no visible children. |
+| `className` | `string` | no |  |  |
+| `endIcon` | `ReactNode` | no | undefined | Icon after the label. Pass a generated icon without `size`; the control sizes it. |
+| `href` | `string` | no |  | Never on an action button. Pass `href` to render a link instead. Where the link goes. To navigate, pass `href`; do not wire `onClick` to `router.push`, which loses right-click and new-tab semantics. |
+| `loading` | `boolean` | no | false | Shows a spinner and ignores clicks while an action is running. The button keeps its label and stays focusable, and `aria-busy` tells assistive technology it is working. |
+| `startIcon` | `ReactNode` | no | undefined | Icon before the label. Pass a generated icon without `size`; the control sizes it. The visible icon and accessible name. Pass a generated icon without `size`. |
+| `variant` | `"secondary" \| "ghost"` | no | ghost |  |
+
+Also accepts the native props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<InputGroupButton aria-label="Clear" startIcon={<XIcon />} onClick={clear} />
+<InputGroupButton variant="secondary">Copy</InputGroupButton>
 ```
 
 ## Textarea
@@ -2358,6 +2724,7 @@ and dark work without extra code. Unknown languages are shown as plain text.
 | `label` | `string` | no | Code | Accessible name of the scrollable code region. |
 | `language` | `string` | no |  | Language name: bash, css, diff, html, json, ts or tsx; aliases include sh, shell, zsh, js, javascript and jsx. |
 | `lineNumbers` | `boolean` | no | false | Show decorative, non-copyable line numbers. |
+| `minimal` | `boolean` | no | false | Render only the code and a centered copy action underneath. |
 | `tabs` | `CodeTab[]` | no |  | Alternative versions of the same code, usually one command per package manager. The first tab is selected first. |
 | `tone` | `"success" \| "default" \| "brand" \| "danger"` | no | default | Color the frame for the kind of message: default, brand, success or danger. |
 
@@ -2391,6 +2758,7 @@ The server passes highlighted HTML; without it the code stays plain text.
 | `label` | `string` | no | Code | Accessible name of the scrollable code region. |
 | `language` | `string` | no |  | Language name: bash, css, diff, html, json, ts or tsx; aliases include sh, shell, zsh, js, javascript and jsx. |
 | `lineNumbers` | `boolean` | no | false | Show decorative, non-copyable line numbers. |
+| `minimal` | `boolean` | no | false | Render only the code and a centered copy action underneath. |
 | `tabHtml` | `Record<string, string \| null>` | no |  | Highlighted HTML per tab label, produced on the server. |
 | `tabs` | `CodeTab[]` | no |  | Alternative versions of the same code, usually one command per package manager. The first tab is selected first. |
 | `tone` | `"success" \| "default" \| "brand" \| "danger"` | no | default | Color the frame for the kind of message: default, brand, success or danger. |
@@ -2696,6 +3064,7 @@ show({ title: "Saved", tone: "success" });
 | `--icon-gap-md` |  | `var(--space-2)` |
 | `--icon-gap-lg` |  | `var(--space-2)` |
 | `--icon-gap-xl` |  | `var(--space-3)` |
+| `--container-xs` | dimension | `20rem` |
 | `--container-sm` | dimension | `40rem` |
 | `--container-md` | dimension | `48rem` |
 | `--container-lg` | dimension | `64rem` |
@@ -2722,10 +3091,10 @@ show({ title: "Saved", tone: "success" });
 | `--motion-scale-popup` |  | `0.95` |
 | `--motion-scale-tooltip` |  | `0.97` |
 | `--motion-scale-modal` |  | `0.96` |
-| `--color-page` | color | light `color-mix(in oklab, var(--primitive-color-white) 70%, var(--primitive-color-neutral-50))` / dark `color-mix(in oklab, var(--primitive-color-neutral-950) 70%, var(--primitive-color-black))` |
+| `--color-page` | color | light `color-mix(in oklab, var(--primitive-color-white) 84%, var(--primitive-color-neutral-50))` / dark `color-mix(in oklab, var(--primitive-color-neutral-950) 70%, var(--primitive-color-black))` |
 | `--color-page-translucent` | color | light `color-mix(in oklab, var(--color-page) 94%, transparent)` / dark `undefined` |
 | `--color-card` | color | light `var(--primitive-color-white)` / dark `color-mix(in oklab, var(--color-primary-foreground) 8%, var(--color-page))` |
-| `--color-sunken` | color | light `color-mix(in oklab, var(--color-primary-foreground) 4%, var(--color-page))` / dark `color-mix(in oklab, var(--primitive-color-black) 40%, var(--color-page))` |
+| `--color-sunken` | color | light `oklch(0.97913 0 0)` / dark `color-mix(in oklab, var(--primitive-color-black) 40%, var(--color-page))` |
 | `--color-surface-solid` | color | light `color-mix(in oklab, var(--color-primary-foreground) 10%, var(--color-card))` / dark `undefined` |
 | `--color-highlight` | color | light `color-mix(in oklab, var(--color-primary-foreground) 3%, var(--color-card))` / dark `color-mix(in oklab, var(--color-primary-foreground) 4%, var(--color-card))` |
 | `--color-modal` | color | light `var(--primitive-color-white)` / dark `color-mix(in oklab, var(--color-primary-foreground) 6%, var(--color-page))` |

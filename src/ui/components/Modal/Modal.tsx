@@ -5,13 +5,13 @@ import {
   useContext,
   useEffect,
   useRef,
-  useState,
   type ReactNode,
   type RefObject,
 } from "react";
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import { AlertDialog as BaseAlertDialog } from "@base-ui/react/alert-dialog";
 import { cx } from "../../utils/cx";
+import { useControllableState } from "../../hooks/useControllableState";
 import { Button, type ButtonSize, type ButtonVariant } from "../Button";
 import { InfoIcon, WarningIcon, XCircleIcon, XIcon } from "../../icons/icons.generated";
 import styles from "./Modal.module.css";
@@ -116,8 +116,11 @@ export function Modal({
   role = "dialog",
   children,
 }: ModalProps) {
-  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
-  const controlled = open !== undefined;
+  const [isOpen, setIsOpen] = useControllableState({
+    value: open,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
 
   useEffect(() => {
     if (process.env.NODE_ENV === "production") return;
@@ -129,8 +132,7 @@ export function Modal({
   }, [color, role]);
 
   const commitOpenChange = (next: boolean) => {
-    if (!controlled) setUncontrolledOpen(next);
-    onOpenChange?.(next);
+    setIsOpen(next);
   };
 
   const handleOpenChange = (
@@ -175,7 +177,7 @@ export function Modal({
   };
 
   const shared = {
-    open: controlled ? open : uncontrolledOpen,
+    open: isOpen,
     onOpenChange: handleOpenChange,
   };
 

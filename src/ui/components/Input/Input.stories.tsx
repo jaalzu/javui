@@ -25,6 +25,7 @@ export const Default: Story = {};
 export const Small: Story = { args: { size: "sm" } };
 export const Large: Story = { args: { size: "lg" } };
 export const Disabled: Story = { args: { disabled: true } };
+export const Ghost: Story = { args: { variant: "ghost", placeholder: "Hidden until needed" } };
 export const WithIcons: Story = {
   args: {
     "aria-label": "Search",

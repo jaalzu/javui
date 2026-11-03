@@ -1,5 +1,6 @@
 import { Combobox, Field, MagnifyingGlassIcon, Stack } from "@/ui";
 import { defineHero, ex, type Example } from "@/docs/example";
+import styles from "./Combobox.examples.module.css";
 
 const timezones = ["Europe/London", "Europe/Prague", "America/New_York", "America/Los_Angeles", "Asia/Tokyo", "Australia/Sydney"].map((value) => ({ value, label: value }));
 const people = [{ value: "ada", label: "Ada Lovelace" }, { value: "alan", label: "Alan Turing" }, { value: "grace", label: "Grace Hopper" }];
@@ -10,9 +11,9 @@ export const hero = defineHero(
 const timezones = ["Europe/London", "Europe/Prague", "America/New_York", "America/Los_Angeles", "Asia/Tokyo", "Australia/Sydney"].map((value) => ({ value, label: value }));
 
 export function TimezoneCombobox() {
-  return <div style={{ width: "100%", maxWidth: "var(--container-sm)" }}><Field label="Timezone"><Combobox defaultValue="Europe/Prague" placeholder="Search timezones" items={timezones} /></Field></div>;
+  return <div className={styles.hero}><Field label="Timezone"><Combobox defaultValue="Europe/Prague" placeholder="Search timezones" items={timezones} /></Field></div>;
 }`,
-  <div style={{ width: "100%", maxWidth: "var(--container-sm)" }}><Field label="Timezone"><Combobox defaultValue="Europe/Prague" placeholder="Search timezones" items={timezones} /></Field></div>,
+  <div className={styles.hero}><Field label="Timezone"><Combobox defaultValue="Europe/Prague" placeholder="Search timezones" items={timezones} /></Field></div>,
 );
 
 export const examples: Example[] = [

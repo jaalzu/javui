@@ -1,11 +1,11 @@
 .workspace {
-  --page-bg: #faf9f7;
-  --surface: #ffffff;
-  --text-primary: #252522;
-  --text-secondary: #77766f;
-  --border: #e9e7e1;
-  --accent: #647c61;
-  --accent-soft: #edf3eb;
+  --page-bg: var(--color-page);
+  --surface: var(--color-card);
+  --text-primary: var(--color-primary-foreground);
+  --text-secondary: var(--color-secondary-foreground);
+  --border: var(--color-border-default);
+  --accent: var(--color-positive-solid);
+  --accent-soft: var(--color-positive-subtle);
 
   min-height: 100vh;
   padding: var(--space-10) var(--space-4) var(--space-16);
@@ -14,7 +14,6 @@
   font-family: var(--font-sans, inherit);
   font-size: 0.875rem;
   -webkit-font-smoothing: antialiased;
-}
 
 .page-width {
   max-width: var(--container-xl);
@@ -277,6 +276,19 @@
   gap: var(--space-5);
 }
 
+.system-section {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.system-section > .section-heading {
+  margin-bottom: 0;
+}
+
+.system-section h3 {
+  margin: 0;
+}
+
 .component-lab > .section-heading {
   margin-bottom: var(--space-1);
 }
@@ -289,6 +301,7 @@
 
 .lab-media {
   display: grid;
+  max-width: var(--container-xs);
   place-items: center;
   border-radius: var(--radius-md);
   background: var(--color-sunken);

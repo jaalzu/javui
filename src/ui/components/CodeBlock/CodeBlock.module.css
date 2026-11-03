@@ -20,6 +20,9 @@
   background: var(--color-sunken);
   color: var(--syntax-text);
 }
+.root[data-minimal] .scroll { border: 0; }
+.footer { display: flex; justify-content: center; padding-block: var(--space-2); border-top: var(--border-width-thin) solid var(--color-border-default); }
+.footer .copy { margin-inline: auto; }
 
 .root[data-tone="brand"] {
   border-color: var(--color-brand-border-default);
@@ -48,7 +51,8 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding: var(--space-1) var(--space-2) var(--space-1) var(--space-4);
+  padding-block: var(--space-3);
+  padding-inline: var(--space-4);
   border-bottom: var(--border-width-thin) solid var(--color-border-default);
 }
 

@@ -1,12 +1,13 @@
 /* Example frames: live preview plus expandable code */
 .example {
-  border: var(--border-width-thin) solid var(--color-border-default);
+  border: 0;
   border-radius: var(--radius-lg);
   overflow: hidden;
+  background: var(--color-card);
 }
 
 .exampleStage {
-  background: transparent;
+  background: var(--color-card);
   padding: var(--space-6) var(--space-5);
   display: flex;
   align-items: flex-start;
@@ -20,6 +21,12 @@
 
 .exampleStageCentered > * {
   width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+.exampleStageConstrained > * {
+  width: min(20rem, 100%);
   max-width: 100%;
   margin-inline: auto;
 }

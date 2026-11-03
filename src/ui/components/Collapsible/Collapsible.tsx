@@ -21,7 +21,7 @@ export type CollapsibleProps = {
 
 /** Root for a single disclosure. Compose it with `CollapsibleTrigger` and `CollapsibleContent`. */
 export function Collapsible({ children, defaultOpen = false, open, onOpenChange, disabled = false, className }: CollapsibleProps) {
-  return <BaseCollapsible.Root className={cx(styles.root, className)} defaultOpen={open === undefined ? defaultOpen : undefined} open={open} onOpenChange={onOpenChange} disabled={disabled}>{children}</BaseCollapsible.Root>;
+  return <BaseCollapsible.Root className={cx(styles.root, className)} defaultOpen={open === undefined ? defaultOpen : undefined} open={open} onOpenChange={(nextOpen) => onOpenChange?.(nextOpen)} disabled={disabled}>{children}</BaseCollapsible.Root>;
 }
 
 export type CollapsibleTriggerProps = { children?: ReactNode; className?: string; render?: ReactElement; active?: boolean };

@@ -9,7 +9,7 @@ import { DocPage } from "@/app/docs/_page/DocPage";
 
 type Prop = { name: string; type: string; required: boolean; default?: string; description?: string };
 type Entry = {
-  name: string; category: string; base: string; description: string; import: string; renders: string;
+  name: string; category: string; base: string; description: string | null; import: string; renders: string;
   composition: string; whenToUse: string; avoid: string[]; accessibility: string; props: Prop[]; extends: string; examples: string[];
   callout?: string;
   choosing?: string[];
@@ -28,10 +28,23 @@ function Inline({ text }: { text: string }) {
 }
 
 /** First sentence of a description (the lead) and the rest. */
-function splitLead(text: string): [string, string] {
+function splitLead(text: string | null | undefined): [string, string] {
+  if (!text) return ["", ""];
   const i = text.search(/\.(\s|$)/);
   return i === -1 ? [text, ""] : [text.slice(0, i + 1), text.slice(i + 1).trim()];
 }
+
+const usageSnippets: Record<string, string> = {
+  Input: `<Input aria-label="Name" />`,
+  InputGroup: `<InputGroup>
+  <InputGroupInput placeholder="Search..." />
+  <InputGroupAddon><MagnifyingGlassIcon /></InputGroupAddon>
+</InputGroup>`,
+  ButtonGroup: `<ButtonGroup aria-label="Actions">
+  <Button>Save</Button>
+  <Button>Publish</Button>
+</ButtonGroup>`,
+};
 
 function PropsTable({ entry }: { entry: Entry }) {
   return (
@@ -101,7 +114,8 @@ async function ComponentContent({ params }: ComponentPageProps) {
   const { name } = await params;
   const c = pages.find((x) => x.name === name);
   if (!c) notFound();
-  const [lead, more] = splitLead(c.description);
+  const [lead] = splitLead(c.description);
+  const usage = usageSnippets[c.name] ?? c.examples[0] ?? `<${c.name} />`;
 
   return (
     <DocPage href={`/docs/components/${c.name}`} title={c.name} description={<Inline text={lead} />}>
@@ -110,16 +124,19 @@ async function ComponentContent({ params }: ComponentPageProps) {
       <Preview name={c.name} />
 
       <Heading as="h2" size={6}>Installation</Heading>
-      <p>Add the library first (see the installation guide), then import the component.</p>
-      <CodeBlock language="tsx" label="Import" code={c.import} />
+      <CodeBlock
+        language="bash"
+        label="Install"
+        tabs={[
+          { label: "npm", code: "npm install ui-lib" },
+          { label: "pnpm", code: "pnpm add ui-lib" },
+          { label: "bun", code: "bun add ui-lib" },
+        ]}
+      />
 
       <Heading as="h2" size={6}>Usage</Heading>
-      {more && <p><Inline text={more} /></p>}
-      <p><Inline text={c.composition} /></p>
-      {c.examples.map((code, i) => (
-        <CodeBlock key={i} language="tsx" label={`Usage example ${i + 1}`} code={code} />
-      ))}
-      <p>Renders: {c.renders}.</p>
+      <CodeBlock language="tsx" label="Import" code={c.import} minimal />
+      <CodeBlock language="tsx" label="Usage" code={usage} minimal />
 
       <Examples name={c.name} />
 

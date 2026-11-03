@@ -36,6 +36,11 @@
       "$type": "color",
       "$description": "Component hovered."
     },
+    "component-hover-subtle": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 6%, transparent)",
+      "$type": "color",
+      "$description": "Very subtle component hover for quiet controls."
+    },
     "component-active": {
       "$value": "color-mix(in oklab, {color.primary-foreground} 18%, transparent)",
       "$type": "color",

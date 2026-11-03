@@ -1,6 +1,6 @@
-import type { CSSProperties } from "react";
 import { Alert, Button } from "@/ui";
 import { defineHero, ex, type Example } from "@/docs/example";
+import styles from "./Alert.examples.module.css";
 
 export const hero = defineHero(
   `<Alert title="A new dashboard is available">
@@ -53,28 +53,12 @@ export const examples: Example[] = [
   ),
   ex(
     "Custom color",
-    `<Alert
-  title="Beta"
-  style={{
-    "--alert-tone": "oklch(55% 0.19 350)",
-    "--alert-bg": "color-mix(in oklab, oklch(55% 0.19 350) 12%, transparent)",
-    "--alert-border": "color-mix(in oklab, oklch(55% 0.19 350) 40%, transparent)",
-  }}
->
+    `<Alert title="Beta" className={styles.custom}>
   This page is part of the beta program.
 </Alert>`,
-    <Alert
-      title="Beta"
-      style={
-        {
-          "--alert-tone": "oklch(55% 0.19 350)",
-          "--alert-bg": "oklch(55% 0.19 350 / 0.12)",
-          "--alert-border": "oklch(55% 0.19 350 / 0.4)",
-        } as CSSProperties
-      }
-    >
+    <Alert title="Beta" className={styles.custom}>
       This page is part of the beta program.
     </Alert>,
-    "Set --alert-tone for the icon and title, and --alert-bg and --alert-border for the surface.",
+    "The example keeps its custom tone in Alert.examples.module.css, separate from the Alert component styles.",
   ),
 ];

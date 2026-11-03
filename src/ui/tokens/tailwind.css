@@ -9,6 +9,7 @@
    To hide Tailwind's default palette so only semantic colors exist, add "--color-*: initial;" at the top of the @theme block below. */
 
 @theme inline {
+  --color-sunken: var(--color-sunken);
   --color-component: var(--color-component);
   --color-warning-bright: var(--color-warning-bright);
   --color-overlay: var(--color-overlay);
@@ -29,10 +30,10 @@
   --color-danger-solid: var(--color-danger-solid);
   --color-on-danger-solid-foreground: var(--color-on-danger-solid-foreground);
   --color-page-translucent: var(--color-page-translucent);
-  --color-sunken: var(--color-sunken);
   --color-surface-solid: var(--color-surface-solid);
   --color-highlight: var(--color-highlight);
   --color-component-hover: var(--color-component-hover);
+  --color-component-hover-subtle: var(--color-component-hover-subtle);
   --color-component-active: var(--color-component-active);
   --color-component-on-sunken: var(--color-component-on-sunken);
   --color-transparent-hover: var(--color-transparent-hover);

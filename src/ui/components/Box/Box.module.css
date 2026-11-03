@@ -1,0 +1,18 @@
+@layer ui {
+  .box {
+    --box-padding: var(--space-4);
+    --box-background: transparent;
+    padding: var(--box-padding);
+    border: var(--border-width-thin) solid var(--color-border-default);
+    background: var(--box-background);
+  }
+
+  .size-sm { --box-padding: var(--space-3); }
+  .size-xs { --box-padding: var(--space-2); }
+  .size-xxs { --box-padding: var(--space-1); }
+  .surface-none { --box-background: transparent; }
+  .surface-card { --box-background: var(--color-card); }
+  .surface-sunken { --box-background: var(--color-sunken); }
+  .surface-highlight { --box-background: var(--color-highlight); }
+  .borderless { border-color: transparent; }
+}

@@ -81,6 +81,10 @@
   "container": {
     "$type": "dimension",
     "$description": "Max content widths for page layouts.",
+    "xs": {
+      "$value": "20rem",
+      "$description": "Compact content width for controls and narrow examples."
+    },
     "sm": {
       "$value": "40rem"
     },

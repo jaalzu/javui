@@ -22,10 +22,10 @@ export type StackProps<T extends LayoutOrListElement = "div"> = {
    * @default "4"
    */
   gap?: Responsive<Space>;
-  /** Alignment on the cross axis. @default "stretch" */
-  align?: "start" | "center" | "end" | "stretch" | "baseline";
-  /** Distribution on the main axis. @default "start" */
-  justify?: "start" | "center" | "end" | "between";
+  /** Alignment on the cross axis. Accepts per-breakpoint values. @default "stretch" */
+  align?: Responsive<"start" | "center" | "end" | "stretch" | "baseline">;
+  /** Distribution on the main axis. Accepts per-breakpoint values. @default "start" */
+  justify?: Responsive<"start" | "center" | "end" | "between">;
   /** Lets children wrap onto new lines. @default false */
   wrap?: boolean;
 } & Omit<ComponentProps<T>, "as" | "color">;
@@ -46,7 +46,7 @@ const justifyMap = { start: "flex-start", center: "center", end: "flex-end", bet
  *   <Text>Body</Text>
  * </Stack>
  * <Stack as="ul" gap="2"><li>One</li><li>Two</li></Stack>
- * <Stack direction={{ base: "column", md: "row" }} gap={{ base: "3", md: "6" }}>
+ * <Stack direction={{ base: "column", md: "row" }} gap={{ base: "3", md: "6" }} align={{ base: "stretch", md: "center" }}>
  *   <Card>One</Card>
  *   <Card>Two</Card>
  * </Stack>
@@ -67,8 +67,8 @@ export function Stack<T extends LayoutOrListElement = "div">({
   const vars: CSSProperties = {
     ...responsiveVars("stack-direction", direction),
     ...responsiveVars("stack-gap", gap, space),
-    ["--stack-align" as string]: alignMap[align],
-    ["--stack-justify" as string]: justifyMap[justify],
+    ...responsiveVars("stack-align", align, (value) => alignMap[value]),
+    ...responsiveVars("stack-justify", justify, (value) => justifyMap[value]),
     ["--stack-wrap" as string]: wrap ? "wrap" : "nowrap",
     ...(style as CSSProperties | undefined),
   };

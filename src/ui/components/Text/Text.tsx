@@ -42,6 +42,12 @@ export type TextProps<T extends TextElement = "p"> = {
   casing?: "normal" | "uppercase";
   /** Text color from the semantic color tokens. @default "default" */
   tone?: TextTone;
+  /** Keep one line and show an ellipsis when the text does not fit. @default false */
+  truncate?: boolean;
+  /** Clamp direct text content to this many lines. Do not use on elements containing nested HTML. */
+  lineClamp?: 2 | 3 | 4 | 5;
+  /** Allow the browser to hyphenate words when the line needs to break. @default false */
+  hyphenate?: boolean;
 } & Omit<ComponentProps<T>, "as" | "color">;
 
 /**
@@ -52,6 +58,7 @@ export type TextProps<T extends TextElement = "p"> = {
  * <Text>Default paragraph.</Text>
  * <Text size="lg">Large body text</Text>
  * <Text variant="caption" tone="muted">Helper text</Text>
+ * <Text lineClamp={2}>A long description that can safely truncate...</Text>
  */
 export function Text<T extends TextElement = "p">({
   as,
@@ -60,6 +67,9 @@ export function Text<T extends TextElement = "p">({
   weight,
   casing = "normal",
   tone = "default",
+  truncate = false,
+  lineClamp,
+  hyphenate = false,
   className,
   ...rest
 }: TextProps<T>) {
@@ -72,6 +82,9 @@ export function Text<T extends TextElement = "p">({
         weight && styles[`weight-${weight}`],
         casing === "uppercase" && styles.uppercase,
         styles[`tone-${tone}`],
+        truncate && styles.truncate,
+        lineClamp && styles[`line-clamp-${lineClamp}`],
+        hyphenate && styles.hyphenate,
         className,
       )}
       {...(rest as Record<string, unknown>)}

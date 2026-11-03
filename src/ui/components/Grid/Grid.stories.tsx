@@ -10,7 +10,7 @@ const cells = Array.from({ length: 6 }, (_, i) => (
 ));
 
 const meta = {
-  title: "Atoms/Grid",
+  title: "Layout/Grid",
   component: Grid,
   tags: ["autodocs"],
   parameters: { layout: "padded" },

@@ -13,6 +13,8 @@
     .stack {
       flex-direction: var(--stack-direction-sm, var(--stack-direction, column));
       gap: var(--stack-gap-sm, var(--stack-gap, var(--space-4)));
+      align-items: var(--stack-align-sm, var(--stack-align, stretch));
+      justify-content: var(--stack-justify-sm, var(--stack-justify, flex-start));
     }
   }
 
@@ -23,6 +25,8 @@
         var(--stack-direction-sm, var(--stack-direction, column))
       );
       gap: var(--stack-gap-md, var(--stack-gap-sm, var(--stack-gap, var(--space-4))));
+      align-items: var(--stack-align-md, var(--stack-align-sm, var(--stack-align, stretch)));
+      justify-content: var(--stack-justify-md, var(--stack-justify-sm, var(--stack-justify, flex-start)));
     }
   }
 
@@ -36,6 +40,8 @@
         --stack-gap-lg,
         var(--stack-gap-md, var(--stack-gap-sm, var(--stack-gap, var(--space-4))))
       );
+      align-items: var(--stack-align-lg, var(--stack-align-md, var(--stack-align-sm, var(--stack-align, stretch))));
+      justify-content: var(--stack-justify-lg, var(--stack-justify-md, var(--stack-justify-sm, var(--stack-justify, flex-start))));
     }
   }
 
@@ -52,6 +58,8 @@
         --stack-gap-xl,
         var(--stack-gap-lg, var(--stack-gap-md, var(--stack-gap-sm, var(--stack-gap, var(--space-4)))))
       );
+      align-items: var(--stack-align-xl, var(--stack-align-lg, var(--stack-align-md, var(--stack-align-sm, var(--stack-align, stretch)))));
+      justify-content: var(--stack-justify-xl, var(--stack-justify-lg, var(--stack-justify-md, var(--stack-justify-sm, var(--stack-justify, flex-start)))));
     }
   }
 

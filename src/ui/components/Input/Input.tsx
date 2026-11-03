@@ -9,8 +9,10 @@ import { useFieldControlState } from "../Field/FieldContext";
 import styles from "./Input.module.css";
 
 export type InputProps = {
-  /** Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. @default "md" */
-  size?: "sm" | "md" | "lg";
+  /** Control height: `sm` 1.5rem, `md` 1.75rem, `lg` 2rem, `xl` 2.5rem. @default "md" */
+  size?: "sm" | "md" | "lg" | "xl";
+  /** Visual treatment: `ghost` removes the resting chrome for low-emphasis fields. @default "default" */
+  variant?: "default" | "ghost";
   /** Icon before the text. Pass a generated icon without `size`; the input sizes it. */
   startIcon?: ReactNode;
   /** Icon after the text. Pass a generated icon without `size`; the input sizes it. */
@@ -28,6 +30,8 @@ export type InputProps = {
  * description and error automatically, and it inherits `required`, `readOnly` and `loading`.
  * Outside `Field` it needs an accessible name (`aria-label` or an associated `label`).
  * Icons follow the control size: sm 16px, md 20px, lg 24px.
+ * Styling hooks: set `--input-radius` or `--input-px` on the input wrapper or an ancestor; they
+ * default to `--radius-md` and `--space-3` and are useful when composing with ButtonGroup.
  *
  * @example
  * <Field label="Email"><Input type="email" autoComplete="email" /></Field>
@@ -36,6 +40,7 @@ export type InputProps = {
  */
 export function Input({
   size = "md",
+  variant = "default",
   startIcon,
   endIcon,
   loading: loadingProp,
@@ -56,7 +61,7 @@ export function Input({
   });
 
   return (
-    <span className={styles.wrapper} data-icon={position} data-size={size}>
+    <span className={styles.wrapper} data-icon={position} data-size={size} data-variant={variant}>
       <IconSlot className={styles.startSlot}>{startIcon}</IconSlot>
       <BaseInput
         className={cx(styles.input, styles[size], className)}

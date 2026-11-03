@@ -6,13 +6,14 @@ import shell from "@/app/_shell/shell.module.css";
 import styles from "./Examples.module.css";
 
 const centeredExamples = new Set(["Alert", "Avatar", "Badge", "Breadcrumb", "Button", "Checkbox"]);
+const constrainedExamples = new Set(["Input", "InputGroup"]);
 
 /** A live preview with a collapsible "View code" underneath. Uses a native `details`, so it works without extra JavaScript. */
-export function ExampleFrame({ children, code, full = false, fixed = false, center = false, stageHeight }: { children: ReactNode; code?: string; full?: boolean; fixed?: boolean; center?: boolean; stageHeight?: StageHeight }) {
+export function ExampleFrame({ children, code, full = false, fixed = false, center = false, constrained = false, stageHeight }: { children: ReactNode; code?: string; full?: boolean; fixed?: boolean; center?: boolean; constrained?: boolean; stageHeight?: StageHeight }) {
   const sizeClass = stageHeight === "sm" ? styles.exampleStageSm : stageHeight === "md" ? styles.exampleStageMd : stageHeight === "lg" ? styles.exampleStageLg : "";
   return (
     <div className={styles.example} data-doc-example>
-      <div className={`${styles.exampleStage} ${full ? styles.exampleStageFull : ""} ${fixed ? styles.exampleStageFixed : ""} ${center ? styles.exampleStageCentered : ""} ${sizeClass}`}>{children}</div>
+      <div className={`${styles.exampleStage} ${full ? styles.exampleStageFull : ""} ${fixed ? styles.exampleStageFixed : ""} ${center ? styles.exampleStageCentered : ""} ${constrained ? styles.exampleStageConstrained : ""} ${sizeClass}`}>{children}</div>
       {code && (
         <details className={styles.exampleCode}>
           <summary>
@@ -38,7 +39,10 @@ const loaders: Record<string, () => Promise<ExamplesModule>> = {
   Breadcrumb: () => import("@/ui/components/Breadcrumb/Breadcrumb.examples"),
   Button: () => import("@/ui/components/Button/Button.examples"),
   ButtonGroup: () => import("@/ui/components/ButtonGroup/ButtonGroup.examples"),
+  Box: () => import("@/ui/components/Box/Box.examples"),
+  DescriptionList: () => import("@/ui/components/DescriptionList/DescriptionList.examples"),
   Card: () => import("@/ui/components/Card/Card.examples"),
+  Container: () => import("@/ui/components/Container/Container.examples"),
   Checkbox: () => import("@/ui/components/Checkbox/Checkbox.examples"),
   CodeBlock: () => import("@/ui/components/CodeBlock/CodeBlock.examples"),
   Collapsible: () => import("@/ui/components/Collapsible/Collapsible.examples"),
@@ -46,14 +50,17 @@ const loaders: Record<string, () => Promise<ExamplesModule>> = {
   EmptyState: () => import("@/ui/components/EmptyState/EmptyState.examples"),
   Field: () => import("@/ui/components/Field/Field.examples"),
   Grid: () => import("@/ui/components/Grid/Grid.examples"),
-  Heading: () => import("@/ui/components/Heading/Heading.examples"),
+  Heading: () => import("@/ui/typography/Heading/Heading.examples"),
   Icon: () => import("@/ui/components/Icon/Icon.examples"),
   Input: () => import("@/ui/components/Input/Input.examples"),
+  InputGroup: () => import("@/ui/components/InputGroup/InputGroup.examples"),
+  InputOTP: () => import("@/ui/components/InputOTP/InputOTP.examples"),
   Kbd: () => import("@/ui/components/Kbd/Kbd.examples"),
   Label: () => import("@/ui/components/Label/Label.examples"),
   Link: () => import("@/ui/components/Link/Link.examples"),
   Menu: () => import("@/ui/components/Menu/Menu.examples"),
   Modal: () => import("@/ui/components/Modal/Modal.examples"),
+  NameValueList: () => import("@/ui/components/NameValueList/NameValueList.examples"),
   Pagination: () => import("@/ui/components/Pagination/Pagination.examples"),
   Popover: () => import("@/ui/components/Popover/Popover.examples"),
   Progress: () => import("@/ui/components/Progress/Progress.examples"),
@@ -87,7 +94,7 @@ export async function Preview({ name }: { name: string }) {
   return (
     <>
       <Heading as="h2" className={shell.srOnly} data-doc-skip>Preview</Heading>
-      <ExampleFrame code={hero.code} full center={centeredExamples.has(name)} fixed={hero.fixed} stageHeight={hero.stageHeight}>
+      <ExampleFrame code={hero.code} full center={centeredExamples.has(name)} constrained={constrainedExamples.has(name)} fixed={hero.fixed} stageHeight={hero.stageHeight}>
         {hero.node}
       </ExampleFrame>
     </>
@@ -108,7 +115,7 @@ export async function Examples({ name }: { name: string }) {
       <section key={e.title} aria-labelledby={id}>
         <Heading as="h3" size={6} id={id}>{e.title}</Heading>
         {e.description && <p className={styles.exampleNote}>{e.description}</p>}
-        <ExampleFrame code={e.code} full={full} center={centeredExamples.has(name)} fixed={fixed} stageHeight={e.stageHeight}>{e.node}</ExampleFrame>
+        <ExampleFrame code={e.code} full={full} center={centeredExamples.has(name)} constrained={constrainedExamples.has(name)} fixed={fixed} stageHeight={e.stageHeight}>{e.node}</ExampleFrame>
       </section>
     );
   });

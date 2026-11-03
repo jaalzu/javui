@@ -19,17 +19,25 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
   Combobox,
+  Container,
+  Box,
+  DescriptionList,
+  DescriptionListDetails,
+  DescriptionListTerm,
   EmptyState,
   Field,
   Grid,
+  Heading,
   Input,
   Modal,
   ModalClose,
   ModalContent,
   ModalTrigger,
+  Stack,
+  Text,
 } from "@/ui";
 import { CodeBlock } from "@/ui/server";
-import "./ui-test.module.css";
+import styles from "./ui-test.module.css";
 
 export const metadata: Metadata = {
   title: "Project overview",
@@ -67,24 +75,24 @@ const owners = [
 
 export default function UiTestPage() {
   return (
-    <main className="workspace">
-      <div className="page-width">
-        <div className="project-page">
-          <header className="project-header">
-            <div className="breadcrumbs">
+    <main className={styles.workspace}>
+      <div className={styles.pageWidth}>
+        <div className={styles.projectPage}>
+          <header className={styles.projectHeader}>
+            <div className={styles.breadcrumbs}>
               <span>Workspace</span>
-              <span className="breadcrumb-separator">/</span>
+              <span className={styles.breadcrumbSeparator}>/</span>
               <span>Projects</span>
             </div>
 
-            <div className="project-heading">
+            <div className={styles.projectHeading}>
               <div>
-                <div className="eyebrow">
-                  <span className="status-dot" />
+                <div className={styles.eyebrow}>
+                  <span className={styles.statusDot} />
                   PROJECT OVERVIEW
                 </div>
                 <h1>Component library</h1>
-                <p className="project-description">
+                <p className={styles.projectDescription}>
                   One place to review changes, track quality, and prepare the
                   next release.
                 </p>
@@ -94,74 +102,111 @@ export default function UiTestPage() {
             </div>
           </header>
 
-          <section className="release-banner">
-            <div className="release-icon">
+          <section className={styles.releaseBanner}>
+            <div className={styles.releaseIcon}>
               <CheckIcon />
             </div>
-            <div className="release-copy">
-              <p className="release-title">Ready for review</p>
+            <div className={styles.releaseCopy}>
+              <p className={styles.releaseTitle}>Ready for review</p>
               <p>
                 All required checks have passed. The release is waiting for
                 final approval.
               </p>
             </div>
-            <span className="release-version">v1.4.0</span>
+            <span className={styles.releaseVersion}>v1.4.0</span>
+          </section>
+
+          <section className={styles.systemSection} aria-labelledby="system-snapshot-title">
+            <div className={styles.sectionHeading}>
+              <div>
+                <span className={styles.sectionIndex}>00</span>
+                <Heading as="h2" size={6} id="system-snapshot-title">System snapshot</Heading>
+              </div>
+              <Text variant="caption" tone="muted">Foundations + layout</Text>
+            </div>
+
+            <Container size="xl" gutter="0">
+              <Grid columns={{ base: 1, md: 3 }} gap="4">
+                <Box surface="card" size="sm">
+                  <Stack gap="2">
+                    <Text variant="caption" tone="muted">Components</Text>
+                    <Heading as="h3" size={5}>52</Heading>
+                    <Text variant="body" size="sm" tone="muted">Documented building blocks available to the team.</Text>
+                  </Stack>
+                </Box>
+                <Box surface="highlight" size="sm">
+                  <Stack gap="2">
+                    <Text variant="caption" tone="muted">Coverage</Text>
+                    <Heading as="h3" size={5}>94%</Heading>
+                    <Text variant="body" size="sm" tone="muted">Stories and accessibility checks passing.</Text>
+                  </Stack>
+                </Box>
+                <Box surface="card" size="sm">
+                  <DescriptionList layout="stacked">
+                    <DescriptionListTerm>Current release</DescriptionListTerm>
+                    <DescriptionListDetails>v1.4.0 · Ready for review</DescriptionListDetails>
+                    <DescriptionListTerm>Next focus</DescriptionListTerm>
+                    <DescriptionListDetails>Responsive utilities and patterns</DescriptionListDetails>
+                  </DescriptionList>
+                </Box>
+              </Grid>
+            </Container>
           </section>
 
           <Grid columns={{ base: 1, md: 2 }} gap="6">
-            <section className="project-section">
-              <div className="section-heading">
+            <section className={styles.projectSection}>
+              <div className={styles.sectionHeading}>
                 <div>
-                  <span className="section-index">01</span>
+                  <span className={styles.sectionIndex}>01</span>
                   <h2>Release details</h2>
                 </div>
-                <span className="section-meta">2 topics</span>
+                <span className={styles.sectionMeta}>2 topics</span>
               </div>
 
-              <div className="accordion-panel">
+              <div className={styles.accordionPanel}>
                 <Accordion items={accordionItems} />
               </div>
             </section>
 
-            <section className="project-section">
-              <div className="section-heading">
+            <section className={styles.projectSection}>
+              <div className={styles.sectionHeading}>
                 <div>
-                  <span className="section-index">02</span>
+                  <span className={styles.sectionIndex}>02</span>
                   <h2>Release status</h2>
                 </div>
               </div>
 
-              <div className="status-panel">
-                <div className="status-row">
+              <div className={styles.statusPanel}>
+                <div className={styles.statusRow}>
                   <span>Build & checks</span>
                   <Badge variant="success">Passed</Badge>
                 </div>
-                <div className="status-row">
+                <div className={styles.statusRow}>
                   <span>Accessibility review</span>
                   <Badge variant="success">Passed</Badge>
                 </div>
-                <div className="status-row">
+                <div className={styles.statusRow}>
                   <span>Final approval</span>
                   <Badge>Pending</Badge>
                 </div>
 
-                <div className="panel-divider" />
+                <div className={styles.panelDivider} />
 
-                <div className="maintainer">
+                <div className={styles.maintainer}>
                   <Avatar
                     name="Ada Lovelace"
                     badge={<CheckIcon />}
                     badgeLabel="Verified contributor"
                   />
-                  <div className="maintainer-info">
-                    <span className="maintainer-name">Ada Lovelace</span>
-                    <span className="maintainer-role">Release maintainer</span>
+                  <div className={styles.maintainerInfo}>
+                    <span className={styles.maintainerName}>Ada Lovelace</span>
+                    <span className={styles.maintainerRole}>Release maintainer</span>
                   </div>
 
-                  <span className="maintainer-indicator" />
+                  <span className={styles.maintainerIndicator} />
                 </div>
 
-                <div className="release-actions">
+                <div className={styles.releaseActions}>
                   <Modal>
                     <ModalTrigger variant="secondary">
                       View release notes
@@ -183,13 +228,13 @@ export default function UiTestPage() {
             </section>
           </Grid>
 
-          <section className="component-lab" aria-labelledby="component-lab-title">
-            <div className="section-heading">
-              <div><span className="section-index">03</span><h2 id="component-lab-title">Component lab</h2></div>
-              <span className="section-meta">Live combinations</span>
+          <section className={styles.componentLab} aria-labelledby="component-lab-title">
+            <div className={styles.sectionHeading}>
+              <div><span className={styles.sectionIndex}>03</span><h2 id="component-lab-title">Component lab</h2></div>
+              <span className={styles.sectionMeta}>Live combinations</span>
             </div>
 
-            <Grid columns={{ base: 1, md: 2 }} gap="6">
+            <Grid columns={{ base: 1, md: 2 }} gap="6" align="start">
               <Card as="article" variant="surface">
                 <CardHeader>
                   <CardTitle>Accessible form field</CardTitle>
@@ -199,7 +244,7 @@ export default function UiTestPage() {
                   <Field label="Release owner" description="Choose the person responsible for approval.">
                     <Combobox items={owners} placeholder="Select an owner" />
                   </Field>
-                  <div className="lab-gap" />
+                  <div className={styles.labGap} />
                   <Field label="Release name">
                     <Input placeholder="Spring release" />
                   </Field>
@@ -213,7 +258,7 @@ export default function UiTestPage() {
                 </CardHeader>
                 <CardContent>
                   <Alert tone="info" title="Review requested">The release is ready for your approval.</Alert>
-                  <div className="lab-gap" />
+                  <div className={styles.labGap} />
                   <ButtonGroup aria-label="Release actions">
                     <Button>Approve</Button>
                     <Button variant="secondary">Request changes</Button>
@@ -225,7 +270,7 @@ export default function UiTestPage() {
                 <CardHeader><CardTitle>Navigation and disclosure</CardTitle></CardHeader>
                 <CardContent>
                   <Breadcrumb items={[{ label: "Workspace", href: "/" }, { label: "Projects", href: "/uitest" }, { label: "Component library" }]} />
-                  <div className="lab-gap" />
+                  <div className={styles.labGap} />
                   <Collapsible defaultOpen>
                     <CollapsibleTrigger>What is included?</CollapsibleTrigger>
                     <CollapsibleContent><p>Reusable controls, accessible states and responsive layout primitives.</p></CollapsibleContent>
@@ -236,8 +281,8 @@ export default function UiTestPage() {
               <Card as="article" variant="surface">
                 <CardHeader><CardTitle>Media and identity</CardTitle></CardHeader>
                 <CardContent>
-                  <AspectRatio ratio={16 / 9} className="lab-media"><span>16:9 preview</span></AspectRatio>
-                  <div className="lab-people"><Avatar name="Ada Lovelace" status="online" /><Badge variant="success">Verified</Badge><Checkbox label="Include in report" /></div>
+                  <AspectRatio ratio={16 / 9} className={styles.labMedia}><span>16:9 preview</span></AspectRatio>
+                  <div className={styles.labPeople}><Avatar name="Ada Lovelace" status="online" /><Badge variant="success">Verified</Badge><Checkbox label="Include in report" /></div>
                 </CardContent>
               </Card>
 
@@ -251,7 +296,7 @@ export default function UiTestPage() {
             </Grid>
           </section>
 
-          <footer className="project-footer">
+          <footer className={styles.projectFooter}>
             <span>Last updated today</span>
             <span>·</span>
             <span>Component library / v1.4.0</span>

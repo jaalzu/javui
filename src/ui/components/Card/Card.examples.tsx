@@ -22,6 +22,7 @@ import {
 import { CodeBlock } from "@/ui/server";
 import { defineHero, ex, type Example } from "@/docs/example";
 import { CardSizeExample } from "./CardSizeExample";
+import styles from "./Card.examples.module.css";
 
 const heroCode = `<Card variant="surface">
   <CardHeader>
@@ -59,7 +60,7 @@ const heroNode = (
   </Card>
 );
 
-const loginCode = `<div style={{ maxWidth: "24rem", width: "100%" }}>
+const loginCode = `<div className={styles.login}>
   <Card as="article" variant="surface">
     <CardHeader>
       <CardTitle>Sign in</CardTitle>
@@ -83,7 +84,7 @@ const loginCode = `<div style={{ maxWidth: "24rem", width: "100%" }}>
 </div>`;
 
 const loginNode = (
-  <div style={{ maxWidth: "24rem", width: "100%" }}>
+  <div className={styles.login}>
     <Card as="article" variant="surface">
       <CardHeader>
         <CardTitle>Sign in</CardTitle>
@@ -247,13 +248,7 @@ export const examples: Example[] = [
     <CardDescription>Your numbers for the last seven days.</CardDescription>
   </CardHeader>
   <CardContent>
-    <div
-      style={{
-        aspectRatio: "16 / 9",
-        background: "var(--color-sunken)",
-        borderRadius: "var(--radius-md)",
-      }}
-    />
+      <div className={styles.media} />
   </CardContent>
 </Card>`,
     <Card variant="surface">
@@ -262,13 +257,7 @@ export const examples: Example[] = [
         <CardDescription>Your numbers for the last seven days.</CardDescription>
       </CardHeader>
       <CardContent>
-        <div
-          style={{
-            aspectRatio: "16 / 9",
-            background: "var(--color-sunken)",
-            borderRadius: "var(--radius-md)",
-          }}
-        />
+        <div className={styles.media} />
       </CardContent>
     </Card>,
     "A media area sits inside the content, below the header.",

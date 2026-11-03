@@ -73,6 +73,31 @@
     ],
     "a11y": "Meaning must be in the text; the variant only reinforces it. A badge rendered as a link keeps the link's own accessible name."
   },
+  "Box": {
+    "category": "layout",
+    "base": "own",
+    "renders": "div (or `as`) with token-based inset, optional border and semantic surface",
+    "composition": "Use `size` (`default`, `sm`, `xs`, `xxs`), `surface` (`none`, `card`, `sunken`, `highlight`) and `bordered` to define a content region.",
+    "whenToUse": "A bordered or recessed content area that is not a full Card and does not need Card parts.",
+    "avoid": [
+      "Nesting cards inside cards.",
+      "Using Box as a replacement for Stack or Grid.",
+      "Using arbitrary backgrounds instead of semantic surfaces."
+    ],
+    "a11y": "The default element is a neutral div; choose `as` when the region has section or landmark semantics."
+  },
+  "Container": {
+    "category": "layout",
+    "base": "own",
+    "renders": "div (or `as`) with a centered max width and horizontal gutters",
+    "composition": "`size` selects a semantic container width (`xs`, `sm`, `md`, `lg`, `xl`) and `gutter` selects responsive horizontal padding from the spacing scale.",
+    "whenToUse": "Page shells, readable content boundaries and sections that need a consistent max width.",
+    "avoid": [
+      "Using arbitrary max-width values when a container token fits.",
+      "Nesting containers without a deliberate change in content width."
+    ],
+    "a11y": "The default element is a neutral div; choose `as` to provide the correct landmark or section semantics."
+  },
   "Stack": {
     "category": "layout",
     "base": "own",
@@ -259,7 +284,7 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "input",
-    "composition": "Native input props pass through (type, autoComplete, name, required...). Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Icons follow the size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.",
+    "composition": "Native input props pass through (type, autoComplete, name, required...). `variant=\"ghost\"` removes resting chrome for low-emphasis fields. Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Icons follow the size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.",
     "whenToUse": "Single-line text entry, read-only values and values that are still loading.",
     "avoid": [
       "Using it without Field or aria-label.",
@@ -267,6 +292,60 @@
       "Hand-wiring validation ARIA: use Field error."
     ],
     "a11y": "Needs an accessible name. Set `autoComplete` for personal data fields. readOnly stays focusable and selectable; loading is readOnly with aria-busy=true."
+  },
+  "InputOTP": {
+    "category": "controls",
+    "base": "base-ui",
+    "renders": "one-time-code input with character slots",
+    "composition": "Use as one component. Set `length`, optional `groups`, `validationType`, `mask` and `onValueComplete` as needed.",
+    "whenToUse": "Verification codes, one-time passwords and recovery codes.",
+    "avoid": ["Splitting it into slot components; Base UI manages slot indexes and focus.", "Using it for arbitrary multi-field data entry."],
+    "a11y": "Inside Field, the first slot uses the Field label and the remaining slots announce their character position. Outside Field, provide aria-label. Loading is read-only with aria-busy=true."
+  },
+  "InputGroup": {
+    "category": "controls",
+    "base": "own",
+    "renders": "div containing one borderless input and optional addons",
+    "composition": "Put `InputGroupInput` first in the DOM, followed by `InputGroupAddon` elements. Use `InputGroupText` for prefixes or units and `InputGroupButton` for actions.",
+    "whenToUse": "A text input that needs a prefix, suffix, keyboard hint or action inside the same visual control.",
+    "avoid": ["Using it only for spacing; use Stack or Grid.", "Putting units only in an addon; repeat them in the Field label or description."],
+    "a11y": "The input needs an accessible name from Field or aria-label. Addon text is not part of the input's accessible name. Icon-only buttons need aria-label."
+  },
+  "InputGroupInput": {
+    "category": "controls",
+    "base": "base-ui",
+    "renders": "input",
+    "composition": "Use only inside InputGroup. It inherits size, loading, required and readOnly from InputGroup and Field.",
+    "whenToUse": "The editable control inside InputGroup.",
+    "avoid": ["Using it outside InputGroup; use Input instead."],
+    "a11y": "Needs an accessible name from Field or aria-label; loading is read-only with aria-busy=true."
+  },
+  "InputGroupAddon": {
+    "category": "controls",
+    "base": "own",
+    "renders": "span",
+    "composition": "Place after InputGroupInput in the DOM; `align` changes visual placement without changing keyboard order.",
+    "whenToUse": "Icons, text, units, keyboard hints or buttons attached to an InputGroup.",
+    "avoid": ["Using addon text as the only place to communicate a unit."],
+    "a11y": "Decorative icons are not the input's name; unit text should also appear in the Field label or description."
+  },
+  "InputGroupText": {
+    "category": "controls",
+    "base": "own",
+    "renders": "span",
+    "composition": "Use inside InputGroupAddon for a prefix, suffix or unit.",
+    "whenToUse": "Plain text attached to an InputGroup.",
+    "avoid": ["Using it as a standalone text style."],
+    "a11y": "Repeat meaningful units in the Field label or description."
+  },
+  "InputGroupButton": {
+    "category": "controls",
+    "base": "own",
+    "renders": "Button",
+    "composition": "Use inside InputGroupAddon; it inherits the group's size and supports ghost or secondary variants.",
+    "whenToUse": "An action tightly attached to an InputGroup, such as clear, copy or show password.",
+    "avoid": ["Using it for unrelated actions; use Button outside the group."],
+    "a11y": "Icon-only buttons need aria-label; changing actions such as show/hide password must update the label."
   },
   "Textarea": {
     "category": "controls",
@@ -600,6 +679,18 @@
     ],
     "a11y": "Live-region announcements, F6 to reach toasts, pause on hover and focus. The dismiss button is labelled."
   },
+  "useControllableState": {
+    "category": "utility",
+    "base": "own",
+    "renders": "no element; returns the current value and a setter",
+    "composition": "Use for controlled/uncontrolled component state. Pass `value`, `defaultValue` and optional `onChange`; domain-specific guards stay in the component.",
+    "whenToUse": "Interactive components that support both controlled and uncontrolled state.",
+    "avoid": [
+      "Using it for state that has no controlled API.",
+      "Putting accessibility or domain-specific close/validation rules inside the generic hook."
+    ],
+    "a11y": "The hook renders no DOM and does not replace component-level accessibility behavior."
+  },
   "useToast": {
     "category": "feedback",
     "base": "base-ui",
@@ -722,6 +813,48 @@
       "Relying on an asterisk for required: Label spells out \"Required\"."
     ],
     "a11y": "Associate it with the control through `htmlFor`. Required state must also be on the control (native or ARIA)."
+  },
+  "DescriptionList": {
+    "category": "patterns",
+    "base": "own",
+    "renders": "dl with native dt/dd children",
+    "composition": "Compose `DescriptionListTerm` and `DescriptionListDetails` in alternating pairs. `layout` is `stacked`, `inline` or `horizontal`; `narrow` reduces the horizontal label column.",
+    "whenToUse": "Semantic term/description content such as metadata, settings or record details.",
+    "avoid": [
+      "Using a div-based grid for term/value semantics.",
+      "Putting unrelated content into one list."
+    ],
+    "a11y": "Uses native description-list semantics; keep each term paired with its following description."
+  },
+  "DescriptionListTerm": {
+    "category": "patterns",
+    "base": "own",
+    "renders": "dt",
+    "composition": "Child of `DescriptionList`; accepts native dt props.",
+    "whenToUse": "The name or term in a description list.",
+    "avoid": ["Using it outside a description list."],
+    "a11y": "Native term semantics."
+  },
+  "DescriptionListDetails": {
+    "category": "patterns",
+    "base": "own",
+    "renders": "dd",
+    "composition": "Child of `DescriptionList`; accepts native dd props.",
+    "whenToUse": "The description or value paired with a term.",
+    "avoid": ["Using it outside a description list."],
+    "a11y": "Native description semantics."
+  },
+  "NameValueList": {
+    "category": "patterns",
+    "base": "own",
+    "renders": "dl with generated dt/dd pairs",
+    "composition": "Pass `items` with `label` and `value`, then choose `layout` (`stacked`, `inline` or `horizontal`).",
+    "whenToUse": "Data-driven name/value pairs where a semantic description list is appropriate.",
+    "avoid": [
+      "Using it when each value needs custom structural markup; use DescriptionList directly.",
+      "Using it for tabular data; use Table."
+    ],
+    "a11y": "Renders native description-list semantics for every item."
   },
   "EmptyState": {
     "category": "feedback",

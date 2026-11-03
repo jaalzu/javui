@@ -1,10 +1,10 @@
 // Public API of the library. Import everything from here.
 
-// Typography and content
+// Typography and content primitives
 export { Text } from "./components/Text";
 export type { TextProps, TextElement, TextVariant, TextSize, TextWeight, TextTone } from "./components/Text";
-export { Heading } from "./components/Heading";
-export type { HeadingProps, HeadingElement, HeadingSize } from "./components/Heading";
+export { Heading } from "./typography/Heading";
+export type { HeadingProps, HeadingElement, HeadingSize } from "./typography/Heading";
 export { Link } from "./components/Link";
 export type { LinkProps } from "./components/Link";
 export { Kbd } from "./components/Kbd";
@@ -12,11 +12,32 @@ export type { KbdProps } from "./components/Kbd";
 export { Badge } from "./components/Badge";
 export type { BadgeProps, BadgeVariant, BadgeSize, BadgeShape } from "./components/Badge";
 
+// Semantic patterns and data-display utilities
+export {
+  DescriptionList,
+  DescriptionListDetails,
+  DescriptionListTerm,
+} from "./components/DescriptionList";
+export type {
+  DescriptionListDetailsProps,
+  DescriptionListLayout,
+  DescriptionListProps,
+  DescriptionListTermProps,
+} from "./components/DescriptionList";
+export { NameValueList } from "./components/NameValueList";
+export type { NameValueItem, NameValueListProps } from "./components/NameValueList";
+
 // Layout
 export { Stack } from "./components/Stack";
 export type { StackProps } from "./components/Stack";
 export { Grid } from "./components/Grid";
 export type { GridProps } from "./components/Grid";
+export { Container } from "./components/Container";
+export type { ContainerProps, ContainerSize } from "./components/Container";
+export { Box } from "./components/Box";
+export type { BoxProps, BoxSize, BoxSurface } from "./components/Box";
+export { useControllableState } from "./hooks/useControllableState";
+export type { UseControllableStateOptions } from "./hooks/useControllableState";
 export { AspectRatio } from "./components/AspectRatio";
 export type { AspectRatioProps, AspectRatioElement } from "./components/AspectRatio";
 
@@ -49,6 +70,21 @@ export { Separator } from "./components/Separator";
 export type { SeparatorProps } from "./components/Separator";
 export { Input } from "./components/Input";
 export type { InputProps } from "./components/Input";
+export { InputOTP } from "./components/InputOTP";
+export type { InputOTPProps } from "./components/InputOTP";
+export {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  InputGroupText,
+} from "./components/InputGroup";
+export type {
+  InputGroupAddonProps,
+  InputGroupButtonProps,
+  InputGroupInputProps,
+  InputGroupProps,
+} from "./components/InputGroup";
 export { Textarea } from "./components/Textarea";
 export type { TextareaProps } from "./components/Textarea";
 export { Checkbox, CheckboxGroup } from "./components/Checkbox";

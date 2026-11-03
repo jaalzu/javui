@@ -1,6 +1,6 @@
 import type { ComponentProps, ElementType } from "react";
 import { cx } from "../../utils/cx";
-import { Heading, type HeadingElement, type HeadingSize } from "../Heading";
+import { Heading, type HeadingElement, type HeadingSize } from "../../typography/Heading";
 import { Text } from "../Text";
 import styles from "./Card.module.css";
 

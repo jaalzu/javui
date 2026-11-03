@@ -13,6 +13,7 @@
   "minus",
   "warning",
   "info",
+  "eye",
   "check-circle",
   "x-circle",
   "magnifying-glass",
@@ -41,5 +42,6 @@
   "floppy-disk",
   "skip-forward",
   "sparkle",
+  "star",
   "prohibit"
 ]

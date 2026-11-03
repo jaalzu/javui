@@ -12,8 +12,8 @@ import styles from "./InputGroup.module.css";
 const INTERACTIVE = 'button, a, input, select, textarea, [role="button"], [tabindex]';
 
 export type InputGroupProps = {
-  /** Control height: `sm` 1.5rem, `md` 1.75rem, `lg` 2rem, `xl` 2.5rem. Flows to every part. @default "md" */
-  size?: "sm" | "md" | "lg" | "xl";
+  /** Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. Flows to every part. @default "md" */
+  size?: "xs" | "sm" | "md" | "lg";
   /**
    * Shows a spinner after the last addon, marks the input `aria-busy` and makes it not editable.
    * Inside `Field`, omit it and pass `loading` to the Field instead. @default false
@@ -171,12 +171,12 @@ export function InputGroupText({ className, ...rest }: ComponentProps<"span">) {
 
 type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
 
-export type InputGroupButtonProps = DistributiveOmit<ButtonProps, "variant" | "size" | "pill"> & {
+export type InputGroupButtonProps = DistributiveOmit<ButtonProps, "variant" | "pill"> & {
   /** @default "ghost" */
-  variant?: Extract<ButtonVariant, "ghost" | "secondary">;
+  variant?: Extract<ButtonVariant, "primary" | "ghost" | "secondary">;
 };
 
-const BUTTON_SIZE: Record<InputGroupState["size"], ButtonSize> = { sm: "xs", md: "xs", lg: "sm", xl: "md" };
+const BUTTON_SIZE: Record<InputGroupState["size"], ButtonSize> = { xs: "xs", sm: "xs", md: "sm", lg: "md" };
 
 /**
  * A `Button` sized for the group. Icon-only buttons need `aria-label` (change it when the state
@@ -186,13 +186,13 @@ const BUTTON_SIZE: Record<InputGroupState["size"], ButtonSize> = { sm: "xs", md:
  * <InputGroupButton aria-label="Clear" startIcon={<XIcon />} onClick={clear} />
  * <InputGroupButton variant="secondary">Copy</InputGroupButton>
  */
-export function InputGroupButton({ variant = "ghost", className, ...rest }: InputGroupButtonProps) {
+export function InputGroupButton({ variant = "ghost", size, className, ...rest }: InputGroupButtonProps) {
   const group = useInputGroup();
   return (
     <Button
       {...(rest as ButtonProps)}
       variant={variant}
-      size={BUTTON_SIZE[group?.size ?? "md"]}
+      size={size ?? BUTTON_SIZE[group?.size ?? "md"]}
       className={cx(styles.button, className)}
     />
   );

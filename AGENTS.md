@@ -12,6 +12,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 - Library code lives in `src/ui`. Tokens are DTCG JSON in `src/ui/tokens/*.json`; `bun run tokens` generates `tokens.css` and `tailwind.css`. Never edit those by hand, and rerun `bun run tokens` after every JSON change (the JSON is the source, the CSS is not regenerated automatically).
 - Components use only semantic tokens. Never use `--primitive-*` or hardcoded colors, sizes or fonts.
+- New controls must compose the shared `src/ui/styles/control.module.css` size/face contract instead of introducing local height, padding, icon, shadow or hover values.
 - Controls with behavior (Button, Input, Checkbox, Radio, Switch, Select, Modal, Tooltip, Tabs, Field, Menu, Popover, Slider...) are built on Base UI (`@base-ui/react`); do not reimplement its keyboard, focus or ARIA logic.
 - Own components (Text, Heading, Card, Stack, Grid, ...) render correct semantic HTML. `as` only accepts elements valid for that component.
 - Every component needs: TSDoc on props, a story (light and dark), a Testing Library test, and passing axe checks.

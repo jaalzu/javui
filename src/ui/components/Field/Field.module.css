@@ -54,10 +54,6 @@
   line-height: var(--text-caption-lg-line);
 }
 
-.error > svg {
-  flex-shrink: 0;
-}
-
 .error > span,
 .error > ul {
   transform: translateY(calc(var(--space-1) / 4));

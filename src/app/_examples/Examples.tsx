@@ -134,7 +134,7 @@ export async function Examples({ name }: { name: string }) {
   const sections = items.map((e) => {
     const id = `ex-${e.title.replace(/\W+/g, "-")}`;
     return (
-      <section key={e.title} aria-labelledby={id}>
+      <section key={e.title} className={styles.exampleSection} aria-labelledby={id}>
         <Heading as="h3" size={6} id={id}>{e.title}</Heading>
         {e.description && <p className={styles.exampleNote}>{e.description}</p>}
         <ExampleFrame name={name} code={e.code} full={full} center={centeredExamples.has(name)} constrained={constrainedExamples.has(name)} fixed={fixed} stageHeight={e.stageHeight}>{e.node}</ExampleFrame>

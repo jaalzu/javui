@@ -7,6 +7,7 @@
 /* ---------- Group (input + acciones) ---------- */
 
 .group {
+  composes: control from "../../styles/control.module.css";
   --icon-size: var(--size-icon-md);
   box-sizing: border-box;
   display: flex;
@@ -59,7 +60,15 @@
 
 /* ---------- Sizes ---------- */
 
+.xs {
+  composes: xs from "../../styles/control.module.css";
+  --icon-size: var(--size-icon-xs);
+  gap: var(--icon-gap-xs);
+  min-height: var(--size-control-xs);
+}
+
 .sm {
+  composes: sm from "../../styles/control.module.css";
   --icon-size: var(--size-icon-sm);
   gap: var(--icon-gap-sm);
   min-height: var(--size-control-sm);
@@ -67,12 +76,14 @@
 }
 
 .md {
+  composes: md from "../../styles/control.module.css";
   --icon-size: var(--size-icon-md);
   gap: var(--icon-gap-md);
   min-height: var(--size-control-md);
 }
 
 .lg {
+  composes: lg from "../../styles/control.module.css";
   --icon-size: var(--size-icon-lg);
   gap: var(--icon-gap-lg);
   min-height: var(--size-control-lg);

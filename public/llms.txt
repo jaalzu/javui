@@ -57,7 +57,7 @@
 - **Field** (parts: FieldSet, FieldSeparator): Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
 - **Input**: Single-line text entry, read-only values and values that are still loading.
 - **InputOTP**: Verification codes, one-time passwords and recovery codes.
-- **InputGroup** (parts: InputGroupInput, InputGroupAddon, InputGroupText, InputGroupButton): A text input that needs a prefix, suffix, keyboard hint or action inside the same visual control.
+- **InputGroup** (parts: InputGroupInput, InputGroupAddon, InputGroupText, InputGroupButton): An input with attached text, an icon, a hint or an action.
 - **Textarea**: Multi-line text entry, including read-only and loading values.
 - **Checkbox** (parts: CheckboxGroup): Choosing several independent options, or one confirmation that is saved when the form is submitted.
 - **RadioGroup** (parts: Radio): Choosing exactly one option from a short list.

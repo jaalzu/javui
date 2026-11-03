@@ -136,7 +136,33 @@
 }
 
 .exampleNote {
-  margin: var(--space-1) 0 var(--space-3);
+  margin: calc(var(--space-1) * -1) 0 var(--space-2);
   color: var(--color-secondary-foreground);
   font-size: var(--text-body-sm-size);
+}
+
+.exampleSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.exampleSection + .exampleSection {
+  margin-top: var(--space-16);
+  padding-block-start: var(--space-8);
+}
+
+.exampleSection > h3 {
+  margin: 0;
+}
+
+.exampleSection > .exampleNote {
+  margin: calc(var(--space-3) * -1) 0 calc(var(--space-1) * -1);
+}
+
+/* Keep compact controls centered without affecting constrained form examples. */
+.exampleStageCentered:not(.exampleStageConstrained) > * {
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
 }

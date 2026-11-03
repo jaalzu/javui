@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import manifest from "../../../../../public/agent/manifest.json";
-import { Alert, Heading, Skeleton, Stack, Table } from "@/ui";
+import { Alert, Heading, Skeleton, Stack } from "@/ui";
 import { CodeBlock } from "@/ui/server";
 import { Examples, Preview } from "@/app/_examples/Examples";
 import { DocPage } from "@/app/docs/_page/DocPage";
@@ -45,42 +45,6 @@ const usageSnippets: Record<string, string> = {
   <Button>Publish</Button>
 </ButtonGroup>`,
 };
-
-function PropsTable({ entry }: { entry: Entry }) {
-  return (
-    <>
-      <Table
-        caption={`${entry.name} props`}
-        hideCaption
-        columns={[{ key: "name", header: "Prop" }, { key: "type", header: "Type" }, { key: "default", header: "Default" }, { key: "description", header: "Description" }]}
-        rows={entry.props.map((p) => ({
-          name: <code>{p.name}{p.required ? " (required)" : ""}</code>,
-          type: <code>{p.type}</code>,
-          default: p.default ? <code>{p.default}</code> : "",
-          description: p.description ? <Inline text={p.description} /> : "",
-        }))}
-      />
-      <p><Inline text={entry.extends} /></p>
-    </>
-  );
-}
-
-function PartSection({ part }: { part: Entry }) {
-  const [lead, more] = splitLead(part.description);
-  return (
-    <section>
-      <Heading as="h3" size={6}>{part.name}</Heading>
-      <p><Inline text={more || lead} /></p>
-      <p><Inline text={part.composition} /></p>
-      <p>Renders: {part.renders}.</p>
-      {part.examples.map((code, i) => (
-        <CodeBlock key={i} language="tsx" label={`${part.name} example ${i + 1}`} code={code} />
-      ))}
-      {part.props.length > 0 && <PropsTable entry={part} />}
-      <p><Inline text={part.accessibility} /></p>
-    </section>
-  );
-}
 
 export function generateStaticParams() {
   return pages.map((c) => ({ name: c.name }));
@@ -151,20 +115,6 @@ async function ComponentContent({ params }: ComponentPageProps) {
       <p><Inline text={c.whenToUse} /></p>
       <Heading as="h3" size={6}>Avoid</Heading>
       <ul>{c.avoid.map((a) => <li key={a}><Inline text={a} /></li>)}</ul>
-
-      {c.props.length > 0 && (
-        <>
-          <Heading as="h2" size={6}>Props</Heading>
-          <PropsTable entry={c} />
-        </>
-      )}
-
-      {c.parts?.length ? (
-        <>
-          <Heading as="h2" size={6}>Parts</Heading>
-          {c.parts.map((part) => <PartSection key={part.name} part={part} />)}
-        </>
-      ) : null}
 
       <Heading as="h2" size={6}>Accessibility</Heading>
       <p><Inline text={c.accessibility} /></p>

@@ -24,10 +24,10 @@
         "$value": "1.75rem"
       },
       "md": {
-        "$value": "2.25rem"
+        "$value": "2rem"
       },
       "lg": {
-        "$value": "2.75rem"
+        "$value": "2.5rem"
       }
     },
     "icon": {

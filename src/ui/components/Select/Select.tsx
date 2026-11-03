@@ -8,6 +8,7 @@ import { Spinner } from "../Spinner";
 import { useFieldControlState } from "../Field/FieldContext";
 import { CaretDownIcon, CheckIcon } from "../../icons/icons.generated";
 import styles from "./Select.module.css";
+import { useButtonGroupSize } from "../ButtonGroup/ButtonGroupContext";
 
 export type SelectItem = {
   value: string;
@@ -27,8 +28,8 @@ export type SelectProps = {
   label?: string;
   /** Accessible name when there is no visible label. */
   "aria-label"?: string;
-  /** Control height: `sm` 1.5rem, `md` 1.75rem, `lg` 2rem. @default "md" */
-  size?: "sm" | "md" | "lg";
+  /** Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. @default "md" */
+  size?: "xs" | "sm" | "md" | "lg";
   /** Icon before the value. Pass a generated icon without `size`; the select sizes it. */
   startIcon?: ReactNode;
   /** Icon after the value, before the caret. Pass a generated icon without `size`; the select sizes it. */
@@ -49,7 +50,10 @@ export type SelectProps = {
 /**
  * A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).
  * Pass `items` instead of composing parts. Inside `Field` it inherits `required`, `readOnly` and `loading`.
- * Icons follow the trigger size: sm 16px, md 20px, lg 24px.
+ * Icons follow the trigger size: xs 12px, sm 16px, md 20px, lg 24px.
+ * The trigger keeps the shared control face while open, including when opened with a mouse.
+ * When used inside `ButtonGroup`, omit `label` and provide `aria-label` so the visible label does
+ * not become part of the group's control row.
  *
  * @example
  * <Select label="Country" placeholder="Choose one" items={[{ value: "ar", label: "Argentina" }]} />
@@ -60,7 +64,7 @@ export function Select({
   placeholder,
   label,
   "aria-label": ariaLabel,
-  size = "md",
+  size: sizeProp,
   startIcon,
   endIcon,
   loading: loadingProp,
@@ -70,6 +74,8 @@ export function Select({
   className,
   ...rest
 }: SelectProps) {
+  const groupSize = useButtonGroupSize();
+  const size = sizeProp ?? groupSize ?? "md";
   const field = useFieldControlState();
   const loading = loadingProp ?? field?.loading ?? false;
   const readOnly = readOnlyProp ?? field?.readOnly ?? false;
@@ -88,7 +94,7 @@ export function Select({
       required={required}
       {...rest}
     >
-        <div className={cx(styles.wrapper, className)}>
+      <div className={cx(styles.wrapper, className)}>
         {label ? <BaseSelect.Label className={styles.label}>{label}</BaseSelect.Label> : null}
         <BaseSelect.Trigger
           className={cx(styles.trigger, styles[size])}
@@ -98,6 +104,7 @@ export function Select({
           data-icon={position}
           data-readonly={readOnly ? "" : undefined}
           data-loading={loading ? "" : undefined}
+          data-size={size}
         >
           <IconSlot>{startIcon}</IconSlot>
           <BaseSelect.Value className={styles.value} placeholder={placeholder} />
@@ -120,7 +127,7 @@ export function Select({
       </div>
       <BaseSelect.Portal>
         <BaseSelect.Positioner className={styles.positioner} sideOffset={4} alignItemWithTrigger={false}>
-          <BaseSelect.Popup className={styles.popup}>
+          <BaseSelect.Popup className={styles.popup} data-size={size}>
             <BaseSelect.List className={styles.list}>
               {items.map((item) => (
                 <BaseSelect.Item key={item.value} value={item.value} disabled={item.disabled} className={styles.item}>

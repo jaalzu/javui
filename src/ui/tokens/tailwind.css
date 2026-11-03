@@ -11,6 +11,7 @@
 @theme inline {
   --color-sunken: var(--color-sunken);
   --color-component: var(--color-component);
+  --color-control: var(--color-control);
   --color-warning-bright: var(--color-warning-bright);
   --color-overlay: var(--color-overlay);
   --color-page: var(--color-page);
@@ -72,6 +73,7 @@
   --color-info-border-default: var(--color-info-border-default);
   --color-danger-border-default: var(--color-danger-border-default);
   --color-disabled: var(--color-disabled);
+  --color-control-hover: var(--color-control-hover);
   --radius-none: var(--radius-none);
   --radius-base: var(--radius-base);
   --radius-sm: var(--radius-sm);
@@ -84,6 +86,7 @@
   --shadow-raised: var(--shadow-raised);
   --shadow-large: var(--shadow-large);
   --shadow-extra-large: var(--shadow-extra-large);
+  --shadow-control: var(--shadow-control);
   --font-sans: var(--font-family-sans);
   --font-mono: var(--font-family-mono);
   --font-emphasis: var(--font-family-emphasis);

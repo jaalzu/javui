@@ -872,7 +872,7 @@
           "type": "\"sm\" | \"md\" | \"lg\" | \"xs\"",
           "required": false,
           "default": "\"md\"",
-          "description": "Control height and icon size: `xs` 1.5rem and 12px, `sm` 1.75rem and 16px, `md` 2.25rem and\n20px, `lg` 2.75rem and 24px."
+          "description": "Control height and icon size: `xs` 1.5rem and 12px, `sm` 1.75rem and 16px, `md` 2rem and\n20px, `lg` 2.5rem and 24px."
         },
         {
           "name": "startIcon",
@@ -921,6 +921,13 @@
           "required": false,
           "default": "horizontal",
           "description": "Layout above the `stackBelow` breakpoint. `horizontal` joins the controls side by side;\n`vertical` stacks them."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xs\"",
+          "required": false,
+          "default": "md",
+          "description": "Shared control size inherited by children that omit their own size."
         },
         {
           "name": "stackBelow",
@@ -1194,7 +1201,7 @@
       "name": "Input",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A native text input built on Base UI Input. Inside `Field` it is labelled and wired to its\ndescription and error automatically, and it inherits `required`, `readOnly` and `loading`.\nOutside `Field` it needs an accessible name (`aria-label` or an associated `label`).\nIcons follow the control size: sm 16px, md 20px, lg 24px.\nStyling hooks: set `--input-radius` or `--input-px` on the input wrapper or an ancestor; they\ndefault to `--radius-md` and `--space-3` and are useful when composing with ButtonGroup.",
+      "description": "A native text input built on Base UI Input. Inside `Field` it is labelled and wired to its\ndescription and error automatically, and it inherits `required`, `readOnly` and `loading`.\nOutside `Field` it needs an accessible name (`aria-label` or an associated `label`).\nIcons follow the control size: xs 12px, sm 16px, md 20px, lg 24px.\nStyling hooks: set `--input-radius` or `--input-px` on the input wrapper or an ancestor; they\ndefault to `--radius-md` and `--space-3` and are useful when composing with ButtonGroup.",
       "import": "import { Input } from \"@/ui\";",
       "renders": "input",
       "composition": "Native input props pass through (type, autoComplete, name, required...). `variant=\"ghost\"` removes resting chrome for low-emphasis fields. Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Icons follow the size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.",
@@ -1226,10 +1233,10 @@
         },
         {
           "name": "size",
-          "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xs\"",
           "required": false,
-          "default": "md",
-          "description": "Control height: `sm` 1.5rem, `md` 1.75rem, `lg` 2rem, `xl` 2.5rem."
+          "default": "\"md\"",
+          "description": "Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem."
         },
         {
           "name": "startIcon",
@@ -1319,13 +1326,13 @@
       "description": "Text input with addons (icons, text, buttons, keyboard hints) inside one bordered control.\nThe border, background, hover, focus ring, invalid, disabled and read-only states live on the group;\n`InputGroupInput` is the borderless input inside it. Invalid, disabled, required and read-only come\nfrom `Field` exactly as they do for `Input`.\n\nPut `InputGroupInput` first in the DOM and the addons after it. Visual order comes from `align`, so\nkeyboard order stays input, then buttons. For a plain icon use `Input` with `startIcon`/`endIcon`.\n\nStyling hooks: `--input-radius` (default `--radius-md`) and `--input-px` (default `--space-3`).",
       "import": "import { InputGroup } from \"@/ui\";",
       "renders": "div containing one borderless input and optional addons",
-      "composition": "Put `InputGroupInput` first in the DOM, followed by `InputGroupAddon` elements. Use `InputGroupText` for prefixes or units and `InputGroupButton` for actions.",
-      "whenToUse": "A text input that needs a prefix, suffix, keyboard hint or action inside the same visual control.",
+      "composition": "Put `InputGroupInput` first. Add prefixes, units or actions with `InputGroupAddon`.",
+      "whenToUse": "An input with attached text, an icon, a hint or an action.",
       "avoid": [
-        "Using it only for spacing; use Stack or Grid.",
-        "Putting units only in an addon; repeat them in the Field label or description."
+        "Using it just for spacing; use Stack or Grid.",
+        "Hiding meaningful units only in an addon."
       ],
-      "accessibility": "The input needs an accessible name from Field or aria-label. Addon text is not part of the input's accessible name. Icon-only buttons need aria-label.",
+      "accessibility": "Give the input a Field label or aria-label. Icon-only buttons need aria-label.",
       "props": [
         {
           "name": "className",
@@ -1341,10 +1348,10 @@
         },
         {
           "name": "size",
-          "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xs\"",
           "required": false,
           "default": "md",
-          "description": "Control height: `sm` 1.5rem, `md` 1.75rem, `lg` 2rem, `xl` 2.5rem. Flows to every part."
+          "description": "Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. Flows to every part."
         }
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
@@ -1387,8 +1394,8 @@
           "description": "Holds icons, `InputGroupText`, `InputGroupButton` or a keyboard hint beside the input. Icons passed\ndirectly are sized by the group. Text that names the value (\"USD\", \".com\") is not read when the input\nis focused, so also say it in the `Field` label or description.",
           "import": "import { InputGroupAddon } from \"@/ui\";",
           "renders": "span",
-          "composition": "Place after InputGroupInput in the DOM; `align` changes visual placement without changing keyboard order.",
-          "whenToUse": "Icons, text, units, keyboard hints or buttons attached to an InputGroup.",
+          "composition": "Place after InputGroupInput. Use `align` for its visual side.",
+          "whenToUse": "Attached icons, text, units, hints or buttons.",
           "avoid": [
             "Using addon text as the only place to communicate a unit."
           ],
@@ -1421,8 +1428,8 @@
           "description": "Plain text inside an addon: a prefix, suffix or unit.",
           "import": "import { InputGroupText } from \"@/ui\";",
           "renders": "span",
-          "composition": "Use inside InputGroupAddon for a prefix, suffix or unit.",
-          "whenToUse": "Plain text attached to an InputGroup.",
+          "composition": "Use inside InputGroupAddon.",
+          "whenToUse": "A prefix, suffix or unit.",
           "avoid": [
             "Using it as a standalone text style."
           ],
@@ -1442,7 +1449,7 @@
           "description": "A `Button` sized for the group. Icon-only buttons need `aria-label` (change it when the state\nchanges, e.g. \"Show password\" / \"Hide password\").",
           "import": "import { InputGroupButton } from \"@/ui\";",
           "renders": "Button",
-          "composition": "Use inside InputGroupAddon; it inherits the group's size and supports ghost or secondary variants.",
+          "composition": "Use inside InputGroupAddon. It inherits the group size.",
           "whenToUse": "An action tightly attached to an InputGroup, such as clear, copy or show password.",
           "avoid": [
             "Using it for unrelated actions; use Button outside the group."
@@ -1481,6 +1488,13 @@
               "description": "Shows a spinner and ignores clicks while an action is running. The button keeps its label and stays\nfocusable, and `aria-busy` tells assistive technology it is working."
             },
             {
+              "name": "size",
+              "type": "\"sm\" | \"md\" | \"lg\" | \"xs\"",
+              "required": false,
+              "default": "\"md\"",
+              "description": "Control height and icon size: `xs` 1.5rem and 12px, `sm` 1.75rem and 16px, `md` 2rem and\n20px, `lg` 2.5rem and 24px."
+            },
+            {
               "name": "startIcon",
               "type": "ReactNode",
               "required": false,
@@ -1489,7 +1503,7 @@
             },
             {
               "name": "variant",
-              "type": "\"secondary\" | \"ghost\"",
+              "type": "\"primary\" | \"secondary\" | \"ghost\"",
               "required": false,
               "default": "ghost"
             }
@@ -1873,7 +1887,7 @@
       "name": "Select",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).\nPass `items` instead of composing parts. Inside `Field` it inherits `required`, `readOnly` and `loading`.\nIcons follow the trigger size: sm 16px, md 20px, lg 24px.",
+      "description": "A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).\nPass `items` instead of composing parts. Inside `Field` it inherits `required`, `readOnly` and `loading`.\nIcons follow the trigger size: xs 12px, sm 16px, md 20px, lg 24px.\nThe trigger keeps the shared control face while open, including when opened with a mouse.\nWhen used inside `ButtonGroup`, omit `label` and provide `aria-label` so the visible label does\nnot become part of the group's control row.",
       "import": "import { Select } from \"@/ui\";",
       "renders": "button role=\"combobox\" with a listbox popup in a portal",
       "composition": "Pass `items` ({ value, label, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. `loading` replaces the end icon with a spinner. Icons follow the trigger size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.",
@@ -1936,10 +1950,10 @@
         },
         {
           "name": "size",
-          "type": "\"sm\" | \"md\" | \"lg\"",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xs\"",
           "required": false,
-          "default": "md",
-          "description": "Control height: `sm` 1.5rem, `md` 1.75rem, `lg` 2rem."
+          "default": "\"md\"",
+          "description": "Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem."
         },
         {
           "name": "startIcon",

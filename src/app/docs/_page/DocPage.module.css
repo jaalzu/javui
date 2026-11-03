@@ -6,7 +6,15 @@
 }
 
 .prose > * + * {
-  margin-top: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+/* Consecutive usage/install code blocks stay compact; example sections own their larger rhythm. */
+.prose > [data-minimal] + [data-minimal],
+.prose > [data-tone] + [data-tone],
+.prose > [data-minimal] + [data-tone],
+.prose > [data-tone] + [data-minimal] {
+  margin-top: var(--space-2);
 }
 
 .prose h2 {

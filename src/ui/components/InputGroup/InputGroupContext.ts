@@ -3,7 +3,7 @@
 import { createContext, useContext } from "react";
 
 export type InputGroupState = {
-  size: "sm" | "md" | "lg" | "xl";
+  size: "xs" | "sm" | "md" | "lg";
   /** Resolved from the `loading` prop or the surrounding Field. */
   loading: boolean;
 };

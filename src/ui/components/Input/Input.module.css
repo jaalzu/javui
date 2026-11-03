@@ -18,14 +18,13 @@
   --icon-size: var(--size-icon-sm);
   --input-icon-gap: var(--icon-gap-sm);
 }
-.wrapper[data-size="xl"] {
-  --icon-size: var(--size-icon-lg);
-  --input-icon-gap: var(--icon-gap-lg);
-}
-
 .wrapper[data-size="lg"] {
   --icon-size: var(--size-icon-lg);
   --input-icon-gap: var(--icon-gap-lg);
+}
+.wrapper[data-size="xs"] {
+  --icon-size: var(--size-icon-xs);
+  --input-icon-gap: var(--icon-gap-xs);
 }
 
 .input {
@@ -220,19 +219,23 @@
 }
 
 .sm {
-  min-height: var(--size-control-xs);
-}
-
-.md {
+  composes: sm from "../../styles/control.module.css";
   min-height: var(--size-control-sm);
 }
 
-.lg {
-  min-height: var(--space-8);
+.md {
+  composes: md from "../../styles/control.module.css";
+  min-height: var(--size-control-md);
 }
 
-.xl {
-  min-height: calc(var(--space-8) + var(--space-2));
+.lg {
+  composes: lg from "../../styles/control.module.css";
+  min-height: var(--size-control-lg);
+}
+
+.xs {
+  composes: xs from "../../styles/control.module.css";
+  min-height: var(--size-control-xs);
 }
 
 @media (pointer: coarse) {
@@ -243,8 +246,4 @@
 
   /* Touch target: grow the control itself instead of a ::after overlay, which would sit on top of the
      <input> and swallow taps. */
-  .sm,
-  .md {
-    min-height: var(--size-target-comfortable);
-  }
 }

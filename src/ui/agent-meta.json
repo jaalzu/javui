@@ -306,10 +306,10 @@
     "category": "controls",
     "base": "own",
     "renders": "div containing one borderless input and optional addons",
-    "composition": "Put `InputGroupInput` first in the DOM, followed by `InputGroupAddon` elements. Use `InputGroupText` for prefixes or units and `InputGroupButton` for actions.",
-    "whenToUse": "A text input that needs a prefix, suffix, keyboard hint or action inside the same visual control.",
-    "avoid": ["Using it only for spacing; use Stack or Grid.", "Putting units only in an addon; repeat them in the Field label or description."],
-    "a11y": "The input needs an accessible name from Field or aria-label. Addon text is not part of the input's accessible name. Icon-only buttons need aria-label."
+    "composition": "Put `InputGroupInput` first. Add prefixes, units or actions with `InputGroupAddon`.",
+    "whenToUse": "An input with attached text, an icon, a hint or an action.",
+    "avoid": ["Using it just for spacing; use Stack or Grid.", "Hiding meaningful units only in an addon."],
+    "a11y": "Give the input a Field label or aria-label. Icon-only buttons need aria-label."
   },
   "InputGroupInput": {
     "category": "controls",
@@ -324,8 +324,8 @@
     "category": "controls",
     "base": "own",
     "renders": "span",
-    "composition": "Place after InputGroupInput in the DOM; `align` changes visual placement without changing keyboard order.",
-    "whenToUse": "Icons, text, units, keyboard hints or buttons attached to an InputGroup.",
+    "composition": "Place after InputGroupInput. Use `align` for its visual side.",
+    "whenToUse": "Attached icons, text, units, hints or buttons.",
     "avoid": ["Using addon text as the only place to communicate a unit."],
     "a11y": "Decorative icons are not the input's name; unit text should also appear in the Field label or description."
   },
@@ -333,8 +333,8 @@
     "category": "controls",
     "base": "own",
     "renders": "span",
-    "composition": "Use inside InputGroupAddon for a prefix, suffix or unit.",
-    "whenToUse": "Plain text attached to an InputGroup.",
+    "composition": "Use inside InputGroupAddon.",
+    "whenToUse": "A prefix, suffix or unit.",
     "avoid": ["Using it as a standalone text style."],
     "a11y": "Repeat meaningful units in the Field label or description."
   },
@@ -342,7 +342,7 @@
     "category": "controls",
     "base": "own",
     "renders": "Button",
-    "composition": "Use inside InputGroupAddon; it inherits the group's size and supports ghost or secondary variants.",
+    "composition": "Use inside InputGroupAddon. It inherits the group size.",
     "whenToUse": "An action tightly attached to an InputGroup, such as clear, copy or show password.",
     "avoid": ["Using it for unrelated actions; use Button outside the group."],
     "a11y": "Icon-only buttons need aria-label; changing actions such as show/hide password must update the label."

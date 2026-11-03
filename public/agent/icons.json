@@ -269,6 +269,26 @@
     ]
   },
   {
+    "name": "eye",
+    "component": "EyeIcon",
+    "categories": [
+      "design",
+      "editor"
+    ],
+    "tags": [
+      "visible",
+      "hidden",
+      "show",
+      "hide",
+      "visibility",
+      "view"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
     "name": "check-circle",
     "component": "CheckCircleIcon",
     "categories": [
@@ -836,6 +856,25 @@
     ],
     "tags": [
       "star",
+      "rate",
+      "ratings",
+      "favorites",
+      "favorited"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "star",
+    "component": "StarIcon",
+    "categories": [
+      "communications",
+      "maps & travel",
+      "nature"
+    ],
+    "tags": [
       "rate",
       "ratings",
       "favorites",

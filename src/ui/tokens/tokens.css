@@ -125,8 +125,8 @@
   --size-target-comfortable: 2.75rem; /** Recommended hit area on touch devices. Controls may look smaller if they extend their hit area under `@media (pointer: coarse)`. */
   --size-control-xs: 1.5rem;
   --size-control-sm: 1.75rem;
-  --size-control-md: 2.25rem;
-  --size-control-lg: 2.75rem;
+  --size-control-md: 2rem;
+  --size-control-lg: 2.5rem;
   --size-icon-xs: 0.75rem; /** Icon in extra small elements such as small badges (12px). */
   --size-icon-sm: 1rem; /** Icon in small controls, menu items and inline with text (16px). */
   --size-icon-md: 1.25rem; /** Default icon, and icons in large buttons (20px). */
@@ -161,6 +161,7 @@
   --motion-scale-modal: 0.96; /** Starting scale of dialogs, which stay centered. */
   --color-sunken: oklch(0.97913 0 0); /** Recessed areas: code blocks, wells, inset fields. */
   --color-component: oklch(0 0 0 / 0.05); /** Background of interactive controls at rest: inputs, secondary buttons, toggles. */
+  --color-control: rgba(0, 0, 0, 0); /** Neutral control surface at rest. */
   --color-warning-bright: oklch(0.62 0.16 88); /** Brighter, more saturated warning for a tone that must read as yellow, such as an alert icon, title, border and background. The solid step stays darker for text on a solid fill. */
   --color-overlay: oklch(0 0 0 / 0.4); /** Backdrop behind dialogs. */
   --shadow-inset-ring: inset 0 0 0 1px #00000014; /** A quiet 1px ring drawn inside the edge, so it never grows the box or reads as a heavy border. Use it on badges, chips and selected states. */
@@ -244,6 +245,7 @@
   --color-on-info-solid-foreground: var(--primitive-color-white); /** Text on info solid. */
   --color-danger-solid: var(--primitive-color-danger-700); /** Danger background for strong feedback. */
   --color-on-danger-solid-foreground: var(--primitive-color-white); /** Text on danger solid. */
+  --shadow-control: var(--shadow-default); /** Shared control elevation. */
   --color-page-translucent: color-mix(in oklab, var(--color-page) 94%, transparent); /** Page color slightly translucent. Used by sticky headers and floating panels so content shows faintly through. */
   --color-surface-solid: color-mix(in oklab, var(--color-primary-foreground) 10%, var(--color-card)); /** Solid neutral surface that does not show what is behind it. Used by avatars. */
   --color-highlight: color-mix(in oklab, var(--color-primary-foreground) 3%, var(--color-card)); /** Highlighted panel inside a card: a metric, total or goal that should stand out. Lighter than the card in dark, soft gray in light. Never nest a highlight inside another highlight. */
@@ -288,6 +290,7 @@
   --color-danger-border-default: color-mix(in oklab, var(--color-danger-solid) 40%, transparent); /** Danger border. */
   --color-disabled: color-mix(in oklab, var(--color-primary-foreground) 6%, transparent); /** Background of disabled controls. */
   --syntax-text: var(--color-primary-foreground); /** Default code text: variables, operators, plain identifiers. */
+  --color-control-hover: var(--color-component-hover-subtle); /** Neutral control surface on hover. */
   --syntax-keyword: var(--color-brand-foreground-soft); /** Language keywords and control flow. Uses the softer brand text so it passes contrast on --color-sunken. */
   --syntax-string: var(--color-positive-foreground); /** Strings and template literals. */
   --syntax-number: color-mix(in oklab, var(--color-warning-foreground) 88%, var(--color-primary-foreground)); /** Numbers, units and constants. */
@@ -312,11 +315,13 @@
       --color-overlay: oklch(0 0 0 / 0.6); /** Backdrop behind dialogs. */
       --shadow-inset-ring: inset 0 0 0 1px #ffffff14; /** A quiet 1px ring drawn inside the edge, so it never grows the box or reads as a heavy border. Use it on badges, chips and selected states. */
       --shadow-default: 0 0 0 1px #ffffff12, 0 1px 2px #00000066; /** A small lift for controls at rest that should feel pressable: slider thumbs, raised buttons, tabs. */
+      --shadow-control: 0 0 1px 1px rgb(105 105 105 / 0.6); /** Shared control elevation. */
       --shadow-raised: inset 0 0 0 1px #ffffff06, inset 0 1px #ffffff08, 0 0 0 1px #0009, 0 4px 4px #0000001a; /** Raised look for primary and secondary controls: inner hairline, top highlight, outer edge and soft drop. */
       --shadow-large: 0 0 0 1px color-mix(in oklab, #ffffff12, #3a3a3a 25%), 0 2px 3px -2px #00000026, 0 3px 8px -2px #0006, 0 4px 12px -4px #00000080; /** Floating panels anchored to a trigger: menus, select lists, popovers, tooltips and toasts. */
       --shadow-extra-large: 0 0 0 .5px #ffffff12 inset, 0 0 0 .5px #0000, 0 8px 40px 0px #0000000d, 0 12px 32px -16px #00000026; /** Surfaces that sit above the whole page: dialogs and the search palette. */
       --color-page: color-mix(in oklab, var(--primitive-color-neutral-950) 70%, var(--primitive-color-black)); /** The page itself. Everything sits on it. */
       --color-sunken: color-mix(in oklab, var(--primitive-color-black) 40%, var(--color-page)); /** Recessed areas: code blocks, wells, inset fields. */
+      --color-control-hover: var(--color-component); /** Neutral control surface on hover. */
       --color-primary-foreground: color-mix(in oklab, var(--primitive-color-white) 60%, var(--primitive-color-neutral-100)); /** Main text and icons. */
       --color-inverted-solid-hover: color-mix(in oklab, var(--color-inverted-solid) 40%, var(--primitive-color-white)); /** Inverted solid hovered. */
       --color-inverted-solid-active: color-mix(in oklab, var(--color-inverted-solid) 72%, var(--color-page)); /** Inverted solid pressed. */
@@ -372,6 +377,7 @@
       --color-disabled: color-mix(in oklab, var(--color-primary-foreground) 6%, transparent); /** Background of disabled controls. */
       --syntax-text: var(--color-primary-foreground); /** Default code text: variables, operators, plain identifiers. */
       --color-component-on-sunken: var(--color-card); /** Component placed on a sunken area, so it still stands out. */
+      --color-control: var(--color-component-hover); /** Neutral control surface at rest. */
       --syntax-keyword: var(--color-brand-foreground-soft); /** Language keywords and control flow. Uses the softer brand text so it passes contrast on --color-sunken. */
       --syntax-string: var(--color-positive-foreground); /** Strings and template literals. */
       --syntax-number: color-mix(in oklab, var(--color-warning-foreground) 88%, var(--color-primary-foreground)); /** Numbers, units and constants. */
@@ -392,11 +398,13 @@
     --color-overlay: oklch(0 0 0 / 0.6); /** Backdrop behind dialogs. */
     --shadow-inset-ring: inset 0 0 0 1px #ffffff14; /** A quiet 1px ring drawn inside the edge, so it never grows the box or reads as a heavy border. Use it on badges, chips and selected states. */
     --shadow-default: 0 0 0 1px #ffffff12, 0 1px 2px #00000066; /** A small lift for controls at rest that should feel pressable: slider thumbs, raised buttons, tabs. */
+    --shadow-control: 0 0 1px 1px rgb(105 105 105 / 0.6); /** Shared control elevation. */
     --shadow-raised: inset 0 0 0 1px #ffffff06, inset 0 1px #ffffff08, 0 0 0 1px #0009, 0 4px 4px #0000001a; /** Raised look for primary and secondary controls: inner hairline, top highlight, outer edge and soft drop. */
     --shadow-large: 0 0 0 1px color-mix(in oklab, #ffffff12, #3a3a3a 25%), 0 2px 3px -2px #00000026, 0 3px 8px -2px #0006, 0 4px 12px -4px #00000080; /** Floating panels anchored to a trigger: menus, select lists, popovers, tooltips and toasts. */
     --shadow-extra-large: 0 0 0 .5px #ffffff12 inset, 0 0 0 .5px #0000, 0 8px 40px 0px #0000000d, 0 12px 32px -16px #00000026; /** Surfaces that sit above the whole page: dialogs and the search palette. */
     --color-page: color-mix(in oklab, var(--primitive-color-neutral-950) 70%, var(--primitive-color-black)); /** The page itself. Everything sits on it. */
     --color-sunken: color-mix(in oklab, var(--primitive-color-black) 40%, var(--color-page)); /** Recessed areas: code blocks, wells, inset fields. */
+    --color-control-hover: var(--color-component); /** Neutral control surface on hover. */
     --color-primary-foreground: color-mix(in oklab, var(--primitive-color-white) 60%, var(--primitive-color-neutral-100)); /** Main text and icons. */
     --color-inverted-solid-hover: color-mix(in oklab, var(--color-inverted-solid) 40%, var(--primitive-color-white)); /** Inverted solid hovered. */
     --color-inverted-solid-active: color-mix(in oklab, var(--color-inverted-solid) 72%, var(--color-page)); /** Inverted solid pressed. */
@@ -452,6 +460,7 @@
     --color-disabled: color-mix(in oklab, var(--color-primary-foreground) 6%, transparent); /** Background of disabled controls. */
     --syntax-text: var(--color-primary-foreground); /** Default code text: variables, operators, plain identifiers. */
     --color-component-on-sunken: var(--color-card); /** Component placed on a sunken area, so it still stands out. */
+    --color-control: var(--color-component-hover); /** Neutral control surface at rest. */
     --syntax-keyword: var(--color-brand-foreground-soft); /** Language keywords and control flow. Uses the softer brand text so it passes contrast on --color-sunken. */
     --syntax-string: var(--color-positive-foreground); /** Strings and template literals. */
     --syntax-number: color-mix(in oklab, var(--color-warning-foreground) 88%, var(--color-primary-foreground)); /** Numbers, units and constants. */

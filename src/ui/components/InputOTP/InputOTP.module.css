@@ -6,10 +6,12 @@
   gap: var(--space-3);
   max-width: 100%;
 }
-.wrapper[data-size="sm"] { --_s: var(--size-control-md); --_fs: var(--text-body-size); }
+.wrapper[data-size="sm"] { --_s: var(--size-control-lg); --_fs: var(--text-body-size); }
+.wrapper[data-size="md"] { --_s: var(--space-12); --_fs: var(--text-body-size); }
 .root { display: flex; align-items: center; gap: var(--space-3); min-width: 0; }
 .group { display: flex; gap: var(--space-2); min-width: 0; }
 .slot {
+  composes: control from "../../styles/control.module.css";
   box-sizing: border-box;
   flex: 0 1 var(--_s);
   min-width: var(--size-control-md);
@@ -38,4 +40,4 @@
 .slot:-webkit-autofill, .slot:autofill { -webkit-text-fill-color: var(--color-primary-foreground); caret-color: var(--color-primary-foreground); box-shadow: 0 0 0 100rem var(--color-card) inset; }
 .separator { flex-shrink: 0; width: var(--space-3); height: var(--border-width-thick); border-radius: var(--radius-full); background: var(--color-tertiary-foreground); }
 .spinner { display: flex; flex-shrink: 0; align-items: center; color: var(--color-secondary-foreground); }
-@media (pointer: coarse) { .slot { font-size: max(1rem, var(--_fs)); } .wrapper[data-size="sm"] { --_s: var(--size-target-comfortable); } }
+@media (pointer: coarse) { .slot { font-size: max(1rem, var(--_fs)); } }

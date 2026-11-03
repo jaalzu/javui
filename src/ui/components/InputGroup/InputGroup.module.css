@@ -1,5 +1,5 @@
 .group {
-  --_px: var(--input-px, var(--space-3));
+  --_px: var(--input-px, calc(var(--space-3) - var(--space-1) / 4));
   --_h: var(--size-control-md);
   --icon-size: var(--size-icon-md);
   --_gap: var(--icon-gap-md);

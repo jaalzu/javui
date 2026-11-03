@@ -29,6 +29,6 @@ export type CodeBlockProps = {
   highlightLines?: number[];
   /** Show decorative, non-copyable line numbers. @default false */
   lineNumbers?: boolean;
-  /** Render only the code and a centered copy action underneath. @default false */
+  /** Render only the code with a copy action overlaid at the trailing edge. @default false */
   minimal?: boolean;
 };

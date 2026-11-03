@@ -27,7 +27,7 @@ export type SelectProps = {
   label?: string;
   /** Accessible name when there is no visible label. */
   "aria-label"?: string;
-  /** Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. @default "md" */
+  /** Control height: `sm` 1.5rem, `md` 1.75rem, `lg` 2rem. @default "md" */
   size?: "sm" | "md" | "lg";
   /** Icon before the value. Pass a generated icon without `size`; the select sizes it. */
   startIcon?: ReactNode;
@@ -88,7 +88,7 @@ export function Select({
       required={required}
       {...rest}
     >
-      <div className={cx(styles.wrapper, className)}>
+        <div className={cx(styles.wrapper, className)}>
         {label ? <BaseSelect.Label className={styles.label}>{label}</BaseSelect.Label> : null}
         <BaseSelect.Trigger
           className={cx(styles.trigger, styles[size])}

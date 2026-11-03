@@ -14,6 +14,11 @@
   max-width: 100%;
 }
 
+.group > :is(button, a) {
+  align-self: stretch;
+  height: auto;
+}
+
 .horizontal {
   flex-direction: row;
 }

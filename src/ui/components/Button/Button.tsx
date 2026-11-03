@@ -27,8 +27,8 @@ type ButtonSharedProps = {
    */
   variant?: ButtonVariant;
   /**
-   * Control height and icon size: `xs` 1.5rem and 12px, `sm` 1.75rem and 16px, `md` 2.25rem and
-   * 20px, `lg` 2.75rem and 24px.
+   * Control height and icon size: `xs` 1.5rem and 12px, `sm` 1.75rem and 16px, `md` 2rem and
+   * 20px, `lg` 2.5rem and 24px.
    * @default "md"
    */
   size?: ButtonSize;

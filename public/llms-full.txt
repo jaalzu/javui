@@ -1444,7 +1444,7 @@ Icons follow the trigger size: sm 16px, md 20px, lg 24px.
 | `label` | `string` | no |  | Visible label. Provide it, or `aria-label`, or put the Select inside `Field`: every control needs an accessible name. |
 | `loading` | `boolean` | no | false | Shows a small spinner at the end and makes the select not editable. `aria-busy` is set. Inside `Field`, omit it and pass `loading` to the Field instead. |
 | `placeholder` | `string` | no |  | Text shown when nothing is selected. |
-| `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. |
+| `size` | `"sm" \| "md" \| "lg"` | no | md | Control height: `sm` 1.5rem, `md` 1.75rem, `lg` 2rem. |
 | `startIcon` | `ReactNode` | no |  | Icon before the value. Pass a generated icon without `size`; the select sizes it. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -2724,7 +2724,7 @@ and dark work without extra code. Unknown languages are shown as plain text.
 | `label` | `string` | no | Code | Accessible name of the scrollable code region. |
 | `language` | `string` | no |  | Language name: bash, css, diff, html, json, ts or tsx; aliases include sh, shell, zsh, js, javascript and jsx. |
 | `lineNumbers` | `boolean` | no | false | Show decorative, non-copyable line numbers. |
-| `minimal` | `boolean` | no | false | Render only the code and a centered copy action underneath. |
+| `minimal` | `boolean` | no | false | Render only the code with a copy action overlaid at the trailing edge. |
 | `tabs` | `CodeTab[]` | no |  | Alternative versions of the same code, usually one command per package manager. The first tab is selected first. |
 | `tone` | `"success" \| "default" \| "brand" \| "danger"` | no | default | Color the frame for the kind of message: default, brand, success or danger. |
 
@@ -2758,7 +2758,7 @@ The server passes highlighted HTML; without it the code stays plain text.
 | `label` | `string` | no | Code | Accessible name of the scrollable code region. |
 | `language` | `string` | no |  | Language name: bash, css, diff, html, json, ts or tsx; aliases include sh, shell, zsh, js, javascript and jsx. |
 | `lineNumbers` | `boolean` | no | false | Show decorative, non-copyable line numbers. |
-| `minimal` | `boolean` | no | false | Render only the code and a centered copy action underneath. |
+| `minimal` | `boolean` | no | false | Render only the code with a copy action overlaid at the trailing edge. |
 | `tabHtml` | `Record<string, string \| null>` | no |  | Highlighted HTML per tab label, produced on the server. |
 | `tabs` | `CodeTab[]` | no |  | Alternative versions of the same code, usually one command per package manager. The first tab is selected first. |
 | `tone` | `"success" \| "default" \| "brand" \| "danger"` | no | default | Color the frame for the kind of message: default, brand, success or danger. |
@@ -3100,6 +3100,7 @@ show({ title: "Saved", tone: "success" });
 | `--color-modal` | color | light `var(--primitive-color-white)` / dark `color-mix(in oklab, var(--color-primary-foreground) 6%, var(--color-page))` |
 | `--color-component` | color | light `oklch(0 0 0 / 0.05)` / dark `oklch(1 0 0 / 0.102)` |
 | `--color-component-hover` | color | light `color-mix(in oklab, var(--color-primary-foreground) 8%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 14%, transparent)` |
+| `--color-component-hover-subtle` | color | light `color-mix(in oklab, var(--color-primary-foreground) 3%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` |
 | `--color-component-active` | color | light `color-mix(in oklab, var(--color-primary-foreground) 12%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 18%, transparent)` |
 | `--color-component-on-sunken` | color | light `var(--color-card)` / dark `var(--color-card)` |
 | `--color-transparent-hover` | color | light `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 8%, transparent)` |

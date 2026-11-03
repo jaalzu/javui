@@ -2,14 +2,36 @@ import type { ReactNode } from "react";
 import { CaretDownIcon, Heading } from "@/ui";
 import { CodeBlock } from "@/ui/server";
 import type { Example, Hero, StageHeight } from "@/docs/example";
+import manifest from "../../../public/agent/manifest.json";
 import shell from "@/app/_shell/shell.module.css";
 import styles from "./Examples.module.css";
 
-const centeredExamples = new Set(["Alert", "Avatar", "Badge", "Breadcrumb", "Button", "Checkbox"]);
-const constrainedExamples = new Set(["Input", "InputGroup"]);
+const centeredExamples = new Set(["Alert", "Avatar", "Badge", "Breadcrumb", "Button", "Checkbox", "Input", "InputGroup", "InputOTP", "Textarea", "Select", "Combobox"]);
+const constrainedExamples = new Set(["Input", "InputGroup", "InputOTP", "Textarea", "Select", "Combobox"]);
+
+const componentImports = new Map(
+  [...manifest.components, ...manifest.providersAndHooks, ...manifest.components.flatMap((entry) => entry.parts ?? [])]
+    .map((entry) => [entry.name, entry.import]),
+);
+
+function codeWithImport(name: string, code: string) {
+  if (/^\s*import\s/m.test(code)) return code;
+
+  const used = [...code.matchAll(/<([A-Z][A-Za-z0-9]*)\b/g)]
+    .map((match) => match[1])
+    .filter((value, index, values) => values.indexOf(value) === index)
+    .filter((value) => componentImports.has(value) || value.endsWith("Icon"));
+
+  if (!used.length) {
+    const componentImport = componentImports.get(name);
+    return componentImport ? `${componentImport}\n\n${code}` : code;
+  }
+
+  return `import { ${used.join(", ")} } from "@/ui";\n\n${code}`;
+}
 
 /** A live preview with a collapsible "View code" underneath. Uses a native `details`, so it works without extra JavaScript. */
-export function ExampleFrame({ children, code, full = false, fixed = false, center = false, constrained = false, stageHeight }: { children: ReactNode; code?: string; full?: boolean; fixed?: boolean; center?: boolean; constrained?: boolean; stageHeight?: StageHeight }) {
+export function ExampleFrame({ name, children, code, full = false, fixed = false, center = false, constrained = false, stageHeight }: { name: string; children: ReactNode; code?: string; full?: boolean; fixed?: boolean; center?: boolean; constrained?: boolean; stageHeight?: StageHeight }) {
   const sizeClass = stageHeight === "sm" ? styles.exampleStageSm : stageHeight === "md" ? styles.exampleStageMd : stageHeight === "lg" ? styles.exampleStageLg : "";
   return (
     <div className={styles.example} data-doc-example>
@@ -20,7 +42,7 @@ export function ExampleFrame({ children, code, full = false, fixed = false, cent
             <CaretDownIcon size="sm" className={styles.chev} />
             View code
           </summary>
-          <CodeBlock language="tsx" label="Code" code={code} />
+          <CodeBlock language="tsx" label="Code" code={codeWithImport(name, code)} minimal lineNumbers />
         </details>
       )}
     </div>
@@ -94,7 +116,7 @@ export async function Preview({ name }: { name: string }) {
   return (
     <>
       <Heading as="h2" className={shell.srOnly} data-doc-skip>Preview</Heading>
-      <ExampleFrame code={hero.code} full center={centeredExamples.has(name)} constrained={constrainedExamples.has(name)} fixed={hero.fixed} stageHeight={hero.stageHeight}>
+      <ExampleFrame name={name} code={hero.code} full center={centeredExamples.has(name)} constrained={constrainedExamples.has(name)} fixed={hero.fixed} stageHeight={hero.stageHeight}>
         {hero.node}
       </ExampleFrame>
     </>
@@ -115,14 +137,13 @@ export async function Examples({ name }: { name: string }) {
       <section key={e.title} aria-labelledby={id}>
         <Heading as="h3" size={6} id={id}>{e.title}</Heading>
         {e.description && <p className={styles.exampleNote}>{e.description}</p>}
-        <ExampleFrame code={e.code} full={full} center={centeredExamples.has(name)} constrained={constrainedExamples.has(name)} fixed={fixed} stageHeight={e.stageHeight}>{e.node}</ExampleFrame>
+        <ExampleFrame name={name} code={e.code} full={full} center={centeredExamples.has(name)} constrained={constrainedExamples.has(name)} fixed={fixed} stageHeight={e.stageHeight}>{e.node}</ExampleFrame>
       </section>
     );
   });
   return (
     <>
       {extras}
-      <Heading as="h2" size={6}>Examples</Heading>
       {fixed ? <div className={styles.examplesCompact}>{sections}</div> : sections}
     </>
   );

@@ -15,14 +15,38 @@
   --shiki-token-changed: var(--syntax-number);
   overflow: hidden;
   width: 100%;
-  border: var(--border-width-thin) solid var(--color-border-default);
+  border: 0;
   border-radius: var(--radius-lg);
   background: var(--color-sunken);
   color: var(--syntax-text);
 }
-.root[data-minimal] .scroll { border: 0; }
-.footer { display: flex; justify-content: center; padding-block: var(--space-2); border-top: var(--border-width-thin) solid var(--color-border-default); }
-.footer .copy { margin-inline: auto; }
+
+:global([data-theme="dark"]) .root {
+  background: var(--color-component-on-sunken);
+}
+
+.root[data-minimal] .scroll {
+  border: 0;
+}
+.minimalRow { position: relative; }
+.minimalRow .scroll {
+  min-width: 0;
+  width: calc(100% - var(--space-12));
+}
+.minimalRow > .copy {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  z-index: 1;
+}
+.footer {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--space-2);
+}
+.footer .copy {
+  margin-inline: auto;
+}
 
 .root[data-tone="brand"] {
   border-color: var(--color-brand-border-default);
@@ -51,8 +75,13 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding-block: var(--space-3);
-  padding-inline: var(--space-4);
+  padding-block: var(--space-1);
+  padding-inline: var(--space-3);
+  border-bottom: var(--border-width-thin) solid var(--color-border-default);
+}
+
+.root[data-tabs] .bar {
+  padding-block: var(--space-2);
   border-bottom: var(--border-width-thin) solid var(--color-border-default);
 }
 
@@ -70,18 +99,21 @@
 .tabs {
   display: flex;
   align-items: center;
-  gap: var(--space-1);
+  gap: 0;
 }
 
 .tab {
   min-height: var(--size-target-min);
-  padding: 0 var(--space-3);
+  padding: var(--space-1) var(--space-3);
   border: 0;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   background: transparent;
   color: var(--color-secondary-foreground);
-  font: inherit;
+  font-family: var(--font-family-mono);
   font-size: var(--text-body-sm-size);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--text-body-sm-line);
+  letter-spacing: var(--text-label-tracking);
   cursor: pointer;
   transition:
     background-color var(--motion-duration-fast) var(--motion-easing-standard),
@@ -90,13 +122,13 @@
 
 .tab:hover,
 .tab[data-force="hover"] {
-  background: var(--color-transparent-hover);
+  background: transparent;
   color: var(--color-primary-foreground);
 }
 
 .tab:active,
 .tab[data-force="active"] {
-  background: var(--color-transparent-active);
+  background: transparent;
 }
 
 .tab[data-active],
@@ -110,10 +142,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--size-target-min);
-  height: var(--size-target-min);
+  width: auto;
+  height: auto;
+  min-width: var(--size-target-min);
+  min-height: var(--size-target-min);
   margin-inline-start: auto;
-  padding: 0;
+  padding: var(--space-2);
   border: 0;
   border-radius: var(--radius-md);
   background: transparent;
@@ -170,7 +204,8 @@
 
 .pre {
   margin: 0;
-  padding: var(--space-3) var(--space-3);
+  padding-block: var(--space-5);
+  padding-inline: calc(var(--space-3) + var(--space-1) / 2);
   font-family: var(--text-code-family);
   font-size: var(--text-code-sm-size);
   line-height: var(--text-heading-1-line);
@@ -213,7 +248,8 @@
 
 .highlight :global(.shiki) {
   margin: 0;
-  padding: var(--space-3) var(--space-3);
+  padding-block: var(--space-5);
+  padding-inline: calc(var(--space-3) + var(--space-1) / 2);
   font-family: var(--text-code-family);
   font-size: var(--text-code-sm-size);
   line-height: var(--text-heading-1-line);

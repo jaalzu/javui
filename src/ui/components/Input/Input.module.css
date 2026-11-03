@@ -5,7 +5,7 @@
  * They are read with a var() fallback so a value set by a parent (ButtonGroup) is never overwritten here.
  */
 .wrapper {
-  --_px: var(--input-px, var(--space-3));
+  --_px: var(--input-px, calc(var(--space-3) - var(--space-1) / 2));
   --icon-size: var(--size-icon-md);
   --input-icon-gap: var(--icon-gap-md);
   /* Slots are absolutely positioned, so the wrapper is the containing block. */
@@ -105,11 +105,26 @@
 .input[data-invalid],
 .input[aria-invalid="true"] {
   border-color: var(--color-danger-solid);
+  box-shadow: 0 0 0 var(--border-width-thick) var(--color-danger-solid);
+}
+
+.input[data-force="focus"][aria-invalid="true"] {
+  outline: var(--border-width-thin) solid var(--color-danger-solid);
+  outline-offset: var(--focus-ring-offset);
+}
+
+:global([data-theme="dark"]) .input[aria-invalid="true"] {
+  box-shadow: 0 0 0 var(--border-width-thick) var(--color-danger-solid);
+}
+
+:global([data-theme="dark"]) .input[data-force="focus"][aria-invalid="true"] {
+  outline-color: var(--color-danger-solid);
 }
 
 .input[data-invalid]:focus-visible,
 .input[aria-invalid="true"]:focus-visible,
 .input[data-force="focus"][data-invalid] {
+  outline-width: var(--border-width-thin);
   outline-color: var(--color-danger-solid);
 }
 
@@ -127,7 +142,7 @@
   border-color: var(--color-border-disabled);
   background: var(--color-disabled);
   color: var(--color-disabled-foreground);
-  opacity: 1;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
@@ -145,38 +160,27 @@
   box-shadow: 0 0 0 100rem var(--color-card) inset;
 }
 
-/* type="file" */
 .input[type="file"] {
-  padding-inline-start: var(--space-1);
-  cursor: pointer;
-  color: var(--color-secondary-foreground);
-}
-
-.input[type="file"]:disabled {
-  cursor: not-allowed;
+  padding-block-start: calc(var(--space-1) / 8);
+  padding-block-end: 0;
+  padding-inline: var(--space-1);
+  line-height: var(--size-control-sm);
+  text-align: start;
+  text-align-last: start;
+  transform: translateY(calc(var(--space-1) / 4));
 }
 
 .input[type="file"]::file-selector-button {
-  margin-inline-end: var(--space-3);
-  padding: var(--space-1) var(--space-2);
+  margin-inline-end: var(--space-1);
+  padding-inline: var(--space-1);
   border: 0;
-  border-radius: var(--radius-sm);
-  background: var(--color-component-hover);
-  color: var(--color-primary-foreground);
-  font-family: var(--text-label-family);
-  font-size: var(--text-label-size);
-  font-weight: var(--text-label-weight);
-  line-height: var(--text-label-line);
-  cursor: pointer;
-}
-
-.input[type="file"]:hover:not(:disabled)::file-selector-button {
-  background: var(--color-component-active);
-}
-
-.input[type="file"]:disabled::file-selector-button {
-  color: var(--color-disabled-foreground);
-  cursor: not-allowed;
+  background: transparent;
+  color: inherit;
+  font-family: var(--text-body-sm-family);
+  font-size: var(--text-body-sm-size);
+  line-height: var(--text-body-sm-line);
+  vertical-align: middle;
+  transform: translateY(calc(var(--space-1) / 8));
 }
 
 .wrapper[data-icon="start"] .input,

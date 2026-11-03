@@ -42,8 +42,8 @@
     top: 5rem;
     align-self: start;
     display: flex;
-    height: calc(100vh - 9rem);
-    max-height: 42rem;
+    height: calc(100vh - 7rem);
+    max-height: 48rem;
   }
   /* The fading divider: a line that is not drawn at its ends. */
   .side::after {
@@ -81,20 +81,20 @@
   flex: 1;
   min-width: 0;
   overflow-y: auto;
-  padding: calc(var(--space-8) + var(--space-2)) var(--space-4) var(--space-8) 0;
+  padding: calc(var(--space-8) + var(--space-2)) var(--space-4) var(--space-4) 0;
   scrollbar-width: none;
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0,
     #000 var(--space-8),
-    #000 calc(100% - var(--space-8)),
+    #000 calc(100% - var(--space-4)),
     transparent 100%
   );
   mask-image: linear-gradient(
     to bottom,
     transparent 0,
     #000 var(--space-8),
-    #000 calc(100% - var(--space-8)),
+    #000 calc(100% - var(--space-4)),
     transparent 100%
   );
 }

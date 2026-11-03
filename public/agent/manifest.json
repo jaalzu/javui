@@ -1939,7 +1939,7 @@
           "type": "\"sm\" | \"md\" | \"lg\"",
           "required": false,
           "default": "md",
-          "description": "Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem."
+          "description": "Control height: `sm` 1.5rem, `md` 1.75rem, `lg` 2rem."
         },
         {
           "name": "startIcon",
@@ -3961,7 +3961,7 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Render only the code and a centered copy action underneath."
+          "description": "Render only the code with a copy action overlaid at the trailing edge."
         },
         {
           "name": "tabs",
@@ -4046,7 +4046,7 @@
               "type": "boolean",
               "required": false,
               "default": "false",
-              "description": "Render only the code and a centered copy action underneath."
+              "description": "Render only the code with a copy action overlaid at the trailing edge."
             },
             {
               "name": "tabHtml",

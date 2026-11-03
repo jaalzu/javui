@@ -1,13 +1,13 @@
 /* Example frames: live preview plus expandable code */
 .example {
-  border: 0;
+  border: var(--border-width-thin) solid var(--color-border-default);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  background: var(--color-card);
+  background: transparent;
 }
 
 .exampleStage {
-  background: var(--color-card);
+  background: transparent;
   padding: var(--space-6) var(--space-5);
   display: flex;
   align-items: flex-start;
@@ -25,15 +25,15 @@
   margin-inline: auto;
 }
 
-.exampleStageConstrained > * {
-  width: min(20rem, 100%);
-  max-width: 100%;
-  margin-inline: auto;
-}
-
 .exampleStage > * {
   width: 100%;
   max-width: var(--container-sm);
+}
+
+.exampleStageConstrained > * {
+  width: min(calc(var(--container-xs) - var(--space-4)), 100%);
+  max-width: 100%;
+  margin-inline: auto;
 }
 
 @media (min-width: 48rem) {
@@ -72,7 +72,7 @@
 }
 
 .exampleCode {
-  background: var(--color-card);
+  background: var(--color-sunken);
   border-top: var(--border-width-thin) solid var(--color-border-default);
 }
 
@@ -97,6 +97,7 @@
 }
 
 .exampleCode[open] summary {
+  display: none;
   color: var(--color-primary-foreground);
 }
 
@@ -115,7 +116,11 @@
 .exampleCode > div {
   border-radius: 0;
   border: 0;
-  border-top: var(--border-width-thin) solid var(--color-border-default);
+  background: var(--color-sunken);
+}
+
+:global([data-theme="dark"]) .exampleCode,
+:global([data-theme="dark"]) .exampleCode > div {
   background: var(--color-card);
 }
 

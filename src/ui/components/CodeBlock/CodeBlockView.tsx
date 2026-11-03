@@ -64,7 +64,7 @@ export function CodeBlockView({
   }
 
   const lead = language && terminalLanguages.has(language) ? (
-    <TerminalWindowIcon size="sm" className={styles.lead} />
+    <TerminalWindowIcon size="md" className={styles.lead} />
   ) : (
     <span className={styles.language}>{language ?? ""}</span>
   );
@@ -106,11 +106,21 @@ export function CodeBlockView({
   );
 
   if (!tabs?.length) {
+    if (minimal) {
+      return (
+        <div className={cx(styles.root, className)} data-tone={tone} data-line-numbers={lineNumbers ? "" : undefined} data-minimal="">
+          <div className={styles.minimalRow}>
+            {region(code, label, html)}
+            {copyButton}
+          </div>
+        </div>
+      );
+    }
+
     return (
-      <div className={cx(styles.root, className)} data-tone={tone} data-line-numbers={lineNumbers ? "" : undefined} data-minimal={minimal ? "" : undefined}>
-        {!minimal && <div className={styles.bar}>{lead}{copyButton}</div>}
+      <div className={cx(styles.root, className)} data-tone={tone} data-line-numbers={lineNumbers ? "" : undefined}>
+        <div className={styles.bar}>{lead}{copyButton}</div>
         {region(code, label, html)}
-        {minimal && <div className={styles.footer}>{copyButton}</div>}
       </div>
     );
   }
@@ -121,6 +131,7 @@ export function CodeBlockView({
       data-tone={tone}
       data-line-numbers={lineNumbers ? "" : undefined}
       data-minimal={minimal ? "" : undefined}
+      data-tabs=""
       value={active}
       onValueChange={(v) => setActive(String(v))}
     >

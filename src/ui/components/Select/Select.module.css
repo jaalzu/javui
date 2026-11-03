@@ -76,19 +76,19 @@
 .sm {
   --icon-size: var(--size-icon-sm);
   gap: var(--icon-gap-sm);
-  min-height: var(--size-control-sm);
+  min-height: var(--size-control-xs);
 }
 
 .md {
   --icon-size: var(--size-icon-md);
   gap: var(--icon-gap-md);
-  min-height: var(--size-control-md);
+  min-height: var(--size-control-sm);
 }
 
 .lg {
   --icon-size: var(--size-icon-lg);
   gap: var(--icon-gap-lg);
-  min-height: var(--size-control-lg);
+  min-height: calc(var(--space-8) + var(--space-1) / 4);
 }
 
 .value {
@@ -100,12 +100,17 @@
 }
 
 .value[data-placeholder] {
-  color: var(--color-secondary-foreground);
+  color: var(--color-tertiary-foreground);
 }
 
 .icon {
   display: inline-flex;
   flex-shrink: 0;
+}
+
+.icon > svg {
+  width: var(--size-icon-sm);
+  height: var(--size-icon-sm);
 }
 
 .spinnerSlot {

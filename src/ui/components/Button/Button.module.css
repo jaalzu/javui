@@ -130,14 +130,14 @@
 .md {
   --btn-gap: var(--icon-gap-md);
   --btn-icon: var(--size-icon-md);
-  height: var(--size-control-md);
+  height: calc(var(--size-control-md) - var(--space-1));
 }
 
 .lg {
   --btn-px: var(--space-6);
   --btn-gap: var(--icon-gap-lg);
   --btn-icon: var(--size-icon-lg);
-  height: var(--size-control-lg);
+  height: calc(var(--size-control-lg) - var(--space-1));
 }
 
 .pill {

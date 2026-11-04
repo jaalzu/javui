@@ -580,6 +580,26 @@
     ]
   },
   {
+    "name": "github-logo",
+    "component": "GithubLogoIcon",
+    "categories": [
+      "technology & development",
+      "brands"
+    ],
+    "tags": [
+      "octocat",
+      "vcs",
+      "source control",
+      "version control",
+      "versioning",
+      "branches"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
     "name": "terminal-window",
     "component": "TerminalWindowIcon",
     "categories": [
@@ -899,6 +919,315 @@
       "prevent",
       "stop",
       "do not enter"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "house",
+    "component": "HouseIcon",
+    "categories": [
+      "maps & travel",
+      "system"
+    ],
+    "tags": [
+      "homes",
+      "buildings",
+      "places",
+      "locations"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "user-circle",
+    "component": "UserCircleIcon",
+    "categories": [
+      "people"
+    ],
+    "tags": [
+      "person",
+      "users",
+      "profile",
+      "account",
+      "contact",
+      "login"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "pulse",
+    "component": "PulseIcon",
+    "categories": [
+      "health & wellness"
+    ],
+    "tags": [
+      "activity",
+      "heartbeat",
+      "medical",
+      "ecg",
+      "ekg",
+      "vitals",
+      "monitor",
+      "medicine"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "shield-check",
+    "component": "ShieldCheckIcon",
+    "categories": [
+      "system",
+      "objects"
+    ],
+    "tags": [
+      "badge",
+      "security",
+      "defense",
+      "authentication",
+      "authenticated",
+      "guarded",
+      "locked",
+      "encrypted",
+      "encryption"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "sliders",
+    "component": "SlidersIcon",
+    "categories": [
+      "media",
+      "system"
+    ],
+    "tags": [
+      "music",
+      "audio",
+      "faders",
+      "filters",
+      "equalizer",
+      "volume",
+      "settings",
+      "preferences"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "question",
+    "component": "QuestionIcon",
+    "categories": [
+      "system"
+    ],
+    "tags": [
+      "information",
+      "help",
+      "support",
+      "questions"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "book-open",
+    "component": "BookOpenIcon",
+    "categories": [
+      "office",
+      "media",
+      "objects"
+    ],
+    "tags": [
+      "*updated*",
+      "reading",
+      "reader",
+      "novel",
+      "story",
+      "library"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "lifebuoy",
+    "component": "LifebuoyIcon",
+    "categories": [
+      "health & wellness",
+      "objects",
+      "system"
+    ],
+    "tags": [
+      "lifebelt",
+      "lifesaver",
+      "safety",
+      "help",
+      "support",
+      "nautical",
+      "boats",
+      "ships"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "archive",
+    "component": "ArchiveIcon",
+    "categories": [
+      "office",
+      "system"
+    ],
+    "tags": [
+      "saved",
+      "saving",
+      "archived",
+      "archiving",
+      "archival",
+      "downloaded",
+      "downloading"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "file-pdf",
+    "component": "FilePdfIcon",
+    "categories": [
+      "office",
+      "editor"
+    ],
+    "tags": [
+      "documents",
+      "files",
+      "acrobat"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "file-csv",
+    "component": "FileCsvIcon",
+    "categories": [
+      "office",
+      "editor"
+    ],
+    "tags": [
+      "documents",
+      "data"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "layout",
+    "component": "LayoutIcon",
+    "categories": [
+      "design",
+      "editor"
+    ],
+    "tags": [
+      "wireframe",
+      "sidebar",
+      "ui",
+      "interface"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "sidebar",
+    "component": "SidebarIcon",
+    "categories": [
+      "design",
+      "editor"
+    ],
+    "tags": [
+      "left rail",
+      "wireframe",
+      "ui",
+      "interface"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "arrow-u-up-left",
+    "component": "ArrowUUpLeftIcon",
+    "categories": [
+      "arrows"
+    ],
+    "tags": [
+      "directional",
+      "pointer",
+      "pointing",
+      "arrowhead",
+      "undo",
+      "return",
+      "u-turns"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "sign-out",
+    "component": "SignOutIcon",
+    "categories": [
+      "system"
+    ],
+    "tags": [
+      "*updated*",
+      "signout",
+      "logout",
+      "log out",
+      "exit"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "export",
+    "component": "ExportIcon",
+    "categories": [
+      "communications",
+      "system"
+    ],
+    "tags": [
+      "share",
+      "send to",
+      "arrows"
     ],
     "weights": [
       "regular",

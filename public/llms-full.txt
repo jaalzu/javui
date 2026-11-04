@@ -187,7 +187,10 @@ A keyboard key or shortcut. Renders a native `kbd`. Use one `Kbd` per key and jo
 - Accessibility: Native kbd semantics. Spell out symbols that screen readers read poorly, for example add VisuallyHidden text.
 
 ### Props
-_No props of its own._
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `size` | `"sm" \| "md" \| "lg" \| "xl"` | no | md | Visual size of the key. |
+| `variant` | `"default" \| "inverted"` | no | default | Surface treatment. |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -970,7 +973,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## InputOTP
 
-One-time code entry split into character slots, built on Base UI OTP Field. Typing advances the
+Verification code input for four- or six-digit numbers. Typing advances the
 focus, backspace and arrow keys move it back, and pasting or the browser's SMS autofill
 (`autoComplete="one-time-code"`, the default) fills every slot. Inside `Field` it is labelled by
 the Field label and inherits `invalid`, `required`, `readOnly` and `loading`.
@@ -1643,6 +1646,8 @@ them only to add clarity (for example the name of an icon button) and never for 
 | `children` | `ReactElement<unknown, string \| JSXElementConstructor<any>>` | yes |  | The element that triggers the tooltip. It must be focusable and already have its own accessible name (visible text or `aria-label`). |
 | `content` | `ReactNode` | yes |  | Short supplementary text. Never put essential information only here. |
 | `className` | `string` | no |  |  |
+| `defaultOpen` | `boolean` | no |  | Opens the tooltip initially. |
+| `open` | `boolean` | no |  | Keeps the tooltip open for documentation previews. |
 | `side` | `"top" \| "bottom" \| "left" \| "right"` | no | top | Preferred side of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -2099,10 +2104,10 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## Menu
 
-A dropdown list of actions or links, built on Base UI Menu (arrow keys, typeahead, focus return and
-Escape come from there). Items with `href` are real links; items with `onSelect` are actions.
-Do not put form controls in a menu: use `Popover`. The trigger icons follow its button size;
-menu items are compact and use 16px icons.
+A dropdown list of actions, links, grouped items, selections and one-level submenus, built on Base UI
+Menu (arrow keys, typeahead, focus return and Escape come from there). Items with `href` are real
+links; items with `onSelect` are actions. The trigger icons follow its button size; menu items use
+clear, 20px icons for better scanability.
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
@@ -2118,12 +2123,19 @@ menu items are compact and use 16px icons.
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `items` | `MenuEntry[]` | yes |  | Items in order. Use `{ type: "separator" }` to group them. |
 | `label` | `string` | yes |  | Text of the button that opens the menu. |
 | `align` | `"center" \| "start" \| "end"` | no | start | Alignment of the menu against the trigger. |
 | `className` | `string` | no |  |  |
+| `instant` | `boolean` | no | false | Removes the popup entrance transition when the menu is coordinated by MenuBar. |
+| `items` | `MenuEntry[]` | no | [] | Items in order. Use `{ type: "separator" }` to group them. |
+| `loading` | `boolean` | no | false | Shows a non-interactive loading state inside the popup. |
+| `placement` | `"bottom-start" \| "bottom-center" \| "bottom-end" \| "top-start" \| "top-center" \| "top-end" \| "left-start" \| "left-center" \| "left-end" \| "right-start" \| "right-center" \| "right-end"` | no | bottom-start | Placement relative to the trigger. Overrides `align` when provided. |
+| `singleSelection` | `MenuSingleSelection` | no |  | Enables a single-selection radio group for entries with `type: "radio"`. |
 | `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | md | Button size of the trigger. |
+| `trigger` | `ReactElement<unknown, string \| JSXElementConstructor<any>>` | no |  | Optional custom trigger. It must be an accessible button-like element. |
+| `triggerVariant` | `"button" \| "tab"` | no | button | Uses a bordered text trigger, like an editor menubar, instead of the default button. |
 | `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
+| `width` | `"sm" \| "md" \| "lg" \| "auto" \| "xs" \| "xxs"` | no | auto | Content-sized by default, or one of the fixed semantic menu widths. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -3074,6 +3086,11 @@ show({ title: "Saved", tone: "success" });
 | `--container-md` | dimension | `48rem` |
 | `--container-lg` | dimension | `64rem` |
 | `--container-xl` | dimension | `80rem` |
+| `--menu-width-xxs` | dimension | `6rem` |
+| `--menu-width-xs` | dimension | `12rem` |
+| `--menu-width-sm` | dimension | `15rem` |
+| `--menu-width-md` | dimension | `20rem` |
+| `--menu-width-lg` | dimension | `25rem` |
 | `--breakpoint-sm` | dimension | `40rem` |
 | `--breakpoint-md` | dimension | `48rem` |
 | `--breakpoint-lg` | dimension | `64rem` |

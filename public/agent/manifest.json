@@ -173,7 +173,22 @@
         "Using it as a button."
       ],
       "accessibility": "Native kbd semantics. Spell out symbols that screen readers read poorly, for example add VisuallyHidden text.",
-      "props": [],
+      "props": [
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+          "required": false,
+          "default": "md",
+          "description": "Visual size of the key."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"inverted\"",
+          "required": false,
+          "default": "default",
+          "description": "Surface treatment."
+        }
+      ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
         "<Kbd>⌘</Kbd> + <Kbd>K</Kbd>"
@@ -1262,7 +1277,7 @@
       "name": "InputOTP",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "One-time code entry split into character slots, built on Base UI OTP Field. Typing advances the\nfocus, backspace and arrow keys move it back, and pasting or the browser's SMS autofill\n(`autoComplete=\"one-time-code\"`, the default) fills every slot. Inside `Field` it is labelled by\nthe Field label and inherits `invalid`, `required`, `readOnly` and `loading`.\n\nThe first slot takes the label as its name; the others are named \"Character n of N\" so a screen\nreader says which slot has focus. Outside `Field`, pass `aria-label` for the first slot.\n\n`validationType` is `\"numeric\"` by default; use `\"alphanumeric\"` for recovery codes. `mask` hides\nthe characters, which also turns the slots into password inputs, so password managers may react.\nUse `onValueComplete` to verify the code, or `autoSubmit` to submit the owning form.\n\nStyling hook: `--input-radius` (default `--radius-md`).",
+      "description": "Verification code input for four- or six-digit numbers. Typing advances the\nfocus, backspace and arrow keys move it back, and pasting or the browser's SMS autofill\n(`autoComplete=\"one-time-code\"`, the default) fills every slot. Inside `Field` it is labelled by\nthe Field label and inherits `invalid`, `required`, `readOnly` and `loading`.\n\nThe first slot takes the label as its name; the others are named \"Character n of N\" so a screen\nreader says which slot has focus. Outside `Field`, pass `aria-label` for the first slot.\n\n`validationType` is `\"numeric\"` by default; use `\"alphanumeric\"` for recovery codes. `mask` hides\nthe characters, which also turns the slots into password inputs, so password managers may react.\nUse `onValueComplete` to verify the code, or `autoSubmit` to submit the owning form.\n\nStyling hook: `--input-radius` (default `--radius-md`).",
       "import": "import { InputOTP } from \"@/ui\";",
       "renders": "one-time-code input with character slots",
       "composition": "Use as one component. Set `length`, optional `groups`, `validationType`, `mask` and `onValueComplete` as needed.",
@@ -2253,6 +2268,18 @@
           "required": false
         },
         {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Opens the tooltip initially."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Keeps the tooltip open for documentation previews."
+        },
+        {
           "name": "side",
           "type": "\"top\" | \"bottom\" | \"left\" | \"right\"",
           "required": false,
@@ -2818,7 +2845,7 @@
       "name": "Menu",
       "category": "overlays",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A dropdown list of actions or links, built on Base UI Menu (arrow keys, typeahead, focus return and\nEscape come from there). Items with `href` are real links; items with `onSelect` are actions.\nDo not put form controls in a menu: use `Popover`. The trigger icons follow its button size;\nmenu items are compact and use 16px icons.",
+      "description": "A dropdown list of actions, links, grouped items, selections and one-level submenus, built on Base UI\nMenu (arrow keys, typeahead, focus return and Escape come from there). Items with `href` are real\nlinks; items with `onSelect` are actions. The trigger icons follow its button size; menu items use\nclear, 20px icons for better scanability.",
       "import": "import { Menu } from \"@/ui\";",
       "renders": "button that opens a role menu with menuitems",
       "composition": "Pass `label` (the button text) and `items`: `{ label, startIcon?, endIcon?, onSelect?, href?, disabled?, destructive? }` or `{ type: \"separator\" }`. Icons are generated icons without `size`; the trigger follows its button size and menu items are compact (16px).",
@@ -2829,12 +2856,6 @@
       ],
       "accessibility": "Arrow keys, Home, End, typeahead and Escape come from Base UI. Items with `href` are real links.",
       "props": [
-        {
-          "name": "items",
-          "type": "MenuEntry[]",
-          "required": true,
-          "description": "Items in order. Use `{ type: \"separator\" }` to group them."
-        },
         {
           "name": "label",
           "type": "string",
@@ -2854,6 +2875,40 @@
           "required": false
         },
         {
+          "name": "instant",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Removes the popup entrance transition when the menu is coordinated by MenuBar."
+        },
+        {
+          "name": "items",
+          "type": "MenuEntry[]",
+          "required": false,
+          "default": "[]",
+          "description": "Items in order. Use `{ type: \"separator\" }` to group them."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Shows a non-interactive loading state inside the popup."
+        },
+        {
+          "name": "placement",
+          "type": "\"bottom-start\" | \"bottom-center\" | \"bottom-end\" | \"top-start\" | \"top-center\" | \"top-end\" | \"left-start\" | \"left-center\" | \"left-end\" | \"right-start\" | \"right-center\" | \"right-end\"",
+          "required": false,
+          "default": "bottom-start",
+          "description": "Placement relative to the trigger. Overrides `align` when provided."
+        },
+        {
+          "name": "singleSelection",
+          "type": "MenuSingleSelection",
+          "required": false,
+          "description": "Enables a single-selection radio group for entries with `type: \"radio\"`."
+        },
+        {
           "name": "size",
           "type": "\"sm\" | \"md\" | \"lg\" | \"xs\"",
           "required": false,
@@ -2861,11 +2916,31 @@
           "description": "Button size of the trigger."
         },
         {
+          "name": "trigger",
+          "type": "ReactElement<unknown, string | JSXElementConstructor<any>>",
+          "required": false,
+          "description": "Optional custom trigger. It must be an accessible button-like element."
+        },
+        {
+          "name": "triggerVariant",
+          "type": "\"button\" | \"tab\"",
+          "required": false,
+          "default": "button",
+          "description": "Uses a bordered text trigger, like an editor menubar, instead of the default button."
+        },
+        {
           "name": "variant",
           "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "secondary",
           "description": "Button style of the trigger."
+        },
+        {
+          "name": "width",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"auto\" | \"xs\" | \"xxs\"",
+          "required": false,
+          "default": "auto",
+          "description": "Content-sized by default, or one of the fixed semantic menu widths."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",

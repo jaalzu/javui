@@ -137,6 +137,11 @@
   --container-md: 48rem;
   --container-lg: 64rem;
   --container-xl: 80rem;
+  --menu-width-xxs: 6rem;
+  --menu-width-xs: 12rem;
+  --menu-width-sm: 15rem;
+  --menu-width-md: 20rem;
+  --menu-width-lg: 25rem;
   --breakpoint-sm: 40rem; /** 640px. Large phones and up. */
   --breakpoint-md: 48rem; /** 768px. Tablets and up: the header shows the full nav. */
   --breakpoint-lg: 64rem; /** 1024px. Laptops and up: the docs sidebar appears. */

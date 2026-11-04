@@ -26,6 +26,10 @@ export type TooltipProps = {
   /** Preferred side of the trigger. @default "top" */
   side?: "top" | "bottom" | "left" | "right";
   className?: string;
+  /** Keeps the tooltip open for documentation previews. */
+  open?: boolean;
+  /** Opens the tooltip initially. */
+  defaultOpen?: boolean;
 };
 
 /**
@@ -36,9 +40,9 @@ export type TooltipProps = {
  * @example
  * <Tooltip content="Bold"><Button aria-label="Bold" variant="ghost">B</Button></Tooltip>
  */
-export function Tooltip({ content, children, side = "top", className }: TooltipProps) {
+export function Tooltip({ content, children, side = "top", className, open, defaultOpen }: TooltipProps) {
   return (
-    <BaseTooltip.Root>
+    <BaseTooltip.Root open={open} defaultOpen={defaultOpen}>
       <BaseTooltip.Trigger render={children} />
       <BaseTooltip.Portal>
         <BaseTooltip.Positioner side={side} sideOffset={8} className={styles.positioner}>

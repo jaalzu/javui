@@ -28,6 +28,7 @@
   "sun",
   "moon",
   "circle",
+  "github-logo",
   "terminal-window",
   "chart-line",
   "chart-line-up",
@@ -44,4 +45,20 @@
   "sparkle",
   "star",
   "prohibit"
+  ,"house"
+  ,"user-circle"
+  ,"pulse"
+  ,"shield-check"
+  ,"sliders"
+  ,"question"
+  ,"book-open"
+  ,"lifebuoy"
+  ,"archive"
+  ,"file-pdf"
+  ,"file-csv"
+  ,"layout"
+  ,"sidebar"
+  ,"arrow-u-up-left"
+  ,"sign-out"
+  ,"export"
 ]

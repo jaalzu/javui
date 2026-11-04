@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { OTPField } from "@base-ui/react/otp-field";
 import { cx } from "../../utils/cx";
 import { useFieldControlState } from "../Field/FieldContext";
@@ -34,7 +34,7 @@ export type InputOTPProps = {
 const defaultSlotLabel = (slot: number, length: number) => `Character ${slot} of ${length}`;
 
 /**
- * One-time code entry split into character slots, built on Base UI OTP Field. Typing advances the
+ * Verification code input for four- or six-digit numbers. Typing advances the
  * focus, backspace and arrow keys move it back, and pasting or the browser's SMS autofill
  * (`autoComplete="one-time-code"`, the default) fills every slot. Inside `Field` it is labelled by
  * the Field label and inherits `invalid`, `required`, `readOnly` and `loading`.
@@ -67,6 +67,7 @@ export function InputOTP({
   loading: loadingProp,
   readOnly: readOnlyProp,
   required: requiredProp,
+  onValueChange,
   getSlotLabel = defaultSlotLabel,
   "aria-label": ariaLabel,
   className,
@@ -76,6 +77,8 @@ export function InputOTP({
   const loading = loadingProp ?? field?.loading ?? false;
   const readOnly = readOnlyProp ?? field?.readOnly ?? false;
   const required = requiredProp ?? field?.required ?? false;
+  const [enteredValue, setEnteredValue] = useState(String(rest.defaultValue ?? ""));
+  const currentValue = String(rest.value ?? enteredValue);
 
   const groupsValid =
     groups !== undefined &&
@@ -102,7 +105,18 @@ export function InputOTP({
         length={length}
         readOnly={readOnly || loading}
         required={required}
+        aria-label={ariaLabel}
         aria-busy={loading || undefined}
+        onValueChange={(value, details) => {
+          setEnteredValue(value);
+          onValueChange?.(value, details);
+          if (value.length === length) {
+            requestAnimationFrame(() => {
+              const active = document.activeElement;
+              if (active instanceof HTMLInputElement && active.closest("[data-slot='input-otp']")) active.blur();
+            });
+          }
+        }}
         className={styles.root}
       >
         {layout.map((count, groupIndex) => (
@@ -115,7 +129,16 @@ export function InputOTP({
                   <OTPField.Input
                     key={index}
                     className={styles.slot}
-                    aria-label={index === 0 ? ariaLabel : getSlotLabel(index + 1, length)}
+                    onPointerDown={(event) => {
+                      if (index < currentValue.length) event.preventDefault();
+                    }}
+                    onFocus={(event) => {
+                      if (index < currentValue.length) event.currentTarget.blur();
+                    }}
+                    onKeyDown={(event) => {
+                      if (event.key === "ArrowLeft" || event.key === "Backspace") event.preventDefault();
+                    }}
+                    aria-label={index === 0 ? undefined : getSlotLabel(index + 1, length)}
                   />
                 );
               })}

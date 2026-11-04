@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import type { ComponentProps } from "react";
 import { Field } from "../Field";
 import { InputOTP } from "./InputOTP";
 
@@ -13,9 +14,13 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
-export const Groups: Story = { args: { groups: [3, 3] } };
-export const Masked: Story = { args: { mask: true } };
+const labelled = (args: ComponentProps<typeof InputOTP>) => <Field label="Verification code"><InputOTP {...args} /></Field>;
+
+export const Default: Story = { render: (args) => labelled(args) };
+export const FourDigits: Story = { args: { length: 4 }, render: (args) => labelled(args) };
+export const SixDigits: Story = { args: { length: 6 }, render: (args) => labelled(args) };
+export const Groups: Story = { args: { groups: [3, 3] }, render: (args) => labelled(args) };
+export const TextAndNumbers: Story = { args: { length: 6, validationType: "alphanumeric" }, render: (args) => labelled(args) };
 export const InField: Story = { render: () => <Field label="Verification code" description="Enter the 6 digits we sent you."><InputOTP /></Field> };
 export const Invalid: Story = { render: () => <Field label="Verification code" error="That code has expired."><InputOTP aria-invalid="true" /></Field> };
 export const Dark: Story = { ...InField, globals: { theme: "dark" } };

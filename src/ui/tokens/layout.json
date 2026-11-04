@@ -98,6 +98,17 @@
       "$value": "80rem"
     }
   },
+  "menu": {
+    "$type": "dimension",
+    "$description": "Optional fixed widths for menu popups. Auto remains content-sized.",
+    "width": {
+      "xxs": { "$value": "6rem" },
+      "xs": { "$value": "12rem" },
+      "sm": { "$value": "15rem" },
+      "md": { "$value": "20rem" },
+      "lg": { "$value": "25rem" }
+    }
+  },
   "breakpoint": {
     "$type": "dimension",
     "$description": "Viewport widths where the layout changes. Mobile first: write `@media (min-width: ...)` with one of these values. CSS cannot read variables inside a media query, so copy the value.",

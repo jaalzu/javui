@@ -1,26 +1,23 @@
-"use client";
-
-import { Field, InputOTP, Stack } from "@/ui";
+import { Field, InputOTP } from "@/ui";
 import { defineHero, ex, type Example } from "@/docs/example";
+import styles from "./InputOTP.module.css";
 
 function AlphanumericExample() {
-  return <InputOTP length={8} validationType="alphanumeric" normalizeValue={(value) => value.toUpperCase()} aria-label="Backup code" />;
+  return <Field className={styles.exampleField} label="Numbers and letters"><InputOTP length={4} validationType="alphanumeric" /></Field>;
 }
 
 export const hero = defineHero(
-  `<Field label="Verification code" description="Enter the 6 digits we sent you.">
-  <InputOTP />
+  `<Field label="Verification code" description="Enter the 4 digits we sent you.">
+  <InputOTP length={4} />
 </Field>`,
-  <Field label="Verification code" description="Enter the 6 digits we sent you.">
-    <InputOTP />
+  <Field className={styles.exampleField} label="Verification code" description="Enter the 4 digits we sent you.">
+    <InputOTP length={4} />
   </Field>,
 );
 
 export const examples: Example[] = [
-  ex("Groups", `<InputOTP groups={[3, 3]} aria-label="Verification code" />`, <InputOTP groups={[3, 3]} aria-label="Verification code" />),
-  ex("Alphanumeric", `<InputOTP length={8} validationType="alphanumeric" normalizeValue={(value) => value.toUpperCase()} aria-label="Backup code" />`, <AlphanumericExample />),
-  ex("Masked", `<InputOTP mask aria-label="Authenticator code" />`, <InputOTP mask aria-label="Authenticator code" />),
-  ex("Invalid", `<Field label="Verification code" error="That code has expired."><InputOTP aria-invalid="true" /></Field>`, <Field label="Verification code" error="That code has expired."><InputOTP aria-invalid="true" /></Field>),
-  ex("Disabled and read-only", `<Stack gap="3"><InputOTP disabled aria-label="Disabled code" /><InputOTP readOnly defaultValue="123456" aria-label="Read-only code" /></Stack>`, <Stack gap="3"><InputOTP disabled aria-label="Disabled code" /><InputOTP readOnly defaultValue="123456" aria-label="Read-only code" /></Stack>),
-  ex("Loading while verifying", `<Field label="Verification code" loading><InputOTP /></Field>`, <Field label="Verification code" loading><InputOTP /></Field>),
+  ex("Groups", `<Field label="Verification code"><InputOTP groups={[3, 3]} /></Field>`, <Field className={styles.exampleField} label="Verification code"><InputOTP groups={[3, 3]} /></Field>),
+  ex("Alphanumeric", `<Field label="Numbers and letters"><InputOTP length={4} validationType="alphanumeric" /></Field>`, <AlphanumericExample />),
+  ex("Invalid", `<Field error="That code has expired."><InputOTP aria-label="Invalid code" aria-invalid="true" /></Field>`, <Field className={styles.exampleField} error="That code has expired."><InputOTP aria-label="Invalid code" aria-invalid="true" /></Field>),
+  ex("Read-only", `<Field label="Read-only code"><InputOTP length={6} readOnly defaultValue="123456" /></Field>`, <Field className={styles.exampleField} label="Read-only code"><InputOTP length={6} readOnly defaultValue="123456" /></Field>),
 ];

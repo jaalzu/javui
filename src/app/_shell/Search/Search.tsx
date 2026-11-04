@@ -121,8 +121,8 @@ export function Search({ items }: { items: SearchItem[] }) {
         <MagnifyingGlassIcon size="md" className={styles.searchIcon} />
         <span className={styles.searchText}>Search documentation</span>
         <span className={styles.searchKeys} aria-hidden="true">
-          <Kbd>{mod}</Kbd>
-          <Kbd>K</Kbd>
+          <Kbd size="sm">{mod}</Kbd>
+          <Kbd size="sm">K</Kbd>
         </span>
       </button>
       <dialog
@@ -195,17 +195,17 @@ export function Search({ items }: { items: SearchItem[] }) {
         <div className={styles.searchFooter} aria-hidden="true">
           <span className={styles.searchHint}>
             <span className={styles.searchHintKeys}>
-              <Kbd><ArrowUpIcon size="xs" /></Kbd>
-              <Kbd><ArrowDownIcon size="xs" /></Kbd>
+              <Kbd size="lg"><ArrowUpIcon size="sm" /></Kbd>
+              <Kbd size="lg"><ArrowDownIcon size="sm" /></Kbd>
             </span>
             Navigate
           </span>
           <span className={styles.searchHint}>
-            <Kbd className={styles.searchEnterKey}>↵</Kbd>
+            <Kbd size="lg" className={styles.searchEnterKey}>↵</Kbd>
             Select
           </span>
           <span className={styles.searchHint}>
-            <Kbd>Esc</Kbd>
+            <Kbd size="lg">Esc</Kbd>
             Close
           </span>
           <span className={styles.searchFooterLogo}>

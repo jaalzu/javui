@@ -6,8 +6,10 @@
   box-sizing: border-box;
   width: max-content;
   max-width: min(22rem, calc(100vw - var(--space-8)));
-  padding: var(--space-4);
-  border: var(--border-width-thin) solid var(--color-border-strong);
+  max-height: var(--available-height);
+  overflow: auto;
+  padding: calc(var(--space-3) - (var(--border-width-thin) * 1));
+  border: var(--border-width-thin) solid var(--color-border-default);
   border-radius: var(--radius-lg);
   background: var(--color-modal);
   color: var(--color-primary-foreground);
@@ -34,15 +36,22 @@
 }
 
 .description {
-  margin: var(--space-1) 0 0;
+  margin-block-start: var(--border-width-thin);
+  margin-inline: 0;
   color: var(--color-secondary-foreground);
   font-size: var(--text-body-sm-size);
   line-height: var(--text-body-sm-line);
 }
 
 .body {
-  margin-top: var(--space-3);
+  margin-block-start: var(--space-3);
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.body > [role="group"],
+.body > button,
+.body > a {
+  align-self: center;
 }

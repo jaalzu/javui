@@ -600,6 +600,22 @@
     ]
   },
   {
+    "name": "facebook-logo",
+    "component": "FacebookLogoIcon",
+    "categories": [
+      "brands",
+      "communications"
+    ],
+    "tags": [
+      "logos",
+      "social media"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
     "name": "terminal-window",
     "component": "TerminalWindowIcon",
     "categories": [

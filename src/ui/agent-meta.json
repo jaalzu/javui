@@ -614,7 +614,7 @@
     "category": "overlays",
     "base": "base-ui",
     "renders": "no element: it only holds the open state (Base UI Popover.Root)",
-    "composition": "Structure: Popover > PopoverTrigger + PopoverContent (title required, description optional, PopoverClose).",
+    "composition": "Structure: Popover > PopoverTrigger + PopoverContent (title required, description optional, PopoverClose). Keep it around 22rem wide with up to 3–4 fields; use Tooltip for supplementary hints, Menu for a list of actions, Modal for decisions, and Sheet for longer content.",
     "whenToUse": "Small interactive content tied to a button, such as a form or extra options.",
     "avoid": [
       "Plain hints: use Tooltip.",
@@ -743,7 +743,7 @@
     "category": "navigation",
     "base": "own",
     "renders": "nav with a list of links",
-    "composition": "Pass `page`, `pageCount` and `hrefTemplate` such as `/blog?page={page}`.",
+    "composition": "Pass `page`, `pageCount` and `hrefTemplate` such as `/blog?page={page}`. Use `showPreviousNext={false}` for page numbers only, or `showPageNumbers={false}` with `iconSteps` for icon-only Previous and Next.",
     "whenToUse": "Moving through content split across URLs.",
     "avoid": [
       "Passing a function for the href (it breaks in Server Components).",
@@ -972,7 +972,7 @@
     "category": "overlays",
     "base": "base-ui",
     "renders": "no element: it holds the open state and provides the role (Base UI Dialog.Root, or AlertDialog.Root for role=alertdialog)",
-    "composition": "Structure: Modal > ModalTrigger + ModalContent (title, optional tagline/icon/description, body children, actions). Put one to three actions in `actions`: the safe action first and the primary action last. The form lives in the body; a submit button in the footer targets it with the `form` attribute.",
+    "composition": "Structure: Modal > ModalTrigger + ModalContent (title, optional tagline/icon/description, body children, actions). `size` supports xs, sm, md, lg and xl widths; `color` supports neutral, brand, warning and critical and never changes layout. Put one to three actions in `actions`: the safe action first and the primary action last. The form lives in the body; a submit button in the footer targets it with the `form` attribute.",
     "whenToUse": "Interrupting the user for a decision or a focused task.",
     "avoid": [
       "Non-essential information: use inline content, Alert or Tooltip.",

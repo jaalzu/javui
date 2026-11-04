@@ -44,8 +44,20 @@
     --modal-width: var(--dialog-width-sm);
   }
 
+  .popup[data-size="xs"] {
+    --modal-width: var(--dialog-width-xs);
+  }
+
   .popup[data-size="lg"] {
     --modal-width: var(--dialog-width-lg);
+  }
+
+  .popup[data-size="xl"] {
+    --modal-width: var(--dialog-width-xl);
+  }
+
+  .popup[data-color="brand"] {
+    --modal-tone: var(--color-brand-foreground);
   }
 
   .popup[data-color="warning"] {

@@ -42,7 +42,13 @@ export const hero = defineHero(
 export const examples: Example[] = [
   ex(
     "Sizes",
-    `<Modal size="sm">
+    `<Modal size="xs">
+  <ModalTrigger variant="secondary">Extra small</ModalTrigger>
+  <ModalContent title="Extra-small modal" closeLabel="Close extra-small modal" actions={<ModalClose>Close</ModalClose>}>
+    A compact confirmation.
+  </ModalContent>
+</Modal>
+<Modal size="sm">
   <ModalTrigger variant="secondary">Small</ModalTrigger>
   <ModalContent title="Small modal" closeLabel="Close small modal" actions={<ModalClose>Close</ModalClose>}>
     Compact content.
@@ -59,8 +65,20 @@ export const examples: Example[] = [
   <ModalContent title="Large modal" closeLabel="Close large modal" actions={<ModalClose>Close</ModalClose>}>
     More room for a form or a table.
   </ModalContent>
+</Modal>
+<Modal size="xl">
+  <ModalTrigger variant="secondary">Extra large</ModalTrigger>
+  <ModalContent title="Extra-large modal" closeLabel="Close extra-large modal" actions={<ModalClose>Close</ModalClose>}>
+    Extra room for complex forms and tables.
+  </ModalContent>
 </Modal>`,
     <Stack direction="row" gap="3" wrap>
+      <Modal size="xs">
+        <ModalTrigger variant="secondary">Extra small</ModalTrigger>
+        <ModalContent title="Extra-small modal" closeLabel="Close extra-small modal" actions={<ModalClose>Close</ModalClose>}>
+          A compact confirmation.
+        </ModalContent>
+      </Modal>
       <Modal size="sm">
         <ModalTrigger variant="secondary">Small</ModalTrigger>
         <ModalContent title="Small modal" closeLabel="Close small modal" actions={<ModalClose>Close</ModalClose>}>
@@ -79,8 +97,14 @@ export const examples: Example[] = [
           More room for a form or a table.
         </ModalContent>
       </Modal>
+      <Modal size="xl">
+        <ModalTrigger variant="secondary">Extra large</ModalTrigger>
+        <ModalContent title="Extra-large modal" closeLabel="Close extra-large modal" actions={<ModalClose>Close</ModalClose>}>
+          Extra room for complex forms and tables.
+        </ModalContent>
+      </Modal>
     </Stack>,
-    "Widths come from the layout width tokens. The panel never grows past the viewport.",
+    "Widths come from the layout width tokens. Color never changes the panel size, and xs/xl extend the scale.",
   ),
   ex(
     "Colors",
@@ -93,7 +117,7 @@ export const examples: Example[] = [
 <Modal color="warning">
   <ModalTrigger variant="secondary">Warning</ModalTrigger>
   <ModalContent title="Warning header" closeLabel="Close warning modal" actions={<ModalClose>Close</ModalClose>}>
-    Tints the header tagline and title.
+    Tints the header tagline and title without changing the modal size.
   </ModalContent>
 </Modal>
 <Modal role="alertdialog" color="critical" description="This permanently removes the project and its data.">
@@ -109,10 +133,10 @@ export const examples: Example[] = [
     }
   />
 </Modal>
-<Modal color="neutral">
+<Modal color="brand">
   <ModalTrigger variant="accent">Custom</ModalTrigger>
   <ModalContent title="Custom color" closeLabel="Close custom color modal" actions={<ModalClose>Close</ModalClose>}>
-    Use an accent button for a custom brand color.
+    The title uses the custom brand color too.
   </ModalContent>
 </Modal>`,
     <Stack direction="row" gap="3" wrap>
@@ -125,7 +149,7 @@ export const examples: Example[] = [
       <Modal color="warning">
         <ModalTrigger variant="secondary">Warning</ModalTrigger>
         <ModalContent title="Warning header" closeLabel="Close warning modal" actions={<ModalClose>Close</ModalClose>}>
-          Tints the header tagline and title.
+          Tints the header tagline and title without changing the modal size.
         </ModalContent>
       </Modal>
       <Modal
@@ -145,18 +169,18 @@ export const examples: Example[] = [
           }
         />
       </Modal>
-      <Modal color="neutral">
+      <Modal color="brand">
         <ModalTrigger variant="accent">Custom</ModalTrigger>
         <ModalContent
           title="Custom color"
           closeLabel="Close custom color modal"
           actions={<ModalClose>Close</ModalClose>}
         >
-          Use an accent button for a custom brand color.
+          The title uses the custom brand color too.
         </ModalContent>
       </Modal>
     </Stack>,
-    "Critical normally goes with role=alertdialog.",
+    "Color changes only the header tone; the custom example colors its title with the brand tone too.",
   ),
   ex(
     "Choosing a role",

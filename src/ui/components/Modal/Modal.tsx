@@ -17,8 +17,8 @@ import { XIcon } from "../../icons/icons.generated";
 import styles from "./Modal.module.css";
 
 export type ModalRole = "dialog" | "alertdialog";
-export type ModalSize = "sm" | "md" | "lg";
-export type ModalColor = "neutral" | "warning" | "critical";
+export type ModalSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type ModalColor = "neutral" | "brand" | "warning" | "critical";
 
 type ModalContextValue = {
   role: ModalRole;
@@ -46,7 +46,7 @@ type ModalCommonProps = {
   onOpenChange?: (open: boolean) => void;
   /** Width of the panel, from the layout width tokens. @default "md" */
   size?: ModalSize;
-  /** Tints the header tagline and title. Behavior does not change; use `role` for that. @default "neutral" */
+  /** Tints the header tagline and title. It never changes the panel size or behavior. @default "neutral" */
   color?: ModalColor;
   /**
    * Shows the close button and allows Escape and outside click to close. When false, keep at least one
@@ -83,7 +83,7 @@ export type ModalProps = ModalCommonProps &
 
 /**
  * The root of a modal. Use `role="dialog"` for content and forms, or `role="alertdialog"` for a
- * decision that interrupts. The parts share one implementation; only the behavior and the header
+ * decision that interrupts. The parts share one implementation; only the behavior, width and header
  * color change with props. The page behind stays inert and scroll-locked, focus is trapped and
  * returned, and Escape closes unless `dismissible` is false.
  *

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "./Popover";
 import type { ButtonVariant } from "../Button";
 import { StateMatrix, forceProps } from "../../stories/StateMatrix";
+import { QuestionIcon } from "../../icons/icons.generated";
 
 const meta = {
   title: "Overlays/Popover",
@@ -23,6 +24,22 @@ const content = (
 );
 
 export const Default: Story = { render: () => <Popover>{content}</Popover> };
+export const IconOnly: Story = {
+  render: () => (
+    <Popover>
+      <PopoverTrigger variant="ghost" startIcon={<QuestionIcon />} aria-label="Help" />
+      <PopoverContent title="Help" description="Short contextual help for this control." />
+    </Popover>
+  ),
+};
+export const Alignment: Story = {
+  render: () => (
+    <Popover>
+      <PopoverTrigger variant="secondary">Open aligned popover</PopoverTrigger>
+      <PopoverContent title="Aligned" side="right" align="start">Right-start content.</PopoverContent>
+    </Popover>
+  ),
+};
 export const OpenDark: Story = {
   name: "Open (dark)",
   globals: { theme: "dark" },

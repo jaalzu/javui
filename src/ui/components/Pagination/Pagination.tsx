@@ -3,6 +3,7 @@
 import type { ComponentProps, ElementType } from "react";
 import { useLinkComponent } from "../Link";
 import { cx } from "../../utils/cx";
+import { CaretLeftIcon, CaretRightIcon } from "../../icons/icons.generated";
 import styles from "./Pagination.module.css";
 
 export type PaginationProps = {
@@ -12,6 +13,12 @@ export type PaginationProps = {
   pageCount: number;
   /** URL of a page, with `{page}` where the number goes, for example `"/blog?page={page}"`. A string (not a function) so it works from Server Components. */
   hrefTemplate: string;
+  /** Whether to render the Previous and Next links. @default true */
+  showPreviousNext?: boolean;
+  /** Whether to render page-number links and ellipses. @default true */
+  showPageNumbers?: boolean;
+  /** Render Previous and Next as icon-only links. @default false */
+  iconSteps?: boolean;
   /** Accessible name of the navigation. @default "Pagination" */
   "aria-label"?: string;
   className?: string;
@@ -38,25 +45,39 @@ function slots(page: number, count: number): Slot[] {
  * @example
  * <Pagination page={2} pageCount={9} hrefTemplate="/blog?page={page}" />
  */
-export function Pagination({ page, pageCount, hrefTemplate, "aria-label": ariaLabel = "Pagination", className }: PaginationProps) {
+export function Pagination({
+  page,
+  pageCount,
+  hrefTemplate,
+  showPreviousNext = true,
+  showPageNumbers = true,
+  iconSteps = false,
+  "aria-label": ariaLabel = "Pagination",
+  className,
+}: PaginationProps) {
   const LinkEl = useLinkComponent() as ElementType<ComponentProps<"a">>;
   const href = (p: number) => hrefTemplate.replace("{page}", String(p));
   return (
     <nav aria-label={ariaLabel} className={className}>
       <ul className={styles.list}>
-        {page > 1 && (
+        {showPreviousNext && page > 1 && (
           <li>
-            <LinkEl href={href(page - 1)} className={cx(styles.link, styles.step)} rel="prev">
-              Previous
+            <LinkEl
+              href={href(page - 1)}
+              className={cx(styles.link, styles.step, iconSteps && styles.iconStep)}
+              rel="prev"
+              aria-label={iconSteps ? "Previous page" : undefined}
+            >
+              {iconSteps ? <CaretLeftIcon /> : <><CaretLeftIcon /> Previous</>}
             </LinkEl>
           </li>
         )}
-        {slots(page, pageCount).map((s) =>
+        {showPageNumbers && slots(page, pageCount).map((s) =>
           typeof s === "number" ? (
             <li key={s}>
               <LinkEl
                 href={href(s)}
-                className={cx(styles.link, s === page && styles.current)}
+                className={cx(styles.link, styles.number, s === page && styles.current)}
                 aria-current={s === page ? "page" : undefined}
                 aria-label={`Page ${s}`}
               >
@@ -69,10 +90,15 @@ export function Pagination({ page, pageCount, hrefTemplate, "aria-label": ariaLa
             </li>
           ),
         )}
-        {page < pageCount && (
+        {showPreviousNext && page < pageCount && (
           <li>
-            <LinkEl href={href(page + 1)} className={cx(styles.link, styles.step)} rel="next">
-              Next
+            <LinkEl
+              href={href(page + 1)}
+              className={cx(styles.link, styles.step, iconSteps && styles.iconStep)}
+              rel="next"
+              aria-label={iconSteps ? "Next page" : undefined}
+            >
+              {iconSteps ? <CaretRightIcon /> : <>Next <CaretRightIcon /></>}
             </LinkEl>
           </li>
         )}

@@ -1987,10 +1987,10 @@
       "name": "Modal",
       "category": "overlays",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "The root of a modal. Use `role=\"dialog\"` for content and forms, or `role=\"alertdialog\"` for a\ndecision that interrupts. The parts share one implementation; only the behavior and the header\ncolor change with props. The page behind stays inert and scroll-locked, focus is trapped and\nreturned, and Escape closes unless `dismissible` is false.",
+      "description": "The root of a modal. Use `role=\"dialog\"` for content and forms, or `role=\"alertdialog\"` for a\ndecision that interrupts. The parts share one implementation; only the behavior, width and header\ncolor change with props. The page behind stays inert and scroll-locked, focus is trapped and\nreturned, and Escape closes unless `dismissible` is false.",
       "import": "import { Modal } from \"@/ui\";",
       "renders": "no element: it holds the open state and provides the role (Base UI Dialog.Root, or AlertDialog.Root for role=alertdialog)",
-      "composition": "Structure: Modal > ModalTrigger + ModalContent (title, optional tagline/icon/description, body children, actions). Put one to three actions in `actions`: the safe action first and the primary action last. The form lives in the body; a submit button in the footer targets it with the `form` attribute.",
+      "composition": "Structure: Modal > ModalTrigger + ModalContent (title, optional tagline/icon/description, body children, actions). `size` supports xs, sm, md, lg and xl widths; `color` supports neutral, brand, warning and critical and never changes layout. Put one to three actions in `actions`: the safe action first and the primary action last. The form lives in the body; a submit button in the footer targets it with the `form` attribute.",
       "whenToUse": "Interrupting the user for a decision or a focused task.",
       "avoid": [
         "Non-essential information: use inline content, Alert or Tooltip.",
@@ -2012,10 +2012,10 @@
         },
         {
           "name": "color",
-          "type": "\"neutral\" | \"warning\" | \"critical\"",
+          "type": "\"neutral\" | \"warning\" | \"brand\" | \"critical\"",
           "required": false,
           "default": "neutral",
-          "description": "Tints the header tagline and title. Behavior does not change; use `role` for that."
+          "description": "Tints the header tagline and title. It never changes the panel size or behavior."
         },
         {
           "name": "defaultOpen",
@@ -2070,7 +2070,7 @@
         },
         {
           "name": "size",
-          "type": "\"sm\" | \"md\" | \"lg\"",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xs\" | \"xl\"",
           "required": false,
           "default": "md",
           "description": "Width of the panel, from the layout width tokens."
@@ -2684,10 +2684,10 @@
       "name": "Popover",
       "category": "overlays",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "Root of a popover: a small panel anchored to a button, for extra controls or details the user asked for.\nBuilt on Base UI Popover (focus management, Escape to close, outside click and positioning come from there).\nFor decisions that must interrupt the user use `Modal`; for a list of actions use `Menu`.",
+      "description": "Root of a popover: a small panel anchored to a button, for extra controls or details the user asked for.\nUse Popover for about 22rem of content and up to 3–4 fields; use Tooltip for supplementary hints,\nMenu for a list of actions, Modal for decisions, and Sheet for longer content.\nBuilt on Base UI Popover (focus management, Escape to close, outside click and positioning come from there).",
       "import": "import { Popover } from \"@/ui\";",
       "renders": "no element: it only holds the open state (Base UI Popover.Root)",
-      "composition": "Structure: Popover > PopoverTrigger + PopoverContent (title required, description optional, PopoverClose).",
+      "composition": "Structure: Popover > PopoverTrigger + PopoverContent (title required, description optional, PopoverClose). Keep it around 22rem wide with up to 3–4 fields; use Tooltip for supplementary hints, Menu for a list of actions, Modal for decisions, and Sheet for longer content.",
       "whenToUse": "Small interactive content tied to a button, such as a form or extra options.",
       "avoid": [
         "Plain hints: use Tooltip.",
@@ -2716,11 +2716,30 @@
           "accessibility": "A real button with aria-expanded and aria-controls.",
           "props": [
             {
+              "name": "endIcon",
+              "type": "ReactNode",
+              "required": false,
+              "description": "Icon after the label. Pass a generated icon without `size`."
+            },
+            {
+              "name": "pill",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Fully rounded trigger."
+            },
+            {
               "name": "size",
               "type": "\"sm\" | \"md\" | \"lg\" | \"xs\"",
               "required": false,
-              "default": "md",
+              "default": "\"md\"",
               "description": "Button size of the trigger."
+            },
+            {
+              "name": "startIcon",
+              "type": "ReactNode",
+              "required": false,
+              "description": "Icon before the label, or the icon for an icon-only trigger. Pass a generated icon without `size`."
             },
             {
               "name": "variant",
@@ -3131,7 +3150,7 @@
       "description": "Page links for content split across URLs. Every page is a real link, so it works without JavaScript and\nwith `next/link` through `LinkProvider`. Previous and next are left out (not disabled) when unavailable.",
       "import": "import { Pagination } from \"@/ui\";",
       "renders": "nav with a list of links",
-      "composition": "Pass `page`, `pageCount` and `hrefTemplate` such as `/blog?page={page}`.",
+      "composition": "Pass `page`, `pageCount` and `hrefTemplate` such as `/blog?page={page}`. Use `showPreviousNext={false}` for page numbers only, or `showPageNumbers={false}` with `iconSteps` for icon-only Previous and Next.",
       "whenToUse": "Moving through content split across URLs.",
       "avoid": [
         "Passing a function for the href (it breaks in Server Components).",
@@ -3168,6 +3187,27 @@
           "name": "className",
           "type": "string",
           "required": false
+        },
+        {
+          "name": "iconSteps",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Render Previous and Next as icon-only links."
+        },
+        {
+          "name": "showPageNumbers",
+          "type": "boolean",
+          "required": false,
+          "default": "true",
+          "description": "Whether to render page-number links and ellipses."
+        },
+        {
+          "name": "showPreviousNext",
+          "type": "boolean",
+          "required": false,
+          "default": "true",
+          "description": "Whether to render the Previous and Next links."
         }
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",

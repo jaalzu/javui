@@ -1466,7 +1466,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 ## Modal
 
 The root of a modal. Use `role="dialog"` for content and forms, or `role="alertdialog"` for a
-decision that interrupts. The parts share one implementation; only the behavior and the header
+decision that interrupts. The parts share one implementation; only the behavior, width and header
 color change with props. The page behind stays inert and scroll-locked, focus is trapped and
 returned, and Escape closes unless `dismissible` is false.
 
@@ -1474,7 +1474,7 @@ returned, and Escape closes unless `dismissible` is false.
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Modal } from "@/ui";`
 - Renders: no element: it holds the open state and provides the role (Base UI Dialog.Root, or AlertDialog.Root for role=alertdialog)
-- Composition: Structure: Modal > ModalTrigger + ModalContent (title, optional tagline/icon/description, body children, actions). Put one to three actions in `actions`: the safe action first and the primary action last. The form lives in the body; a submit button in the footer targets it with the `form` attribute.
+- Composition: Structure: Modal > ModalTrigger + ModalContent (title, optional tagline/icon/description, body children, actions). `size` supports xs, sm, md, lg and xl widths; `color` supports neutral, brand, warning and critical and never changes layout. Put one to three actions in `actions`: the safe action first and the primary action last. The form lives in the body; a submit button in the footer targets it with the `form` attribute.
 - Use when: Interrupting the user for a decision or a focused task.
 - Choosing:
   - Content and forms: Modal with the default role="dialog".
@@ -1490,7 +1490,7 @@ returned, and Escape closes unless `dismissible` is false.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `children` | `ReactNode` | no |  | `ModalTrigger` and `ModalContent`. |
-| `color` | `"neutral" \| "warning" \| "critical"` | no | neutral | Tints the header tagline and title. Behavior does not change; use `role` for that. |
+| `color` | `"neutral" \| "warning" \| "brand" \| "critical"` | no | neutral | Tints the header tagline and title. It never changes the panel size or behavior. |
 | `defaultOpen` | `boolean` | no | false | Whether the modal starts open when uncontrolled. |
 | `description` | `ReactNode` | no |  | Description announced as the accessible description. Required for `role="alertdialog"`. Alert dialogs need a description: it is part of the accessible name and explains the decision. |
 | `dismissible` | `boolean` | no | true | Shows the close button and allows Escape and outside click to close. When false, keep at least one footer action so the user has a way out. |
@@ -1499,7 +1499,7 @@ returned, and Escape closes unless `dismissible` is false.
 | `open` | `boolean` | no |  | Whether the modal is open. Use it with `onOpenChange` for a controlled modal. |
 | `returnFocusTo` | `string \| RefObject<HTMLElement \| null>` | no |  | Where focus returns when the original trigger no longer exists. Pass an element ref or an id. Rare: the trigger is the normal return target. |
 | `role` | `"dialog" \| "alertdialog"` | no | dialog | Behavior only. Use alertdialog for a decision that interrupts. |
-| `size` | `"sm" \| "md" \| "lg"` | no | md | Width of the panel, from the layout width tokens. |
+| `size` | `"sm" \| "md" \| "lg" \| "xs" \| "xl"` | no | md | Width of the panel, from the layout width tokens. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1985,14 +1985,15 @@ Also accepts the native props of the element it renders; they pass through.
 ## Popover
 
 Root of a popover: a small panel anchored to a button, for extra controls or details the user asked for.
+Use Popover for about 22rem of content and up to 3–4 fields; use Tooltip for supplementary hints,
+Menu for a list of actions, Modal for decisions, and Sheet for longer content.
 Built on Base UI Popover (focus management, Escape to close, outside click and positioning come from there).
-For decisions that must interrupt the user use `Modal`; for a list of actions use `Menu`.
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Popover } from "@/ui";`
 - Renders: no element: it only holds the open state (Base UI Popover.Root)
-- Composition: Structure: Popover > PopoverTrigger + PopoverContent (title required, description optional, PopoverClose).
+- Composition: Structure: Popover > PopoverTrigger + PopoverContent (title required, description optional, PopoverClose). Keep it around 22rem wide with up to 3–4 fields; use Tooltip for supplementary hints, Menu for a list of actions, Modal for decisions, and Sheet for longer content.
 - Use when: Small interactive content tied to a button, such as a form or extra options.
 - Avoid:
   - Plain hints: use Tooltip.
@@ -2031,7 +2032,10 @@ The button that opens the popover. It is rendered as a `Button`.
 #### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | md | Button size of the trigger. |
+| `endIcon` | `ReactNode` | no |  | Icon after the label. Pass a generated icon without `size`. |
+| `pill` | `boolean` | no | false | Fully rounded trigger. |
+| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | "md" | Button size of the trigger. |
+| `startIcon` | `ReactNode` | no |  | Icon before the label, or the icon for an icon-only trigger. Pass a generated icon without `size`. |
 | `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -2263,7 +2267,7 @@ with `next/link` through `LinkProvider`. Previous and next are left out (not dis
 - Base: Own component
 - Import: `import { Pagination } from "@/ui";`
 - Renders: nav with a list of links
-- Composition: Pass `page`, `pageCount` and `hrefTemplate` such as `/blog?page={page}`.
+- Composition: Pass `page`, `pageCount` and `hrefTemplate` such as `/blog?page={page}`. Use `showPreviousNext={false}` for page numbers only, or `showPageNumbers={false}` with `iconSteps` for icon-only Previous and Next.
 - Use when: Moving through content split across URLs.
 - Avoid:
   - Passing a function for the href (it breaks in Server Components).
@@ -2278,6 +2282,9 @@ with `next/link` through `LinkProvider`. Previous and next are left out (not dis
 | `pageCount` | `number` | yes |  | Total number of pages. |
 | `aria-label` | `string` | no | Pagination | Accessible name of the navigation. |
 | `className` | `string` | no |  |  |
+| `iconSteps` | `boolean` | no | false | Render Previous and Next as icon-only links. |
+| `showPageNumbers` | `boolean` | no | true | Whether to render page-number links and ellipses. |
+| `showPreviousNext` | `boolean` | no | true | Whether to render the Previous and Next links. |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -3089,9 +3096,11 @@ show({ title: "Saved", tone: "success" });
 | `--container-md` | dimension | `48rem` |
 | `--container-lg` | dimension | `64rem` |
 | `--container-xl` | dimension | `80rem` |
+| `--dialog-width-xs` | dimension | `20rem` |
 | `--dialog-width-sm` | dimension | `24rem` |
 | `--dialog-width-md` | dimension | `28rem` |
 | `--dialog-width-lg` | dimension | `40rem` |
+| `--dialog-width-xl` | dimension | `56rem` |
 | `--dialog-height-md` | dimension | `36rem` |
 | `--menu-width-xxs` | dimension | `6rem` |
 | `--menu-width-xs` | dimension | `12rem` |

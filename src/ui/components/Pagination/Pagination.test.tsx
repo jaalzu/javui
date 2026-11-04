@@ -25,6 +25,21 @@ describe("Pagination", () => {
     expect(screen.queryByRole("link", { name: "Page 5" })).not.toBeInTheDocument();
   });
 
+  it("supports number-only and icon-only step variants", () => {
+    const { rerender } = render(
+      <Pagination page={2} pageCount={4} hrefTemplate="/p/{page}" showPreviousNext={false} />,
+    );
+    expect(screen.queryByRole("link", { name: "Previous" })).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Page 2" })).toBeInTheDocument();
+
+    rerender(
+      <Pagination page={2} pageCount={4} hrefTemplate="/p/{page}" showPageNumbers={false} iconSteps />,
+    );
+    expect(screen.queryByRole("link", { name: "Page 2" })).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Previous page" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Next page" })).toBeInTheDocument();
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(<Pagination page={2} pageCount={9} hrefTemplate="/p/{page}" />);
     expect(await axe(container)).toHaveNoViolations();

@@ -46,6 +46,20 @@ describe("Modal", () => {
     expect(container.ownerDocument.querySelector("footer")).toBeVisible();
   });
 
+  it("keeps color independent from the selected width", () => {
+    render(
+      <Modal defaultOpen size="xl" color="brand">
+        <ModalContent title="Custom color" closeLabel="Close custom color" actions={<ModalClose>Close</ModalClose>}>
+          Brand-colored title.
+        </ModalContent>
+      </Modal>,
+    );
+
+    const popup = screen.getByRole("dialog", { name: "Custom color" });
+    expect(popup).toHaveAttribute("data-size", "xl");
+    expect(popup).toHaveAttribute("data-color", "brand");
+  });
+
   it("has no accessibility violations when open", async () => {
     render(
       <Modal defaultOpen>

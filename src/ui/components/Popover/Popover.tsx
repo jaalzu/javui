@@ -1,4 +1,6 @@
-import type { ReactNode } from "react";
+"use client";
+
+import { useRef, type ReactNode } from "react";
 import { Popover as BasePopover } from "@base-ui/react/popover";
 import { cx } from "../../utils/cx";
 import { Button, type ButtonSize, type ButtonVariant } from "../Button";
@@ -6,8 +8,9 @@ import styles from "./Popover.module.css";
 
 /**
  * Root of a popover: a small panel anchored to a button, for extra controls or details the user asked for.
+ * Use Popover for about 22rem of content and up to 3–4 fields; use Tooltip for supplementary hints,
+ * Menu for a list of actions, Modal for decisions, and Sheet for longer content.
  * Built on Base UI Popover (focus management, Escape to close, outside click and positioning come from there).
- * For decisions that must interrupt the user use `Modal`; for a list of actions use `Menu`.
  *
  * @example
  * <Popover>
@@ -22,6 +25,12 @@ export type PopoverTriggerProps = {
   variant?: ButtonVariant;
   /** Button size of the trigger. @default "md" */
   size?: ButtonSize;
+  /** Icon before the label, or the icon for an icon-only trigger. Pass a generated icon without `size`. */
+  startIcon?: ReactNode;
+  /** Icon after the label. Pass a generated icon without `size`. */
+  endIcon?: ReactNode;
+  /** Fully rounded trigger. @default false */
+  pill?: boolean;
 } & Omit<BasePopover.Trigger.Props, "render" | "className" | "color">;
 
 /**
@@ -30,11 +39,26 @@ export type PopoverTriggerProps = {
  * @example
  * <PopoverTrigger variant="secondary">Filters</PopoverTrigger>
  */
-export function PopoverTrigger({ variant = "secondary", size = "md", children, ...rest }: PopoverTriggerProps) {
+export function PopoverTrigger({
+  variant = "secondary",
+  size,
+  startIcon,
+  endIcon,
+  pill,
+  children,
+  ...rest
+}: PopoverTriggerProps) {
   return (
     <BasePopover.Trigger
       render={
-        <Button variant={variant} size={size}>
+        <Button
+          variant={variant}
+          size={size}
+          startIcon={startIcon}
+          endIcon={endIcon}
+          pill={pill}
+          {...(rest as { "aria-label"?: string; "aria-labelledby"?: string })}
+        >
           {children}
         </Button>
       }
@@ -66,10 +90,20 @@ export type PopoverContentProps = {
  * </PopoverContent>
  */
 export function PopoverContent({ title, description, children, side = "bottom", align = "center", className }: PopoverContentProps) {
+  const popupRef = useRef<HTMLDivElement>(null);
+
   return (
     <BasePopover.Portal>
-      <BasePopover.Positioner side={side} align={align} sideOffset={8} className={styles.positioner}>
-        <BasePopover.Popup className={cx(styles.popup, className)}>
+      <BasePopover.Positioner side={side} align={align} sideOffset={4} className={styles.positioner}>
+        <BasePopover.Popup
+          ref={popupRef}
+          className={cx(styles.popup, className)}
+          initialFocus={() =>
+            popupRef.current?.querySelector<HTMLElement>(
+              'input:not([type="hidden"]), textarea, select, [contenteditable="true"]',
+            ) ?? true
+          }
+        >
           <BasePopover.Title className={styles.title}>{title}</BasePopover.Title>
           {description ? <BasePopover.Description className={styles.description}>{description}</BasePopover.Description> : null}
           {children ? <div className={styles.body}>{children}</div> : null}

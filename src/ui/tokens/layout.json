@@ -102,6 +102,10 @@
     "$type": "dimension",
     "$description": "Maximum widths for centered dialogs. The medium width is the compact default for focused tasks.",
     "width": {
+      "xs": {
+        "$value": "20rem",
+        "$description": "Extra-compact dialogs for short confirmations and single-field tasks."
+      },
       "sm": {
         "$value": "24rem",
         "$description": "Compact confirmation and short-message dialogs."
@@ -113,6 +117,10 @@
       "lg": {
         "$value": "40rem",
         "$description": "Roomier width for forms, tables and detailed content."
+      },
+      "xl": {
+        "$value": "56rem",
+        "$description": "Extra-roomy width for complex forms, tables and detailed content."
       }
     },
     "height": {

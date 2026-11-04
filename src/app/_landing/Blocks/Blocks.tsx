@@ -153,6 +153,7 @@ function Sidebar() {
         {active && (
           <ModalContent
             title={active.label}
+            closeLabel={`Close ${active.label}`}
             description={active.description}
             actions={<ModalClose>Close</ModalClose>}
           >

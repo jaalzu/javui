@@ -2015,7 +2015,7 @@
           "type": "\"neutral\" | \"warning\" | \"critical\"",
           "required": false,
           "default": "neutral",
-          "description": "Tints the header icon, tagline and title. Behavior does not change; use `role` for that."
+          "description": "Tints the header tagline and title. Behavior does not change; use `role` for that."
         },
         {
           "name": "defaultOpen",
@@ -2078,7 +2078,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Modal role=\"alertdialog\" color=\"critical\" description=\"This permanently removes the project and its data.\">\r\n  <ModalTrigger variant=\"danger\">Delete project</ModalTrigger>\r\n  <ModalContent\r\n    title=\"Delete project?\"\r\n    actions={\r\n      <>\r\n        <ModalClose>Cancel</ModalClose>\r\n        <ModalClose variant=\"danger\">Delete</ModalClose>\r\n      </>\r\n    }\r\n  >\r\n    The project and all of its data will be gone.\r\n  </ModalContent>\r\n</Modal>"
+        "<Modal role=\"alertdialog\" color=\"critical\" description=\"This permanently removes the project and its data.\">\r\n  <ModalTrigger variant=\"danger\">Delete project</ModalTrigger>\r\n  <ModalContent\r\n    title=\"Delete project?\"\r\n    closeLabel=\"Close delete confirmation\"\r\n    actions={\r\n      <>\r\n        <ModalClose>Cancel</ModalClose>\r\n        <ModalClose variant=\"danger\">Delete</ModalClose>\r\n      </>\r\n    }\r\n  />\r\n</Modal>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Modal/Modal.tsx",
       "parts": [
@@ -2100,7 +2100,7 @@
               "name": "size",
               "type": "\"sm\" | \"md\" | \"lg\" | \"xs\"",
               "required": false,
-              "default": "md",
+              "default": "sm",
               "description": "Button size of the trigger."
             },
             {
@@ -2135,10 +2135,10 @@
           "accessibility": "The title is the accessible name; the description is the accessible description. A dialog focuses the first field when the body has a form; an alert dialog focuses the safe action.",
           "props": [
             {
-              "name": "children",
-              "type": "ReactNode",
+              "name": "closeLabel",
+              "type": "string",
               "required": true,
-              "description": "Body content: text, custom content or a form. It scrolls when it exceeds the available height."
+              "description": "Accessible name of the close button. Keep the copy in the consuming example."
             },
             {
               "name": "title",
@@ -2153,28 +2153,21 @@
               "description": "Footer actions: one to three. Put the safe action first and the primary action last."
             },
             {
+              "name": "children",
+              "type": "ReactNode",
+              "required": false,
+              "description": "Optional body content: text, custom content or a form. It scrolls when it exceeds the available height."
+            },
+            {
               "name": "className",
               "type": "string",
               "required": false
-            },
-            {
-              "name": "closeLabel",
-              "type": "string",
-              "required": false,
-              "default": "Close",
-              "description": "Accessible name of the close button."
             },
             {
               "name": "description",
               "type": "ReactNode",
               "required": false,
               "description": "Explanation announced as the accessible description. Falls back to the `description` on `Modal`."
-            },
-            {
-              "name": "icon",
-              "type": "ReactNode",
-              "required": false,
-              "description": "Replaces the default icon for the color. Pass a generated icon without `size`."
             },
             {
               "name": "tagline",
@@ -2185,7 +2178,7 @@
           ],
           "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
           "examples": [
-            "<ModalContent\r\n  title=\"Invite a teammate\"\r\n  tagline=\"Workspace\"\r\n  actions={<><ModalClose>Cancel</ModalClose><ModalClose>Send invite</ModalClose></>}\r\n>\r\n  <Field label=\"Email\"><Input type=\"email\" /></Field>\r\n</ModalContent>"
+            "<ModalContent\r\n  title=\"Invite a teammate\"\r\n  closeLabel=\"Close invite dialog\"\r\n  tagline=\"Workspace\"\r\n  actions={<><ModalClose>Cancel</ModalClose><ModalClose>Send invite</ModalClose></>}\r\n>\r\n  <Field label=\"Email\"><Input type=\"email\" /></Field>\r\n</ModalContent>"
           ],
           "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Modal/Modal.tsx",
           "parent": "Modal"
@@ -2215,7 +2208,7 @@
               "name": "size",
               "type": "\"sm\" | \"md\" | \"lg\" | \"xs\"",
               "required": false,
-              "default": "md",
+              "default": "sm",
               "description": "Button size."
             },
             {
@@ -3783,6 +3776,12 @@
       "accessibility": "Focus is trapped and returned, Escape closes, the page behind is inert, and the title names the sheet. The close button has an accessible label.",
       "props": [
         {
+          "name": "closeLabel",
+          "type": "string",
+          "required": true,
+          "description": "Accessible name of the close button. Keep the copy in the consuming example."
+        },
+        {
           "name": "title",
           "type": "ReactNode",
           "required": true,
@@ -3804,13 +3803,6 @@
           "name": "className",
           "type": "string",
           "required": false
-        },
-        {
-          "name": "closeLabel",
-          "type": "string",
-          "required": false,
-          "default": "Close",
-          "description": "Accessible name of the close button."
         },
         {
           "name": "defaultOpen",
@@ -3843,16 +3835,37 @@
           "description": "Controlled open state."
         },
         {
+          "name": "showCloseButton",
+          "type": "boolean",
+          "required": false,
+          "default": "true",
+          "description": "Whether to render the built-in close button."
+        },
+        {
           "name": "side",
-          "type": "\"left\" | \"right\"",
+          "type": "\"top\" | \"bottom\" | \"left\" | \"right\"",
           "required": false,
           "default": "right",
           "description": "Edge the sheet enters from."
+        },
+        {
+          "name": "triggerSize",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xs\"",
+          "required": false,
+          "default": "sm",
+          "description": "Button size of the trigger."
+        },
+        {
+          "name": "triggerVariant",
+          "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+          "required": false,
+          "default": "secondary",
+          "description": "Button style of the trigger."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Sheet\r\n  trigger=\"Filters\"\r\n  title=\"Filters\"\r\n  description=\"Narrow the results.\"\r\n  footer={<Button>Apply</Button>}\r\n>\r\n  <Field label=\"Status\"><Select items={statuses} /></Field>\r\n</Sheet>"
+        "<Sheet\r\n  trigger=\"Filters\"\r\n  closeLabel=\"Close filters\"\r\n  title=\"Filters\"\r\n  description=\"Narrow the results.\"\r\n  footer={<Button>Apply</Button>}\r\n>\r\n  <Field label=\"Status\"><Select items={statuses} /></Field>\r\n</Sheet>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Sheet/Sheet.tsx"
     },

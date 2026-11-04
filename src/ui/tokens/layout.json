@@ -98,6 +98,30 @@
       "$value": "80rem"
     }
   },
+  "dialog": {
+    "$type": "dimension",
+    "$description": "Maximum widths for centered dialogs. The medium width is the compact default for focused tasks.",
+    "width": {
+      "sm": {
+        "$value": "24rem",
+        "$description": "Compact confirmation and short-message dialogs."
+      },
+      "md": {
+        "$value": "28rem",
+        "$description": "Default width for focused dialog tasks."
+      },
+      "lg": {
+        "$value": "40rem",
+        "$description": "Roomier width for forms, tables and detailed content."
+      }
+    },
+    "height": {
+      "md": {
+        "$value": "36rem",
+        "$description": "Maximum height for dialogs before their body scrolls."
+      }
+    }
+  },
   "menu": {
     "$type": "dimension",
     "$description": "Optional fixed widths for menu popups. Auto remains content-sized.",

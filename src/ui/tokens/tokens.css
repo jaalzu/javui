@@ -137,6 +137,10 @@
   --container-md: 48rem;
   --container-lg: 64rem;
   --container-xl: 80rem;
+  --dialog-width-sm: 24rem; /** Compact confirmation and short-message dialogs. */
+  --dialog-width-md: 28rem; /** Default width for focused dialog tasks. */
+  --dialog-width-lg: 40rem; /** Roomier width for forms, tables and detailed content. */
+  --dialog-height-md: 36rem; /** Maximum height for dialogs before their body scrolls. */
   --menu-width-xxs: 6rem;
   --menu-width-xs: 12rem;
   --menu-width-sm: 15rem;

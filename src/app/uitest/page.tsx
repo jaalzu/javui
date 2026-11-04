@@ -33,6 +33,7 @@ import {
   ModalClose,
   ModalContent,
   ModalTrigger,
+  Progress,
   Stack,
   Text,
 } from "@/ui";
@@ -114,6 +115,59 @@ export default function UiTestPage() {
               </p>
             </div>
             <span className={styles.releaseVersion}>v1.4.0</span>
+          </section>
+
+          <section className={styles.productDashboard} aria-labelledby="product-health-title">
+            <div className={styles.sectionHeading}>
+              <div>
+                <span className={styles.sectionIndex}>00A</span>
+                <Heading as="h2" size={6} id="product-health-title">Product health</Heading>
+              </div>
+              <Text variant="caption" tone="muted">Live release signals</Text>
+            </div>
+
+            <Grid columns={{ base: 1, sm: 2, lg: 4 }} gap="4">
+              <Card as="article" size="sm" variant="surface">
+                <CardHeader><CardTitle>Adoption</CardTitle><CardDescription>Weekly active teams</CardDescription></CardHeader>
+                <CardContent className={styles.metricContent}><Heading as="h3" size={4}>82%</Heading><Badge variant="success">+8.4%</Badge></CardContent>
+              </Card>
+              <Card as="article" size="sm" variant="surface">
+                <CardHeader><CardTitle>Reliability</CardTitle><CardDescription>Successful builds</CardDescription></CardHeader>
+                <CardContent className={styles.metricContent}><Heading as="h3" size={4}>99.2%</Heading><Badge variant="success">Healthy</Badge></CardContent>
+              </Card>
+              <Card as="article" size="sm" variant="surface">
+                <CardHeader><CardTitle>Open issues</CardTitle><CardDescription>Across active projects</CardDescription></CardHeader>
+                <CardContent className={styles.metricContent}><Heading as="h3" size={4}>14</Heading><Badge>3 urgent</Badge></CardContent>
+              </Card>
+              <Card as="article" size="sm" variant="surface">
+                <CardHeader><CardTitle>Release readiness</CardTitle><CardDescription>v1.4.0 completion</CardDescription></CardHeader>
+                <CardContent className={styles.metricContent}><Progress label="Release readiness" value={94} /></CardContent>
+              </Card>
+            </Grid>
+
+            <Grid columns={{ base: 1, md: 2 }} gap="6">
+              <Card as="article" variant="surface">
+                <CardHeader><CardTitle>Recent activity</CardTitle><CardDescription>What changed across the product.</CardDescription></CardHeader>
+                <CardContent>
+                  <div className={styles.activityList}>
+                    <div className={styles.activityItem}><span className={styles.activityDot} /><div><Text size="sm">Accessibility review completed</Text><Text variant="caption" tone="muted">12 minutes ago · QA</Text></div></div>
+                    <div className={styles.activityItem}><span className={styles.activityDot} /><div><Text size="sm">New component coverage added</Text><Text variant="caption" tone="muted">1 hour ago · Design systems</Text></div></div>
+                    <div className={styles.activityItem}><span className={styles.activityDot} /><div><Text size="sm">Release candidate promoted</Text><Text variant="caption" tone="muted">Yesterday · Engineering</Text></div></div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card as="article" variant="surface">
+                <CardHeader><CardTitle>Next milestones</CardTitle><CardDescription>Keep the team moving toward launch.</CardDescription></CardHeader>
+                <CardContent>
+                  <div className={styles.milestoneList}>
+                    <div className={styles.milestoneItem}><div><Text size="sm">Final approval</Text><Text variant="caption" tone="muted">Release owner sign-off</Text></div><Badge>Pending</Badge></div>
+                    <div className={styles.milestoneItem}><div><Text size="sm">Documentation pass</Text><Text variant="caption" tone="muted">Update usage examples</Text></div><Badge variant="success">In progress</Badge></div>
+                    <div className={styles.milestoneItem}><div><Text size="sm">Publish release</Text><Text variant="caption" tone="muted">Target: Friday</Text></div><Badge>Planned</Badge></div>
+                  </div>
+                </CardContent>
+              </Card>
+            </Grid>
           </section>
 
           <section className={styles.systemSection} aria-labelledby="system-snapshot-title">
@@ -214,6 +268,7 @@ export default function UiTestPage() {
 
                     <ModalContent
                       title="Release notes · v1.4.0"
+                      closeLabel="Close release notes"
                       actions={<ModalClose>Close</ModalClose>}
                     >
                       <p>

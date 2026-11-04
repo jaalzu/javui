@@ -1490,7 +1490,7 @@ returned, and Escape closes unless `dismissible` is false.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `children` | `ReactNode` | no |  | `ModalTrigger` and `ModalContent`. |
-| `color` | `"neutral" \| "warning" \| "critical"` | no | neutral | Tints the header icon, tagline and title. Behavior does not change; use `role` for that. |
+| `color` | `"neutral" \| "warning" \| "critical"` | no | neutral | Tints the header tagline and title. Behavior does not change; use `role` for that. |
 | `defaultOpen` | `boolean` | no | false | Whether the modal starts open when uncontrolled. |
 | `description` | `ReactNode` | no |  | Description announced as the accessible description. Required for `role="alertdialog"`. Alert dialogs need a description: it is part of the accessible name and explains the decision. |
 | `dismissible` | `boolean` | no | true | Shows the close button and allows Escape and outside click to close. When false, keep at least one footer action so the user has a way out. |
@@ -1509,15 +1509,14 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
   <ModalTrigger variant="danger">Delete project</ModalTrigger>
   <ModalContent
     title="Delete project?"
+    closeLabel="Close delete confirmation"
     actions={
       <>
         <ModalClose>Cancel</ModalClose>
         <ModalClose variant="danger">Delete</ModalClose>
       </>
     }
-  >
-    The project and all of its data will be gone.
-  </ModalContent>
+  />
 </Modal>
 ```
 
@@ -1540,7 +1539,7 @@ The button that opens the modal. It renders a `Button` and inherits the behavior
 #### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | md | Button size of the trigger. |
+| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | sm | Button size of the trigger. |
 | `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | primary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -1571,13 +1570,12 @@ the `md` breakpoint.
 #### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `children` | `ReactNode` | yes |  | Body content: text, custom content or a form. It scrolls when it exceeds the available height. |
+| `closeLabel` | `string` | yes |  | Accessible name of the close button. Keep the copy in the consuming example. |
 | `title` | `ReactNode` | yes |  | Modal title. Required: it is the accessible name of the modal. |
 | `actions` | `ReactNode` | no |  | Footer actions: one to three. Put the safe action first and the primary action last. |
+| `children` | `ReactNode` | no |  | Optional body content: text, custom content or a form. It scrolls when it exceeds the available height. |
 | `className` | `string` | no |  |  |
-| `closeLabel` | `string` | no | Close | Accessible name of the close button. |
 | `description` | `ReactNode` | no |  | Explanation announced as the accessible description. Falls back to the `description` on `Modal`. |
-| `icon` | `ReactNode` | no |  | Replaces the default icon for the color. Pass a generated icon without `size`. |
 | `tagline` | `ReactNode` | no |  | Optional short label above the title, such as a category or a state. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -1586,6 +1584,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 ```tsx
 <ModalContent
   title="Invite a teammate"
+  closeLabel="Close invite dialog"
   tagline="Workspace"
   actions={<><ModalClose>Cancel</ModalClose><ModalClose>Send invite</ModalClose></>}
 >
@@ -1612,7 +1611,7 @@ with `initialFocus`; otherwise the first secondary action receives focus.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `initialFocus` | `boolean` | no | false | Marks the safe action that receives initial focus in `role="alertdialog"`. |
-| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | md | Button size. |
+| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | sm | Button size. |
 | `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style. Use `danger` for a destructive action. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -2645,17 +2644,20 @@ closes it, and it can be swiped away on touch. For a centered decision use `Moda
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
+| `closeLabel` | `string` | yes |  | Accessible name of the close button. Keep the copy in the consuming example. |
 | `title` | `ReactNode` | yes |  | Accessible name of the sheet, shown at the top. |
 | `trigger` | `ReactNode` | yes |  | Text of the trigger button. |
 | `children` | `ReactNode` | no |  | Main content. |
 | `className` | `string` | no |  |  |
-| `closeLabel` | `string` | no | Close | Accessible name of the close button. |
 | `defaultOpen` | `boolean` | no | false | Initially open, when uncontrolled. |
 | `description` | `ReactNode` | no |  | Optional explanation under the title. |
 | `footer` | `ReactNode` | no |  | Actions shown at the bottom, usually buttons. |
 | `onOpenChange` | `((open: boolean) => void)` | no |  |  |
 | `open` | `boolean` | no |  | Controlled open state. |
-| `side` | `"left" \| "right"` | no | right | Edge the sheet enters from. |
+| `showCloseButton` | `boolean` | no | true | Whether to render the built-in close button. |
+| `side` | `"top" \| "bottom" \| "left" \| "right"` | no | right | Edge the sheet enters from. |
+| `triggerSize` | `"sm" \| "md" \| "lg" \| "xs"` | no | sm | Button size of the trigger. |
+| `triggerVariant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -2663,6 +2665,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 ```tsx
 <Sheet
   trigger="Filters"
+  closeLabel="Close filters"
   title="Filters"
   description="Narrow the results."
   footer={<Button>Apply</Button>}
@@ -3086,6 +3089,10 @@ show({ title: "Saved", tone: "success" });
 | `--container-md` | dimension | `48rem` |
 | `--container-lg` | dimension | `64rem` |
 | `--container-xl` | dimension | `80rem` |
+| `--dialog-width-sm` | dimension | `24rem` |
+| `--dialog-width-md` | dimension | `28rem` |
+| `--dialog-width-lg` | dimension | `40rem` |
+| `--dialog-height-md` | dimension | `36rem` |
 | `--menu-width-xxs` | dimension | `6rem` |
 | `--menu-width-xs` | dimension | `12rem` |
 | `--menu-width-sm` | dimension | `15rem` |

@@ -144,6 +144,63 @@
   white-space: nowrap;
 }
 
+.product-dashboard {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.product-dashboard .card {
+  min-width: 0;
+}
+
+.metric-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.activity-list,
+.milestone-list {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.activity-item,
+.milestone-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.activity-item > div,
+.milestone-item > div {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.activity-dot {
+  width: var(--size-icon-xs);
+  height: var(--size-icon-xs);
+  margin-top: var(--space-1);
+  flex: 0 0 auto;
+  border-radius: var(--radius-full);
+  background: var(--color-positive-solid);
+}
+
+.milestone-item {
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: var(--space-3);
+  border-bottom: var(--border-width-thin) solid var(--color-border-default);
+}
+
+.milestone-item:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
 .project-section {
   min-width: 0;
 }

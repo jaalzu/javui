@@ -13,7 +13,7 @@ import { AlertDialog as BaseAlertDialog } from "@base-ui/react/alert-dialog";
 import { cx } from "../../utils/cx";
 import { useControllableState } from "../../hooks/useControllableState";
 import { Button, type ButtonSize, type ButtonVariant } from "../Button";
-import { InfoIcon, WarningIcon, XCircleIcon, XIcon } from "../../icons/icons.generated";
+import { XIcon } from "../../icons/icons.generated";
 import styles from "./Modal.module.css";
 
 export type ModalRole = "dialog" | "alertdialog";
@@ -46,7 +46,7 @@ type ModalCommonProps = {
   onOpenChange?: (open: boolean) => void;
   /** Width of the panel, from the layout width tokens. @default "md" */
   size?: ModalSize;
-  /** Tints the header icon, tagline and title. Behavior does not change; use `role` for that. @default "neutral" */
+  /** Tints the header tagline and title. Behavior does not change; use `role` for that. @default "neutral" */
   color?: ModalColor;
   /**
    * Shows the close button and allows Escape and outside click to close. When false, keep at least one
@@ -92,15 +92,14 @@ export type ModalProps = ModalCommonProps &
  *   <ModalTrigger variant="danger">Delete project</ModalTrigger>
  *   <ModalContent
  *     title="Delete project?"
+ *     closeLabel="Close delete confirmation"
  *     actions={
  *       <>
  *         <ModalClose>Cancel</ModalClose>
  *         <ModalClose variant="danger">Delete</ModalClose>
  *       </>
  *     }
- *   >
- *     The project and all of its data will be gone.
- *   </ModalContent>
+ *   />
  * </Modal>
  */
 export function Modal({
@@ -201,7 +200,7 @@ export function Modal({
 export type ModalTriggerProps = {
   /** Button style of the trigger. @default "primary" */
   variant?: ButtonVariant;
-  /** Button size of the trigger. @default "md" */
+  /** Button size of the trigger. @default "sm" */
   size?: ButtonSize;
 } & Omit<BaseDialog.Trigger.Props, "render" | "className" | "color">;
 
@@ -213,7 +212,7 @@ export type ModalTriggerProps = {
  */
 export function ModalTrigger({
   variant = "primary",
-  size = "md",
+  size = "sm",
   children,
   ...rest
 }: ModalTriggerProps) {
@@ -236,14 +235,12 @@ export type ModalContentProps = {
   description?: ReactNode;
   /** Optional short label above the title, such as a category or a state. */
   tagline?: ReactNode;
-  /** Replaces the default icon for the color. Pass a generated icon without `size`. */
-  icon?: ReactNode;
-  /** Body content: text, custom content or a form. It scrolls when it exceeds the available height. */
-  children: ReactNode;
+  /** Optional body content: text, custom content or a form. It scrolls when it exceeds the available height. */
+  children?: ReactNode;
   /** Footer actions: one to three. Put the safe action first and the primary action last. */
   actions?: ReactNode;
-  /** Accessible name of the close button. @default "Close" */
-  closeLabel?: string;
+  /** Accessible name of the close button. Keep the copy in the consuming example. */
+  closeLabel: string;
   className?: string;
 };
 
@@ -255,6 +252,7 @@ export type ModalContentProps = {
  * @example
  * <ModalContent
  *   title="Invite a teammate"
+ *   closeLabel="Close invite dialog"
  *   tagline="Workspace"
  *   actions={<><ModalClose>Cancel</ModalClose><ModalClose>Send invite</ModalClose></>}
  * >
@@ -265,10 +263,9 @@ export function ModalContent({
   title,
   description: contentDescription,
   tagline,
-  icon,
   children,
   actions,
-  closeLabel = "Close",
+  closeLabel,
   className,
 }: ModalContentProps) {
   const { role, size, color, dismissible, description: rootDescription, returnFocusTo } = useModalContext();
@@ -323,16 +320,6 @@ export function ModalContent({
         finalFocus={finalFocus}
       >
         <div className={styles.header}>
-          <span className={styles.icon} aria-hidden="true">
-            {icon ??
-              (color === "critical" ? (
-                <XCircleIcon />
-              ) : color === "warning" ? (
-                <WarningIcon />
-              ) : (
-                <InfoIcon />
-              ))}
-          </span>
           <div className={styles.heading}>
             {tagline ? <p className={styles.tagline}>{tagline}</p> : null}
             <BaseDialog.Title className={styles.title}>{title}</BaseDialog.Title>
@@ -356,13 +343,15 @@ export function ModalContent({
             />
           ) : null}
         </div>
-        <div ref={bodyRef} className={styles.body}>
-          {children}
-        </div>
-        {actions ? (
-          <div ref={footerRef} className={styles.footer}>
-            {actions}
+        {children != null ? (
+          <div ref={bodyRef} className={styles.body}>
+            {children}
           </div>
+        ) : null}
+        {actions ? (
+          <footer ref={footerRef} className={styles.footer}>
+            {actions}
+          </footer>
         ) : null}
       </BaseDialog.Popup>
     </BaseDialog.Portal>
@@ -372,7 +361,7 @@ export function ModalContent({
 export type ModalCloseProps = {
   /** Button style. Use `danger` for a destructive action. @default "secondary" */
   variant?: ButtonVariant;
-  /** Button size. @default "md" */
+  /** Button size. @default "sm" */
   size?: ButtonSize;
   /** Marks the safe action that receives initial focus in `role="alertdialog"`. */
   initialFocus?: boolean;
@@ -388,7 +377,7 @@ export type ModalCloseProps = {
  */
 export function ModalClose({
   variant = "secondary",
-  size = "md",
+  size = "sm",
   initialFocus = false,
   children,
   ...rest

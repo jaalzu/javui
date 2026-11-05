@@ -236,6 +236,10 @@
       "line": {
         "$value": "1.5"
       },
+      "line-tight": {
+        "$value": "1.4",
+        "$description": "Tighter leading for short supporting copy such as sheet descriptions."
+      },
       "weight": {
         "$value": "{font.weight.regular}"
       },

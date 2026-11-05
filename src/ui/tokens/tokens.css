@@ -70,6 +70,7 @@
   --text-body-line: 1.6;
   --text-body-tracking: 0em;
   --text-body-sm-line: 1.5;
+  --text-body-sm-line-tight: 1.4; /** Tighter leading for short supporting copy such as sheet descriptions. */
   --text-body-sm-tracking: 0.005em;
   --text-label-line: 1.4;
   --text-label-tracking: 0.01em;
@@ -115,6 +116,7 @@
   --radius-full: 9999px;
   --border-width-thin: 1px;
   --border-width-thick: 2px;
+  --border-width-overlay: 0px; /** Border width for floating overlays (Modal, Select, Combobox, Popover, Sheet). They read as raised shadows, not outlined boxes. */
   --focus-ring-width: 2px;
   --focus-ring-offset: 2px;
   --focus-ring-width-small: 3px; /** Focus ring width for controls whose box is 16px or less; use the -small variant for checkbox, radio and switch boxes. */
@@ -162,10 +164,13 @@
   --motion-duration-fast: 100ms;
   --motion-duration-base: 160ms;
   --motion-duration-slow: 240ms;
+  --motion-duration-sheet: 288ms; /** Sheet and drawer entrances and exits. Slower than slow, still under 300ms. */
   --motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
   --motion-easing-out: cubic-bezier(0.23, 1, 0.32, 1); /** Entering elements and anything that responds to the user. Strong ease-out: fast start. */
   --motion-easing-in: cubic-bezier(0.4, 0, 1, 1); /** Exits only. Never for entrances. */
   --motion-easing-in-out: cubic-bezier(0.77, 0, 0.175, 1); /** Elements that move or morph on screen (tab indicator). */
+  --motion-opacity-sheet-in: 0.5; /** Starting opacity of a sheet entrance. Never 0, so the panel is already visible while it slides in. */
+  --motion-opacity-sheet-out: 0; /** Ending opacity of a sheet exit, so it fades out while it slides away. */
   --motion-scale-press: 0.97; /** Pressed Button and pressable controls. */
   --motion-scale-popup: 0.95; /** Starting scale of anchored popups (menu, select, popover). Never scale(0). */
   --motion-scale-tooltip: 0.97; /** Starting scale of tooltips. */

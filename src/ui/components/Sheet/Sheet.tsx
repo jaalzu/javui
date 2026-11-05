@@ -20,7 +20,7 @@ export type SheetProps = {
   description?: ReactNode;
   /** Main content. */
   children?: ReactNode;
-  /** Actions shown at the bottom, usually buttons. */
+  /** Actions shown at the bottom, usually buttons. Each direct child fills the sheet width. */
   footer?: ReactNode;
   /** Edge the sheet enters from. @default "right" */
   side?: "top" | "right" | "bottom" | "left";
@@ -37,8 +37,10 @@ export type SheetProps = {
 };
 
 /**
- * A side sheet for secondary tasks and settings, built on Base UI Drawer. Focus is trapped, Escape
- * closes it, and it can be swiped away on touch. For a centered decision use `Modal`.
+ * A side sheet for secondary tasks and settings, built on Base UI Drawer. Left and right keep a
+ * fixed side width; top and bottom span the viewport width and fit their content height. Focus is
+ * trapped, Escape closes it, and it can be swiped away on touch. The footer stacks its actions,
+ * and every action fills the available width. For a centered decision use `Modal`.
  *
  * @example
  * <Sheet

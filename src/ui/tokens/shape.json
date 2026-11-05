@@ -16,7 +16,11 @@
     "width": {
       "$type": "dimension",
       "thin": { "$value": "1px" },
-      "thick": { "$value": "2px" }
+      "thick": { "$value": "2px" },
+      "overlay": {
+        "$value": "0px",
+        "$description": "Border width for floating overlays (Modal, Select, Combobox, Popover, Sheet). They read as raised shadows, not outlined boxes."
+      }
     }
   },
   "focus": {

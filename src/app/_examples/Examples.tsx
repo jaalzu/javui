@@ -6,7 +6,7 @@ import manifest from "../../../public/agent/manifest.json";
 import shell from "@/app/_shell/shell.module.css";
 import styles from "./Examples.module.css";
 
-const centeredExamples = new Set(["Alert", "Avatar", "Badge", "Breadcrumb", "Button", "Checkbox", "Input", "InputGroup", "InputOTP", "Kbd", "Label", "Link", "Menu", "Modal", "Pagination", "Popover", "RadioGroup", "Sheet", "Textarea", "Select", "Combobox"]);
+const centeredExamples = new Set(["Alert", "Avatar", "Badge", "Breadcrumb", "Button", "Checkbox", "Input", "InputGroup", "InputOTP", "Kbd", "Label", "Link", "Menu", "Modal", "Pagination", "Popover", "RadioGroup", "Separator", "Sheet", "Textarea", "Select", "Combobox"]);
 const constrainedExamples = new Set(["Input", "InputGroup", "InputOTP", "Textarea", "Select", "Combobox"]);
 
 const componentImports = new Map(
@@ -91,7 +91,6 @@ const loaders: Record<string, () => Promise<ExamplesModule>> = {
   Separator: () => import("@/ui/components/Separator/Separator.examples"),
   Select: () => import("@/ui/components/Select/Select.examples"),
   Sheet: () => import("@/ui/components/Sheet/Sheet.examples"),
-  Sidebar: () => import("@/ui/components/Sidebar/Sidebar.examples"),
   Skeleton: () => import("@/ui/components/Skeleton/Skeleton.examples"),
   Slider: () => import("@/ui/components/Slider/Slider.examples"),
   Spinner: () => import("@/ui/components/Spinner/Spinner.examples"),

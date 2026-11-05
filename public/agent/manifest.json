@@ -1177,39 +1177,31 @@
     },
     {
       "name": "Separator",
-      "category": "layout",
-      "base": "Own component",
-      "description": "Divides sections. Use gap for spacing and ButtonGroupSeparator inside ButtonGroup.",
+      "category": "controls",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "A 1px line that visually or semantically divides content, built on Base UI Separator.\nHorizontal by default; use `orientation=\"vertical\"` inside a row. Spacing is not part of the\ncomponent: use the parent `gap` or a margin on `className`.",
       "import": "import { Separator } from \"@/ui\";",
-      "renders": "hr horizontally or div vertically",
-      "composition": "Set `orientation` and `decorative`; it does not accept children.",
-      "whenToUse": "Visually dividing sections.",
+      "renders": "div",
+      "composition": "Set `orientation` and `decorative`; it does not accept children. It covers the full width or stretches to the parent height, so size it from the parent. Spacing comes from the parent `gap` or from a margin on `className`.",
+      "whenToUse": "Visually or semantically dividing sections, lists and action groups.",
       "avoid": [
         "Using it for spacing: use gap.",
         "Using it inside ButtonGroup: use ButtonGroupSeparator."
       ],
-      "accessibility": "Decorative separators are presentation-only; non-decorative separators expose the separator role and orientation.",
+      "accessibility": "Decorative separators are presentation-only; non-decorative separators expose the separator role and orientation through Base UI.",
       "props": [
-        {
-          "name": "className",
-          "type": "string",
-          "required": false
-        },
         {
           "name": "decorative",
           "type": "boolean",
           "required": false,
-          "default": "true"
-        },
-        {
-          "name": "orientation",
-          "type": "\"horizontal\" | \"vertical\"",
-          "required": false,
-          "default": "horizontal"
+          "default": "true",
+          "description": "Hides the line from assistive technology when true. Set it to false when the line conveys a\nreal section boundary that screen readers should announce."
         }
       ],
-      "extends": "Also accepts the native props of the element it renders; they pass through.",
-      "examples": [],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Separator />\n<Separator orientation=\"vertical\" />\n<Separator decorative={false} />"
+      ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Separator/Separator.tsx"
     },
     {
@@ -1921,10 +1913,10 @@
       "name": "Select",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).\nPass `items` instead of composing parts; items can include `description` and a `group` heading.\nInside `Field` it inherits `required`, `readOnly` and `loading`.\nIcons follow the trigger size: xs 12px, sm 16px, md 20px, lg 24px.\nThe trigger keeps the shared control face while open, including when opened with a mouse.\nWhen used inside `ButtonGroup`, omit `label` and provide `aria-label` so the visible label does\nnot become part of the group's control row.",
+      "description": "A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).\nPass `items` instead of composing parts; items can include `description` and a `group` heading.\nGroups are separated by space and a heading, never by a rule. Long lists keep a compact height\nand hide the scrollbar. Inside `Field` it inherits `required`, `readOnly` and `loading`.\nIcons follow the trigger size: xs 12px, sm 16px, md 20px, lg 24px.\nThe trigger keeps the shared control face while open, including when opened with a mouse.\nWhen used inside `ButtonGroup`, omit `label` and provide `aria-label` so the visible label does\nnot become part of the group's control row.",
       "import": "import { Select } from \"@/ui\";",
       "renders": "button role=\"combobox\" with a listbox popup in a portal",
-      "composition": "Pass `items` ({ value, label, description?, group?, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. Consecutive items with the same `group` render under a heading with separators between groups. `loading` replaces the end icon with a spinner. Icons follow the trigger size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.",
+      "composition": "Pass `items` ({ value, label, description?, group?, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. Consecutive items with the same `group` render under a heading, separated from the next group by space, never by a rule. Long lists keep a compact max height and hide the scrollbar. `loading` replaces the end icon with a spinner. Icons follow the trigger size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.",
       "whenToUse": "Choosing one option from a longer list, including read-only and loading states.",
       "avoid": [
         "Two or three options: use RadioGroup.",
@@ -3822,10 +3814,10 @@
       "name": "Sheet",
       "category": "overlays",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A side sheet for secondary tasks and settings, built on Base UI Drawer. Focus is trapped, Escape\ncloses it, and it can be swiped away on touch. For a centered decision use `Modal`.",
+      "description": "A side sheet for secondary tasks and settings, built on Base UI Drawer. Left and right keep a\nfixed side width; top and bottom span the viewport width and fit their content height. Focus is\ntrapped, Escape closes it, and it can be swiped away on touch. The footer stacks its actions,\nand every action fills the available width. For a centered decision use `Modal`.",
       "import": "import { Sheet } from \"@/ui\";",
       "renders": "a trigger button; when open, a backdrop and a side panel in a portal",
-      "composition": "Pass `trigger` (button text), `title`, optional `description`, `children`, `footer`, `side` (left or right, default right) and open state. One component, no parts.",
+      "composition": "Pass `trigger` (button text), `title`, optional `description`, `children`, `footer`, `side` (top, right, bottom or left; default right) and open state. One component, no parts. Left and right use a fixed side width and full height; top and bottom span the viewport width and fit their content height. Footer actions fill the available width and stack when there is more than one. The panel slides and fades on enter (from partial opacity, never 0) and on exit.",
       "whenToUse": "Secondary tasks, settings and filters that slide in from an edge.",
       "avoid": [
         "A centered decision: use Modal.",
@@ -3880,7 +3872,7 @@
           "name": "footer",
           "type": "ReactNode",
           "required": false,
-          "description": "Actions shown at the bottom, usually buttons."
+          "description": "Actions shown at the bottom, usually buttons. Each direct child fills the sheet width."
         },
         {
           "name": "onOpenChange",

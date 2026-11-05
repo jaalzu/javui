@@ -33,7 +33,6 @@
 - **Container**: Page shells, readable content boundaries and sections that need a consistent max width.
 - **Box**: A bordered or recessed content area that is not a full Card and does not need Card parts.
 - **AspectRatio**: Images, video, embeds or maps whose size must be reserved before they load, preventing layout shift (CLS).
-- **Separator**: Visually dividing sections.
 - **Card** (parts: CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter): Grouping related information into a single idea, with a short title.
 - **Table**: Comparing data across rows and columns.
 - **ScrollArea**: A fixed-height list, code area or panel that should scroll inside the page.
@@ -55,6 +54,7 @@
 - **Button**: An action with onClick (submit, open, confirm, cancel), or navigation that looks like a button with href. Pass `loading` while an action runs.
 - **ButtonGroup** (parts: ButtonGroupSeparator, ButtonGroupText): 2-4 related actions with short labels, all the same size and variant.
 - **Field** (parts: FieldSet, FieldSeparator): Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
+- **Separator**: Visually or semantically dividing sections, lists and action groups.
 - **Input**: Single-line text entry, read-only values and values that are still loading.
 - **InputOTP**: Verification codes, one-time passwords and recovery codes.
 - **InputGroup** (parts: InputGroupInput, InputGroupAddon, InputGroupText, InputGroupButton): An input with attached text, an icon, a hint or an action.
@@ -909,27 +909,34 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## Separator
 
-Divides sections. Use gap for spacing and ButtonGroupSeparator inside ButtonGroup.
+A 1px line that visually or semantically divides content, built on Base UI Separator.
+Horizontal by default; use `orientation="vertical"` inside a row. Spacing is not part of the
+component: use the parent `gap` or a margin on `className`.
 
-- Category: layout
-- Base: Own component
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
 - Import: `import { Separator } from "@/ui";`
-- Renders: hr horizontally or div vertically
-- Composition: Set `orientation` and `decorative`; it does not accept children.
-- Use when: Visually dividing sections.
+- Renders: div
+- Composition: Set `orientation` and `decorative`; it does not accept children. It covers the full width or stretches to the parent height, so size it from the parent. Spacing comes from the parent `gap` or from a margin on `className`.
+- Use when: Visually or semantically dividing sections, lists and action groups.
 - Avoid:
   - Using it for spacing: use gap.
   - Using it inside ButtonGroup: use ButtonGroupSeparator.
-- Accessibility: Decorative separators are presentation-only; non-decorative separators expose the separator role and orientation.
+- Accessibility: Decorative separators are presentation-only; non-decorative separators expose the separator role and orientation through Base UI.
 
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `className` | `string` | no |  |  |
-| `decorative` | `boolean` | no | true |  |
-| `orientation` | `"horizontal" \| "vertical"` | no | horizontal |  |
+| `decorative` | `boolean` | no | true | Hides the line from assistive technology when true. Set it to false when the line conveys a real section boundary that screen readers should announce. |
 
-Also accepts the native props of the element it renders; they pass through.
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Separator />
+<Separator orientation="vertical" />
+<Separator decorative={false} />
+```
 
 ## Input
 
@@ -1426,7 +1433,8 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).
 Pass `items` instead of composing parts; items can include `description` and a `group` heading.
-Inside `Field` it inherits `required`, `readOnly` and `loading`.
+Groups are separated by space and a heading, never by a rule. Long lists keep a compact height
+and hide the scrollbar. Inside `Field` it inherits `required`, `readOnly` and `loading`.
 Icons follow the trigger size: xs 12px, sm 16px, md 20px, lg 24px.
 The trigger keeps the shared control face while open, including when opened with a mouse.
 When used inside `ButtonGroup`, omit `label` and provide `aria-label` so the visible label does
@@ -1436,7 +1444,7 @@ not become part of the group's control row.
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Select } from "@/ui";`
 - Renders: button role="combobox" with a listbox popup in a portal
-- Composition: Pass `items` ({ value, label, description?, group?, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. Consecutive items with the same `group` render under a heading with separators between groups. `loading` replaces the end icon with a spinner. Icons follow the trigger size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.
+- Composition: Pass `items` ({ value, label, description?, group?, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. Consecutive items with the same `group` render under a heading, separated from the next group by space, never by a rule. Long lists keep a compact max height and hide the scrollbar. `loading` replaces the end icon with a spinner. Icons follow the trigger size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.
 - Use when: Choosing one option from a longer list, including read-only and loading states.
 - Avoid:
   - Two or three options: use RadioGroup.
@@ -2637,14 +2645,16 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## Sheet
 
-A side sheet for secondary tasks and settings, built on Base UI Drawer. Focus is trapped, Escape
-closes it, and it can be swiped away on touch. For a centered decision use `Modal`.
+A side sheet for secondary tasks and settings, built on Base UI Drawer. Left and right keep a
+fixed side width; top and bottom span the viewport width and fit their content height. Focus is
+trapped, Escape closes it, and it can be swiped away on touch. The footer stacks its actions,
+and every action fills the available width. For a centered decision use `Modal`.
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Sheet } from "@/ui";`
 - Renders: a trigger button; when open, a backdrop and a side panel in a portal
-- Composition: Pass `trigger` (button text), `title`, optional `description`, `children`, `footer`, `side` (left or right, default right) and open state. One component, no parts.
+- Composition: Pass `trigger` (button text), `title`, optional `description`, `children`, `footer`, `side` (top, right, bottom or left; default right) and open state. One component, no parts. Left and right use a fixed side width and full height; top and bottom span the viewport width and fit their content height. Footer actions fill the available width and stack when there is more than one. The panel slides and fades on enter (from partial opacity, never 0) and on exit.
 - Use when: Secondary tasks, settings and filters that slide in from an edge.
 - Avoid:
   - A centered decision: use Modal.
@@ -2662,7 +2672,7 @@ closes it, and it can be swiped away on touch. For a centered decision use `Moda
 | `className` | `string` | no |  |  |
 | `defaultOpen` | `boolean` | no | false | Initially open, when uncontrolled. |
 | `description` | `ReactNode` | no |  | Optional explanation under the title. |
-| `footer` | `ReactNode` | no |  | Actions shown at the bottom, usually buttons. |
+| `footer` | `ReactNode` | no |  | Actions shown at the bottom, usually buttons. Each direct child fills the sheet width. |
 | `onOpenChange` | `((open: boolean) => void)` | no |  |  |
 | `open` | `boolean` | no |  | Controlled open state. |
 | `showCloseButton` | `boolean` | no | true | Whether to render the built-in close button. |
@@ -2994,6 +3004,7 @@ show({ title: "Saved", tone: "success" });
 | `--text-body-family` |  | `var(--font-family-sans)` |
 | `--text-body-sm-size` |  | `var(--font-size-13)` |
 | `--text-body-sm-line` |  | `1.5` |
+| `--text-body-sm-line-tight` |  | `1.4` |
 | `--text-body-sm-weight` |  | `var(--font-weight-regular)` |
 | `--text-body-sm-tracking` |  | `0.005em` |
 | `--text-body-sm-style` |  | `var(--font-style-body)` |
@@ -3073,6 +3084,7 @@ show({ title: "Saved", tone: "success" });
 | `--radius-full` | dimension | `9999px` |
 | `--border-width-thin` | dimension | `1px` |
 | `--border-width-thick` | dimension | `2px` |
+| `--border-width-overlay` | dimension | `0px` |
 | `--focus-ring-width` | dimension | `2px` |
 | `--focus-ring-offset` | dimension | `2px` |
 | `--focus-ring-width-small` | dimension | `3px` |
@@ -3125,10 +3137,13 @@ show({ title: "Saved", tone: "success" });
 | `--motion-duration-fast` |  | `100ms` |
 | `--motion-duration-base` |  | `160ms` |
 | `--motion-duration-slow` |  | `240ms` |
+| `--motion-duration-sheet` |  | `288ms` |
 | `--motion-easing-standard` |  | `cubic-bezier(0.2, 0, 0, 1)` |
 | `--motion-easing-out` |  | `cubic-bezier(0.23, 1, 0.32, 1)` |
 | `--motion-easing-in` |  | `cubic-bezier(0.4, 0, 1, 1)` |
 | `--motion-easing-in-out` |  | `cubic-bezier(0.77, 0, 0.175, 1)` |
+| `--motion-opacity-sheet-in` |  | `0.5` |
+| `--motion-opacity-sheet-out` |  | `0` |
 | `--motion-scale-press` |  | `0.97` |
 | `--motion-scale-popup` |  | `0.95` |
 | `--motion-scale-tooltip` |  | `0.97` |

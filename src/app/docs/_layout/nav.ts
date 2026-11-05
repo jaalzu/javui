@@ -50,15 +50,18 @@ export const componentsIndex: NavLink = {
 /** Every component, sorted by name. The same order is used in the sidebar, the index and Previous/Next. */
 const layoutCategories = new Set(["layout", "patterns", "utility"]);
 
+/** Documented later; kept in the library but hidden from the docs catalog for now. */
+const hiddenComponents = new Set(["Sidebar"]);
+
 /** Structural components and semantic patterns belong to Layout & Utilities, not Components. */
 export const layoutComponentLinks: NavLink[] = manifest.components
-  .filter((c) => layoutCategories.has(c.category))
+  .filter((c) => layoutCategories.has(c.category) && !hiddenComponents.has(c.name))
   .map((c) => ({ href: `/docs/components/${c.name}`, label: c.name }))
   .sort((a, b) => a.label.localeCompare(b.label));
 
 /** Components are the component/atom catalog; layout and utility primitives are listed separately. */
 export const componentLinks: NavLink[] = manifest.components
-  .filter((c) => !layoutCategories.has(c.category))
+  .filter((c) => !layoutCategories.has(c.category) && !hiddenComponents.has(c.name))
   .map((c) => ({ href: `/docs/components/${c.name}`, label: c.name }))
   .sort((a, b) => a.label.localeCompare(b.label));
 

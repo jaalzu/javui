@@ -1,4 +1,4 @@
-import { Button, Link } from "@/ui";
+import { Button, Link, Separator } from "@/ui";
 import {
   componentLinks,
   componentsIndex,
@@ -113,7 +113,9 @@ export function SiteHeader() {
           </nav>
           <div className={styles.actions}>
             <Search items={searchItems} />
-            <span className={styles.divider} aria-hidden="true" />
+            <div className={styles.divider}>
+              <Separator orientation="vertical" />
+            </div>
             <Button
               href={repoUrl}
               variant="ghost"
@@ -124,7 +126,9 @@ export function SiteHeader() {
               target="_blank"
               rel="noopener noreferrer"
             />
-            <span className={styles.divider} aria-hidden="true" />
+            <div className={styles.divider}>
+              <Separator orientation="vertical" />
+            </div>
             <ThemeSwitcher />
           </div>
         </div>

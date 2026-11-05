@@ -33,7 +33,6 @@
 - **Container**: Page shells, readable content boundaries and sections that need a consistent max width.
 - **Box**: A bordered or recessed content area that is not a full Card and does not need Card parts.
 - **AspectRatio**: Images, video, embeds or maps whose size must be reserved before they load, preventing layout shift (CLS).
-- **Separator**: Visually dividing sections.
 - **Card** (parts: CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter): Grouping related information into a single idea, with a short title.
 - **Table**: Comparing data across rows and columns.
 - **ScrollArea**: A fixed-height list, code area or panel that should scroll inside the page.
@@ -55,6 +54,7 @@
 - **Button**: An action with onClick (submit, open, confirm, cancel), or navigation that looks like a button with href. Pass `loading` while an action runs.
 - **ButtonGroup** (parts: ButtonGroupSeparator, ButtonGroupText): 2-4 related actions with short labels, all the same size and variant.
 - **Field** (parts: FieldSet, FieldSeparator): Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
+- **Separator**: Visually or semantically dividing sections, lists and action groups.
 - **Input**: Single-line text entry, read-only values and values that are still loading.
 - **InputOTP**: Verification codes, one-time passwords and recovery codes.
 - **InputGroup** (parts: InputGroupInput, InputGroupAddon, InputGroupText, InputGroupButton): An input with attached text, an icon, a hint or an action.

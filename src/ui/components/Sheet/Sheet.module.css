@@ -4,7 +4,8 @@
   z-index: var(--z-overlay);
   background: var(--color-overlay);
   opacity: 1;
-  transition: opacity var(--motion-duration-slow) var(--motion-easing-out);
+  /* Slower than the default slow token: the entrance is a full-height panel. */
+  transition: opacity var(--motion-duration-sheet) var(--motion-easing-out);
 }
 
 .backdrop[data-starting-style],
@@ -46,13 +47,24 @@
   height: 100%;
   max-height: 100dvh;
   overflow: hidden;
-  border: var(--border-width-thin) solid var(--color-border-strong);
+  border: var(--border-width-overlay) solid var(--color-border-strong);
   background: var(--color-modal);
   color: var(--color-primary-foreground);
   box-shadow: var(--shadow-extra-large);
   pointer-events: auto;
   transform: translateX(var(--drawer-swipe-movement-x, 0));
-  transition: transform var(--motion-duration-slow) var(--motion-easing-out);
+  /* Slower than the default slow token: the panel fades and slides. */
+  transition:
+    opacity var(--motion-duration-sheet) var(--motion-easing-out),
+    transform var(--motion-duration-sheet) var(--motion-easing-out);
+}
+
+.popup[data-starting-style] {
+  opacity: var(--motion-opacity-sheet-in);
+}
+
+.popup[data-ending-style] {
+  opacity: var(--motion-opacity-sheet-out);
 }
 
 .popup[data-side="right"] {
@@ -68,7 +80,6 @@
 .popup[data-side="top"],
 .popup[data-side="bottom"] {
   width: 100%;
-  max-width: var(--container-lg);
   height: auto;
   max-height: min(var(--dialog-height-md), 100dvh);
 }
@@ -112,6 +123,7 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  width: 100%;
   height: 100%;
   min-height: 0;
   overflow: hidden;
@@ -149,13 +161,13 @@
   margin: var(--space-1) 0 0;
   color: var(--color-secondary-foreground);
   font-size: var(--text-body-sm-size);
-  line-height: var(--text-body-sm-line);
+  line-height: var(--text-body-sm-line-tight);
 }
 
 .body {
   flex: 1;
   min-height: 0;
-  margin-top: var(--space-5);
+  margin-top: var(--space-1);
   padding: 0 var(--space-5);
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -167,11 +179,8 @@
 }
 
 .footer {
-  display: flex;
+  display: grid;
   flex-shrink: 0;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: flex-end;
   gap: var(--space-3);
   position: sticky;
   bottom: 0;
@@ -182,4 +191,9 @@
   padding-inline: var(--space-5);
   border-top: var(--border-width-thin) solid var(--color-border-default);
   background: var(--color-modal);
+}
+
+/* Every action fills the sheet width, even when the footer holds several. */
+.footer > * {
+  width: 100%;
 }

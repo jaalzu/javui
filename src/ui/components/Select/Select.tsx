@@ -54,7 +54,8 @@ export type SelectProps = {
 /**
  * A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).
  * Pass `items` instead of composing parts; items can include `description` and a `group` heading.
- * Inside `Field` it inherits `required`, `readOnly` and `loading`.
+ * Groups are separated by space and a heading, never by a rule. Long lists keep a compact height
+ * and hide the scrollbar. Inside `Field` it inherits `required`, `readOnly` and `loading`.
  * Icons follow the trigger size: xs 12px, sm 16px, md 20px, lg 24px.
  * The trigger keeps the shared control face while open, including when opened with a mouse.
  * When used inside `ButtonGroup`, omit `label` and provide `aria-label` so the visible label does
@@ -133,9 +134,7 @@ export function Select({
       <BaseSelect.Portal>
         <BaseSelect.Positioner className={styles.positioner} sideOffset={4} alignItemWithTrigger={false}>
           <BaseSelect.Popup className={styles.popup} data-size={size}>
-            <BaseSelect.List className={styles.list}>
-              {renderItems(items)}
-            </BaseSelect.List>
+            <BaseSelect.List className={styles.list}>{renderItems(items)}</BaseSelect.List>
           </BaseSelect.Popup>
         </BaseSelect.Positioner>
       </BaseSelect.Portal>
@@ -166,7 +165,6 @@ function renderItems(items: SelectItem[]) {
 
     return (
       <BaseSelect.Group key={`${chunk.group ?? "ungrouped"}-${index}`} className={styles.group}>
-        {index > 0 ? <BaseSelect.Separator className={styles.separator} /> : null}
         {chunk.group ? <BaseSelect.GroupLabel className={styles.groupLabel}>{chunk.group}</BaseSelect.GroupLabel> : null}
         {itemNodes}
       </BaseSelect.Group>

@@ -157,11 +157,15 @@
   --radius-outer: var(--radius-lg);
   --inner-gap: var(--space-1);
   box-sizing: border-box;
-  min-width: var(--anchor-width);
-  max-height: var(--available-height);
-  overflow: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: calc(var(--anchor-width) - var(--space-1));
+  max-width: var(--available-width);
+  max-height: min(calc(var(--space-16) * 5), var(--available-height));
+  overflow: hidden;
   padding: var(--inner-gap);
-  border: var(--border-width-thin) solid var(--color-border-strong);
+  border: var(--border-width-overlay) solid var(--color-border-strong);
   border-radius: var(--radius-outer);
   background: var(--color-modal);
   color: var(--color-primary-foreground);
@@ -185,12 +189,25 @@
 
 .list {
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.list::-webkit-scrollbar {
+  display: none;
 }
 
 .group {
   display: flex;
   flex-direction: column;
+}
+
+.group + .group {
+  margin-top: var(--space-2);
 }
 
 .groupLabel {
@@ -202,12 +219,6 @@
   font-weight: var(--text-label-weight);
 }
 
-.separator {
-  height: var(--border-width-thin);
-  margin-block: var(--space-1);
-  background: var(--color-border-default);
-}
-
 .item {
   --icon-size: var(--popup-item-icon, var(--size-icon-md));
   display: grid;
@@ -215,7 +226,7 @@
   align-items: center;
   gap: var(--control-gap, var(--icon-gap-md));
   min-height: var(--popup-item-h, var(--size-control-md));
-  padding: var(--space-1-5) var(--space-2);
+  padding: calc(var(--space-1-5) - 1px) calc(var(--space-2) - 1px);
   border-radius: max(var(--radius-sm), calc(var(--radius-outer) - var(--inner-gap)));
   font-family: var(--text-body-family);
   font-size: var(--text-body-size);
@@ -224,10 +235,14 @@
   user-select: none;
 }
 
-.item[data-highlighted],
+.item[data-highlighted] {
+  background: var(--color-transparent-active);
+}
+
+/* Selected reads lighter than the keyboard highlight, especially in light mode. */
 .item[data-selected],
 .item[data-force="selected"] {
-  background: var(--color-transparent-active);
+  background: var(--color-transparent-hover);
 }
 
 .item:hover:not([data-disabled]) {
@@ -261,6 +276,17 @@
   grid-column: 2;
   display: inline-flex;
   justify-self: end;
+  /* The check is one step smaller than the item icon so it never outweighs the label. */
+  --icon-size: var(--size-icon-sm);
+}
+
+.popup[data-size="xs"] .itemIndicator,
+.popup[data-size="sm"] .itemIndicator {
+  --icon-size: var(--size-icon-xs);
+}
+
+.popup[data-size="lg"] .itemIndicator {
+  --icon-size: var(--size-icon-md);
 }
 
 .itemText {

@@ -39,6 +39,22 @@ describe("Select", () => {
     expect(onValueChange.mock.calls[0][0]).toBe("uy");
   });
 
+  it("renders grouped options and item descriptions", async () => {
+    const user = userEvent.setup();
+    render(
+      <Select
+        aria-label="Workspace"
+        items={[
+          { value: "design", label: "Design", group: "Teams" },
+          { value: "personal", label: "Personal", group: "Other", description: "Private work." },
+        ]}
+      />,
+    );
+    await user.click(screen.getByRole("combobox"));
+    expect(await screen.findByText("Teams")).toBeInTheDocument();
+    expect(screen.getByText("Private work.")).toBeInTheDocument();
+  });
+
   it("renders icon slots and marks them decorative", () => {
     const { container } = render(
       <Select label="Country" items={items} startIcon={<CheckIcon />} />,

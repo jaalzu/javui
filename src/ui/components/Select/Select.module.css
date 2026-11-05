@@ -30,8 +30,9 @@
   padding-inline: var(--control-px);
   border: 0;
   border-radius: var(--radius-md);
-  background: var(--color-control);
-  box-shadow: var(--shadow-control);
+  background: transparent;
+  box-shadow: var(--shadow-default);
+  --select-hover-background: var(--color-component-hover-subtle);
   color: var(--color-primary-foreground);
   font-family: var(--text-body-family);
   font-size: var(--control-fs);
@@ -42,7 +43,21 @@
 
 .trigger:hover:not([data-disabled]):not([data-readonly]):not([data-loading]),
 .trigger[data-force="hover"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
-  background: var(--color-control-hover);
+  background: var(--select-hover-background);
+}
+
+:global([data-theme="dark"]) .trigger {
+  background: var(--color-transparent-hover);
+  box-shadow: 0 0 1px 2px rgb(161 161 161 / 0.58);
+  --select-hover-background: var(--color-component);
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(html:not([data-theme="light"])) .trigger {
+    background: var(--color-transparent-hover);
+    box-shadow: 0 0 1px 1px rgb(105 105 105 / 0.6);
+    --select-hover-background: var(--color-component);
+  }
 }
 
 .trigger:focus-visible,
@@ -120,9 +135,13 @@
 }
 
 .icon > svg {
-  width: var(--control-icon);
-  height: var(--control-icon);
+  width: var(--size-icon-sm);
+  height: var(--size-icon-sm);
 }
+
+.xs .icon > svg { width: var(--size-icon-xs); height: var(--size-icon-xs); }
+.sm .icon > svg { width: var(--size-icon-xs); height: var(--size-icon-xs); }
+.lg .icon > svg { width: var(--size-icon-md); height: var(--size-icon-md); }
 
 .spinnerSlot {
   display: inline-flex;
@@ -167,6 +186,26 @@
 .list {
   display: flex;
   flex-direction: column;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
+.groupLabel {
+  padding: var(--space-2) var(--space-2) var(--space-1);
+  color: var(--color-secondary-foreground);
+  font-family: var(--text-label-family);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-line);
+  font-weight: var(--text-label-weight);
+}
+
+.separator {
+  height: var(--border-width-thin);
+  margin-block: var(--space-1);
+  background: var(--color-border-default);
 }
 
 .item {
@@ -226,4 +265,13 @@
 
 .itemText {
   grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.itemDescription {
+  color: var(--color-secondary-foreground);
+  font-size: var(--text-body-sm-size);
+  line-height: var(--text-body-sm-line);
 }

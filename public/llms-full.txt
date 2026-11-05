@@ -1327,7 +1327,7 @@ RadioGroup. Inside `Field` it inherits `error`, `required`, `readOnly` and `load
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { RadioGroup } from "@/ui";`
 - Renders: fieldset with a legend and a radiogroup
-- Composition: `legend` is required. Children are Radio elements. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend. Radio is documented under Parts.
+- Composition: `legend` is required. Children are Radio elements. Use `description` for group guidance and `orientation` for horizontal layouts. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend. Radio is documented under Parts.
 - Use when: Choosing exactly one option from a short list.
 - Avoid:
   - Long lists: use Select.
@@ -1339,6 +1339,7 @@ RadioGroup. Inside `Field` it inherits `error`, `required`, `readOnly` and `load
 | `children` | `ReactNode` | yes |  | The `Radio` options. |
 | `legend` | `ReactNode` | yes |  | Visible group label, rendered as the `legend` of a `fieldset`. Required: the group needs a name. |
 | `className` | `string` | no |  |  |
+| `description` | `ReactNode` | no |  | Supporting text announced with the group. |
 | `error` | `FieldErrorProp` | no |  | Error message. Marks the group invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
 | `loading` | `boolean` | no | false | Shows a small spinner next to the legend, sets `aria-busy`, and makes the group not interactive. |
 | `orientation` | `"horizontal" \| "vertical"` | no | vertical | Layout of the options. |
@@ -1354,8 +1355,8 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
   <Radio value="pro" label="Pro" />
 </RadioGroup>
 <RadioGroup legend="Plan" error="Choose a plan" required>
-  <Radio value="free" label="Free" />
-  <Radio value="pro" label="Pro" />
+  <Radio value="starter" label="Starter" />
+  <Radio value="business" label="Business" />
 </RadioGroup>
 ```
 
@@ -1370,7 +1371,7 @@ Validation state comes from the `RadioGroup` (`error`, `required`, `readOnly`, `
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Radio } from "@/ui";`
 - Renders: span role="radio" with a hidden native input, inside a label
-- Composition: Only inside RadioGroup; it is documented under Parts. `value` and `label` are required.
+- Composition: Only inside RadioGroup; it is documented under Parts. `value` and `label` are required. Optional `description` adds supporting text and `variant="card"` gives the option a choice-card treatment.
 - Use when: One option of a RadioGroup.
 - Avoid:
   - Using it outside a RadioGroup.
@@ -1382,6 +1383,8 @@ Validation state comes from the `RadioGroup` (`error`, `required`, `readOnly`, `
 | `label` | `ReactNode` | yes |  | Visible label for this option. |
 | `value` | `string` | yes |  | Value submitted and reported when this option is selected. |
 | `className` | `string` | no |  |  |
+| `description` | `ReactNode` | no |  | Supporting text shown below the option label. |
+| `variant` | `"default" \| "card"` | no | default | Visual treatment of the option. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1422,7 +1425,8 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 ## Select
 
 A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).
-Pass `items` instead of composing parts. Inside `Field` it inherits `required`, `readOnly` and `loading`.
+Pass `items` instead of composing parts; items can include `description` and a `group` heading.
+Inside `Field` it inherits `required`, `readOnly` and `loading`.
 Icons follow the trigger size: xs 12px, sm 16px, md 20px, lg 24px.
 The trigger keeps the shared control face while open, including when opened with a mouse.
 When used inside `ButtonGroup`, omit `label` and provide `aria-label` so the visible label does
@@ -1432,7 +1436,7 @@ not become part of the group's control row.
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Select } from "@/ui";`
 - Renders: button role="combobox" with a listbox popup in a portal
-- Composition: Pass `items` ({ value, label, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. `loading` replaces the end icon with a spinner. Icons follow the trigger size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.
+- Composition: Pass `items` ({ value, label, description?, group?, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. Consecutive items with the same `group` render under a heading with separators between groups. `loading` replaces the end icon with a spinner. Icons follow the trigger size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.
 - Use when: Choosing one option from a longer list, including read-only and loading states.
 - Avoid:
   - Two or three options: use RadioGroup.

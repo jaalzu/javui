@@ -1735,7 +1735,7 @@
       "description": "A group of mutually exclusive options. Renders a `fieldset` with a `legend`, driven by Base UI\nRadioGroup. Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.",
       "import": "import { RadioGroup } from \"@/ui\";",
       "renders": "fieldset with a legend and a radiogroup",
-      "composition": "`legend` is required. Children are Radio elements. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend. Radio is documented under Parts.",
+      "composition": "`legend` is required. Children are Radio elements. Use `description` for group guidance and `orientation` for horizontal layouts. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend. Radio is documented under Parts.",
       "whenToUse": "Choosing exactly one option from a short list.",
       "avoid": [
         "Long lists: use Select."
@@ -1758,6 +1758,12 @@
           "name": "className",
           "type": "string",
           "required": false
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Supporting text announced with the group."
         },
         {
           "name": "error",
@@ -1796,7 +1802,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<RadioGroup legend=\"Plan\" defaultValue=\"free\">\r\n  <Radio value=\"free\" label=\"Free\" />\r\n  <Radio value=\"pro\" label=\"Pro\" />\r\n</RadioGroup>\r\n<RadioGroup legend=\"Plan\" error=\"Choose a plan\" required>\r\n  <Radio value=\"free\" label=\"Free\" />\r\n  <Radio value=\"pro\" label=\"Pro\" />\r\n</RadioGroup>"
+        "<RadioGroup legend=\"Plan\" defaultValue=\"free\">\r\n  <Radio value=\"free\" label=\"Free\" />\r\n  <Radio value=\"pro\" label=\"Pro\" />\r\n</RadioGroup>\r\n<RadioGroup legend=\"Plan\" error=\"Choose a plan\" required>\r\n  <Radio value=\"starter\" label=\"Starter\" />\r\n  <Radio value=\"business\" label=\"Business\" />\r\n</RadioGroup>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Radio/Radio.tsx",
       "parts": [
@@ -1807,7 +1813,7 @@
           "description": "One option inside a `RadioGroup`, built on Base UI Radio. The whole label is clickable.\nValidation state comes from the `RadioGroup` (`error`, `required`, `readOnly`, `loading`).",
           "import": "import { Radio } from \"@/ui\";",
           "renders": "span role=\"radio\" with a hidden native input, inside a label",
-          "composition": "Only inside RadioGroup; it is documented under Parts. `value` and `label` are required.",
+          "composition": "Only inside RadioGroup; it is documented under Parts. `value` and `label` are required. Optional `description` adds supporting text and `variant=\"card\"` gives the option a choice-card treatment.",
           "whenToUse": "One option of a RadioGroup.",
           "avoid": [
             "Using it outside a RadioGroup."
@@ -1830,6 +1836,19 @@
               "name": "className",
               "type": "string",
               "required": false
+            },
+            {
+              "name": "description",
+              "type": "ReactNode",
+              "required": false,
+              "description": "Supporting text shown below the option label."
+            },
+            {
+              "name": "variant",
+              "type": "\"default\" | \"card\"",
+              "required": false,
+              "default": "default",
+              "description": "Visual treatment of the option."
             }
           ],
           "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
@@ -1902,10 +1921,10 @@
       "name": "Select",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).\nPass `items` instead of composing parts. Inside `Field` it inherits `required`, `readOnly` and `loading`.\nIcons follow the trigger size: xs 12px, sm 16px, md 20px, lg 24px.\nThe trigger keeps the shared control face while open, including when opened with a mouse.\nWhen used inside `ButtonGroup`, omit `label` and provide `aria-label` so the visible label does\nnot become part of the group's control row.",
+      "description": "A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).\nPass `items` instead of composing parts; items can include `description` and a `group` heading.\nInside `Field` it inherits `required`, `readOnly` and `loading`.\nIcons follow the trigger size: xs 12px, sm 16px, md 20px, lg 24px.\nThe trigger keeps the shared control face while open, including when opened with a mouse.\nWhen used inside `ButtonGroup`, omit `label` and provide `aria-label` so the visible label does\nnot become part of the group's control row.",
       "import": "import { Select } from \"@/ui\";",
       "renders": "button role=\"combobox\" with a listbox popup in a portal",
-      "composition": "Pass `items` ({ value, label, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. `loading` replaces the end icon with a spinner. Icons follow the trigger size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.",
+      "composition": "Pass `items` ({ value, label, description?, group?, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. Consecutive items with the same `group` render under a heading with separators between groups. `loading` replaces the end icon with a spinner. Icons follow the trigger size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.",
       "whenToUse": "Choosing one option from a longer list, including read-only and loading states.",
       "avoid": [
         "Two or three options: use RadioGroup.",

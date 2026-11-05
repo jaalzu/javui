@@ -388,7 +388,7 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "fieldset with a legend and a radiogroup",
-    "composition": "`legend` is required. Children are Radio elements. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend. Radio is documented under Parts.",
+    "composition": "`legend` is required. Children are Radio elements. Use `description` for group guidance and `orientation` for horizontal layouts. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend. Radio is documented under Parts.",
     "whenToUse": "Choosing exactly one option from a short list.",
     "avoid": [
       "Long lists: use Select."
@@ -399,7 +399,7 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "span role=\"radio\" with a hidden native input, inside a label",
-    "composition": "Only inside RadioGroup; it is documented under Parts. `value` and `label` are required.",
+    "composition": "Only inside RadioGroup; it is documented under Parts. `value` and `label` are required. Optional `description` adds supporting text and `variant=\"card\"` gives the option a choice-card treatment.",
     "whenToUse": "One option of a RadioGroup.",
     "avoid": [
       "Using it outside a RadioGroup."
@@ -421,7 +421,7 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "button role=\"combobox\" with a listbox popup in a portal",
-    "composition": "Pass `items` ({ value, label, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. `loading` replaces the end icon with a spinner. Icons follow the trigger size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.",
+    "composition": "Pass `items` ({ value, label, description?, group?, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. Consecutive items with the same `group` render under a heading with separators between groups. `loading` replaces the end icon with a spinner. Icons follow the trigger size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.",
     "whenToUse": "Choosing one option from a longer list, including read-only and loading states.",
     "avoid": [
       "Two or three options: use RadioGroup.",

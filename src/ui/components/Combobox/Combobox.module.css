@@ -16,9 +16,11 @@
   width: 100%;
   min-height: var(--size-control-md);
   padding: 0 var(--space-3);
-  border: var(--border-width-thin) solid var(--color-border-strong);
+  border: 0;
   border-radius: var(--radius-md);
-  background: var(--color-component);
+  background: transparent;
+  box-shadow: var(--shadow-default);
+  --combobox-hover-background: var(--color-component-hover-subtle);
   color: var(--color-primary-foreground);
   transition:
     background-color var(--motion-duration-fast) var(--motion-easing-standard),
@@ -26,7 +28,21 @@
 }
 
 .group:hover:not([data-disabled], [data-readonly], [data-loading]) {
-  background: var(--color-component-hover);
+  background: var(--combobox-hover-background);
+}
+
+:global([data-theme="dark"]) .group {
+  background: var(--color-transparent-hover);
+  box-shadow: 0 0 1px 2px rgb(161 161 161 / 0.58);
+  --combobox-hover-background: var(--color-component);
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(html:not([data-theme="light"])) .group {
+    background: var(--color-transparent-hover);
+    box-shadow: 0 0 1px 1px rgb(105 105 105 / 0.6);
+    --combobox-hover-background: var(--color-component);
+  }
 }
 
 .group:active:not([data-disabled], [data-readonly], [data-loading]) {
@@ -39,7 +55,7 @@
 }
 
 .group[data-invalid] {
-  border-color: var(--color-danger-border-default);
+  box-shadow: 0 0 0 var(--border-width-thick) var(--color-danger-solid);
 }
 
 .group[data-readonly],
@@ -52,7 +68,6 @@
 }
 
 .group[data-disabled] {
-  border-color: var(--color-border-disabled);
   background: var(--color-disabled);
   color: var(--color-disabled-foreground);
   cursor: not-allowed;

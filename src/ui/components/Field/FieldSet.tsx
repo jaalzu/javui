@@ -10,6 +10,6 @@ export function FieldSet({ legend, description, disabled, children, className }:
   return <fieldset className={`${styles.fieldset} ${className ?? ""}`} disabled={disabled} aria-describedby={description ? descriptionId : undefined}>
     <legend className={styles.legend}>{legend}</legend>
     {description ? <p id={descriptionId} className={styles.description}>{description}</p> : null}
-    <Stack gap="4">{children}</Stack>
+    <Stack gap="5">{children}</Stack>
   </fieldset>;
 }

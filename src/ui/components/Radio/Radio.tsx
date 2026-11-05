@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useId, type ReactNode } from "react";
 import { Fieldset as BaseFieldset } from "@base-ui/react/fieldset";
 import { Radio as BaseRadio } from "@base-ui/react/radio";
 import { RadioGroup as BaseRadioGroup } from "@base-ui/react/radio-group";
@@ -17,6 +17,8 @@ export type RadioGroupProps = {
   legend: ReactNode;
   /** Layout of the options. @default "vertical" */
   orientation?: "vertical" | "horizontal";
+  /** Supporting text announced with the group. */
+  description?: ReactNode;
   /** The `Radio` options. */
   children: ReactNode;
   /**
@@ -52,13 +54,14 @@ export type RadioGroupProps = {
  *   <Radio value="pro" label="Pro" />
  * </RadioGroup>
  * <RadioGroup legend="Plan" error="Choose a plan" required>
- *   <Radio value="free" label="Free" />
- *   <Radio value="pro" label="Pro" />
+ *   <Radio value="starter" label="Starter" />
+ *   <Radio value="business" label="Business" />
  * </RadioGroup>
  */
 export function RadioGroup({
   legend,
   orientation = "vertical",
+  description,
   children,
   className,
   error,
@@ -73,6 +76,10 @@ export function RadioGroup({
     readOnly: readOnlyProp,
     loading: loadingProp,
   });
+  const explicitInvalid = rest["aria-invalid"] === true || rest["aria-invalid"] === "true";
+  const descriptionId = useId();
+  const describedBy =
+    [description ? descriptionId : undefined, state.describedBy].filter(Boolean).join(" ") || undefined;
 
   return (
     <>
@@ -84,13 +91,14 @@ export function RadioGroup({
             required={state.required}
             aria-busy={state.loading || undefined}
             aria-invalid={state.invalid || undefined}
-            aria-describedby={state.describedBy}
+            aria-describedby={describedBy}
             data-readonly={state.readOnly ? "" : undefined}
             data-loading={state.loading ? "" : undefined}
             data-invalid={state.invalid ? "" : undefined}
           />
         }
-        className={cx(styles.group, className)}
+        className={cx(styles.group, explicitInvalid || state.invalid ? styles.invalid : undefined, className)}
+        data-invalid={state.invalid || explicitInvalid ? "" : undefined}
       >
         <BaseFieldset.Legend className={styles.legend}>
           {legend}
@@ -110,6 +118,7 @@ export function RadioGroup({
             />
           ) : null}
         </BaseFieldset.Legend>
+        {description ? <p id={descriptionId} className={styles.groupDescription}>{description}</p> : null}
         <div className={cx(styles.options, orientation === "horizontal" && styles.horizontal)}>{children}</div>
       </BaseFieldset.Root>
       {state.showError && state.errors.length ? (
@@ -124,6 +133,10 @@ export type RadioProps = {
   value: string;
   /** Visible label for this option. */
   label: ReactNode;
+  /** Supporting text shown below the option label. */
+  description?: ReactNode;
+  /** Visual treatment of the option. @default "default" */
+  variant?: "default" | "card";
   className?: string;
 } & Omit<BaseRadio.Root.Props, "className" | "children" | "value" | "color">;
 
@@ -131,13 +144,22 @@ export type RadioProps = {
  * One option inside a `RadioGroup`, built on Base UI Radio. The whole label is clickable.
  * Validation state comes from the `RadioGroup` (`error`, `required`, `readOnly`, `loading`).
  */
-export function Radio({ value, label, className, ...rest }: RadioProps) {
+export function Radio({ value, label, description, variant = "default", className, ...rest }: RadioProps) {
+  const control = (
+    <BaseRadio.Root value={value} className={styles.radio} {...rest}>
+      <BaseRadio.Indicator className={styles.indicator} />
+    </BaseRadio.Root>
+  );
+  const text = (
+    <span className={styles.text}>
+      <span className={styles.optionLabel}>{label}</span>
+      {description ? <span className={styles.optionDescription}>{description}</span> : null}
+    </span>
+  );
+
   return (
-    <label className={cx(styles.label, className)}>
-      <BaseRadio.Root value={value} className={styles.radio} {...rest}>
-        <BaseRadio.Indicator className={styles.indicator} />
-      </BaseRadio.Root>
-      <span className={styles.text}>{label}</span>
+    <label className={cx(styles.label, variant === "card" && styles.card, className)}>
+      {variant === "card" ? <>{text}{control}</> : <>{control}{text}</>}
     </label>
   );
 }

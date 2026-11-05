@@ -13,6 +13,10 @@ import { useButtonGroupSize } from "../ButtonGroup/ButtonGroupContext";
 export type SelectItem = {
   value: string;
   label: string;
+  /** Supporting text shown below the option label. */
+  description?: string;
+  /** Optional group heading. Consecutive items with the same group share a section. */
+  group?: string;
   disabled?: boolean;
 };
 
@@ -49,7 +53,8 @@ export type SelectProps = {
 
 /**
  * A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).
- * Pass `items` instead of composing parts. Inside `Field` it inherits `required`, `readOnly` and `loading`.
+ * Pass `items` instead of composing parts; items can include `description` and a `group` heading.
+ * Inside `Field` it inherits `required`, `readOnly` and `loading`.
  * Icons follow the trigger size: xs 12px, sm 16px, md 20px, lg 24px.
  * The trigger keeps the shared control face while open, including when opened with a mouse.
  * When used inside `ButtonGroup`, omit `label` and provide `aria-label` so the visible label does
@@ -129,18 +134,42 @@ export function Select({
         <BaseSelect.Positioner className={styles.positioner} sideOffset={4} alignItemWithTrigger={false}>
           <BaseSelect.Popup className={styles.popup} data-size={size}>
             <BaseSelect.List className={styles.list}>
-              {items.map((item) => (
-                <BaseSelect.Item key={item.value} value={item.value} disabled={item.disabled} className={styles.item}>
-                  <BaseSelect.ItemText className={styles.itemText}>{item.label}</BaseSelect.ItemText>
-                  <BaseSelect.ItemIndicator className={styles.itemIndicator}>
-                    <CheckIcon />
-                  </BaseSelect.ItemIndicator>
-                </BaseSelect.Item>
-              ))}
+              {renderItems(items)}
             </BaseSelect.List>
           </BaseSelect.Popup>
         </BaseSelect.Positioner>
       </BaseSelect.Portal>
     </BaseSelect.Root>
   );
+}
+
+function renderItems(items: SelectItem[]) {
+  const chunks: Array<{ group?: string; items: SelectItem[] }> = [];
+  for (const item of items) {
+    const last = chunks[chunks.length - 1];
+    if (last && last.group === item.group) last.items.push(item);
+    else chunks.push({ group: item.group, items: [item] });
+  }
+
+  return chunks.map((chunk, index) => {
+    const itemNodes = chunk.items.map((item) => (
+      <BaseSelect.Item key={item.value} value={item.value} disabled={item.disabled} className={styles.item}>
+        <BaseSelect.ItemText className={styles.itemText}>
+          <span>{item.label}</span>
+          {item.description ? <span className={styles.itemDescription}>{item.description}</span> : null}
+        </BaseSelect.ItemText>
+        <BaseSelect.ItemIndicator className={styles.itemIndicator}>
+          <CheckIcon />
+        </BaseSelect.ItemIndicator>
+      </BaseSelect.Item>
+    ));
+
+    return (
+      <BaseSelect.Group key={`${chunk.group ?? "ungrouped"}-${index}`} className={styles.group}>
+        {index > 0 ? <BaseSelect.Separator className={styles.separator} /> : null}
+        {chunk.group ? <BaseSelect.GroupLabel className={styles.groupLabel}>{chunk.group}</BaseSelect.GroupLabel> : null}
+        {itemNodes}
+      </BaseSelect.Group>
+    );
+  });
 }

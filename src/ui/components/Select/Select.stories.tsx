@@ -31,6 +31,27 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 export const WithDefaultValue: Story = { args: { defaultValue: "uy" } };
+export const Grouped: Story = {
+  args: {
+    label: "Workspace",
+    placeholder: "Choose a workspace",
+    items: [
+      { value: "design", label: "Design", group: "Teams" },
+      { value: "engineering", label: "Engineering", group: "Teams" },
+      { value: "personal", label: "Personal", group: "Other" },
+    ],
+  },
+};
+export const ItemDescriptions: Story = {
+  args: {
+    label: "Environment",
+    placeholder: "Choose an environment",
+    items: [
+      { value: "production", label: "Production", description: "Live customer traffic." },
+      { value: "staging", label: "Staging", description: "Pre-release testing." },
+    ],
+  },
+};
 export const InsideField: Story = {
   args: { label: undefined },
   render: (args) => (

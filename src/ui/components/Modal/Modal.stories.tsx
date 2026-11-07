@@ -2,13 +2,15 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Button } from "../Button";
 import { Field } from "../Field";
 import { Input } from "../Input";
+import { Stack } from "../Stack";
+import { Text } from "../Text";
 import { Modal, ModalClose, ModalContent, ModalTrigger } from "./Modal";
 
 const meta = {
   title: "Overlays/Modal",
   component: Modal,
   tags: ["autodocs"],
-  parameters: { layout: "padded" },
+  parameters: { layout: "centered" },
 } satisfies Meta<typeof Modal>;
 
 export default meta;
@@ -20,6 +22,7 @@ export const Default: Story = {
       <ModalTrigger variant="secondary">Open settings</ModalTrigger>
       <ModalContent
         title="Notifications"
+        closeLabel="Close notifications"
         description="Choose what you want to hear about."
         actions={<ModalClose>Close</ModalClose>}
       >
@@ -40,6 +43,7 @@ export const Decision: Story = {
       <ModalTrigger variant="danger">Delete project</ModalTrigger>
       <ModalContent
         title="Delete project?"
+        closeLabel="Close delete confirmation"
         actions={
           <>
             <ModalClose>Cancel</ModalClose>
@@ -59,6 +63,7 @@ export const Sizes: Story = {
       <ModalTrigger variant="secondary">Open large modal</ModalTrigger>
       <ModalContent
         title="Large modal"
+        closeLabel="Close large modal"
         actions={<ModalClose>Close</ModalClose>}
       >
         More room for a form, a table or a longer explanation.
@@ -73,6 +78,7 @@ export const Colors: Story = {
       <ModalTrigger variant="secondary">Open warning modal</ModalTrigger>
       <ModalContent
         title="Storage almost full"
+        closeLabel="Close storage warning"
         tagline="Warning"
         actions={<ModalClose>Close</ModalClose>}
       >
@@ -84,20 +90,47 @@ export const Colors: Story = {
 
 export const Form: Story = {
   render: () => (
-    <Modal>
+    <Modal size="sm">
       <ModalTrigger variant="secondary">Edit profile</ModalTrigger>
       <ModalContent
         title="Edit profile"
+        closeLabel="Close profile"
+        description="Make changes to your profile here. Click save when you're done."
         actions={
           <>
-            <ModalClose>Cancel</ModalClose>
-            <Button type="submit" form="modal-story-form">Save changes</Button>
+            <ModalClose variant="ghost">Cancel</ModalClose>
+            <Button size="sm" type="submit" form="modal-story-form">Save changes</Button>
           </>
         }
       >
         <form id="modal-story-form">
-          <Field label="Name"><Input autoComplete="name" /></Field>
+          <Stack gap="3">
+            <Field label="Name"><Input size="sm" autoComplete="name" /></Field>
+            <Field label="Email"><Input size="sm" type="email" autoComplete="email" /></Field>
+          </Stack>
         </form>
+      </ModalContent>
+    </Modal>
+  ),
+};
+
+export const ScrollableContent: Story = {
+  render: () => (
+    <Modal>
+      <ModalTrigger variant="secondary">View conditions and terms</ModalTrigger>
+      <ModalContent
+        title="Conditions and terms"
+        closeLabel="Close terms"
+        description="Please review the terms before continuing."
+        actions={<ModalClose>Close terms</ModalClose>}
+      >
+        <Stack gap="4">
+          {Array.from({ length: 10 }, (_, index) => (
+            <Text key={index} size="sm">
+              {index + 1}. These conditions explain how access, content and support are handled.
+            </Text>
+          ))}
+        </Stack>
       </ModalContent>
     </Modal>
   ),
@@ -111,6 +144,7 @@ export const TouchTargets: Story = {
         <ModalTrigger variant="secondary">Open modal</ModalTrigger>
         <ModalContent
           title="Touch targets"
+          closeLabel="Close touch targets"
           actions={<ModalClose>Close</ModalClose>}
         >
           The close and footer buttons keep their comfortable hit areas.
@@ -128,6 +162,7 @@ export const OpenOnLoadDark: Story = {
       <ModalTrigger variant="secondary">Open settings</ModalTrigger>
       <ModalContent
         title="Notifications"
+        closeLabel="Close notifications"
         description="Choose what you want to hear about."
         actions={<ModalClose>Close</ModalClose>}
       >

@@ -4,7 +4,8 @@
   z-index: var(--z-overlay);
   background: var(--color-overlay);
   opacity: 1;
-  transition: opacity var(--motion-duration-slow) var(--motion-easing-out);
+  /* Slower than the default slow token: the entrance is a full-height panel. */
+  transition: opacity var(--motion-duration-sheet) var(--motion-easing-out);
 }
 
 .backdrop[data-starting-style],
@@ -29,6 +30,16 @@
   justify-content: flex-start;
 }
 
+.viewport[data-side="top"] {
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.viewport[data-side="bottom"] {
+  align-items: flex-end;
+  justify-content: center;
+}
+
 .popup {
   box-sizing: border-box;
   position: relative;
@@ -36,13 +47,24 @@
   height: 100%;
   max-height: 100dvh;
   overflow: hidden;
-  border: var(--border-width-thin) solid var(--color-border-strong);
+  border: var(--border-width-overlay) solid var(--color-border-strong);
   background: var(--color-modal);
   color: var(--color-primary-foreground);
   box-shadow: var(--shadow-extra-large);
   pointer-events: auto;
   transform: translateX(var(--drawer-swipe-movement-x, 0));
-  transition: transform var(--motion-duration-slow) var(--motion-easing-out);
+  /* Slower than the default slow token: the panel fades and slides. */
+  transition:
+    opacity var(--motion-duration-sheet) var(--motion-easing-out),
+    transform var(--motion-duration-sheet) var(--motion-easing-out);
+}
+
+.popup[data-starting-style] {
+  opacity: var(--motion-opacity-sheet-in);
+}
+
+.popup[data-ending-style] {
+  opacity: var(--motion-opacity-sheet-out);
 }
 
 .popup[data-side="right"] {
@@ -55,6 +77,23 @@
   border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
 }
 
+.popup[data-side="top"],
+.popup[data-side="bottom"] {
+  width: 100%;
+  height: auto;
+  max-height: min(var(--dialog-height-md), 100dvh);
+}
+
+.popup[data-side="top"] {
+  border-top: 0;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+.popup[data-side="bottom"] {
+  border-bottom: 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
 .popup[data-side="right"][data-starting-style],
 .popup[data-side="right"][data-ending-style] {
   transform: translateX(100%);
@@ -65,20 +104,44 @@
   transform: translateX(-100%);
 }
 
+.popup[data-side="top"],
+.popup[data-side="bottom"] {
+  transform: translateY(var(--drawer-swipe-movement-y, 0));
+}
+
+.popup[data-side="top"][data-starting-style],
+.popup[data-side="top"][data-ending-style] {
+  transform: translateY(-100%);
+}
+
+.popup[data-side="bottom"][data-starting-style],
+.popup[data-side="bottom"][data-ending-style] {
+  transform: translateY(100%);
+}
+
 .content {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  width: 100%;
   height: 100%;
-  padding: var(--space-6);
-  overflow-y: auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.popup[data-side="top"] .content,
+.popup[data-side="bottom"] .content {
+  height: auto;
+  max-height: 100%;
 }
 
 .header {
   display: flex;
+  flex-shrink: 0;
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--space-4);
+  padding: var(--space-5) var(--space-5) calc(var(--space-4) + var(--border-width-thin));
 }
 
 .heading {
@@ -95,23 +158,42 @@
 }
 
 .description {
-  margin: var(--space-2) 0 0;
+  margin: var(--space-1) 0 0;
   color: var(--color-secondary-foreground);
-  font-size: var(--text-body-size);
-  line-height: var(--text-body-line);
+  font-size: var(--text-body-sm-size);
+  line-height: var(--text-body-sm-line-tight);
 }
 
 .body {
   flex: 1;
-  margin-top: var(--space-6);
+  min-height: 0;
+  margin-top: var(--space-1);
+  padding: 0 var(--space-5);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.body::-webkit-scrollbar {
+  display: none;
 }
 
 .footer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+  display: grid;
+  flex-shrink: 0;
   gap: var(--space-3);
-  margin-top: var(--space-6);
-  padding-top: var(--space-4);
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  margin-top: var(--space-5);
+  padding-block: calc(var(--space-4) - var(--border-width-thin))
+    calc(var(--space-5) - var(--border-width-thin));
+  padding-inline: var(--space-5);
   border-top: var(--border-width-thin) solid var(--color-border-default);
+  background: var(--color-modal);
+}
+
+/* Every action fills the sheet width, even when the footer holds several. */
+.footer > * {
+  width: 100%;
 }

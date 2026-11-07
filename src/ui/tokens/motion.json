@@ -3,7 +3,11 @@
     "duration": {
       "fast": { "$value": "100ms" },
       "base": { "$value": "160ms" },
-      "slow": { "$value": "240ms" }
+      "slow": { "$value": "240ms" },
+      "sheet": {
+        "$value": "288ms",
+        "$description": "Sheet and drawer entrances and exits. Slower than slow, still under 300ms."
+      }
     },
     "easing": {
       "$description": "Components must also respect prefers-reduced-motion (see global styles).",
@@ -19,6 +23,16 @@
       "in-out": {
         "$value": "cubic-bezier(0.77, 0, 0.175, 1)",
         "$description": "Elements that move or morph on screen (tab indicator)."
+      }
+    },
+    "opacity": {
+      "sheet-in": {
+        "$value": "0.5",
+        "$description": "Starting opacity of a sheet entrance. Never 0, so the panel is already visible while it slides in."
+      },
+      "sheet-out": {
+        "$value": "0",
+        "$description": "Ending opacity of a sheet exit, so it fades out while it slides away."
       }
     },
     "scale": {

@@ -1,47 +1,41 @@
 import type { ComponentProps, CSSProperties, ElementType } from "react";
 import { cx } from "../../utils/cx";
-import { space, type ContainerElement, type Space } from "../../types";
+import { responsiveVars, type Responsive } from "../../utils/responsive";
+import { space, type LayoutElement, type Space } from "../../types";
 import styles from "./Container.module.css";
 
-export type ContainerProps<T extends ContainerElement = "div"> = {
-  /** Element to render. Use `main` once per page for the primary content. @default "div" */
+export type ContainerSize = "xs" | "sm" | "md" | "lg" | "xl";
+
+export type ContainerProps<T extends LayoutElement = "div"> = {
+  /** Element to render. @default "div" */
   as?: T;
-  /** Maximum content width: `sm` 40rem, `md` 48rem, `lg` 64rem, `xl` 80rem. @default "lg" */
-  size?: "sm" | "md" | "lg" | "xl";
-  /**
-   * Side padding from the spacing scale. Override `--container-padding` for a custom value.
-   * @default "6"
-   */
-  padding?: Space;
+  /** Maximum content width. Accepts per-breakpoint values. @default "xl" */
+  size?: Responsive<ContainerSize>;
+  /** Horizontal gutter from the spacing scale. Accepts per-breakpoint values. @default "4" */
+  gutter?: Responsive<Space>;
 } & Omit<ComponentProps<T>, "as" | "color">;
 
+const containerSize = (value: ContainerSize) => `var(--container-${value})`;
+
 /**
- * Centers content and limits its width, with side padding from the spacing scale.
- * The maximum width applies to the content, not to the padding.
+ * Centers content, constrains its readable width and applies responsive horizontal gutters.
  *
  * @example
- * <Container as="main" size="md">...</Container>
- * <Container size="lg" padding="4">...</Container>
+ * <Container size="lg" gutter={{ base: "4", md: "8" }}>Page content</Container>
  */
-export function Container<T extends ContainerElement = "div">({
+export function Container<T extends LayoutElement = "div">({
   as,
-  size = "lg",
-  padding,
+  size = "xl",
+  gutter = "4",
   className,
   style,
   ...rest
 }: ContainerProps<T>) {
   const Component = (as ?? "div") as ElementType<{ className?: string; style?: CSSProperties }>;
   const vars: CSSProperties = {
-    ["--container-max" as string]: `var(--container-${size})`,
-    ...(padding !== undefined && { ["--container-padding" as string]: space(padding) }),
+    ...responsiveVars("container-max-width", size, containerSize),
+    ...responsiveVars("container-gutter", gutter, space),
     ...(style as CSSProperties | undefined),
   };
-  return (
-    <Component
-      className={cx(styles.container, className)}
-      style={vars}
-      {...(rest as Record<string, unknown>)}
-    />
-  );
+  return <Component className={cx(styles.container, className)} style={vars} {...(rest as Record<string, unknown>)} />;
 }

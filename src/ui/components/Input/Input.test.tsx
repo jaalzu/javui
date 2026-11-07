@@ -21,6 +21,11 @@ describe("Input", () => {
     expect(el).toHaveAttribute("autocomplete", "email");
   });
 
+  it("supports a ghost variant without resting chrome", () => {
+    render(<Input aria-label="Search" variant="ghost" />);
+    expect(screen.getByRole("textbox").parentElement).toHaveAttribute("data-variant", "ghost");
+  });
+
   it("is focusable and selectable when read-only", async () => {
     const user = userEvent.setup();
     render(<Input aria-label="API key" readOnly defaultValue="sk-live" />);

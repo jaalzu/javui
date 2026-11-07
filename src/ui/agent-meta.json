@@ -73,6 +73,31 @@
     ],
     "a11y": "Meaning must be in the text; the variant only reinforces it. A badge rendered as a link keeps the link's own accessible name."
   },
+  "Box": {
+    "category": "layout",
+    "base": "own",
+    "renders": "div (or `as`) with token-based inset, optional border and semantic surface",
+    "composition": "Use `size` (`default`, `sm`, `xs`, `xxs`), `surface` (`none`, `card`, `sunken`, `highlight`) and `bordered` to define a content region.",
+    "whenToUse": "A bordered or recessed content area that is not a full Card and does not need Card parts.",
+    "avoid": [
+      "Nesting cards inside cards.",
+      "Using Box as a replacement for Stack or Grid.",
+      "Using arbitrary backgrounds instead of semantic surfaces."
+    ],
+    "a11y": "The default element is a neutral div; choose `as` when the region has section or landmark semantics."
+  },
+  "Container": {
+    "category": "layout",
+    "base": "own",
+    "renders": "div (or `as`) with a centered max width and horizontal gutters",
+    "composition": "`size` selects a semantic container width (`xs`, `sm`, `md`, `lg`, `xl`) and `gutter` selects responsive horizontal padding from the spacing scale.",
+    "whenToUse": "Page shells, readable content boundaries and sections that need a consistent max width.",
+    "avoid": [
+      "Using arbitrary max-width values when a container token fits.",
+      "Nesting containers without a deliberate change in content width."
+    ],
+    "a11y": "The default element is a neutral div; choose `as` to provide the correct landmark or section semantics."
+  },
   "Stack": {
     "category": "layout",
     "base": "own",
@@ -100,18 +125,6 @@
       "Fixed layouts that change by screen (sidebar plus content, 1/2/3 columns): use the responsive `columns` object, for example `{ base: 1, md: 2, lg: 4 }`.",
       "Unequal columns: pass a string such as `\"2fr 1fr\"`, optionally per breakpoint, for example `{ base: 1, lg: \"2fr 1fr\" }`."
     ]
-  },
-  "Container": {
-    "category": "layout",
-    "base": "own",
-    "renders": "div (or `as`), centered with a max width",
-    "composition": "`size` is one of sm, md, lg, xl (container tokens) and limits the content width, not the padding. `padding` uses the spacing scale.",
-    "whenToUse": "Page-level width limit and side padding.",
-    "avoid": [
-      "Nesting containers.",
-      "Full-width sections: put the background on the section and the Container inside it."
-    ],
-    "a11y": "Use `as=\"main\"` once per page for the primary content."
   },
   "AspectRatio": {
     "category": "layout",
@@ -233,18 +246,45 @@
     "base": "base-ui",
     "renders": "div containing an optional label, the control, a description and an error",
     "composition": "Wrap one control: Input, Textarea, Select, Checkbox, RadioGroup, Switch or Slider. `label` is optional: omit it when the control renders its own label or legend (Checkbox, RadioGroup, Switch, Slider). Pass `error`, `required`, `readOnly` and `loading` to Field instead of wiring the control. Controls that carry their own label or legend also accept these props directly.",
-    "whenToUse": "Every form control, including its validation, required, read-only and loading states.",
+    "whenToUse": "Combine labels, controls, and help text to compose accessible form fields and grouped inputs.",
     "avoid": [
       "A loose red error text below the control: use Field `error`.",
       "Wiring aria-describedby or aria-invalid by hand."
     ],
-    "a11y": "Base UI wires the label, aria-describedby and aria-invalid; the error is announced politely. `required` sets the native/ARIA required state and prints Required next to the label, or in the control's own label when Field has no label. Errors show after blur or submit, not on the first keystroke (validationMode defaults to onBlur)."
+    "a11y": "Field wires the label, aria-describedby and aria-invalid; the error is announced politely. `required` sets the native/ARIA required state and prints Required next to the label, or in the control's own label when Field has no label. Errors show after blur or submit, not on the first keystroke (validationMode defaults to onBlur)."
+  },
+  "FieldSet": {
+    "category": "controls",
+    "base": "own",
+    "renders": "fieldset with a legend, optional description and stacked controls",
+    "composition": "Pass required `legend`, optional `description` and `disabled`, then compose different controls as children. Use CheckboxGroup or RadioGroup for same-type options.",
+    "whenToUse": "Grouping different controls under one accessible name, such as a shipping address.",
+    "avoid": ["Using it for same-type choices: use CheckboxGroup or RadioGroup.", "Grouping unrelated controls.", "Using it without a legend."],
+    "a11y": "The native fieldset and legend name the group; the description is linked with aria-describedby. Disabled passes to the native fieldset."
+  },
+  "FieldSeparator": {
+    "category": "controls",
+    "base": "own",
+    "renders": "decorative separator, optionally with readable text between two lines",
+    "composition": "Place between fields; pass children for text such as `Or continue with`.",
+    "whenToUse": "Dividing alternatives within a form.",
+    "avoid": ["Using it outside a form: use Separator.", "Using it for spacing: use Stack gap."],
+    "a11y": "Lines are decorative; children remain readable content when present."
+  },
+  "Separator": {
+    "category": "controls",
+    "base": "base-ui",
+    "renders": "div",
+    "composition": "Set `orientation` and `decorative`; it does not accept children. It covers the full width or stretches to the parent height, so size it from the parent. Spacing comes from the parent `gap` or from a margin on `className`.",
+    "whenToUse": "Visually or semantically dividing sections, lists and action groups.",
+    "avoid": ["Using it for spacing: use gap.", "Using it inside ButtonGroup: use ButtonGroupSeparator."],
+    "a11y": "Decorative separators are presentation-only; non-decorative separators expose the separator role and orientation through Base UI."
   },
   "Input": {
     "category": "controls",
     "base": "base-ui",
     "renders": "input",
-    "composition": "Native input props pass through (type, autoComplete, name, required...). Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Icons follow the size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.",
+    "composition": "Native input props pass through (type, autoComplete, name, required...). `variant=\"ghost\"` removes resting chrome for low-emphasis fields. Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Icons follow the size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.",
     "whenToUse": "Single-line text entry, read-only values and values that are still loading.",
     "avoid": [
       "Using it without Field or aria-label.",
@@ -252,6 +292,60 @@
       "Hand-wiring validation ARIA: use Field error."
     ],
     "a11y": "Needs an accessible name. Set `autoComplete` for personal data fields. readOnly stays focusable and selectable; loading is readOnly with aria-busy=true."
+  },
+  "InputOTP": {
+    "category": "controls",
+    "base": "base-ui",
+    "renders": "one-time-code input with character slots",
+    "composition": "Use as one component. Set `length`, optional `groups`, `validationType`, `mask` and `onValueComplete` as needed.",
+    "whenToUse": "Verification codes, one-time passwords and recovery codes.",
+    "avoid": ["Splitting it into slot components; Base UI manages slot indexes and focus.", "Using it for arbitrary multi-field data entry."],
+    "a11y": "Inside Field, the first slot uses the Field label and the remaining slots announce their character position. Outside Field, provide aria-label. Loading is read-only with aria-busy=true."
+  },
+  "InputGroup": {
+    "category": "controls",
+    "base": "own",
+    "renders": "div containing one borderless input and optional addons",
+    "composition": "Put `InputGroupInput` first. Add prefixes, units or actions with `InputGroupAddon`.",
+    "whenToUse": "An input with attached text, an icon, a hint or an action.",
+    "avoid": ["Using it just for spacing; use Stack or Grid.", "Hiding meaningful units only in an addon."],
+    "a11y": "Give the input a Field label or aria-label. Icon-only buttons need aria-label."
+  },
+  "InputGroupInput": {
+    "category": "controls",
+    "base": "base-ui",
+    "renders": "input",
+    "composition": "Use only inside InputGroup. It inherits size, loading, required and readOnly from InputGroup and Field.",
+    "whenToUse": "The editable control inside InputGroup.",
+    "avoid": ["Using it outside InputGroup; use Input instead."],
+    "a11y": "Needs an accessible name from Field or aria-label; loading is read-only with aria-busy=true."
+  },
+  "InputGroupAddon": {
+    "category": "controls",
+    "base": "own",
+    "renders": "span",
+    "composition": "Place after InputGroupInput. Use `align` for its visual side.",
+    "whenToUse": "Attached icons, text, units, hints or buttons.",
+    "avoid": ["Using addon text as the only place to communicate a unit."],
+    "a11y": "Decorative icons are not the input's name; unit text should also appear in the Field label or description."
+  },
+  "InputGroupText": {
+    "category": "controls",
+    "base": "own",
+    "renders": "span",
+    "composition": "Use inside InputGroupAddon.",
+    "whenToUse": "A prefix, suffix or unit.",
+    "avoid": ["Using it as a standalone text style."],
+    "a11y": "Repeat meaningful units in the Field label or description."
+  },
+  "InputGroupButton": {
+    "category": "controls",
+    "base": "own",
+    "renders": "Button",
+    "composition": "Use inside InputGroupAddon. It inherits the group size.",
+    "whenToUse": "An action tightly attached to an InputGroup, such as clear, copy or show password.",
+    "avoid": ["Using it for unrelated actions; use Button outside the group."],
+    "a11y": "Icon-only buttons need aria-label; changing actions such as show/hide password must update the label."
   },
   "Textarea": {
     "category": "controls",
@@ -268,20 +362,33 @@
   "Checkbox": {
     "category": "controls",
     "base": "base-ui",
-    "renders": "span role=\"checkbox\" with a hidden native input, inside a label",
-    "composition": "`label` is required. Use `indeterminate` for a partial parent state. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field.",
-    "whenToUse": "Independent yes/no choices, especially ones submitted with a form.",
+    "renders": "span role=\"checkbox\" with a hidden native input, optionally inside a label",
+    "composition": "`variant=\"card\"` turns the label into a card; the dash exists only on the `parent` of a `CheckboxGroup`; `invalid` paints without a message, while `error` adds a message. `label` is optional, but then it needs `aria-label` or `aria-labelledby`; `description` adds helper text below the label.",
+    "whenToUse": "Choosing several independent options, or one confirmation that is saved when the form is submitted.",
     "avoid": [
-      "Mutually exclusive options: use RadioGroup.",
-      "Settings that apply instantly: use Switch."
+      "A single option among several: use RadioGroup.",
+      "Settings that apply instantly: use Switch.",
+      "Long lists without grouping.",
+      "A Card with a Checkbox inside; use `variant=\"card\"`."
     ],
-    "a11y": "The whole label is clickable. Base UI handles keyboard and the mixed state. Invalid uses the danger border and an error linked with aria-describedby; required prints Required; read-only stays focusable and uses the sunken background; loading sets aria-busy and blocks changes."
+    "a11y": "Groups use fieldset and legend; every checkbox without a visible label needs an accessible name. `invalid` tints the label and box; use `error` or Field when the reason should be announced."
+  },
+  "CheckboxGroup": {
+    "category": "controls",
+    "base": "base-ui",
+    "renders": "fieldset with a legend",
+    "composition": "`legend` is required; children are Checkbox elements. For a working select-all, pass `allValues` to the group and mark one Checkbox as `parent`. Documented under Checkbox parts.",
+    "whenToUse": "Grouping a short set of related checkboxes under one name.",
+    "avoid": [
+      "One option among several: use RadioGroup."
+    ],
+    "a11y": "The fieldset and legend name the group; each option keeps its own label."
   },
   "RadioGroup": {
     "category": "controls",
     "base": "base-ui",
     "renders": "fieldset with a legend and a radiogroup",
-    "composition": "`legend` is required. Children are Radio elements. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend. Radio is documented under Parts.",
+    "composition": "`legend` is required. Children are Radio elements. Use `description` for group guidance and `orientation` for horizontal layouts. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend. Radio is documented under Parts.",
     "whenToUse": "Choosing exactly one option from a short list.",
     "avoid": [
       "Long lists: use Select."
@@ -292,7 +399,7 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "span role=\"radio\" with a hidden native input, inside a label",
-    "composition": "Only inside RadioGroup; it is documented under Parts. `value` and `label` are required.",
+    "composition": "Only inside RadioGroup; it is documented under Parts. `value` and `label` are required. Optional `description` adds supporting text and `variant=\"card\"` gives the option a choice-card treatment.",
     "whenToUse": "One option of a RadioGroup.",
     "avoid": [
       "Using it outside a RadioGroup."
@@ -314,11 +421,12 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "button role=\"combobox\" with a listbox popup in a portal",
-    "composition": "Pass `items` ({ value, label, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. `loading` replaces the end icon with a spinner. Icons follow the trigger size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.",
+    "composition": "Pass `items` ({ value, label, description?, group?, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. Consecutive items with the same `group` render under a heading, separated from the next group by space, never by a rule. Long lists keep a compact max height and hide the scrollbar. `loading` replaces the end icon with a spinner. Icons follow the trigger size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.",
     "whenToUse": "Choosing one option from a longer list, including read-only and loading states.",
     "avoid": [
       "Two or three options: use RadioGroup.",
       "Free text: use Input.",
+      "Long lists where users need to type to find an option: use Combobox.",
       "Hand-wiring validation ARIA: use Field error."
     ],
     "a11y": "Keyboard, typeahead and focus come from Base UI. Needs an accessible name. readOnly prevents choosing another option; loading is readOnly with aria-busy=true."
@@ -385,13 +493,15 @@
     "category": "layout",
     "base": "own",
     "renders": "div by default; `as` can be article, section or li",
-    "composition": "`CardHeader` (with `CardTitle`, optional `CardDescription` and `CardAction`) + `CardContent` + `CardFooter`. `size` sets the shared inset through `--card-spacing`; override that variable to use another spacing step. An `img` as the first child is full-bleed with rounded top corners.",
-    "whenToUse": "Grouping related content in a bordered surface.",
+    "composition": "`CardHeader`, `CardContent` and `CardFooter` are all optional. `size` covers the common insets; set `--card-spacing` on the card for another step of the scale (`--space-5`, `--space-8`). For a full-bleed table, add `data-flush` to `CardContent`. Width is fluid: the container decides it. A link in the title goes as `Link` inside `CardTitle`. For an icon, put an element with `data-card-media` inside `CardHeader`.",
+    "whenToUse": "Grouping related information into a single idea, with a short title.",
     "avoid": [
-      "Making the whole card clickable: put a Link inside and keep the card as a container.",
-      "Nesting cards: use an `hr` hairline or a sunken region instead."
+      "Making the whole card clickable: put a `Link` in the title or actions in the footer.",
+      "A card inside a card: use `--color-sunken` or an `hr` hairline instead.",
+      "Too many actions in the body.",
+      "More than one primary CTA."
     ],
-    "a11y": "A plain container with no role. Use `as=\"article\"` for self-contained content and give it a heading through CardTitle."
+    "a11y": "Use `article` for self-contained content. The `CardTitle` level follows the page outline."
   },
   "CardHeader": {
     "category": "layout",
@@ -463,13 +573,15 @@
     "category": "feedback",
     "base": "own",
     "renders": "div with role alert (error, warning) or role status (neutral, info, success)",
-    "composition": "Pass `tone` (default `neutral`), an optional `title` and optional content; both can appear alone. Actions (Button, Link or both) go in the content. `startIcon` replaces the tone glyph and `endIcon` adds a trailing icon (no `size`). Icon, title, border and background share one tone color; override `--alert-tone` to change it.",
+    "composition": "Pass `tone` (default `neutral`), an optional `title` and optional content; both can appear alone. `action` reserves space on the right for a `Button size=\"xs\"`; use it with `title`, not with `endIcon`. For several actions, put them in the content. `startIcon` replaces the tone glyph and `endIcon` adds a trailing icon (no `size`). Icon, title, border and background share one tone color; override `--alert-tone` to change it.",
     "whenToUse": "A message that stays on the page and the user must notice: a general note (neutral), relevant information (info), a completed operation (success), something that needs attention (warning) or a failed operation (error).",
     "avoid": [
       "Short-lived confirmations: use Toast.",
       "Using color alone: the tone also changes the icon and you should say it in the text.",
       "Blocking decisions: use Modal role=alertdialog.",
-      "Adding visual variants or extra props before a concrete need exists."
+      "Adding visual variants or extra props before a concrete need exists.",
+      "`action` without `title`.",
+      "`action` together with `endIcon`."
     ],
     "a11y": "Announced by screen readers on render. The icon is decorative, and the tone never relies on color alone: the text says what happened."
   },
@@ -502,7 +614,7 @@
     "category": "overlays",
     "base": "base-ui",
     "renders": "no element: it only holds the open state (Base UI Popover.Root)",
-    "composition": "Structure: Popover > PopoverTrigger + PopoverContent (title required, description optional, PopoverClose).",
+    "composition": "Structure: Popover > PopoverTrigger + PopoverContent (title required, description optional, PopoverClose). Keep it around 22rem wide with up to 3–4 fields; use Tooltip for supplementary hints, Menu for a list of actions, Modal for decisions, and Sheet for longer content.",
     "whenToUse": "Small interactive content tied to a button, such as a form or extra options.",
     "avoid": [
       "Plain hints: use Tooltip.",
@@ -567,6 +679,18 @@
     ],
     "a11y": "Live-region announcements, F6 to reach toasts, pause on hover and focus. The dismiss button is labelled."
   },
+  "useControllableState": {
+    "category": "utility",
+    "base": "own",
+    "renders": "no element; returns the current value and a setter",
+    "composition": "Use for controlled/uncontrolled component state. Pass `value`, `defaultValue` and optional `onChange`; domain-specific guards stay in the component.",
+    "whenToUse": "Interactive components that support both controlled and uncontrolled state.",
+    "avoid": [
+      "Using it for state that has no controlled API.",
+      "Putting accessibility or domain-specific close/validation rules inside the generic hook."
+    ],
+    "a11y": "The hook renders no DOM and does not replace component-level accessibility behavior."
+  },
   "useToast": {
     "category": "feedback",
     "base": "base-ui",
@@ -619,7 +743,7 @@
     "category": "navigation",
     "base": "own",
     "renders": "nav with a list of links",
-    "composition": "Pass `page`, `pageCount` and `hrefTemplate` such as `/blog?page={page}`.",
+    "composition": "Pass `page`, `pageCount` and `hrefTemplate` such as `/blog?page={page}`. Use `showPreviousNext={false}` for page numbers only, or `showPageNumbers={false}` with `iconSteps` for icon-only Previous and Next.",
     "whenToUse": "Moving through content split across URLs.",
     "avoid": [
       "Passing a function for the href (it breaks in Server Components).",
@@ -655,13 +779,14 @@
     "category": "typography",
     "base": "own",
     "renders": "server component that highlights with Shiki, wrapped around a client view with an icon-only copy button, optional tabs and a focusable region",
-    "composition": "Pass `code`, optional `language` and `label`. For alternatives such as package managers pass `tabs` ({ label, code }[]) instead of `code`. Use `highlight={false}` for plain text. Never color code by hand; use CodeBlock.",
+    "composition": "Pass `code` and a `language`. `tone` is `default`, `brand`, `success` or `danger`; `highlight={false}` shows plain text; `highlightLines` marks lines from 1; `lineNumbers` shows decorative line numbers. For alternatives, pass `tabs` instead of `code`.",
     "whenToUse": "Showing code or commands the user will copy.",
     "avoid": [
+      "Long documents.",
       "Inline code: use Kbd or a code element.",
-      "Long documents."
+      "Expecting syntax color for unsupported languages."
     ],
-    "a11y": "The code region is focusable and named; the copy result is announced via role status."
+    "a11y": "The code region is focusable with a `label`; line numbers are decorative and the copy result is announced via role status."
   },
   "CodeBlockView": {
     "category": "typography",
@@ -689,18 +814,62 @@
     ],
     "a11y": "Associate it with the control through `htmlFor`. Required state must also be on the control (native or ARIA)."
   },
+  "DescriptionList": {
+    "category": "patterns",
+    "base": "own",
+    "renders": "dl with native dt/dd children",
+    "composition": "Compose `DescriptionListTerm` and `DescriptionListDetails` in alternating pairs. `layout` is `stacked`, `inline` or `horizontal`; `narrow` reduces the horizontal label column.",
+    "whenToUse": "Semantic term/description content such as metadata, settings or record details.",
+    "avoid": [
+      "Using a div-based grid for term/value semantics.",
+      "Putting unrelated content into one list."
+    ],
+    "a11y": "Uses native description-list semantics; keep each term paired with its following description."
+  },
+  "DescriptionListTerm": {
+    "category": "patterns",
+    "base": "own",
+    "renders": "dt",
+    "composition": "Child of `DescriptionList`; accepts native dt props.",
+    "whenToUse": "The name or term in a description list.",
+    "avoid": ["Using it outside a description list."],
+    "a11y": "Native term semantics."
+  },
+  "DescriptionListDetails": {
+    "category": "patterns",
+    "base": "own",
+    "renders": "dd",
+    "composition": "Child of `DescriptionList`; accepts native dd props.",
+    "whenToUse": "The description or value paired with a term.",
+    "avoid": ["Using it outside a description list."],
+    "a11y": "Native description semantics."
+  },
+  "NameValueList": {
+    "category": "patterns",
+    "base": "own",
+    "renders": "dl with generated dt/dd pairs",
+    "composition": "Pass `items` with `label` and `value`, then choose `layout` (`stacked`, `inline` or `horizontal`).",
+    "whenToUse": "Data-driven name/value pairs where a semantic description list is appropriate.",
+    "avoid": [
+      "Using it when each value needs custom structural markup; use DescriptionList directly.",
+      "Using it for tabular data; use Table."
+    ],
+    "a11y": "Renders native description-list semantics for every item."
+  },
   "EmptyState": {
     "category": "feedback",
     "base": "own",
-    "renders": "section with a heading",
-    "composition": "Pass `title` (required), optional `description`, `icon` (generated icon, no `size`), `action` (usually a Button, with `href` for navigation) and `as` for the heading level (h2-h4, default h3).",
-    "whenToUse": "A region that has no content yet, with a next step.",
+    "renders": "section with a labelled heading when `title` is present, otherwise a div",
+    "composition": "Pass required `description`, optional `title`, decorative `illustration`, `actions` (usually one or two Buttons), `size` (`md`, `sm` or `xs`) and `as` for the heading level (`h2`-`h4`, default `h3`).",
+    "whenToUse": "A region without content that needs to explain why it is empty and how to fill it.",
     "avoid": [
-      "Errors and failures: use Alert.",
+      "Using it as a generic illustration component.",
+      "Adding content beyond illustration, title, description and actions.",
+      "Errors or failures: use Alert.",
       "Loading placeholders: use Skeleton.",
-      "Decorating a section that already has content."
+      "More than one primary button."
     ],
-    "a11y": "The title is a real heading and carries the meaning; the icon is decorative. Keep the heading level in order with the page."
+    "a11y": "The illustration is decorative (`aria-hidden`); the description carries the meaning. Vary empty-state text within a page to avoid redundancy for screen readers, and keep it short but meaningful."
   },
   "Sidebar": {
     "category": "navigation",
@@ -719,14 +888,31 @@
     "category": "navigation",
     "base": "base-ui",
     "renders": "div with a button trigger and a region panel",
-    "composition": "Pass `title`, panel `children`, optional `startIcon`/`endIcon` (generated icons, no `size`), open state (`defaultOpen`, `open`, `onOpenChange`) and `disabled`.",
-    "whenToUse": "A single section that expands, such as advanced options or extra details.",
+    "composition": "Pass `title` or a custom `trigger`, panel `children`, optional `startIcon`/`endIcon`, open state (`defaultOpen`, `open`, `onOpenChange`) and `disabled`.",
+    "whenToUse": "A single section that shows or hides content, such as advanced options or extra details.",
     "avoid": [
-      "A set of sections: use Accordion.",
-      "Hiding critical content users must read.",
-      "Navigation between pages."
+      "Several sections that coordinate: use Accordion.",
+      "Content the user must read without interaction."
     ],
-    "a11y": "The trigger is a button with aria-expanded and aria-controls; the panel is its region. Keyboard behavior comes from Base UI."
+    "a11y": "The trigger is a button with aria-expanded and aria-controls; the panel is its region. Keyboard behavior comes from Base UI. The closed panel remains mounted in the DOM, so descendants such as form fields remain in the document and can be submitted by the surrounding form."
+  },
+  "CollapsibleTrigger": {
+    "category": "navigation",
+    "base": "base-ui",
+    "renders": "button with aria-expanded and aria-controls",
+    "composition": "Child of Collapsible. Children are the label; accepts Button props.",
+    "whenToUse": "The button that shows or hides a Collapsible panel.",
+    "avoid": ["Using it outside Collapsible.", "Icon-only without an accessible name."],
+    "a11y": "A real button; expanded state and the controlled region come from Base UI."
+  },
+  "CollapsibleContent": {
+    "category": "navigation",
+    "base": "base-ui",
+    "renders": "div with role region",
+    "composition": "Child of Collapsible. Holds the content that is shown or hidden.",
+    "whenToUse": "The panel of a Collapsible.",
+    "avoid": ["Using it outside Collapsible.", "Hiding content users must read."],
+    "a11y": "Labelled by its trigger. The closed panel stays mounted in the DOM."
   },
   "ToggleGroup": {
     "category": "controls",
@@ -759,7 +945,7 @@
     "category": "overlays",
     "base": "base-ui",
     "renders": "a trigger button; when open, a backdrop and a side panel in a portal",
-    "composition": "Pass `trigger` (button text), `title`, optional `description`, `children`, `footer`, `side` (left or right, default right) and open state. One component, no parts.",
+    "composition": "Pass `trigger` (button text), `title`, optional `description`, `children`, `footer`, `side` (top, right, bottom or left; default right) and open state. One component, no parts. Left and right use a fixed side width and full height; top and bottom span the viewport width and fit their content height. Footer actions fill the available width and stack when there is more than one. The panel slides and fades on enter (from partial opacity, never 0) and on exit.",
     "whenToUse": "Secondary tasks, settings and filters that slide in from an edge.",
     "avoid": [
       "A centered decision: use Modal.",
@@ -772,20 +958,21 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "input role=\"combobox\" with a filterable listbox popup",
-    "composition": "Pass `items` ({ value, label, description?, startIcon?, disabled? }), a `label` or `aria-label`, and optional `placeholder`, `emptyMessage`, `startIcon`, `size` (sm, md, lg) and open/selection state. Inside Field, omit required/readOnly/loading and pass them to Field. Icons are generated icons without `size`.",
-    "whenToUse": "Choosing one option from a long list when typing to filter helps.",
+    "composition": "Pass `items` ({ value, label, description?, group?, startIcon?, disabled? }). `multiple` shows chips. `clearable` shows a button to clear the selection. `icon` is the end icon: omit for the caret, `null` to hide. Label through Field, or `aria-label`.",
+    "whenToUse": "Choosing from a long list where typing to filter helps, or choosing several values.",
     "avoid": [
-      "Fewer than about seven options: use Select.",
-      "Several choices: use Checkbox or a multi-select pattern.",
-      "Free text that is not from the list: use Input."
+      "Short lists or no typing needed: use Select.",
+      "Two or three options: use RadioGroup.",
+      "Binary choices: use Checkbox or Switch.",
+      "Free text with no fixed options: use Input."
     ],
-    "a11y": "Filtering, keyboard navigation and focus come from Base UI. Needs an accessible name from `label`, `aria-label` or Field. The popup is announced with the result count."
+    "a11y": "Enter or Arrow Down opens; Arrow Up/Down navigate; Enter selects; Escape closes; Backspace removes the last chip in multiple mode. Keyboard, filtering and ARIA come from Base UI."
   },
   "Modal": {
     "category": "overlays",
     "base": "base-ui",
     "renders": "no element: it holds the open state and provides the role (Base UI Dialog.Root, or AlertDialog.Root for role=alertdialog)",
-    "composition": "Structure: Modal > ModalTrigger + ModalContent (title, optional tagline/icon/description, body children, actions). Put one to three actions in `actions`: the safe action first and the primary action last. The form lives in the body; a submit button in the footer targets it with the `form` attribute.",
+    "composition": "Structure: Modal > ModalTrigger + ModalContent (title, optional tagline/icon/description, body children, actions). `size` supports xs, sm, md, lg and xl widths; `color` supports neutral, brand, warning and critical and never changes layout. Put one to three actions in `actions`: the safe action first and the primary action last. The form lives in the body; a submit button in the footer targets it with the `form` attribute.",
     "whenToUse": "Interrupting the user for a decision or a focused task.",
     "avoid": [
       "Non-essential information: use inline content, Alert or Tooltip.",

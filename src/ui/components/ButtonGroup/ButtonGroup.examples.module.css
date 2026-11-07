@@ -1,0 +1,9 @@
+.constrained {
+  width: 100%;
+  max-width: var(--container-sm);
+}
+
+.currency {
+  width: 100%;
+  max-width: var(--container-xs);
+}

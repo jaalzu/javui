@@ -27,7 +27,7 @@ export default function Agents() {
         <li>Vertical flow or a row of items: Stack. Never write flex by hand.</li>
         <li>Equal cards, tiles, galleries: Grid with <code>minColumnWidth</code>. No breakpoints needed.</li>
         <li>Layout that changes by screen: responsive objects, mobile-first. <code>direction=&#123;&#123; base: &quot;column&quot;, md: &quot;row&quot; &#125;&#125;</code>, <code>columns=&#123;&#123; base: 1, md: 2, lg: 3 &#125;&#125;</code>. A missing breakpoint inherits the smaller one. Always define <code>base</code> first.</li>
-        <li>Page width and side padding: Container once per page section. Never nest Containers.</li>
+        <li>To limit page width, use <code>max-width</code> with <code>--container-*</code> and center with <code>margin-inline: auto</code>.</li>
         <li>Never use pixel values or arbitrary classes; use the spacing scale keys and the breakpoint names sm, md, lg, xl.</li>
       </ul>
       <Table
@@ -41,19 +41,19 @@ export default function Agents() {
           { intent: "Vertical flow or a row", component: <code>Stack</code>, props: <><code>direction</code>, <code>gap</code></> },
           { intent: "Equal cards, tiles, galleries", component: <code>Grid</code>, props: <><code>minColumnWidth</code>, <code>gap</code></> },
           { intent: "Layout that changes by screen", component: <><code>Stack</code> or <code>Grid</code></>, props: "responsive objects" },
-          { intent: "Page width and side padding", component: <code>Container</code>, props: <><code>size</code>, <code>padding</code></> },
+          { intent: "Page width and side padding", component: <code>div</code>, props: <><code>max-width</code>, <code>margin-inline</code></> },
         ]}
       />
       <p>Page with a sidebar:</p>
       <CodeBlock
         language="tsx"
         label="Page with sidebar"
-        code={`<Container size="xl">
+        code={`<div style={{ maxWidth: "var(--container-xl)", marginInline: "auto" }}>
   <Grid columns={{ base: 1, lg: "16rem 1fr" }} gap="6">
     <Sidebar>...</Sidebar>
     <main>...</main>
   </Grid>
-</Container>`}
+</div>`}
       />
       <p>Card grid:</p>
       <CodeBlock
@@ -116,7 +116,7 @@ export default function Agents() {
       </ul>
 
       <Heading as="h2" size={6}>Overridable defaults</Heading>
-      <p>Every fixed default value for padding, gap or spacing is exposed through a CSS variable, and, where it makes sense, an optional prop. Override the variable on the component instance for a one-off change; use the prop when the component offers one, such as <code>Container</code> <code>padding</code>, <code>Card</code> <code>size</code> or <code>Stack</code> <code>gap</code>. Never hardcode a replacement value when a semantic token or component variable exists.</p>
+      <p>Every fixed default value for padding, gap or spacing is exposed through a CSS variable, and, where it makes sense, an optional prop. Override the variable on the component instance for a one-off change; use the prop when the component offers one, such as <code>Card</code> <code>size</code> or <code>Stack</code> <code>gap</code>. Never hardcode a replacement value when a semantic token or component variable exists.</p>
 
       <Heading as="h2" size={6}>Use the MCP server</Heading>
       <p>Add the server to your MCP client, with the path to your copy of the repository.</p>

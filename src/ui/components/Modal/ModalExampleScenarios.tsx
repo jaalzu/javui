@@ -1,7 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { Button, Field, Input, Modal, ModalClose, ModalContent, ModalTrigger } from "@/ui";
+import {
+  Button,
+  Field,
+  Input,
+  Modal,
+  ModalClose,
+  ModalContent,
+  ModalTrigger,
+  Stack,
+  Text,
+} from "@/ui";
 
 /** A form protected by onBeforeClose: leaving with unsaved changes opens a nested confirmation. */
 export function ModalFormExample() {
@@ -14,6 +24,7 @@ export function ModalFormExample() {
   return (
     <>
       <Modal
+        size="sm"
         open={open}
         onOpenChange={setOpen}
         onBeforeClose={() => {
@@ -25,10 +36,12 @@ export function ModalFormExample() {
         <ModalTrigger variant="secondary">Edit profile</ModalTrigger>
         <ModalContent
           title="Edit profile"
+          closeLabel="Close profile"
+          description="Make changes to your profile here. Click save when you're done."
           actions={
             <>
-              <ModalClose>Cancel</ModalClose>
-              <Button type="submit" form="modal-profile-form">Save changes</Button>
+              <ModalClose variant="ghost">Cancel</ModalClose>
+              <Button size="sm" type="submit" form="modal-profile-form">Save changes</Button>
             </>
           }
         >
@@ -40,13 +53,19 @@ export function ModalFormExample() {
               setOpen(false);
             }}
           >
-            <Field label="Name" description="Shown on your profile.">
-              <Input
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                autoComplete="name"
-              />
-            </Field>
+            <Stack gap="3">
+              <Field label="Name">
+                <Input
+                  size="sm"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  autoComplete="name"
+                />
+              </Field>
+              <Field label="Email">
+                <Input size="sm" type="email" autoComplete="email" defaultValue="ada@example.com" />
+              </Field>
+            </Stack>
           </form>
 
           <Modal
@@ -58,10 +77,12 @@ export function ModalFormExample() {
           >
             <ModalContent
               title="Discard changes?"
+              closeLabel="Close discard confirmation"
               actions={
                 <>
-                  <ModalClose>Keep editing</ModalClose>
+                  <ModalClose variant="ghost">Keep editing</ModalClose>
                   <Button
+                    size="sm"
                     variant="danger"
                     onClick={() => {
                       setName(savedName);
@@ -82,59 +103,30 @@ export function ModalFormExample() {
     </>
   );
 }
-
-/** A parent modal that opens a confirmation modal on top of itself. */
-export function ModalNestedExample() {
-  const [open, setOpen] = useState(false);
-  const [confirmOpen, setConfirmOpen] = useState(false);
-
+/** A long body that keeps the modal footer visible while the terms scroll. */
+export function ModalTermsExample() {
   return (
-    <>
-      <Modal open={open} onOpenChange={setOpen}>
-        <ModalTrigger variant="secondary">Project settings</ModalTrigger>
-        <ModalContent
-          title="Project settings"
-          tagline="Danger zone"
-          actions={
-            <>
-              <ModalClose>Close</ModalClose>
-              <Button variant="danger" onClick={() => setConfirmOpen(true)}>
-                Delete project
-              </Button>
-            </>
-          }
-        >
-          Deleting the project also removes its members and data.
-
-          <Modal
-            role="alertdialog"
-            color="critical"
-            open={confirmOpen}
-            onOpenChange={setConfirmOpen}
-            description="This permanently removes the project and its data. This cannot be undone."
-          >
-            <ModalContent
-              title="Delete project?"
-              actions={
-                <>
-                  <ModalClose>Cancel</ModalClose>
-                  <Button
-                    variant="danger"
-                    onClick={() => {
-                      setConfirmOpen(false);
-                      setOpen(false);
-                    }}
-                  >
-                    Delete
-                  </Button>
-                </>
-              }
-            >
-              Every member loses access immediately.
-            </ModalContent>
-          </Modal>
-        </ModalContent>
-      </Modal>
-    </>
+    <Modal size="sm">
+      <ModalTrigger variant="secondary">View conditions and terms</ModalTrigger>
+      <ModalContent
+        title="Conditions and terms"
+        closeLabel="Close terms"
+        description="Please review the terms before continuing."
+        actions={<ModalClose>Close terms</ModalClose>}
+      >
+        <Stack gap="4">
+          {Array.from({ length: 10 }, (_, index) => (
+            <section key={index}>
+              <Text weight="medium">{index + 1}. General conditions</Text>
+              <Text size="sm" tone="muted">
+                By continuing, you agree to use the service responsibly and to keep your account
+                information accurate. These conditions explain how access, content and support are
+                handled.
+              </Text>
+            </section>
+          ))}
+        </Stack>
+      </ModalContent>
+    </Modal>
   );
 }

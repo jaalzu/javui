@@ -6,7 +6,6 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  Container,
   Grid,
   Heading,
   Stack,
@@ -25,6 +24,9 @@ export const metadata: Metadata = {
   title: "Layout playground",
   robots: { index: false, follow: false },
 };
+
+// The live playground reads `searchParams` for its embed and case views; keep it as a blocking route.
+export const instant = false;
 
 type Expected = Partial<Record<BreakpointName, string>> & { base: string };
 
@@ -188,7 +190,7 @@ export default async function LayoutPlaygroundPage({
       {show(8) && (
         <Case
           n={8}
-          title="Container sizes sm, md, lg, xl"
+          title="Page widths sm, md, lg, xl"
           expected={{
             base: "all fit the viewport",
             md: "sm and md are narrower",
@@ -198,9 +200,9 @@ export default async function LayoutPlaygroundPage({
         >
           <Stack gap="2">
             {(["sm", "md", "lg", "xl"] as const).map((size) => (
-              <Container key={size} size={size} className={styles.visibleContainer} data-case-container={size}>
+              <div key={size} className={styles.visibleRegion} data-case-container={size}>
                 <Text size="sm">{size} container</Text>
-              </Container>
+              </div>
             ))}
           </Stack>
         </Case>
@@ -209,16 +211,16 @@ export default async function LayoutPlaygroundPage({
       {show(9) && (
         <Case
           n={9}
-          title='Container padding="0" next to the default'
+          title='Page width padding="0" next to the default'
           expected={{ base: "default inset, zero inset" }}
         >
           <Stack gap="3">
-            <Container size="sm" className={styles.visibleContainer} data-case-container="padding-default">
+            <div className={styles.visibleRegion} data-case-container="padding-default">
               <Text size="sm">Default padding (space 6)</Text>
-            </Container>
-            <Container size="sm" padding="0" className={styles.visibleContainer} data-case-container="padding-0">
+            </div>
+            <div className={styles.visibleRegion} data-case-container="padding-0">
               <Text size="sm">padding=&quot;0&quot;</Text>
-            </Container>
+            </div>
           </Stack>
         </Case>
       )}
@@ -226,13 +228,13 @@ export default async function LayoutPlaygroundPage({
       {show(10) && (
         <Case
           n={10}
-          title="Full-width section with a Container inside"
+          title="Full-width section with a centered inner region"
           expected={{ base: "section background spans the example", lg: "content clamps at sm" }}
         >
           <section className={styles.fullWidthSection} data-case-section="10">
-            <Container size="sm">
+            <div className={styles.pageWidthSm}>
               <Box n="container" tone="brand" />
-            </Container>
+            </div>
           </section>
         </Case>
       )}
@@ -358,17 +360,17 @@ export default async function LayoutPlaygroundPage({
       {show(15) && (
         <Case
           n={15}
-          title="Grid inside Stack inside Container"
+          title="Grid inside Stack inside a page-width region"
           expected={{ base: "1 column, no overflow", sm: "3 columns, no overflow" }}
         >
-          <Container size="md" className={styles.nestedContainer} data-case-container="nested">
+          <div className={styles.nestedRegion} data-case-container="nested">
             <Stack gap="3" data-case-stack="15">
               <Grid columns={{ base: 1, sm: 3 }} gap="2" data-case-grid="15">
                 <Boxes count={9} />
               </Grid>
               <Box n="Below the grid" tone="positive" />
             </Stack>
-          </Container>
+          </div>
         </Case>
       )}
 
@@ -404,27 +406,27 @@ export default async function LayoutPlaygroundPage({
   if (isEmbed) {
     return (
       <BreakpointProvider>
-        <Container size="xl" className={styles.embedPage}>
+        <div className={styles.embedPage}>
           <LiveIndicator />
           {cases}
-        </Container>
+        </div>
       </BreakpointProvider>
     );
   }
 
   return (
-    <Container size="xl" className={styles.page}>
+    <div className={styles.page}>
       <Stack gap="3">
         <Heading as="h1" size={2}>
           Layout playground
         </Heading>
         <Text tone="muted">
-          Internal page to verify the responsive Stack, Grid and Container. Not part of the public docs.
+          Internal page to verify the responsive Stack and Grid. Not part of the public docs.
         </Text>
         <Legend />
         <LayoutPlayground />
         {cases}
       </Stack>
-    </Container>
+    </div>
   );
 }

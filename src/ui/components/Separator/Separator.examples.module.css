@@ -1,0 +1,3 @@
+.list {
+  min-inline-size: calc(var(--space-16) * 5);
+}

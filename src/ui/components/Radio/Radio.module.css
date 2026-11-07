@@ -16,6 +16,13 @@
   letter-spacing: var(--text-label-tracking);
 }
 
+.groupDescription {
+  margin-block: calc(var(--space-1) * -1) var(--space-2);
+  color: var(--color-secondary-foreground);
+  font-size: var(--text-body-sm-size);
+  line-height: var(--text-body-sm-line);
+}
+
 .options {
   display: flex;
   flex-direction: column;
@@ -40,6 +47,38 @@
   cursor: pointer;
 }
 
+.label:not(.card) .radio {
+  margin-block-start: calc(
+    (var(--text-body-size) * var(--text-body-line) - var(--size-icon-md)) / 2
+  );
+}
+
+.card {
+  align-items: center;
+  min-width: var(--container-xs);
+  padding: var(--space-4);
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  background: transparent;
+}
+
+.card:hover {
+  background: var(--color-component-hover-subtle);
+}
+
+.card .text {
+  flex: 1;
+}
+
+.card .radio {
+  margin-block-start: 0;
+}
+
+.card:has(.radio[data-checked]) {
+  border-color: var(--color-border-strong);
+  background: var(--color-highlight);
+}
+
 .radio {
   composes: touchTarget from "../../styles/touchTarget.module.css";
   box-sizing: border-box;
@@ -47,9 +86,9 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 1.25rem;
-  height: 1.25rem;
-  margin: var(--space-1) 0 0;
+  width: calc(var(--size-icon-md) - (var(--border-width-thin) * 2));
+  height: calc(var(--size-icon-md) - (var(--border-width-thin) * 2));
+  margin-block-start: 0;
   padding: 0;
   border: var(--border-width-thin) solid var(--color-border-strong);
   border-radius: var(--radius-full);
@@ -61,12 +100,16 @@
 }
 
 .radio:hover:not([data-disabled]):not([data-readonly]):not([data-loading]),
-.radio[data-force="hover"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
+.radio[data-force="hover"]:not([data-disabled]):not([data-readonly]):not(
+    [data-loading]
+  ) {
   background: var(--color-component-hover);
 }
 
 .radio:active:not([data-disabled]):not([data-readonly]):not([data-loading]),
-.radio[data-force="active"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
+.radio[data-force="active"]:not([data-disabled]):not([data-readonly]):not(
+    [data-loading]
+  ) {
   background: var(--color-component-active);
 }
 
@@ -77,20 +120,28 @@
 }
 
 .radio[data-checked] {
-  border-color: var(--color-inverted-solid);
-  background: var(--color-inverted-solid);
+  border-color: var(--color-brand-solid);
+  background: var(--color-brand-solid);
 }
 
-.radio[data-checked]:hover:not([data-disabled]):not([data-readonly]):not([data-loading]),
-.radio[data-checked][data-force="hover"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
-  border-color: var(--color-inverted-solid-hover);
-  background: var(--color-inverted-solid-hover);
+.radio[data-checked]:hover:not([data-disabled]):not([data-readonly]):not(
+    [data-loading]
+  ),
+.radio[data-checked][data-force="hover"]:not([data-disabled]):not(
+    [data-readonly]
+  ):not([data-loading]) {
+  border-color: var(--color-brand-solid-hover);
+  background: var(--color-brand-solid-hover);
 }
 
-.radio[data-checked]:active:not([data-disabled]):not([data-readonly]):not([data-loading]),
-.radio[data-checked][data-force="active"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
-  border-color: var(--color-inverted-solid-active);
-  background: var(--color-inverted-solid-active);
+.radio[data-checked]:active:not([data-disabled]):not([data-readonly]):not(
+    [data-loading]
+  ),
+.radio[data-checked][data-force="active"]:not([data-disabled]):not(
+    [data-readonly]
+  ):not([data-loading]) {
+  border-color: var(--color-brand-solid);
+  background: var(--color-brand-solid);
 }
 
 .radio[data-readonly]:not([data-checked]),
@@ -107,8 +158,17 @@
 }
 
 .radio[data-invalid],
-.group[data-invalid] .radio {
+.group.invalid .radio,
+.group[data-invalid] .radio,
+.group:has([aria-invalid="true"]) .radio {
   border-color: var(--color-danger-border-default);
+  border-width: var(--border-width-thick);
+}
+
+.group.invalid .text,
+.group[data-invalid] .text,
+.group:has([aria-invalid="true"]) .text {
+  color: var(--color-danger-foreground);
 }
 
 .radio[data-disabled] {
@@ -121,7 +181,7 @@
   width: 0.5rem;
   height: 0.5rem;
   border-radius: var(--radius-full);
-  background: var(--color-on-inverted-foreground);
+  background: var(--color-on-brand-solid-foreground);
 }
 
 .radio[data-disabled] .indicator {
@@ -134,6 +194,21 @@
 
 .text {
   min-width: 0;
+}
+
+.optionLabel,
+.optionDescription {
+  display: block;
+}
+
+.optionLabel {
+  font-weight: var(--text-label-weight);
+}
+
+.optionDescription {
+  color: var(--color-secondary-foreground);
+  font-size: var(--text-body-sm-size);
+  line-height: var(--text-body-sm-line);
 }
 
 .label:has([data-disabled]) {

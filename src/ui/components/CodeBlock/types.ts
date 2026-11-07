@@ -13,7 +13,7 @@ export type CodeBlockProps = {
   code?: string;
   /** Alternative versions of the same code, usually one command per package manager. The first tab is selected first. */
   tabs?: CodeTab[];
-  /** Language name. `bash`, `sh` and `shell` show a small terminal icon instead of the word. */
+  /** Language name: bash, css, diff, html, json, ts or tsx; aliases include sh, shell, zsh, js, javascript and jsx. */
   language?: string;
   /** Accessible name of the scrollable code region. @default "Code" */
   label?: string;
@@ -27,4 +27,8 @@ export type CodeBlockProps = {
    * rendered. The same lines apply to every tab. @default undefined
    */
   highlightLines?: number[];
+  /** Show decorative, non-copyable line numbers. @default false */
+  lineNumbers?: boolean;
+  /** Render only the code with a copy action overlaid at the trailing edge. @default false */
+  minimal?: boolean;
 };

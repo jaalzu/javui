@@ -1,0 +1,80 @@
+.control {
+  --control-h: var(--size-control-md);
+  --control-icon: var(--size-icon-md);
+  --control-gap: var(--icon-gap-md);
+  --control-px: var(--space-3);
+  --control-fs: var(--text-label-size);
+  min-height: var(--control-h);
+  padding-inline: var(--control-px);
+  font-size: var(--control-fs);
+  box-shadow: var(--shadow-control);
+  background: var(--color-control);
+  transition: background var(--motion-fast) var(--motion-standard), color var(--motion-fast) var(--motion-standard), box-shadow var(--motion-fast) var(--motion-standard);
+}
+
+.control:hover:not(:disabled):not([aria-disabled="true"]) {
+  background: var(--color-control-hover);
+}
+
+.control:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.control[aria-invalid="true"] {
+  border-color: var(--color-danger-border-default);
+}
+
+.control:disabled,
+.control[aria-disabled="true"] {
+  color: var(--color-disabled-foreground);
+  background: var(--color-disabled);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.control[readonly] {
+  background: var(--color-sunken);
+}
+
+.control[data-loading="true"] {
+  cursor: progress;
+}
+
+.xs {
+  --control-h: var(--size-control-xs);
+  --control-icon: var(--size-icon-xs);
+  --control-gap: var(--icon-gap-xs);
+  --control-px: var(--space-2);
+  --control-fs: var(--text-caption-size);
+}
+
+.sm {
+  --control-h: var(--size-control-sm);
+  --control-icon: var(--size-icon-sm);
+  --control-gap: var(--icon-gap-sm);
+  --control-px: var(--space-2);
+  --control-fs: var(--text-label-size);
+}
+
+.md {
+  --control-h: var(--size-control-md);
+  --control-icon: var(--size-icon-md);
+  --control-gap: var(--icon-gap-md);
+  --control-px: var(--space-3);
+  --control-fs: var(--text-label-size);
+}
+
+.lg {
+  --control-h: var(--size-control-lg);
+  --control-icon: var(--size-icon-lg);
+  --control-gap: var(--icon-gap-lg);
+  --control-px: var(--space-4);
+  --control-fs: var(--text-body-size);
+}
+
+@media (max-width: 40rem) {
+  .control {
+    font-size: max(1rem, var(--control-fs));
+  }
+}

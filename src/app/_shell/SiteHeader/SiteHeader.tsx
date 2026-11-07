@@ -1,7 +1,12 @@
-import { Button, Link } from "@/ui";
+import { Button, Link, Separator } from "@/ui";
 import {
   componentLinks,
   componentsIndex,
+  foundationSections,
+  generalSections,
+  generalSectionsEnd,
+  layoutComponentLinks,
+  layoutSections,
   providerLinks,
   sections,
 } from "@/app/docs/_layout/nav";
@@ -35,6 +40,11 @@ const githubMark = (
 
 const searchItems: SearchItem[] = [
   ...sections.map((s) => ({ href: s.href, label: s.label, group: "Docs" })),
+  ...layoutComponentLinks.map((c) => ({
+    href: c.href,
+    label: c.label,
+    group: "Layout or utility",
+  })),
   ...componentLinks.map((c) => ({
     href: c.href,
     label: c.label,
@@ -57,7 +67,9 @@ export function SiteHeader() {
         { href: repoUrl, label: "GitHub" },
       ],
     },
-    { title: "Sections", links: sections },
+    { title: "Getting started", links: generalSections },
+    { title: "Foundations", links: [{ href: "/docs/foundations", label: "Foundations" }, ...foundationSections] },
+    { title: "Layout & Utilities", links: [{ href: "/docs/layout-utilities", label: "Layout & Utilities" }, ...layoutSections, ...layoutComponentLinks] },
     {
       title: "Components",
       links: [
@@ -65,6 +77,7 @@ export function SiteHeader() {
         ...componentLinks,
       ],
     },
+    { title: "More", links: generalSectionsEnd },
     { title: "Providers and hooks", links: providerLinks },
   ];
   return (
@@ -100,7 +113,9 @@ export function SiteHeader() {
           </nav>
           <div className={styles.actions}>
             <Search items={searchItems} />
-            <span className={styles.divider} aria-hidden="true" />
+            <div className={styles.divider}>
+              <Separator orientation="vertical" />
+            </div>
             <Button
               href={repoUrl}
               variant="ghost"
@@ -111,7 +126,9 @@ export function SiteHeader() {
               target="_blank"
               rel="noopener noreferrer"
             />
-            <span className={styles.divider} aria-hidden="true" />
+            <div className={styles.divider}>
+              <Separator orientation="vertical" />
+            </div>
             <ThemeSwitcher />
           </div>
         </div>

@@ -12,6 +12,8 @@ export type AlertProps = {
   tone?: AlertTone;
   /** Short heading of the message. */
   title?: ReactNode;
+  /** A button at the end of the alert, aligned with the title. Reserves space on the right for a `Button size="xs"`; for longer labels or several actions, put them in the content. Use it with `title`, not with `endIcon`. */
+  action?: ReactNode;
   /** Replaces the tone icon at the start. Pass a generated icon without `size`. */
   startIcon?: ReactNode;
   /** Icon at the end, for example a link arrow. Pass a generated icon without `size`. */
@@ -37,11 +39,17 @@ const glyph = {
  * @example
  * <Alert tone="error" title="Payment failed">Check your card details and try again.</Alert>
  *
+ * @example
+ * <Alert tone="warning" title="Storage almost full" action={<Button size="xs">Upgrade</Button>}>
+ *   You have used 90% of your plan.
+ * </Alert>
+ *
  * Icons use the 20px medium size (the alert has no size variants).
  */
 export function Alert({
   tone = "neutral",
   title,
+  action,
   startIcon,
   endIcon,
   className,
@@ -56,6 +64,7 @@ export function Alert({
       role={role}
       className={cx(styles.alert, styles[tone], className)}
       data-icon={position}
+      data-action={action ? "" : undefined}
       {...rest}
     >
       <IconSlot className={styles.icon}>{startIcon ?? <Glyph />}</IconSlot>
@@ -64,6 +73,7 @@ export function Alert({
         {children ? <div className={styles.text}>{children}</div> : null}
       </div>
       <IconSlot className={styles.endIcon}>{endIcon}</IconSlot>
+      {action ? <div className={styles.action}>{action}</div> : null}
     </div>
   );
 }

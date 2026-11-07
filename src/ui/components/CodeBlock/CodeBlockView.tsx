@@ -41,6 +41,8 @@ export function CodeBlockView({
   html,
   tabHtml,
   highlightLines,
+  lineNumbers = false,
+  minimal = false,
 }: CodeBlockViewProps) {
   const [copied, setCopied] = useState(false);
   const [active, setActive] = useState(tabs?.[0]?.label ?? "");
@@ -62,7 +64,7 @@ export function CodeBlockView({
   }
 
   const lead = language && terminalLanguages.has(language) ? (
-    <TerminalWindowIcon size="sm" className={styles.lead} />
+    <TerminalWindowIcon size="md" className={styles.lead} />
   ) : (
     <span className={styles.language}>{language ?? ""}</span>
   );
@@ -85,35 +87,39 @@ export function CodeBlockView({
           className={styles.highlight}
           dangerouslySetInnerHTML={{ __html: markLines(highlighted, highlightLines) }}
         />
-      ) : highlightLines?.length ? (
+      ) : (
         <pre className={styles.pre}>
           <code>
             {text.split("\n").map((line, i) => (
               <span
                 key={i}
                 className={styles.line}
-                data-highlight={highlightLines.includes(i + 1) ? "" : undefined}
+                data-highlight={highlightLines?.includes(i + 1) ? "" : undefined}
               >
                 {line}
               </span>
             ))}
           </code>
         </pre>
-      ) : (
-        <pre className={styles.pre}>
-          <code>{text}</code>
-        </pre>
       )}
     </div>
   );
 
   if (!tabs?.length) {
-    return (
-      <div className={cx(styles.root, className)} data-tone={tone}>
-        <div className={styles.bar}>
-          {lead}
-          {copyButton}
+    if (minimal) {
+      return (
+        <div className={cx(styles.root, className)} data-tone={tone} data-line-numbers={lineNumbers ? "" : undefined} data-minimal="">
+          <div className={styles.minimalRow}>
+            {region(code, label, html)}
+            {copyButton}
+          </div>
         </div>
+      );
+    }
+
+    return (
+      <div className={cx(styles.root, className)} data-tone={tone} data-line-numbers={lineNumbers ? "" : undefined}>
+        <div className={styles.bar}>{lead}{copyButton}</div>
         {region(code, label, html)}
       </div>
     );
@@ -123,6 +129,9 @@ export function CodeBlockView({
     <BaseTabs.Root
       className={cx(styles.root, className)}
       data-tone={tone}
+      data-line-numbers={lineNumbers ? "" : undefined}
+      data-minimal={minimal ? "" : undefined}
+      data-tabs=""
       value={active}
       onValueChange={(v) => setActive(String(v))}
     >

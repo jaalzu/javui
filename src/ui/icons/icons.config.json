@@ -13,6 +13,7 @@
   "minus",
   "warning",
   "info",
+  "eye",
   "check-circle",
   "x-circle",
   "magnifying-glass",
@@ -27,6 +28,8 @@
   "sun",
   "moon",
   "circle",
+  "github-logo",
+  "facebook-logo",
   "terminal-window",
   "chart-line",
   "chart-line-up",
@@ -41,5 +44,22 @@
   "floppy-disk",
   "skip-forward",
   "sparkle",
+  "star",
   "prohibit"
+  ,"house"
+  ,"user-circle"
+  ,"pulse"
+  ,"shield-check"
+  ,"sliders"
+  ,"question"
+  ,"book-open"
+  ,"lifebuoy"
+  ,"archive"
+  ,"file-pdf"
+  ,"file-csv"
+  ,"layout"
+  ,"sidebar"
+  ,"arrow-u-up-left"
+  ,"sign-out"
+  ,"export"
 ]

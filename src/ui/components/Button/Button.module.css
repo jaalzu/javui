@@ -85,9 +85,6 @@
   opacity: 1;
 }
 
-.primary {
-}
-
 .secondary {
   --btn-bg: var(--color-component);
   --btn-fg: var(--color-primary-foreground);
@@ -115,6 +112,7 @@
 }
 
 .xs {
+  composes: xs from "../../styles/control.module.css";
   --btn-px: var(--space-2);
   --btn-gap: var(--icon-gap-xs);
   --btn-icon: var(--size-icon-xs);
@@ -123,6 +121,7 @@
 }
 
 .sm {
+  composes: sm from "../../styles/control.module.css";
   --btn-px: var(--space-3);
   --btn-gap: var(--icon-gap-sm);
   --btn-icon: var(--size-icon-sm);
@@ -131,12 +130,14 @@
 }
 
 .md {
+  composes: md from "../../styles/control.module.css";
   --btn-gap: var(--icon-gap-md);
   --btn-icon: var(--size-icon-md);
   height: var(--size-control-md);
 }
 
 .lg {
+  composes: lg from "../../styles/control.module.css";
   --btn-px: var(--space-6);
   --btn-gap: var(--icon-gap-lg);
   --btn-icon: var(--size-icon-lg);

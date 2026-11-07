@@ -4,23 +4,27 @@ import { describe, expect, it } from "vitest";
 import { Container } from "./Container";
 
 describe("Container", () => {
-  it("limits width with the size token", () => {
-    render(<Container data-testid="c" size="md">x</Container>);
-    expect(screen.getByTestId("c").style.getPropertyValue("--container-max")).toBe("var(--container-md)");
+  it("sets a token-based max width and gutter", () => {
+    render(<Container data-testid="container">Content</Container>);
+    const element = screen.getByTestId("container");
+    expect(element.style.getPropertyValue("--container-max-width")).toBe("var(--container-xl)");
+    expect(element.style.getPropertyValue("--container-gutter")).toBe("var(--space-4)");
   });
 
-  it("sets the padding variable only when padding is passed", () => {
-    render(<Container data-testid="c" padding="4">x</Container>);
-    expect(screen.getByTestId("c").style.getPropertyValue("--container-padding")).toBe("var(--space-4)");
-  });
-
-  it("renders main as a landmark", () => {
-    render(<Container as="main">x</Container>);
-    expect(screen.getByRole("main")).toBeInTheDocument();
+  it("supports responsive size and gutter", () => {
+    render(
+      <Container data-testid="container" size={{ base: "sm", lg: "lg" }} gutter={{ base: "4", md: "8" }}>
+        Content
+      </Container>,
+    );
+    const element = screen.getByTestId("container");
+    expect(element.style.getPropertyValue("--container-max-width")).toBe("var(--container-sm)");
+    expect(element.style.getPropertyValue("--container-max-width-lg")).toBe("var(--container-lg)");
+    expect(element.style.getPropertyValue("--container-gutter-md")).toBe("var(--space-8)");
   });
 
   it("has no accessibility violations", async () => {
-    const { container } = render(<Container as="main">x</Container>);
+    const { container } = render(<Container as="main">Content</Container>);
     expect(await axe(container)).toHaveNoViolations();
   });
 });

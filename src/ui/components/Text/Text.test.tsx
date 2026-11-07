@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { axe } from "vitest-axe";
 import { describe, expect, it } from "vitest";
 import { Text } from "./Text";
+import styles from "./Text.module.css";
 
 describe("Text", () => {
   it("renders a paragraph by default", () => {
@@ -46,6 +47,11 @@ describe("Text", () => {
     expect(el).toHaveAttribute("lang", "es");
     expect(el).toHaveClass("extra");
     expect(node).toBe(el);
+  });
+
+  it("applies opt-in text overflow utilities", () => {
+    render(<Text truncate lineClamp={3} hyphenate>Long text</Text>);
+    expect(screen.getByText("Long text")).toHaveClass(styles.truncate, styles["line-clamp-3"], styles.hyphenate);
   });
 
   it("has no accessibility violations", async () => {

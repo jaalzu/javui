@@ -42,8 +42,8 @@
     top: 5rem;
     align-self: start;
     display: flex;
-    height: calc(100vh - 9rem);
-    max-height: 42rem;
+    height: calc(100vh - 7rem);
+    max-height: 48rem;
   }
   /* The fading divider: a line that is not drawn at its ends. */
   .side::after {
@@ -81,20 +81,20 @@
   flex: 1;
   min-width: 0;
   overflow-y: auto;
-  padding: calc(var(--space-8) + var(--space-2)) var(--space-4) var(--space-8) 0;
+  padding: calc(var(--space-8) + var(--space-2)) var(--space-4) var(--space-4) 0;
   scrollbar-width: none;
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0,
     #000 var(--space-8),
-    #000 calc(100% - var(--space-8)),
+    #000 calc(100% - var(--space-4)),
     transparent 100%
   );
   mask-image: linear-gradient(
     to bottom,
     transparent 0,
     #000 var(--space-8),
-    #000 calc(100% - var(--space-8)),
+    #000 calc(100% - var(--space-4)),
     transparent 100%
   );
 }
@@ -103,9 +103,29 @@
   display: none;
 }
 
+.sideDisclosure {
+  margin: 0;
+}
 
-.sideGroup + .sideGroup {
-  margin-top: var(--space-8);
+a.sideLink.sideDisclosureTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sideDisclosureTrigger svg {
+  color: var(--color-tertiary-foreground);
+  transition: transform var(--motion-duration-fast) var(--motion-easing-standard);
+}
+
+.sideDisclosureTrigger[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+.sideDisclosureList {
+  gap: 0;
 }
 
 .sideTitle {
@@ -115,6 +135,10 @@
   font-weight: var(--font-weight-regular);
 }
 
+.sideTitleSpaced {
+  margin-top: var(--space-8);
+}
+
 .sideList {
   display: flex;
   flex-direction: column;
@@ -122,6 +146,10 @@
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+ul.sideList.sideDisclosureList {
+  padding-inline-start: var(--space-4);
 }
 
 a.sideLink {

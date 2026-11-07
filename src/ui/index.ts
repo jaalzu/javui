@@ -1,10 +1,10 @@
 // Public API of the library. Import everything from here.
 
-// Typography and content
+// Typography and content primitives
 export { Text } from "./components/Text";
 export type { TextProps, TextElement, TextVariant, TextSize, TextWeight, TextTone } from "./components/Text";
-export { Heading } from "./components/Heading";
-export type { HeadingProps, HeadingElement, HeadingSize } from "./components/Heading";
+export { Heading } from "./typography/Heading";
+export type { HeadingProps, HeadingElement, HeadingSize } from "./typography/Heading";
 export { Link } from "./components/Link";
 export type { LinkProps } from "./components/Link";
 export { Kbd } from "./components/Kbd";
@@ -12,13 +12,32 @@ export type { KbdProps } from "./components/Kbd";
 export { Badge } from "./components/Badge";
 export type { BadgeProps, BadgeVariant, BadgeSize, BadgeShape } from "./components/Badge";
 
+// Semantic patterns and data-display utilities
+export {
+  DescriptionList,
+  DescriptionListDetails,
+  DescriptionListTerm,
+} from "./components/DescriptionList";
+export type {
+  DescriptionListDetailsProps,
+  DescriptionListLayout,
+  DescriptionListProps,
+  DescriptionListTermProps,
+} from "./components/DescriptionList";
+export { NameValueList } from "./components/NameValueList";
+export type { NameValueItem, NameValueListProps } from "./components/NameValueList";
+
 // Layout
 export { Stack } from "./components/Stack";
 export type { StackProps } from "./components/Stack";
 export { Grid } from "./components/Grid";
 export type { GridProps } from "./components/Grid";
 export { Container } from "./components/Container";
-export type { ContainerProps } from "./components/Container";
+export type { ContainerProps, ContainerSize } from "./components/Container";
+export { Box } from "./components/Box";
+export type { BoxProps, BoxSize, BoxSurface } from "./components/Box";
+export { useControllableState } from "./hooks/useControllableState";
+export type { UseControllableStateOptions } from "./hooks/useControllableState";
 export { AspectRatio } from "./components/AspectRatio";
 export type { AspectRatioProps, AspectRatioElement } from "./components/AspectRatio";
 
@@ -45,13 +64,31 @@ export type {
   ButtonGroupTextProps,
 } from "./components/ButtonGroup";
 export { Field } from "./components/Field";
-export type { FieldProps } from "./components/Field";
+export { FieldSet, FieldSeparator } from "./components/Field";
+export type { FieldProps, FieldSetProps } from "./components/Field";
+export { Separator } from "./components/Separator";
+export type { SeparatorProps } from "./components/Separator";
 export { Input } from "./components/Input";
 export type { InputProps } from "./components/Input";
+export { InputOTP } from "./components/InputOTP";
+export type { InputOTPProps } from "./components/InputOTP";
+export {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  InputGroupText,
+} from "./components/InputGroup";
+export type {
+  InputGroupAddonProps,
+  InputGroupButtonProps,
+  InputGroupInputProps,
+  InputGroupProps,
+} from "./components/InputGroup";
 export { Textarea } from "./components/Textarea";
 export type { TextareaProps } from "./components/Textarea";
-export { Checkbox } from "./components/Checkbox";
-export type { CheckboxProps } from "./components/Checkbox";
+export { Checkbox, CheckboxGroup } from "./components/Checkbox";
+export type { CheckboxProps, CheckboxGroupProps } from "./components/Checkbox";
 export { Radio, RadioGroup } from "./components/Radio";
 export type { RadioProps, RadioGroupProps } from "./components/Radio";
 export { Switch } from "./components/Switch";
@@ -131,8 +168,8 @@ export { EmptyState } from "./components/EmptyState";
 export type { EmptyStateProps } from "./components/EmptyState";
 export { Sidebar } from "./components/Sidebar";
 export type { SidebarProps, SidebarItem } from "./components/Sidebar";
-export { Collapsible } from "./components/Collapsible";
-export type { CollapsibleProps } from "./components/Collapsible";
+export { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./components/Collapsible";
+export type { CollapsibleContentProps, CollapsibleProps, CollapsibleTriggerProps } from "./components/Collapsible";
 export { ToggleGroup } from "./components/ToggleGroup";
 export type { ToggleGroupProps, ToggleGroupItem } from "./components/ToggleGroup";
 export { ScrollArea } from "./components/ScrollArea";

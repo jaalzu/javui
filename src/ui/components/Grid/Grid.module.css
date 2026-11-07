@@ -6,6 +6,7 @@
     gap: var(--grid-row-gap, var(--grid-gap, var(--space-4)))
       var(--grid-column-gap, var(--grid-gap, var(--space-4)));
     align-items: var(--grid-align, stretch);
+    justify-items: var(--grid-justify, stretch);
   }
 
   @media (min-width: 40rem) {
@@ -13,6 +14,8 @@
       grid-template-columns: var(--grid-columns-sm, var(--grid-columns, minmax(0, 1fr)));
       gap: var(--grid-row-gap, var(--grid-gap-sm, var(--grid-gap, var(--space-4))))
         var(--grid-column-gap, var(--grid-gap-sm, var(--grid-gap, var(--space-4))));
+      align-items: var(--grid-align-sm, var(--grid-align, stretch));
+      justify-items: var(--grid-justify-sm, var(--grid-justify, stretch));
     }
   }
 
@@ -24,6 +27,8 @@
       );
       gap: var(--grid-row-gap, var(--grid-gap-md, var(--grid-gap-sm, var(--grid-gap, var(--space-4)))))
         var(--grid-column-gap, var(--grid-gap-md, var(--grid-gap-sm, var(--grid-gap, var(--space-4)))));
+      align-items: var(--grid-align-md, var(--grid-align-sm, var(--grid-align, stretch)));
+      justify-items: var(--grid-justify-md, var(--grid-justify-sm, var(--grid-justify, stretch)));
     }
   }
 
@@ -41,6 +46,8 @@
           --grid-column-gap,
           var(--grid-gap-lg, var(--grid-gap-md, var(--grid-gap-sm, var(--grid-gap, var(--space-4)))))
         );
+      align-items: var(--grid-align-lg, var(--grid-align-md, var(--grid-align-sm, var(--grid-align, stretch))));
+      justify-items: var(--grid-justify-lg, var(--grid-justify-md, var(--grid-justify-sm, var(--grid-justify, stretch))));
     }
   }
 
@@ -67,6 +74,8 @@
             var(--grid-gap-lg, var(--grid-gap-md, var(--grid-gap-sm, var(--grid-gap, var(--space-4)))))
           )
         );
+      align-items: var(--grid-align-xl, var(--grid-align-lg, var(--grid-align-md, var(--grid-align-sm, var(--grid-align, stretch)))));
+      justify-items: var(--grid-justify-xl, var(--grid-justify-lg, var(--grid-justify-md, var(--grid-justify-sm, var(--grid-justify, stretch)))));
     }
   }
 

@@ -7,10 +7,13 @@ import { IconSlot, getIconSlots } from "../Icon/IconSlot";
 import { Spinner } from "../Spinner";
 import { useFieldControlState } from "../Field/FieldContext";
 import styles from "./Input.module.css";
+import { useButtonGroupSize } from "../ButtonGroup/ButtonGroupContext";
 
 export type InputProps = {
-  /** Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. @default "md" */
-  size?: "sm" | "md" | "lg";
+  /** Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. @default "md" */
+  size?: "xs" | "sm" | "md" | "lg";
+  /** Visual treatment: `ghost` removes the resting chrome for low-emphasis fields. @default "default" */
+  variant?: "default" | "ghost";
   /** Icon before the text. Pass a generated icon without `size`; the input sizes it. */
   startIcon?: ReactNode;
   /** Icon after the text. Pass a generated icon without `size`; the input sizes it. */
@@ -27,7 +30,9 @@ export type InputProps = {
  * A native text input built on Base UI Input. Inside `Field` it is labelled and wired to its
  * description and error automatically, and it inherits `required`, `readOnly` and `loading`.
  * Outside `Field` it needs an accessible name (`aria-label` or an associated `label`).
- * Icons follow the control size: sm 16px, md 20px, lg 24px.
+ * Icons follow the control size: xs 12px, sm 16px, md 20px, lg 24px.
+ * Styling hooks: set `--input-radius` or `--input-px` on the input wrapper or an ancestor; they
+ * default to `--radius-md` and `--space-3` and are useful when composing with ButtonGroup.
  *
  * @example
  * <Field label="Email"><Input type="email" autoComplete="email" /></Field>
@@ -35,7 +40,8 @@ export type InputProps = {
  * <Field label="Tax ID" loading><Input /></Field>
  */
 export function Input({
-  size = "md",
+  size: sizeProp,
+  variant = "default",
   startIcon,
   endIcon,
   loading: loadingProp,
@@ -44,6 +50,8 @@ export function Input({
   className,
   ...rest
 }: InputProps) {
+  const groupSize = useButtonGroupSize();
+  const size = sizeProp ?? groupSize ?? "md";
   const field = useFieldControlState();
   const loading = loadingProp ?? field?.loading ?? false;
   const readOnly = readOnlyProp ?? field?.readOnly ?? false;
@@ -56,7 +64,7 @@ export function Input({
   });
 
   return (
-    <span className={styles.wrapper} data-icon={position} data-size={size}>
+    <span className={styles.wrapper} data-icon={position} data-size={size} data-variant={variant}>
       <IconSlot className={styles.startSlot}>{startIcon}</IconSlot>
       <BaseInput
         className={cx(styles.input, styles[size], className)}

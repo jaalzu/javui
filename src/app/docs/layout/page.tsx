@@ -10,7 +10,7 @@ export default function Layout() {
     <DocPage
       href="/docs/layout"
       title="Layout"
-      description="Stack, Grid and Container cover one-dimensional flow, two-dimensional grids and page width. Breakpoints are mobile-first."
+      description="Stack and Grid cover one-dimensional flow and two-dimensional grids. Breakpoints are mobile-first."
     >
       <Heading as="h2" size={6}>Breakpoints</Heading>
       <Table
@@ -47,7 +47,7 @@ export default function Layout() {
       <ul>
         <li><Link href="/docs/components/Stack">Stack</Link>: vertical flow or a row of items.</li>
         <li><Link href="/docs/components/Grid">Grid</Link>: equal cards, tiles and galleries with <code>minColumnWidth</code>.</li>
-        <li><Link href="/docs/components/Container">Container</Link>: page width and side padding, once per page section.</li>
+        <li>Page width: use <code>max-width</code> with <code>--container-*</code> and center with <code>margin-inline: auto</code>.</li>
       </ul>
     </DocPage>
   );

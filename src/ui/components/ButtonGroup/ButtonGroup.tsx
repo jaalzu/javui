@@ -1,8 +1,13 @@
+"use client";
+
 import type { ComponentProps } from "react";
+import { ButtonGroupSizeContext, type ControlSize } from "./ButtonGroupContext";
 import { cx } from "../../utils/cx";
 import styles from "./ButtonGroup.module.css";
 
 export type ButtonGroupProps = {
+  /** Shared control size inherited by children that omit their own size. @default "md" */
+  size?: ControlSize;
   /**
    * Layout above the `stackBelow` breakpoint. `horizontal` joins the controls side by side;
    * `vertical` stacks them.
@@ -30,16 +35,20 @@ export type ButtonGroupProps = {
 export function ButtonGroup({
   orientation = "horizontal",
   stackBelow,
+  size = "md",
   className,
   ...rest
 }: ButtonGroupProps) {
   return (
+    <ButtonGroupSizeContext.Provider value={size}>
     <div
       {...rest}
       role="group"
       data-orientation={orientation}
       data-stack-below={stackBelow}
+      data-size={size}
       className={cx(styles.group, styles[orientation], className)}
     />
+    </ButtonGroupSizeContext.Provider>
   );
 }

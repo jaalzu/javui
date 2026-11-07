@@ -5,6 +5,7 @@ import { Slider as BaseSlider } from "@base-ui/react/slider";
 import { cx } from "../../utils/cx";
 import { Spinner } from "../Spinner";
 import { FieldError } from "../Field/FieldError";
+import type { FieldErrorProp } from "../Field/fieldErrors";
 import { useControlValidation } from "../Field/useControlValidation";
 import fieldStyles from "../Field/Field.module.css";
 import styles from "./Slider.module.css";
@@ -27,7 +28,7 @@ export type SliderProps = {
    * Error message. Marks the slider invalid and links the message with `aria-describedby`.
    * Inside `Field`, omit it and pass `error` to the Field instead.
    */
-  error?: string;
+  error?: FieldErrorProp;
   /**
    * The slider must have a value before the form can be submitted. The label prints "Required".
    * Inside `Field`, omit it and pass `required` to the Field instead. @default false
@@ -170,8 +171,8 @@ export function Slider({
           </BaseSlider.Track>
         </BaseSlider.Control>
       </BaseSlider.Root>
-      {state.showError && state.error ? (
-        <FieldError id={state.errorId}>{state.error}</FieldError>
+      {state.showError && state.errors.length ? (
+        <FieldError id={state.errorId} errors={state.errors} />
       ) : null}
     </>
   );

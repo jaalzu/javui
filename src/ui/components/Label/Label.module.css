@@ -22,3 +22,7 @@
   color: var(--color-disabled-foreground);
   cursor: not-allowed;
 }
+
+.checkboxLabel {
+  padding-block-start: var(--space-1);
+}

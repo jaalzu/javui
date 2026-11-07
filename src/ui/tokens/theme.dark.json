@@ -36,6 +36,11 @@
       "$type": "color",
       "$description": "Component hovered."
     },
+    "component-hover-subtle": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 6%, transparent)",
+      "$type": "color",
+      "$description": "Very subtle component hover for quiet controls."
+    },
     "component-active": {
       "$value": "color-mix(in oklab, {color.primary-foreground} 18%, transparent)",
       "$type": "color",
@@ -45,6 +50,16 @@
       "$value": "{color.card}",
       "$type": "color",
       "$description": "Component placed on a sunken area, so it still stands out."
+    },
+    "control": {
+      "$value": "{color.component-hover}",
+      "$type": "color",
+      "$description": "Neutral control surface at rest."
+    },
+    "control-hover": {
+      "$value": "{color.component}",
+      "$type": "color",
+      "$description": "Neutral control surface on hover."
     },
     "transparent-hover": {
       "$value": "color-mix(in oklab, {color.primary-foreground} 8%, transparent)",
@@ -262,7 +277,7 @@
       "$description": "Brand border: selected card, active field."
     },
     "brand-border-focus": {
-      "$value": "{color.primary-foreground}",
+      "$value": "{color.brand-solid}",
       "$type": "color",
       "$description": "Focus ring."
     },
@@ -362,10 +377,15 @@
       "$type": "shadow",
       "$description": "A small lift for controls at rest that should feel pressable: slider thumbs, raised buttons, tabs."
     },
-    "raised": {
-      "$value": "inset 0 0 0 1px #ffffff08, inset 0 1px #ffffff0a, 0 0 0 1px #0009, 0 4px 4px #0000001a",
+    "control": {
+      "$value": "0 0 1px 1px rgb(105 105 105 / 0.6)",
       "$type": "shadow",
-      "$description": "Raised look for secondary controls: inner hairline, top highlight, outer edge and soft drop."
+      "$description": "Shared control elevation."
+    },
+    "raised": {
+      "$value": "inset 0 0 0 1px #ffffff06, inset 0 1px #ffffff08, 0 0 0 1px #0009, 0 4px 4px #0000001a",
+      "$type": "shadow",
+      "$description": "Raised look for primary and secondary controls: inner hairline, top highlight, outer edge and soft drop."
     },
     "large": {
       "$value": "0 0 0 1px color-mix(in oklab, #ffffff12, #3a3a3a 25%), 0 2px 3px -2px #00000026, 0 3px 8px -2px #0006, 0 4px 12px -4px #00000080",

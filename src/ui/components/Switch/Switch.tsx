@@ -5,6 +5,7 @@ import { Switch as BaseSwitch } from "@base-ui/react/switch";
 import { cx } from "../../utils/cx";
 import { Spinner } from "../Spinner";
 import { FieldError } from "../Field/FieldError";
+import type { FieldErrorProp } from "../Field/fieldErrors";
 import { useControlValidation } from "../Field/useControlValidation";
 import fieldStyles from "../Field/Field.module.css";
 import styles from "./Switch.module.css";
@@ -16,7 +17,7 @@ export type SwitchProps = {
    * Error message. Marks the switch invalid and links the message with `aria-describedby`.
    * Inside `Field`, omit it and pass `error` to the Field instead.
    */
-  error?: string;
+  error?: FieldErrorProp;
   /**
    * The switch must be on before the form can be submitted. The label prints "Required".
    * Inside `Field`, omit it and pass `required` to the Field instead. @default false
@@ -96,8 +97,8 @@ export function Switch({
           />
         ) : null}
       </label>
-      {state.showError && state.error ? (
-        <FieldError id={state.errorId}>{state.error}</FieldError>
+    {state.showError && state.errors.length ? (
+      <FieldError id={state.errorId} errors={state.errors} />
       ) : null}
     </>
   );

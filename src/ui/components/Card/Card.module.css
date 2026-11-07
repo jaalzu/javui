@@ -27,9 +27,9 @@
   display: block;
   width: 100%;
   max-width: none;
-  margin-top: calc(var(--card-spacing) * -1);
-  border-top-left-radius: var(--radius-lg);
-  border-top-right-radius: var(--radius-lg);
+  margin-top: calc((var(--card-spacing) + var(--border-width-thin)) * -1);
+  border-top-left-radius: calc(var(--radius-lg) - var(--border-width-thin));
+  border-top-right-radius: calc(var(--radius-lg) - var(--border-width-thin));
   object-fit: cover;
 }
 
@@ -45,6 +45,25 @@
   grid-column: 1;
 }
 
+/* A media element (icon or avatar) opens a leading column, aligned with the title. */
+.header:has(> [data-card-media]) {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.header > [data-card-media] {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  align-self: start;
+}
+
+.header:has(> [data-card-media]) > :not(.action):not([data-card-media]) {
+  grid-column: 2;
+}
+
+.header:has(> [data-card-media]) > .action {
+  grid-column: 3;
+}
+
 .title {
   grid-row: 1;
 }
@@ -55,7 +74,8 @@
 
 .action {
   grid-column: 2;
-  grid-row: 1 / -1;
+  grid-row: 1;
+  align-self: start;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -65,6 +85,11 @@
 
 .content {
   padding-inline: var(--card-spacing);
+}
+
+/* Opt out of the inset when the body must reach the card edges (for example a Table). */
+.content[data-flush] {
+  padding-inline: 0;
 }
 
 .footer {

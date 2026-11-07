@@ -8,6 +8,7 @@ import {
 } from "@/ui";
 import { ButtonGroupSplitExample } from "./ButtonGroupSplitExample";
 import { defineHero, ex, type Example } from "@/docs/example";
+import styles from "./ButtonGroup.examples.module.css";
 
 const currencies = [
   { value: "usd", label: "USD" },
@@ -60,7 +61,7 @@ export const examples: Example[] = [
   <Input aria-label="Search" placeholder="Search projects" />
   <Button>Search</Button>
 </ButtonGroup>`,
-    <div style={{ maxWidth: "24rem" }}>
+    <div className={styles.constrained}>
       <ButtonGroup aria-label="Search">
         <Input aria-label="Search" placeholder="Search projects" />
         <Button>Search</Button>
@@ -74,7 +75,7 @@ export const examples: Example[] = [
   <Select aria-label="Currency" placeholder="USD" items={currencies} />
   <Button>Apply</Button>
 </ButtonGroup>`,
-    <div style={{ maxWidth: "20rem" }}>
+    <div className={styles.currency}>
       <ButtonGroup aria-label="Currency">
         <Select aria-label="Currency" placeholder="USD" items={currencies} />
         <Button>Apply</Button>
@@ -88,7 +89,7 @@ export const examples: Example[] = [
   <ButtonGroupText>https://</ButtonGroupText>
   <Input aria-label="Domain" placeholder="example.com" />
 </ButtonGroup>`,
-    <div style={{ maxWidth: "24rem" }}>
+    <div className={styles.constrained}>
       <ButtonGroup aria-label="Domain">
         <ButtonGroupText>https://</ButtonGroupText>
         <Input aria-label="Domain" placeholder="example.com" />

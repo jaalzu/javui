@@ -66,10 +66,8 @@ a.brand {
 /* Filete vertical entre acciones; los márgenes crean el aire a cada lado. */
 .divider {
   display: none;
-  width: var(--border-width-thin);
   height: var(--space-5);
   margin-inline: var(--space-3);
-  background: var(--color-border-default);
 }
 
 .githubLink {
@@ -101,7 +99,7 @@ a.brand {
     gap: 0;
   }
   .divider {
-    display: block;
+    display: flex;
   }
 }
 

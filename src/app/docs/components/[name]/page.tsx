@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import manifest from "../../../../../public/agent/manifest.json";
-import { Alert, Heading, Skeleton, Stack, Table } from "@/ui";
+import { Alert, Heading, Skeleton, Stack } from "@/ui";
 import { CodeBlock } from "@/ui/server";
 import { Examples, Preview } from "@/app/_examples/Examples";
 import { DocPage } from "@/app/docs/_page/DocPage";
 
 type Prop = { name: string; type: string; required: boolean; default?: string; description?: string };
 type Entry = {
-  name: string; category: string; base: string; description: string; import: string; renders: string;
+  name: string; category: string; base: string; description: string | null; import: string; renders: string;
   composition: string; whenToUse: string; avoid: string[]; accessibility: string; props: Prop[]; extends: string; examples: string[];
   callout?: string;
   choosing?: string[];
@@ -28,46 +28,23 @@ function Inline({ text }: { text: string }) {
 }
 
 /** First sentence of a description (the lead) and the rest. */
-function splitLead(text: string): [string, string] {
+function splitLead(text: string | null | undefined): [string, string] {
+  if (!text) return ["", ""];
   const i = text.search(/\.(\s|$)/);
   return i === -1 ? [text, ""] : [text.slice(0, i + 1), text.slice(i + 1).trim()];
 }
 
-function PropsTable({ entry }: { entry: Entry }) {
-  return (
-    <>
-      <Table
-        caption={`${entry.name} props`}
-        hideCaption
-        columns={[{ key: "name", header: "Prop" }, { key: "type", header: "Type" }, { key: "default", header: "Default" }, { key: "description", header: "Description" }]}
-        rows={entry.props.map((p) => ({
-          name: <code>{p.name}{p.required ? " (required)" : ""}</code>,
-          type: <code>{p.type}</code>,
-          default: p.default ? <code>{p.default}</code> : "",
-          description: p.description ? <Inline text={p.description} /> : "",
-        }))}
-      />
-      <p><Inline text={entry.extends} /></p>
-    </>
-  );
-}
-
-function PartSection({ part }: { part: Entry }) {
-  const [lead, more] = splitLead(part.description);
-  return (
-    <section>
-      <Heading as="h3" size={6}>{part.name}</Heading>
-      <p><Inline text={more || lead} /></p>
-      <p><Inline text={part.composition} /></p>
-      <p>Renders: {part.renders}.</p>
-      {part.examples.map((code, i) => (
-        <CodeBlock key={i} language="tsx" label={`${part.name} example ${i + 1}`} code={code} />
-      ))}
-      {part.props.length > 0 && <PropsTable entry={part} />}
-      <p><Inline text={part.accessibility} /></p>
-    </section>
-  );
-}
+const usageSnippets: Record<string, string> = {
+  Input: `<Input aria-label="Name" />`,
+  InputGroup: `<InputGroup>
+  <InputGroupInput placeholder="Search..." />
+  <InputGroupAddon><MagnifyingGlassIcon /></InputGroupAddon>
+</InputGroup>`,
+  ButtonGroup: `<ButtonGroup aria-label="Actions">
+  <Button>Save</Button>
+  <Button>Publish</Button>
+</ButtonGroup>`,
+};
 
 export function generateStaticParams() {
   return pages.map((c) => ({ name: c.name }));
@@ -101,7 +78,8 @@ async function ComponentContent({ params }: ComponentPageProps) {
   const { name } = await params;
   const c = pages.find((x) => x.name === name);
   if (!c) notFound();
-  const [lead, more] = splitLead(c.description);
+  const [lead] = splitLead(c.description);
+  const usage = usageSnippets[c.name] ?? c.examples[0] ?? `<${c.name} />`;
 
   return (
     <DocPage href={`/docs/components/${c.name}`} title={c.name} description={<Inline text={lead} />}>
@@ -110,16 +88,19 @@ async function ComponentContent({ params }: ComponentPageProps) {
       <Preview name={c.name} />
 
       <Heading as="h2" size={6}>Installation</Heading>
-      <p>Add the library first (see the installation guide), then import the component.</p>
-      <CodeBlock language="tsx" label="Import" code={c.import} />
+      <CodeBlock
+        language="bash"
+        label="Install"
+        tabs={[
+          { label: "npm", code: "npm install ui-lib" },
+          { label: "pnpm", code: "pnpm add ui-lib" },
+          { label: "bun", code: "bun add ui-lib" },
+        ]}
+      />
 
       <Heading as="h2" size={6}>Usage</Heading>
-      {more && <p><Inline text={more} /></p>}
-      <p><Inline text={c.composition} /></p>
-      {c.examples.map((code, i) => (
-        <CodeBlock key={i} language="tsx" label={`Usage example ${i + 1}`} code={code} />
-      ))}
-      <p>Renders: {c.renders}.</p>
+      <CodeBlock language="tsx" label="Import" code={c.import} minimal />
+      <CodeBlock language="tsx" label="Usage" code={usage} minimal />
 
       <Examples name={c.name} />
 
@@ -134,20 +115,6 @@ async function ComponentContent({ params }: ComponentPageProps) {
       <p><Inline text={c.whenToUse} /></p>
       <Heading as="h3" size={6}>Avoid</Heading>
       <ul>{c.avoid.map((a) => <li key={a}><Inline text={a} /></li>)}</ul>
-
-      {c.props.length > 0 && (
-        <>
-          <Heading as="h2" size={6}>Props</Heading>
-          <PropsTable entry={c} />
-        </>
-      )}
-
-      {c.parts?.length ? (
-        <>
-          <Heading as="h2" size={6}>Parts</Heading>
-          {c.parts.map((part) => <PartSection key={part.name} part={part} />)}
-        </>
-      ) : null}
 
       <Heading as="h2" size={6}>Accessibility</Heading>
       <p><Inline text={c.accessibility} /></p>

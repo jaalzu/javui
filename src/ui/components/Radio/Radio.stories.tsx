@@ -30,6 +30,30 @@ type Story = StoryObj<typeof meta>;
 
 export const Vertical: Story = {};
 export const Horizontal: Story = { args: { orientation: "horizontal" } };
+export const Description: Story = {
+  render: () => (
+    <RadioGroup legend="Notification frequency" description="Choose how often we send updates." defaultValue="weekly">
+      <Radio value="daily" label="Daily" description="A short summary every morning." />
+      <Radio value="weekly" label="Weekly" description="A digest every Monday." />
+    </RadioGroup>
+  ),
+};
+export const ChoiceCards: Story = {
+  render: () => (
+    <RadioGroup legend="Plan" defaultValue="pro">
+      <Radio value="free" label="Free" description="For personal projects." variant="card" />
+      <Radio value="pro" label="Pro" description="For growing teams." variant="card" />
+    </RadioGroup>
+  ),
+};
+export const Disabled: Story = {
+  render: () => (
+    <RadioGroup legend="Plan" defaultValue="free" disabled>
+      <Radio value="free" label="Free" />
+      <Radio value="pro" label="Pro" />
+    </RadioGroup>
+  ),
+};
 
 const rows = [
   { label: "Checked", checked: true },

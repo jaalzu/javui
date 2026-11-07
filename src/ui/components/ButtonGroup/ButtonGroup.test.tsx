@@ -127,6 +127,7 @@ describe("ButtonGroup", () => {
           <ModalTrigger variant="secondary">Open settings</ModalTrigger>
           <ModalContent
             title="Settings"
+            closeLabel="Close settings"
             actions={<ModalClose>Close</ModalClose>}
           >
             Settings body.

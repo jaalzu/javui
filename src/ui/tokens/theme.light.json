@@ -2,7 +2,7 @@
   "color": {
     "$description": "Semantic color tokens, light theme. Same keys as the dark theme. Components use only these.",
     "page": {
-      "$value": "color-mix(in oklab, {primitive.color.white} 70%, {primitive.color.neutral.50})",
+      "$value": "color-mix(in oklab, {primitive.color.white} 84%, {primitive.color.neutral.50})",
       "$type": "color",
       "$description": "The page itself. Everything sits on it."
     },
@@ -17,7 +17,7 @@
       "$description": "Content blocks on the page: cards, panels, table rows."
     },
     "sunken": {
-      "$value": "color-mix(in oklab, {color.primary-foreground} 4%, {color.page})",
+      "$value": "oklch(0.97913 0 0)",
       "$type": "color",
       "$description": "Recessed areas: code blocks, wells, inset fields."
     },
@@ -46,6 +46,11 @@
       "$type": "color",
       "$description": "Component hovered."
     },
+    "component-hover-subtle": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 3%, transparent)",
+      "$type": "color",
+      "$description": "Very subtle component hover for quiet controls."
+    },
     "component-active": {
       "$value": "color-mix(in oklab, {color.primary-foreground} 12%, transparent)",
       "$type": "color",
@@ -55,6 +60,16 @@
       "$value": "{color.card}",
       "$type": "color",
       "$description": "Component placed on a sunken area, so it still stands out."
+    },
+    "control": {
+      "$value": "transparent",
+      "$type": "color",
+      "$description": "Neutral control surface at rest."
+    },
+    "control-hover": {
+      "$value": "{color.component-hover-subtle}",
+      "$type": "color",
+      "$description": "Neutral control surface on hover."
     },
     "transparent-hover": {
       "$value": "color-mix(in oklab, {color.primary-foreground} 6%, transparent)",
@@ -277,9 +292,9 @@
       "$description": "Brand border: selected card, active field."
     },
     "brand-border-focus": {
-      "$value": "{color.primary-foreground}",
+      "$value": "{color.brand-solid}",
       "$type": "color",
-      "$description": "Focus ring."
+      "$description": "Focus ring, in the brand color."
     },
     "positive-border-default": {
       "$value": "color-mix(in oklab, {color.positive-solid} 40%, transparent)",
@@ -377,10 +392,15 @@
       "$type": "shadow",
       "$description": "A small lift for controls at rest that should feel pressable: slider thumbs, raised buttons, tabs."
     },
-    "raised": {
-      "$value": "inset 0 0 0 1px transparent, inset 0 1px #ffffffcc, 0 0 0 1px #00000014",
+    "control": {
+      "$value": "{shadow.default}",
       "$type": "shadow",
-      "$description": "Raised look for secondary controls in light: inner hairline, top highlight and outer edge, with no soft drop so the control stays flat."
+      "$description": "Shared control elevation."
+    },
+    "raised": {
+      "$value": "inset 0 0 0 1px transparent, inset 0 1px #ffffffb3, 0 0 0 1px #00000014",
+      "$type": "shadow",
+      "$description": "Raised look for primary and secondary controls in light: inner hairline, top highlight and outer edge, with no soft drop so the control stays flat."
     },
     "large": {
       "$value": "0 0 0 1px #00000014, 0 2px 3px -2px #0000001a, 0 3px 8px -2px #00000014, 0 4px 12px -4px #0000001f",

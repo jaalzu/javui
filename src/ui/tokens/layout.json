@@ -24,10 +24,10 @@
         "$value": "1.75rem"
       },
       "md": {
-        "$value": "2.25rem"
+        "$value": "2rem"
       },
       "lg": {
-        "$value": "2.75rem"
+        "$value": "2.5rem"
       }
     },
     "icon": {
@@ -80,7 +80,11 @@
   },
   "container": {
     "$type": "dimension",
-    "$description": "Max content widths used by the Container component.",
+    "$description": "Max content widths for page layouts.",
+    "xs": {
+      "$value": "20rem",
+      "$description": "Compact content width for controls and narrow examples."
+    },
     "sm": {
       "$value": "40rem"
     },
@@ -92,6 +96,49 @@
     },
     "xl": {
       "$value": "80rem"
+    }
+  },
+  "dialog": {
+    "$type": "dimension",
+    "$description": "Maximum widths for centered dialogs. The medium width is the compact default for focused tasks.",
+    "width": {
+      "xs": {
+        "$value": "20rem",
+        "$description": "Extra-compact dialogs for short confirmations and single-field tasks."
+      },
+      "sm": {
+        "$value": "24rem",
+        "$description": "Compact confirmation and short-message dialogs."
+      },
+      "md": {
+        "$value": "28rem",
+        "$description": "Default width for focused dialog tasks."
+      },
+      "lg": {
+        "$value": "40rem",
+        "$description": "Roomier width for forms, tables and detailed content."
+      },
+      "xl": {
+        "$value": "56rem",
+        "$description": "Extra-roomy width for complex forms, tables and detailed content."
+      }
+    },
+    "height": {
+      "md": {
+        "$value": "36rem",
+        "$description": "Maximum height for dialogs before their body scrolls."
+      }
+    }
+  },
+  "menu": {
+    "$type": "dimension",
+    "$description": "Optional fixed widths for menu popups. Auto remains content-sized.",
+    "width": {
+      "xxs": { "$value": "6rem" },
+      "xs": { "$value": "12rem" },
+      "sm": { "$value": "15rem" },
+      "md": { "$value": "20rem" },
+      "lg": { "$value": "25rem" }
     }
   },
   "breakpoint": {

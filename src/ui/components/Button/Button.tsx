@@ -14,6 +14,7 @@ import { iconPosition } from "../../utils/iconPosition";
 import { useLinkComponent } from "../Link/LinkContext";
 import { Spinner } from "../Spinner";
 import styles from "./Button.module.css";
+import { useButtonGroupSize } from "../ButtonGroup/ButtonGroupContext";
 
 export type ButtonVariant =
   "primary" | "secondary" | "ghost" | "accent" | "danger";
@@ -27,8 +28,8 @@ type ButtonSharedProps = {
    */
   variant?: ButtonVariant;
   /**
-   * Control height and icon size: `xs` 1.5rem and 12px, `sm` 1.75rem and 16px, `md` 2.25rem and
-   * 20px, `lg` 2.75rem and 24px.
+   * Control height and icon size: `xs` 1.5rem and 12px, `sm` 1.75rem and 16px, `md` 2rem and
+   * 20px, `lg` 2.5rem and 24px.
    * @default "md"
    */
   size?: ButtonSize;
@@ -111,6 +112,7 @@ export type ButtonProps = ButtonWithLabelProps | ButtonIconOnlyProps;
  * <Button href="/docs/installation">Get started</Button>
  */
 export function Button(props: ButtonProps) {
+  const groupSize = useButtonGroupSize();
   const LinkComponent = useLinkComponent() as ElementType<
     ComponentProps<"a">
   >;
@@ -152,7 +154,7 @@ export function Button(props: ButtonProps) {
       target,
       rel,
       variant = "primary",
-      size = "md",
+      size = groupSize ?? "md",
       pill = false,
       startIcon,
       endIcon,
@@ -193,9 +195,9 @@ export function Button(props: ButtonProps) {
     );
   }
 
-  const {
+    const {
     variant = "primary",
-    size = "md",
+      size = groupSize ?? "md",
     pill = false,
     type = "button",
     loading: isLoading = false,

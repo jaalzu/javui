@@ -20,7 +20,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 export const Checked: Story = { args: { defaultChecked: true } };
-export const Indeterminate: Story = { args: { label: "Select all", indeterminate: true } };
 export const Disabled: Story = { args: { disabled: true } };
 
 export const States: Story = {
@@ -35,12 +34,6 @@ export const States: Story = {
           label: "Checked",
           render: (state) => (
             <Checkbox label="Option" defaultChecked {...forceProps(state)} />
-          ),
-        },
-        {
-          label: "Indeterminate",
-          render: (state) => (
-            <Checkbox label="Option" indeterminate {...forceProps(state)} />
           ),
         },
       ]}

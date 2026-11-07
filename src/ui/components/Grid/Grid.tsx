@@ -1,10 +1,10 @@
 import type { ComponentProps, CSSProperties, ElementType } from "react";
 import { cx } from "../../utils/cx";
 import { responsiveVars, type Responsive } from "../../utils/responsive";
-import { space, type ContainerOrListElement, type Space } from "../../types";
+import { space, type LayoutOrListElement, type Space } from "../../types";
 import styles from "./Grid.module.css";
 
-export type GridProps<T extends ContainerOrListElement = "div"> = {
+export type GridProps<T extends LayoutOrListElement = "div"> = {
   /** Element to render. With `ul` or `ol`, children must be `li` elements. @default "div" */
   as?: T;
   /**
@@ -28,8 +28,10 @@ export type GridProps<T extends ContainerOrListElement = "div"> = {
   rowGap?: Space;
   /** Column gap override. */
   columnGap?: Space;
-  /** Alignment of items inside their cells on the block axis. @default "stretch" */
-  align?: "start" | "center" | "end" | "stretch";
+  /** Alignment of items inside their cells on the block axis. Accepts per-breakpoint values. @default "stretch" */
+  align?: Responsive<"start" | "center" | "end" | "stretch">;
+  /** Alignment of items inside their cells on the inline axis. Accepts per-breakpoint values. @default "stretch" */
+  justify?: Responsive<"start" | "center" | "end" | "stretch">;
 } & Omit<ComponentProps<T>, "as" | "color">;
 
 const toTemplate = (v: number | string) =>
@@ -46,9 +48,9 @@ const toTemplate = (v: number | string) =>
  * <Grid columns="2fr 1fr">...</Grid>
  * <Grid minColumnWidth="16rem" gap="4">...</Grid>
  * <Grid columns={{ base: 1, md: 2, lg: 4 }} gap={{ base: "3", md: "6" }}>...</Grid>
- * <Grid columns={{ base: 1, lg: "2fr 1fr" }}>...</Grid>
+ * <Grid columns={{ base: 1, lg: "2fr 1fr" }} align="start" justify={{ base: "stretch", md: "center" }}>...</Grid>
  */
-export function Grid<T extends ContainerOrListElement = "div">({
+export function Grid<T extends LayoutOrListElement = "div">({
   as,
   columns = 1,
   minColumnWidth,
@@ -56,6 +58,7 @@ export function Grid<T extends ContainerOrListElement = "div">({
   rowGap,
   columnGap,
   align = "stretch",
+  justify = "stretch",
   className,
   style,
   ...rest
@@ -71,7 +74,8 @@ export function Grid<T extends ContainerOrListElement = "div">({
     ...responsiveVars("grid-gap", gap, space),
     ...(rowGap !== undefined && { ["--grid-row-gap" as string]: space(rowGap) }),
     ...(columnGap !== undefined && { ["--grid-column-gap" as string]: space(columnGap) }),
-    ["--grid-align" as string]: align,
+    ...responsiveVars("grid-align", align),
+    ...responsiveVars("grid-justify", justify),
     ...(style as CSSProperties | undefined),
   };
   return (

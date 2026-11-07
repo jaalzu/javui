@@ -4,8 +4,8 @@ import { createContext, useContext } from "react";
 
 /** Validation and interaction state that Field passes to its control. */
 export type FieldControlState = {
-  /** Error message from Field, if any. */
-  error?: string;
+  /** Normalized error messages from Field. */
+  errors: string[];
   /** Whether the control is invalid. */
   invalid: boolean;
   /** The control must be filled before the form can be submitted. */

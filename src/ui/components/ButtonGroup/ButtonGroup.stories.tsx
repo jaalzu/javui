@@ -208,6 +208,7 @@ export const ModalTriggerInGroup: Story = {
           <ModalTrigger variant="secondary">Open settings</ModalTrigger>
           <ModalContent
             title="Settings"
+            closeLabel="Close settings"
             actions={<ModalClose>Close</ModalClose>}
           >
             The trigger keeps its outer rounding while the modal is open.

@@ -44,7 +44,7 @@
 - **Avatar** (parts: AvatarGroup): Showing who a person or account is.
 
 ### feedback
-- **Spinner**: Indeterminate loading of an action or small region.
+- **Spinner**: Indeterminate loading of an action or small region that is expected to take more than a second. Place it next to the content it refers to.
 - **Skeleton**: Placeholder for content whose layout is known while it loads.
 - **Alert**: A message that stays on the page and the user must notice: a general note (neutral), relevant information (info), a completed operation (success), something that needs attention (warning) or a failed operation (error).
 - **Progress**: Showing how far a task has got.

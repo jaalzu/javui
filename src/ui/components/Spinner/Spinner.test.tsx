@@ -22,6 +22,13 @@ describe("Spinner", () => {
     expect(spinner).not.toHaveTextContent("Loading");
   });
 
+  it("draws twelve bars inside the hidden decorative layer", () => {
+    const { container } = render(<Spinner label="Loading" />);
+    const bars = container.querySelector("[aria-hidden='true']");
+    expect(screen.getByRole("status")).toBeInTheDocument();
+    expect(bars?.children).toHaveLength(12);
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(<Spinner />);
     expect(await axe(container)).toHaveNoViolations();

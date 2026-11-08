@@ -165,14 +165,17 @@
   "Spinner": {
     "category": "feedback",
     "base": "own",
-    "renders": "span with role=\"status\" containing an svg and VisuallyHidden text, or an aria-hidden span when the label is empty",
-    "composition": "No children. Use `label` to describe what is loading. An empty label makes it decorative and silent.",
-    "whenToUse": "Indeterminate loading of an action or small region.",
+    "renders": "span with role=\"status\" containing twelve decorative bars and VisuallyHidden text, or an aria-hidden span when the label is empty",
+    "composition": "No children. Use `label` to describe what is loading. Sizes: xs 12px, sm 16px, md 20px (default), lg 24px, xl 32px. Paints with currentColor, so it inherits the surrounding text color. An empty label makes it decorative and silent.",
+    "whenToUse": "Indeterminate loading of an action or small region that is expected to take more than a second. Place it next to the content it refers to.",
     "avoid": [
+      "Waits under a second: it appears and disappears too fast to be useful.",
       "Several spinners announcing at once.",
-      "Page-level loading of content shape: use Skeleton."
+      "Page-level loading of content shape: use Skeleton.",
+      "Known completion percentage: use Progress.",
+      "Placing it inside a Button or Badge by hand: use their `loading` prop."
     ],
-    "a11y": "Announces `label` through a status live region; with an empty label it renders no status role, no VisuallyHidden text and aria-hidden=\"true\". Motion follows prefers-reduced-motion."
+    "a11y": "Announces `label` through a status live region; with an empty label it renders no status role, no VisuallyHidden text and aria-hidden=\"true\". The bars are decorative. Motion follows prefers-reduced-motion by slowing the sequence."
   },
   "Skeleton": {
     "category": "feedback",
@@ -767,7 +770,7 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "div with one input type range per thumb",
-    "composition": "Pass `label` and `defaultValue` (number or [min, max]). Use `thumbLabels` for ranges. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field.",
+    "composition": "Pass `label` and `defaultValue` (number or [min, max]). Use `thumbLabels` for ranges and `orientation=\"vertical\"` for a vertical track. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field. Disabled hides the visible label and value; the label remains the accessible name.",
     "whenToUse": "Choosing a number or range by dragging.",
     "avoid": [
       "Exact entry: use Input.",

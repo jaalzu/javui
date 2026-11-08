@@ -755,16 +755,19 @@
       "name": "Spinner",
       "category": "feedback",
       "base": "Own component",
-      "description": "Indeterminate loading indicator. Announces `label` through a status region. An empty label makes\nit decorative: no status role, no hidden text, and `aria-hidden=\"true\"`.\nRespects `prefers-reduced-motion` by slowing the spin instead of stopping it.",
+      "description": "Indeterminate loading indicator. Twelve thick bars sit around a circle and light up in\nsequence, leaving a fading trail that reads as rotation.\n\nUse it only when the wait is expected to last more than a second; for shorter operations it\nappears and disappears too fast to help. Use `Skeleton` instead when the shape of the incoming\ncontent is known, and `Progress` when the completion percentage is known.\n\nIt paints with `currentColor`, so it inherits the surrounding text color. Announces `label`\nthrough a status region. An empty label makes it decorative: no status role, no hidden text,\nand `aria-hidden=\"true\"`. Respects `prefers-reduced-motion` by slowing the sequence down.",
       "import": "import { Spinner } from \"@/ui\";",
-      "renders": "span with role=\"status\" containing an svg and VisuallyHidden text, or an aria-hidden span when the label is empty",
-      "composition": "No children. Use `label` to describe what is loading. An empty label makes it decorative and silent.",
-      "whenToUse": "Indeterminate loading of an action or small region.",
+      "renders": "span with role=\"status\" containing twelve decorative bars and VisuallyHidden text, or an aria-hidden span when the label is empty",
+      "composition": "No children. Use `label` to describe what is loading. Sizes: xs 12px, sm 16px, md 20px (default), lg 24px, xl 32px. Paints with currentColor, so it inherits the surrounding text color. An empty label makes it decorative and silent.",
+      "whenToUse": "Indeterminate loading of an action or small region that is expected to take more than a second. Place it next to the content it refers to.",
       "avoid": [
+        "Waits under a second: it appears and disappears too fast to be useful.",
         "Several spinners announcing at once.",
-        "Page-level loading of content shape: use Skeleton."
+        "Page-level loading of content shape: use Skeleton.",
+        "Known completion percentage: use Progress.",
+        "Placing it inside a Button or Badge by hand: use their `loading` prop."
       ],
-      "accessibility": "Announces `label` through a status live region; with an empty label it renders no status role, no VisuallyHidden text and aria-hidden=\"true\". Motion follows prefers-reduced-motion.",
+      "accessibility": "Announces `label` through a status live region; with an empty label it renders no status role, no VisuallyHidden text and aria-hidden=\"true\". The bars are decorative. Motion follows prefers-reduced-motion by slowing the sequence.",
       "props": [
         {
           "name": "label",
@@ -775,15 +778,15 @@
         },
         {
           "name": "size",
-          "type": "\"sm\" | \"md\" | \"lg\"",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xs\" | \"xl\"",
           "required": false,
           "default": "md",
-          "description": "Size relative to the surrounding text."
+          "description": "Diameter: `xs` 12px, `sm` 16px, `md` 20px, `lg` 24px, `xl` 32px."
         }
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Spinner label=\"Saving changes\" />\r\n<Spinner label=\"\" />"
+        "<Spinner label=\"Saving changes\" />\n<Spinner size=\"sm\" label=\"Uploading\" />\n<Spinner label=\"\" />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Spinner/Spinner.tsx"
     },
@@ -3287,7 +3290,7 @@
       "description": "Pick a number, or a range, by dragging or with arrow keys. Built on Base UI Slider (each thumb is an\n`input type=\"range\"`). For a short list of exact choices use `Select`; for typing a number, use `Input`.\nInside `Field` it inherits `error`, `required`, `readOnly` and `loading`.",
       "import": "import { Slider } from \"@/ui\";",
       "renders": "div with one input type range per thumb",
-      "composition": "Pass `label` and `defaultValue` (number or [min, max]). Use `thumbLabels` for ranges. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field.",
+      "composition": "Pass `label` and `defaultValue` (number or [min, max]). Use `thumbLabels` for ranges and `orientation=\"vertical\"` for a vertical track. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field. Disabled hides the visible label and value; the label remains the accessible name.",
       "whenToUse": "Choosing a number or range by dragging.",
       "avoid": [
         "Exact entry: use Input.",
@@ -3308,7 +3311,7 @@
         },
         {
           "name": "data-force",
-          "type": "\"focus\"",
+          "type": "\"focus\" | \"hover\" | \"active\"",
           "required": false,
           "description": "Story/test hook: force the focus ring without moving focus."
         },
@@ -3352,6 +3355,13 @@
           "required": false
         },
         {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "default": "horizontal",
+          "description": "Direction of the track. Vertical needs a parent with height, or uses the slider's own height."
+        },
+        {
           "name": "readOnly",
           "type": "boolean",
           "required": false,
@@ -3370,7 +3380,7 @@
           "type": "boolean",
           "required": false,
           "default": "true",
-          "description": "Show the current value next to the label."
+          "description": "Show the current value next to the label. Hidden when `disabled`."
         },
         {
           "name": "step",
@@ -3392,7 +3402,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Slider label=\"Volume\" defaultValue={40} />\r\n<Slider label=\"Price\" defaultValue={[20, 80]} thumbLabels={[\"Minimum price\", \"Maximum price\"]} />\r\n<Slider label=\"Budget\" error=\"Choose a budget\" required />"
+        "<Slider label=\"Volume\" defaultValue={40} />\r\n<Slider label=\"Price\" defaultValue={[20, 80]} thumbLabels={[\"Minimum price\", \"Maximum price\"]} />\r\n<Slider label=\"Volume\" defaultValue={40} orientation=\"vertical\" />\r\n<Slider label=\"Budget\" error=\"Choose a budget\" required />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Slider/Slider.tsx"
     },

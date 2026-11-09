@@ -1,6 +1,8 @@
 .spinner {
-  --spinner-size: var(--size-icon-md);
-  --spinner-duration: 1s;
+  --spinner-icon-size: var(--size-icon-md);
+  /* 1px wider than the icon token, so the ring reads bigger. */
+  --spinner-size: calc(var(--spinner-icon-size) + var(--border-width-thin));
+  --spinner-duration: 1.01s;
   position: relative;
   display: inline-block;
   flex: none;
@@ -11,23 +13,23 @@
 }
 
 .xs {
-  --spinner-size: var(--size-icon-xs);
+  --spinner-icon-size: var(--size-icon-xs);
 }
 
 .sm {
-  --spinner-size: var(--size-icon-sm);
+  --spinner-icon-size: var(--size-icon-sm);
 }
 
 .md {
-  --spinner-size: var(--size-icon-md);
+  --spinner-icon-size: var(--size-icon-md);
 }
 
 .lg {
-  --spinner-size: var(--size-icon-lg);
+  --spinner-icon-size: var(--size-icon-lg);
 }
 
 .xl {
-  --spinner-size: var(--size-icon-xl);
+  --spinner-icon-size: var(--size-icon-xl);
 }
 
 .bars {
@@ -36,17 +38,25 @@
 }
 
 .bar {
-  --bar-angle: calc(var(--bar-index) * 30deg);
+  /*
+   * Half-step offset: a bar at exactly 0deg is only translated, and Chrome pixel-snaps that layer,
+   * painting it ~1px thinner than the rest. At 15deg every bar takes the same rotated raster path,
+   * and since the ring repeats every 30deg it still looks identical.
+   */
+  --bar-angle: calc(var(--bar-index) * 30deg + 15deg);
+  /* 1px shorter than the ring gap, so the inner circle reads bigger. */
+  --bar-length: calc(32% - var(--border-width-thin));
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 32%;
+  width: var(--bar-length);
   height: max(var(--border-width-thin), calc(12% - var(--border-width-thin)));
   margin-top: calc(-6% + (var(--border-width-thin) / 2));
-  margin-left: -16%;
+  margin-left: calc(var(--bar-length) / -2);
   border-radius: var(--radius-full);
   background: currentColor;
-  transform: rotate(var(--bar-angle)) translateX(105%);
+  /* 105% is the offset of the full-length bar; the extra 1.05px keeps its center in place after shortening. */
+  transform: rotate(var(--bar-angle)) translateX(calc(105% + var(--border-width-thin) * 1.05));
   transform-origin: center;
   animation: bar-fade var(--spinner-duration) linear infinite;
   animation-delay: calc(var(--spinner-duration) / 12 * (var(--bar-index) - 12));

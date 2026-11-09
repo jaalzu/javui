@@ -6,8 +6,13 @@ import styles from "./Spinner.module.css";
 export type SpinnerProps = {
   /** Text announced to screen readers. @default "Loading" */
   label?: string;
-  /** Diameter: `xs` 12px, `sm` 16px, `md` 20px, `lg` 24px, `xl` 32px. @default "md" */
+  /** Diameter: `xs` 13px, `sm` 17px, `md` 21px, `lg` 25px, `xl` 33px. @default "md" */
   size?: "xs" | "sm" | "md" | "lg" | "xl";
+  /**
+   * Any CSS color for the bars. Defaults to `currentColor`, so it inherits the surrounding text.
+   * Prefer semantic tokens; for a custom tone derive it from one hue so it works in light and dark.
+   */
+  color?: string;
 } & Omit<ComponentProps<"span">, "color" | "children">;
 
 /** Twelve bars, one per position, light up in sequence to form a rotating trail. */
@@ -28,12 +33,15 @@ const BARS = 12;
  * @example
  * <Spinner label="Saving changes" />
  * <Spinner size="sm" label="Uploading" />
+ * <Spinner color="var(--color-brand-solid)" label="Syncing" />
  * <Spinner label="" />
  */
 export function Spinner({
   label = "Loading",
   size = "md",
+  color,
   className,
+  style,
   ...rest
 }: SpinnerProps) {
   const hasLabel = label.trim().length > 0;
@@ -42,6 +50,7 @@ export function Spinner({
       {...rest}
       role={hasLabel ? "status" : undefined}
       aria-hidden={hasLabel ? undefined : true}
+      style={color ? { ...style, color } : style}
       className={cx(styles.spinner, styles[size], className)}
     >
       <span className={styles.bars} aria-hidden="true">

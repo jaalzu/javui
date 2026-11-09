@@ -43,6 +43,11 @@ export type FieldProps = {
    */
   loading?: boolean;
   /**
+   * Marks the field invalid for styling without an error message. Prefer `error` so the reason is
+   * announced. Renders `data-invalid` on the field root. @default false
+   */
+  "data-invalid"?: boolean;
+  /**
    * The control: `Input`, `Textarea`, `Select`, `Checkbox`, `RadioGroup`, `Switch` or `Slider`.
    * Controls that carry their own label or legend also accept these validation props directly.
    */
@@ -84,6 +89,7 @@ export function Field({
   orientation = "vertical",
   stackBelow,
   validationMode = "onBlur",
+  "data-invalid": dataInvalid,
   children,
   className,
   ...rest
@@ -111,6 +117,7 @@ export function Field({
       className={cx(styles.field, className)}
       data-orientation={hasLabel ? orientation : "vertical"}
       data-stack-below={hasLabel ? stackBelow : undefined}
+      data-invalid={dataInvalid ? "" : undefined}
       {...rest}
     >
       {hasLabel ? (

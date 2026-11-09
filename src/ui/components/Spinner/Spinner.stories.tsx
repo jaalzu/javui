@@ -12,6 +12,7 @@ const meta = {
   parameters: { layout: "padded" },
   argTypes: {
     size: { control: "inline-radio", options: ["xs", "sm", "md", "lg", "xl"] },
+    color: { control: "color" },
   },
 } satisfies Meta<typeof Spinner>;
 
@@ -35,8 +36,30 @@ export const Sizes: Story = {
 export const OnText: Story = {
   render: () => (
     <Text>
-      Saving changes <Spinner size="sm" label="Saving changes" />
+      Saving changes <Spinner size="md" label="Saving changes" />
     </Text>
+  ),
+};
+
+export const Colors: Story = {
+  render: () => (
+    <Stack direction="row" gap="4" align="center">
+      <Spinner
+        size="lg"
+        label=""
+        color="color-mix(in oklab, oklch(55% 0.2 300) 75%, var(--color-primary-foreground))"
+      />
+      <Spinner
+        size="lg"
+        label=""
+        color="color-mix(in oklab, oklch(60% 0.22 350) 75%, var(--color-primary-foreground))"
+      />
+      <Spinner
+        size="lg"
+        label=""
+        color="color-mix(in oklab, oklch(65% 0.18 55) 75%, var(--color-primary-foreground))"
+      />
+    </Stack>
   ),
 };
 

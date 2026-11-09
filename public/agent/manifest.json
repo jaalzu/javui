@@ -770,6 +770,12 @@
       "accessibility": "Announces `label` through a status live region; with an empty label it renders no status role, no VisuallyHidden text and aria-hidden=\"true\". The bars are decorative. Motion follows prefers-reduced-motion by slowing the sequence.",
       "props": [
         {
+          "name": "color",
+          "type": "string",
+          "required": false,
+          "description": "Any CSS color for the bars. Defaults to `currentColor`, so it inherits the surrounding text.\nPrefer semantic tokens; for a custom tone derive it from one hue so it works in light and dark."
+        },
+        {
           "name": "label",
           "type": "string",
           "required": false,
@@ -781,12 +787,12 @@
           "type": "\"sm\" | \"md\" | \"lg\" | \"xs\" | \"xl\"",
           "required": false,
           "default": "md",
-          "description": "Diameter: `xs` 12px, `sm` 16px, `md` 20px, `lg` 24px, `xl` 32px."
+          "description": "Diameter: `xs` 13px, `sm` 17px, `md` 21px, `lg` 25px, `xl` 33px."
         }
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Spinner label=\"Saving changes\" />\n<Spinner size=\"sm\" label=\"Uploading\" />\n<Spinner label=\"\" />"
+        "<Spinner label=\"Saving changes\" />\n<Spinner size=\"sm\" label=\"Uploading\" />\n<Spinner color=\"var(--color-brand-solid)\" label=\"Syncing\" />\n<Spinner label=\"\" />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Spinner/Spinner.tsx"
     },
@@ -3515,6 +3521,12 @@
           "required": false,
           "default": "md",
           "description": "`md` for screens, tables and large cards; `sm` for cards and panels; `xs` for nested containers."
+        },
+        {
+          "name": "style",
+          "type": "CSSProperties",
+          "required": false,
+          "description": "One-off inline styles, for example to tune `--empty-state-padding`, `--empty-state-gap` or `--empty-state-illustration`."
         },
         {
           "name": "title",

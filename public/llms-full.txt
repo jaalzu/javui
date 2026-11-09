@@ -629,8 +629,9 @@ and `aria-hidden="true"`. Respects `prefers-reduced-motion` by slowing the seque
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
+| `color` | `string` | no |  | Any CSS color for the bars. Defaults to `currentColor`, so it inherits the surrounding text. Prefer semantic tokens; for a custom tone derive it from one hue so it works in light and dark. |
 | `label` | `string` | no | Loading | Text announced to screen readers. |
-| `size` | `"sm" \| "md" \| "lg" \| "xs" \| "xl"` | no | md | Diameter: `xs` 12px, `sm` 16px, `md` 20px, `lg` 24px, `xl` 32px. |
+| `size` | `"sm" \| "md" \| "lg" \| "xs" \| "xl"` | no | md | Diameter: `xs` 13px, `sm` 17px, `md` 21px, `lg` 25px, `xl` 33px. |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -638,6 +639,7 @@ Also accepts the native props of the element it renders; they pass through.
 ```tsx
 <Spinner label="Saving changes" />
 <Spinner size="sm" label="Uploading" />
+<Spinner color="var(--color-brand-solid)" label="Syncing" />
 <Spinner label="" />
 ```
 
@@ -2458,6 +2460,7 @@ Explains why a region is empty and how to fill it.
 | `className` | `string` | no |  |  |
 | `illustration` | `ReactNode` | no |  | Decorative illustration. Hidden from assistive technology and never shown at size `xs`. |
 | `size` | `"sm" \| "md" \| "xs"` | no | md | `md` for screens, tables and large cards; `sm` for cards and panels; `xs` for nested containers. |
+| `style` | `CSSProperties` | no |  | One-off inline styles, for example to tune `--empty-state-padding`, `--empty-state-gap` or `--empty-state-illustration`. |
 | `title` | `ReactNode` | no |  | Short message that introduces the scenario. Optional. |
 
 Also accepts the native props of the element it renders; they pass through.

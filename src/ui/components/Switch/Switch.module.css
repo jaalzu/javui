@@ -26,11 +26,9 @@
   padding: calc(var(--space-1) / 2);
   border: 0;
   border-radius: var(--radius-full);
-  background: var(--color-component);
+  background: var(--color-component-hover);
   cursor: pointer;
-  transition:
-    background-color var(--motion-duration-fast) var(--motion-easing-standard),
-    box-shadow var(--motion-duration-fast) var(--motion-easing-standard);
+  transition: background-color var(--motion-duration-fast) var(--motion-easing-standard);
 }
 
 .track[data-size="sm"] {
@@ -40,10 +38,23 @@
   --switch-travel: calc(0.875rem - var(--border-width-thin));
 }
 
+:global([data-theme="dark"]) .track:not([data-checked]) {
+  background: var(--color-component);
+}
+
 .track:hover:not([data-disabled]):not([data-readonly]):not([data-loading]),
 .track[data-force="hover"]:not([data-disabled]):not([data-readonly]):not(
     [data-loading]
   ) {
+  background: var(--color-component-active);
+}
+
+:global([data-theme="dark"]) .track:hover:not([data-disabled]):not([data-readonly]):not(
+    [data-loading]
+  ),
+:global([data-theme="dark"]) .track[data-force="hover"]:not([data-disabled]):not(
+    [data-readonly]
+  ):not([data-loading]) {
   background: var(--color-component-hover);
 }
 
@@ -51,13 +62,6 @@
 .track[data-force="focus"] {
   outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
   outline-offset: var(--focus-ring-offset);
-}
-
-.track:active:not([data-disabled]):not([data-readonly]):not([data-loading]),
-.track[data-force="active"]:not([data-disabled]):not([data-readonly]):not(
-    [data-loading]
-  ) {
-  background: var(--color-component-active);
 }
 
 .track[data-checked] {
@@ -68,15 +72,6 @@
     [data-loading]
   ),
 .track[data-checked][data-force="hover"]:not([data-disabled]):not(
-    [data-readonly]
-  ):not([data-loading]) {
-  background: var(--color-brand-solid-hover);
-}
-
-.track[data-checked]:active:not([data-disabled]):not([data-readonly]):not(
-    [data-loading]
-  ),
-.track[data-checked][data-force="active"]:not([data-disabled]):not(
     [data-readonly]
   ):not([data-loading]) {
   background: var(--color-brand-solid-hover);
@@ -96,8 +91,16 @@
 }
 
 .track[data-disabled] {
-  background: var(--color-disabled);
+  background: var(--color-component-hover);
   cursor: not-allowed;
+}
+
+:global([data-theme="dark"]) .track[data-disabled] {
+  background: var(--color-component);
+}
+
+.track[data-disabled] .thumb {
+  background: var(--color-disabled-foreground);
 }
 
 .track[data-invalid] {

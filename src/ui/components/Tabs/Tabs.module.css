@@ -1,21 +1,123 @@
 .root {
+  --tab-padding-inline: calc(var(--space-4) - var(--border-width-thin));
+
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
+/* Horizontal padding per size. It lives on .root so the indicator can read it too. */
+.root[data-size="sm"] {
+  --tab-padding-inline: var(--space-2);
+}
+.root[data-size="md"] {
+  --tab-padding-inline: var(--space-3);
+}
+
+.root[data-size="lg"] {
+  --tab-padding-inline: var(--space-3);
+}
+
+.root[data-size="xl"] {
+  --tab-padding-inline: var(--space-4);
+}
+
+.root[data-size="2xl"] {
+  --tab-padding-inline: var(--space-5);
+}
+
 .listContainer {
   display: flex;
   align-self: flex-start;
-  padding: var(--space-1);
+  padding: 0;
 }
 
+/* No padding and no gap: the indicator sits flush against the container. */
 .list {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: var(--space-1);
+  gap: 0;
+  padding: 0;
+  border-radius: var(--radius-sm);
 }
 
+.root[data-variant="default"] .list {
+  background: var(--color-component);
+}
+
+.root[data-variant="line"] .listContainer {
+  align-self: stretch;
+}
+
+.root[data-variant="line"] .list {
+  flex: 1;
+  border-radius: 0;
+  box-shadow: inset 0 calc(var(--border-width-thin) * -1) 0
+    var(--color-border-default);
+}
+
+/* Indicator: positioned and sized by Base UI variables. */
+.indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  box-sizing: border-box;
+  pointer-events: none;
+  translate: var(--active-tab-left) var(--active-tab-top);
+  width: var(--active-tab-width);
+  height: var(--active-tab-height);
+  transition:
+    translate calc(var(--motion-duration-base) * 1.25) var(--motion-easing-out),
+    width calc(var(--motion-duration-base) * 1.25) var(--motion-easing-out),
+    height calc(var(--motion-duration-base) * 1.25) var(--motion-easing-out);
+}
+
+/* Light: card is white and --color-control is transparent.
+   Dark: --color-control lightens the card. Both come from tokens. */
+.indicator[data-variant="default"] {
+  border-radius: var(--radius-sm);
+  background-color: var(--color-card);
+  background-image: linear-gradient(var(--color-control), var(--color-control));
+  border: var(--border-width-thin) solid var(--color-tab-indicator-border);
+}
+
+.indicator[data-variant="line"] {
+  border-radius: 0;
+  background: transparent;
+}
+
+.indicator[data-variant="line"]::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: var(--border-width-thick);
+  background: var(--color-brand-solid);
+  content: "";
+}
+/* Line: tabs hug their text, spacing between tabs comes from gap. */
+.root[data-variant="line"][data-orientation="horizontal"] .list {
+  gap: var(--tab-padding-inline);
+}
+
+.root[data-variant="line"][data-orientation="horizontal"] .tab {
+  padding-inline: 0;
+}
+.root[data-variant="line"][data-orientation="horizontal"] .tab::after {
+  position: absolute;
+  inset-block: 0;
+  inset-inline: calc(var(--tab-padding-inline) * -1);
+  content: "";
+}
+@media (prefers-reduced-motion: reduce) {
+  .indicator {
+    transition: none;
+  }
+}
+
+/* Vertical */
 .root[data-orientation="vertical"] {
   flex-direction: row;
   align-items: flex-start;
@@ -31,8 +133,24 @@
   align-items: stretch;
 }
 
+.root[data-orientation="vertical"][data-variant="line"] .list {
+  flex: 0 0 auto;
+  box-shadow: inset calc(var(--border-width-thin) * -1) 0 0
+    var(--color-border-default);
+}
+
 .root[data-orientation="vertical"] .tab {
   justify-content: flex-start;
+}
+
+/* In vertical the line sits on the right edge, full height of the tab. */
+.root[data-orientation="vertical"] .indicator[data-variant="line"]::after {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: auto;
+  width: var(--border-width-thick);
+  height: auto;
 }
 
 .root[data-orientation="vertical"] .panel {
@@ -41,56 +159,88 @@
   padding: var(--space-1) 0 0 var(--space-4);
 }
 
-@media (pointer: coarse) {
-  .list {
-    gap: var(--space-2);
-  }
-}
-
+/* Tab */
 .tab {
   composes: touchTargetBefore from "../../styles/touchTarget.module.css";
   --icon-size: var(--size-icon-sm);
+  --tab-height: var(--size-control-sm); /* md */
 
   position: relative;
+  z-index: 1;
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--icon-gap-sm);
-  min-height: var(--size-control-sm);
+  height: var(--tab-height);
   margin: 0;
-  padding: var(--space-1) calc(var(--space-4) - 1px);
+  /* Optical nudge: pushes the text down a quarter step (1px). */
+  padding: calc(var(--space-1) / 4) var(--tab-padding-inline) 0;
   border: 0;
-  border-radius: var(--radius-sm);
+  border-radius: 0;
   background: transparent;
   color: var(--color-secondary-foreground);
   font-family: var(--text-label-family);
   font-size: var(--text-body-size);
   line-height: 1;
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-regular);
   white-space: nowrap;
   cursor: pointer;
   user-select: none;
-  transition:
-    background-color var(--motion-duration-fast) var(--motion-easing-standard),
-    color var(--motion-duration-fast) var(--motion-easing-standard);
+  transition: color calc(var(--motion-duration-fast) / 4)
+    var(--motion-easing-out);
 }
 
+/* Icon alignment: icon wrappers are centered flex boxes, svgs are blocks. */
+.tab > * {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.tab svg {
+  display: block;
+}
+
+.root[data-variant="default"] .tab {
+  border-radius: var(--radius-sm); /* same as list and indicator */
+}
+
+.root[data-size="sm"] .tab {
+  --icon-size: var(--size-icon-xs);
+  --tab-height: var(--size-control-xs);
+  font-size: var(--text-caption-lg-size);
+}
+
+.root[data-size="lg"] .tab {
+  --icon-size: var(--size-icon-md);
+  --tab-height: var(--size-control-md);
+  font-size: var(--text-body-lg-size);
+}
+
+.root[data-size="xl"] .tab {
+  --icon-size: var(--size-icon-lg);
+  --tab-height: var(--size-control-lg);
+  font-size: var(--text-body-lg-size);
+}
+
+.root[data-size="2xl"] .tab {
+  --icon-size: var(--size-icon-xl);
+  --tab-height: var(--space-12);
+  font-size: var(--text-heading-6-size);
+}
+
+/* Hover and selected only change the text color. */
 .tab:hover:not([data-disabled]),
-.tab[data-force="hover"]:not([data-disabled]) {
-  background: var(--color-transparent-hover);
+.tab[data-force="hover"]:not([data-disabled]),
+.tab[data-active],
+.tab[data-force="selected"] {
   color: var(--color-primary-foreground);
-}
-
-.tab:active:not([data-disabled]),
-.tab[data-force="active"]:not([data-disabled]) {
-  background: var(--color-transparent-active);
 }
 
 .tab[data-active],
 .tab[data-force="selected"] {
-  background: var(--color-transparent-active);
-  color: var(--color-primary-foreground);
+  transition-duration: var(--motion-duration-fast);
 }
 
 .tab:focus-visible,
@@ -107,4 +257,8 @@
 .panel {
   padding: var(--space-4) 0 0;
   color: var(--color-primary-foreground);
+}
+
+.panel:empty {
+  padding: 0;
 }

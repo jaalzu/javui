@@ -298,6 +298,7 @@
   --color-border-default: color-mix(in oklch, var(--color-primary-foreground) 7%, transparent); /** Default borders: inputs, cards, dividers you can see. */
   --color-border-strong: color-mix(in oklch, var(--color-primary-foreground) 9%, transparent); /** Emphasized borders and hover. */
   --color-border-disabled: color-mix(in oklab, var(--color-primary-foreground) 10%, transparent); /** Borders of disabled controls. */
+  --color-tab-indicator-border: color-mix(in oklab, var(--color-primary-foreground) 16%, transparent); /** Border of the sliding indicator in the default Tabs. A step stronger than component hover in light so it reads on white; the same as component hover in dark. */
   --color-brand-border-default: color-mix(in oklab, var(--color-brand-solid) 40%, transparent); /** Brand border: selected card, active field. */
   --color-brand-border-focus: var(--color-brand-solid); /** Focus ring, in the brand color. */
   --color-positive-border-default: color-mix(in oklab, var(--color-positive-solid) 40%, transparent); /** Positive border. */
@@ -394,6 +395,7 @@
       --syntax-text: var(--color-primary-foreground); /** Default code text: variables, operators, plain identifiers. */
       --color-component-on-sunken: var(--color-card); /** Component placed on a sunken area, so it still stands out. */
       --color-control: var(--color-component-hover); /** Neutral control surface at rest. */
+      --color-tab-indicator-border: var(--color-component-hover); /** Border of the sliding indicator in the default Tabs. A step stronger than component hover in light so it reads on white; the same as component hover in dark. */
       --syntax-keyword: var(--color-brand-foreground-soft); /** Language keywords and control flow. Uses the softer brand text so it passes contrast on --color-sunken. */
       --syntax-string: var(--color-positive-foreground); /** Strings and template literals. */
       --syntax-number: color-mix(in oklab, var(--color-warning-foreground) 88%, var(--color-primary-foreground)); /** Numbers, units and constants. */
@@ -477,6 +479,7 @@
     --syntax-text: var(--color-primary-foreground); /** Default code text: variables, operators, plain identifiers. */
     --color-component-on-sunken: var(--color-card); /** Component placed on a sunken area, so it still stands out. */
     --color-control: var(--color-component-hover); /** Neutral control surface at rest. */
+    --color-tab-indicator-border: var(--color-component-hover); /** Border of the sliding indicator in the default Tabs. A step stronger than component hover in light so it reads on white; the same as component hover in dark. */
     --syntax-keyword: var(--color-brand-foreground-soft); /** Language keywords and control flow. Uses the softer brand text so it passes contrast on --color-sunken. */
     --syntax-string: var(--color-positive-foreground); /** Strings and template literals. */
     --syntax-number: color-mix(in oklab, var(--color-warning-foreground) 88%, var(--color-primary-foreground)); /** Numbers, units and constants. */

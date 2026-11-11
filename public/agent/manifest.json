@@ -1062,6 +1062,13 @@
           "required": false
         },
         {
+          "name": "data-invalid",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Marks the field invalid for styling without an error message. Prefer `error` so the reason is\nannounced. Renders `data-invalid` on the field root."
+        },
+        {
           "name": "description",
           "type": "ReactNode",
           "required": false,
@@ -1863,7 +1870,7 @@
       "name": "Switch",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "An on/off switch for a setting that applies immediately, built on Base UI Switch.\nFor choices that are submitted with a form, prefer `Checkbox`. Inside `Field` it inherits\n`error`, `required`, `readOnly` and `loading`.",
+      "description": "An on/off switch for a setting that applies immediately, built on Base UI Switch.\nFor choices that are submitted with a form, prefer `Checkbox`. Inside `Field` it inherits\n`error`, `required`, `readOnly` and `loading`.\n\nWith a label, the whole label is clickable. Without one, only the track renders: give it a name\nwith `aria-label`/`aria-labelledby` or let `Field` do it. `variant=\"card\"` turns the label into a\ncard. `invalid` tints the track without a message; `error` adds a linked message. `description`\nrenders help text below the label.",
       "import": "import { Switch } from \"@/ui\";",
       "renders": "span role=\"switch\" with a hidden native input, inside a label",
       "composition": "`label` is required. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field.",
@@ -1874,21 +1881,34 @@
       "accessibility": "Announced as a switch with on/off state. Invalid uses the danger border and an error linked with aria-describedby; required prints Required; read-only stays focusable and uses the sunken background; loading sets aria-busy and blocks changes.",
       "props": [
         {
-          "name": "label",
-          "type": "ReactNode",
-          "required": true,
-          "description": "Visible label, rendered next to the switch. Required: every control needs an accessible name."
-        },
-        {
           "name": "className",
           "type": "string",
           "required": false
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Help text below the label, linked to it with `aria-describedby`. Inside `Field`, use the\nField `description` instead."
         },
         {
           "name": "error",
           "type": "FieldErrorProp",
           "required": false,
           "description": "Error message. Marks the switch invalid and links the message with `aria-describedby`.\nInside `Field`, omit it and pass `error` to the Field instead."
+        },
+        {
+          "name": "invalid",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Marks the switch invalid without an error message and tints the track with the danger color.\nPrefer `error` so the reason is announced; use this only when the label itself explains the\nproblem. `aria-invalid` also works. Inside `Field`, pass `error` to the Field instead."
+        },
+        {
+          "name": "label",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible label, rendered next to the switch. In the card variant it fills the card.\nOmit the visible label and the wrapping `<label>`; only the track is rendered."
         },
         {
           "name": "loading",
@@ -1910,11 +1930,25 @@
           "required": false,
           "default": "false",
           "description": "The switch must be on before the form can be submitted. The label prints \"Required\".\nInside `Field`, omit it and pass `required` to the Field instead."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "default": "md",
+          "description": "Track size. `sm` is 2rem × 1.25rem and `md` is 2.5rem × 1.5rem."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"card\"",
+          "required": false,
+          "default": "default",
+          "description": "Visual presentation. `card` turns the whole label into a clickable card with a border and\nbackground, with the label and description on the left and the switch on the right."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Switch label=\"Dark mode\" />\r\n<Switch label=\"Notifications\" error=\"Turn on notifications to continue\" required />"
+        "<Switch label=\"Dark mode\" />\n<Switch label=\"Notifications\" description=\"Email and push alerts.\" defaultChecked />\n<Switch label=\"Product updates\" description=\"New features and improvements.\" variant=\"card\" />\n<Switch label=\"Notifications\" invalid />\n<Field label=\"Notifications\"><Switch aria-label=\"Notifications\" /></Field>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Switch/Switch.tsx"
     },
@@ -2337,6 +2371,20 @@
           "name": "className",
           "type": "string",
           "required": false
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\"",
+          "required": false,
+          "default": "md",
+          "description": "Tab size."
+        },
+        {
+          "name": "variant",
+          "type": "\"line\" | \"default\"",
+          "required": false,
+          "default": "default",
+          "description": "Visual treatment for the active tab indicator."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",

@@ -1,36 +1,130 @@
-import { Tabs, Text } from "@/ui";
+import { GearIcon, ChartLineIcon } from "@/ui/icons/icons.generated";
+import { Stack, Tabs, Text, type TabsProps } from "@/ui";
 import { defineHero, ex, type Example } from "@/docs/example";
+import styles from "./Tabs.examples.module.css";
+
+type TabsSize = NonNullable<TabsProps["size"]>;
+
+const panel = (label: string) => (
+  <div className={styles.canvas}>
+    <Text>{label}</Text>
+  </div>
+);
+
+const accountItems = [
+  { value: "overview", label: "Overview", content: panel("Overview") },
+  { value: "settings", label: "Settings", content: panel("Settings") },
+  { value: "account", label: "Account", content: panel("Account") },
+];
+
+const verticalItems = [
+  { value: "overview", label: "Overview", content: panel("Overview") },
+  { value: "settings", label: "Settings", content: panel("Settings") },
+  { value: "account", label: "Account", content: panel("Account") },
+  { value: "billing", label: "Billing", content: panel("Billing") },
+  { value: "activity", label: "Activity", content: panel("Activity") },
+];
+
+const sizes: { size: TabsSize; label: string }[] = [
+  { size: "sm", label: "Small " },
+  { size: "md", label: "Medium " },
+  { size: "lg", label: "Large " },
+  { size: "xl", label: "Extra large " },
+  { size: "2xl", label: "2x large " },
+];
+
+const itemsFor = (label: string) => [
+  { value: "first", label, content: null },
+  { value: "second", label: "Tabs", content: null },
+];
 
 export const hero = defineHero(
   `<Tabs
   aria-label="Account sections"
   items={[
-    { value: "profile", label: "Profile", content: <Text>Your name and photo.</Text> },
-    { value: "billing", label: "Billing", content: <Text>Plan and invoices.</Text> },
+    { value: "overview", label: "Overview", content: <Placeholder>Overview</Placeholder> },
+    { value: "settings", label: "Settings", content: <Placeholder>Settings</Placeholder> },
+    { value: "account", label: "Account", content: <Placeholder>Account</Placeholder> },
   ]}
 />`,
-  <Tabs
-    aria-label="Account sections"
-    items={[
-      { value: "profile", label: "Profile", content: <Text>Your name and photo.</Text> },
-      { value: "billing", label: "Billing", content: <Text>Plan and invoices.</Text> },
-    ]}
-  />,
+  <Tabs aria-label="Account sections" items={accountItems} />,
 );
 
 export const examples: Example[] = [
-    ex(
-      "Vertical",
-      `<Tabs\n  orientation="vertical"\n  aria-label="Account sections"\n  items={[\n    { value: "profile", label: "Profile", content: <p>Your name and photo.</p> },\n    { value: "billing", label: "Billing", content: <p>Plan and invoices.</p> },\n    { value: "team", label: "Team", content: <p>Members and roles.</p> },\n  ]}\n/>`,
-      <Tabs
-        orientation="vertical"
-        aria-label="Account sections"
-        items={[
-          { value: "profile", label: "Profile", content: <Text>Your name and photo.</Text> },
-          { value: "billing", label: "Billing", content: <Text>Plan and invoices.</Text> },
-          { value: "team", label: "Team", content: <Text>Members and roles.</Text> },
-        ]}
-      />,
-      "Vertical tabs sit in a column next to their panel, for settings and compact spaces.",
-    ),
+  ex(
+    "Default",
+    `<Tabs aria-label="Small tabs" items={items} />`,
+    <Tabs aria-label="Small tabs" items={itemsFor("Small tabs")} />,
+    "The default indicator follows the active tab and resizes smoothly between labels.",
+  ),
+  ex(
+    "Line",
+    `<Tabs variant="line" aria-label="Small tabs" items={items} />`,
+    <Tabs
+      variant="line"
+      aria-label="Small tabs"
+      items={itemsFor("Small tabs")}
+    />,
+    "The line indicator moves between tabs without appearing or disappearing.",
+  ),
+  ex(
+    "Vertical",
+    `<Tabs orientation="vertical" aria-label="Vertical tabs" items={items} />`,
+    <Tabs
+      orientation="vertical"
+      aria-label="Vertical tabs"
+      items={verticalItems}
+    />,
+    "Vertical tabs place the moving indicator beside the active tab.",
+  ),
+  ex(
+    "With icons",
+    `<Tabs
+  aria-label="Small tabs"
+  items={[
+    { value: "first", label: "Small tabs", startIcon: <ChartLineIcon />, content: null },
+    { value: "second", label: "Underline", startIcon: <GearIcon />, content: null },
+  ]}
+/>`,
+    <Tabs
+      aria-label="Small tabs"
+      items={[
+        {
+          value: "first",
+          label: "Small tabs",
+          startIcon: <ChartLineIcon />,
+          content: null,
+        },
+        {
+          value: "second",
+          label: "Underline",
+          startIcon: <GearIcon />,
+          content: null,
+        },
+      ]}
+    />,
+  ),
+  ex(
+    "Sizes",
+    `<Stack gap="6">
+  <Stack gap="3">
+    <Tabs size="sm" aria-label="Small tabs" items={items} />
+    <Tabs variant="line" size="sm" aria-label="Small tabs underline" items={items} />
+  </Stack>
+  {/* md, lg, xl and 2xl follow the same pattern */}
+</Stack>`,
+    <Stack gap="6">
+      {sizes.map(({ size, label }) => (
+        <Stack gap="3" key={size}>
+          <Tabs size={size} aria-label={label} items={itemsFor(label)} />
+          <Tabs
+            variant="line"
+            size={size}
+            aria-label={`${label} underline`}
+            items={itemsFor(label)}
+          />
+        </Stack>
+      ))}
+    </Stack>,
+  ),
 ];

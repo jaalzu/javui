@@ -66,6 +66,7 @@
   --color-border-default: var(--color-border-default);
   --color-border-strong: var(--color-border-strong);
   --color-border-disabled: var(--color-border-disabled);
+  --color-tab-indicator-border: var(--color-tab-indicator-border);
   --color-brand-border-default: var(--color-brand-border-default);
   --color-brand-border-focus: var(--color-brand-border-focus);
   --color-positive-border-default: var(--color-positive-border-default);

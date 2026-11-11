@@ -845,6 +845,7 @@ Errors are shown after the field is blurred or the form is submitted, not on the
 |---|---|---|---|---|
 | `children` | `ReactNode` | yes |  | The control: `Input`, `Textarea`, `Select`, `Checkbox`, `RadioGroup`, `Switch` or `Slider`. Controls that carry their own label or legend also accept these validation props directly. |
 | `className` | `string` | no |  |  |
+| `data-invalid` | `boolean` | no | false | Marks the field invalid for styling without an error message. Prefer `error` so the reason is announced. Renders `data-invalid` on the field root. |
 | `description` | `ReactNode` | no |  | Help text shown under the control and linked with `aria-describedby`. |
 | `error` | `FieldErrorProp` | no |  | Error message. When set, the field is marked invalid and the message is linked to the control. Pass an empty string when there is no error. Show it from validation that runs on blur or submit, not on the first keystroke (Field defaults to `validationMode="onBlur"`). |
 | `label` | `ReactNode` | no |  | Visible label. Required unless the control renders its own label or legend (Checkbox, RadioGroup, Switch, Slider). |
@@ -1414,6 +1415,11 @@ An on/off switch for a setting that applies immediately, built on Base UI Switch
 For choices that are submitted with a form, prefer `Checkbox`. Inside `Field` it inherits
 `error`, `required`, `readOnly` and `loading`.
 
+With a label, the whole label is clickable. Without one, only the track renders: give it a name
+with `aria-label`/`aria-labelledby` or let `Field` do it. `variant="card"` turns the label into a
+card. `invalid` tints the track without a message; `error` adds a linked message. `description`
+renders help text below the label.
+
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Switch } from "@/ui";`
@@ -1427,19 +1433,26 @@ For choices that are submitted with a form, prefer `Checkbox`. Inside `Field` it
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `label` | `ReactNode` | yes |  | Visible label, rendered next to the switch. Required: every control needs an accessible name. |
 | `className` | `string` | no |  |  |
+| `description` | `ReactNode` | no |  | Help text below the label, linked to it with `aria-describedby`. Inside `Field`, use the Field `description` instead. |
 | `error` | `FieldErrorProp` | no |  | Error message. Marks the switch invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
+| `invalid` | `boolean` | no | false | Marks the switch invalid without an error message and tints the track with the danger color. Prefer `error` so the reason is announced; use this only when the label itself explains the problem. `aria-invalid` also works. Inside `Field`, pass `error` to the Field instead. |
+| `label` | `ReactNode` | no |  | Visible label, rendered next to the switch. In the card variant it fills the card. Omit the visible label and the wrapping `<label>`; only the track is rendered. |
 | `loading` | `boolean` | no | false | Shows a small spinner next to the label, sets `aria-busy`, and makes the switch not interactive. |
 | `readOnly` | `boolean` | no | false | The switch can be focused and read but not changed. Uses the sunken background when off and keeps the label text at full contrast. Distinct from `disabled`. |
 | `required` | `boolean` | no | false | The switch must be on before the form can be submitted. The label prints "Required". Inside `Field`, omit it and pass `required` to the Field instead. |
+| `size` | `"sm" \| "md"` | no | md | Track size. `sm` is 2rem × 1.25rem and `md` is 2.5rem × 1.5rem. |
+| `variant` | `"default" \| "card"` | no | default | Visual presentation. `card` turns the whole label into a clickable card with a border and background, with the label and description on the left and the switch on the right. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
 ### Example
 ```tsx
 <Switch label="Dark mode" />
-<Switch label="Notifications" error="Turn on notifications to continue" required />
+<Switch label="Notifications" description="Email and push alerts." defaultChecked />
+<Switch label="Product updates" description="New features and improvements." variant="card" />
+<Switch label="Notifications" invalid />
+<Field label="Notifications"><Switch aria-label="Notifications" /></Field>
 ```
 
 ## Select
@@ -1704,6 +1717,8 @@ Tabs are compact: icons use the 16px small size.
 | `items` | `TabItem[]` | yes |  | The tabs and their panels, in order. |
 | `aria-label` | `string` | no |  | Accessible name of the tab list, for example "Account sections". Required when there is no visible heading for it. |
 | `className` | `string` | no |  |  |
+| `size` | `"sm" \| "md" \| "lg" \| "xl" \| "2xl"` | no | md | Tab size. |
+| `variant` | `"line" \| "default"` | no | default | Visual treatment for the active tab indicator. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -3221,6 +3236,7 @@ show({ title: "Saved", tone: "success" });
 | `--color-border-default` | color | light `color-mix(in oklch, var(--color-primary-foreground) 7%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 7%, transparent)` |
 | `--color-border-strong` | color | light `color-mix(in oklch, var(--color-primary-foreground) 9%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 9%, transparent)` |
 | `--color-border-disabled` | color | light `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` |
+| `--color-tab-indicator-border` | color | light `color-mix(in oklab, var(--color-primary-foreground) 13%, transparent)` / dark `var(--color-component-hover)` |
 | `--color-brand-border-default` | color | light `color-mix(in oklab, var(--color-brand-solid) 40%, transparent)` / dark `color-mix(in oklab, var(--color-brand-solid) 40%, transparent)` |
 | `--color-brand-border-focus` | color | light `var(--color-brand-solid)` / dark `var(--color-brand-solid)` |
 | `--color-positive-border-default` | color | light `color-mix(in oklab, var(--color-positive-solid) 40%, transparent)` / dark `color-mix(in oklab, var(--color-positive-solid) 40%, transparent)` |

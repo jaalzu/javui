@@ -81,6 +81,11 @@
       "$type": "color",
       "$description": "Ghost control pressed, or list item selected or highlighted."
     },
+    "toggle-active": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 8%, transparent)",
+      "$type": "color",
+      "$description": "Toggle hover and selected face in light theme."
+    },
     "neutral-subtle": {
       "$value": "color-mix(in oklab, {color.primary-foreground} 12%, transparent)",
       "$type": "color",
@@ -281,10 +286,20 @@
       "$type": "color",
       "$description": "Emphasized borders and hover."
     },
+    "border-emphasis": {
+      "$value": "color-mix(in oklch, {color.primary-foreground} 12%, transparent)",
+      "$type": "color",
+      "$description": "Slightly stronger borders for outline controls."
+    },
     "border-disabled": {
       "$value": "color-mix(in oklab, {color.primary-foreground} 10%, transparent)",
       "$type": "color",
       "$description": "Borders of disabled controls."
+    },
+    "tab-indicator-border": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 16%, transparent)",
+      "$type": "color",
+      "$description": "Border of the sliding indicator in the default Tabs. A step stronger than component hover in light so it reads on white; the same as component hover in dark."
     },
     "brand-border-default": {
       "$value": "color-mix(in oklab, {color.brand-solid} 40%, transparent)",

@@ -12,29 +12,50 @@
 
 .track {
   composes: touchTarget from "../../styles/touchTarget.module.css";
+  --switch-width: calc(2.5rem - var(--border-width-thin));
+  --switch-height: calc(1.5rem - var(--border-width-thin));
+  --switch-thumb-size: calc(1.125rem - var(--border-width-thin));
+  --switch-travel: calc(1.125rem - var(--border-width-thin));
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
-  width: 2.5rem;
-  height: 1.5rem;
+  width: var(--switch-width);
+  height: var(--switch-height);
   margin: 0;
-  padding: 2px;
-  border: var(--border-width-thin) solid var(--color-border-strong);
+  padding: calc(var(--space-1) / 2);
+  border: 0;
   border-radius: var(--radius-full);
-  background: var(--color-component);
+  background: var(--color-component-hover);
   cursor: pointer;
   transition: background-color var(--motion-duration-fast) var(--motion-easing-standard);
 }
 
-.track:hover:not([data-disabled]):not([data-readonly]):not([data-loading]),
-.track[data-force="hover"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
-  background: var(--color-component-hover);
+.track[data-size="sm"] {
+  --switch-width: calc(2rem - var(--border-width-thin));
+  --switch-height: calc(1.25rem - var(--border-width-thin));
+  --switch-thumb-size: calc(0.875rem - var(--border-width-thin));
+  --switch-travel: calc(0.875rem - var(--border-width-thin));
 }
 
-.track:active:not([data-disabled]):not([data-readonly]):not([data-loading]),
-.track[data-force="active"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
+:global([data-theme="dark"]) .track:not([data-checked]) {
+  background: var(--color-component);
+}
+
+.track:hover:not([data-disabled]):not([data-readonly]):not([data-loading]),
+.track[data-force="hover"]:not([data-disabled]):not([data-readonly]):not(
+    [data-loading]
+  ) {
   background: var(--color-component-active);
+}
+
+:global([data-theme="dark"]) .track:hover:not([data-disabled]):not([data-readonly]):not(
+    [data-loading]
+  ),
+:global([data-theme="dark"]) .track[data-force="hover"]:not([data-disabled]):not(
+    [data-readonly]
+  ):not([data-loading]) {
+  background: var(--color-component-hover);
 }
 
 .track:focus-visible,
@@ -44,20 +65,16 @@
 }
 
 .track[data-checked] {
-  border-color: var(--color-inverted-solid);
-  background: var(--color-inverted-solid);
+  background: var(--color-brand-solid);
 }
 
-.track[data-checked]:hover:not([data-disabled]):not([data-readonly]):not([data-loading]),
-.track[data-checked][data-force="hover"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
-  border-color: var(--color-inverted-solid-hover);
-  background: var(--color-inverted-solid-hover);
-}
-
-.track[data-checked]:active:not([data-disabled]):not([data-readonly]):not([data-loading]),
-.track[data-checked][data-force="active"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
-  border-color: var(--color-inverted-solid-active);
-  background: var(--color-inverted-solid-active);
+.track[data-checked]:hover:not([data-disabled]):not([data-readonly]):not(
+    [data-loading]
+  ),
+.track[data-checked][data-force="hover"]:not([data-disabled]):not(
+    [data-readonly]
+  ):not([data-loading]) {
+  background: var(--color-brand-solid-hover);
 }
 
 .track[data-readonly]:not([data-checked]),
@@ -73,40 +90,62 @@
   cursor: progress;
 }
 
-.track[data-invalid] {
-  border-color: var(--color-danger-border-default);
+.track[data-disabled] {
+  background: var(--color-component-hover);
+  cursor: not-allowed;
 }
 
-.track[data-disabled] {
-  border-color: var(--color-border-disabled);
-  background: var(--color-disabled);
-  cursor: not-allowed;
+:global([data-theme="dark"]) .track[data-disabled] {
+  background: var(--color-component);
 }
 
 .track[data-disabled] .thumb {
   background: var(--color-disabled-foreground);
 }
 
+.track[data-invalid] {
+  box-shadow: 0 0 0 var(--border-width-thick) var(--color-danger-solid);
+}
+
 .thumb {
   display: block;
-  width: 1.125rem;
-  height: 1.125rem;
+  width: var(--switch-thumb-size);
+  height: var(--switch-thumb-size);
   border-radius: var(--radius-full);
-  background: var(--color-primary-foreground);
-  transition: transform var(--motion-duration-base) var(--motion-easing-out);
+  background: var(--color-on-brand-solid-foreground);
+  transition:
+    transform var(--motion-duration-base) var(--motion-easing-out),
+    background-color var(--motion-duration-fast) var(--motion-easing-standard);
 }
 
-.track[data-checked] .thumb {
-  background: var(--color-on-inverted-foreground);
-  transform: translateX(1rem);
+.thumb[data-unchecked] {
+  transform: translateX(0) !important;
 }
 
-.track[data-disabled][data-checked] .thumb {
-  background: var(--color-disabled-foreground);
+.thumb[data-checked] {
+  transform: translateX(var(--switch-travel)) !important;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
 }
 
 .text {
   min-width: 0;
+}
+
+.description {
+  margin: var(--space-1) 0 0;
+  color: var(--color-secondary-foreground);
+  font-size: var(--text-body-sm-size);
+  line-height: var(--text-body-sm-line-tight);
+}
+
+.label[data-invalid] .text {
+  color: var(--color-danger-foreground);
 }
 
 .label:has([data-disabled]) {
@@ -120,4 +159,55 @@
 .spinner {
   flex-shrink: 0;
   color: var(--color-secondary-foreground);
+}
+
+.card {
+  width: 100%;
+  box-sizing: border-box;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  background: transparent;
+  transition: background-color var(--motion-duration-fast)
+    var(--motion-easing-standard);
+}
+
+.card .content {
+  order: 1;
+}
+
+.card .track {
+  order: 2;
+}
+
+.card .spinner {
+  order: 3;
+}
+
+.card:hover:not(:has([data-disabled])) {
+  background: var(--color-transparent-hover);
+}
+
+.card:has([data-checked]) {
+  background: var(--color-card);
+}
+
+.card:has([data-checked]):hover:not(:has([data-disabled])) {
+  background: var(--color-transparent-hover);
+}
+
+.card:has(:focus-visible) {
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.card[data-invalid] {
+  border-color: var(--color-danger-border-default);
+}
+
+.card:has([data-disabled]) {
+  border-color: var(--color-border-disabled);
+  background: var(--color-disabled);
 }

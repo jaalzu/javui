@@ -6,7 +6,7 @@ import manifest from "../../../public/agent/manifest.json";
 import shell from "@/app/_shell/shell.module.css";
 import styles from "./Examples.module.css";
 
-const centeredExamples = new Set(["Alert", "Avatar", "Badge", "Breadcrumb", "Button", "Checkbox", "Input", "InputGroup", "InputOTP", "Kbd", "Label", "Link", "Menu", "Modal", "Pagination", "Popover", "RadioGroup", "Separator", "Sheet", "Textarea", "Select", "Combobox"]);
+const centeredExamples = new Set(["Alert", "Avatar", "Badge", "Breadcrumb", "Button", "Checkbox", "Input", "InputGroup", "InputOTP", "Kbd", "Label", "Link", "Menu", "Modal", "Pagination", "Popover", "RadioGroup", "Separator", "Sheet", "Spinner", "Textarea", "Select", "Combobox", "Switch", "Toggle", "ToggleGroup", "Tooltip"]);
 const constrainedExamples = new Set(["Input", "InputGroup", "InputOTP", "Textarea", "Select", "Combobox"]);
 
 const componentImports = new Map(
@@ -100,6 +100,7 @@ const loaders: Record<string, () => Promise<ExamplesModule>> = {
   Tabs: () => import("@/ui/components/Tabs/Tabs.examples"),
   Text: () => import("@/ui/components/Text/Text.examples"),
   Textarea: () => import("@/ui/components/Textarea/Textarea.examples"),
+  Toggle: () => import("@/ui/components/Toggle/Toggle.examples"),
   ToggleGroup: () => import("@/ui/components/ToggleGroup/ToggleGroup.examples"),
   Tooltip: () => import("@/ui/components/Tooltip/Tooltip.examples"),
   VisuallyHidden: () => import("@/ui/components/VisuallyHidden/VisuallyHidden.examples"),

@@ -9,6 +9,10 @@
 - One way to do each thing: links are Link, actions are Button, headings are Heading, body text is Text.
 - Keep heading levels in order, one h1 per page.
 
+## Foundations
+- **Text**: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls (buttons, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
+- **Heading**: Page and section titles.
+
 ## Machine-readable
 - [Component manifest](/agent/manifest.json): every component with props, examples and accessibility notes
 - [Design tokens](/agent/tokens.json): every CSS variable with its meaning
@@ -17,7 +21,6 @@
 
 ## Components
 ### typography
-- **Text**: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls (buttons, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
 - **Link**: Navigation to another page, section or resource, inline in text.
 - **Kbd**: Keyboard shortcuts in docs and UI.
 - **Badge**: Short status or count labels next to other content.
@@ -44,7 +47,7 @@
 - **Avatar** (parts: AvatarGroup): Showing who a person or account is.
 
 ### feedback
-- **Spinner**: Indeterminate loading of an action or small region.
+- **Spinner**: Indeterminate loading of an action or small region that is expected to take more than a second. Place it next to the content it refers to.
 - **Skeleton**: Placeholder for content whose layout is known while it loads.
 - **Alert**: A message that stays on the page and the user must notice: a general note (neutral), relevant information (info), a completed operation (success), something that needs attention (warning) or a failed operation (error).
 - **Progress**: Showing how far a task has got.
@@ -65,7 +68,8 @@
 - **Select**: Choosing one option from a longer list, including read-only and loading states.
 - **Slider**: Choosing a number or range by dragging.
 - **Label**: A visible label for a custom control composition outside Field.
-- **ToggleGroup**: Two to five short, mutually exclusive options, such as a view switch.
+- **ToggleGroup** (parts: ToggleGroupItem): A set of two-state buttons that can be toggled independently or used as a single-choice group.
+- **Toggle**: A two-state formatting or preference control that can be toggled on or off.
 - **Combobox**: Choosing from a long list where typing to filter helps, or choosing several values.
 
 ### overlays

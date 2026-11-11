@@ -777,6 +777,70 @@
     ]
   },
   {
+    "name": "text-b",
+    "component": "TextBIcon",
+    "categories": [
+      "design",
+      "editor"
+    ],
+    "tags": [
+      "typography",
+      "typeface",
+      "print",
+      "font",
+      "bold",
+      "boldface",
+      "emphasis"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "text-italic",
+    "component": "TextItalicIcon",
+    "categories": [
+      "design",
+      "editor"
+    ],
+    "tags": [
+      "typography",
+      "typeface",
+      "print",
+      "font",
+      "slant",
+      "oblique",
+      "stress",
+      "emphasis",
+      "calligraphy"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "text-underline",
+    "component": "TextUnderlineIcon",
+    "categories": [
+      "design",
+      "editor"
+    ],
+    "tags": [
+      "typography",
+      "typeface",
+      "print",
+      "font",
+      "underscore",
+      "emphasis"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
     "name": "list",
     "component": "ListIcon",
     "categories": [
@@ -1244,6 +1308,29 @@
       "share",
       "send to",
       "arrows"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "paper-plane-tilt",
+    "component": "PaperPlaneTiltIcon",
+    "categories": [
+      "communications",
+      "maps & travel",
+      "objects"
+    ],
+    "tags": [
+      "mail",
+      "email",
+      "send",
+      "sent",
+      "messages",
+      "messaging",
+      "toys",
+      "games"
     ],
     "weights": [
       "regular",

@@ -56,6 +56,18 @@ describe("Slider", () => {
     expect(slider).toHaveAttribute("aria-readonly", "true");
   });
 
+  it("hides the visible label and value when disabled", () => {
+    render(<Slider label="Volume" defaultValue={40} disabled />);
+    expect(screen.getByText("Volume")).not.toBeVisible();
+    expect(screen.getByText("40")).not.toBeVisible();
+    expect(screen.getByRole("slider", { name: /Volume/ })).toHaveValue("40");
+  });
+
+  it("exposes a vertical orientation", () => {
+    render(<Slider label="Volume" defaultValue={40} orientation="vertical" />);
+    expect(screen.getByRole("slider")).toHaveAttribute("aria-orientation", "vertical");
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(<Slider label="Volume" defaultValue={40} />);
     expect(await axe(container)).toHaveNoViolations();

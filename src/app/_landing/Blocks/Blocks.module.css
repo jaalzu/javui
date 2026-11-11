@@ -103,7 +103,6 @@
   gap: var(--space-1);
 }
 .navLink.navLink {
-  width: 100%;
   justify-content: flex-start;
 }
 

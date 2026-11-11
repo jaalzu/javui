@@ -1,0 +1,77 @@
+.toggle {
+  composes: control from "../../styles/control.module.css";
+  composes: touchTarget from "../../styles/touchTarget.module.css";
+  --color-control: transparent;
+  --color-control-hover: var(--color-toggle-active);
+  --icon-size: var(--control-icon);
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-width: var(--size-target-min);
+  border: var(--border-width-thin) solid transparent;
+  border-radius: var(--radius-md);
+  background: transparent;
+  box-shadow: none;
+  color: var(--color-primary-foreground);
+  font-family: var(--text-label-family);
+  font-weight: var(--text-label-weight);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--motion-duration-fast) var(--motion-easing-standard),
+    color var(--motion-duration-fast) var(--motion-easing-standard);
+}
+
+/* Hover and pressed deliberately share one visual state. There is no separate active face. */
+.toggle:hover:not([data-disabled]),
+.toggle:active:not([data-disabled]),
+.toggle[data-force="hover"]:not([data-disabled]),
+.toggle[data-pressed]:not([data-disabled]) {
+  background: var(--color-toggle-active);
+  color: var(--color-primary-foreground);
+}
+
+.toggle[data-variant="outline"] {
+  border-color: var(--color-border-emphasis);
+}
+
+.toggle:focus-visible,
+.toggle[data-force="focus"] {
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.toggle[data-disabled] {
+  background: var(--color-disabled);
+  color: var(--color-disabled-foreground);
+  cursor: not-allowed;
+}
+
+.toggle[data-variant="outline"][data-disabled] {
+  border-color: var(--color-border-disabled);
+}
+
+.toggle[data-icon="only"] {
+  padding-inline: 0;
+  aspect-ratio: 1;
+}
+
+.xs {
+  composes: xs from "../../styles/control.module.css";
+}
+
+.sm {
+  composes: sm from "../../styles/control.module.css";
+}
+
+.md {
+  composes: md from "../../styles/control.module.css";
+}
+
+.lg {
+  composes: lg from "../../styles/control.module.css";
+}

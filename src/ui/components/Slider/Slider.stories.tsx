@@ -23,6 +23,10 @@ export const Default: Story = {};
 export const Range: Story = {
   args: { label: "Price", defaultValue: [20, 80], thumbLabels: ["Minimum price", "Maximum price"] },
 };
+export const Vertical: Story = {
+  args: { orientation: "vertical" },
+  decorators: [(Story) => <div style={{ height: "12rem" }}><Story /></div>],
+};
 export const Disabled: Story = { args: { disabled: true } };
 export const States: Story = {
   render: () => (

@@ -1,0 +1,12 @@
+/* Dotted placeholder card shown inside a panel. */
+.canvas {
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 7rem;
+  padding: var(--space-6);
+  border: var(--border-width-thin) dotted var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--color-card);
+}

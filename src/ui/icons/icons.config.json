@@ -38,6 +38,9 @@
   "arrows-left-right",
   "wallet",
   "file-text",
+  "text-b",
+  "text-italic",
+  "text-underline",
   "list",
   "target",
   "calendar-dots",
@@ -62,4 +65,5 @@
   ,"arrow-u-up-left"
   ,"sign-out"
   ,"export"
+  ,"paper-plane-tilt"
 ]

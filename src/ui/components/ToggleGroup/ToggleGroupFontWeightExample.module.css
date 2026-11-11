@@ -1,0 +1,30 @@
+.weightItem {
+  min-width: 5rem;
+  padding: var(--space-2) var(--space-1);
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.sample {
+  color: var(--color-primary-foreground);
+  font-size: var(--font-size-24);
+  line-height: 1;
+}
+
+.sample[data-weight="regular"] {
+  font-weight: var(--font-weight-regular);
+}
+
+.sample[data-weight="medium"] {
+  font-weight: var(--font-weight-medium);
+}
+
+.sample[data-weight="semibold"] {
+  font-weight: var(--font-weight-semibold);
+}
+
+.weightLabel {
+  color: var(--color-secondary-foreground);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line);
+}

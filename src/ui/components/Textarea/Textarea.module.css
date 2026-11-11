@@ -4,7 +4,41 @@
   min-height: var(--size-control-lg);
 }
 
+.textarea[data-resize="none"] {
+  resize: none;
+}
+
+.textarea[data-resize="auto"] {
+  resize: none;
+  field-sizing: content;
+}
+
 .slot {
   align-items: flex-start;
   padding-block-start: var(--space-2);
+}
+
+/* inline and ghost: nothing visible at rest. */
+.root[data-appearance="inline"] .textarea,
+.root[data-appearance="ghost"] .textarea {
+  background: transparent;
+}
+
+/* Invalid keeps its danger ring (set in Input.module.css). */
+.root[data-appearance="inline"]
+  .textarea:not([data-invalid]):not([aria-invalid="true"]),
+.root[data-appearance="ghost"]
+  .textarea:not([data-invalid]):not([aria-invalid="true"]) {
+  box-shadow: none;
+}
+
+/* inline: hover comes from Input's own hover rule; focus keeps the same background. */
+.root[data-appearance="inline"] .textarea:focus-visible,
+.root[data-appearance="inline"] .textarea[data-force="focus"] {
+  background: var(--input-hover-background);
+}
+
+/* ghost: no hover background and none on focus. Only the focus ring remains. */
+.root[data-appearance="ghost"] .textarea {
+  --input-hover-background: transparent;
 }

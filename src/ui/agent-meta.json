@@ -165,14 +165,17 @@
   "Spinner": {
     "category": "feedback",
     "base": "own",
-    "renders": "span with role=\"status\" containing an svg and VisuallyHidden text, or an aria-hidden span when the label is empty",
-    "composition": "No children. Use `label` to describe what is loading. An empty label makes it decorative and silent.",
-    "whenToUse": "Indeterminate loading of an action or small region.",
+    "renders": "span with role=\"status\" containing twelve decorative bars and VisuallyHidden text, or an aria-hidden span when the label is empty",
+    "composition": "No children. Use `label` to describe what is loading. Sizes: xs 12px, sm 16px, md 20px (default), lg 24px, xl 32px. Paints with currentColor, so it inherits the surrounding text color. An empty label makes it decorative and silent.",
+    "whenToUse": "Indeterminate loading of an action or small region that is expected to take more than a second. Place it next to the content it refers to.",
     "avoid": [
+      "Waits under a second: it appears and disappears too fast to be useful.",
       "Several spinners announcing at once.",
-      "Page-level loading of content shape: use Skeleton."
+      "Page-level loading of content shape: use Skeleton.",
+      "Known completion percentage: use Progress.",
+      "Placing it inside a Button or Badge by hand: use their `loading` prop."
     ],
-    "a11y": "Announces `label` through a status live region; with an empty label it renders no status role, no VisuallyHidden text and aria-hidden=\"true\". Motion follows prefers-reduced-motion."
+    "a11y": "Announces `label` through a status live region; with an empty label it renders no status role, no VisuallyHidden text and aria-hidden=\"true\". The bars are decorative. Motion follows prefers-reduced-motion by slowing the sequence."
   },
   "Skeleton": {
     "category": "feedback",
@@ -767,7 +770,7 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "div with one input type range per thumb",
-    "composition": "Pass `label` and `defaultValue` (number or [min, max]). Use `thumbLabels` for ranges. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field.",
+    "composition": "Pass `label` and `defaultValue` (number or [min, max]). Use `thumbLabels` for ranges and `orientation=\"vertical\"` for a vertical track. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field. Disabled hides the visible label and value; the label remains the accessible name.",
     "whenToUse": "Choosing a number or range by dragging.",
     "avoid": [
       "Exact entry: use Input.",
@@ -914,19 +917,41 @@
     "avoid": ["Using it outside Collapsible.", "Hiding content users must read."],
     "a11y": "Labelled by its trigger. The closed panel stays mounted in the DOM."
   },
+  "Toggle": {
+    "category": "controls",
+    "base": "base-ui",
+    "renders": "button with aria-pressed",
+    "composition": "Pass visible children or `startIcon`/`endIcon`; icon-only toggles require `aria-label` or `aria-labelledby`. Sizes are `xs`, `sm`, `md` and `lg`. `variant` is `default` (borderless) or `outline`.",
+    "whenToUse": "A two-state formatting or preference control that can be toggled on or off.",
+    "avoid": [
+      "Navigation between panels: use Tabs.",
+      "An action without persistent on/off state: use Button.",
+      "Several related toggles: use ToggleGroup."
+    ],
+    "a11y": "Base UI exposes the pressed state with aria-pressed. Icon-only toggles need an accessible name."
+  },
   "ToggleGroup": {
     "category": "controls",
     "base": "base-ui",
     "renders": "div role=\"group\" with toggle buttons",
-    "composition": "Pass `label` (required accessible name), `items` ({ value, label, startIcon?, disabled? }), optional controlled value, `size` (sm or md) and `disabled`. Single choice only.",
-    "whenToUse": "Two to five short, mutually exclusive options, such as a view switch.",
+    "composition": "Compose `ToggleGroupItem` children. Pass `aria-label` or `aria-labelledby`, `multiple`, `orientation`, `spacing` (`none`, `sm` or `md`), `size` (`xs`, `sm`, `md` or `lg`) and `variant` (`default` or `outline`). The variant is inherited by every item.",
+    "whenToUse": "A set of two-state buttons that can be toggled independently or used as a single-choice group.",
     "avoid": [
       "Long content changes: use Tabs.",
-      "Independent on/off choices: use Checkbox or Switch.",
+      "One independent on/off choice: use Toggle.",
       "More than five options: use Select.",
       "Related actions that are not a choice: use ButtonGroup."
     ],
-    "a11y": "Arrow keys move between toggles and roles come from Base UI. The group needs its `label`; selected state is exposed with aria-pressed."
+    "a11y": "Arrow keys, group semantics and aria-pressed states come from Base UI. Give the group an accessible name."
+  },
+  "ToggleGroupItem": {
+    "category": "controls",
+    "base": "base-ui",
+    "renders": "button with aria-pressed",
+    "composition": "Child of ToggleGroup. Pass a required `value`, visible children or `startIcon`/`endIcon`, and `aria-label` for icon-only items.",
+    "whenToUse": "One option inside ToggleGroup.",
+    "avoid": ["Using it outside ToggleGroup."],
+    "a11y": "The parent group provides keyboard navigation; icon-only items need an accessible name."
   },
   "ScrollArea": {
     "category": "layout",

@@ -22,6 +22,10 @@ export type TabItem = {
 export type TabsProps = {
   /** The tabs and their panels, in order. */
   items: TabItem[];
+  /** Visual treatment for the active tab indicator. @default "default" */
+  variant?: "default" | "line";
+  /** Tab size. @default "md" */
+  size?: "sm" | "md" | "lg" | "xl" | "2xl";
   /** Accessible name of the tab list, for example "Account sections". Required when there is no visible heading for it. */
   "aria-label"?: string;
   className?: string;
@@ -45,6 +49,8 @@ export function Tabs({
   items,
   "aria-label": ariaLabel,
   className,
+  variant = "default",
+  size = "md",
   defaultValue,
   ...rest
 }: TabsProps) {
@@ -56,11 +62,18 @@ export function Tabs({
   return (
     <BaseTabs.Root
       className={cx(styles.root, className)}
+      data-variant={variant}
+      data-size={size}
       defaultValue={initial}
       {...rest}
     >
       <div className={styles.listContainer}>
         <BaseTabs.List className={styles.list} aria-label={ariaLabel}>
+          <BaseTabs.Indicator
+            className={styles.indicator}
+            data-variant={variant}
+            data-size={size}
+          />
           {items.map((item) => (
             <BaseTabs.Tab
               key={item.value}

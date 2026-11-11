@@ -1,0 +1,12 @@
+/* Disabled buttons do not fire hover events, so the span receives them. */
+.disabledWrapper {
+  display: inline-block;
+}
+
+.shortcut {
+  white-space: nowrap;
+}
+
+.shortcut > kbd {
+  margin-inline-start: var(--border-width-thin);
+}

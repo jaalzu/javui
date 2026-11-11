@@ -55,10 +55,15 @@ export type SliderProps = {
   disabled?: boolean;
   /** Names of the thumbs of a range, for example `["Minimum price", "Maximum price"]`. */
   thumbLabels?: string[];
-  /** Show the current value next to the label. @default true */
+  /** Show the current value next to the label. Hidden when `disabled`. @default true */
   showValue?: boolean;
+  /**
+   * Direction of the track. Vertical needs a parent with height, or uses the slider's own height.
+   * @default "horizontal"
+   */
+  orientation?: "horizontal" | "vertical";
   /** Story/test hook: force the focus ring without moving focus. */
-  "data-force"?: "focus";
+  "data-force"?: "focus" | "hover" | "active";
   className?: string;
 };
 
@@ -70,6 +75,7 @@ export type SliderProps = {
  * @example
  * <Slider label="Volume" defaultValue={40} />
  * <Slider label="Price" defaultValue={[20, 80]} thumbLabels={["Minimum price", "Maximum price"]} />
+ * <Slider label="Volume" defaultValue={40} orientation="vertical" />
  * <Slider label="Budget" error="Choose a budget" required />
  */
 export function Slider({
@@ -82,6 +88,8 @@ export function Slider({
   required: requiredProp,
   readOnly: readOnlyProp,
   loading: loadingProp,
+  disabled,
+  orientation = "horizontal",
   "data-force": dataForce,
   ...rest
 }: SliderProps) {
@@ -124,6 +132,8 @@ export function Slider({
         className={cx(styles.root, className)}
         defaultValue={initial}
         {...rest}
+        disabled={disabled}
+        orientation={orientation}
         data-readonly={state.readOnly ? "" : undefined}
         data-loading={state.loading ? "" : undefined}
         data-invalid={state.invalid ? "" : undefined}
@@ -132,7 +142,7 @@ export function Slider({
         aria-invalid={state.invalid || undefined}
         onKeyDownCapture={handleKeyDownCapture}
       >
-        <div className={styles.row}>
+        <div className={cx(styles.row, disabled && styles.rowHidden)}>
           <BaseSlider.Label className={styles.label}>
             {label}
             {state.showRequired ? (

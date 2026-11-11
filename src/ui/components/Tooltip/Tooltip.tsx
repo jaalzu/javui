@@ -11,10 +11,12 @@ export type TooltipProviderProps = ComponentProps<typeof BaseTooltip.Provider>;
  *
  * @default delay 600
  */
-export function TooltipProvider({ delay = 600, ...rest }: TooltipProviderProps) {
+export function TooltipProvider({
+  delay = 600,
+  ...rest
+}: TooltipProviderProps) {
   return <BaseTooltip.Provider delay={delay} {...rest} />;
 }
-
 export type TooltipProps = {
   /** Short supplementary text. Never put essential information only here. */
   content: ReactNode;
@@ -25,6 +27,10 @@ export type TooltipProps = {
   children: ReactElement;
   /** Preferred side of the trigger. @default "top" */
   side?: "top" | "bottom" | "left" | "right";
+  /** Milliseconds to wait before opening. Overrides the provider's delay for this tooltip. */
+  delay?: number;
+  /** Milliseconds to wait before closing. */
+  closeDelay?: number;
   className?: string;
   /** Keeps the tooltip open for documentation previews. */
   open?: boolean;
@@ -32,21 +38,32 @@ export type TooltipProps = {
   defaultOpen?: boolean;
 };
 
-/**
- * A small label that appears on hover or keyboard focus, built on Base UI Tooltip.
- * Tooltips do not appear on touch devices and are not a reliable way to describe a control, so use
- * them only to add clarity (for example the name of an icon button) and never for critical information.
- *
- * @example
- * <Tooltip content="Bold"><Button aria-label="Bold" variant="ghost">B</Button></Tooltip>
- */
-export function Tooltip({ content, children, side = "top", className, open, defaultOpen }: TooltipProps) {
+export function Tooltip({
+  content,
+  children,
+  side = "top",
+  delay,
+  closeDelay,
+  className,
+  open,
+  defaultOpen,
+}: TooltipProps) {
   return (
     <BaseTooltip.Root open={open} defaultOpen={defaultOpen}>
-      <BaseTooltip.Trigger render={children} />
+      <BaseTooltip.Trigger
+        render={children}
+        delay={delay}
+        closeDelay={closeDelay}
+      />
       <BaseTooltip.Portal>
-        <BaseTooltip.Positioner side={side} sideOffset={8} className={styles.positioner}>
-          <BaseTooltip.Popup className={cx(styles.popup, className)}>{content}</BaseTooltip.Popup>
+        <BaseTooltip.Positioner
+          side={side}
+          sideOffset={8}
+          className={styles.positioner}
+        >
+          <BaseTooltip.Popup className={cx(styles.popup, className)}>
+            {content}
+          </BaseTooltip.Popup>
         </BaseTooltip.Positioner>
       </BaseTooltip.Portal>
     </BaseTooltip.Root>

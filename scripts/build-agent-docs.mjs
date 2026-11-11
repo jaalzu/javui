@@ -118,7 +118,7 @@ const componentsManifest = allExported.map((name) => {
 });
 
 // Foundations are public primitives, but they belong with foundation docs rather than the component catalog.
-const foundationNames = new Set(["Heading"]);
+const foundationNames = new Set(["Heading", "Text"]);
 const foundationsManifest = componentsManifest.filter((c) => foundationNames.has(c.name));
 
 // Components without a docgen entry (for example aliases) still get TSDoc from source.
@@ -155,6 +155,7 @@ const compoundParts = {
   Field: ["FieldSet", "FieldSeparator"],
   InputGroup: ["InputGroupInput", "InputGroupAddon", "InputGroupText", "InputGroupButton"],
   DescriptionList: ["DescriptionListTerm", "DescriptionListDetails"],
+  ToggleGroup: ["ToggleGroupItem"],
 };
 const providerAndHookNames = ["LinkProvider", "TooltipProvider", "ToastProvider", "useLinkComponent", "useToast"];
 const byName = new Map(componentsManifest.map((c) => [c.name, c]));
@@ -253,6 +254,9 @@ const llms = [
   "## Principles",
   list(manifest.principles),
   "",
+  "## Foundations",
+  ...foundationsManifest.map((c) => `- **${c.name}**: ${c.whenToUse}`),
+  "",
   "## Machine-readable",
   "- [Component manifest](/agent/manifest.json): every component with props, examples and accessibility notes",
   "- [Design tokens](/agent/tokens.json): every CSS variable with its meaning",
@@ -314,6 +318,9 @@ const full = [
   "",
   "---",
   "",
+  ...foundationsManifest.flatMap((c) => [
+    ...entryMarkdown(c),
+  ]),
   ...topLevelComponents.flatMap((c) => [
     ...entryMarkdown(c),
     ...(c.parts?.length

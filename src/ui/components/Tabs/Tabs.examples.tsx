@@ -29,8 +29,8 @@ const sizes: { size: TabsSize; label: string }[] = [
   { size: "sm", label: "Small " },
   { size: "md", label: "Medium " },
   { size: "lg", label: "Large " },
-  { size: "xl", label: "Extra large " },
-  { size: "2xl", label: "2x large " },
+  { size: "xl", label: "Extra Large " },
+  { size: "2xl", label: "2x Large " },
 ];
 
 const itemsFor = (label: string) => [

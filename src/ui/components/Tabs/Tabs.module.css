@@ -205,29 +205,33 @@
 .root[data-variant="default"] .tab {
   border-radius: var(--radius-sm); /* same as list and indicator */
 }
+.tab {
+  /* md */
+  font-size: var(--font-size-13);
+}
 
 .root[data-size="sm"] .tab {
   --icon-size: var(--size-icon-xs);
   --tab-height: var(--size-control-xs);
-  font-size: var(--text-caption-lg-size);
+  font-size: var(--font-size-12);
 }
 
 .root[data-size="lg"] .tab {
   --icon-size: var(--size-icon-md);
   --tab-height: var(--size-control-md);
-  font-size: var(--text-body-lg-size);
+  font-size: var(--font-size-14);
 }
 
 .root[data-size="xl"] .tab {
   --icon-size: var(--size-icon-lg);
   --tab-height: var(--size-control-lg);
-  font-size: var(--text-body-lg-size);
+  font-size: var(--font-size-15);
 }
 
 .root[data-size="2xl"] .tab {
   --icon-size: var(--size-icon-xl);
   --tab-height: var(--space-12);
-  font-size: var(--text-heading-6-size);
+  font-size: var(--font-size-18);
 }
 
 /* Hover and selected only change the text color. */

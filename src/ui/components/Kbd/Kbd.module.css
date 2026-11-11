@@ -23,7 +23,12 @@
   user-select: none;
   -webkit-user-select: none;
 }
-.kbd[data-single="true"] { text-transform: uppercase; }
+.kbd[data-single="true"] {
+  padding-inline: 0;
+  text-transform: uppercase;
+  letter-spacing: normal;
+  text-indent: calc(-1 * var(--border-width-thin));
+}
 .kbd[data-single="true"][data-size="lg"] { font-size: var(--font-size-18); }
 .kbd[data-single="true"][data-size="xl"] { font-size: var(--font-size-24); }
 .kbd[data-size="sm"] { --_kbd-size: var(--size-icon-sm); }

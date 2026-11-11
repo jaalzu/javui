@@ -9,6 +9,10 @@
 - One way to do each thing: links are Link, actions are Button, headings are Heading, body text is Text.
 - Keep heading levels in order, one h1 per page.
 
+## Foundations
+- **Text**: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls (buttons, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
+- **Heading**: Page and section titles.
+
 ## Machine-readable
 - [Component manifest](/agent/manifest.json): every component with props, examples and accessibility notes
 - [Design tokens](/agent/tokens.json): every CSS variable with its meaning
@@ -17,7 +21,6 @@
 
 ## Components
 ### typography
-- **Text**: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls (buttons, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
 - **Link**: Navigation to another page, section or resource, inline in text.
 - **Kbd**: Keyboard shortcuts in docs and UI.
 - **Badge**: Short status or count labels next to other content.
@@ -65,7 +68,8 @@
 - **Select**: Choosing one option from a longer list, including read-only and loading states.
 - **Slider**: Choosing a number or range by dragging.
 - **Label**: A visible label for a custom control composition outside Field.
-- **ToggleGroup**: Two to five short, mutually exclusive options, such as a view switch.
+- **ToggleGroup** (parts: ToggleGroupItem): A set of two-state buttons that can be toggled independently or used as a single-choice group.
+- **Toggle**: A two-state formatting or preference control that can be toggled on or off.
 - **Combobox**: Choosing from a long list where typing to filter helps, or choosing several values.
 
 ### overlays
@@ -134,6 +138,38 @@ Also accepts the native props of the element it renders; they pass through.
 <Text size="lg">Large body text</Text>
 <Text variant="caption" tone="muted">Helper text</Text>
 <Text lineClamp={2}>A long description that can safely truncate...</Text>
+```
+
+## Heading
+
+A heading. Separates semantics (`as`) from appearance (`size`). Headings are always upright and semibold.
+When `id` is omitted, a stable slug of the text is used, so anchors render the same on the server and the client.
+
+- Category: typography
+- Base: Own component
+- Import: `import { Heading } from "@/ui";`
+- Renders: h1-h6 from `as` (default h2)
+- Composition: `as` sets the outline level (h1-h6 only); `size` sets only the look.
+- Use when: Page and section titles.
+- Avoid:
+  - Skipping levels (h1 then h3).
+  - More than one h1 per page.
+  - Choosing a level for its look: change `size` instead.
+- Accessibility: Heading order is part of the page structure for screen reader users.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `as` | `"h1" \| "h2" \| "h3" \| "h4" \| "h5" \| "h6"` | no | h2 | Heading level in the document outline. Keep one `h1` per page and do not skip levels. |
+| `size` | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | no |  | Visual size from 1 (56px) to 6 (20px) on wide screens. Defaults to the size that matches `as`. Use it to get an `h2` that looks like a size 4. |
+| `weight` | `"regular" \| "medium" \| "semibold"` | no | "semibold" | Font weight. There is no light; headings are semibold unless you set another. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Heading as="h1">Page title</Heading>
+<Heading as="h2" size={4}>Smaller-looking section title</Heading>
 ```
 
 ## Link
@@ -1235,7 +1271,9 @@ Icons use the 20px medium size (the textarea has no size variants).
 | `className` | `string` | no |  |  |
 | `endIcon` | `ReactNode` | no |  | Icon after the text. Pass a generated icon without `size`; the textarea sizes it. |
 | `loading` | `boolean` | no | false | Shows a small spinner at the end and makes the textarea not editable. `aria-busy` is set. Inside `Field`, omit it and pass `loading` to the Field instead. |
+| `resize` | `"none" \| "auto" \| "vertical"` | no | vertical | Resize behavior. `vertical` shows the drag handle, `none` fixes the height and `auto` grows with the content (`field-sizing: content`; `rows` becomes the minimum height). |
 | `startIcon` | `ReactNode` | no |  | Icon before the text. Pass a generated icon without `size`; the textarea sizes it. |
+| `variant` | `"inline" \| "default" \| "ghost"` | no | default | Visual treatment. `inline` is invisible at rest and shows the Input hover background on hover and focus. `ghost` shows nothing at all, only the focus ring. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1243,6 +1281,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 ```tsx
 <Field label="Message"><Textarea rows={4} /></Field>
 <Field label="Notes" readOnly><Textarea defaultValue="Locked for review." /></Field>
+<Textarea aria-label="Comment" variant="inline" resize="auto" />
 ```
 
 ## Checkbox
@@ -1662,9 +1701,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## Tooltip
 
-A small label that appears on hover or keyboard focus, built on Base UI Tooltip.
-Tooltips do not appear on touch devices and are not a reliable way to describe a control, so use
-them only to add clarity (for example the name of an icon button) and never for critical information.
+
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
@@ -1683,16 +1720,13 @@ them only to add clarity (for example the name of an icon button) and never for 
 | `children` | `ReactElement<unknown, string \| JSXElementConstructor<any>>` | yes |  | The element that triggers the tooltip. It must be focusable and already have its own accessible name (visible text or `aria-label`). |
 | `content` | `ReactNode` | yes |  | Short supplementary text. Never put essential information only here. |
 | `className` | `string` | no |  |  |
+| `closeDelay` | `number` | no |  | Milliseconds to wait before closing. |
 | `defaultOpen` | `boolean` | no |  | Opens the tooltip initially. |
+| `delay` | `number` | no |  | Milliseconds to wait before opening. Overrides the provider's delay for this tooltip. |
 | `open` | `boolean` | no |  | Keeps the tooltip open for documentation previews. |
 | `side` | `"top" \| "bottom" \| "left" \| "right"` | no | top | Preferred side of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
-
-### Example
-```tsx
-<Tooltip content="Bold"><Button aria-label="Bold" variant="ghost">B</Button></Tooltip>
-```
 
 ## Tabs
 
@@ -2597,47 +2631,118 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## ToggleGroup
 
-A segmented single-choice control built on Base UI Toggle Group. Use it for two to five short,
-mutually exclusive options, such as a view switch. For longer content use Tabs; for independent
-on/off choices use Checkbox.
+A set of related toggles with shared state, built on Base UI Toggle Group. It handles arrow-key
+navigation and the selected values, so do not wire them by hand. Items inherit `size`.
+
+Selection is single by default; add `multiple` for several. `value` and `defaultValue` are always
+arrays of item values. A group needs an accessible name (`aria-label`), and each icon-only item
+needs its own. For a single independent on/off button, use `Toggle`.
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { ToggleGroup } from "@/ui";`
 - Renders: div role="group" with toggle buttons
-- Composition: Pass `label` (required accessible name), `items` ({ value, label, startIcon?, disabled? }), optional controlled value, `size` (sm or md) and `disabled`. Single choice only.
-- Use when: Two to five short, mutually exclusive options, such as a view switch.
+- Composition: Compose `ToggleGroupItem` children. Pass `aria-label` or `aria-labelledby`, `multiple`, `orientation`, `spacing` (`none`, `sm` or `md`), `size` (`xs`, `sm`, `md` or `lg`) and `variant` (`default` or `outline`). The variant is inherited by every item.
+- Use when: A set of two-state buttons that can be toggled independently or used as a single-choice group.
 - Avoid:
   - Long content changes: use Tabs.
-  - Independent on/off choices: use Checkbox or Switch.
+  - One independent on/off choice: use Toggle.
   - More than five options: use Select.
   - Related actions that are not a choice: use ButtonGroup.
-- Accessibility: Arrow keys move between toggles and roles come from Base UI. The group needs its `label`; selected state is exposed with aria-pressed.
+- Accessibility: Arrow keys, group semantics and aria-pressed states come from Base UI. Give the group an accessible name.
 
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `items` | `ToggleGroupItem[]` | yes |  | The options, in order. |
-| `label` | `string` | yes |  | Accessible name of the group. Required. |
+| `children` | `ReactNode` | yes |  | Toggle buttons in the group. |
 | `className` | `string` | no |  |  |
-| `defaultValue` | `string` | no |  | Initially selected value, when uncontrolled. |
-| `disabled` | `boolean` | no | false |  |
-| `onValueChange` | `((value: string) => void)` | no |  | Called with the selected value, or an empty string when nothing is selected. |
-| `size` | `"sm" \| "md"` | no | md | Control height: `sm` 1.75rem, `md` 2.25rem. |
-| `value` | `string` | no |  | Selected value, when controlled. |
+| `defaultValue` | `readonly string[]` | no |  | Initially selected values, when uncontrolled. |
+| `multiple` | `boolean` | no | false | Allow several items to be on at once. By default only one is. |
+| `onValueChange` | `((groupValue: string[], eventDetails: { reason: "none"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)` | no |  | Called when the selected values change. |
+| `orientation` | `"horizontal" \| "vertical"` | no | "horizontal" | Stack the items vertically instead of horizontally. |
+| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | md | Control height and icon size inherited by every item. |
+| `spacing` | `"sm" \| "md" \| "none"` | no | md | Space between items. `none` connects their borders. |
+| `value` | `readonly string[]` | no |  | Selected values, when controlled. |
+| `variant` | `"default" \| "outline"` | no | outline | Visual treatment inherited by every item. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
 ### Example
 ```tsx
-<ToggleGroup
-  label="View"
-  defaultValue="list"
-  items={[
-    { value: "list", label: "List" },
-    { value: "grid", label: "Grid" },
-  ]}
-/>
+<ToggleGroup aria-label="View" defaultValue={["list"]}>
+  <ToggleGroupItem value="list">List</ToggleGroupItem>
+  <ToggleGroupItem value="board">Board</ToggleGroupItem>
+</ToggleGroup>
+<ToggleGroup aria-label="Text style" multiple>...</ToggleGroup>
+```
+
+### Parts
+
+### ToggleGroupItem
+
+A toggle group item that composes the standalone Toggle with Base UI Toggle Group.
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { ToggleGroupItem } from "@/ui";`
+- Renders: button with aria-pressed
+- Composition: Child of ToggleGroup. Pass a required `value`, visible children or `startIcon`/`endIcon`, and `aria-label` for icon-only items.
+- Use when: One option inside ToggleGroup.
+- Avoid:
+  - Using it outside ToggleGroup.
+- Accessibility: The parent group provides keyboard navigation; icon-only items need an accessible name.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | no |  | Visible label. Omit it for an icon-only toggle and provide `aria-label`. |
+| `className` | `string` | no |  |  |
+| `endIcon` | `ReactNode` | no |  | Icon after the label. |
+| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | "md" | Control height and icon size, following `Button`. |
+| `startIcon` | `ReactNode` | no |  | Icon before the label, or the icon for an icon-only toggle. |
+| `variant` | `"default" \| "outline"` | no | "default" | Visual treatment. `default` has no border; `outline` draws the control border. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+## Toggle
+
+A button with an on/off state (`aria-pressed`), built on Base UI Toggle. Use it for a state the
+person flips on the spot: bold, a filter, mute. For a setting that applies immediately and is
+read as a setting (dark mode, notifications), use `Switch`. To pick among related options, use
+`ToggleGroup`.
+
+Uncontrolled with `defaultPressed`, controlled with `pressed` and `onPressedChange`. Icon-only
+toggles need `aria-label` or `aria-labelledby`. Sizes follow `Button`.
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Toggle } from "@/ui";`
+- Renders: button with aria-pressed
+- Composition: Pass visible children or `startIcon`/`endIcon`; icon-only toggles require `aria-label` or `aria-labelledby`. Sizes are `xs`, `sm`, `md` and `lg`. `variant` is `default` (borderless) or `outline`.
+- Use when: A two-state formatting or preference control that can be toggled on or off.
+- Avoid:
+  - Navigation between panels: use Tabs.
+  - An action without persistent on/off state: use Button.
+  - Several related toggles: use ToggleGroup.
+- Accessibility: Base UI exposes the pressed state with aria-pressed. Icon-only toggles need an accessible name.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | no |  | Visible label. Omit it for an icon-only toggle and provide `aria-label`. |
+| `className` | `string` | no |  |  |
+| `endIcon` | `ReactNode` | no |  | Icon after the label. |
+| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | "md" | Control height and icon size, following `Button`. |
+| `startIcon` | `ReactNode` | no |  | Icon before the label, or the icon for an icon-only toggle. |
+| `variant` | `"default" \| "outline"` | no | "default" | Visual treatment. `default` has no border; `outline` draws the control border. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Toggle>Bold</Toggle>
+<Toggle defaultPressed startIcon={<ListIcon />}>List</Toggle>
+<Toggle aria-label="Bold" startIcon={<BoldIcon />} />
 ```
 
 ## ScrollArea
@@ -3195,6 +3300,7 @@ show({ title: "Saved", tone: "success" });
 | `--color-control-hover` | color | light `var(--color-component-hover-subtle)` / dark `var(--color-component)` |
 | `--color-transparent-hover` | color | light `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 8%, transparent)` |
 | `--color-transparent-active` | color | light `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 12%, transparent)` |
+| `--color-toggle-active` | color | light `color-mix(in oklab, var(--color-primary-foreground) 8%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 12%, transparent)` |
 | `--color-neutral-subtle` | color | light `color-mix(in oklab, var(--color-primary-foreground) 12%, transparent)` / dark `undefined` |
 | `--color-primary-foreground` | color | light `var(--primitive-color-neutral-950)` / dark `color-mix(in oklab, var(--primitive-color-white) 60%, var(--primitive-color-neutral-100))` |
 | `--color-secondary-foreground` | color | light `color-mix(in oklch, var(--color-primary-foreground) 70%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 70%, transparent)` |
@@ -3235,8 +3341,9 @@ show({ title: "Saved", tone: "success" });
 | `--color-on-danger-solid-foreground` | color | light `var(--primitive-color-white)` / dark `var(--color-page)` |
 | `--color-border-default` | color | light `color-mix(in oklch, var(--color-primary-foreground) 7%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 7%, transparent)` |
 | `--color-border-strong` | color | light `color-mix(in oklch, var(--color-primary-foreground) 9%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 9%, transparent)` |
+| `--color-border-emphasis` | color | light `color-mix(in oklch, var(--color-primary-foreground) 12%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 12%, transparent)` |
 | `--color-border-disabled` | color | light `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` |
-| `--color-tab-indicator-border` | color | light `color-mix(in oklab, var(--color-primary-foreground) 13%, transparent)` / dark `var(--color-component-hover)` |
+| `--color-tab-indicator-border` | color | light `color-mix(in oklab, var(--color-primary-foreground) 16%, transparent)` / dark `var(--color-component-hover)` |
 | `--color-brand-border-default` | color | light `color-mix(in oklab, var(--color-brand-solid) 40%, transparent)` / dark `color-mix(in oklab, var(--color-brand-solid) 40%, transparent)` |
 | `--color-brand-border-focus` | color | light `var(--color-brand-solid)` / dark `var(--color-brand-solid)` |
 | `--color-positive-border-default` | color | light `color-mix(in oklab, var(--color-positive-solid) 40%, transparent)` / dark `color-mix(in oklab, var(--color-positive-solid) 40%, transparent)` |

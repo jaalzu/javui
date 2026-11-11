@@ -81,6 +81,11 @@
       "$type": "color",
       "$description": "Ghost control pressed, or list item selected or highlighted."
     },
+    "toggle-active": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 8%, transparent)",
+      "$type": "color",
+      "$description": "Toggle hover and selected face in light theme."
+    },
     "neutral-subtle": {
       "$value": "color-mix(in oklab, {color.primary-foreground} 12%, transparent)",
       "$type": "color",
@@ -280,6 +285,11 @@
       "$value": "color-mix(in oklch, {color.primary-foreground} 9%, transparent)",
       "$type": "color",
       "$description": "Emphasized borders and hover."
+    },
+    "border-emphasis": {
+      "$value": "color-mix(in oklch, {color.primary-foreground} 12%, transparent)",
+      "$type": "color",
+      "$description": "Slightly stronger borders for outline controls."
     },
     "border-disabled": {
       "$value": "color-mix(in oklab, {color.primary-foreground} 10%, transparent)",

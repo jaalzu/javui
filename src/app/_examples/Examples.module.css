@@ -19,15 +19,15 @@
   align-items: center;
 }
 
+.exampleStage > * {
+  width: 100%;
+  max-width: var(--container-sm);
+}
+
 .exampleStageCentered > * {
   width: fit-content;
   max-width: 100%;
   margin-inline: auto;
-}
-
-.exampleStage > * {
-  width: 100%;
-  max-width: var(--container-sm);
 }
 
 .exampleStageConstrained > * {

@@ -1,86 +1,84 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
 import { ToggleGroup as BaseToggleGroup } from "@base-ui/react/toggle-group";
-import { Toggle as BaseToggle } from "@base-ui/react/toggle";
 import { cx } from "../../utils/cx";
-import { iconPosition } from "../../utils/iconPosition";
-import { IconSlot } from "../Icon/IconSlot";
+import type { ButtonSize } from "../Button";
+import { Toggle, type ToggleProps, type ToggleVariant } from "../Toggle";
+import { ToggleGroupContext } from "../Toggle/ToggleContext";
 import styles from "./ToggleGroup.module.css";
 
-export type ToggleGroupItem = {
-  /** Value used by `value` and `defaultValue`. */
-  value: string;
-  /** Visible label. */
-  label: ReactNode;
-  /** Icon before the label. Pass a generated icon without `size`; the item sizes it. */
-  startIcon?: ReactNode;
-  disabled?: boolean;
-};
+type BaseToggleGroupProps = ComponentProps<typeof BaseToggleGroup>;
 
-export type ToggleGroupProps = {
-  /** The options, in order. */
-  items: ToggleGroupItem[];
-  /** Accessible name of the group. Required. */
-  label: string;
-  /** Selected value, when controlled. */
-  value?: string;
-  /** Initially selected value, when uncontrolled. */
-  defaultValue?: string;
-  /** Called with the selected value, or an empty string when nothing is selected. */
-  onValueChange?: (value: string) => void;
-  /** Control height: `sm` 1.75rem, `md` 2.25rem. @default "md" */
-  size?: "sm" | "md";
-  disabled?: boolean;
+export type ToggleGroupSpacing = "none" | "sm" | "md";
+
+export type ToggleGroupProps = Omit<
+  BaseToggleGroupProps,
+  "children" | "className" | "value" | "defaultValue" | "onValueChange" | "multiple" | "orientation"
+> & {
+  /** Toggle buttons in the group. */
+  children: ReactNode;
+  /** Control height and icon size inherited by every item. @default "md" */
+  size?: ButtonSize;
+  /** Visual treatment inherited by every item. @default "outline" */
+  variant?: ToggleVariant;
+  /** Space between items. `none` connects their borders. @default "md" */
+  spacing?: ToggleGroupSpacing;
+  /** Selected values, when controlled. */
+  value?: readonly string[];
+  /** Initially selected values, when uncontrolled. */
+  defaultValue?: readonly string[];
+  /** Allow several items to be on at once. By default only one is. @default false */
+  multiple?: boolean;
+  /** Stack the items vertically instead of horizontally. @default "horizontal" */
+  orientation?: "horizontal" | "vertical";
+  /** Called when the selected values change. */
+  onValueChange?: BaseToggleGroupProps["onValueChange"];
   className?: string;
 };
 
+export type ToggleGroupItemProps = ToggleProps & {
+  /** Unique value used by the group. */
+  value: string;
+};
+
+/** A toggle group item that composes the standalone Toggle with Base UI Toggle Group. */
+export function ToggleGroupItem({ className, ...props }: ToggleGroupItemProps) {
+  return <Toggle {...props} className={cx(styles.item, className)} />;
+}
+
 /**
- * A segmented single-choice control built on Base UI Toggle Group. Use it for two to five short,
- * mutually exclusive options, such as a view switch. For longer content use Tabs; for independent
- * on/off choices use Checkbox.
+ * A set of related toggles with shared state, built on Base UI Toggle Group. It handles arrow-key
+ * navigation and the selected values, so do not wire them by hand. Items inherit `size`.
+ *
+ * Selection is single by default; add `multiple` for several. `value` and `defaultValue` are always
+ * arrays of item values. A group needs an accessible name (`aria-label`), and each icon-only item
+ * needs its own. For a single independent on/off button, use `Toggle`.
  *
  * @example
- * <ToggleGroup
- *   label="View"
- *   defaultValue="list"
- *   items={[
- *     { value: "list", label: "List" },
- *     { value: "grid", label: "Grid" },
- *   ]}
- * />
+ * <ToggleGroup aria-label="View" defaultValue={["list"]}>
+ *   <ToggleGroupItem value="list">List</ToggleGroupItem>
+ *   <ToggleGroupItem value="board">Board</ToggleGroupItem>
+ * </ToggleGroup>
+ * <ToggleGroup aria-label="Text style" multiple>...</ToggleGroup>
  */
 export function ToggleGroup({
-  items,
-  label,
-  value,
-  defaultValue,
-  onValueChange,
+  children,
   size = "md",
-  disabled = false,
+  variant = "outline",
+  spacing = "md",
   className,
+  ...props
 }: ToggleGroupProps) {
   return (
-    <BaseToggleGroup
-      className={cx(styles.root, className)}
-      aria-label={label}
-      value={value === undefined ? undefined : value ? [value] : []}
-      defaultValue={defaultValue === undefined ? undefined : defaultValue ? [defaultValue] : []}
-      onValueChange={onValueChange ? (next) => onValueChange(next[next.length - 1] ?? "") : undefined}
-      disabled={disabled}
-    >
-      {items.map((item) => (
-        <BaseToggle
-          key={item.value}
-          value={item.value}
-          disabled={item.disabled}
-          className={cx(styles.item, styles[size])}
-          data-icon={iconPosition({ startIcon: item.startIcon })}
-        >
-          <IconSlot>{item.startIcon}</IconSlot>
-          <span>{item.label}</span>
-        </BaseToggle>
-      ))}
-    </BaseToggleGroup>
+    <ToggleGroupContext.Provider value={{ size, variant }}>
+      <BaseToggleGroup
+        {...props}
+        className={cx(styles.root, className)}
+        data-spacing={spacing}
+      >
+        {children}
+      </BaseToggleGroup>
+    </ToggleGroupContext.Provider>
   );
 }

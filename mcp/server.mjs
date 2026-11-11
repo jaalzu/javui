@@ -23,6 +23,7 @@ const fail = (message) => ({ isError: true, content: [{ type: "text", text: mess
 
 const allEntries = [
   ...manifest.components,
+  ...(manifest.foundations ?? []),
   ...manifest.components.flatMap((c) => c.parts ?? []),
   ...manifest.providersAndHooks,
 ];

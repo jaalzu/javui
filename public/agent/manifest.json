@@ -20,92 +20,6 @@
   ],
   "components": [
     {
-      "name": "Text",
-      "category": "typography",
-      "base": "Own component",
-      "description": "Body-level text: paragraphs, labels, captions and inline code.\nFor headings use `Heading`; for links use `Link`.",
-      "import": "import { Text } from \"@/ui\";",
-      "renders": "p (body variants), span (label, caption), code (code); or the element in `as`",
-      "composition": "`as` accepts only: p, span, label, strong, em, small, div, code. No links or buttons.",
-      "whenToUse": "Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls (buttons, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).",
-      "avoid": [
-        "Headings: use Heading.",
-        "Links: use Link.",
-        "Actions: use Button.",
-        "Setting font-size or color by hand.",
-        "Caption size=\"sm\" (10px) for lowercase running text: it is intentional for uppercase metadata, where the extra tracking keeps it legible.",
-        "Form labels: use Label, or Field when you also need description and error."
-      ],
-      "accessibility": "Do not use tone=\"subtle\" for required text.",
-      "props": [
-        {
-          "name": "as",
-          "type": "\"div\" | \"code\" | \"em\" | \"label\" | \"p\" | \"small\" | \"span\" | \"strong\"",
-          "required": false,
-          "description": "HTML element to render. Defaults by variant: `p` for body variants, `span` for\n`label` and `caption`, `code` for `code`."
-        },
-        {
-          "name": "casing",
-          "type": "\"normal\" | \"uppercase\"",
-          "required": false,
-          "default": "normal",
-          "description": "Set to `uppercase` for small uppercase captions."
-        },
-        {
-          "name": "hyphenate",
-          "type": "boolean",
-          "required": false,
-          "default": "false",
-          "description": "Allow the browser to hyphenate words when the line needs to break."
-        },
-        {
-          "name": "lineClamp",
-          "type": "2 | 3 | 4 | 5",
-          "required": false,
-          "description": "Clamp direct text content to this many lines. Do not use on elements containing nested HTML."
-        },
-        {
-          "name": "size",
-          "type": "\"sm\" | \"lg\" | \"base\" | \"xs\"",
-          "required": false,
-          "default": "base",
-          "description": "Size within the variant: body is 18px (`lg`), 15px (`base`) or 13px (`sm`); caption is 12px, 11px or 10px;\ncode is 14px (`base`), 13px (`sm`) or 12px (`xs`). Ignored by `label` and `emphasis`."
-        },
-        {
-          "name": "tone",
-          "type": "\"info\" | \"success\" | \"warning\" | \"default\" | \"brand\" | \"danger\" | \"muted\" | \"subtle\"",
-          "required": false,
-          "default": "default",
-          "description": "Text color from the semantic color tokens."
-        },
-        {
-          "name": "truncate",
-          "type": "boolean",
-          "required": false,
-          "default": "false",
-          "description": "Keep one line and show an ellipsis when the text does not fit."
-        },
-        {
-          "name": "variant",
-          "type": "\"body\" | \"caption\" | \"code\" | \"label\" | \"emphasis\"",
-          "required": false,
-          "default": "body",
-          "description": "Which text style to apply. Appearance only; it does not change the element."
-        },
-        {
-          "name": "weight",
-          "type": "\"regular\" | \"medium\" | \"semibold\"",
-          "required": false,
-          "description": "Font weight. Only three exist; there is no light. Defaults to the variant's own weight."
-        }
-      ],
-      "extends": "Also accepts the native props of the element it renders; they pass through.",
-      "examples": [
-        "<Text>Default paragraph.</Text>\r\n<Text size=\"lg\">Large body text</Text>\r\n<Text variant=\"caption\" tone=\"muted\">Helper text</Text>\r\n<Text lineClamp={2}>A long description that can safely truncate...</Text>"
-      ],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Text/Text.tsx"
-    },
-    {
       "name": "Link",
       "category": "typography",
       "base": "Own component",
@@ -1574,15 +1488,29 @@
           "description": "Shows a small spinner at the end and makes the textarea not editable. `aria-busy` is set.\nInside `Field`, omit it and pass `loading` to the Field instead."
         },
         {
+          "name": "resize",
+          "type": "\"none\" | \"auto\" | \"vertical\"",
+          "required": false,
+          "default": "vertical",
+          "description": "Resize behavior. `vertical` shows the drag handle, `none` fixes the height and `auto` grows\nwith the content (`field-sizing: content`; `rows` becomes the minimum height)."
+        },
+        {
           "name": "startIcon",
           "type": "ReactNode",
           "required": false,
           "description": "Icon before the text. Pass a generated icon without `size`; the textarea sizes it."
+        },
+        {
+          "name": "variant",
+          "type": "\"inline\" | \"default\" | \"ghost\"",
+          "required": false,
+          "default": "default",
+          "description": "Visual treatment. `inline` is invisible at rest and shows the Input hover background on hover\nand focus. `ghost` shows nothing at all, only the focus ring."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Field label=\"Message\"><Textarea rows={4} /></Field>\r\n<Field label=\"Notes\" readOnly><Textarea defaultValue=\"Locked for review.\" /></Field>"
+        "<Field label=\"Message\"><Textarea rows={4} /></Field>\r\n<Field label=\"Notes\" readOnly><Textarea defaultValue=\"Locked for review.\" /></Field>\r\n<Textarea aria-label=\"Comment\" variant=\"inline\" resize=\"auto\" />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Textarea/Textarea.tsx"
     },
@@ -2286,7 +2214,7 @@
       "name": "Tooltip",
       "category": "overlays",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A small label that appears on hover or keyboard focus, built on Base UI Tooltip.\nTooltips do not appear on touch devices and are not a reliable way to describe a control, so use\nthem only to add clarity (for example the name of an icon button) and never for critical information.",
+      "description": null,
       "import": "import { Tooltip } from \"@/ui\";",
       "renders": "the child element as trigger; a popup div in a portal",
       "composition": "`content` is the text. The single child must be focusable and have its own accessible name.",
@@ -2315,10 +2243,22 @@
           "required": false
         },
         {
+          "name": "closeDelay",
+          "type": "number",
+          "required": false,
+          "description": "Milliseconds to wait before closing."
+        },
+        {
           "name": "defaultOpen",
           "type": "boolean",
           "required": false,
           "description": "Opens the tooltip initially."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "required": false,
+          "description": "Milliseconds to wait before opening. Overrides the provider's delay for this tooltip."
         },
         {
           "name": "open",
@@ -2335,9 +2275,7 @@
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": [
-        "<Tooltip content=\"Bold\"><Button aria-label=\"Bold\" variant=\"ghost\">B</Button></Tooltip>"
-      ],
+      "examples": [],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Tooltip/Tooltip.tsx"
     },
     {
@@ -3765,30 +3703,24 @@
       "name": "ToggleGroup",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A segmented single-choice control built on Base UI Toggle Group. Use it for two to five short,\nmutually exclusive options, such as a view switch. For longer content use Tabs; for independent\non/off choices use Checkbox.",
+      "description": "A set of related toggles with shared state, built on Base UI Toggle Group. It handles arrow-key\nnavigation and the selected values, so do not wire them by hand. Items inherit `size`.\n\nSelection is single by default; add `multiple` for several. `value` and `defaultValue` are always\narrays of item values. A group needs an accessible name (`aria-label`), and each icon-only item\nneeds its own. For a single independent on/off button, use `Toggle`.",
       "import": "import { ToggleGroup } from \"@/ui\";",
       "renders": "div role=\"group\" with toggle buttons",
-      "composition": "Pass `label` (required accessible name), `items` ({ value, label, startIcon?, disabled? }), optional controlled value, `size` (sm or md) and `disabled`. Single choice only.",
-      "whenToUse": "Two to five short, mutually exclusive options, such as a view switch.",
+      "composition": "Compose `ToggleGroupItem` children. Pass `aria-label` or `aria-labelledby`, `multiple`, `orientation`, `spacing` (`none`, `sm` or `md`), `size` (`xs`, `sm`, `md` or `lg`) and `variant` (`default` or `outline`). The variant is inherited by every item.",
+      "whenToUse": "A set of two-state buttons that can be toggled independently or used as a single-choice group.",
       "avoid": [
         "Long content changes: use Tabs.",
-        "Independent on/off choices: use Checkbox or Switch.",
+        "One independent on/off choice: use Toggle.",
         "More than five options: use Select.",
         "Related actions that are not a choice: use ButtonGroup."
       ],
-      "accessibility": "Arrow keys move between toggles and roles come from Base UI. The group needs its `label`; selected state is exposed with aria-pressed.",
+      "accessibility": "Arrow keys, group semantics and aria-pressed states come from Base UI. Give the group an accessible name.",
       "props": [
         {
-          "name": "items",
-          "type": "ToggleGroupItem[]",
+          "name": "children",
+          "type": "ReactNode",
           "required": true,
-          "description": "The options, in order."
-        },
-        {
-          "name": "label",
-          "type": "string",
-          "required": true,
-          "description": "Accessible name of the group. Required."
+          "description": "Toggle buttons in the group."
         },
         {
           "name": "className",
@@ -3797,41 +3729,182 @@
         },
         {
           "name": "defaultValue",
-          "type": "string",
+          "type": "readonly string[]",
           "required": false,
-          "description": "Initially selected value, when uncontrolled."
+          "description": "Initially selected values, when uncontrolled."
         },
         {
-          "name": "disabled",
+          "name": "multiple",
           "type": "boolean",
           "required": false,
-          "default": "false"
+          "default": "false",
+          "description": "Allow several items to be on at once. By default only one is."
         },
         {
           "name": "onValueChange",
-          "type": "((value: string) => void)",
+          "type": "((groupValue: string[], eventDetails: { reason: \"none\"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)",
           "required": false,
-          "description": "Called with the selected value, or an empty string when nothing is selected."
+          "description": "Called when the selected values change."
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "default": "\"horizontal\"",
+          "description": "Stack the items vertically instead of horizontally."
         },
         {
           "name": "size",
-          "type": "\"sm\" | \"md\"",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xs\"",
           "required": false,
           "default": "md",
-          "description": "Control height: `sm` 1.75rem, `md` 2.25rem."
+          "description": "Control height and icon size inherited by every item."
+        },
+        {
+          "name": "spacing",
+          "type": "\"sm\" | \"md\" | \"none\"",
+          "required": false,
+          "default": "md",
+          "description": "Space between items. `none` connects their borders."
         },
         {
           "name": "value",
-          "type": "string",
+          "type": "readonly string[]",
           "required": false,
-          "description": "Selected value, when controlled."
+          "description": "Selected values, when controlled."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"outline\"",
+          "required": false,
+          "default": "outline",
+          "description": "Visual treatment inherited by every item."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<ToggleGroup\r\n  label=\"View\"\r\n  defaultValue=\"list\"\r\n  items={[\r\n    { value: \"list\", label: \"List\" },\r\n    { value: \"grid\", label: \"Grid\" },\r\n  ]}\r\n/>"
+        "<ToggleGroup aria-label=\"View\" defaultValue={[\"list\"]}>\n  <ToggleGroupItem value=\"list\">List</ToggleGroupItem>\n  <ToggleGroupItem value=\"board\">Board</ToggleGroupItem>\n</ToggleGroup>\n<ToggleGroup aria-label=\"Text style\" multiple>...</ToggleGroup>"
       ],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ToggleGroup/ToggleGroup.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ToggleGroup/ToggleGroup.tsx",
+      "parts": [
+        {
+          "name": "ToggleGroupItem",
+          "category": "controls",
+          "base": "Built on Base UI (@base-ui/react)",
+          "description": "A toggle group item that composes the standalone Toggle with Base UI Toggle Group.",
+          "import": "import { ToggleGroupItem } from \"@/ui\";",
+          "renders": "button with aria-pressed",
+          "composition": "Child of ToggleGroup. Pass a required `value`, visible children or `startIcon`/`endIcon`, and `aria-label` for icon-only items.",
+          "whenToUse": "One option inside ToggleGroup.",
+          "avoid": [
+            "Using it outside ToggleGroup."
+          ],
+          "accessibility": "The parent group provides keyboard navigation; icon-only items need an accessible name.",
+          "props": [
+            {
+              "name": "children",
+              "type": "ReactNode",
+              "required": false,
+              "description": "Visible label. Omit it for an icon-only toggle and provide `aria-label`."
+            },
+            {
+              "name": "className",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "endIcon",
+              "type": "ReactNode",
+              "required": false,
+              "description": "Icon after the label."
+            },
+            {
+              "name": "size",
+              "type": "\"sm\" | \"md\" | \"lg\" | \"xs\"",
+              "required": false,
+              "default": "\"md\"",
+              "description": "Control height and icon size, following `Button`."
+            },
+            {
+              "name": "startIcon",
+              "type": "ReactNode",
+              "required": false,
+              "description": "Icon before the label, or the icon for an icon-only toggle."
+            },
+            {
+              "name": "variant",
+              "type": "\"default\" | \"outline\"",
+              "required": false,
+              "default": "\"default\"",
+              "description": "Visual treatment. `default` has no border; `outline` draws the control border."
+            }
+          ],
+          "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ToggleGroup/ToggleGroup.tsx",
+          "parent": "ToggleGroup"
+        }
+      ]
+    },
+    {
+      "name": "Toggle",
+      "category": "controls",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "A button with an on/off state (`aria-pressed`), built on Base UI Toggle. Use it for a state the\nperson flips on the spot: bold, a filter, mute. For a setting that applies immediately and is\nread as a setting (dark mode, notifications), use `Switch`. To pick among related options, use\n`ToggleGroup`.\n\nUncontrolled with `defaultPressed`, controlled with `pressed` and `onPressedChange`. Icon-only\ntoggles need `aria-label` or `aria-labelledby`. Sizes follow `Button`.",
+      "import": "import { Toggle } from \"@/ui\";",
+      "renders": "button with aria-pressed",
+      "composition": "Pass visible children or `startIcon`/`endIcon`; icon-only toggles require `aria-label` or `aria-labelledby`. Sizes are `xs`, `sm`, `md` and `lg`. `variant` is `default` (borderless) or `outline`.",
+      "whenToUse": "A two-state formatting or preference control that can be toggled on or off.",
+      "avoid": [
+        "Navigation between panels: use Tabs.",
+        "An action without persistent on/off state: use Button.",
+        "Several related toggles: use ToggleGroup."
+      ],
+      "accessibility": "Base UI exposes the pressed state with aria-pressed. Icon-only toggles need an accessible name.",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible label. Omit it for an icon-only toggle and provide `aria-label`."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "endIcon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Icon after the label."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xs\"",
+          "required": false,
+          "default": "\"md\"",
+          "description": "Control height and icon size, following `Button`."
+        },
+        {
+          "name": "startIcon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Icon before the label, or the icon for an icon-only toggle."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"outline\"",
+          "required": false,
+          "default": "\"default\"",
+          "description": "Visual treatment. `default` has no border; `outline` draws the control border."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Toggle>Bold</Toggle>\n<Toggle defaultPressed startIcon={<ListIcon />}>List</Toggle>\n<Toggle aria-label=\"Bold\" startIcon={<BoldIcon />} />"
+      ],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Toggle/Toggle.tsx"
     },
     {
       "name": "ScrollArea",
@@ -4300,6 +4373,92 @@
     }
   ],
   "foundations": [
+    {
+      "name": "Text",
+      "category": "typography",
+      "base": "Own component",
+      "description": "Body-level text: paragraphs, labels, captions and inline code.\nFor headings use `Heading`; for links use `Link`.",
+      "import": "import { Text } from \"@/ui\";",
+      "renders": "p (body variants), span (label, caption), code (code); or the element in `as`",
+      "composition": "`as` accepts only: p, span, label, strong, em, small, div, code. No links or buttons.",
+      "whenToUse": "Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls (buttons, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).",
+      "avoid": [
+        "Headings: use Heading.",
+        "Links: use Link.",
+        "Actions: use Button.",
+        "Setting font-size or color by hand.",
+        "Caption size=\"sm\" (10px) for lowercase running text: it is intentional for uppercase metadata, where the extra tracking keeps it legible.",
+        "Form labels: use Label, or Field when you also need description and error."
+      ],
+      "accessibility": "Do not use tone=\"subtle\" for required text.",
+      "props": [
+        {
+          "name": "as",
+          "type": "\"div\" | \"code\" | \"em\" | \"label\" | \"p\" | \"small\" | \"span\" | \"strong\"",
+          "required": false,
+          "description": "HTML element to render. Defaults by variant: `p` for body variants, `span` for\n`label` and `caption`, `code` for `code`."
+        },
+        {
+          "name": "casing",
+          "type": "\"normal\" | \"uppercase\"",
+          "required": false,
+          "default": "normal",
+          "description": "Set to `uppercase` for small uppercase captions."
+        },
+        {
+          "name": "hyphenate",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Allow the browser to hyphenate words when the line needs to break."
+        },
+        {
+          "name": "lineClamp",
+          "type": "2 | 3 | 4 | 5",
+          "required": false,
+          "description": "Clamp direct text content to this many lines. Do not use on elements containing nested HTML."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"lg\" | \"base\" | \"xs\"",
+          "required": false,
+          "default": "base",
+          "description": "Size within the variant: body is 18px (`lg`), 15px (`base`) or 13px (`sm`); caption is 12px, 11px or 10px;\ncode is 14px (`base`), 13px (`sm`) or 12px (`xs`). Ignored by `label` and `emphasis`."
+        },
+        {
+          "name": "tone",
+          "type": "\"info\" | \"success\" | \"warning\" | \"default\" | \"brand\" | \"danger\" | \"muted\" | \"subtle\"",
+          "required": false,
+          "default": "default",
+          "description": "Text color from the semantic color tokens."
+        },
+        {
+          "name": "truncate",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Keep one line and show an ellipsis when the text does not fit."
+        },
+        {
+          "name": "variant",
+          "type": "\"body\" | \"caption\" | \"code\" | \"label\" | \"emphasis\"",
+          "required": false,
+          "default": "body",
+          "description": "Which text style to apply. Appearance only; it does not change the element."
+        },
+        {
+          "name": "weight",
+          "type": "\"regular\" | \"medium\" | \"semibold\"",
+          "required": false,
+          "description": "Font weight. Only three exist; there is no light. Defaults to the variant's own weight."
+        }
+      ],
+      "extends": "Also accepts the native props of the element it renders; they pass through.",
+      "examples": [
+        "<Text>Default paragraph.</Text>\r\n<Text size=\"lg\">Large body text</Text>\r\n<Text variant=\"caption\" tone=\"muted\">Helper text</Text>\r\n<Text lineClamp={2}>A long description that can safely truncate...</Text>"
+      ],
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Text/Text.tsx"
+    },
     {
       "name": "Heading",
       "category": "typography",

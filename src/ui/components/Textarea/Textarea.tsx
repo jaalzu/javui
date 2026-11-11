@@ -10,6 +10,16 @@ import inputStyles from "../Input/Input.module.css";
 import styles from "./Textarea.module.css";
 
 export type TextareaProps = {
+  /**
+   * Visual treatment. `inline` is invisible at rest and shows the Input hover background on hover
+   * and focus. `ghost` shows nothing at all, only the focus ring. @default "default"
+   */
+  variant?: "default" | "inline" | "ghost";
+  /**
+   * Resize behavior. `vertical` shows the drag handle, `none` fixes the height and `auto` grows
+   * with the content (`field-sizing: content`; `rows` becomes the minimum height). @default "vertical"
+   */
+  resize?: "vertical" | "none" | "auto";
   /** Icon before the text. Pass a generated icon without `size`; the textarea sizes it. */
   startIcon?: ReactNode;
   /** Icon after the text. Pass a generated icon without `size`; the textarea sizes it. */
@@ -30,8 +40,11 @@ export type TextareaProps = {
  * @example
  * <Field label="Message"><Textarea rows={4} /></Field>
  * <Field label="Notes" readOnly><Textarea defaultValue="Locked for review." /></Field>
+ * <Textarea aria-label="Comment" variant="inline" resize="auto" />
  */
 export function Textarea({
+  variant = "default",
+  resize = "vertical",
   startIcon,
   endIcon,
   loading: loadingProp,
@@ -53,7 +66,11 @@ export function Textarea({
   });
 
   return (
-    <span className={inputStyles.wrapper} data-icon={position}>
+    <span
+      className={cx(inputStyles.wrapper, styles.root)}
+      data-icon={position}
+      data-appearance={variant}
+    >
       <IconSlot className={cx(inputStyles.startSlot, styles.slot)}>
         {startIcon}
       </IconSlot>
@@ -63,18 +80,20 @@ export function Textarea({
         readOnly={readOnly || loading}
         required={required}
         aria-busy={loading || undefined}
+        data-resize={resize}
         data-readonly={readOnly ? "" : undefined}
         data-loading={loading ? "" : undefined}
         {...(rest as Record<string, unknown>)}
       />
       {loading ? (
-        <span className={cx(inputStyles.endSlot, styles.slot, inputStyles.spinnerSlot)}>
-          <Spinner
-            size="sm"
-            label=""
-            role="presentation"
-            aria-hidden="true"
-          />
+        <span
+          className={cx(
+            inputStyles.endSlot,
+            styles.slot,
+            inputStyles.spinnerSlot,
+          )}
+        >
+          <Spinner size="sm" label="" role="presentation" aria-hidden="true" />
         </span>
       ) : (
         <IconSlot className={cx(inputStyles.endSlot, styles.slot)}>

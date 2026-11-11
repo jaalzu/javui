@@ -39,6 +39,7 @@
   --color-component-on-sunken: var(--color-component-on-sunken);
   --color-transparent-hover: var(--color-transparent-hover);
   --color-transparent-active: var(--color-transparent-active);
+  --color-toggle-active: var(--color-toggle-active);
   --color-neutral-subtle: var(--color-neutral-subtle);
   --color-secondary-foreground: var(--color-secondary-foreground);
   --color-tertiary-foreground: var(--color-tertiary-foreground);
@@ -65,6 +66,7 @@
   --color-danger-foreground: var(--color-danger-foreground);
   --color-border-default: var(--color-border-default);
   --color-border-strong: var(--color-border-strong);
+  --color-border-emphasis: var(--color-border-emphasis);
   --color-border-disabled: var(--color-border-disabled);
   --color-tab-indicator-border: var(--color-tab-indicator-border);
   --color-brand-border-default: var(--color-brand-border-default);

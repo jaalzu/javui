@@ -14,10 +14,7 @@
   max-width: 100%;
 }
 
-.group > :is(button, a) {
-  align-self: stretch;
-  height: auto;
-}
+.group > :is(button, a) { align-self: stretch; }
 
 .horizontal {
   flex-direction: row;
@@ -26,6 +23,13 @@
 .vertical {
   flex-direction: column;
   width: fit-content;
+}
+
+/* Field compositions fill the available row; action-only groups stay content-sized. */
+.group:has(> span:has(> input)),
+.group:has(> div:has(> input)),
+.group:has(> div:has(> [role="combobox"])) {
+  width: 100%;
 }
 
 /* Mobile first: column below the breakpoint, declared orientation above it. */
@@ -168,7 +172,6 @@
 /* A vertical line in a horizontal group, regardless of the separator's declared orientation. */
 .group[data-orientation="horizontal"]:not([data-stack-below]) > .separator {
   width: var(--border-width-thin);
-  height: auto;
   align-self: stretch;
 }
 
@@ -248,7 +251,6 @@
 
   .group[data-stack-below="sm"][data-orientation="horizontal"] > .separator {
     width: var(--border-width-thin);
-    height: auto;
     align-self: stretch;
   }
 
@@ -326,7 +328,6 @@
 
   .group[data-stack-below="md"][data-orientation="horizontal"] > .separator {
     width: var(--border-width-thin);
-    height: auto;
     align-self: stretch;
   }
 

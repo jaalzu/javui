@@ -18,23 +18,15 @@
 .trigger {
   composes: control from "../../styles/control.module.css";
   composes: touchTarget from "../../styles/touchTarget.module.css";
+  composes: surface from "../../styles/field-surface.module.css";
   --icon-size: var(--control-icon);
-  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--control-gap);
-  width: 100%;
-  margin: 0;
   min-height: var(--control-h);
   padding-inline: var(--control-px);
-  border: 0;
   border-radius: var(--radius-md);
-  background: transparent;
-  box-shadow: var(--shadow-default);
-  --select-hover-background: var(--color-component-hover-subtle);
-  color: var(--color-primary-foreground);
-  font-family: var(--text-body-family);
   font-size: var(--control-fs);
   text-align: start;
   cursor: pointer;
@@ -43,62 +35,12 @@
 
 .trigger:hover:not([data-disabled]):not([data-readonly]):not([data-loading]),
 .trigger[data-force="hover"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
-  background: var(--select-hover-background);
-}
-
-:global([data-theme="dark"]) .trigger {
-  background: var(--color-transparent-hover);
-  box-shadow: 0 0 1px 2px rgb(161 161 161 / 0.58);
-  --select-hover-background: var(--color-component);
-}
-
-@media (prefers-color-scheme: dark) {
-  :global(html:not([data-theme="light"])) .trigger {
-    background: var(--color-transparent-hover);
-    box-shadow: 0 0 1px 1px rgb(105 105 105 / 0.6);
-    --select-hover-background: var(--color-component);
-  }
-}
-
-.trigger:focus-visible,
-.trigger[data-force="focus"] {
-  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.trigger[data-invalid],
-.trigger[aria-invalid="true"] {
-  border-color: var(--color-danger-solid);
-  box-shadow: 0 0 0 var(--border-width-thick) var(--color-danger-solid);
-}
-
-.trigger[data-invalid]:focus-visible,
-.trigger[aria-invalid="true"]:focus-visible,
-.trigger[data-force="focus"][data-invalid] {
-  outline: var(--border-width-thin) solid var(--color-danger-solid);
-  outline-offset: var(--focus-ring-offset);
+  background: var(--field-hover-background);
 }
 
 .trigger[data-popup-open] {
   outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
   outline-offset: var(--focus-ring-offset);
-}
-
-.trigger[data-readonly],
-.trigger[data-loading] {
-  background: var(--color-sunken);
-}
-
-.trigger[data-loading] {
-  cursor: progress;
-}
-
-.trigger[data-disabled],
-.trigger:disabled {
-  color: var(--color-disabled-foreground);
-  background: var(--color-disabled);
-  box-shadow: none;
-  cursor: not-allowed;
 }
 
 .xs {

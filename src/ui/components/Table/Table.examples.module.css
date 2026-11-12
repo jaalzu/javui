@@ -1,0 +1,4 @@
+.stage {
+  background: var(--color-page);
+  border-radius: var(--radius-lg);
+}

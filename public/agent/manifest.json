@@ -16,7 +16,8 @@
     "feedback",
     "controls",
     "overlays",
-    "navigation"
+    "navigation",
+    "components"
   ],
   "components": [
     {
@@ -706,7 +707,7 @@
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Spinner label=\"Saving changes\" />\n<Spinner size=\"sm\" label=\"Uploading\" />\n<Spinner color=\"var(--color-brand-solid)\" label=\"Syncing\" />\n<Spinner label=\"\" />"
+        "<Spinner label=\"Saving changes\" />\r\n<Spinner size=\"sm\" label=\"Uploading\" />\r\n<Spinner color=\"var(--color-brand-solid)\" label=\"Syncing\" />\r\n<Spinner label=\"\" />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Spinner/Spinner.tsx"
     },
@@ -1130,7 +1131,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Separator />\n<Separator orientation=\"vertical\" />\n<Separator decorative={false} />"
+        "<Separator />\r\n<Separator orientation=\"vertical\" />\r\n<Separator decorative={false} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Separator/Separator.tsx"
     },
@@ -1592,7 +1593,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Checkbox label=\"Send me product updates\" defaultChecked />\n<Checkbox label=\"Accept terms\" error=\"You must accept the terms\" required />\n<Checkbox label=\"Accept the terms\" invalid />\n<Checkbox label=\"Email notifications\" description=\"We only email about product changes.\" />\n<Checkbox label=\"Product updates\" description=\"New features and improvements.\" variant=\"card\" />\n<Checkbox aria-label=\"Select row 3\" />"
+        "<Checkbox label=\"Send me product updates\" defaultChecked />\r\n<Checkbox label=\"Accept terms\" error=\"You must accept the terms\" required />\r\n<Checkbox label=\"Accept the terms\" invalid />\r\n<Checkbox label=\"Email notifications\" description=\"We only email about product changes.\" />\r\n<Checkbox label=\"Product updates\" description=\"New features and improvements.\" variant=\"card\" />\r\n<Checkbox aria-label=\"Select row 3\" />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Checkbox/Checkbox.tsx",
       "parts": [
@@ -1657,7 +1658,7 @@
           ],
           "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
           "examples": [
-            "<CheckboxGroup legend=\"Notifications\">\n  <Checkbox label=\"Email\" value=\"email\" />\n  <Checkbox label=\"SMS\" value=\"sms\" />\n</CheckboxGroup>\n<CheckboxGroup legend=\"Notifications\" defaultValue={[\"email\"]} allValues={[\"email\", \"sms\"]}>\n  <Checkbox label=\"Select all\" parent />\n  <Checkbox label=\"Email\" value=\"email\" />\n  <Checkbox label=\"SMS\" value=\"sms\" />\n</CheckboxGroup>"
+            "<CheckboxGroup legend=\"Notifications\">\r\n  <Checkbox label=\"Email\" value=\"email\" />\r\n  <Checkbox label=\"SMS\" value=\"sms\" />\r\n</CheckboxGroup>\r\n<CheckboxGroup legend=\"Notifications\" defaultValue={[\"email\"]} allValues={[\"email\", \"sms\"]}>\r\n  <Checkbox label=\"Select all\" parent />\r\n  <Checkbox label=\"Email\" value=\"email\" />\r\n  <Checkbox label=\"SMS\" value=\"sms\" />\r\n</CheckboxGroup>"
           ],
           "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Checkbox/CheckboxGroup.tsx",
           "parent": "Checkbox"
@@ -1876,7 +1877,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Switch label=\"Dark mode\" />\n<Switch label=\"Notifications\" description=\"Email and push alerts.\" defaultChecked />\n<Switch label=\"Product updates\" description=\"New features and improvements.\" variant=\"card\" />\n<Switch label=\"Notifications\" invalid />\n<Field label=\"Notifications\"><Switch aria-label=\"Notifications\" /></Field>"
+        "<Switch label=\"Dark mode\" />\r\n<Switch label=\"Notifications\" description=\"Email and push alerts.\" defaultChecked />\r\n<Switch label=\"Product updates\" description=\"New features and improvements.\" variant=\"card\" />\r\n<Switch label=\"Notifications\" invalid />\r\n<Field label=\"Notifications\"><Switch aria-label=\"Notifications\" /></Field>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Switch/Switch.tsx"
     },
@@ -2333,7 +2334,7 @@
     },
     {
       "name": "Card",
-      "category": "layout",
+      "category": "components",
       "base": "Own component",
       "description": "A bordered container that groups related content into one idea, with a short title.\nIts parts share one inset through `--card-spacing`, and an `img` as the first child is\nfull-bleed with rounded top corners.\n\nUse `as=\"article\"` for self-contained content. If you render a `section`, point\n`aria-labelledby` at the `CardTitle`. For state, mark the card with `aria-busy=\"true\"`\nwhile its content loads and let `Skeleton` stand in for the text.",
       "import": "import { Card } from \"@/ui\";",
@@ -2566,7 +2567,7 @@
     },
     {
       "name": "Avatar",
-      "category": "utility",
+      "category": "components",
       "base": "Built on Base UI (@base-ui/react)",
       "description": "A round image of a person with an initials fallback, built on Base UI Avatar.\nThe whole avatar is one image with the person's name as its label. Add a status or an avatar badge\nwith an icon inside when needed; without them the markup and accessible name stay just the name.\nFor bots, companies or systems, use `src` with the logo; without it the initials are shown.",
       "import": "import { Avatar } from \"@/ui\";",
@@ -3040,12 +3041,12 @@
     },
     {
       "name": "Table",
-      "category": "layout",
+      "category": "components",
       "base": "Own component",
-      "description": "Data table with a real `table`, `caption`, `th scope=\"col\"` and a first-column row header. The wrapper\nscrolls horizontally on small screens and is focusable so keyboard users can scroll it.\nFor layout, use `Grid` or `Stack`, never a table.",
+      "description": "A responsive semantic table. Compose it with `TableCaption`, `TableHeader`, `TableBody`,\n`TableFooter`, `TableRow`, `TableHead` and `TableCell`; the wrapper stays horizontally scrollable\nand focusable on small screens.",
       "import": "import { Table } from \"@/ui\";",
       "renders": "table with caption, thead, tbody, th scope and a focusable scroll region",
-      "composition": "Pass `caption`, `columns` ({ key, header, align? }) and `rows` (objects by key). Use `align: \"end\"` for numeric columns: they align end and use tabular numbers.",
+      "composition": "Compose `TableCaption`, `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead` and `TableCell`. Use `align=\"end\"` for numeric columns. The responsive wrapper is focusable for horizontal scrolling.",
       "whenToUse": "Comparing data across rows and columns.",
       "avoid": [
         "Page layout: use Grid or Stack.",
@@ -3056,45 +3057,198 @@
         {
           "name": "caption",
           "type": "string",
-          "required": true,
-          "description": "Describes the table. Required: it is the accessible name and the visible caption."
+          "required": false,
+          "description": "@deprecated Use TableCaption."
         },
         {
-          "name": "columns",
-          "type": "TableColumn[]",
-          "required": true,
-          "description": "Column definitions, in order."
-        },
-        {
-          "name": "rows",
-          "type": "Record<string, ReactNode>[]",
-          "required": true,
-          "description": "One object per row, keyed by `columns[].key`."
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Table content, composed from TableCaption, TableHeader, TableBody, TableFooter and their parts."
         },
         {
           "name": "className",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Extra class for the scroll region."
+        },
+        {
+          "name": "columns",
+          "type": "TableColumn[]",
+          "required": false,
+          "description": "@deprecated Compose TableHead and TableCell instead."
         },
         {
           "name": "hideCaption",
           "type": "boolean",
           "required": false,
-          "default": "false",
-          "description": "Visually hide the caption (it stays available to screen readers)."
+          "description": "@deprecated Use TableCaption with `hidden`."
         },
         {
           "name": "rowKey",
           "type": "string",
           "required": false,
-          "description": "Key of the row value that is unique per row. Falls back to the row index."
+          "description": "@deprecated Use explicit row keys on composed rows."
+        },
+        {
+          "name": "rows",
+          "type": "Record<string, ReactNode>[]",
+          "required": false,
+          "description": "@deprecated Compose TableRow and TableCell instead."
         }
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
       "examples": [
-        "<Table caption=\"Plans\" columns={[{ key: \"name\", header: \"Plan\" }, { key: \"price\", header: \"Price\", align: \"end\" }]}\n  rows={[{ name: \"Free\", price: \"$0\" }, { name: \"Pro\", price: \"$12\" }]} />"
+        "<Table aria-label=\"Recent invoices\">\n  <TableCaption>A list of your recent invoices.</TableCaption>\n  <TableHeader><TableRow><TableHead>Invoice</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>\n  <TableBody><TableRow><TableCell>INV001</TableCell><TableCell>Paid</TableCell></TableRow></TableBody>\n</Table>"
       ],
-      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Table/Table.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Table/Table.tsx",
+      "parts": [
+        {
+          "name": "TableCaption",
+          "category": "components",
+          "base": "Own component",
+          "description": "The accessible caption for a Table.",
+          "import": "import { TableCaption } from \"@/ui\";",
+          "renders": "caption",
+          "composition": "Child of Table; describes the table.",
+          "whenToUse": "Naming a table.",
+          "avoid": [
+            "Omitting a caption."
+          ],
+          "accessibility": "Names the table for assistive technology.",
+          "props": [],
+          "extends": "Also accepts the native props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Table/Table.tsx",
+          "parent": "Table"
+        },
+        {
+          "name": "TableHeader",
+          "category": "components",
+          "base": "Own component",
+          "description": "The column-heading section of a Table.",
+          "import": "import { TableHeader } from \"@/ui\";",
+          "renders": "thead",
+          "composition": "Contains TableRow and TableHead.",
+          "whenToUse": "Column headings.",
+          "avoid": [
+            "Using it for body rows."
+          ],
+          "accessibility": "Native table header semantics.",
+          "props": [],
+          "extends": "Also accepts the native props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Table/Table.tsx",
+          "parent": "Table"
+        },
+        {
+          "name": "TableBody",
+          "category": "components",
+          "base": "Own component",
+          "description": "The main data section of a Table.",
+          "import": "import { TableBody } from \"@/ui\";",
+          "renders": "tbody",
+          "composition": "Contains data TableRow elements.",
+          "whenToUse": "The main table data.",
+          "avoid": [
+            "Putting headings here."
+          ],
+          "accessibility": "Native table body semantics.",
+          "props": [],
+          "extends": "Also accepts the native props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Table/Table.tsx",
+          "parent": "Table"
+        },
+        {
+          "name": "TableFooter",
+          "category": "components",
+          "base": "Own component",
+          "description": "The summary section of a Table, rendered with a highlighted surface.",
+          "import": "import { TableFooter } from \"@/ui\";",
+          "renders": "tfoot",
+          "composition": "Contains summary TableRow elements.",
+          "whenToUse": "Totals or summaries.",
+          "avoid": [
+            "Repeating the header."
+          ],
+          "accessibility": "Native table footer semantics.",
+          "props": [],
+          "extends": "Also accepts the native props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Table/Table.tsx",
+          "parent": "Table"
+        },
+        {
+          "name": "TableRow",
+          "category": "components",
+          "base": "Own component",
+          "description": "A row inside a Table section.",
+          "import": "import { TableRow } from \"@/ui\";",
+          "renders": "tr",
+          "composition": "Contains TableHead or TableCell elements.",
+          "whenToUse": "A table row.",
+          "avoid": [
+            "Using it outside a table section."
+          ],
+          "accessibility": "Native table row semantics.",
+          "props": [],
+          "extends": "Also accepts the native props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Table/Table.tsx",
+          "parent": "Table"
+        },
+        {
+          "name": "TableHead",
+          "category": "components",
+          "base": "Own component",
+          "description": "A column or row header cell.",
+          "import": "import { TableHead } from \"@/ui\";",
+          "renders": "th",
+          "composition": "Use scope=\"col\" for headers or scope=\"row\" for the first cell in a data row.",
+          "whenToUse": "Column or row headers.",
+          "avoid": [
+            "Using a td for a header."
+          ],
+          "accessibility": "Native th scope semantics.",
+          "props": [
+            {
+              "name": "align",
+              "type": "\"start\" | \"end\"",
+              "required": false
+            }
+          ],
+          "extends": "Also accepts the native props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Table/Table.tsx",
+          "parent": "Table"
+        },
+        {
+          "name": "TableCell",
+          "category": "components",
+          "base": "Own component",
+          "description": "A data cell inside a TableRow.",
+          "import": "import { TableCell } from \"@/ui\";",
+          "renders": "td",
+          "composition": "A data cell inside TableRow.",
+          "whenToUse": "Table values.",
+          "avoid": [
+            "Using it for headings."
+          ],
+          "accessibility": "Native table cell semantics.",
+          "props": [
+            {
+              "name": "align",
+              "type": "\"start\" | \"end\"",
+              "required": false
+            }
+          ],
+          "extends": "Also accepts the native props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Table/Table.tsx",
+          "parent": "Table"
+        }
+      ]
     },
     {
       "name": "Breadcrumb",
@@ -3783,7 +3937,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<ToggleGroup aria-label=\"View\" defaultValue={[\"list\"]}>\n  <ToggleGroupItem value=\"list\">List</ToggleGroupItem>\n  <ToggleGroupItem value=\"board\">Board</ToggleGroupItem>\n</ToggleGroup>\n<ToggleGroup aria-label=\"Text style\" multiple>...</ToggleGroup>"
+        "<ToggleGroup aria-label=\"View\" defaultValue={[\"list\"]}>\r\n  <ToggleGroupItem value=\"list\">List</ToggleGroupItem>\r\n  <ToggleGroupItem value=\"board\">Board</ToggleGroupItem>\r\n</ToggleGroup>\r\n<ToggleGroup aria-label=\"Text style\" multiple>...</ToggleGroup>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/ToggleGroup/ToggleGroup.tsx",
       "parts": [
@@ -3902,7 +4056,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Toggle>Bold</Toggle>\n<Toggle defaultPressed startIcon={<ListIcon />}>List</Toggle>\n<Toggle aria-label=\"Bold\" startIcon={<BoldIcon />} />"
+        "<Toggle>Bold</Toggle>\r\n<Toggle defaultPressed startIcon={<ListIcon />}>List</Toggle>\r\n<Toggle aria-label=\"Bold\" startIcon={<BoldIcon />} />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Toggle/Toggle.tsx"
     },

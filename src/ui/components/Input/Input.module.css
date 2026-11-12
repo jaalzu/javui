@@ -3,6 +3,7 @@
  *   --input-radius  Corner radius. Default: var(--radius-md).
  *   --input-px      Inline padding. Default: var(--space-3).
  * They are read with a var() fallback so a value set by a parent (ButtonGroup) is never overwritten here.
+ * The visual surface (background, edge, states) lives in styles/field-surface.module.css.
  */
 .wrapper {
   --_px: var(--input-px, calc(var(--space-3) - var(--space-1) / 2));
@@ -28,53 +29,13 @@
 }
 
 .input {
-  box-sizing: border-box;
-  width: 100%;
-  margin: 0;
+  composes: surface from "../../styles/field-surface.module.css";
   padding: 0 var(--_px);
-  border: 0;
-  border-radius: var(--input-radius, var(--radius-md));
-  background: transparent;
-  box-shadow: var(--shadow-default);
-  --input-hover-background: var(--color-component-hover-subtle);
-  color: var(--color-primary-foreground);
-  font-family: var(--text-body-family);
-  font-size: var(--text-body-size);
-  line-height: var(--text-body-line);
-  font-weight: var(--text-body-weight);
-  transition:
-    background-color var(--motion-duration-fast) var(--motion-easing-standard),
-    border-color var(--motion-duration-fast) var(--motion-easing-standard),
-    box-shadow var(--motion-duration-fast) var(--motion-easing-standard),
-    color var(--motion-duration-fast) var(--motion-easing-standard);
 }
 
 .wrapper[data-variant="ghost"] .input {
   background: transparent;
   box-shadow: none;
-}
-
-:global([data-theme="dark"]) .input {
-  background: var(--color-transparent-hover);
-  box-shadow: 0 0 1px 2px rgb(161 161 161 / 0.58);
-  --input-hover-background: var(--color-component);
-}
-
-@media (prefers-color-scheme: dark) {
-  :global(html:not([data-theme="light"])) .input {
-    background: var(--color-transparent-hover);
-    box-shadow: 0 0 1px 1px rgb(105 105 105 / 0.6);
-    --input-hover-background: var(--color-component);
-  }
-}
-
-.input:hover:not(:focus):not(:disabled):not([data-disabled]):not([data-readonly]):not(
-    [data-loading]
-  ),
-.input[data-force="hover"]:not(:focus):not(:disabled):not([data-disabled]):not(
-    [data-readonly]
-  ):not([data-loading]) {
-  background: var(--input-hover-background);
 }
 
 .wrapper[data-variant="ghost"] .input:hover:not(:focus):not(:disabled):not(
@@ -84,79 +45,6 @@
     :disabled
   ):not([data-disabled]):not([data-readonly]):not([data-loading]) {
   background: var(--color-transparent-hover);
-}
-
-.input:focus-visible,
-.input[data-force="focus"] {
-  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
-  outline-offset: var(--focus-ring-offset);
-}
-
-/* Tertiary is the token for placeholders. Contrast vs --color-component: >= 4.8:1 in light and dark
-   on page, card and modal surfaces. */
-.input::placeholder {
-  color: var(--color-tertiary-foreground);
-  opacity: 1;
-}
-
-/* Invalid. Base UI sets data-invalid inside Field; aria-invalid covers a bare Input. The border uses the
-   solid danger step (the 40% border token is too faint), and the focus ring turns danger too. */
-.input[data-invalid],
-.input[aria-invalid="true"] {
-  border-color: var(--color-danger-solid);
-  box-shadow: 0 0 0 var(--border-width-thick) var(--color-danger-solid);
-}
-
-.input[data-force="focus"][aria-invalid="true"] {
-  outline: var(--border-width-thin) solid var(--color-danger-solid);
-  outline-offset: var(--focus-ring-offset);
-}
-
-:global([data-theme="dark"]) .input[aria-invalid="true"] {
-  box-shadow: 0 0 0 var(--border-width-thick) var(--color-danger-solid);
-}
-
-:global([data-theme="dark"]) .input[data-force="focus"][aria-invalid="true"] {
-  outline-color: var(--color-danger-solid);
-}
-
-.input[data-invalid]:focus-visible,
-.input[aria-invalid="true"]:focus-visible,
-.input[data-force="focus"][data-invalid] {
-  outline-width: var(--border-width-thin);
-  outline-color: var(--color-danger-solid);
-}
-
-.input[data-readonly],
-.input[data-loading] {
-  background: var(--color-sunken);
-}
-
-.input[data-loading] {
-  cursor: progress;
-}
-
-.input[data-disabled],
-.input:disabled {
-  border-color: var(--color-border-disabled);
-  background: var(--color-disabled);
-  color: var(--color-disabled-foreground);
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.input[data-disabled]::placeholder,
-.input:disabled::placeholder {
-  color: var(--color-disabled-foreground);
-}
-
-/* Browser autofill paints its own background and text color and breaks dark mode. An inset shadow is the
-   only reliable override; it needs a solid color, so it uses the card surface. */
-.input:-webkit-autofill,
-.input:autofill {
-  -webkit-text-fill-color: var(--color-primary-foreground);
-  caret-color: var(--color-primary-foreground);
-  box-shadow: 0 0 0 100rem var(--color-card) inset;
 }
 
 .input[type="file"] {
@@ -238,12 +126,3 @@
   min-height: var(--size-control-xs);
 }
 
-@media (pointer: coarse) {
-  /* iOS Safari zooms the page when a focused input has a computed font size under 16px. */
-  .input {
-    font-size: max(1rem, var(--text-body-size));
-  }
-
-  /* Touch target: grow the control itself instead of a ::after overlay, which would sit on top of the
-     <input> and swallow taps. */
-}

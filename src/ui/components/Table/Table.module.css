@@ -1,6 +1,6 @@
 .wrapper {
   overflow-x: auto;
-  border: var(--border-width-thin) solid var(--color-border-default);
+  border: var(--border-width-thin) solid var(--color-border-strong);
   border-radius: var(--radius-lg);
 }
 
@@ -13,6 +13,7 @@
 .table {
   width: 100%;
   border-collapse: collapse;
+
   color: var(--color-primary-foreground);
   font-size: var(--text-body-sm-size);
   line-height: var(--text-body-sm-line);
@@ -37,19 +38,31 @@
 }
 
 .cell {
-  padding: var(--space-3) var(--space-4);
+  padding: calc(var(--space-3) - 1px) calc(var(--space-4) - 1px);
   border-top: var(--border-width-thin) solid var(--color-border-default);
   text-align: start;
   vertical-align: top;
 }
 
 .head {
-  background: var(--color-component);
+  border-top: 0;
   color: var(--color-secondary-foreground);
   font-weight: var(--font-weight-medium);
   white-space: nowrap;
 }
 
+.table thead .cell {
+  border-bottom: var(--border-width-thin) solid var(--color-border-default);
+}
+
+.footer {
+  background: var(--color-component-hover-subtle);
+  font-weight: var(--font-weight-semibold);
+}
+
+.footer .cell {
+  border-top: var(--border-width-thin) solid var(--color-border-strong);
+}
 .rowHead {
   font-weight: var(--font-weight-medium);
 }

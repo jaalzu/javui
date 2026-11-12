@@ -156,6 +156,7 @@ const compoundParts = {
   InputGroup: ["InputGroupInput", "InputGroupAddon", "InputGroupText", "InputGroupButton"],
   DescriptionList: ["DescriptionListTerm", "DescriptionListDetails"],
   ToggleGroup: ["ToggleGroupItem"],
+  Table: ["TableCaption", "TableHeader", "TableBody", "TableFooter", "TableRow", "TableHead", "TableCell"],
 };
 const providerAndHookNames = ["LinkProvider", "TooltipProvider", "ToastProvider", "useLinkComponent", "useToast"];
 const byName = new Map(componentsManifest.map((c) => [c.name, c]));

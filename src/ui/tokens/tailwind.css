@@ -12,6 +12,7 @@
   --color-sunken: var(--color-sunken);
   --color-component: var(--color-component);
   --color-control: var(--color-control);
+  --color-field: var(--color-field);
   --color-warning-bright: var(--color-warning-bright);
   --color-overlay: var(--color-overlay);
   --color-page: var(--color-page);
@@ -90,6 +91,7 @@
   --shadow-large: var(--shadow-large);
   --shadow-extra-large: var(--shadow-extra-large);
   --shadow-control: var(--shadow-control);
+  --shadow-field: var(--shadow-field);
   --font-sans: var(--font-family-sans);
   --font-mono: var(--font-family-mono);
   --font-emphasis: var(--font-family-emphasis);

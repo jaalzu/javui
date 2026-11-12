@@ -17,11 +17,14 @@ const currencies = [
 ];
 
 export const hero = defineHero(
-  `<ButtonGroup aria-label="Deploy">
-  <Button>Deploy</Button>
-  <Menu label="Options" variant="primary" items={items} />
+  `<ButtonGroup aria-label="Button group">
+  <Button>Button 1</Button>
+  <Button>Button 2</Button>
 </ButtonGroup>`,
-  <ButtonGroupSplitExample />,
+  <ButtonGroup aria-label="Button group">
+    <Button>Button 1</Button>
+    <Button>Button 2</Button>
+  </ButtonGroup>,
 );
 
 export const examples: Example[] = [

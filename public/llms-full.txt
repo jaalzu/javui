@@ -36,15 +36,12 @@
 - **Container**: Page shells, readable content boundaries and sections that need a consistent max width.
 - **Box**: A bordered or recessed content area that is not a full Card and does not need Card parts.
 - **AspectRatio**: Images, video, embeds or maps whose size must be reserved before they load, preventing layout shift (CLS).
-- **Card** (parts: CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter): Grouping related information into a single idea, with a short title.
-- **Table**: Comparing data across rows and columns.
 - **ScrollArea**: A fixed-height list, code area or panel that should scroll inside the page.
 
 ### utility
 - **useControllableState**: Interactive components that support both controlled and uncontrolled state.
 - **VisuallyHidden**: Text that screen readers must read but sighted users should not see, such as the name of an icon-only button.
 - **Icon**: Any glyph. Named icons are decorative by default; pass `label` when the icon is the only carrier of meaning.
-- **Avatar** (parts: AvatarGroup): Showing who a person or account is.
 
 ### feedback
 - **Spinner**: Indeterminate loading of an action or small region that is expected to take more than a second. Place it next to the content it refers to.
@@ -86,6 +83,11 @@
 - **Pagination**: Moving through content split across URLs.
 - **Sidebar**: Primary vertical navigation beside an app's content, especially on desktop.
 - **Collapsible** (parts: CollapsibleTrigger, CollapsibleContent): A single section that shows or hides content, such as advanced options or extra details.
+
+### components
+- **Card** (parts: CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter): Grouping related information into a single idea, with a short title.
+- **Avatar** (parts: AvatarGroup): Showing who a person or account is.
+- **Table** (parts: TableCaption, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell): Comparing data across rows and columns.
 
 ## Providers and hooks
 - **LinkProvider**: Making every link in the library use `next/link` (or another router link) from a single place.
@@ -1774,7 +1776,7 @@ Use `as="article"` for self-contained content. If you render a `section`, point
 `aria-labelledby` at the `CardTitle`. For state, mark the card with `aria-busy="true"`
 while its content loads and let `Skeleton` stand in for the text.
 
-- Category: layout
+- Category: components
 - Base: Own component
 - Import: `import { Card } from "@/ui";`
 - Renders: div by default; `as` can be article, section or li
@@ -1977,7 +1979,7 @@ The whole avatar is one image with the person's name as its label. Add a status 
 with an icon inside when needed; without them the markup and accessible name stay just the name.
 For bots, companies or systems, use `src` with the logo; without it the initials are shown.
 
-- Category: utility
+- Category: components
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Avatar } from "@/ui";`
 - Renders: span with role img and the name as aria-label
@@ -2266,15 +2268,15 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## Table
 
-Data table with a real `table`, `caption`, `th scope="col"` and a first-column row header. The wrapper
-scrolls horizontally on small screens and is focusable so keyboard users can scroll it.
-For layout, use `Grid` or `Stack`, never a table.
+A responsive semantic table. Compose it with `TableCaption`, `TableHeader`, `TableBody`,
+`TableFooter`, `TableRow`, `TableHead` and `TableCell`; the wrapper stays horizontally scrollable
+and focusable on small screens.
 
-- Category: layout
+- Category: components
 - Base: Own component
 - Import: `import { Table } from "@/ui";`
 - Renders: table with caption, thead, tbody, th scope and a focusable scroll region
-- Composition: Pass `caption`, `columns` ({ key, header, align? }) and `rows` (objects by key). Use `align: "end"` for numeric columns: they align end and use tabular numbers.
+- Composition: Compose `TableCaption`, `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead` and `TableCell`. Use `align="end"` for numeric columns. The responsive wrapper is focusable for horizontal scrolling.
 - Use when: Comparing data across rows and columns.
 - Avoid:
   - Page layout: use Grid or Stack.
@@ -2284,20 +2286,163 @@ For layout, use `Grid` or `Stack`, never a table.
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `caption` | `string` | yes |  | Describes the table. Required: it is the accessible name and the visible caption. |
-| `columns` | `TableColumn[]` | yes |  | Column definitions, in order. |
-| `rows` | `Record<string, ReactNode>[]` | yes |  | One object per row, keyed by `columns[].key`. |
-| `className` | `string` | no |  |  |
-| `hideCaption` | `boolean` | no | false | Visually hide the caption (it stays available to screen readers). |
-| `rowKey` | `string` | no |  | Key of the row value that is unique per row. Falls back to the row index. |
+| `caption` | `string` | no |  | @deprecated Use TableCaption. |
+| `children` | `ReactNode` | no |  | Table content, composed from TableCaption, TableHeader, TableBody, TableFooter and their parts. |
+| `className` | `string` | no |  | Extra class for the scroll region. |
+| `columns` | `TableColumn[]` | no |  | @deprecated Compose TableHead and TableCell instead. |
+| `hideCaption` | `boolean` | no |  | @deprecated Use TableCaption with `hidden`. |
+| `rowKey` | `string` | no |  | @deprecated Use explicit row keys on composed rows. |
+| `rows` | `Record<string, ReactNode>[]` | no |  | @deprecated Compose TableRow and TableCell instead. |
 
 Also accepts the native props of the element it renders; they pass through.
 
 ### Example
 ```tsx
-<Table caption="Plans" columns={[{ key: "name", header: "Plan" }, { key: "price", header: "Price", align: "end" }]}
-  rows={[{ name: "Free", price: "$0" }, { name: "Pro", price: "$12" }]} />
+<Table aria-label="Recent invoices">
+  <TableCaption>A list of your recent invoices.</TableCaption>
+  <TableHeader><TableRow><TableHead>Invoice</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
+  <TableBody><TableRow><TableCell>INV001</TableCell><TableCell>Paid</TableCell></TableRow></TableBody>
+</Table>
 ```
+
+### Parts
+
+### TableCaption
+
+The accessible caption for a Table.
+
+- Category: components
+- Base: Own component
+- Import: `import { TableCaption } from "@/ui";`
+- Renders: caption
+- Composition: Child of Table; describes the table.
+- Use when: Naming a table.
+- Avoid:
+  - Omitting a caption.
+- Accessibility: Names the table for assistive technology.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+### TableHeader
+
+The column-heading section of a Table.
+
+- Category: components
+- Base: Own component
+- Import: `import { TableHeader } from "@/ui";`
+- Renders: thead
+- Composition: Contains TableRow and TableHead.
+- Use when: Column headings.
+- Avoid:
+  - Using it for body rows.
+- Accessibility: Native table header semantics.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+### TableBody
+
+The main data section of a Table.
+
+- Category: components
+- Base: Own component
+- Import: `import { TableBody } from "@/ui";`
+- Renders: tbody
+- Composition: Contains data TableRow elements.
+- Use when: The main table data.
+- Avoid:
+  - Putting headings here.
+- Accessibility: Native table body semantics.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+### TableFooter
+
+The summary section of a Table, rendered with a highlighted surface.
+
+- Category: components
+- Base: Own component
+- Import: `import { TableFooter } from "@/ui";`
+- Renders: tfoot
+- Composition: Contains summary TableRow elements.
+- Use when: Totals or summaries.
+- Avoid:
+  - Repeating the header.
+- Accessibility: Native table footer semantics.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+### TableRow
+
+A row inside a Table section.
+
+- Category: components
+- Base: Own component
+- Import: `import { TableRow } from "@/ui";`
+- Renders: tr
+- Composition: Contains TableHead or TableCell elements.
+- Use when: A table row.
+- Avoid:
+  - Using it outside a table section.
+- Accessibility: Native table row semantics.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+### TableHead
+
+A column or row header cell.
+
+- Category: components
+- Base: Own component
+- Import: `import { TableHead } from "@/ui";`
+- Renders: th
+- Composition: Use scope="col" for headers or scope="row" for the first cell in a data row.
+- Use when: Column or row headers.
+- Avoid:
+  - Using a td for a header.
+- Accessibility: Native th scope semantics.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `align` | `"start" \| "end"` | no |  |  |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### TableCell
+
+A data cell inside a TableRow.
+
+- Category: components
+- Base: Own component
+- Import: `import { TableCell } from "@/ui";`
+- Renders: td
+- Composition: A data cell inside TableRow.
+- Use when: Table values.
+- Avoid:
+  - Using it for headings.
+- Accessibility: Native table cell semantics.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `align` | `"start" \| "end"` | no |  |  |
+
+Also accepts the native props of the element it renders; they pass through.
 
 ## Breadcrumb
 
@@ -3298,6 +3443,7 @@ show({ title: "Saved", tone: "success" });
 | `--color-component-on-sunken` | color | light `var(--color-card)` / dark `var(--color-card)` |
 | `--color-control` | color | light `transparent` / dark `var(--color-component-hover)` |
 | `--color-control-hover` | color | light `var(--color-component-hover-subtle)` / dark `var(--color-component)` |
+| `--color-field` | color | light `transparent` / dark `var(--color-transparent-hover)` |
 | `--color-transparent-hover` | color | light `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 8%, transparent)` |
 | `--color-transparent-active` | color | light `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 12%, transparent)` |
 | `--color-toggle-active` | color | light `color-mix(in oklab, var(--color-primary-foreground) 8%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 12%, transparent)` |
@@ -3365,6 +3511,7 @@ show({ title: "Saved", tone: "success" });
 | `--shadow-inset-ring` | shadow | light `inset 0 0 0 1px #00000014` / dark `inset 0 0 0 1px #ffffff14` |
 | `--shadow-default` | shadow | light `0 0 0 1px #0000000f, 0 1px 2px #0000001a` / dark `0 0 0 1px #ffffff12, 0 1px 2px #00000066` |
 | `--shadow-control` | shadow | light `var(--shadow-default)` / dark `0 0 1px 1px rgb(105 105 105 / 0.6)` |
+| `--shadow-field` | shadow | light `var(--shadow-default)` / dark `0 0 1px 1px rgb(161 161 161 / 0.42)` |
 | `--shadow-raised` | shadow | light `inset 0 0 0 1px transparent, inset 0 1px #ffffffb3, 0 0 0 1px #00000014` / dark `inset 0 0 0 1px #ffffff06, inset 0 1px #ffffff08, 0 0 0 1px #0009, 0 4px 4px #0000001a` |
 | `--shadow-large` | shadow | light `0 0 0 1px #00000014, 0 2px 3px -2px #0000001a, 0 3px 8px -2px #00000014, 0 4px 12px -4px #0000001f` / dark `0 0 0 1px color-mix(in oklab, #ffffff12, #3a3a3a 25%), 0 2px 3px -2px #00000026, 0 3px 8px -2px #0006, 0 4px 12px -4px #00000080` |
 | `--shadow-extra-large` | shadow | light `0 0 0 .5px #00000014, 0 8px 40px 0px #0000001a, 0 12px 32px -16px #00000040` / dark `0 0 0 .5px #ffffff12 inset, 0 0 0 .5px #0000, 0 8px 40px 0px #0000000d, 0 12px 32px -16px #00000026` |

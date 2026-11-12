@@ -1,0 +1,96 @@
+/*
+ * Shared surface of text fields. Compose it from the control that owns the native element:
+ *   composes: surface from "../../styles/field-surface.module.css";
+ * Padding, size, slots and variants stay in each component.
+ * Public hook: --input-radius (default --radius-md).
+ * Local hook: --field-hover-background, so a variant can change what hover paints.
+ */
+.surface {
+  --field-hover-background: var(--color-control-hover);
+
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: var(--input-radius, var(--radius-md));
+  background: var(--color-field);
+  box-shadow: var(--shadow-field);
+  color: var(--color-primary-foreground);
+  font-family: var(--text-body-family);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line);
+  font-weight: var(--text-body-weight);
+  transition:
+    background-color var(--motion-duration-fast) var(--motion-easing-standard),
+    border-color var(--motion-duration-fast) var(--motion-easing-standard),
+    box-shadow var(--motion-duration-fast) var(--motion-easing-standard),
+    color var(--motion-duration-fast) var(--motion-easing-standard);
+}
+
+.surface:hover:not(:focus):not(:disabled):not([data-disabled]):not([data-readonly]):not(
+    [data-loading]
+  ),
+.surface[data-force="hover"]:not(:focus):not(:disabled):not([data-disabled]):not(
+    [data-readonly]
+  ):not([data-loading]) {
+  background: var(--field-hover-background);
+}
+
+.surface:focus-visible,
+.surface[data-force="focus"] {
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.surface::placeholder {
+  color: var(--color-tertiary-foreground);
+  opacity: 1;
+}
+
+.surface[data-invalid],
+.surface[aria-invalid="true"] {
+  border-color: var(--color-danger-solid);
+  box-shadow: 0 0 0 var(--border-width-thick) var(--color-danger-solid);
+}
+
+.surface[data-force="focus"][aria-invalid="true"] {
+  outline: var(--border-width-thin) solid var(--color-danger-solid);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.surface[data-invalid]:focus-visible,
+.surface[aria-invalid="true"]:focus-visible,
+.surface[data-force="focus"][data-invalid] {
+  outline-width: var(--border-width-thin);
+  outline-color: var(--color-danger-solid);
+}
+
+.surface[data-readonly],
+.surface[data-loading] {
+  background: var(--color-sunken);
+}
+
+.surface[data-loading] { cursor: progress; }
+
+.surface[data-disabled],
+.surface:disabled {
+  border-color: var(--color-border-disabled);
+  background: var(--color-disabled);
+  color: var(--color-disabled-foreground);
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.surface[data-disabled]::placeholder,
+.surface:disabled::placeholder { color: var(--color-disabled-foreground); }
+
+.surface:-webkit-autofill,
+.surface:autofill {
+  -webkit-text-fill-color: var(--color-primary-foreground);
+  caret-color: var(--color-primary-foreground);
+  box-shadow: 0 0 0 100rem var(--color-card) inset;
+}
+
+@media (pointer: coarse) {
+  .surface { font-size: max(1rem, var(--text-body-size)); }
+}

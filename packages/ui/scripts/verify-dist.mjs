@@ -20,6 +20,7 @@ for (const file of files) {
   const text = readFileSync(file, "utf8");
   const name = relative(dist, file);
   if (text.includes("@/")) failures.push(`${name}: contains @/`);
+  if (text.includes("use cache") || text.includes("use server")) failures.push(`${name}: contains Next.js-only directive`);
   if (/\.(stories|test|examples)\./i.test(name)) failures.push(`${name}: story/test/example leaked into dist`);
 }
 

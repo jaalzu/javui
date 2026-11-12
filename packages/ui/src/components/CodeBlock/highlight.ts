@@ -23,6 +23,8 @@ const languageAliases: Record<string, string> = {
 const supported = new Set(["bash", "css", "diff", "html", "json", "ts", "tsx"]);
 
 let highlighter: Promise<HighlighterCore> | undefined;
+const highlightedCache = new Map<string, Promise<string>>();
+const MAX_HIGHLIGHTED_CACHE = 128;
 
 function getHighlighter() {
   highlighter ??= createHighlighterCore({
@@ -49,18 +51,25 @@ function diffLines(lines: string[]): ShikiTransformer {
 
 /** Highlights code with Shiki, or returns null when the language is unknown or highlighting is off. */
 export async function highlightCode(code: string, language?: string): Promise<string | null> {
-  "use cache";
-
   if (!language) return null;
   const lang = languageAliases[language] ?? language;
   if (!supported.has(lang)) return null;
 
-  const instance = await getHighlighter();
-  const lines = code.split("\n");
-  return instance.codeToHtml(code, {
+  const key = `${lang}\u0000${code}`;
+  const cached = highlightedCache.get(key);
+  if (cached) {
+    highlightedCache.delete(key);
+    highlightedCache.set(key, cached);
+    return cached;
+  }
+
+  const result = getHighlighter().then((instance) => instance.codeToHtml(code, {
     lang,
     theme,
     tabindex: false,
-    transformers: [diffLines(lines)],
-  });
+    transformers: [diffLines(code.split("\n"))],
+  }));
+  highlightedCache.set(key, result);
+  if (highlightedCache.size > MAX_HIGHLIGHTED_CACHE) highlightedCache.delete(highlightedCache.keys().next().value!);
+  return result;
 }

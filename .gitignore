@@ -46,3 +46,6 @@ next-env.d.ts
 
 *storybook.log
 storybook-static
+playgrounds/next/node_modules
+playgrounds/next/.next
+playgrounds/next/*.tgz

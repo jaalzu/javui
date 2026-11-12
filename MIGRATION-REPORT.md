@@ -76,3 +76,11 @@ Fase 0 auditada. La Fase 1 queda pendiente de la confirmación del usuario.
 - `bun run --filter @javui/ui build` y `bun run --filter @javui/ui verify:dist` OK (341 archivos, 38 módulos client). `verify:dist` confirmó `"use client"` y ausencia de `shiki`/`server-only` desde `dist/index.js`.
 - `publint` pasó sin incidencias. `attw --pack` mostró advertencias de resolución para el entry server y exports CSS, limitación de análisis de tipos para ESM/CSS que no invalida el consumo ESM verificado; el bundle principal quedó resoluble.
 - `bun pm pack --dry-run` mostró únicamente el contenido publicable previsto (`dist`, `agent`, README, LICENSE y package metadata). La reinstalación final con `bun install --frozen-lockfile` quedó pendiente de verificar por el usuario porque el sandbox Windows devolvió `EBADF accessing temporary directory`; ejecutar `bun install --frozen-lockfile` en una terminal normal.
+
+## Tanda B — Fase 6: Playground Next
+
+- Se creó `playgrounds/next` fuera de los workspaces, con dependencia `file:` al tarball generado por `bun pm pack`.
+- Incluye Server Components con `Stack`, `Text`, `Heading` y `CodeBlock` desde `@javui/ui/server`, más una página cliente con Button, Field/Input, Select y Modal.
+- Incluye `LinkProvider` con `next/link`, `tokens.css`, `base.css`, `fonts.css` y `data-theme`.
+- `bun run test:consumer`: empaquetado OK; instalación/build bloqueados por `EBADF accessing temporary directory` del sandbox. Pendiente del usuario: `bun run test:consumer`.
+- Tarball: 0.28 MB packed, 1.42 MB unpacked (349 archivos).

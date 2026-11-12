@@ -16,6 +16,7 @@
     "agent-docs": "bun run --filter @javui/ui agent-docs",
     "mcp": "bun run --filter @javui/ui mcp",
     "mcp:test": "bun run --filter @javui/ui mcp:test"
+    ,"test:consumer": "bun scripts/test-consumer.mjs"
   },
   "dependencies": {},
   "devDependencies": {

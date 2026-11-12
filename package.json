@@ -15,7 +15,8 @@
     "test": "bun run --filter @javui/ui test",
     "agent-docs": "bun run --filter @javui/ui agent-docs",
     "mcp": "bun run --filter @javui/ui mcp",
-    "mcp:test": "bun run --filter @javui/ui mcp:test"
+    "mcp:test": "bun run --filter @javui/ui mcp:test",
+    "verify:dist": "bun run --filter @javui/ui verify:dist"
     ,"test:consumer": "bun scripts/test-consumer.mjs"
   },
   "dependencies": {},

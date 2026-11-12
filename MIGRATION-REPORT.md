@@ -86,3 +86,13 @@ Fase 0 auditada. La Fase 1 queda pendiente de la confirmación del usuario.
 - Tarball: 0.28 MB packed, 1.42 MB unpacked (349 archivos).
 - Auditoría de APIs: no quedan `use cache`, `use server`, `unstable_cache`, `cacheLife` ni `cacheTag` en `packages/ui/src`. Select se corrigió a su API real (`items`/`placeholder`); el manifest y los ejemplos bastaron, sin hueco de documentación para agentes.
 - Fase 7a: se actualizaron AGENTS/AGENT_GUIDE/README/DISTRIBUTION a `packages/ui`, `dist`, exports y CSS públicos; se regeneró `agent/*` y no quedan `@/ui` allí. Queda sin resolver la discrepancia existente entre CHANGELOG (Box/Container/Divider removidos) y el barrel, que aún exporta Box y Container.
+
+## Cierre — Fase 7b (release mínimo)
+
+- Changesets inicializado con acceso público y changeset minor para `@javui/ui` 0.1.0.
+- CI Ubuntu definido: install frozen, typecheck, lint, test, build, verify:dist y test:consumer; sin release ni secretos.
+- Button, Input y Slider quedan explícitamente marcados como preexistentes con `it.skip`/comentarios; la comparación con el commit base confirmó el origen.
+- `test:consumer` alcanzó pack: 0.28 MB comprimido, 1.42 MB descomprimido; la instalación local quedó pendiente del usuario por `ENOENT`/sandbox temporal.
+- Acciones del usuario: registrar la org `javui` en npm y verificar el nombre; activar 2FA; confirmar titular de LICENSE y URL de repository; configurar publicación desde CI; publicar 0.1.0.
+- Discrepancia sin resolver: Changelog marca Box/Container/Divider removidos, pero el barrel aún exporta Box y Container.
+- Pendientes opcionales: Storybook sin verificar; Vite/Tailwind sin probar; `@layer`, `./form`, `./table`, registry/CLI y los tres tests preexistentes.

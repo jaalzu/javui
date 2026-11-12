@@ -23,6 +23,9 @@
 # production
 /build
 packages/*/dist
+dist
+*.tgz
+playgrounds/next/node_modules
 
 # misc
 .DS_Store

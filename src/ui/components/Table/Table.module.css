@@ -38,10 +38,22 @@
 }
 
 .cell {
-  padding: calc(var(--space-3) - 1px) calc(var(--space-4) - 1px);
+  padding: calc(var(--space-3) - (var(--border-width-thin) * 2))
+    calc(var(--space-4) - 1px);
   border-top: var(--border-width-thin) solid var(--color-border-default);
   text-align: start;
-  vertical-align: top;
+  vertical-align: middle;
+}
+
+.row {
+  transition: background-color var(--motion-duration-fast)
+    var(--motion-easing-standard);
+}
+
+@media (hover: hover) {
+  .body .row:hover {
+    background: var(--color-component-hover-faint);
+  }
 }
 
 .head {

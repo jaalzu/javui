@@ -1,4 +1,7 @@
 import {
+  Button,
+  DotsThreeIcon,
+  Menu,
   Table,
   TableBody,
   TableCell,
@@ -6,6 +9,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  type MenuEntry,
 } from "@/ui";
 import { defineHero, ex, type Example } from "@/docs/example";
 import styles from "./Table.examples.module.css";
@@ -42,6 +46,60 @@ function PeopleTable() {
               <TableCell>{email}</TableCell>
               <TableCell>{role}</TableCell>
               <TableCell>{status}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
+}
+
+const rowActions: MenuEntry[] = [
+  { label: "Copy" },
+  { label: "Edit" },
+  { type: "separator" },
+  { label: "Remove", destructive: true },
+];
+
+function RowMenu({ name }: { name: string }) {
+  return (
+    <Menu
+      label={`Actions for ${name}`}
+      placement="bottom-end"
+      items={rowActions}
+      trigger={
+        <Button
+          variant="ghost"
+          size="md"
+          aria-label={`Actions for ${name}`}
+          startIcon={<DotsThreeIcon />}
+        />
+      }
+    />
+  );
+}
+
+function ActionsTable() {
+  return (
+    <div className={styles.stage}>
+      <Table aria-label="Team members with row actions">
+        <TableHeader>
+          <TableRow>
+            <TableHead>Name</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Role</TableHead>
+            <TableHead align="end">Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {people.map(([name, email, role]) => (
+            <TableRow key={email}>
+              <TableCell>{name}</TableCell>
+              <TableCell>{email}</TableCell>
+              <TableCell>{role}</TableCell>
+              <TableCell align="end">
+                <RowMenu name={name} />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -107,5 +165,26 @@ export const examples: Example[] = [
 </Table>`,
     <InvoiceTable />,
     "Use the footer for totals or other summary values.",
+  ),
+  ex(
+    "With row actions",
+    `<Table aria-label="Team members with row actions">
+  <TableHeader>...</TableHeader>
+  <TableBody>{people.map((row) => (
+    <TableRow key={row.email}>
+      ...
+      <TableCell align="end">
+        <Menu
+          label={\`Actions for \${row.name}\`}
+          placement="bottom-end"
+          items={rowActions}
+          trigger={<Button variant="ghost" size="md" aria-label={\`Actions for \${row.name}\`} startIcon={<DotsThreeIcon />} />}
+        />
+      </TableCell>
+    </TableRow>
+  ))}</TableBody>
+</Table>`,
+    <ActionsTable />,
+    "Put the row menu in the last cell and give each trigger its own accessible name.",
   ),
 ];

@@ -51,6 +51,11 @@
       "$type": "color",
       "$description": "Very subtle component hover for quiet controls."
     },
+    "component-hover-faint": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 2%, transparent)",
+      "$type": "color",
+      "$description": "Barely visible hover for large non-interactive surfaces such as table rows."
+    },
     "component-active": {
       "$value": "color-mix(in oklab, {color.primary-foreground} 12%, transparent)",
       "$type": "color",

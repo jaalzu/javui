@@ -145,6 +145,7 @@
   --dialog-width-lg: 40rem; /** Roomier width for forms, tables and detailed content. */
   --dialog-width-xl: 56rem; /** Extra-roomy width for complex forms, tables and detailed content. */
   --dialog-height-md: 36rem; /** Maximum height for dialogs before their body scrolls. */
+  --menu-width-2xs: 8rem;
   --menu-width-xxs: 6rem;
   --menu-width-xs: 12rem;
   --menu-width-sm: 15rem;
@@ -206,7 +207,7 @@
   --text-body-weight: var(--font-weight-regular);
   --text-body-style: var(--font-style-body);
   --text-body-family: var(--font-family-sans);
-  --text-body-sm-size: var(--font-size-13);
+  --text-body-sm-size: var(--font-size-14);
   --text-body-sm-weight: var(--font-weight-regular);
   --text-body-sm-style: var(--font-style-body);
   --text-body-sm-family: var(--font-family-sans);
@@ -269,6 +270,7 @@
   --color-highlight: color-mix(in oklab, var(--color-primary-foreground) 3%, var(--color-card)); /** Highlighted panel inside a card: a metric, total or goal that should stand out. Lighter than the card in dark, soft gray in light. Never nest a highlight inside another highlight. */
   --color-component-hover: color-mix(in oklab, var(--color-primary-foreground) 8%, transparent); /** Component hovered. */
   --color-component-hover-subtle: color-mix(in oklab, var(--color-primary-foreground) 3%, transparent); /** Very subtle component hover for quiet controls. */
+  --color-component-hover-faint: color-mix(in oklab, var(--color-primary-foreground) 2%, transparent); /** Barely visible hover for large non-interactive surfaces such as table rows. */
   --color-component-active: color-mix(in oklab, var(--color-primary-foreground) 12%, transparent); /** Component pressed. */
   --color-component-on-sunken: var(--color-card); /** Component placed on a sunken area, so it still stands out. */
   --color-transparent-hover: color-mix(in oklab, var(--color-primary-foreground) 6%, transparent); /** Ghost control or list item hovered. */
@@ -359,6 +361,7 @@
       --color-modal: color-mix(in oklab, var(--color-primary-foreground) 6%, var(--color-page)); /** Layers above the page: dialog, menu, select list, popover. */
       --color-component-hover: color-mix(in oklab, var(--color-primary-foreground) 14%, transparent); /** Component hovered. */
       --color-component-hover-subtle: color-mix(in oklab, var(--color-primary-foreground) 6%, transparent); /** Very subtle component hover for quiet controls. */
+      --color-component-hover-faint: color-mix(in oklab, var(--color-primary-foreground) 4%, transparent); /** Barely visible hover for large non-interactive surfaces such as table rows. */
       --color-component-active: color-mix(in oklab, var(--color-primary-foreground) 18%, transparent); /** Component pressed. */
       --color-transparent-hover: color-mix(in oklab, var(--color-primary-foreground) 8%, transparent); /** Ghost control or list item hovered. */
       --color-transparent-active: color-mix(in oklab, var(--color-primary-foreground) 12%, transparent); /** Ghost control pressed, or list item selected or highlighted. */
@@ -447,6 +450,7 @@
     --color-modal: color-mix(in oklab, var(--color-primary-foreground) 6%, var(--color-page)); /** Layers above the page: dialog, menu, select list, popover. */
     --color-component-hover: color-mix(in oklab, var(--color-primary-foreground) 14%, transparent); /** Component hovered. */
     --color-component-hover-subtle: color-mix(in oklab, var(--color-primary-foreground) 6%, transparent); /** Very subtle component hover for quiet controls. */
+    --color-component-hover-faint: color-mix(in oklab, var(--color-primary-foreground) 4%, transparent); /** Barely visible hover for large non-interactive surfaces such as table rows. */
     --color-component-active: color-mix(in oklab, var(--color-primary-foreground) 18%, transparent); /** Component pressed. */
     --color-transparent-hover: color-mix(in oklab, var(--color-primary-foreground) 8%, transparent); /** Ghost control or list item hovered. */
     --color-transparent-active: color-mix(in oklab, var(--color-primary-foreground) 12%, transparent); /** Ghost control pressed, or list item selected or highlighted. */

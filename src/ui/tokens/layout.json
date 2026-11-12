@@ -134,6 +134,7 @@
     "$type": "dimension",
     "$description": "Optional fixed widths for menu popups. Auto remains content-sized.",
     "width": {
+      "2xs": { "$value": "8rem" },
       "xxs": { "$value": "6rem" },
       "xs": { "$value": "12rem" },
       "sm": { "$value": "15rem" },

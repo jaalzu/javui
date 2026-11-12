@@ -740,7 +740,7 @@ Icon-only controls need an accessible name (`aria-label` or `aria-labelledby`).
 | `pill` | `boolean` | no | false | Fully rounded shape (`--radius-full`). Inside `ButtonGroup` only the outer corners keep it. |
 | `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | "md" | Control height and icon size: `xs` 1.5rem and 12px, `sm` 1.75rem and 16px, `md` 2rem and 20px, `lg` 2.5rem and 24px. |
 | `startIcon` | `ReactNode` | no | undefined | Icon before the label. Pass a generated icon without `size`; the control sizes it. The visible icon and accessible name. Pass a generated icon without `size`. |
-| `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | "primary" | Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions, `ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions. |
+| `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | "primary" | Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions, `outline` for bordered actions, `ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -748,6 +748,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 ```tsx
 <Button>Save</Button>
 <Button variant="secondary" size="sm">Cancel</Button>
+<Button variant="outline">Learn more</Button>
 <Button variant="accent" pill>Upgrade</Button>
 <Button loading>Saving</Button>
 <Button aria-label="Close" startIcon={<XIcon />} />
@@ -756,7 +757,12 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## ButtonGroup
 
-Joins 2-4 related actions into one control. Children draw their border and radius; the group only zeros the inner edges. It never inherits `size` or `variant`.
+Joins 2-4 related actions into one control. Children draw their border and radius; the group
+only zeros the inner edges. It never sets the `size` or `variant` of its buttons.
+
+Use `ButtonGroup` for buttons that perform an action. To group buttons that switch a state on
+and off, use `ToggleGroup`. The group has `role="group"`: name it with `aria-label` or
+`aria-labelledby`. Tab moves between the buttons.
 
 - Category: controls
 - Base: Own component
@@ -1019,7 +1025,7 @@ default to `--radius-md` and `--space-3` and are useful when composing with Butt
 | `loading` | `boolean` | no | false | Shows a small spinner at the end and makes the input not editable. `aria-busy` is set. Inside `Field`, omit it and pass `loading` to the Field instead. |
 | `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | "md" | Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. |
 | `startIcon` | `ReactNode` | no |  | Icon before the text. Pass a generated icon without `size`; the input sizes it. |
-| `variant` | `"default" \| "ghost"` | no | default | Visual treatment: `ghost` removes the resting chrome for low-emphasis fields. |
+| `variant` | `"inline" \| "default" \| "ghost"` | no | default | Visual treatment: `inline` removes the resting chrome for fields composed inside another control. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1619,7 +1625,7 @@ The button that opens the modal. It renders a `Button` and inherits the behavior
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | sm | Button size of the trigger. |
-| `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | primary | Button style of the trigger. |
+| `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | primary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1691,7 +1697,7 @@ with `initialFocus`; otherwise the first secondary action receives focus.
 |---|---|---|---|---|
 | `initialFocus` | `boolean` | no | false | Marks the safe action that receives initial focus in `role="alertdialog"`. |
 | `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | sm | Button size. |
-| `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style. Use `danger` for a destructive action. |
+| `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style. Use `danger` for a destructive action. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -2112,7 +2118,7 @@ The button that opens the popover. It is rendered as a `Button`.
 | `pill` | `boolean` | no | false | Fully rounded trigger. |
 | `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | "md" | Button size of the trigger. |
 | `startIcon` | `ReactNode` | no |  | Icon before the label, or the icon for an icon-only trigger. Pass a generated icon without `size`. |
-| `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
+| `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -2172,7 +2178,7 @@ A button that closes the popover. It is rendered as a `Button`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | sm | Button size. |
-| `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style. |
+| `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -2213,7 +2219,7 @@ clear, 20px icons for better scanability.
 | `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | md | Button size of the trigger. |
 | `trigger` | `ReactElement<unknown, string \| JSXElementConstructor<any>>` | no |  | Optional custom trigger. It must be an accessible button-like element. |
 | `triggerVariant` | `"button" \| "tab"` | no | button | Uses a bordered text trigger, like an editor menubar, instead of the default button. |
-| `variant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
+| `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
 | `width` | `"sm" \| "md" \| "lg" \| "auto" \| "xs" \| "xxs"` | no | auto | Content-sized by default, or one of the fixed semantic menu widths. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -2959,7 +2965,7 @@ and every action fills the available width. For a centered decision use `Modal`.
 | `showCloseButton` | `boolean` | no | true | Whether to render the built-in close button. |
 | `side` | `"top" \| "bottom" \| "left" \| "right"` | no | right | Edge the sheet enters from. |
 | `triggerSize` | `"sm" \| "md" \| "lg" \| "xs"` | no | sm | Button size of the trigger. |
-| `triggerVariant` | `"danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
+| `triggerVariant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 

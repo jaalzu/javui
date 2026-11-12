@@ -93,6 +93,17 @@
   --btn-backdrop: blur(4px);
 }
 
+.outline {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-primary-foreground);
+  --btn-bg-hover: var(--color-component-hover);
+  border-color: var(--color-border-emphasis);
+}
+
+.outline.button[data-disabled]:not([data-loading]) {
+  border-color: var(--color-border-disabled);
+}
+
 .ghost {
   --btn-bg: transparent;
   --btn-fg: var(--color-primary-foreground);

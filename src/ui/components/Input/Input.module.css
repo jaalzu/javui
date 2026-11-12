@@ -33,9 +33,16 @@
   padding: 0 var(--_px);
 }
 
-.wrapper[data-variant="ghost"] .input {
+.wrapper[data-variant="ghost"] .input,
+.wrapper[data-variant="inline"] .input {
   background: transparent;
   box-shadow: none;
+}
+
+.wrapper[data-variant="inline"] .input {
+  border: var(--border-width-thin) solid var(--color-border-default);
+  background: var(--color-field);
+  box-shadow: var(--shadow-field);
 }
 
 .wrapper[data-variant="ghost"] .input:hover:not(:focus):not(:disabled):not(
@@ -45,6 +52,12 @@
     :disabled
   ):not([data-disabled]):not([data-readonly]):not([data-loading]) {
   background: var(--color-transparent-hover);
+}
+
+.wrapper[data-variant="inline"] .input:hover:not(:focus):not(:disabled):not(
+    [data-disabled]
+  ):not([data-readonly]):not([data-loading]) {
+  background: transparent;
 }
 
 .input[type="file"] {

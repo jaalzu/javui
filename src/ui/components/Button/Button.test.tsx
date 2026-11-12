@@ -124,6 +124,7 @@ describe("Button", () => {
       <div>
         <Button>Primary</Button>
         <Button variant="secondary">Secondary</Button>
+        <Button variant="outline">Outline</Button>
         <Button variant="danger" disabled>Delete</Button>
         <Button aria-label="Done" startIcon={<CheckIcon />} />
         <Button variant="secondary" startIcon={<CheckIcon />} endIcon={<ArrowRightIcon />}>Next</Button>

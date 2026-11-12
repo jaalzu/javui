@@ -17,13 +17,14 @@ import styles from "./Button.module.css";
 import { useButtonGroupSize } from "../ButtonGroup/ButtonGroupContext";
 
 export type ButtonVariant =
-  "primary" | "secondary" | "ghost" | "accent" | "danger";
+  "primary" | "secondary" | "outline" | "ghost" | "accent" | "danger";
 export type ButtonSize = "xs" | "sm" | "md" | "lg";
 
 type ButtonSharedProps = {
   /**
    * Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions,
-   * `ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions.
+   * `outline` for bordered actions, `ghost` for low-emphasis actions, `accent` for brand emphasis,
+   * `danger` for destructive actions.
    * @default "primary"
    */
   variant?: ButtonVariant;
@@ -106,6 +107,7 @@ export type ButtonProps = ButtonWithLabelProps | ButtonIconOnlyProps;
  * @example
  * <Button>Save</Button>
  * <Button variant="secondary" size="sm">Cancel</Button>
+ * <Button variant="outline">Learn more</Button>
  * <Button variant="accent" pill>Upgrade</Button>
  * <Button loading>Saving</Button>
  * <Button aria-label="Close" startIcon={<XIcon />} />
@@ -195,7 +197,7 @@ export function Button(props: ButtonProps) {
     );
   }
 
-    const {
+  const {
     variant = "primary",
       size = groupSize ?? "md",
     pill = false,

@@ -822,15 +822,15 @@
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+          "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "\"primary\"",
-          "description": "Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions,\n`ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions."
+          "description": "Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions,\n`outline` for bordered actions, `ghost` for low-emphasis actions, `accent` for brand emphasis,\n`danger` for destructive actions."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Button>Save</Button>\r\n<Button variant=\"secondary\" size=\"sm\">Cancel</Button>\r\n<Button variant=\"accent\" pill>Upgrade</Button>\r\n<Button loading>Saving</Button>\r\n<Button aria-label=\"Close\" startIcon={<XIcon />} />\r\n<Button href=\"/docs/installation\">Get started</Button>"
+        "<Button>Save</Button>\r\n<Button variant=\"secondary\" size=\"sm\">Cancel</Button>\r\n<Button variant=\"outline\">Learn more</Button>\r\n<Button variant=\"accent\" pill>Upgrade</Button>\r\n<Button loading>Saving</Button>\r\n<Button aria-label=\"Close\" startIcon={<XIcon />} />\r\n<Button href=\"/docs/installation\">Get started</Button>"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/src/ui/components/Button/Button.tsx"
     },
@@ -838,7 +838,7 @@
       "name": "ButtonGroup",
       "category": "controls",
       "base": "Own component",
-      "description": "Joins 2-4 related actions into one control. Children draw their border and radius; the group only zeros the inner edges. It never inherits `size` or `variant`.",
+      "description": "Joins 2-4 related actions into one control. Children draw their border and radius; the group\nonly zeros the inner edges. It never sets the `size` or `variant` of its buttons.\n\nUse `ButtonGroup` for buttons that perform an action. To group buttons that switch a state on\nand off, use `ToggleGroup`. The group has `role=\"group\"`: name it with `aria-label` or\n`aria-labelledby`. Tab moves between the buttons.",
       "import": "import { ButtonGroup } from \"@/ui\";",
       "renders": "div role=\"group\"",
       "composition": "One group of related children: `Button`, a `Menu` trigger, `Input`, `Select` or `ButtonGroupText`. The group does not inherit `size` or `variant`; set both on every child. `stackBelow` stacks it below `sm` or `md`. Children draw the internal 1px line.",
@@ -1184,10 +1184,10 @@
         },
         {
           "name": "variant",
-          "type": "\"default\" | \"ghost\"",
+          "type": "\"inline\" | \"default\" | \"ghost\"",
           "required": false,
           "default": "default",
-          "description": "Visual treatment: `ghost` removes the resting chrome for low-emphasis fields."
+          "description": "Visual treatment: `inline` removes the resting chrome for fields composed inside another control."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
@@ -2088,7 +2088,7 @@
             },
             {
               "name": "variant",
-              "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+              "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
               "required": false,
               "default": "primary",
               "description": "Button style of the trigger."
@@ -2196,7 +2196,7 @@
             },
             {
               "name": "variant",
-              "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+              "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
               "required": false,
               "default": "secondary",
               "description": "Button style. Use `danger` for a destructive action."
@@ -2750,7 +2750,7 @@
             },
             {
               "name": "variant",
-              "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+              "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
               "required": false,
               "default": "secondary",
               "description": "Button style of the trigger."
@@ -2845,7 +2845,7 @@
             },
             {
               "name": "variant",
-              "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+              "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
               "required": false,
               "default": "secondary",
               "description": "Button style."
@@ -2949,7 +2949,7 @@
         },
         {
           "name": "variant",
-          "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+          "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "secondary",
           "description": "Button style of the trigger."
@@ -4205,7 +4205,7 @@
         },
         {
           "name": "triggerVariant",
-          "type": "\"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
+          "type": "\"outline\" | \"danger\" | \"primary\" | \"secondary\" | \"ghost\" | \"accent\"",
           "required": false,
           "default": "secondary",
           "description": "Button style of the trigger."

@@ -6,10 +6,10 @@ import { Button, ButtonGroup, Menu } from "@/ui";
 export function ButtonGroupSplitExample() {
   return (
     <ButtonGroup aria-label="Deploy">
-      <Button>Deploy</Button>
+      <Button variant="outline">Deploy</Button>
       <Menu
         label="Options"
-        variant="primary"
+        variant="outline"
         items={[
           { label: "Deploy to staging", onSelect: () => {} },
           { label: "Deploy to production", onSelect: () => {} },

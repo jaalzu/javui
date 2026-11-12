@@ -41,6 +41,7 @@ export const Variants: Story = {
     <Stack direction="row" gap="3" wrap>
       <Button>Primary</Button>
       <Button variant="secondary">Secondary</Button>
+      <Button variant="outline">Outline</Button>
       <Button variant="ghost">Ghost</Button>
       <Button variant="accent">Accent</Button>
       <Button variant="danger">Danger</Button>
@@ -97,6 +98,7 @@ export const IconSizes: Story = {
 const variants: { label: string; variant: ButtonVariant }[] = [
   { label: "Primary", variant: "primary" },
   { label: "Secondary", variant: "secondary" },
+  { label: "Outline", variant: "outline" },
   { label: "Ghost", variant: "ghost" },
   { label: "Accent", variant: "accent" },
   { label: "Danger", variant: "danger" },

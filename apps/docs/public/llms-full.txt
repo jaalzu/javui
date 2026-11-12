@@ -74,6 +74,7 @@
 - **Tooltip**: Extra clarity for sighted mouse and keyboard users, such as naming an icon button.
 - **Popover** (parts: PopoverTrigger, PopoverContent, PopoverClose): Small interactive content tied to a button, such as a form or extra options.
 - **Menu**: A list of actions or links behind one button, such as account actions.
+- **MenuBar**: A row of related menus for application navigation or grouped actions.
 - **Sheet**: Secondary tasks, settings and filters that slide in from an edge.
 
 ### navigation
@@ -106,7 +107,7 @@ For headings use `Heading`; for links use `Link`.
 
 - Category: typography
 - Base: Own component
-- Import: `import { Text } from "@/ui";`
+- Import: `import { Text } from "@javui/ui";`
 - Renders: p (body variants), span (label, caption), code (code); or the element in `as`
 - Composition: `as` accepts only: p, span, label, strong, em, small, div, code. No links or buttons.
 - Use when: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls (buttons, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
@@ -126,7 +127,7 @@ For headings use `Heading`; for links use `Link`.
 | `casing` | `"normal" \| "uppercase"` | no | normal | Set to `uppercase` for small uppercase captions. |
 | `hyphenate` | `boolean` | no | false | Allow the browser to hyphenate words when the line needs to break. |
 | `lineClamp` | `2 \| 3 \| 4 \| 5` | no |  | Clamp direct text content to this many lines. Do not use on elements containing nested HTML. |
-| `size` | `"sm" \| "lg" \| "base" \| "xs"` | no | base | Size within the variant: body is 18px (`lg`), 15px (`base`) or 13px (`sm`); caption is 12px, 11px or 10px; code is 14px (`base`), 13px (`sm`) or 12px (`xs`). Ignored by `label` and `emphasis`. |
+| `size` | `"base" \| "xs" \| "sm" \| "lg"` | no | base | Size within the variant: body is 18px (`lg`), 15px (`base`) or 13px (`sm`); caption is 12px, 11px or 10px; code is 14px (`base`), 13px (`sm`) or 12px (`xs`). Ignored by `label` and `emphasis`. |
 | `tone` | `"info" \| "success" \| "warning" \| "default" \| "brand" \| "danger" \| "muted" \| "subtle"` | no | default | Text color from the semantic color tokens. |
 | `truncate` | `boolean` | no | false | Keep one line and show an ellipsis when the text does not fit. |
 | `variant` | `"body" \| "caption" \| "code" \| "label" \| "emphasis"` | no | body | Which text style to apply. Appearance only; it does not change the element. |
@@ -149,7 +150,7 @@ When `id` is omitted, a stable slug of the text is used, so anchors render the s
 
 - Category: typography
 - Base: Own component
-- Import: `import { Heading } from "@/ui";`
+- Import: `import { Heading } from "@javui/ui";`
 - Renders: h1-h6 from `as` (default h2)
 - Composition: `as` sets the outline level (h1-h6 only); `size` sets only the look.
 - Use when: Page and section titles.
@@ -182,7 +183,7 @@ Put icons in `startIcon`/`endIcon`. An icon on its own is a valid link (`startIc
 
 - Category: typography
 - Base: Own component
-- Import: `import { Link } from "@/ui";`
+- Import: `import { Link } from "@javui/ui";`
 - Renders: a
 - Composition: Native anchor props pass through. `href` is required. Put a trailing icon in `endIcon` (no `size`). Set `standalone` for a link used as a standalone action; inline links in a sentence stay inline. For a link styled as a button, use `Button` with `href`.
 - Use when: Navigation to another page, section or resource, inline in text.
@@ -216,7 +217,7 @@ A keyboard key or shortcut. Renders a native `kbd`. Use one `Kbd` per key and jo
 
 - Category: typography
 - Base: Own component
-- Import: `import { Kbd } from "@/ui";`
+- Import: `import { Kbd } from "@javui/ui";`
 - Renders: kbd
 - Composition: One Kbd per key; join keys with text such as +.
 - Use when: Keyboard shortcuts in docs and UI.
@@ -249,7 +250,7 @@ lg 20px. An icon-only badge needs `aria-label`; it then renders with `role="img"
 
 - Category: typography
 - Base: Own component
-- Import: `import { Badge } from "@/ui";`
+- Import: `import { Badge } from "@javui/ui";`
 - Renders: span, or the element passed in `render`
 - Composition: Text children, plus optional `startIcon`/`endIcon` (generated icons, no `size`); never put icons in children. `loading` adds a spinner (`spinnerPosition`: start or end). `variant`: default, inverted, outline, brand, success or danger. Pass `render={<Link href="…" />}` to render a link. Keep text to one or two words; truncate counts to two digits (`99+`).
 - Use when: Short status or count labels next to other content.
@@ -293,7 +294,7 @@ Semantic `dl` structure for terms and descriptions. It does not impose a data mo
 
 - Category: patterns
 - Base: Own component
-- Import: `import { DescriptionList } from "@/ui";`
+- Import: `import { DescriptionList } from "@javui/ui";`
 - Renders: dl with native dt/dd children
 - Composition: Compose `DescriptionListTerm` and `DescriptionListDetails` in alternating pairs. `layout` is `stacked`, `inline` or `horizontal`; `narrow` reduces the horizontal label column.
 - Use when: Semantic term/description content such as metadata, settings or record details.
@@ -319,7 +320,7 @@ A term inside `DescriptionList`.
 
 - Category: patterns
 - Base: Own component
-- Import: `import { DescriptionListTerm } from "@/ui";`
+- Import: `import { DescriptionListTerm } from "@javui/ui";`
 - Renders: dt
 - Composition: Child of `DescriptionList`; accepts native dt props.
 - Use when: The name or term in a description list.
@@ -338,7 +339,7 @@ A description/value inside `DescriptionList`.
 
 - Category: patterns
 - Base: Own component
-- Import: `import { DescriptionListDetails } from "@/ui";`
+- Import: `import { DescriptionListDetails } from "@javui/ui";`
 - Renders: dd
 - Composition: Child of `DescriptionList`; accepts native dd props.
 - Use when: The description or value paired with a term.
@@ -357,7 +358,7 @@ Data-driven name/value presentation built on native description-list semantics.
 
 - Category: patterns
 - Base: Own component
-- Import: `import { NameValueList } from "@/ui";`
+- Import: `import { NameValueList } from "@javui/ui";`
 - Renders: dl with generated dt/dd pairs
 - Composition: Pass `items` with `label` and `value`, then choose `layout` (`stacked`, `inline` or `horizontal`).
 - Use when: Data-driven name/value pairs where a semantic description list is appropriate.
@@ -385,7 +386,7 @@ smaller one, so `{ md: "row" }` stays `column` below 48rem.
 
 - Category: layout
 - Base: Own component
-- Import: `import { Stack } from "@/ui";`
+- Import: `import { Stack } from "@javui/ui";`
 - Renders: div (or `as`) with display:flex
 - Composition: `as="ul"` or `"ol"` requires `li` children.
 - Use when: Arranging children in one direction with a consistent gap.
@@ -428,7 +429,7 @@ A missing breakpoint inherits the smaller one.
 
 - Category: layout
 - Base: Own component
-- Import: `import { Grid } from "@/ui";`
+- Import: `import { Grid } from "@javui/ui";`
 - Renders: div (or `as`) with display:grid
 - Composition: `columns` is a number (equal columns), a full grid-template-columns string, or a per-breakpoint object. `minColumnWidth` uses automatic columns and overrides `columns`.
 - Use when: Two-dimensional layouts and card grids.
@@ -469,7 +470,7 @@ Centers content, constrains its readable width and applies responsive horizontal
 
 - Category: layout
 - Base: Own component
-- Import: `import { Container } from "@/ui";`
+- Import: `import { Container } from "@javui/ui";`
 - Renders: div (or `as`) with a centered max width and horizontal gutters
 - Composition: `size` selects a semantic container width (`xs`, `sm`, `md`, `lg`, `xl`) and `gutter` selects responsive horizontal padding from the spacing scale.
 - Use when: Page shells, readable content boundaries and sections that need a consistent max width.
@@ -498,7 +499,7 @@ A bordered content region with token-based inset and optional semantic surface.
 
 - Category: layout
 - Base: Own component
-- Import: `import { Box } from "@/ui";`
+- Import: `import { Box } from "@javui/ui";`
 - Renders: div (or `as`) with token-based inset, optional border and semantic surface
 - Composition: Use `size` (`default`, `sm`, `xs`, `xxs`), `surface` (`none`, `card`, `sunken`, `highlight`) and `bordered` to define a content region.
 - Use when: A bordered or recessed content area that is not a full Card and does not need Card parts.
@@ -513,7 +514,7 @@ A bordered content region with token-based inset and optional semantic surface.
 |---|---|---|---|---|
 | `as` | `"div" \| "article" \| "aside" \| "footer" \| "header" \| "main" \| "nav" \| "section"` | no | "div" | Element to render. |
 | `bordered` | `boolean` | no | true | Whether to show the default border. |
-| `size` | `"sm" \| "xs" \| "default" \| "xxs"` | no | default | Inset from the spacing scale. |
+| `size` | `"xs" \| "sm" \| "default" \| "xxs"` | no | default | Inset from the spacing scale. |
 | `surface` | `"none" \| "card" \| "sunken" \| "highlight"` | no | none | Surface inside the box. |
 
 Also accepts the native props of the element it renders; they pass through.
@@ -524,7 +525,7 @@ Also accepts the native props of the element it renders; they pass through.
 
 - Category: utility
 - Base: Own component
-- Import: `import { useControllableState } from "@/ui";`
+- Import: `import { useControllableState } from "@javui/ui";`
 - Renders: no element; returns the current value and a setter
 - Composition: Use for controlled/uncontrolled component state. Pass `value`, `defaultValue` and optional `onChange`; domain-specific guards stay in the component.
 - Use when: Interactive components that support both controlled and uncontrolled state.
@@ -547,7 +548,7 @@ in a `figure` yourself.
 
 - Category: layout
 - Base: Own component
-- Import: `import { AspectRatio } from "@/ui";`
+- Import: `import { AspectRatio } from "@javui/ui";`
 - Renders: div
 - Composition: Reserves space for media before it loads, preventing layout shift (CLS). `ratio` is width divided by height (`16 / 9`, `4 / 3`, `1`) and defaults to 1. Only `div` is rendered; when the media needs a caption, wrap the box in a `figure` yourself. A direct child `img`, `video`, `iframe`, `picture`, `canvas` or `svg` fills the box; images and videos use `object-fit: cover`.
 - Use when: Images, video, embeds or maps whose size must be reserved before they load, preventing layout shift (CLS).
@@ -587,7 +588,7 @@ Never use `display: none` or `aria-hidden` for this purpose.
 
 - Category: utility
 - Base: Own component
-- Import: `import { VisuallyHidden } from "@/ui";`
+- Import: `import { VisuallyHidden } from "@javui/ui";`
 - Renders: span (or div)
 - Composition: Children only.
 - Use when: Text that screen readers must read but sighted users should not see, such as the name of an icon-only button.
@@ -614,7 +615,7 @@ Do not use it with hand-written paths: import a named icon (`ArrowRightIcon`) in
 
 - Category: utility
 - Base: Own component
-- Import: `import { Icon } from "@/ui";`
+- Import: `import { Icon } from "@javui/ui";`
 - Renders: svg on a 256x256 viewBox, filled with currentColor
 - Composition: Do not pass paths. Import a named icon from the set (CheckIcon, ArrowRightIcon ...) generated by `bun run icons` and listed in /agent/icons.json. Each icon takes `size` (xs 12, sm 16, md 20, lg 24, xl 32) and `weight` (regular | fill). Do not pass `size` to icons inside `startIcon`/`endIcon`; `xs` is for standalone use, inline with text or in small badges.
 - Use when: Any glyph. Named icons are decorative by default; pass `label` when the icon is the only carrier of meaning.
@@ -628,7 +629,7 @@ Do not use it with hand-written paths: import a named icon (`ArrowRightIcon`) in
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `label` | `string` | no |  | Accessible name. Provide it when the icon carries meaning on its own (no visible text next to it). Without `label` the icon is decorative and hidden from assistive technology. |
-| `size` | `"sm" \| "md" \| "lg" \| "xs" \| "xl"` | no | undefined | Fixed size: `xs` 12px, `sm` 16px, `md` 20px, `lg` 24px, `xl` 32px. Without it the icon is 20px, or the size its parent sets (inside a `Button` it follows the button). `xs` is for standalone use: inline with text or in small badges. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | no | undefined | Fixed size: `xs` 12px, `sm` 16px, `md` 20px, `lg` 24px, `xl` 32px. Without it the icon is 20px, or the size its parent sets (inside a `Button` it follows the button). `xs` is for standalone use: inline with text or in small badges. |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -652,7 +653,7 @@ and `aria-hidden="true"`. Respects `prefers-reduced-motion` by slowing the seque
 
 - Category: feedback
 - Base: Own component
-- Import: `import { Spinner } from "@/ui";`
+- Import: `import { Spinner } from "@javui/ui";`
 - Renders: span with role="status" containing twelve decorative bars and VisuallyHidden text, or an aria-hidden span when the label is empty
 - Composition: No children. Use `label` to describe what is loading. Sizes: xs 12px, sm 16px, md 20px (default), lg 24px, xl 32px. Paints with currentColor, so it inherits the surrounding text color. An empty label makes it decorative and silent.
 - Use when: Indeterminate loading of an action or small region that is expected to take more than a second. Place it next to the content it refers to.
@@ -669,7 +670,7 @@ and `aria-hidden="true"`. Respects `prefers-reduced-motion` by slowing the seque
 |---|---|---|---|---|
 | `color` | `string` | no |  | Any CSS color for the bars. Defaults to `currentColor`, so it inherits the surrounding text. Prefer semantic tokens; for a custom tone derive it from one hue so it works in light and dark. |
 | `label` | `string` | no | Loading | Text announced to screen readers. |
-| `size` | `"sm" \| "md" \| "lg" \| "xs" \| "xl"` | no | md | Diameter: `xs` 13px, `sm` 17px, `md` 21px, `lg` 25px, `xl` 33px. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | no | md | Diameter: `xs` 13px, `sm` 17px, `md` 21px, `lg` 25px, `xl` 33px. |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -688,7 +689,7 @@ Mark the region that is loading with `aria-busy="true"` on its container and ann
 
 - Category: feedback
 - Base: Own component
-- Import: `import { Skeleton } from "@/ui";`
+- Import: `import { Skeleton } from "@javui/ui";`
 - Renders: span (aria-hidden)
 - Composition: Shape is text, rect or circle; set width and height with CSS values.
 - Use when: Placeholder for content whose layout is known while it loads.
@@ -718,7 +719,7 @@ Icon-only controls need an accessible name (`aria-label` or `aria-labelledby`).
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Button } from "@/ui";`
+- Import: `import { Button } from "@javui/ui";`
 - Renders: button without `href`; a (or the LinkProvider component) with `href`
 - Composition: `href` decides the element: a Base UI button (`type="button"` by default) or a link from `LinkProvider` that rejects `disabled`, `loading` and `type`. Put icons in `startIcon`/`endIcon` (no `size`). Icon-only needs `startIcon` and one of `aria-label` or `aria-labelledby`. Sizes: xs 1.5rem/12px icon, sm 1.75rem/16px, md 2.25rem/20px, lg 2.75rem/24px. `pill` uses `--radius-full`; inside ButtonGroup only the outer corners keep it.
 - Use when: An action with onClick (submit, open, confirm, cancel), or navigation that looks like a button with href. Pass `loading` while an action runs.
@@ -738,7 +739,7 @@ Icon-only controls need an accessible name (`aria-label` or `aria-labelledby`).
 | `href` | `string` | no |  | Never on an action button. Pass `href` to render a link instead. Where the link goes. To navigate, pass `href`; do not wire `onClick` to `router.push`, which loses right-click and new-tab semantics. |
 | `loading` | `boolean` | no | false | Shows a spinner and ignores clicks while an action is running. The button keeps its label and stays focusable, and `aria-busy` tells assistive technology it is working. |
 | `pill` | `boolean` | no | false | Fully rounded shape (`--radius-full`). Inside `ButtonGroup` only the outer corners keep it. |
-| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | "md" | Control height and icon size: `xs` 1.5rem and 12px, `sm` 1.75rem and 16px, `md` 2rem and 20px, `lg` 2.5rem and 24px. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Control height and icon size: `xs` 1.5rem and 12px, `sm` 1.75rem and 16px, `md` 2rem and 20px, `lg` 2.5rem and 24px. |
 | `startIcon` | `ReactNode` | no | undefined | Icon before the label. Pass a generated icon without `size`; the control sizes it. The visible icon and accessible name. Pass a generated icon without `size`. |
 | `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | "primary" | Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions, `outline` for bordered actions, `ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions. |
 
@@ -766,7 +767,7 @@ and off, use `ToggleGroup`. The group has `role="group"`: name it with `aria-lab
 
 - Category: controls
 - Base: Own component
-- Import: `import { ButtonGroup } from "@/ui";`
+- Import: `import { ButtonGroup } from "@javui/ui";`
 - Renders: div role="group"
 - Composition: One group of related children: `Button`, a `Menu` trigger, `Input`, `Select` or `ButtonGroupText`. The group does not inherit `size` or `variant`; set both on every child. `stackBelow` stacks it below `sm` or `md`. Children draw the internal 1px line.
 - Use when: 2-4 related actions with short labels, all the same size and variant.
@@ -783,7 +784,7 @@ and off, use `ToggleGroup`. The group has `role="group"`: name it with `aria-lab
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `orientation` | `"horizontal" \| "vertical"` | no | horizontal | Layout above the `stackBelow` breakpoint. `horizontal` joins the controls side by side; `vertical` stacks them. |
-| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | md | Shared control size inherited by children that omit their own size. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | md | Shared control size inherited by children that omit their own size. |
 | `stackBelow` | `"sm" \| "md"` | no | undefined | Stacks the group into a column below this breakpoint and returns to `orientation` above it. Omit it to keep one orientation at every width. |
 
 Also accepts the native props of the element it renders; they pass through.
@@ -805,7 +806,7 @@ A 1px divider between controls, for a filled variant (`primary`, `accent`, `dang
 
 - Category: controls
 - Base: Own component
-- Import: `import { ButtonGroupSeparator } from "@/ui";`
+- Import: `import { ButtonGroupSeparator } from "@javui/ui";`
 - Renders: div role="separator"
 - Composition: A 1px `--color-border-default` line with `align-self: stretch`. Use it when a filled variant hides the default border; it follows the active axis, including `stackBelow`.
 - Use when: Inside a filled group (`primary`, `accent`, `danger`), where the default border is hidden.
@@ -836,7 +837,7 @@ A static text addon for a `ButtonGroup`, such as `https://` or `USD`, that match
 
 - Category: controls
 - Base: Own component
-- Import: `import { ButtonGroupText } from "@/ui";`
+- Import: `import { ButtonGroupText } from "@javui/ui";`
 - Renders: div
 - Composition: Static text only, such as `https://` or `USD`. It matches the height of the controls and shares the group border. No `render`.
 - Use when: A short prefix or unit next to an `Input` or a `Button`.
@@ -875,7 +876,7 @@ Errors are shown after the field is blurred or the form is submitted, not on the
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Field } from "@/ui";`
+- Import: `import { Field } from "@javui/ui";`
 - Renders: div containing an optional label, the control, a description and an error
 - Composition: Wrap one control: Input, Textarea, Select, Checkbox, RadioGroup, Switch or Slider. `label` is optional: omit it when the control renders its own label or legend (Checkbox, RadioGroup, Switch, Slider). Pass `error`, `required`, `readOnly` and `loading` to Field instead of wiring the control. Controls that carry their own label or legend also accept these props directly.
 - Use when: Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
@@ -925,7 +926,7 @@ Groups different controls under one accessible legend. Use CheckboxGroup or Radi
 
 - Category: controls
 - Base: Own component
-- Import: `import { FieldSet } from "@/ui";`
+- Import: `import { FieldSet } from "@javui/ui";`
 - Renders: fieldset with a legend, optional description and stacked controls
 - Composition: Pass required `legend`, optional `description` and `disabled`, then compose different controls as children. Use CheckboxGroup or RadioGroup for same-type options.
 - Use when: Grouping different controls under one accessible name, such as a shipping address.
@@ -951,7 +952,7 @@ Divides alternatives between fields, optionally with readable text between the l
 
 - Category: controls
 - Base: Own component
-- Import: `import { FieldSeparator } from "@/ui";`
+- Import: `import { FieldSeparator } from "@javui/ui";`
 - Renders: decorative separator, optionally with readable text between two lines
 - Composition: Place between fields; pass children for text such as `Or continue with`.
 - Use when: Dividing alternatives within a form.
@@ -973,7 +974,7 @@ component: use the parent `gap` or a margin on `className`.
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Separator } from "@/ui";`
+- Import: `import { Separator } from "@javui/ui";`
 - Renders: div
 - Composition: Set `orientation` and `decorative`; it does not accept children. It covers the full width or stretches to the parent height, so size it from the parent. Spacing comes from the parent `gap` or from a margin on `className`.
 - Use when: Visually or semantically dividing sections, lists and action groups.
@@ -1007,7 +1008,7 @@ default to `--radius-md` and `--space-3` and are useful when composing with Butt
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Input } from "@/ui";`
+- Import: `import { Input } from "@javui/ui";`
 - Renders: input
 - Composition: Native input props pass through (type, autoComplete, name, required...). `variant="ghost"` removes resting chrome for low-emphasis fields. Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Icons follow the size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.
 - Use when: Single-line text entry, read-only values and values that are still loading.
@@ -1023,7 +1024,7 @@ default to `--radius-md` and `--space-3` and are useful when composing with Butt
 | `className` | `string` | no |  |  |
 | `endIcon` | `ReactNode` | no |  | Icon after the text. Pass a generated icon without `size`; the input sizes it. |
 | `loading` | `boolean` | no | false | Shows a small spinner at the end and makes the input not editable. `aria-busy` is set. Inside `Field`, omit it and pass `loading` to the Field instead. |
-| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | "md" | Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. |
 | `startIcon` | `ReactNode` | no |  | Icon before the text. Pass a generated icon without `size`; the input sizes it. |
 | `variant` | `"inline" \| "default" \| "ghost"` | no | default | Visual treatment: `inline` removes the resting chrome for fields composed inside another control. |
 
@@ -1054,7 +1055,7 @@ Styling hook: `--input-radius` (default `--radius-md`).
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { InputOTP } from "@/ui";`
+- Import: `import { InputOTP } from "@javui/ui";`
 - Renders: one-time-code input with character slots
 - Composition: Use as one component. Set `length`, optional `groups`, `validationType`, `mask` and `onValueComplete` as needed.
 - Use when: Verification codes, one-time passwords and recovery codes.
@@ -1103,7 +1104,7 @@ Styling hooks: `--input-radius` (default `--radius-md`) and `--input-px` (defaul
 
 - Category: controls
 - Base: Own component
-- Import: `import { InputGroup } from "@/ui";`
+- Import: `import { InputGroup } from "@javui/ui";`
 - Renders: div containing one borderless input and optional addons
 - Composition: Put `InputGroupInput` first. Add prefixes, units or actions with `InputGroupAddon`.
 - Use when: An input with attached text, an icon, a hint or an action.
@@ -1117,7 +1118,7 @@ Styling hooks: `--input-radius` (default `--radius-md`) and `--input-px` (defaul
 |---|---|---|---|---|
 | `className` | `string` | no |  |  |
 | `loading` | `boolean` | no | false | Shows a spinner after the last addon, marks the input `aria-busy` and makes it not editable. Inside `Field`, omit it and pass `loading` to the Field instead. |
-| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | md | Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. Flows to every part. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | md | Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. Flows to every part. |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -1148,7 +1149,7 @@ Inherits `required`, `readOnly` and `loading` from the group and `Field`. Needs 
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { InputGroupInput } from "@/ui";`
+- Import: `import { InputGroupInput } from "@javui/ui";`
 - Renders: input
 - Composition: Use only inside InputGroup. It inherits size, loading, required and readOnly from InputGroup and Field.
 - Use when: The editable control inside InputGroup.
@@ -1176,7 +1177,7 @@ is focused, so also say it in the `Field` label or description.
 
 - Category: controls
 - Base: Own component
-- Import: `import { InputGroupAddon } from "@/ui";`
+- Import: `import { InputGroupAddon } from "@javui/ui";`
 - Renders: span
 - Composition: Place after InputGroupInput. Use `align` for its visual side.
 - Use when: Attached icons, text, units, hints or buttons.
@@ -1203,7 +1204,7 @@ Plain text inside an addon: a prefix, suffix or unit.
 
 - Category: controls
 - Base: Own component
-- Import: `import { InputGroupText } from "@/ui";`
+- Import: `import { InputGroupText } from "@javui/ui";`
 - Renders: span
 - Composition: Use inside InputGroupAddon.
 - Use when: A prefix, suffix or unit.
@@ -1228,7 +1229,7 @@ changes, e.g. "Show password" / "Hide password").
 
 - Category: controls
 - Base: Own component
-- Import: `import { InputGroupButton } from "@/ui";`
+- Import: `import { InputGroupButton } from "@javui/ui";`
 - Renders: Button
 - Composition: Use inside InputGroupAddon. It inherits the group size.
 - Use when: An action tightly attached to an InputGroup, such as clear, copy or show password.
@@ -1244,7 +1245,7 @@ changes, e.g. "Show password" / "Hide password").
 | `endIcon` | `ReactNode` | no | undefined | Icon after the label. Pass a generated icon without `size`; the control sizes it. |
 | `href` | `string` | no |  | Never on an action button. Pass `href` to render a link instead. Where the link goes. To navigate, pass `href`; do not wire `onClick` to `router.push`, which loses right-click and new-tab semantics. |
 | `loading` | `boolean` | no | false | Shows a spinner and ignores clicks while an action is running. The button keeps its label and stays focusable, and `aria-busy` tells assistive technology it is working. |
-| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | "md" | Control height and icon size: `xs` 1.5rem and 12px, `sm` 1.75rem and 16px, `md` 2rem and 20px, `lg` 2.5rem and 24px. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Control height and icon size: `xs` 1.5rem and 12px, `sm` 1.75rem and 16px, `md` 2rem and 20px, `lg` 2.5rem and 24px. |
 | `startIcon` | `ReactNode` | no | undefined | Icon before the label. Pass a generated icon without `size`; the control sizes it. The visible icon and accessible name. Pass a generated icon without `size`. |
 | `variant` | `"primary" \| "secondary" \| "ghost"` | no | ghost |  |
 
@@ -1264,7 +1265,7 @@ Icons use the 20px medium size (the textarea has no size variants).
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Textarea } from "@/ui";`
+- Import: `import { Textarea } from "@javui/ui";`
 - Renders: textarea
 - Composition: Native textarea props pass through; `rows` defaults to 3. Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Inside Field, omit required/readOnly/loading and pass them to Field.
 - Use when: Multi-line text entry, including read-only and loading values.
@@ -1305,7 +1306,7 @@ message; `error` adds a linked message. `description` renders help text below th
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Checkbox } from "@/ui";`
+- Import: `import { Checkbox } from "@javui/ui";`
 - Renders: span role="checkbox" with a hidden native input, optionally inside a label
 - Composition: `variant="card"` turns the label into a card; the dash exists only on the `parent` of a `CheckboxGroup`; `invalid` paints without a message, while `error` adds a message. `label` is optional, but then it needs `aria-label` or `aria-labelledby`; `description` adds helper text below the label.
 - Use when: Choosing several independent options, or one confirmation that is saved when the form is submitted.
@@ -1352,7 +1353,7 @@ Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { CheckboxGroup } from "@/ui";`
+- Import: `import { CheckboxGroup } from "@javui/ui";`
 - Renders: fieldset with a legend
 - Composition: `legend` is required; children are Checkbox elements. For a working select-all, pass `allValues` to the group and mark one Checkbox as `parent`. Documented under Checkbox parts.
 - Use when: Grouping a short set of related checkboxes under one name.
@@ -1393,7 +1394,7 @@ RadioGroup. Inside `Field` it inherits `error`, `required`, `readOnly` and `load
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { RadioGroup } from "@/ui";`
+- Import: `import { RadioGroup } from "@javui/ui";`
 - Renders: fieldset with a legend and a radiogroup
 - Composition: `legend` is required. Children are Radio elements. Use `description` for group guidance and `orientation` for horizontal layouts. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend. Radio is documented under Parts.
 - Use when: Choosing exactly one option from a short list.
@@ -1437,7 +1438,7 @@ Validation state comes from the `RadioGroup` (`error`, `required`, `readOnly`, `
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Radio } from "@/ui";`
+- Import: `import { Radio } from "@javui/ui";`
 - Renders: span role="radio" with a hidden native input, inside a label
 - Composition: Only inside RadioGroup; it is documented under Parts. `value` and `label` are required. Optional `description` adds supporting text and `variant="card"` gives the option a choice-card treatment.
 - Use when: One option of a RadioGroup.
@@ -1469,7 +1470,7 @@ renders help text below the label.
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Switch } from "@/ui";`
+- Import: `import { Switch } from "@javui/ui";`
 - Renders: span role="switch" with a hidden native input, inside a label
 - Composition: `label` is required. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field.
 - Use when: A setting that turns on or off immediately.
@@ -1515,7 +1516,7 @@ not become part of the group's control row.
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Select } from "@/ui";`
+- Import: `import { Select } from "@javui/ui";`
 - Renders: button role="combobox" with a listbox popup in a portal
 - Composition: Pass `items` ({ value, label, description?, group?, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. Consecutive items with the same `group` render under a heading, separated from the next group by space, never by a rule. Long lists keep a compact max height and hide the scrollbar. `loading` replaces the end icon with a spinner. Icons follow the trigger size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.
 - Use when: Choosing one option from a longer list, including read-only and loading states.
@@ -1537,7 +1538,7 @@ not become part of the group's control row.
 | `label` | `string` | no |  | Visible label. Provide it, or `aria-label`, or put the Select inside `Field`: every control needs an accessible name. |
 | `loading` | `boolean` | no | false | Shows a small spinner at the end and makes the select not editable. `aria-busy` is set. Inside `Field`, omit it and pass `loading` to the Field instead. |
 | `placeholder` | `string` | no |  | Text shown when nothing is selected. |
-| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | "md" | Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. |
 | `startIcon` | `ReactNode` | no |  | Icon before the value. Pass a generated icon without `size`; the select sizes it. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -1557,7 +1558,7 @@ returned, and Escape closes unless `dismissible` is false.
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Modal } from "@/ui";`
+- Import: `import { Modal } from "@javui/ui";`
 - Renders: no element: it holds the open state and provides the role (Base UI Dialog.Root, or AlertDialog.Root for role=alertdialog)
 - Composition: Structure: Modal > ModalTrigger + ModalContent (title, optional tagline/icon/description, body children, actions). `size` supports xs, sm, md, lg and xl widths; `color` supports neutral, brand, warning and critical and never changes layout. Put one to three actions in `actions`: the safe action first and the primary action last. The form lives in the body; a submit button in the footer targets it with the `form` attribute.
 - Use when: Interrupting the user for a decision or a focused task.
@@ -1584,7 +1585,7 @@ returned, and Escape closes unless `dismissible` is false.
 | `open` | `boolean` | no |  | Whether the modal is open. Use it with `onOpenChange` for a controlled modal. |
 | `returnFocusTo` | `string \| RefObject<HTMLElement \| null>` | no |  | Where focus returns when the original trigger no longer exists. Pass an element ref or an id. Rare: the trigger is the normal return target. |
 | `role` | `"dialog" \| "alertdialog"` | no | dialog | Behavior only. Use alertdialog for a decision that interrupts. |
-| `size` | `"sm" \| "md" \| "lg" \| "xs" \| "xl"` | no | md | Width of the panel, from the layout width tokens. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | no | md | Width of the panel, from the layout width tokens. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1613,7 +1614,7 @@ The button that opens the modal. It renders a `Button` and inherits the behavior
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { ModalTrigger } from "@/ui";`
+- Import: `import { ModalTrigger } from "@javui/ui";`
 - Renders: button (a Button)
 - Composition: Direct child of Modal. Accepts Button `variant` and `size`; use `danger` for the destructive trigger.
 - Use when: The button that opens the modal.
@@ -1624,7 +1625,7 @@ The button that opens the modal. It renders a `Button` and inherits the behavior
 #### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | sm | Button size of the trigger. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | sm | Button size of the trigger. |
 | `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | primary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -1642,7 +1643,7 @@ the `md` breakpoint.
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { ModalContent } from "@/ui";`
+- Import: `import { ModalContent } from "@javui/ui";`
 - Renders: div role="dialog" (or role="alertdialog" from the root) in a portal, plus a backdrop
 - Composition: `title` is required and children are the body. `description`, `tagline`, `icon`, `actions` and `closeLabel` are optional. The body scrolls while the header and footer stay visible. Actions stack on mobile with the primary on top.
 - Use when: The panel of the modal.
@@ -1684,7 +1685,7 @@ with `initialFocus`; otherwise the first secondary action receives focus.
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { ModalClose } from "@/ui";`
+- Import: `import { ModalClose } from "@javui/ui";`
 - Renders: button (a Button)
 - Composition: Inside ModalContent `actions`. Accepts Button `variant` and `size`; use `danger` for the destructive action. Mark the safe action with `initialFocus` in an alert dialog.
 - Use when: Cancel, close and confirm actions.
@@ -1696,7 +1697,7 @@ with `initialFocus`; otherwise the first secondary action receives focus.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `initialFocus` | `boolean` | no | false | Marks the safe action that receives initial focus in `role="alertdialog"`. |
-| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | sm | Button size. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | sm | Button size. |
 | `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style. Use `danger` for a destructive action. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -1713,7 +1714,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Tooltip } from "@/ui";`
+- Import: `import { Tooltip } from "@javui/ui";`
 - Renders: the child element as trigger; a popup div in a portal
 - Composition: `content` is the text. The single child must be focusable and have its own accessible name.
 - Use when: Extra clarity for sighted mouse and keyboard users, such as naming an icon button.
@@ -1744,7 +1745,7 @@ Tabs are compact: icons use the 16px small size.
 
 - Category: navigation
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Tabs } from "@/ui";`
+- Import: `import { Tabs } from "@javui/ui";`
 - Renders: div with a tablist, tab buttons and tabpanels
 - Composition: Pass `items` ({ value, label, content, startIcon?, endIcon?, disabled? }) and an `aria-label`. Icons are generated icons without `size`; tabs are compact and use 16px icons.
 - Use when: Switching between related panels in the same place.
@@ -1784,7 +1785,7 @@ while its content loads and let `Skeleton` stand in for the text.
 
 - Category: components
 - Base: Own component
-- Import: `import { Card } from "@/ui";`
+- Import: `import { Card } from "@javui/ui";`
 - Renders: div by default; `as` can be article, section or li
 - Composition: `CardHeader`, `CardContent` and `CardFooter` are all optional. `size` covers the common insets; set `--card-spacing` on the card for another step of the scale (`--space-5`, `--space-8`). For a full-bleed table, add `data-flush` to `CardContent`. Width is fluid: the container decides it. A link in the title goes as `Link` inside `CardTitle`. For an icon, put an element with `data-card-media` inside `CardHeader`.
 - Use when: Grouping related information into a single idea, with a short title.
@@ -1827,7 +1828,7 @@ adds a leading column, aligned with the title.
 
 - Category: layout
 - Base: Own component
-- Import: `import { CardHeader } from "@/ui";`
+- Import: `import { CardHeader } from "@javui/ui";`
 - Renders: div
 - Composition: Holds `CardTitle`, optional `CardDescription` and `CardAction`. The action aligns with the title at the top end.
 - Use when: The title region of a Card.
@@ -1847,7 +1848,7 @@ with an `h2`.
 
 - Category: layout
 - Base: Own component
-- Import: `import { CardTitle } from "@/ui";`
+- Import: `import { CardTitle } from "@javui/ui";`
 - Renders: h3 by default; `as` sets the heading element
 - Composition: `as` sets the outline level (h2-h6) and `size` sets the look; it defaults to size 6.
 - Use when: The heading of a Card.
@@ -1869,7 +1870,7 @@ Supporting text below a `CardTitle`, in the muted body style.
 
 - Category: layout
 - Base: Own component
-- Import: `import { CardDescription } from "@/ui";`
+- Import: `import { CardDescription } from "@javui/ui";`
 - Renders: p
 - Composition: Muted body text below `CardTitle`.
 - Use when: Supporting text directly under the card title.
@@ -1888,7 +1889,7 @@ A control at the top end of a Card, aligned with `CardTitle`.
 
 - Category: layout
 - Base: Own component
-- Import: `import { CardAction } from "@/ui";`
+- Import: `import { CardAction } from "@javui/ui";`
 - Renders: div
 - Composition: Holds a Button (with `href` for navigation) or Badge at the top end of `CardHeader`, aligned with the title.
 - Use when: A control that belongs to the whole card.
@@ -1909,7 +1910,7 @@ for example when it holds a `Table`.
 
 - Category: layout
 - Base: Own component
-- Import: `import { CardContent } from "@/ui";`
+- Import: `import { CardContent } from "@javui/ui";`
 - Renders: div
 - Composition: The main body between `CardHeader` and `CardFooter`, aligned with both.
 - Use when: The body of a Card.
@@ -1928,7 +1929,7 @@ The bottom region of a Card, aligned with the header and content.
 
 - Category: layout
 - Base: Own component
-- Import: `import { CardFooter } from "@/ui";`
+- Import: `import { CardFooter } from "@javui/ui";`
 - Renders: div
 - Composition: The bottom region for metadata or actions, aligned with the header and content.
 - Use when: Metadata or closing actions at the bottom of a Card.
@@ -1949,7 +1950,7 @@ for short-lived feedback use `useToast` instead.
 
 - Category: feedback
 - Base: Own component
-- Import: `import { Alert } from "@/ui";`
+- Import: `import { Alert } from "@javui/ui";`
 - Renders: div with role alert (error, warning) or role status (neutral, info, success)
 - Composition: Pass `tone` (default `neutral`), an optional `title` and optional content; both can appear alone. `action` reserves space on the right for a `Button size="xs"`; use it with `title`, not with `endIcon`. For several actions, put them in the content. `startIcon` replaces the tone glyph and `endIcon` adds a trailing icon (no `size`). Icon, title, border and background share one tone color; override `--alert-tone` to change it.
 - Use when: A message that stays on the page and the user must notice: a general note (neutral), relevant information (info), a completed operation (success), something that needs attention (warning) or a failed operation (error).
@@ -1987,7 +1988,7 @@ For bots, companies or systems, use `src` with the logo; without it the initials
 
 - Category: components
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Avatar } from "@/ui";`
+- Import: `import { Avatar } from "@javui/ui";`
 - Renders: span with role img and the name as aria-label
 - Composition: Pass `name` (required), `src` and `size` (`xs`, `sm`, `md`, `lg` or `xl`); initials are the fallback. For bots, companies or systems, use `src` with the logo; without it the initials are shown. `status` adds a solid dot at the bottom end with a page-colored ring and appends the state to the name; `badge` with `badgeLabel` adds an avatar badge with an icon inside and appends its label; `outline={false}` removes the avatar border. `status` and `badge` cannot be combined. Every feature scales with `size`.
 - Use when: Showing who a person or account is.
@@ -2005,7 +2006,7 @@ For bots, companies or systems, use `src` with the logo; without it the initials
 | `badgeLabel` | `string` | no |  | Accessible label for the avatar badge. Required with `badge`; appended to the accessible name. |
 | `className` | `string` | no |  |  |
 | `outline` | `boolean` | no | true | Whether the avatar keeps its visible border. Set to `false` for a borderless filled circle or image. |
-| `size` | `"sm" \| "md" \| "lg" \| "xs" \| "xl"` | no | md | Diameter: `xs` 1.5rem, `sm` 2rem, `md` 2.5rem, `lg` 3.5rem, `xl` 4.5rem. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | no | md | Diameter: `xs` 1.5rem, `sm` 2rem, `md` 2.5rem, `lg` 3.5rem, `xl` 4.5rem. |
 | `src` | `string` | no |  | Image URL. If it is missing or fails to load, the initials are shown. |
 | `status` | `"online" \| "away" \| "busy" \| "offline"` | no |  | Presence state. Appended to the accessible name, such as "Ada Lovelace, online". Cannot be combined with `badge`. |
 
@@ -2035,7 +2036,7 @@ Used outside a group, Avatar is unchanged.
 
 - Category: utility
 - Base: Own component
-- Import: `import { AvatarGroup } from "@/ui";`
+- Import: `import { AvatarGroup } from "@javui/ui";`
 - Renders: div role="group" with overlapping Avatar elements
 - Composition: Pass `children` (Avatar elements), `max` (default 4) and shared `size` (default md). Avatars overlap by about 25% and each gets a 2px page-colored ring; later avatars stack on top. Avatars beyond `max` collapse into a "+N" item with the component background and label style, labelled "and N more".
 - Use when: A compact summary of several people or accounts.
@@ -2050,7 +2051,7 @@ Used outside a group, Avatar is unchanged.
 | `children` | `ReactNode` | yes |  | Avatars in the group. They share the group's `size`. |
 | `className` | `string` | no |  |  |
 | `max` | `number` | no | 4 | How many avatars stay visible before the rest collapse into a "+N" item. |
-| `size` | `"sm" \| "md" \| "lg" \| "xs" \| "xl"` | no | md | Diameter shared by every avatar in the group. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | no | md | Diameter shared by every avatar in the group. |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -2073,7 +2074,7 @@ Built on Base UI Popover (focus management, Escape to close, outside click and p
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Popover } from "@/ui";`
+- Import: `import { Popover } from "@javui/ui";`
 - Renders: no element: it only holds the open state (Base UI Popover.Root)
 - Composition: Structure: Popover > PopoverTrigger + PopoverContent (title required, description optional, PopoverClose). Keep it around 22rem wide with up to 3–4 fields; use Tooltip for supplementary hints, Menu for a list of actions, Modal for decisions, and Sheet for longer content.
 - Use when: Small interactive content tied to a button, such as a form or extra options.
@@ -2103,7 +2104,7 @@ The button that opens the popover. It is rendered as a `Button`.
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { PopoverTrigger } from "@/ui";`
+- Import: `import { PopoverTrigger } from "@javui/ui";`
 - Renders: button
 - Composition: Child of Popover. Accepts Button props.
 - Use when: The button that opens a Popover.
@@ -2116,7 +2117,7 @@ The button that opens the popover. It is rendered as a `Button`.
 |---|---|---|---|---|
 | `endIcon` | `ReactNode` | no |  | Icon after the label. Pass a generated icon without `size`. |
 | `pill` | `boolean` | no | false | Fully rounded trigger. |
-| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | "md" | Button size of the trigger. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Button size of the trigger. |
 | `startIcon` | `ReactNode` | no |  | Icon before the label, or the icon for an icon-only trigger. Pass a generated icon without `size`. |
 | `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
 
@@ -2133,7 +2134,7 @@ The popover panel with its title and description. Place it inside `Popover`.
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { PopoverContent } from "@/ui";`
+- Import: `import { PopoverContent } from "@javui/ui";`
 - Renders: div with role dialog in a portal, with a title
 - Composition: Child of Popover. Requires `title`; `description`, `side` and `align` are optional.
 - Use when: The panel shown by a Popover.
@@ -2166,7 +2167,7 @@ A button that closes the popover. It is rendered as a `Button`.
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { PopoverClose } from "@/ui";`
+- Import: `import { PopoverClose } from "@javui/ui";`
 - Renders: button
 - Composition: Inside PopoverContent. Children are the label.
 - Use when: A button that closes the Popover.
@@ -2177,7 +2178,7 @@ A button that closes the popover. It is rendered as a `Button`.
 #### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | sm | Button size. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | sm | Button size. |
 | `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -2196,7 +2197,7 @@ clear, 20px icons for better scanability.
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Menu } from "@/ui";`
+- Import: `import { Menu } from "@javui/ui";`
 - Renders: button that opens a role menu with menuitems
 - Composition: Pass `label` (the button text) and `items`: `{ label, startIcon?, endIcon?, onSelect?, href?, disabled?, destructive? }` or `{ type: "separator" }`. Icons are generated icons without `size`; the trigger follows its button size and menu items are compact (16px).
 - Use when: A list of actions or links behind one button, such as account actions.
@@ -2216,11 +2217,11 @@ clear, 20px icons for better scanability.
 | `loading` | `boolean` | no | false | Shows a non-interactive loading state inside the popup. |
 | `placement` | `"bottom-start" \| "bottom-center" \| "bottom-end" \| "top-start" \| "top-center" \| "top-end" \| "left-start" \| "left-center" \| "left-end" \| "right-start" \| "right-center" \| "right-end"` | no | bottom-start | Placement relative to the trigger. Overrides `align` when provided. |
 | `singleSelection` | `MenuSingleSelection` | no |  | Enables a single-selection radio group for entries with `type: "radio"`. |
-| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | md | Button size of the trigger. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
 | `trigger` | `ReactElement<unknown, string \| JSXElementConstructor<any>>` | no |  | Optional custom trigger. It must be an accessible button-like element. |
 | `triggerVariant` | `"button" \| "tab"` | no | button | Uses a bordered text trigger, like an editor menubar, instead of the default button. |
 | `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
-| `width` | `"sm" \| "md" \| "lg" \| "auto" \| "xs" \| "xxs"` | no | auto | Content-sized by default, or one of the fixed semantic menu widths. |
+| `width` | `"auto" \| "xs" \| "sm" \| "md" \| "lg" \| "xxs"` | no | auto | Content-sized by default, or one of the fixed semantic menu widths. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -2233,6 +2234,30 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 ]} />
 ```
 
+## MenuBar
+
+Coordinates several menus as one desktop-style menubar. Moving the pointer over another trigger
+switches the open menu without requiring another click; clicking outside closes the active menu.
+
+- Category: overlays
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { MenuBar } from "@javui/ui";`
+- Renders: horizontal navigation of menu triggers
+- Composition: Pass `menus`, an array of menu entries rendered as coordinated Menu controls.
+- Use when: A row of related menus for application navigation or grouped actions.
+- Avoid:
+  - A single menu: use `Menu`.
+  - Unrelated navigation links.
+- Accessibility: Keyboard navigation and menu behavior come from Base UI.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `menus` | `MenuProps[]` | yes |  | Menus that share hover, focus and outside-interaction behavior. |
+| `className` | `string` | no |  |  |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
 ## Accordion
 
 Collapsible sections built on Base UI Accordion. Each title is a button inside an `h3`
@@ -2241,7 +2266,7 @@ The plus/minus sign sits at the end: its vertical stroke collapses while opening
 
 - Category: navigation
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Accordion } from "@/ui";`
+- Import: `import { Accordion } from "@javui/ui";`
 - Renders: div with a heading (h3) and button per item and a region per panel
 - Composition: Pass `items` ({ value, title, content, startIcon?, endIcon?, disabled? }). Icons are generated icons without `size`. Use `multiple` to allow several open, `disabled` to disable every item and `bordered` for a border around the whole list. To place it inside a Card use `Card` + `CardContent`.
 - Use when: Showing long content in short sections, such as FAQs.
@@ -2280,7 +2305,7 @@ and focusable on small screens.
 
 - Category: components
 - Base: Own component
-- Import: `import { Table } from "@/ui";`
+- Import: `import { Table } from "@javui/ui";`
 - Renders: table with caption, thead, tbody, th scope and a focusable scroll region
 - Composition: Compose `TableCaption`, `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead` and `TableCell`. Use `align="end"` for numeric columns. The responsive wrapper is focusable for horizontal scrolling.
 - Use when: Comparing data across rows and columns.
@@ -2319,7 +2344,7 @@ The accessible caption for a Table.
 
 - Category: components
 - Base: Own component
-- Import: `import { TableCaption } from "@/ui";`
+- Import: `import { TableCaption } from "@javui/ui";`
 - Renders: caption
 - Composition: Child of Table; describes the table.
 - Use when: Naming a table.
@@ -2338,7 +2363,7 @@ The column-heading section of a Table.
 
 - Category: components
 - Base: Own component
-- Import: `import { TableHeader } from "@/ui";`
+- Import: `import { TableHeader } from "@javui/ui";`
 - Renders: thead
 - Composition: Contains TableRow and TableHead.
 - Use when: Column headings.
@@ -2357,7 +2382,7 @@ The main data section of a Table.
 
 - Category: components
 - Base: Own component
-- Import: `import { TableBody } from "@/ui";`
+- Import: `import { TableBody } from "@javui/ui";`
 - Renders: tbody
 - Composition: Contains data TableRow elements.
 - Use when: The main table data.
@@ -2376,7 +2401,7 @@ The summary section of a Table, rendered with a highlighted surface.
 
 - Category: components
 - Base: Own component
-- Import: `import { TableFooter } from "@/ui";`
+- Import: `import { TableFooter } from "@javui/ui";`
 - Renders: tfoot
 - Composition: Contains summary TableRow elements.
 - Use when: Totals or summaries.
@@ -2395,7 +2420,7 @@ A row inside a Table section.
 
 - Category: components
 - Base: Own component
-- Import: `import { TableRow } from "@/ui";`
+- Import: `import { TableRow } from "@javui/ui";`
 - Renders: tr
 - Composition: Contains TableHead or TableCell elements.
 - Use when: A table row.
@@ -2414,7 +2439,7 @@ A column or row header cell.
 
 - Category: components
 - Base: Own component
-- Import: `import { TableHead } from "@/ui";`
+- Import: `import { TableHead } from "@javui/ui";`
 - Renders: th
 - Composition: Use scope="col" for headers or scope="row" for the first cell in a data row.
 - Use when: Column or row headers.
@@ -2435,7 +2460,7 @@ A data cell inside a TableRow.
 
 - Category: components
 - Base: Own component
-- Import: `import { TableCell } from "@/ui";`
+- Import: `import { TableCell } from "@javui/ui";`
 - Renders: td
 - Composition: A data cell inside TableRow.
 - Use when: Table values.
@@ -2457,7 +2482,7 @@ Where the current page sits in the site. Renders `nav > ol` and marks the last i
 
 - Category: navigation
 - Base: Own component
-- Import: `import { Breadcrumb } from "@/ui";`
+- Import: `import { Breadcrumb } from "@javui/ui";`
 - Renders: nav with an ordered list; the last item has aria-current page
 - Composition: Pass `items` ({ label, href?, startIcon?, endIcon? }) from root to current page. `separator` defaults to `>` and accepts any node, such as `/` or `·`; it is always hidden from assistive technology. Use `maxItems` (3 or more) to collapse the middle items into an ellipsis menu opened from an icon button labelled Show hidden pages and sized to its content; omit it to show every item. Icons are generated icons without `size`.
 - Use when: Hierarchical navigation: showing where a page sits in a site with 3 or more levels.
@@ -2490,7 +2515,7 @@ with `next/link` through `LinkProvider`. Previous and next are left out (not dis
 
 - Category: navigation
 - Base: Own component
-- Import: `import { Pagination } from "@/ui";`
+- Import: `import { Pagination } from "@javui/ui";`
 - Renders: nav with a list of links
 - Composition: Pass `page`, `pageCount` and `hrefTemplate` such as `/blog?page={page}`. Use `showPreviousNext={false}` for page numbers only, or `showPageNumbers={false}` with `iconSteps` for icon-only Previous and Next.
 - Use when: Moving through content split across URLs.
@@ -2525,7 +2550,7 @@ For a quick wait with no known end, prefer `Spinner`; for a value the user sets,
 
 - Category: feedback
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Progress } from "@/ui";`
+- Import: `import { Progress } from "@javui/ui";`
 - Renders: div with role progressbar
 - Composition: Pass `label` and `value` (number, or null when unknown). Optional `max`.
 - Use when: Showing how far a task has got.
@@ -2558,7 +2583,7 @@ Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Slider } from "@/ui";`
+- Import: `import { Slider } from "@javui/ui";`
 - Renders: div with one input type range per thumb
 - Composition: Pass `label` and `defaultValue` (number or [min, max]). Use `thumbLabels` for ranges and `orientation="vertical"` for a vertical track. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field. Disabled hides the visible label and value; the label remains the accessible name.
 - Use when: Choosing a number or range by dragging.
@@ -2606,7 +2631,7 @@ Use this when you build a custom composition outside Field.
 
 - Category: controls
 - Base: Own component
-- Import: `import { Label } from "@/ui";`
+- Import: `import { Label } from "@javui/ui";`
 - Renders: label
 - Composition: Text children, `htmlFor`, and optional `required` (prints "Required"; the control still needs its own required attribute) and `disabled`. Prefer Field, which wires description, error and ARIA.
 - Use when: A visible label for a custom control composition outside Field.
@@ -2639,7 +2664,7 @@ Explains why a region is empty and how to fill it.
 
 - Category: feedback
 - Base: Own component
-- Import: `import { EmptyState } from "@/ui";`
+- Import: `import { EmptyState } from "@javui/ui";`
 - Renders: section with a labelled heading when `title` is present, otherwise a div
 - Composition: Pass required `description`, optional `title`, decorative `illustration`, `actions` (usually one or two Buttons), `size` (`md`, `sm` or `xs`) and `as` for the heading level (`h2`-`h4`, default `h3`).
 - Use when: A region without content that needs to explain why it is empty and how to fill it.
@@ -2659,7 +2684,7 @@ Explains why a region is empty and how to fill it.
 | `as` | `"h2" \| "h3" \| "h4"` | no | h3 | Heading level of the title. |
 | `className` | `string` | no |  |  |
 | `illustration` | `ReactNode` | no |  | Decorative illustration. Hidden from assistive technology and never shown at size `xs`. |
-| `size` | `"sm" \| "md" \| "xs"` | no | md | `md` for screens, tables and large cards; `sm` for cards and panels; `xs` for nested containers. |
+| `size` | `"xs" \| "sm" \| "md"` | no | md | `md` for screens, tables and large cards; `sm` for cards and panels; `xs` for nested containers. |
 | `style` | `CSSProperties` | no |  | One-off inline styles, for example to tune `--empty-state-padding`, `--empty-state-gap` or `--empty-state-illustration`. |
 | `title` | `ReactNode` | no |  | Short message that introduces the scenario. Optional. |
 
@@ -2672,7 +2697,7 @@ links use the component from `LinkProvider`. This is a layout piece, not a Base 
 
 - Category: navigation
 - Base: Own component
-- Import: `import { Sidebar } from "@/ui";`
+- Import: `import { Sidebar } from "@javui/ui";`
 - Renders: aside with a nav landmark and a list
 - Composition: Pass `label` (required), `items` ({ label, href?, onSelect?, startIcon?, active?, disabled? }), optional `header` and `footer`. Links render with the LinkProvider component; items without href are buttons.
 - Use when: Primary vertical navigation beside an app's content, especially on desktop.
@@ -2711,7 +2736,7 @@ Root for a single disclosure. Compose it with `CollapsibleTrigger` and `Collapsi
 
 - Category: navigation
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Collapsible } from "@/ui";`
+- Import: `import { Collapsible } from "@javui/ui";`
 - Renders: div with a button trigger and a region panel
 - Composition: Pass `title` or a custom `trigger`, panel `children`, optional `startIcon`/`endIcon`, open state (`defaultOpen`, `open`, `onOpenChange`) and `disabled`.
 - Use when: A single section that shows or hides content, such as advanced options or extra details.
@@ -2740,7 +2765,7 @@ Button that toggles its parent `Collapsible`.
 
 - Category: navigation
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { CollapsibleTrigger } from "@/ui";`
+- Import: `import { CollapsibleTrigger } from "@javui/ui";`
 - Renders: button with aria-expanded and aria-controls
 - Composition: Child of Collapsible. Children are the label; accepts Button props.
 - Use when: The button that shows or hides a Collapsible panel.
@@ -2764,7 +2789,7 @@ Expandable content for its parent `Collapsible`.
 
 - Category: navigation
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { CollapsibleContent } from "@/ui";`
+- Import: `import { CollapsibleContent } from "@javui/ui";`
 - Renders: div with role region
 - Composition: Child of Collapsible. Holds the content that is shown or hidden.
 - Use when: The panel of a Collapsible.
@@ -2791,7 +2816,7 @@ needs its own. For a single independent on/off button, use `Toggle`.
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { ToggleGroup } from "@/ui";`
+- Import: `import { ToggleGroup } from "@javui/ui";`
 - Renders: div role="group" with toggle buttons
 - Composition: Compose `ToggleGroupItem` children. Pass `aria-label` or `aria-labelledby`, `multiple`, `orientation`, `spacing` (`none`, `sm` or `md`), `size` (`xs`, `sm`, `md` or `lg`) and `variant` (`default` or `outline`). The variant is inherited by every item.
 - Use when: A set of two-state buttons that can be toggled independently or used as a single-choice group.
@@ -2811,8 +2836,8 @@ needs its own. For a single independent on/off button, use `Toggle`.
 | `multiple` | `boolean` | no | false | Allow several items to be on at once. By default only one is. |
 | `onValueChange` | `((groupValue: string[], eventDetails: { reason: "none"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)` | no |  | Called when the selected values change. |
 | `orientation` | `"horizontal" \| "vertical"` | no | "horizontal" | Stack the items vertically instead of horizontally. |
-| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | md | Control height and icon size inherited by every item. |
-| `spacing` | `"sm" \| "md" \| "none"` | no | md | Space between items. `none` connects their borders. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | md | Control height and icon size inherited by every item. |
+| `spacing` | `"none" \| "sm" \| "md"` | no | md | Space between items. `none` connects their borders. |
 | `value` | `readonly string[]` | no |  | Selected values, when controlled. |
 | `variant` | `"default" \| "outline"` | no | outline | Visual treatment inherited by every item. |
 
@@ -2835,7 +2860,7 @@ A toggle group item that composes the standalone Toggle with Base UI Toggle Grou
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { ToggleGroupItem } from "@/ui";`
+- Import: `import { ToggleGroupItem } from "@javui/ui";`
 - Renders: button with aria-pressed
 - Composition: Child of ToggleGroup. Pass a required `value`, visible children or `startIcon`/`endIcon`, and `aria-label` for icon-only items.
 - Use when: One option inside ToggleGroup.
@@ -2849,7 +2874,7 @@ A toggle group item that composes the standalone Toggle with Base UI Toggle Grou
 | `children` | `ReactNode` | no |  | Visible label. Omit it for an icon-only toggle and provide `aria-label`. |
 | `className` | `string` | no |  |  |
 | `endIcon` | `ReactNode` | no |  | Icon after the label. |
-| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | "md" | Control height and icon size, following `Button`. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Control height and icon size, following `Button`. |
 | `startIcon` | `ReactNode` | no |  | Icon before the label, or the icon for an icon-only toggle. |
 | `variant` | `"default" \| "outline"` | no | "default" | Visual treatment. `default` has no border; `outline` draws the control border. |
 
@@ -2867,7 +2892,7 @@ toggles need `aria-label` or `aria-labelledby`. Sizes follow `Button`.
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Toggle } from "@/ui";`
+- Import: `import { Toggle } from "@javui/ui";`
 - Renders: button with aria-pressed
 - Composition: Pass visible children or `startIcon`/`endIcon`; icon-only toggles require `aria-label` or `aria-labelledby`. Sizes are `xs`, `sm`, `md` and `lg`. `variant` is `default` (borderless) or `outline`.
 - Use when: A two-state formatting or preference control that can be toggled on or off.
@@ -2883,7 +2908,7 @@ toggles need `aria-label` or `aria-labelledby`. Sizes follow `Button`.
 | `children` | `ReactNode` | no |  | Visible label. Omit it for an icon-only toggle and provide `aria-label`. |
 | `className` | `string` | no |  |  |
 | `endIcon` | `ReactNode` | no |  | Icon after the label. |
-| `size` | `"sm" \| "md" \| "lg" \| "xs"` | no | "md" | Control height and icon size, following `Button`. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Control height and icon size, following `Button`. |
 | `startIcon` | `ReactNode` | no |  | Icon before the label, or the icon for an icon-only toggle. |
 | `variant` | `"default" \| "outline"` | no | "default" | Visual treatment. `default` has no border; `outline` draws the control border. |
 
@@ -2903,7 +2928,7 @@ a list or a code area, where the page itself should not scroll. The viewport is 
 
 - Category: layout
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { ScrollArea } from "@/ui";`
+- Import: `import { ScrollArea } from "@javui/ui";`
 - Renders: div frame with a focusable scroll viewport and custom scrollbars
 - Composition: Pass `children`, optional `label` (accessible name of the scroll region) and `className` to set the height. Default maximum block size is 12rem; override it with a layout class.
 - Use when: A fixed-height list, code area or panel that should scroll inside the page.
@@ -2939,7 +2964,7 @@ and every action fills the available width. For a centered decision use `Modal`.
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Sheet } from "@/ui";`
+- Import: `import { Sheet } from "@javui/ui";`
 - Renders: a trigger button; when open, a backdrop and a side panel in a portal
 - Composition: Pass `trigger` (button text), `title`, optional `description`, `children`, `footer`, `side` (top, right, bottom or left; default right) and open state. One component, no parts. Left and right use a fixed side width and full height; top and bottom span the viewport width and fit their content height. Footer actions fill the available width and stack when there is more than one. The panel slides and fades on enter (from partial opacity, never 0) and on exit.
 - Use when: Secondary tasks, settings and filters that slide in from an edge.
@@ -2964,7 +2989,7 @@ and every action fills the available width. For a centered decision use `Modal`.
 | `open` | `boolean` | no |  | Controlled open state. |
 | `showCloseButton` | `boolean` | no | true | Whether to render the built-in close button. |
 | `side` | `"top" \| "bottom" \| "left" \| "right"` | no | right | Edge the sheet enters from. |
-| `triggerSize` | `"sm" \| "md" \| "lg" \| "xs"` | no | sm | Button size of the trigger. |
+| `triggerSize` | `"xs" \| "sm" \| "md" \| "lg"` | no | sm | Button size of the trigger. |
 | `triggerVariant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -2988,7 +3013,7 @@ Searchable single- or multi-choice field. Labels come from `Field`.
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { Combobox } from "@/ui";`
+- Import: `import { Combobox } from "@javui/ui";`
 - Renders: input role="combobox" with a filterable listbox popup
 - Composition: Pass `items` ({ value, label, description?, group?, startIcon?, disabled? }). `multiple` shows chips. `clearable` shows a button to clear the selection. `icon` is the end icon: omit for the caret, `null` to hide. Label through Field, or `aria-label`.
 - Use when: Choosing from a long list where typing to filter helps, or choosing several values.
@@ -3032,7 +3057,7 @@ and dark work without extra code. Unknown languages are shown as plain text.
 
 - Category: typography
 - Base: Own component
-- Import: `import { CodeBlock } from "@/ui/server";`
+- Import: `import { CodeBlock } from "@javui/ui/server";`
 - Renders: server component that highlights with Shiki, wrapped around a client view with an icon-only copy button, optional tabs and a focusable region
 - Composition: Pass `code` and a `language`. `tone` is `default`, `brand`, `success` or `danger`; `highlight={false}` shows plain text; `highlightLines` marks lines from 1; `lineNumbers` shows decorative line numbers. For alternatives, pass `tabs` instead of `code`.
 - Use when: Showing code or commands the user will copy.
@@ -3067,7 +3092,7 @@ The server passes highlighted HTML; without it the code stays plain text.
 
 - Category: typography
 - Base: Own component
-- Import: `import { CodeBlockView } from "@/ui";`
+- Import: `import { CodeBlockView } from "@javui/ui";`
 - Renders: client-only presentation of a CodeBlock: tabs, copy button and focusable code region
 - Composition: Internal to CodeBlock. Use it only in client components; pass pre-highlighted `html`/`tabHtml` when available, otherwise the code stays plain.
 - Use when: Client components that cannot render the server CodeBlock.
@@ -3102,7 +3127,7 @@ client-side navigation and prefetching, with no `render` prop on each one. Witho
 
 - Category: utility
 - Base: Own component
-- Import: `import { LinkProvider } from "@/ui";`
+- Import: `import { LinkProvider } from "@javui/ui";`
 - Renders: no element: it provides the link component through context
 - Composition: Place once near the app root: `<LinkProvider component={NextLink}>`. Link, Button with href, Menu link items, Breadcrumb and Pagination then render with it.
 - Use when: Making every link in the library use `next/link` (or another router link) from a single place.
@@ -3132,7 +3157,7 @@ one opens instantly (`data-instant` skips the animation). Put it once near the a
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { TooltipProvider } from "@/ui";`
+- Import: `import { TooltipProvider } from "@javui/ui";`
 - Renders: no element
 - Composition: Place once near the app root. Optional. `delay` (default 600) applies only to the first tooltip; the next ones open instantly.
 - Use when: Shared open delay across tooltips.
@@ -3153,7 +3178,7 @@ dismiss, pause on hover and focus come from there).
 
 - Category: feedback
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { ToastProvider } from "@/ui";`
+- Import: `import { ToastProvider } from "@javui/ui";`
 - Renders: no visible element until a toast is shown; renders a viewport in a portal
 - Composition: Place once near the app root, inside Providers. Then call `useToast()` anywhere below it.
 - Use when: Short-lived feedback after an action.
@@ -3178,7 +3203,7 @@ The anchor component to render links with: the one from `LinkProvider`, or `a`.
 
 - Category: utility
 - Base: Own component
-- Import: `import { useLinkComponent } from "@/ui";`
+- Import: `import { useLinkComponent } from "@javui/ui";`
 - Renders: hook, renders nothing
 - Composition: Only needed when building your own link components that should respect LinkProvider. `const LinkEl = useLinkComponent()` returns the provided link component, or `"a"`.
 - Use when: Building your own navigation component that should follow LinkProvider.
@@ -3198,7 +3223,7 @@ For messages that must stay on the page, use `Alert`.
 
 - Category: feedback
 - Base: Built on Base UI (@base-ui/react)
-- Import: `import { useToast } from "@/ui";`
+- Import: `import { useToast } from "@javui/ui";`
 - Renders: hook, renders nothing
 - Composition: `const { show, close } = useToast(); show({ title, description?, tone?, timeout?, startIcon?, endIcon? })`. Icons are generated icons without `size`.
 - Use when: Showing a toast after an action finishes.
@@ -3289,7 +3314,7 @@ show({ title: "Saved", tone: "success" });
 | `--text-body-tracking` |  | `0em` |
 | `--text-body-style` |  | `var(--font-style-body)` |
 | `--text-body-family` |  | `var(--font-family-sans)` |
-| `--text-body-sm-size` |  | `var(--font-size-13)` |
+| `--text-body-sm-size` |  | `var(--font-size-14)` |
 | `--text-body-sm-line` |  | `1.5` |
 | `--text-body-sm-line-tight` |  | `1.4` |
 | `--text-body-sm-weight` |  | `var(--font-weight-regular)` |
@@ -3405,6 +3430,7 @@ show({ title: "Saved", tone: "success" });
 | `--dialog-width-lg` | dimension | `40rem` |
 | `--dialog-width-xl` | dimension | `56rem` |
 | `--dialog-height-md` | dimension | `36rem` |
+| `--menu-width-2xs` | dimension | `8rem` |
 | `--menu-width-xxs` | dimension | `6rem` |
 | `--menu-width-xs` | dimension | `12rem` |
 | `--menu-width-sm` | dimension | `15rem` |
@@ -3445,6 +3471,7 @@ show({ title: "Saved", tone: "success" });
 | `--color-component` | color | light `oklch(0 0 0 / 0.05)` / dark `oklch(1 0 0 / 0.102)` |
 | `--color-component-hover` | color | light `color-mix(in oklab, var(--color-primary-foreground) 8%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 14%, transparent)` |
 | `--color-component-hover-subtle` | color | light `color-mix(in oklab, var(--color-primary-foreground) 3%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` |
+| `--color-component-hover-faint` | color | light `color-mix(in oklab, var(--color-primary-foreground) 2%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 4%, transparent)` |
 | `--color-component-active` | color | light `color-mix(in oklab, var(--color-primary-foreground) 12%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 18%, transparent)` |
 | `--color-component-on-sunken` | color | light `var(--color-card)` / dark `var(--color-card)` |
 | `--color-control` | color | light `transparent` / dark `var(--color-component-hover)` |

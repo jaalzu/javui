@@ -40,7 +40,7 @@ export function SaveButton() {
 
 export default function Usage() {
   return (
-    <DocPage href="/docs/usage" title="Usage" description={<>Import everything from <code>@/ui</code>. These rules keep screens accessible and consistent.</>}>
+    <DocPage href="/docs/usage" title="Usage" description={<>Import everything from <code>@javui/ui</code>. These rules keep screens accessible and consistent.</>}>
 
       <Heading as="h2" size={6}>Rules</Heading>
       <ol>

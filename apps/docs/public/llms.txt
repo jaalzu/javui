@@ -74,6 +74,7 @@
 - **Tooltip**: Extra clarity for sighted mouse and keyboard users, such as naming an icon button.
 - **Popover** (parts: PopoverTrigger, PopoverContent, PopoverClose): Small interactive content tied to a button, such as a form or extra options.
 - **Menu**: A list of actions or links behind one button, such as account actions.
+- **MenuBar**: A row of related menus for application navigation or grouped actions.
 - **Sheet**: Secondary tasks, settings and filters that slide in from an edge.
 
 ### navigation

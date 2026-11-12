@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "@/ui/styles/global.css";
+import "@javui/ui/global.css";
 import { Link } from "@javui/ui";
 import { Providers } from "./providers";
 import { SiteHeader } from "@/app/_shell/SiteHeader/SiteHeader";

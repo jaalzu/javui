@@ -25,7 +25,7 @@ export function Providers({ children }: { children: ReactNode }) {
   );
 }`;
 
-const layout = `import "@/ui/styles/global.css";
+const layout = `import "@javui/ui/global.css";
 import { Providers } from "./providers";
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -58,13 +58,13 @@ Then add ui-lib to this Next.js project:
 1. Copy src/ui and public/typography from the ui-lib repository into your app.
 2. Install: @base-ui/react next-themes
 3. Create the providers from /docs/installation (ThemeProvider, LinkProvider with next/link, TooltipProvider, ToastProvider).
-4. Import "@/ui/styles/global.css" in the root layout.
+4. Import "@javui/ui/global.css" in the root layout.
 
 Build the screen I ask for using only components from "@javui/ui" and semantic tokens. Follow get_guidelines / llms.txt rules.`;
 
 const tailwind = `@import "tailwindcss";
-@import "@/ui/styles/global.css";
-@import "@/ui/tokens/tailwind.css";`;
+@import "@javui/ui/global.css";
+@import "@javui/ui/tailwind.css";`;
 
 function installCommands(pkgs: string) {
   return [

@@ -76,7 +76,7 @@ export const examples: Example[] = [
   </Stack>
 </Field>`,
     <Field label="Search">
-      <Stack direction="row" gap="3" align="center" className="searchRow" style={{ gap: "calc(var(--space-3) - var(--space-1) / 4)" }}>
+  <Stack direction="row" gap="3" align="center" className={`${styles.searchRow} searchRow`} style={{ gap: "calc(var(--space-3) - var(--space-1) / 4)" }}>
         <Input type="search" placeholder="Search projects" size="md" />
         <Button className={styles.searchButton} size="md" variant="primary">Search</Button>
       </Stack>

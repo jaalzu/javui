@@ -102,7 +102,7 @@ const componentsManifest = allExported.map((name) => {
     category: m.category,
     base: m.base === "base-ui" ? "Built on Base UI (@base-ui/react)" : "Own component",
     description: doc?.description?.trim() || null,
-    import: `import { ${name} } from "${serverExported.includes(name) ? "@/ui/server" : "@/ui"}";`,
+    import: `import { ${name} } from "${serverExported.includes(name) ? "@javui/ui/server" : "@javui/ui"}";`,
     renders: m.renders,
     composition: m.composition,
     whenToUse: m.whenToUse,

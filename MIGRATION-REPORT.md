@@ -41,3 +41,12 @@ Fase 0 auditada. La Fase 1 queda pendiente de la confirmación del usuario.
 - `tokens`, `icons` y `agent-docs`: OK; agent-docs genera 52 componentes, 36 parts, 5 providers/hooks y 321 tokens.
 - `build` no completó por restricción del sandbox de Windows al crear la junction de `shiki` (`Access is denied`); se documenta como bloqueo ambiental, no se ejecutó Storybook.
 - `test` de la librería conserva el fallo ENOENT del sandbox de Vitest de la línea base.
+
+## Corrección del gate de Fase 2
+
+- Se eliminaron todos los restos `@/ui` de `apps/docs` (incluidos textos generados en `public/llms*.txt` y `public/agent/*`); los imports de CSS usan ahora `@javui/ui/global.css` y `@javui/ui/tailwind.css`.
+- `@javui/ui` exporta ahora `./tokens.css`, `./global.css` y `./tailwind.css`, apuntando al código fuente durante esta fase.
+- `server.ts` solo tenía el alias en TSDoc; `tailwind.css` solo lo tenía en comentarios generados. Se corrigió el origen `build-tokens.mjs` y se regeneró.
+- Se corrigió el bloque desbalanceado de `apps/docs/src/app/uitest/ui-test.module.css`; la página `/uitest` sí se usa y no se eliminó. También se corrigieron selectores CSS Modules no puros y rutas de CSS de ejemplos.
+- Build con Webpack: `bun run --filter @javui/docs build` pasó con permisos elevados. En el sandbox falla por `EPERM` al crear `.next`; sin `--webpack` falla por `Access is denied` al crear la junction de `shiki`. Se conserva `next build --webpack` y la causa está en `DECISIONS.md`.
+- Tests comparativos en worktree del commit base `de8bb68`: base y migración fallan exactamente en 3 tests: `Button.test.tsx`, `Input.test.tsx` y `Slider.test.tsx`; pasan 52 suites y 275 tests. Son preexistentes, no causados por la migración. El sandbox añade además fallos `ENOENT` de archivos temporales al ejecutar sin permisos elevados.

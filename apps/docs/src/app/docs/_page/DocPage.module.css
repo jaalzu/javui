@@ -152,7 +152,12 @@ a.pagerNext {
 }
 
 /* Demo content keeps the component's own rhythm; docs prose must not leak into previews. */
-[data-doc-example] :is(h1, h2, h3, h4, h5, h6) {
+.example :global(h1),
+.example :global(h2),
+.example :global(h3),
+.example :global(h4),
+.example :global(h5),
+.example :global(h6) {
   margin: 0;
 }
 

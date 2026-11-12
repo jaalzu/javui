@@ -1,9 +1,9 @@
-:global(.searchRow) > span:has(> input) {
+.searchRow > :global(span:has(> input)) {
   flex: 1 1 auto;
   min-width: 0;
 }
 
-:global(.searchRow) > button {
+.searchRow > :global(button) {
   flex: 0 0 auto;
 }
 

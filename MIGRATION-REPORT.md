@@ -31,3 +31,13 @@ Fase 0 auditada. La Fase 1 queda pendiente de la confirmación del usuario.
 - El análisis de contextos y APIs interactivas no encontró una ausencia evidente de `"use client"`; los 45 archivos existentes se conservan sin añadir directivas a presentacionales.
 - Madge sigue sin ciclos y `LinkProvider` ya tiene fallback a `<a>`; no se cambió comportamiento público.
 - Gate de Fase 1: `typecheck` OK; `lint` OK con 6 warnings preexistentes; `test` reproduce el fallo de sandbox (`54` suites fallidas, `1` pasada, 2 tests pasaron).
+
+## Tanda A — Fase 2: monorepo
+
+- Movidos con `git mv`: `src/ui` → `packages/ui/src`, app y docs → `apps/docs`, scripts/MCP/Vitest/Storybook → `packages/ui`; 53 ejemplos quedaron en `apps/docs/src/examples`.
+- Añadidos workspaces, `tsconfig.base.json`, paquetes `@javui/ui` y `@javui/docs`, exports de código fuente y `transpilePackages: ["@javui/ui"]` conforme a la guía local de Next 16.
+- La app de docs importa la librería mediante `@javui/ui`/`@javui/ui/server`; se hizo pública `MenuBar`, que ya existía en el componente pero faltaba en el barrel.
+- `@javui/ui` typecheck: OK. `@javui/docs` typecheck: OK. `lint` acotado a fuentes: OK con 6 warnings preexistentes.
+- `tokens`, `icons` y `agent-docs`: OK; agent-docs genera 52 componentes, 36 parts, 5 providers/hooks y 321 tokens.
+- `build` no completó por restricción del sandbox de Windows al crear la junction de `shiki` (`Access is denied`); se documenta como bloqueo ambiental, no se ejecutó Storybook.
+- `test` de la librería conserva el fallo ENOENT del sandbox de Vitest de la línea base.

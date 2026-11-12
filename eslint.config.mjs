@@ -7,13 +7,13 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
   {
-    files: ["src/ui/**/*.{js,jsx,ts,tsx}"],
+    files: ["packages/ui/src/**/*.{js,jsx,ts,tsx}"],
     ignores: [
-      "src/ui/**/*.examples.*",
-      "src/ui/**/*Example*.{js,jsx,ts,tsx}",
-      "src/ui/**/*Demo.{js,jsx,ts,tsx}",
-      "src/ui/components/CodeBlock/CodeBlock.tsx",
-      "src/ui/server.ts",
+      "packages/ui/src/**/*.examples.*",
+      "packages/ui/src/**/*Example*.{js,jsx,ts,tsx}",
+      "packages/ui/src/**/*Demo.{js,jsx,ts,tsx}",
+      "packages/ui/src/components/CodeBlock/CodeBlock.tsx",
+      "packages/ui/src/server.ts",
     ],
     rules: {
       "no-restricted-imports": [

@@ -1,0 +1,99 @@
+# ui-lib
+
+> React component library. Next.js, TypeScript, CSS variables + CSS Modules. Controls are built on Base UI.
+
+## Principles
+- HTML first: use the semantic element for the job. Own components render correct HTML; Base UI components handle behavior and ARIA.
+- Use semantic tokens only; never hardcode colors, spacing or fonts.
+- Every control needs an accessible name: Field `label`, the component's `label`/`legend`, or `aria-label`.
+- One way to do each thing: links are Link, actions are Button, headings are Heading, body text is Text.
+- Keep heading levels in order, one h1 per page.
+
+## Foundations
+- **Text**: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls (buttons, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
+- **Heading**: Page and section titles.
+
+## Machine-readable
+- [Component manifest](/agent/manifest.json): every component with props, examples and accessibility notes
+- [Design tokens](/agent/tokens.json): every CSS variable with its meaning
+- [Icons](/agent/icons.json): every available icon with its component name and tags
+- [Full documentation](/llms-full.txt): everything above in one Markdown file
+
+## Components
+### typography
+- **Link**: Navigation to another page, section or resource, inline in text.
+- **Kbd**: Keyboard shortcuts in docs and UI.
+- **Badge**: Short status or count labels next to other content.
+- **CodeBlock** (parts: CodeBlockView): Showing code or commands the user will copy.
+
+### patterns
+- **DescriptionList** (parts: DescriptionListTerm, DescriptionListDetails): Semantic term/description content such as metadata, settings or record details.
+- **NameValueList**: Data-driven name/value pairs where a semantic description list is appropriate.
+
+### layout
+- **Stack**: Arranging children in one direction with a consistent gap.
+- **Grid**: Two-dimensional layouts and card grids.
+- **Container**: Page shells, readable content boundaries and sections that need a consistent max width.
+- **Box**: A bordered or recessed content area that is not a full Card and does not need Card parts.
+- **AspectRatio**: Images, video, embeds or maps whose size must be reserved before they load, preventing layout shift (CLS).
+- **ScrollArea**: A fixed-height list, code area or panel that should scroll inside the page.
+
+### utility
+- **useControllableState**: Interactive components that support both controlled and uncontrolled state.
+- **VisuallyHidden**: Text that screen readers must read but sighted users should not see, such as the name of an icon-only button.
+- **Icon**: Any glyph. Named icons are decorative by default; pass `label` when the icon is the only carrier of meaning.
+
+### feedback
+- **Spinner**: Indeterminate loading of an action or small region that is expected to take more than a second. Place it next to the content it refers to.
+- **Skeleton**: Placeholder for content whose layout is known while it loads.
+- **Alert**: A message that stays on the page and the user must notice: a general note (neutral), relevant information (info), a completed operation (success), something that needs attention (warning) or a failed operation (error).
+- **Progress**: Showing how far a task has got.
+- **EmptyState**: A region without content that needs to explain why it is empty and how to fill it.
+
+### controls
+- **Button**: An action with onClick (submit, open, confirm, cancel), or navigation that looks like a button with href. Pass `loading` while an action runs.
+- **ButtonGroup** (parts: ButtonGroupSeparator, ButtonGroupText): 2-4 related actions with short labels, all the same size and variant.
+- **Field** (parts: FieldSet, FieldSeparator): Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
+- **Separator**: Visually or semantically dividing sections, lists and action groups.
+- **Input**: Single-line text entry, read-only values and values that are still loading.
+- **InputOTP**: Verification codes, one-time passwords and recovery codes.
+- **InputGroup** (parts: InputGroupInput, InputGroupAddon, InputGroupText, InputGroupButton): An input with attached text, an icon, a hint or an action.
+- **Textarea**: Multi-line text entry, including read-only and loading values.
+- **Checkbox** (parts: CheckboxGroup): Choosing several independent options, or one confirmation that is saved when the form is submitted.
+- **RadioGroup** (parts: Radio): Choosing exactly one option from a short list.
+- **Switch**: A setting that turns on or off immediately.
+- **Select**: Choosing one option from a longer list, including read-only and loading states.
+- **Slider**: Choosing a number or range by dragging.
+- **Label**: A visible label for a custom control composition outside Field.
+- **ToggleGroup** (parts: ToggleGroupItem): A set of two-state buttons that can be toggled independently or used as a single-choice group.
+- **Toggle**: A two-state formatting or preference control that can be toggled on or off.
+- **Combobox**: Choosing from a long list where typing to filter helps, or choosing several values.
+
+### overlays
+- **Modal** (parts: ModalTrigger, ModalContent, ModalClose): Interrupting the user for a decision or a focused task.
+- **Tooltip**: Extra clarity for sighted mouse and keyboard users, such as naming an icon button.
+- **Popover** (parts: PopoverTrigger, PopoverContent, PopoverClose): Small interactive content tied to a button, such as a form or extra options.
+- **Menu**: A list of actions or links behind one button, such as account actions.
+- **MenuBar**: A row of related menus for application navigation or grouped actions.
+- **Sheet**: Secondary tasks, settings and filters that slide in from an edge.
+
+### navigation
+- **Tabs**: Switching between related panels in the same place.
+- **Accordion**: Showing long content in short sections, such as FAQs.
+- **Breadcrumb**: Hierarchical navigation: showing where a page sits in a site with 3 or more levels.
+- **Pagination**: Moving through content split across URLs.
+- **Sidebar**: Primary vertical navigation beside an app's content, especially on desktop.
+- **Collapsible** (parts: CollapsibleTrigger, CollapsibleContent): A single section that shows or hides content, such as advanced options or extra details.
+
+### components
+- **Card** (parts: CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter): Grouping related information into a single idea, with a short title.
+- **Avatar** (parts: AvatarGroup): Showing who a person or account is.
+- **Table** (parts: TableCaption, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell): Comparing data across rows and columns.
+
+## Providers and hooks
+- **LinkProvider**: Making every link in the library use `next/link` (or another router link) from a single place.
+- **TooltipProvider**: Shared open delay across tooltips.
+- **ToastProvider**: Short-lived feedback after an action.
+- **useLinkComponent**: Building your own navigation component that should follow LinkProvider.
+- **useToast**: Showing a toast after an action finishes.
+

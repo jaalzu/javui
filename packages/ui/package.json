@@ -1,0 +1,25 @@
+{
+  "name": "@javui/ui",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./server": "./src/server.ts",
+    "./tokens.css": "./src/tokens/tokens.css",
+    "./styles/*": "./src/styles/*",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --project unit",
+    "dev": "bun scripts/dev.mjs",
+    "storybook": "bun run tokens && storybook dev -p 6006",
+    "build-storybook": "bun run tokens && storybook build",
+    "tokens": "bun scripts/build-tokens.mjs",
+    "icons": "bun scripts/generate-icons.mjs",
+    "agent-docs": "bun scripts/build-agent-docs.mjs",
+    "mcp": "bun mcp/server.mjs",
+    "mcp:test": "bun mcp/smoke-test.mjs"
+  }
+}

@@ -1,0 +1,3550 @@
+# ui-lib
+
+> React component library. Next.js, TypeScript, CSS variables + CSS Modules. Controls are built on Base UI.
+
+## Principles
+- HTML first: use the semantic element for the job. Own components render correct HTML; Base UI components handle behavior and ARIA.
+- Use semantic tokens only; never hardcode colors, spacing or fonts.
+- Every control needs an accessible name: Field `label`, the component's `label`/`legend`, or `aria-label`.
+- One way to do each thing: links are Link, actions are Button, headings are Heading, body text is Text.
+- Keep heading levels in order, one h1 per page.
+
+## Foundations
+- **Text**: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls (buttons, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
+- **Heading**: Page and section titles.
+
+## Machine-readable
+- [Component manifest](/agent/manifest.json): every component with props, examples and accessibility notes
+- [Design tokens](/agent/tokens.json): every CSS variable with its meaning
+- [Icons](/agent/icons.json): every available icon with its component name and tags
+- [Full documentation](/llms-full.txt): everything above in one Markdown file
+
+## Components
+### typography
+- **Link**: Navigation to another page, section or resource, inline in text.
+- **Kbd**: Keyboard shortcuts in docs and UI.
+- **Badge**: Short status or count labels next to other content.
+- **CodeBlock** (parts: CodeBlockView): Showing code or commands the user will copy.
+
+### patterns
+- **DescriptionList** (parts: DescriptionListTerm, DescriptionListDetails): Semantic term/description content such as metadata, settings or record details.
+- **NameValueList**: Data-driven name/value pairs where a semantic description list is appropriate.
+
+### layout
+- **Stack**: Arranging children in one direction with a consistent gap.
+- **Grid**: Two-dimensional layouts and card grids.
+- **Container**: Page shells, readable content boundaries and sections that need a consistent max width.
+- **Box**: A bordered or recessed content area that is not a full Card and does not need Card parts.
+- **AspectRatio**: Images, video, embeds or maps whose size must be reserved before they load, preventing layout shift (CLS).
+- **ScrollArea**: A fixed-height list, code area or panel that should scroll inside the page.
+
+### utility
+- **useControllableState**: Interactive components that support both controlled and uncontrolled state.
+- **VisuallyHidden**: Text that screen readers must read but sighted users should not see, such as the name of an icon-only button.
+- **Icon**: Any glyph. Named icons are decorative by default; pass `label` when the icon is the only carrier of meaning.
+
+### feedback
+- **Spinner**: Indeterminate loading of an action or small region that is expected to take more than a second. Place it next to the content it refers to.
+- **Skeleton**: Placeholder for content whose layout is known while it loads.
+- **Alert**: A message that stays on the page and the user must notice: a general note (neutral), relevant information (info), a completed operation (success), something that needs attention (warning) or a failed operation (error).
+- **Progress**: Showing how far a task has got.
+- **EmptyState**: A region without content that needs to explain why it is empty and how to fill it.
+
+### controls
+- **Button**: An action with onClick (submit, open, confirm, cancel), or navigation that looks like a button with href. Pass `loading` while an action runs.
+- **ButtonGroup** (parts: ButtonGroupSeparator, ButtonGroupText): 2-4 related actions with short labels, all the same size and variant.
+- **Field** (parts: FieldSet, FieldSeparator): Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
+- **Separator**: Visually or semantically dividing sections, lists and action groups.
+- **Input**: Single-line text entry, read-only values and values that are still loading.
+- **InputOTP**: Verification codes, one-time passwords and recovery codes.
+- **InputGroup** (parts: InputGroupInput, InputGroupAddon, InputGroupText, InputGroupButton): An input with attached text, an icon, a hint or an action.
+- **Textarea**: Multi-line text entry, including read-only and loading values.
+- **Checkbox** (parts: CheckboxGroup): Choosing several independent options, or one confirmation that is saved when the form is submitted.
+- **RadioGroup** (parts: Radio): Choosing exactly one option from a short list.
+- **Switch**: A setting that turns on or off immediately.
+- **Select**: Choosing one option from a longer list, including read-only and loading states.
+- **Slider**: Choosing a number or range by dragging.
+- **Label**: A visible label for a custom control composition outside Field.
+- **ToggleGroup** (parts: ToggleGroupItem): A set of two-state buttons that can be toggled independently or used as a single-choice group.
+- **Toggle**: A two-state formatting or preference control that can be toggled on or off.
+- **Combobox**: Choosing from a long list where typing to filter helps, or choosing several values.
+
+### overlays
+- **Modal** (parts: ModalTrigger, ModalContent, ModalClose): Interrupting the user for a decision or a focused task.
+- **Tooltip**: Extra clarity for sighted mouse and keyboard users, such as naming an icon button.
+- **Popover** (parts: PopoverTrigger, PopoverContent, PopoverClose): Small interactive content tied to a button, such as a form or extra options.
+- **Menu**: A list of actions or links behind one button, such as account actions.
+- **MenuBar**: A row of related menus for application navigation or grouped actions.
+- **Sheet**: Secondary tasks, settings and filters that slide in from an edge.
+
+### navigation
+- **Tabs**: Switching between related panels in the same place.
+- **Accordion**: Showing long content in short sections, such as FAQs.
+- **Breadcrumb**: Hierarchical navigation: showing where a page sits in a site with 3 or more levels.
+- **Pagination**: Moving through content split across URLs.
+- **Sidebar**: Primary vertical navigation beside an app's content, especially on desktop.
+- **Collapsible** (parts: CollapsibleTrigger, CollapsibleContent): A single section that shows or hides content, such as advanced options or extra details.
+
+### components
+- **Card** (parts: CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter): Grouping related information into a single idea, with a short title.
+- **Avatar** (parts: AvatarGroup): Showing who a person or account is.
+- **Table** (parts: TableCaption, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell): Comparing data across rows and columns.
+
+## Providers and hooks
+- **LinkProvider**: Making every link in the library use `next/link` (or another router link) from a single place.
+- **TooltipProvider**: Shared open delay across tooltips.
+- **ToastProvider**: Short-lived feedback after an action.
+- **useLinkComponent**: Building your own navigation component that should follow LinkProvider.
+- **useToast**: Showing a toast after an action finishes.
+
+
+---
+
+## Text
+
+Body-level text: paragraphs, labels, captions and inline code.
+For headings use `Heading`; for links use `Link`.
+
+- Category: typography
+- Base: Own component
+- Import: `import { Text } from "@/ui";`
+- Renders: p (body variants), span (label, caption), code (code); or the element in `as`
+- Composition: `as` accepts only: p, span, label, strong, em, small, div, code. No links or buttons.
+- Use when: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls (buttons, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
+- Avoid:
+  - Headings: use Heading.
+  - Links: use Link.
+  - Actions: use Button.
+  - Setting font-size or color by hand.
+  - Caption size="sm" (10px) for lowercase running text: it is intentional for uppercase metadata, where the extra tracking keeps it legible.
+  - Form labels: use Label, or Field when you also need description and error.
+- Accessibility: Do not use tone="subtle" for required text.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `as` | `"div" \| "code" \| "em" \| "label" \| "p" \| "small" \| "span" \| "strong"` | no |  | HTML element to render. Defaults by variant: `p` for body variants, `span` for `label` and `caption`, `code` for `code`. |
+| `casing` | `"normal" \| "uppercase"` | no | normal | Set to `uppercase` for small uppercase captions. |
+| `hyphenate` | `boolean` | no | false | Allow the browser to hyphenate words when the line needs to break. |
+| `lineClamp` | `2 \| 3 \| 4 \| 5` | no |  | Clamp direct text content to this many lines. Do not use on elements containing nested HTML. |
+| `size` | `"base" \| "xs" \| "sm" \| "lg"` | no | base | Size within the variant: body is 18px (`lg`), 15px (`base`) or 13px (`sm`); caption is 12px, 11px or 10px; code is 14px (`base`), 13px (`sm`) or 12px (`xs`). Ignored by `label` and `emphasis`. |
+| `tone` | `"info" \| "success" \| "warning" \| "default" \| "brand" \| "danger" \| "muted" \| "subtle"` | no | default | Text color from the semantic color tokens. |
+| `truncate` | `boolean` | no | false | Keep one line and show an ellipsis when the text does not fit. |
+| `variant` | `"body" \| "caption" \| "code" \| "label" \| "emphasis"` | no | body | Which text style to apply. Appearance only; it does not change the element. |
+| `weight` | `"regular" \| "medium" \| "semibold"` | no |  | Font weight. Only three exist; there is no light. Defaults to the variant's own weight. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Text>Default paragraph.</Text>
+<Text size="lg">Large body text</Text>
+<Text variant="caption" tone="muted">Helper text</Text>
+<Text lineClamp={2}>A long description that can safely truncate...</Text>
+```
+
+## Heading
+
+A heading. Separates semantics (`as`) from appearance (`size`). Headings are always upright and semibold.
+When `id` is omitted, a stable slug of the text is used, so anchors render the same on the server and the client.
+
+- Category: typography
+- Base: Own component
+- Import: `import { Heading } from "@/ui";`
+- Renders: h1-h6 from `as` (default h2)
+- Composition: `as` sets the outline level (h1-h6 only); `size` sets only the look.
+- Use when: Page and section titles.
+- Avoid:
+  - Skipping levels (h1 then h3).
+  - More than one h1 per page.
+  - Choosing a level for its look: change `size` instead.
+- Accessibility: Heading order is part of the page structure for screen reader users.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `as` | `"h1" \| "h2" \| "h3" \| "h4" \| "h5" \| "h6"` | no | h2 | Heading level in the document outline. Keep one `h1` per page and do not skip levels. |
+| `size` | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | no |  | Visual size from 1 (56px) to 6 (20px) on wide screens. Defaults to the size that matches `as`. Use it to get an `h2` that looks like a size 4. |
+| `weight` | `"regular" \| "medium" \| "semibold"` | no | "semibold" | Font weight. There is no light; headings are semibold unless you set another. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Heading as="h1">Page title</Heading>
+<Heading as="h2" size={4}>Smaller-looking section title</Heading>
+```
+
+## Link
+
+A link for navigation. It renders an `a`, or the component given to `LinkProvider` (such as `next/link`).
+Links with a label always show an underline so they do not rely on color alone. For actions that do not navigate, use `Button`.
+Put icons in `startIcon`/`endIcon`. An icon on its own is a valid link (`startIcon` + `aria-label`).
+
+- Category: typography
+- Base: Own component
+- Import: `import { Link } from "@/ui";`
+- Renders: a
+- Composition: Native anchor props pass through. `href` is required. Put a trailing icon in `endIcon` (no `size`). Set `standalone` for a link used as a standalone action; inline links in a sentence stay inline. For a link styled as a button, use `Button` with `href`.
+- Use when: Navigation to another page, section or resource, inline in text.
+- Avoid:
+  - Actions that do not navigate: use Button with onClick.
+  - Links without visible text.
+  - Button-styled navigation: use Button with href.
+- Accessibility: Always underlined so it does not rely on color (the underline gets stronger on hover). Use `target="_blank"` only with `rel="noopener noreferrer"`.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `href` | `string` | yes |  | Where the link goes. Required: a link without `href` is not a link. |
+| `endIcon` | `ReactNode` | no |  | Icon after the label. Pass a generated icon without `size`; the link sizes it. |
+| `standalone` | `boolean` | no | false | Marks a standalone action link (not inline in a sentence) so it gets a 44px hit area on touch devices. |
+| `startIcon` | `ReactNode` | no |  | Icon before the label. Pass a generated icon without `size`; the link sizes it. |
+| `tone` | `"inherit" \| "default" \| "muted"` | no | default | `default` uses the text color, `muted` the secondary text color, `inherit` the surrounding color. The underline is always there. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Link href="/docs">Read the docs</Link>
+<Link href="/docs" endIcon={<ArrowRightIcon />}>Read the docs</Link>
+<Link href="/next" aria-label="Next page" startIcon={<ArrowRightIcon />} />
+```
+
+## Kbd
+
+A keyboard key or shortcut. Renders a native `kbd`. Use one `Kbd` per key and join keys with text.
+
+- Category: typography
+- Base: Own component
+- Import: `import { Kbd } from "@/ui";`
+- Renders: kbd
+- Composition: One Kbd per key; join keys with text such as +.
+- Use when: Keyboard shortcuts in docs and UI.
+- Avoid:
+  - Using it as a button.
+- Accessibility: Native kbd semantics. Spell out symbols that screen readers read poorly, for example add VisuallyHidden text.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `size` | `"sm" \| "md" \| "lg" \| "xl"` | no | md | Visual size of the key. |
+| `variant` | `"default" \| "inverted"` | no | default | Surface treatment. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Kbd>⌘</Kbd> + <Kbd>K</Kbd>
+```
+
+## Badge
+
+Small status, category or count label. Text is always the primary signal; the
+variant only reinforces it.
+
+Keep the text to one or two words and truncate counts to two digits (`99+`).
+Badges are secondary and supportive: never use one as a heading or a key
+indicator. Put icons in `startIcon`/`endIcon`; they follow the badge size: sm 12px, md 16px,
+lg 20px. An icon-only badge needs `aria-label`; it then renders with `role="img"`.
+
+- Category: typography
+- Base: Own component
+- Import: `import { Badge } from "@/ui";`
+- Renders: span, or the element passed in `render`
+- Composition: Text children, plus optional `startIcon`/`endIcon` (generated icons, no `size`); never put icons in children. `loading` adds a spinner (`spinnerPosition`: start or end). `variant`: default, inverted, outline, brand, success or danger. Pass `render={<Link href="…" />}` to render a link. Keep text to one or two words; truncate counts to two digits (`99+`).
+- Use when: Short status or count labels next to other content.
+- Avoid:
+  - Using color as the only signal: always include text.
+  - Badges as headings or key indicators: they are secondary and supportive.
+  - Long descriptions: badges are for short labels.
+  - Styling a badge like a button when it acts as one: use Button.
+- Accessibility: Meaning must be in the text; the variant only reinforces it. A badge rendered as a link keeps the link's own accessible name.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `className` | `string` | no |  |  |
+| `endIcon` | `ReactNode` | no |  | Icon after the text. Pass a generated icon without `size`; the badge sizes it. |
+| `loading` | `boolean` | no | false | Shows a spinner before or after the text, for statuses still in progress. |
+| `render` | `RenderProp<Record<string, unknown>>` | no |  | Renders the badge as another element or component, e.g. a link: `render={<Link href="/docs" />}`. Keyboard and focus behavior then come from that element, since Base UI merges the props. |
+| `shape` | `"rounded" \| "pill"` | no | pill | Corner shape: `pill` (fully round) or `rounded` (small radius). |
+| `size` | `"sm" \| "md" \| "lg"` | no | md | Height and type scale: `sm` 20px, `md` 24px, `lg` 28px. |
+| `spinnerPosition` | `"start" \| "end"` | no | start | Side the spinner sits on. |
+| `startIcon` | `ReactNode` | no |  | Icon before the text. Pass a generated icon without `size`; the badge sizes it. |
+| `variant` | `"success" \| "default" \| "inverted" \| "outline" \| "brand" \| "danger"` | no | default | Visual treatment. `default` is a quiet component surface, `inverted` a filled high-contrast pill, `outline` only an inset ring, and `brand`, `success` and `danger` are soft semantic tints (translucent background, colored text). |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Badge>Default</Badge>
+<Badge variant="inverted">Inverted</Badge>
+<Badge variant="outline">Outline</Badge>
+<Badge variant="brand">Brand</Badge>
+<Badge variant="success">Success</Badge>
+<Badge variant="danger">Danger</Badge>
+<Badge variant="success" startIcon={<CheckIcon />}>Success</Badge>
+<Badge render={<a href="#link" />}>Open link</Badge>
+```
+
+## DescriptionList
+
+Semantic `dl` structure for terms and descriptions. It does not impose a data model.
+
+- Category: patterns
+- Base: Own component
+- Import: `import { DescriptionList } from "@/ui";`
+- Renders: dl with native dt/dd children
+- Composition: Compose `DescriptionListTerm` and `DescriptionListDetails` in alternating pairs. `layout` is `stacked`, `inline` or `horizontal`; `narrow` reduces the horizontal label column.
+- Use when: Semantic term/description content such as metadata, settings or record details.
+- Avoid:
+  - Using a div-based grid for term/value semantics.
+  - Putting unrelated content into one list.
+- Accessibility: Uses native description-list semantics; keep each term paired with its following description.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | yes |  | Term and detail children, normally alternating `DescriptionListTerm` and `DescriptionListDetails`. |
+| `layout` | `"inline" \| "horizontal" \| "stacked"` | no | stacked | Layout for the term/detail pairs. |
+| `narrow` | `boolean` | no | false | Uses a narrower label column in `horizontal` layout. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Parts
+
+### DescriptionListTerm
+
+A term inside `DescriptionList`.
+
+- Category: patterns
+- Base: Own component
+- Import: `import { DescriptionListTerm } from "@/ui";`
+- Renders: dt
+- Composition: Child of `DescriptionList`; accepts native dt props.
+- Use when: The name or term in a description list.
+- Avoid:
+  - Using it outside a description list.
+- Accessibility: Native term semantics.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+### DescriptionListDetails
+
+A description/value inside `DescriptionList`.
+
+- Category: patterns
+- Base: Own component
+- Import: `import { DescriptionListDetails } from "@/ui";`
+- Renders: dd
+- Composition: Child of `DescriptionList`; accepts native dd props.
+- Use when: The description or value paired with a term.
+- Avoid:
+  - Using it outside a description list.
+- Accessibility: Native description semantics.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+## NameValueList
+
+Data-driven name/value presentation built on native description-list semantics.
+
+- Category: patterns
+- Base: Own component
+- Import: `import { NameValueList } from "@/ui";`
+- Renders: dl with generated dt/dd pairs
+- Composition: Pass `items` with `label` and `value`, then choose `layout` (`stacked`, `inline` or `horizontal`).
+- Use when: Data-driven name/value pairs where a semantic description list is appropriate.
+- Avoid:
+  - Using it when each value needs custom structural markup; use DescriptionList directly.
+  - Using it for tabular data; use Table.
+- Accessibility: Renders native description-list semantics for every item.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `items` | `readonly NameValueItem[]` | yes |  | Data pairs to render as `dt`/`dd`. |
+| `layout` | `"inline" \| "horizontal" \| "stacked"` | no | stacked | Visual arrangement of the pairs. |
+| `narrow` | `boolean` | no | false | Uses a narrower label column in `horizontal` layout. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+## Stack
+
+One-dimensional layout: children in a row or column with a token-based gap.
+
+`direction` and `gap` accept a per-breakpoint object. Breakpoints are mobile-first:
+`sm` 40rem, `md` 48rem, `lg` 64rem, `xl` 80rem. A missing breakpoint inherits the
+smaller one, so `{ md: "row" }` stays `column` below 48rem.
+
+- Category: layout
+- Base: Own component
+- Import: `import { Stack } from "@/ui";`
+- Renders: div (or `as`) with display:flex
+- Composition: `as="ul"` or `"ol"` requires `li` children.
+- Use when: Arranging children in one direction with a consistent gap.
+- Avoid:
+  - Two-dimensional layouts: use Grid.
+  - Margins between children: use `gap`.
+- Accessibility: List semantics are restored with role="list" because removing markers drops them in some screen readers.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `align` | `Responsive<"center" \| "start" \| "end" \| "stretch" \| "baseline">` | no | stretch | Alignment on the cross axis. Accepts per-breakpoint values. |
+| `as` | `"div" \| "article" \| "aside" \| "footer" \| "header" \| "li" \| "main" \| "nav" \| "ol" \| "section" \| "ul"` | no | "div" | Element to render. With `ul` or `ol`, children must be `li` elements. |
+| `direction` | `Responsive<"row" \| "column">` | no | column | Main axis. `column` stacks vertically. Pass a per-breakpoint object to change it responsively; mobile-first, a missing breakpoint inherits the smaller one. |
+| `gap` | `Responsive<Space>` | no | 4 | Space between children, from the spacing scale. Pass a per-breakpoint object to change it responsively; mobile-first, a missing breakpoint inherits the smaller one. |
+| `justify` | `Responsive<"center" \| "start" \| "end" \| "between">` | no | start | Distribution on the main axis. Accepts per-breakpoint values. |
+| `wrap` | `boolean` | no | false | Lets children wrap onto new lines. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Stack gap="3">
+  <Heading as="h2">Title</Heading>
+  <Text>Body</Text>
+</Stack>
+<Stack as="ul" gap="2"><li>One</li><li>Two</li></Stack>
+<Stack direction={{ base: "column", md: "row" }} gap={{ base: "3", md: "6" }} align={{ base: "stretch", md: "center" }}>
+  <Card>One</Card>
+  <Card>Two</Card>
+</Stack>
+```
+
+## Grid
+
+Two-dimensional layout using CSS grid with a token-based gap.
+
+Breakpoints are mobile-first: `sm` 40rem, `md` 48rem, `lg` 64rem, `xl` 80rem.
+A missing breakpoint inherits the smaller one.
+
+- Category: layout
+- Base: Own component
+- Import: `import { Grid } from "@/ui";`
+- Renders: div (or `as`) with display:grid
+- Composition: `columns` is a number (equal columns), a full grid-template-columns string, or a per-breakpoint object. `minColumnWidth` uses automatic columns and overrides `columns`.
+- Use when: Two-dimensional layouts and card grids.
+- Choosing:
+  - Cards, tiles and galleries: use `minColumnWidth` (for example `"16rem"`). Columns fit automatically, with no breakpoints.
+  - Fixed layouts that change by screen (sidebar plus content, 1/2/3 columns): use the responsive `columns` object, for example `{ base: 1, md: 2, lg: 4 }`.
+  - Unequal columns: pass a string such as `"2fr 1fr"`, optionally per breakpoint, for example `{ base: 1, lg: "2fr 1fr" }`.
+- Avoid:
+  - One-dimensional layouts: use Stack.
+- Accessibility: Visual order should match DOM order.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `align` | `Responsive<"center" \| "start" \| "end" \| "stretch">` | no | stretch | Alignment of items inside their cells on the block axis. Accepts per-breakpoint values. |
+| `as` | `"div" \| "article" \| "aside" \| "footer" \| "header" \| "li" \| "main" \| "nav" \| "ol" \| "section" \| "ul"` | no | "div" | Element to render. With `ul` or `ol`, children must be `li` elements. |
+| `columnGap` | `"0" \| "1" \| "2" \| "3" \| "4" \| "5" \| "6" \| "8" \| "10" \| "12" \| "16" \| "20" \| "24" \| "28" \| "36"` | no |  | Column gap override. |
+| `columns` | `Responsive<string \| number>` | no | 1 | Number of equal columns (`3`), or a full `grid-template-columns` value (`"2fr 1fr"`). Pass a per-breakpoint object to change it responsively; mobile-first, a missing breakpoint inherits the smaller one. |
+| `gap` | `Responsive<Space>` | no | 4 | Space between rows and columns, from the spacing scale. Pass a per-breakpoint object to change it responsively; mobile-first, a missing breakpoint inherits the smaller one. |
+| `justify` | `Responsive<"center" \| "start" \| "end" \| "stretch">` | no | stretch | Alignment of items inside their cells on the inline axis. Accepts per-breakpoint values. |
+| `minColumnWidth` | `string` | no |  | Minimum width for automatic columns, for example `"16rem"`. Uses `auto-fit` with no breakpoints and overrides `columns`. `min(100%, X)` prevents overflow on narrow screens. |
+| `rowGap` | `"0" \| "1" \| "2" \| "3" \| "4" \| "5" \| "6" \| "8" \| "10" \| "12" \| "16" \| "20" \| "24" \| "28" \| "36"` | no |  | Row gap override. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Grid columns={3} gap="4">...</Grid>
+<Grid columns="2fr 1fr">...</Grid>
+<Grid minColumnWidth="16rem" gap="4">...</Grid>
+<Grid columns={{ base: 1, md: 2, lg: 4 }} gap={{ base: "3", md: "6" }}>...</Grid>
+<Grid columns={{ base: 1, lg: "2fr 1fr" }} align="start" justify={{ base: "stretch", md: "center" }}>...</Grid>
+```
+
+## Container
+
+Centers content, constrains its readable width and applies responsive horizontal gutters.
+
+- Category: layout
+- Base: Own component
+- Import: `import { Container } from "@/ui";`
+- Renders: div (or `as`) with a centered max width and horizontal gutters
+- Composition: `size` selects a semantic container width (`xs`, `sm`, `md`, `lg`, `xl`) and `gutter` selects responsive horizontal padding from the spacing scale.
+- Use when: Page shells, readable content boundaries and sections that need a consistent max width.
+- Avoid:
+  - Using arbitrary max-width values when a container token fits.
+  - Nesting containers without a deliberate change in content width.
+- Accessibility: The default element is a neutral div; choose `as` to provide the correct landmark or section semantics.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `as` | `"div" \| "article" \| "aside" \| "footer" \| "header" \| "main" \| "nav" \| "section"` | no | "div" | Element to render. |
+| `gutter` | `Responsive<Space>` | no | 4 | Horizontal gutter from the spacing scale. Accepts per-breakpoint values. |
+| `size` | `Responsive<ContainerSize>` | no | xl | Maximum content width. Accepts per-breakpoint values. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Container size="lg" gutter={{ base: "4", md: "8" }}>Page content</Container>
+```
+
+## Box
+
+A bordered content region with token-based inset and optional semantic surface.
+
+- Category: layout
+- Base: Own component
+- Import: `import { Box } from "@/ui";`
+- Renders: div (or `as`) with token-based inset, optional border and semantic surface
+- Composition: Use `size` (`default`, `sm`, `xs`, `xxs`), `surface` (`none`, `card`, `sunken`, `highlight`) and `bordered` to define a content region.
+- Use when: A bordered or recessed content area that is not a full Card and does not need Card parts.
+- Avoid:
+  - Nesting cards inside cards.
+  - Using Box as a replacement for Stack or Grid.
+  - Using arbitrary backgrounds instead of semantic surfaces.
+- Accessibility: The default element is a neutral div; choose `as` when the region has section or landmark semantics.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `as` | `"div" \| "article" \| "aside" \| "footer" \| "header" \| "main" \| "nav" \| "section"` | no | "div" | Element to render. |
+| `bordered` | `boolean` | no | true | Whether to show the default border. |
+| `size` | `"xs" \| "sm" \| "default" \| "xxs"` | no | default | Inset from the spacing scale. |
+| `surface` | `"none" \| "card" \| "sunken" \| "highlight"` | no | none | Surface inside the box. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+## useControllableState
+
+
+
+- Category: utility
+- Base: Own component
+- Import: `import { useControllableState } from "@/ui";`
+- Renders: no element; returns the current value and a setter
+- Composition: Use for controlled/uncontrolled component state. Pass `value`, `defaultValue` and optional `onChange`; domain-specific guards stay in the component.
+- Use when: Interactive components that support both controlled and uncontrolled state.
+- Avoid:
+  - Using it for state that has no controlled API.
+  - Putting accessibility or domain-specific close/validation rules inside the generic hook.
+- Accessibility: The hook renders no DOM and does not replace component-level accessibility behavior.
+
+### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+## AspectRatio
+
+Reserves space for media with the CSS `asspect-ratio` property. An `img`, `video`, `iframe`,
+`picture`, `canvas` or `svg` as a direct child fills the box; images and videos use
+`object-fit: cover`. It only renders a `div`: when the media needs a caption, wrap the box
+in a `figure` yourself.
+
+- Category: layout
+- Base: Own component
+- Import: `import { AspectRatio } from "@/ui";`
+- Renders: div
+- Composition: Reserves space for media before it loads, preventing layout shift (CLS). `ratio` is width divided by height (`16 / 9`, `4 / 3`, `1`) and defaults to 1. Only `div` is rendered; when the media needs a caption, wrap the box in a `figure` yourself. A direct child `img`, `video`, `iframe`, `picture`, `canvas` or `svg` fills the box; images and videos use `object-fit: cover`.
+- Use when: Images, video, embeds or maps whose size must be reserved before they load, preventing layout shift (CLS).
+- Avoid:
+  - Text boxes: the box grows with its content.
+  - Decorative containers with no media.
+- Accessibility: The child needs its own alt text (`img`) or title (`iframe`, `video`); the box adds no semantics.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `as` | `"div"` | no | "div" | Element to render. Only `div` is supported: when the media needs a caption, wrap the box in a `figure` yourself. |
+| `ratio` | `number` | no | 1 | Width divided by height, such as `16 / 9`, `4 / 3` or `1`. The box reserves that area before the media loads, which prevents layout shift. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<AspectRatio ratio={16 / 9}>
+  <img src="/cover.jpg" alt="A field at dusk" />
+</AspectRatio>
+<AspectRatio ratio={16 / 9}>
+  <Image src="/cover.jpg" alt="A field at dusk" fill />
+</AspectRatio>
+<figure>
+  <AspectRatio ratio={4 / 3}>
+    <img src="/chart.png" alt="Revenue by quarter" />
+  </AspectRatio>
+  <figcaption>Revenue by quarter</figcaption>
+</figure>
+```
+
+## VisuallyHidden
+
+Hides content visually but keeps it in the accessibility tree, so screen readers still read it.
+Never use `display: none` or `aria-hidden` for this purpose.
+
+- Category: utility
+- Base: Own component
+- Import: `import { VisuallyHidden } from "@/ui";`
+- Renders: span (or div)
+- Composition: Children only.
+- Use when: Text that screen readers must read but sighted users should not see, such as the name of an icon-only button.
+- Avoid:
+  - display:none or aria-hidden for this purpose: they remove the content from the accessibility tree.
+- Accessibility: Stays in the accessibility tree by design.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `as` | `"div" \| "span"` | no | span | Element to render. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<button><Icon .../><VisuallyHidden>Close</VisuallyHidden></button>
+```
+
+## Icon
+
+Wrapper for a Phosphor glyph (256x256 grid, filled shapes, `currentColor`).
+Do not use it with hand-written paths: import a named icon (`ArrowRightIcon`) instead.
+
+- Category: utility
+- Base: Own component
+- Import: `import { Icon } from "@/ui";`
+- Renders: svg on a 256x256 viewBox, filled with currentColor
+- Composition: Do not pass paths. Import a named icon from the set (CheckIcon, ArrowRightIcon ...) generated by `bun run icons` and listed in /agent/icons.json. Each icon takes `size` (xs 12, sm 16, md 20, lg 24, xl 32) and `weight` (regular | fill). Do not pass `size` to icons inside `startIcon`/`endIcon`; `xs` is for standalone use, inline with text or in small badges.
+- Use when: Any glyph. Named icons are decorative by default; pass `label` when the icon is the only carrier of meaning.
+- Avoid:
+  - Hand-written <path> children: every icon comes from the generated set.
+  - Meaningful icons without a label.
+  - weight="fill" unless it marks an active or selected state.
+- Accessibility: Without `label` it is aria-hidden. With `label` it is role="img" with that name.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `label` | `string` | no |  | Accessible name. Provide it when the icon carries meaning on its own (no visible text next to it). Without `label` the icon is decorative and hidden from assistive technology. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | no | undefined | Fixed size: `xs` 12px, `sm` 16px, `md` 20px, `lg` 24px, `xl` 32px. Without it the icon is 20px, or the size its parent sets (inside a `Button` it follows the button). `xs` is for standalone use: inline with text or in small badges. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Icon label="Success">{glyph}</Icon>
+```
+
+## Spinner
+
+Indeterminate loading indicator. Twelve thick bars sit around a circle and light up in
+sequence, leaving a fading trail that reads as rotation.
+
+Use it only when the wait is expected to last more than a second; for shorter operations it
+appears and disappears too fast to help. Use `Skeleton` instead when the shape of the incoming
+content is known, and `Progress` when the completion percentage is known.
+
+It paints with `currentColor`, so it inherits the surrounding text color. Announces `label`
+through a status region. An empty label makes it decorative: no status role, no hidden text,
+and `aria-hidden="true"`. Respects `prefers-reduced-motion` by slowing the sequence down.
+
+- Category: feedback
+- Base: Own component
+- Import: `import { Spinner } from "@/ui";`
+- Renders: span with role="status" containing twelve decorative bars and VisuallyHidden text, or an aria-hidden span when the label is empty
+- Composition: No children. Use `label` to describe what is loading. Sizes: xs 12px, sm 16px, md 20px (default), lg 24px, xl 32px. Paints with currentColor, so it inherits the surrounding text color. An empty label makes it decorative and silent.
+- Use when: Indeterminate loading of an action or small region that is expected to take more than a second. Place it next to the content it refers to.
+- Avoid:
+  - Waits under a second: it appears and disappears too fast to be useful.
+  - Several spinners announcing at once.
+  - Page-level loading of content shape: use Skeleton.
+  - Known completion percentage: use Progress.
+  - Placing it inside a Button or Badge by hand: use their `loading` prop.
+- Accessibility: Announces `label` through a status live region; with an empty label it renders no status role, no VisuallyHidden text and aria-hidden="true". The bars are decorative. Motion follows prefers-reduced-motion by slowing the sequence.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `color` | `string` | no |  | Any CSS color for the bars. Defaults to `currentColor`, so it inherits the surrounding text. Prefer semantic tokens; for a custom tone derive it from one hue so it works in light and dark. |
+| `label` | `string` | no | Loading | Text announced to screen readers. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | no | md | Diameter: `xs` 13px, `sm` 17px, `md` 21px, `lg` 25px, `xl` 33px. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Spinner label="Saving changes" />
+<Spinner size="sm" label="Uploading" />
+<Spinner color="var(--color-brand-solid)" label="Syncing" />
+<Spinner label="" />
+```
+
+## Skeleton
+
+Placeholder for content that is loading. Purely decorative: it is hidden from assistive technology.
+Mark the region that is loading with `aria-busy="true"` on its container and announce completion yourself.
+
+- Category: feedback
+- Base: Own component
+- Import: `import { Skeleton } from "@/ui";`
+- Renders: span (aria-hidden)
+- Composition: Shape is text, rect or circle; set width and height with CSS values.
+- Use when: Placeholder for content whose layout is known while it loads.
+- Avoid:
+  - Using it as the only loading signal.
+- Accessibility: Hidden from assistive technology. Put aria-busy="true" on the container that is loading.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `height` | `string` | no |  | CSS height. Defaults depend on `shape`. |
+| `shape` | `"circle" \| "rect" \| "text"` | no | text | Shape of the placeholder. `text` matches one line of body text. |
+| `width` | `string` | no |  | CSS width, for example `"12rem"` or `"100%"`. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<section aria-busy="true"><Skeleton width="60%" /><Skeleton shape="rect" height="8rem" /></section>
+```
+
+## Button
+
+Action button, or a link when given `href`.
+
+Icon-only controls need an accessible name (`aria-label` or `aria-labelledby`).
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Button } from "@/ui";`
+- Renders: button without `href`; a (or the LinkProvider component) with `href`
+- Composition: `href` decides the element: a Base UI button (`type="button"` by default) or a link from `LinkProvider` that rejects `disabled`, `loading` and `type`. Put icons in `startIcon`/`endIcon` (no `size`). Icon-only needs `startIcon` and one of `aria-label` or `aria-labelledby`. Sizes: xs 1.5rem/12px icon, sm 1.75rem/16px, md 2.25rem/20px, lg 2.75rem/24px. `pill` uses `--radius-full`; inside ButtonGroup only the outer corners keep it.
+- Use when: An action with onClick (submit, open, confirm, cancel), or navigation that looks like a button with href. Pass `loading` while an action runs.
+- Avoid:
+  - Navigation as inline text: use Link.
+  - onClick plus router.push to navigate: use href, or right-click and new-tab semantics are lost.
+  - More than one primary button per view.
+  - Disabling the button to show progress: use `loading`.
+- Accessibility: Icon-only controls need `aria-label` (or `aria-labelledby`) and use `startIcon` instead of children; the types enforce it. `loading` sets `aria-busy` and counts as the start slot, and the spinner stays silent so the button's accessible name is the only announcement. With `href` it is a real link (role link), never role button. Keyboard and disabled behavior on the button branch come from Base UI.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | no |  | The visible label. Icon-only controls have no visible children. |
+| `className` | `string` | no |  |  |
+| `endIcon` | `ReactNode` | no | undefined | Icon after the label. Pass a generated icon without `size`; the control sizes it. |
+| `href` | `string` | no |  | Never on an action button. Pass `href` to render a link instead. Where the link goes. To navigate, pass `href`; do not wire `onClick` to `router.push`, which loses right-click and new-tab semantics. |
+| `loading` | `boolean` | no | false | Shows a spinner and ignores clicks while an action is running. The button keeps its label and stays focusable, and `aria-busy` tells assistive technology it is working. |
+| `pill` | `boolean` | no | false | Fully rounded shape (`--radius-full`). Inside `ButtonGroup` only the outer corners keep it. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Control height and icon size: `xs` 1.5rem and 12px, `sm` 1.75rem and 16px, `md` 2rem and 20px, `lg` 2.5rem and 24px. |
+| `startIcon` | `ReactNode` | no | undefined | Icon before the label. Pass a generated icon without `size`; the control sizes it. The visible icon and accessible name. Pass a generated icon without `size`. |
+| `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | "primary" | Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions, `outline` for bordered actions, `ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Button>Save</Button>
+<Button variant="secondary" size="sm">Cancel</Button>
+<Button variant="outline">Learn more</Button>
+<Button variant="accent" pill>Upgrade</Button>
+<Button loading>Saving</Button>
+<Button aria-label="Close" startIcon={<XIcon />} />
+<Button href="/docs/installation">Get started</Button>
+```
+
+## ButtonGroup
+
+Joins 2-4 related actions into one control. Children draw their border and radius; the group
+only zeros the inner edges. It never sets the `size` or `variant` of its buttons.
+
+Use `ButtonGroup` for buttons that perform an action. To group buttons that switch a state on
+and off, use `ToggleGroup`. The group has `role="group"`: name it with `aria-label` or
+`aria-labelledby`. Tab moves between the buttons.
+
+- Category: controls
+- Base: Own component
+- Import: `import { ButtonGroup } from "@/ui";`
+- Renders: div role="group"
+- Composition: One group of related children: `Button`, a `Menu` trigger, `Input`, `Select` or `ButtonGroupText`. The group does not inherit `size` or `variant`; set both on every child. `stackBelow` stacks it below `sm` or `md`. Children draw the internal 1px line.
+- Use when: 2-4 related actions with short labels, all the same size and variant.
+- Choosing:
+  - Actions → `ButtonGroup`; selection state → `ToggleGroup`.
+- Avoid:
+  - Loose actions that do not form a set.
+  - Unrelated actions.
+  - Long groups: split them or use a Menu.
+  - The `ghost` variant.
+- Accessibility: Renders role="group"; add an `aria-label` that names the set of actions. Each child keeps its own accessible name and focus ring, which stays above its neighbours.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `orientation` | `"horizontal" \| "vertical"` | no | horizontal | Layout above the `stackBelow` breakpoint. `horizontal` joins the controls side by side; `vertical` stacks them. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | md | Shared control size inherited by children that omit their own size. |
+| `stackBelow` | `"sm" \| "md"` | no | undefined | Stacks the group into a column below this breakpoint and returns to `orientation` above it. Omit it to keep one orientation at every width. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<ButtonGroup aria-label="Document actions">
+  <Button variant="secondary">Save draft</Button>
+  <Button variant="secondary">Preview</Button>
+  <Button variant="secondary">Publish</Button>
+</ButtonGroup>
+```
+
+### Parts
+
+### ButtonGroupSeparator
+
+A 1px divider between controls, for a filled variant (`primary`, `accent`, `danger`) that hides the default border; it follows the group's active axis.
+
+- Category: controls
+- Base: Own component
+- Import: `import { ButtonGroupSeparator } from "@/ui";`
+- Renders: div role="separator"
+- Composition: A 1px `--color-border-default` line with `align-self: stretch`. Use it when a filled variant hides the default border; it follows the active axis, including `stackBelow`.
+- Use when: Inside a filled group (`primary`, `accent`, `danger`), where the default border is hidden.
+- Avoid:
+  - Groups of `secondary` buttons, where the default border already divides.
+  - Decoration outside a ButtonGroup.
+- Accessibility: Exposes role="separator" with an `aria-orientation` that describes the line.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `orientation` | `"horizontal" \| "vertical"` | no | vertical | Direction of the line for assistive technology. The visible line follows the group's active axis, including `stackBelow`. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<ButtonGroup aria-label="Export">
+  <Button>CSV</Button>
+  <ButtonGroupSeparator />
+  <Button>JSON</Button>
+</ButtonGroup>
+```
+
+### ButtonGroupText
+
+A static text addon for a `ButtonGroup`, such as `https://` or `USD`, that matches the height of the controls and shares the group border.
+
+- Category: controls
+- Base: Own component
+- Import: `import { ButtonGroupText } from "@/ui";`
+- Renders: div
+- Composition: Static text only, such as `https://` or `USD`. It matches the height of the controls and shares the group border. No `render`.
+- Use when: A short prefix or unit next to an `Input` or a `Button`.
+- Avoid:
+  - Interactive content or actions: use Button.
+  - Long labels: the addon is a short prefix or unit.
+  - Use outside a ButtonGroup.
+- Accessibility: Plain text; it does not add a role or a name. Keep the adjacent control's accessible name complete.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | yes |  | The addon text, such as `https://` or `USD`. |
+| `className` | `string` | no |  | Extra classes for the addon surface. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<ButtonGroup aria-label="Price">
+  <ButtonGroupText>USD</ButtonGroupText>
+  <Input aria-label="Amount" inputMode="decimal" />
+</ButtonGroup>
+```
+
+## Field
+
+Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
+Wraps one control with its label, description and error, wired for accessibility by Field
+(`label` association, `aria-describedby`, `aria-invalid`). Pass `error`, `required`, `readOnly` and
+`loading` here; never wire `aria-describedby` or show a loose red error text by hand. When the
+control renders its own label or legend, omit `label`; the control prints Required and keeps its
+accessible name.
+
+Errors are shown after the field is blurred or the form is submitted, not on the first keystroke.
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Field } from "@/ui";`
+- Renders: div containing an optional label, the control, a description and an error
+- Composition: Wrap one control: Input, Textarea, Select, Checkbox, RadioGroup, Switch or Slider. `label` is optional: omit it when the control renders its own label or legend (Checkbox, RadioGroup, Switch, Slider). Pass `error`, `required`, `readOnly` and `loading` to Field instead of wiring the control. Controls that carry their own label or legend also accept these props directly.
+- Use when: Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
+- Avoid:
+  - A loose red error text below the control: use Field `error`.
+  - Wiring aria-describedby or aria-invalid by hand.
+- Accessibility: Field wires the label, aria-describedby and aria-invalid; the error is announced politely. `required` sets the native/ARIA required state and prints Required next to the label, or in the control's own label when Field has no label. Errors show after blur or submit, not on the first keystroke (validationMode defaults to onBlur).
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | yes |  | The control: `Input`, `Textarea`, `Select`, `Checkbox`, `RadioGroup`, `Switch` or `Slider`. Controls that carry their own label or legend also accept these validation props directly. |
+| `className` | `string` | no |  |  |
+| `data-invalid` | `boolean` | no | false | Marks the field invalid for styling without an error message. Prefer `error` so the reason is announced. Renders `data-invalid` on the field root. |
+| `description` | `ReactNode` | no |  | Help text shown under the control and linked with `aria-describedby`. |
+| `error` | `FieldErrorProp` | no |  | Error message. When set, the field is marked invalid and the message is linked to the control. Pass an empty string when there is no error. Show it from validation that runs on blur or submit, not on the first keystroke (Field defaults to `validationMode="onBlur"`). |
+| `label` | `ReactNode` | no |  | Visible label. Required unless the control renders its own label or legend (Checkbox, RadioGroup, Switch, Slider). |
+| `loading` | `boolean` | no | false | Shows a small spinner at the end of the control, marks it `aria-busy`, and makes it not editable. |
+| `orientation` | `"horizontal" \| "vertical"` | no | vertical | Layout with label beside the control. Ignored when `label` is omitted. |
+| `readOnly` | `boolean` | no | false | Makes the control read-only: sunken background, no hover, text not dimmed, still focusable and selectable. Distinct from `disabled`. |
+| `required` | `boolean` | no | false | Marks the control as required and prints "Required" next to the label. The control also gets `required` so browsers and assistive technology enforce it. |
+| `stackBelow` | `"sm" \| "md"` | no |  | Return to vertical below this breakpoint (`sm` = 40rem, `md` = 48rem). |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Field label="Email" description="We never share it." error={errors.email} required>
+  <Input type="email" autoComplete="email" />
+</Field>
+<Field label="API key" readOnly>
+  <Input defaultValue="sk-live-…" />
+</Field>
+<Field label="Tax ID" loading>
+  <Input />
+</Field>
+<Field error="Turn this on to continue" required>
+  <Switch label="Notifications" />
+</Field>
+```
+
+### Parts
+
+### FieldSet
+
+Groups different controls under one accessible legend. Use CheckboxGroup or RadioGroup for same-type options.
+
+- Category: controls
+- Base: Own component
+- Import: `import { FieldSet } from "@/ui";`
+- Renders: fieldset with a legend, optional description and stacked controls
+- Composition: Pass required `legend`, optional `description` and `disabled`, then compose different controls as children. Use CheckboxGroup or RadioGroup for same-type options.
+- Use when: Grouping different controls under one accessible name, such as a shipping address.
+- Avoid:
+  - Using it for same-type choices: use CheckboxGroup or RadioGroup.
+  - Grouping unrelated controls.
+  - Using it without a legend.
+- Accessibility: The native fieldset and legend name the group; the description is linked with aria-describedby. Disabled passes to the native fieldset.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `legend` | `ReactNode` | yes |  |  |
+| `className` | `string` | no |  |  |
+| `description` | `ReactNode` | no |  |  |
+| `disabled` | `boolean` | no |  |  |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### FieldSeparator
+
+Divides alternatives between fields, optionally with readable text between the lines.
+
+- Category: controls
+- Base: Own component
+- Import: `import { FieldSeparator } from "@/ui";`
+- Renders: decorative separator, optionally with readable text between two lines
+- Composition: Place between fields; pass children for text such as `Or continue with`.
+- Use when: Dividing alternatives within a form.
+- Avoid:
+  - Using it outside a form: use Separator.
+  - Using it for spacing: use Stack gap.
+- Accessibility: Lines are decorative; children remain readable content when present.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+## Separator
+
+A 1px line that visually or semantically divides content, built on Base UI Separator.
+Horizontal by default; use `orientation="vertical"` inside a row. Spacing is not part of the
+component: use the parent `gap` or a margin on `className`.
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Separator } from "@/ui";`
+- Renders: div
+- Composition: Set `orientation` and `decorative`; it does not accept children. It covers the full width or stretches to the parent height, so size it from the parent. Spacing comes from the parent `gap` or from a margin on `className`.
+- Use when: Visually or semantically dividing sections, lists and action groups.
+- Avoid:
+  - Using it for spacing: use gap.
+  - Using it inside ButtonGroup: use ButtonGroupSeparator.
+- Accessibility: Decorative separators are presentation-only; non-decorative separators expose the separator role and orientation through Base UI.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `decorative` | `boolean` | no | true | Hides the line from assistive technology when true. Set it to false when the line conveys a real section boundary that screen readers should announce. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Separator />
+<Separator orientation="vertical" />
+<Separator decorative={false} />
+```
+
+## Input
+
+A native text input built on Base UI Input. Inside `Field` it is labelled and wired to its
+description and error automatically, and it inherits `required`, `readOnly` and `loading`.
+Outside `Field` it needs an accessible name (`aria-label` or an associated `label`).
+Icons follow the control size: xs 12px, sm 16px, md 20px, lg 24px.
+Styling hooks: set `--input-radius` or `--input-px` on the input wrapper or an ancestor; they
+default to `--radius-md` and `--space-3` and are useful when composing with ButtonGroup.
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Input } from "@/ui";`
+- Renders: input
+- Composition: Native input props pass through (type, autoComplete, name, required...). `variant="ghost"` removes resting chrome for low-emphasis fields. Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Icons follow the size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.
+- Use when: Single-line text entry, read-only values and values that are still loading.
+- Avoid:
+  - Using it without Field or aria-label.
+  - Multi-line text: use Textarea.
+  - Hand-wiring validation ARIA: use Field error.
+- Accessibility: Needs an accessible name. Set `autoComplete` for personal data fields. readOnly stays focusable and selectable; loading is readOnly with aria-busy=true.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `className` | `string` | no |  |  |
+| `endIcon` | `ReactNode` | no |  | Icon after the text. Pass a generated icon without `size`; the input sizes it. |
+| `loading` | `boolean` | no | false | Shows a small spinner at the end and makes the input not editable. `aria-busy` is set. Inside `Field`, omit it and pass `loading` to the Field instead. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. |
+| `startIcon` | `ReactNode` | no |  | Icon before the text. Pass a generated icon without `size`; the input sizes it. |
+| `variant` | `"inline" \| "default" \| "ghost"` | no | default | Visual treatment: `inline` removes the resting chrome for fields composed inside another control. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Field label="Email"><Input type="email" autoComplete="email" /></Field>
+<Input aria-label="Search" startIcon={<MagnifyingGlassIcon />} />
+<Field label="Tax ID" loading><Input /></Field>
+```
+
+## InputOTP
+
+Verification code input for four- or six-digit numbers. Typing advances the
+focus, backspace and arrow keys move it back, and pasting or the browser's SMS autofill
+(`autoComplete="one-time-code"`, the default) fills every slot. Inside `Field` it is labelled by
+the Field label and inherits `invalid`, `required`, `readOnly` and `loading`.
+
+The first slot takes the label as its name; the others are named "Character n of N" so a screen
+reader says which slot has focus. Outside `Field`, pass `aria-label` for the first slot.
+
+`validationType` is `"numeric"` by default; use `"alphanumeric"` for recovery codes. `mask` hides
+the characters, which also turns the slots into password inputs, so password managers may react.
+Use `onValueComplete` to verify the code, or `autoSubmit` to submit the owning form.
+
+Styling hook: `--input-radius` (default `--radius-md`).
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { InputOTP } from "@/ui";`
+- Renders: one-time-code input with character slots
+- Composition: Use as one component. Set `length`, optional `groups`, `validationType`, `mask` and `onValueComplete` as needed.
+- Use when: Verification codes, one-time passwords and recovery codes.
+- Avoid:
+  - Splitting it into slot components; Base UI manages slot indexes and focus.
+  - Using it for arbitrary multi-field data entry.
+- Accessibility: Inside Field, the first slot uses the Field label and the remaining slots announce their character position. Outside Field, provide aria-label. Loading is read-only with aria-busy=true.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `className` | `string` | no |  |  |
+| `getSlotLabel` | `((slot: number, length: number) => string)` | no | (slot: number, length: number) => `Character ${slot} of ${length}` | Accessible name of each slot after the first, which uses the `Field` label. Pass it to translate the default "Character 2 of 6". |
+| `groups` | `readonly number[]` | no |  | Splits the slots into visual chunks with a separator between them, e.g. `[3, 3]` for `123-456`. The numbers must add up to `length`; otherwise they are ignored. |
+| `length` | `number` | no | 6 | Number of character slots. |
+| `loading` | `boolean` | no | false | Makes the slots not editable, marks the field `aria-busy` and shows a spinner after the last slot. Use it while the code is being verified. Inside `Field`, pass `loading` to the Field instead. |
+| `size` | `"sm" \| "md"` | no | md | Slot size: `sm` 2.25rem, `md` 2.75rem. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Field label="Verification code" description="Enter the 6 digits we sent you.">
+  <InputOTP onValueComplete={verify} />
+</Field>
+<Field label="Backup code" error={errors.code}>
+  <InputOTP length={8} groups={[4, 4]} validationType="alphanumeric" normalizeValue={(v) => v.toUpperCase()} />
+</Field>
+<Field label="Code" loading>
+  <InputOTP />
+</Field>
+<InputOTP aria-label="Authenticator code" />
+```
+
+## InputGroup
+
+Text input with addons (icons, text, buttons, keyboard hints) inside one bordered control.
+The border, background, hover, focus ring, invalid, disabled and read-only states live on the group;
+`InputGroupInput` is the borderless input inside it. Invalid, disabled, required and read-only come
+from `Field` exactly as they do for `Input`.
+
+Put `InputGroupInput` first in the DOM and the addons after it. Visual order comes from `align`, so
+keyboard order stays input, then buttons. For a plain icon use `Input` with `startIcon`/`endIcon`.
+
+Styling hooks: `--input-radius` (default `--radius-md`) and `--input-px` (default `--space-3`).
+
+- Category: controls
+- Base: Own component
+- Import: `import { InputGroup } from "@/ui";`
+- Renders: div containing one borderless input and optional addons
+- Composition: Put `InputGroupInput` first. Add prefixes, units or actions with `InputGroupAddon`.
+- Use when: An input with attached text, an icon, a hint or an action.
+- Avoid:
+  - Using it just for spacing; use Stack or Grid.
+  - Hiding meaningful units only in an addon.
+- Accessibility: Give the input a Field label or aria-label. Icon-only buttons need aria-label.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `className` | `string` | no |  |  |
+| `loading` | `boolean` | no | false | Shows a spinner after the last addon, marks the input `aria-busy` and makes it not editable. Inside `Field`, omit it and pass `loading` to the Field instead. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | md | Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. Flows to every part. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Field label="Search">
+  <InputGroup>
+    <InputGroupInput type="search" />
+    <InputGroupAddon><MagnifyingGlassIcon /></InputGroupAddon>
+  </InputGroup>
+</Field>
+<Field label="Website" description="Without the protocol.">
+  <InputGroup>
+    <InputGroupInput />
+    <InputGroupAddon><InputGroupText>https://</InputGroupText></InputGroupAddon>
+    <InputGroupAddon align="end"><InputGroupText>.com</InputGroupText></InputGroupAddon>
+  </InputGroup>
+</Field>
+```
+
+### Parts
+
+### InputGroupInput
+
+The input of an `InputGroup`: borderless and transparent, with the same text styles as `Input`.
+Inherits `required`, `readOnly` and `loading` from the group and `Field`. Needs an accessible name
+(`Field label` or `aria-label`).
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { InputGroupInput } from "@/ui";`
+- Renders: input
+- Composition: Use only inside InputGroup. It inherits size, loading, required and readOnly from InputGroup and Field.
+- Use when: The editable control inside InputGroup.
+- Avoid:
+  - Using it outside InputGroup; use Input instead.
+- Accessibility: Needs an accessible name from Field or aria-label; loading is read-only with aria-busy=true.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `className` | `string` | no |  |  |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<InputGroupInput aria-label="Amount" inputMode="decimal" />
+```
+
+### InputGroupAddon
+
+Holds icons, `InputGroupText`, `InputGroupButton` or a keyboard hint beside the input. Icons passed
+directly are sized by the group. Text that names the value ("USD", ".com") is not read when the input
+is focused, so also say it in the `Field` label or description.
+
+- Category: controls
+- Base: Own component
+- Import: `import { InputGroupAddon } from "@/ui";`
+- Renders: span
+- Composition: Place after InputGroupInput. Use `align` for its visual side.
+- Use when: Attached icons, text, units, hints or buttons.
+- Avoid:
+  - Using addon text as the only place to communicate a unit.
+- Accessibility: Decorative icons are not the input's name; unit text should also appear in the Field label or description.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `align` | `"start" \| "end"` | no | start | Which side of the input it sits on. Visual only; keep it after the input in the DOM. |
+| `className` | `string` | no |  |  |
+
+Also accepts the native props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<InputGroupAddon align="end"><InputGroupText>USD</InputGroupText></InputGroupAddon>
+```
+
+### InputGroupText
+
+Plain text inside an addon: a prefix, suffix or unit.
+
+- Category: controls
+- Base: Own component
+- Import: `import { InputGroupText } from "@/ui";`
+- Renders: span
+- Composition: Use inside InputGroupAddon.
+- Use when: A prefix, suffix or unit.
+- Avoid:
+  - Using it as a standalone text style.
+- Accessibility: Repeat meaningful units in the Field label or description.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<InputGroupText>https://</InputGroupText>
+```
+
+### InputGroupButton
+
+A `Button` sized for the group. Icon-only buttons need `aria-label` (change it when the state
+changes, e.g. "Show password" / "Hide password").
+
+- Category: controls
+- Base: Own component
+- Import: `import { InputGroupButton } from "@/ui";`
+- Renders: Button
+- Composition: Use inside InputGroupAddon. It inherits the group size.
+- Use when: An action tightly attached to an InputGroup, such as clear, copy or show password.
+- Avoid:
+  - Using it for unrelated actions; use Button outside the group.
+- Accessibility: Icon-only buttons need aria-label; changing actions such as show/hide password must update the label.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | no |  | The visible label. Icon-only controls have no visible children. |
+| `className` | `string` | no |  |  |
+| `endIcon` | `ReactNode` | no | undefined | Icon after the label. Pass a generated icon without `size`; the control sizes it. |
+| `href` | `string` | no |  | Never on an action button. Pass `href` to render a link instead. Where the link goes. To navigate, pass `href`; do not wire `onClick` to `router.push`, which loses right-click and new-tab semantics. |
+| `loading` | `boolean` | no | false | Shows a spinner and ignores clicks while an action is running. The button keeps its label and stays focusable, and `aria-busy` tells assistive technology it is working. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Control height and icon size: `xs` 1.5rem and 12px, `sm` 1.75rem and 16px, `md` 2rem and 20px, `lg` 2.5rem and 24px. |
+| `startIcon` | `ReactNode` | no | undefined | Icon before the label. Pass a generated icon without `size`; the control sizes it. The visible icon and accessible name. Pass a generated icon without `size`. |
+| `variant` | `"primary" \| "secondary" \| "ghost"` | no | ghost |  |
+
+Also accepts the native props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<InputGroupButton aria-label="Clear" startIcon={<XIcon />} onClick={clear} />
+<InputGroupButton variant="secondary">Copy</InputGroupButton>
+```
+
+## Textarea
+
+A native `textarea` that works with `Field` the same way `Input` does, including
+`required`, `readOnly` and `loading`. Needs an accessible name inside or outside `Field`.
+Icons use the 20px medium size (the textarea has no size variants).
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Textarea } from "@/ui";`
+- Renders: textarea
+- Composition: Native textarea props pass through; `rows` defaults to 3. Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Inside Field, omit required/readOnly/loading and pass them to Field.
+- Use when: Multi-line text entry, including read-only and loading values.
+- Avoid:
+  - Using it without Field or aria-label.
+  - Hand-wiring validation ARIA: use Field error.
+- Accessibility: Needs an accessible name. readOnly stays focusable and selectable; loading is readOnly with aria-busy=true.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `className` | `string` | no |  |  |
+| `endIcon` | `ReactNode` | no |  | Icon after the text. Pass a generated icon without `size`; the textarea sizes it. |
+| `loading` | `boolean` | no | false | Shows a small spinner at the end and makes the textarea not editable. `aria-busy` is set. Inside `Field`, omit it and pass `loading` to the Field instead. |
+| `resize` | `"none" \| "auto" \| "vertical"` | no | vertical | Resize behavior. `vertical` shows the drag handle, `none` fixes the height and `auto` grows with the content (`field-sizing: content`; `rows` becomes the minimum height). |
+| `startIcon` | `ReactNode` | no |  | Icon before the text. Pass a generated icon without `size`; the textarea sizes it. |
+| `variant` | `"inline" \| "default" \| "ghost"` | no | default | Visual treatment. `inline` is invisible at rest and shows the Input hover background on hover and focus. `ghost` shows nothing at all, only the focus ring. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Field label="Message"><Textarea rows={4} /></Field>
+<Field label="Notes" readOnly><Textarea defaultValue="Locked for review." /></Field>
+<Textarea aria-label="Comment" variant="inline" resize="auto" />
+```
+
+## Checkbox
+
+A checkbox with an optional label, built on Base UI Checkbox. With a label, the whole label is
+clickable. Without one, only the box renders: give it a name with `aria-label`/`aria-labelledby`
+or let `Field` do it. Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.
+Space toggles it, like a native checkbox.
+
+The dash is only for the `parent` of a `CheckboxGroup`; Base UI derives it from the group.
+`variant="card"` turns the label into a card. `invalid` tints the box and label without a
+message; `error` adds a linked message. `description` renders help text below the label.
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Checkbox } from "@/ui";`
+- Renders: span role="checkbox" with a hidden native input, optionally inside a label
+- Composition: `variant="card"` turns the label into a card; the dash exists only on the `parent` of a `CheckboxGroup`; `invalid` paints without a message, while `error` adds a message. `label` is optional, but then it needs `aria-label` or `aria-labelledby`; `description` adds helper text below the label.
+- Use when: Choosing several independent options, or one confirmation that is saved when the form is submitted.
+- Avoid:
+  - A single option among several: use RadioGroup.
+  - Settings that apply instantly: use Switch.
+  - Long lists without grouping.
+  - A Card with a Checkbox inside; use `variant="card"`.
+- Accessibility: Groups use fieldset and legend; every checkbox without a visible label needs an accessible name. `invalid` tints the label and box; use `error` or Field when the reason should be announced.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `className` | `string` | no |  |  |
+| `description` | `ReactNode` | no |  | Help text below the label, linked to it with `aria-describedby`. Inside `Field`, use the Field `description` instead. |
+| `error` | `FieldErrorProp` | no |  | Error message. Marks the checkbox invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
+| `invalid` | `boolean` | no | false | Marks the checkbox invalid without an error message and tints the label and box with the danger color. Prefer `error` so the reason is announced; use this only when the label itself explains the problem. Inside `Field`, pass `error` to the Field instead. |
+| `label` | `ReactNode` | no |  | Visible label, rendered next to the box. In the card variant it fills the card. Omit the visible label and the wrapping `<label>`; only the box is rendered. |
+| `loading` | `boolean` | no | false | Shows a small spinner next to the label, sets `aria-busy`, and makes the checkbox not interactive. |
+| `readOnly` | `boolean` | no | false | The checkbox can be focused and read but not changed. Uses the sunken background and keeps the label text at full contrast. Distinct from `disabled`. |
+| `required` | `boolean` | no | false | The checkbox must be ticked before the form can be submitted. The label prints "Required". Without a visible label there is nowhere to print it: let `Field` show it instead. Inside `Field`, omit it and pass `required` to the Field instead. |
+| `variant` | `"default" \| "card"` | no | default | Visual presentation. `card` turns the whole label into a clickable card with a border and background; use it instead of wrapping a Checkbox in a Card. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Checkbox label="Send me product updates" defaultChecked />
+<Checkbox label="Accept terms" error="You must accept the terms" required />
+<Checkbox label="Accept the terms" invalid />
+<Checkbox label="Email notifications" description="We only email about product changes." />
+<Checkbox label="Product updates" description="New features and improvements." variant="card" />
+<Checkbox aria-label="Select row 3" />
+```
+
+### Parts
+
+### CheckboxGroup
+
+A group of checkboxes that share a name, rendered as a `fieldset` with a `legend` and driven
+by Base UI CheckboxGroup. Use `allValues` with a `Checkbox` marked `parent` for a working
+"Select all"; the parent goes indeterminate while only some options are ticked.
+Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { CheckboxGroup } from "@/ui";`
+- Renders: fieldset with a legend
+- Composition: `legend` is required; children are Checkbox elements. For a working select-all, pass `allValues` to the group and mark one Checkbox as `parent`. Documented under Checkbox parts.
+- Use when: Grouping a short set of related checkboxes under one name.
+- Avoid:
+  - One option among several: use RadioGroup.
+- Accessibility: The fieldset and legend name the group; each option keeps its own label.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | yes |  | The `Checkbox` options. |
+| `legend` | `ReactNode` | yes |  | Visible group label, rendered as the `legend` of a `fieldset`. Required: the group needs a name. |
+| `className` | `string` | no |  |  |
+| `error` | `FieldErrorProp` | no |  | Error message. Marks the group invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
+| `loading` | `boolean` | no | false | Shows a small spinner next to the legend, sets `aria-busy`, and makes the group not interactive. |
+| `readOnly` | `boolean` | no | false | The group can be focused and read but not changed. Keeps the options at full contrast. Distinct from `disabled`. |
+| `required` | `boolean` | no | false | The group must include at least one ticked option before the form can be submitted. The legend prints "Required". Inside `Field`, omit it and pass `required` to the Field. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<CheckboxGroup legend="Notifications">
+  <Checkbox label="Email" value="email" />
+  <Checkbox label="SMS" value="sms" />
+</CheckboxGroup>
+<CheckboxGroup legend="Notifications" defaultValue={["email"]} allValues={["email", "sms"]}>
+  <Checkbox label="Select all" parent />
+  <Checkbox label="Email" value="email" />
+  <Checkbox label="SMS" value="sms" />
+</CheckboxGroup>
+```
+
+## RadioGroup
+
+A group of mutually exclusive options. Renders a `fieldset` with a `legend`, driven by Base UI
+RadioGroup. Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { RadioGroup } from "@/ui";`
+- Renders: fieldset with a legend and a radiogroup
+- Composition: `legend` is required. Children are Radio elements. Use `description` for group guidance and `orientation` for horizontal layouts. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend. Radio is documented under Parts.
+- Use when: Choosing exactly one option from a short list.
+- Avoid:
+  - Long lists: use Select.
+- Accessibility: Arrow keys move the selection. The legend names the group. Invalid uses the danger border and an error linked with aria-describedby; read-only stays focusable and blocks changes; loading sets aria-busy and blocks changes.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | yes |  | The `Radio` options. |
+| `legend` | `ReactNode` | yes |  | Visible group label, rendered as the `legend` of a `fieldset`. Required: the group needs a name. |
+| `className` | `string` | no |  |  |
+| `description` | `ReactNode` | no |  | Supporting text announced with the group. |
+| `error` | `FieldErrorProp` | no |  | Error message. Marks the group invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
+| `loading` | `boolean` | no | false | Shows a small spinner next to the legend, sets `aria-busy`, and makes the group not interactive. |
+| `orientation` | `"horizontal" \| "vertical"` | no | vertical | Layout of the options. |
+| `readOnly` | `boolean` | no | false | The group can be focused and read but not changed. Keeps the options at full contrast. Distinct from `disabled`. |
+| `required` | `boolean` | no | false | The group must have a selection before the form can be submitted. The legend prints "Required". Inside `Field`, omit it and pass `required` to the Field instead. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<RadioGroup legend="Plan" defaultValue="free">
+  <Radio value="free" label="Free" />
+  <Radio value="pro" label="Pro" />
+</RadioGroup>
+<RadioGroup legend="Plan" error="Choose a plan" required>
+  <Radio value="starter" label="Starter" />
+  <Radio value="business" label="Business" />
+</RadioGroup>
+```
+
+### Parts
+
+### Radio
+
+One option inside a `RadioGroup`, built on Base UI Radio. The whole label is clickable.
+Validation state comes from the `RadioGroup` (`error`, `required`, `readOnly`, `loading`).
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Radio } from "@/ui";`
+- Renders: span role="radio" with a hidden native input, inside a label
+- Composition: Only inside RadioGroup; it is documented under Parts. `value` and `label` are required. Optional `description` adds supporting text and `variant="card"` gives the option a choice-card treatment.
+- Use when: One option of a RadioGroup.
+- Avoid:
+  - Using it outside a RadioGroup.
+- Accessibility: The whole label is clickable.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `label` | `ReactNode` | yes |  | Visible label for this option. |
+| `value` | `string` | yes |  | Value submitted and reported when this option is selected. |
+| `className` | `string` | no |  |  |
+| `description` | `ReactNode` | no |  | Supporting text shown below the option label. |
+| `variant` | `"default" \| "card"` | no | default | Visual treatment of the option. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+## Switch
+
+An on/off switch for a setting that applies immediately, built on Base UI Switch.
+For choices that are submitted with a form, prefer `Checkbox`. Inside `Field` it inherits
+`error`, `required`, `readOnly` and `loading`.
+
+With a label, the whole label is clickable. Without one, only the track renders: give it a name
+with `aria-label`/`aria-labelledby` or let `Field` do it. `variant="card"` turns the label into a
+card. `invalid` tints the track without a message; `error` adds a linked message. `description`
+renders help text below the label.
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Switch } from "@/ui";`
+- Renders: span role="switch" with a hidden native input, inside a label
+- Composition: `label` is required. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field.
+- Use when: A setting that turns on or off immediately.
+- Avoid:
+  - Choices that need a Save button: use Checkbox.
+- Accessibility: Announced as a switch with on/off state. Invalid uses the danger border and an error linked with aria-describedby; required prints Required; read-only stays focusable and uses the sunken background; loading sets aria-busy and blocks changes.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `className` | `string` | no |  |  |
+| `description` | `ReactNode` | no |  | Help text below the label, linked to it with `aria-describedby`. Inside `Field`, use the Field `description` instead. |
+| `error` | `FieldErrorProp` | no |  | Error message. Marks the switch invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
+| `invalid` | `boolean` | no | false | Marks the switch invalid without an error message and tints the track with the danger color. Prefer `error` so the reason is announced; use this only when the label itself explains the problem. `aria-invalid` also works. Inside `Field`, pass `error` to the Field instead. |
+| `label` | `ReactNode` | no |  | Visible label, rendered next to the switch. In the card variant it fills the card. Omit the visible label and the wrapping `<label>`; only the track is rendered. |
+| `loading` | `boolean` | no | false | Shows a small spinner next to the label, sets `aria-busy`, and makes the switch not interactive. |
+| `readOnly` | `boolean` | no | false | The switch can be focused and read but not changed. Uses the sunken background when off and keeps the label text at full contrast. Distinct from `disabled`. |
+| `required` | `boolean` | no | false | The switch must be on before the form can be submitted. The label prints "Required". Inside `Field`, omit it and pass `required` to the Field instead. |
+| `size` | `"sm" \| "md"` | no | md | Track size. `sm` is 2rem × 1.25rem and `md` is 2.5rem × 1.5rem. |
+| `variant` | `"default" \| "card"` | no | default | Visual presentation. `card` turns the whole label into a clickable card with a border and background, with the label and description on the left and the switch on the right. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Switch label="Dark mode" />
+<Switch label="Notifications" description="Email and push alerts." defaultChecked />
+<Switch label="Product updates" description="New features and improvements." variant="card" />
+<Switch label="Notifications" invalid />
+<Field label="Notifications"><Switch aria-label="Notifications" /></Field>
+```
+
+## Select
+
+A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).
+Pass `items` instead of composing parts; items can include `description` and a `group` heading.
+Groups are separated by space and a heading, never by a rule. Long lists keep a compact height
+and hide the scrollbar. Inside `Field` it inherits `required`, `readOnly` and `loading`.
+Icons follow the trigger size: xs 12px, sm 16px, md 20px, lg 24px.
+The trigger keeps the shared control face while open, including when opened with a mouse.
+When used inside `ButtonGroup`, omit `label` and provide `aria-label` so the visible label does
+not become part of the group's control row.
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Select } from "@/ui";`
+- Renders: button role="combobox" with a listbox popup in a portal
+- Composition: Pass `items` ({ value, label, description?, group?, disabled? }), optional `startIcon`/`endIcon` (generated icons, no `size`), and give it `label`, `aria-label` or wrap it in Field. Consecutive items with the same `group` render under a heading, separated from the next group by space, never by a rule. Long lists keep a compact max height and hide the scrollbar. `loading` replaces the end icon with a spinner. Icons follow the trigger size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.
+- Use when: Choosing one option from a longer list, including read-only and loading states.
+- Avoid:
+  - Two or three options: use RadioGroup.
+  - Free text: use Input.
+  - Long lists where users need to type to find an option: use Combobox.
+  - Hand-wiring validation ARIA: use Field error.
+- Accessibility: Keyboard, typeahead and focus come from Base UI. Needs an accessible name. readOnly prevents choosing another option; loading is readOnly with aria-busy=true.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `items` | `SelectItem[]` | yes |  | The options. Each has a machine `value` and a visible `label`. |
+| `aria-label` | `string` | no |  | Accessible name when there is no visible label. |
+| `className` | `string` | no |  |  |
+| `data-force` | `"focus"` | no |  | Story/test hook: force the focus ring without moving focus. |
+| `endIcon` | `ReactNode` | no |  | Icon after the value, before the caret. Pass a generated icon without `size`; the select sizes it. |
+| `label` | `string` | no |  | Visible label. Provide it, or `aria-label`, or put the Select inside `Field`: every control needs an accessible name. |
+| `loading` | `boolean` | no | false | Shows a small spinner at the end and makes the select not editable. `aria-busy` is set. Inside `Field`, omit it and pass `loading` to the Field instead. |
+| `placeholder` | `string` | no |  | Text shown when nothing is selected. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. |
+| `startIcon` | `ReactNode` | no |  | Icon before the value. Pass a generated icon without `size`; the select sizes it. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Select label="Country" placeholder="Choose one" items={[{ value: "ar", label: "Argentina" }]} />
+<Field label="Role" required><Select items={roles} /></Field>
+```
+
+## Modal
+
+The root of a modal. Use `role="dialog"` for content and forms, or `role="alertdialog"` for a
+decision that interrupts. The parts share one implementation; only the behavior, width and header
+color change with props. The page behind stays inert and scroll-locked, focus is trapped and
+returned, and Escape closes unless `dismissible` is false.
+
+- Category: overlays
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Modal } from "@/ui";`
+- Renders: no element: it holds the open state and provides the role (Base UI Dialog.Root, or AlertDialog.Root for role=alertdialog)
+- Composition: Structure: Modal > ModalTrigger + ModalContent (title, optional tagline/icon/description, body children, actions). `size` supports xs, sm, md, lg and xl widths; `color` supports neutral, brand, warning and critical and never changes layout. Put one to three actions in `actions`: the safe action first and the primary action last. The form lives in the body; a submit button in the footer targets it with the `form` attribute.
+- Use when: Interrupting the user for a decision or a focused task.
+- Choosing:
+  - Content and forms: Modal with the default role="dialog".
+  - A decision that interrupts: Modal role="alertdialog"; add color="critical" for a destructive action.
+  - Blocking information that needs no form: Modal role="alertdialog".
+- Avoid:
+  - Non-essential information: use inline content, Alert or Tooltip.
+  - Short-lived confirmations: use Toast.
+  - Modals without a title.
+- Accessibility: The title is the accessible name and the description is the accessible description. Focus is trapped and returned, Escape closes unless dismissible is false, and the page behind is inert. Alert dialogs require a description and start focus on the safe action.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | no |  | `ModalTrigger` and `ModalContent`. |
+| `color` | `"neutral" \| "warning" \| "brand" \| "critical"` | no | neutral | Tints the header tagline and title. It never changes the panel size or behavior. |
+| `defaultOpen` | `boolean` | no | false | Whether the modal starts open when uncontrolled. |
+| `description` | `ReactNode` | no |  | Description announced as the accessible description. Required for `role="alertdialog"`. Alert dialogs need a description: it is part of the accessible name and explains the decision. |
+| `dismissible` | `boolean` | no | true | Shows the close button and allows Escape and outside click to close. When false, keep at least one footer action so the user has a way out. |
+| `onBeforeClose` | `(() => boolean \| Promise<boolean>)` | no |  | Runs before every close. Return false (or a promise of false) to keep the modal open. Use it to protect a form with unsaved changes, then open a confirmation with `role="alertdialog"`. `onOpenChange` is still called once the close is allowed. |
+| `onOpenChange` | `((open: boolean) => void)` | no |  | Called with the next open state. It covers both opening and closing; there are no separate callbacks. |
+| `open` | `boolean` | no |  | Whether the modal is open. Use it with `onOpenChange` for a controlled modal. |
+| `returnFocusTo` | `string \| RefObject<HTMLElement \| null>` | no |  | Where focus returns when the original trigger no longer exists. Pass an element ref or an id. Rare: the trigger is the normal return target. |
+| `role` | `"dialog" \| "alertdialog"` | no | dialog | Behavior only. Use alertdialog for a decision that interrupts. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | no | md | Width of the panel, from the layout width tokens. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Modal role="alertdialog" color="critical" description="This permanently removes the project and its data.">
+  <ModalTrigger variant="danger">Delete project</ModalTrigger>
+  <ModalContent
+    title="Delete project?"
+    closeLabel="Close delete confirmation"
+    actions={
+      <>
+        <ModalClose>Cancel</ModalClose>
+        <ModalClose variant="danger">Delete</ModalClose>
+      </>
+    }
+  />
+</Modal>
+```
+
+### Parts
+
+### ModalTrigger
+
+The button that opens the modal. It renders a `Button` and inherits the behavior of the root.
+
+- Category: overlays
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { ModalTrigger } from "@/ui";`
+- Renders: button (a Button)
+- Composition: Direct child of Modal. Accepts Button `variant` and `size`; use `danger` for the destructive trigger.
+- Use when: The button that opens the modal.
+- Avoid:
+  - Using a plain Button to open it.
+- Accessibility: Gets aria-haspopup and expanded state from Base UI.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | sm | Button size of the trigger. |
+| `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | primary | Button style of the trigger. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<ModalTrigger variant="secondary">Open settings</ModalTrigger>
+```
+
+### ModalContent
+
+The modal panel: header, scrollable body and footer. It reads the role and description from
+`Modal`. The footer stacks on mobile with the primary action on top, and sits in one row from
+the `md` breakpoint.
+
+- Category: overlays
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { ModalContent } from "@/ui";`
+- Renders: div role="dialog" (or role="alertdialog" from the root) in a portal, plus a backdrop
+- Composition: `title` is required and children are the body. `description`, `tagline`, `icon`, `actions` and `closeLabel` are optional. The body scrolls while the header and footer stay visible. Actions stack on mobile with the primary on top.
+- Use when: The panel of the modal.
+- Avoid:
+  - Omitting `title`.
+  - Putting the form in the footer instead of the body.
+  - More than three actions.
+- Accessibility: The title is the accessible name; the description is the accessible description. A dialog focuses the first field when the body has a form; an alert dialog focuses the safe action.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `closeLabel` | `string` | yes |  | Accessible name of the close button. Keep the copy in the consuming example. |
+| `title` | `ReactNode` | yes |  | Modal title. Required: it is the accessible name of the modal. |
+| `actions` | `ReactNode` | no |  | Footer actions: one to three. Put the safe action first and the primary action last. |
+| `children` | `ReactNode` | no |  | Optional body content: text, custom content or a form. It scrolls when it exceeds the available height. |
+| `className` | `string` | no |  |  |
+| `description` | `ReactNode` | no |  | Explanation announced as the accessible description. Falls back to the `description` on `Modal`. |
+| `tagline` | `ReactNode` | no |  | Optional short label above the title, such as a category or a state. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<ModalContent
+  title="Invite a teammate"
+  closeLabel="Close invite dialog"
+  tagline="Workspace"
+  actions={<><ModalClose>Cancel</ModalClose><ModalClose>Send invite</ModalClose></>}
+>
+  <Field label="Email"><Input type="email" /></Field>
+</ModalContent>
+```
+
+### ModalClose
+
+A button that closes the modal. It renders a `Button`. In an alert dialog, mark the safe action
+with `initialFocus`; otherwise the first secondary action receives focus.
+
+- Category: overlays
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { ModalClose } from "@/ui";`
+- Renders: button (a Button)
+- Composition: Inside ModalContent `actions`. Accepts Button `variant` and `size`; use `danger` for the destructive action. Mark the safe action with `initialFocus` in an alert dialog.
+- Use when: Cancel, close and confirm actions.
+- Avoid:
+  - Closing by custom onClick state when ModalClose is enough.
+- Accessibility: Closing returns focus to the trigger, or to returnFocusTo when the trigger no longer exists.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `initialFocus` | `boolean` | no | false | Marks the safe action that receives initial focus in `role="alertdialog"`. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | sm | Button size. |
+| `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style. Use `danger` for a destructive action. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<ModalClose>Cancel</ModalClose>
+<ModalClose variant="danger">Delete</ModalClose>
+```
+
+## Tooltip
+
+
+
+- Category: overlays
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Tooltip } from "@/ui";`
+- Renders: the child element as trigger; a popup div in a portal
+- Composition: `content` is the text. The single child must be focusable and have its own accessible name.
+- Use when: Extra clarity for sighted mouse and keyboard users, such as naming an icon button.
+- Avoid:
+  - Essential information: it does not appear on touch and is not linked to the trigger for screen readers.
+  - Interactive content in the tooltip.
+- Accessibility: Shows on hover and keyboard focus, hides on Escape. The trigger needs aria-label when it has no text.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactElement<unknown, string \| JSXElementConstructor<any>>` | yes |  | The element that triggers the tooltip. It must be focusable and already have its own accessible name (visible text or `aria-label`). |
+| `content` | `ReactNode` | yes |  | Short supplementary text. Never put essential information only here. |
+| `className` | `string` | no |  |  |
+| `closeDelay` | `number` | no |  | Milliseconds to wait before closing. |
+| `defaultOpen` | `boolean` | no |  | Opens the tooltip initially. |
+| `delay` | `number` | no |  | Milliseconds to wait before opening. Overrides the provider's delay for this tooltip. |
+| `open` | `boolean` | no |  | Keeps the tooltip open for documentation previews. |
+| `side` | `"top" \| "bottom" \| "left" \| "right"` | no | top | Preferred side of the trigger. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+## Tabs
+
+Tabs that switch between panels, built on Base UI Tabs (arrow-key navigation, roles and
+`aria-controls` come from there). Pass `items` instead of composing parts.
+Tabs are compact: icons use the 16px small size.
+
+- Category: navigation
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Tabs } from "@/ui";`
+- Renders: div with a tablist, tab buttons and tabpanels
+- Composition: Pass `items` ({ value, label, content, startIcon?, endIcon?, disabled? }) and an `aria-label`. Icons are generated icons without `size`; tabs are compact and use 16px icons.
+- Use when: Switching between related panels in the same place.
+- Avoid:
+  - Navigation between pages: use Link.
+  - Hiding content users must read.
+- Accessibility: Arrow keys move between tabs; roles and aria-controls come from Base UI.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `items` | `TabItem[]` | yes |  | The tabs and their panels, in order. |
+| `aria-label` | `string` | no |  | Accessible name of the tab list, for example "Account sections". Required when there is no visible heading for it. |
+| `className` | `string` | no |  |  |
+| `size` | `"sm" \| "md" \| "lg" \| "xl" \| "2xl"` | no | md | Tab size. |
+| `variant` | `"line" \| "default"` | no | default | Visual treatment for the active tab indicator. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Tabs aria-label="Account" items={[
+  { value: "profile", label: "Profile", content: <p>Profile</p> },
+  { value: "billing", label: "Billing", content: <p>Billing</p> },
+]} />
+```
+
+## Card
+
+A bordered container that groups related content into one idea, with a short title.
+Its parts share one inset through `--card-spacing`, and an `img` as the first child is
+full-bleed with rounded top corners.
+
+Use `as="article"` for self-contained content. If you render a `section`, point
+`aria-labelledby` at the `CardTitle`. For state, mark the card with `aria-busy="true"`
+while its content loads and let `Skeleton` stand in for the text.
+
+- Category: components
+- Base: Own component
+- Import: `import { Card } from "@/ui";`
+- Renders: div by default; `as` can be article, section or li
+- Composition: `CardHeader`, `CardContent` and `CardFooter` are all optional. `size` covers the common insets; set `--card-spacing` on the card for another step of the scale (`--space-5`, `--space-8`). For a full-bleed table, add `data-flush` to `CardContent`. Width is fluid: the container decides it. A link in the title goes as `Link` inside `CardTitle`. For an icon, put an element with `data-card-media` inside `CardHeader`.
+- Use when: Grouping related information into a single idea, with a short title.
+- Avoid:
+  - Making the whole card clickable: put a `Link` in the title or actions in the footer.
+  - A card inside a card: use `--color-sunken` or an `hr` hairline instead.
+  - Too many actions in the body.
+  - More than one primary CTA.
+- Accessibility: Use `article` for self-contained content. The `CardTitle` level follows the page outline.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `as` | `"div" \| "article" \| "li" \| "section"` | no | "div" | Element to render. Prefer `article` for self-contained content: it can stand alone outside the page context, with its own heading. If you use `section`, give it `aria-labelledby` pointing to the `CardTitle` id. `li` only as a direct child of a `ul` or `ol`. |
+| `size` | `"sm" \| "default"` | no | default | Inset between the card edge and its content. `sm` is 1rem, `default` is 1.5rem. It sets `--card-spacing`, shared by the parts and the gap between them. An inline `--card-spacing` on the card overrides `size`. |
+| `variant` | `"outline" \| "surface"` | no | outline | `outline` draws only a soft border; `surface` adds the surface fill. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Card as="article" variant="surface">
+  <CardHeader>
+    <CardTitle>Release notes</CardTitle>
+    <CardDescription>What changed in this version.</CardDescription>
+    <CardAction><Button variant="secondary">Share</Button></CardAction>
+  </CardHeader>
+  <CardContent><Text>Body of the card.</Text></CardContent>
+  <CardFooter><Text size="sm" tone="muted">Updated today</Text></CardFooter>
+</Card>
+```
+
+### Parts
+
+### CardHeader
+
+The top region of a Card: a `CardTitle`, an optional `CardDescription` and an optional
+`CardAction` at the top end. A child marked with `data-card-media` (an icon or avatar)
+adds a leading column, aligned with the title.
+
+- Category: layout
+- Base: Own component
+- Import: `import { CardHeader } from "@/ui";`
+- Renders: div
+- Composition: Holds `CardTitle`, optional `CardDescription` and `CardAction`. The action aligns with the title at the top end.
+- Use when: The title region of a Card.
+- Avoid:
+  - Using it without a CardTitle.
+- Accessibility: No role of its own; the heading comes from CardTitle.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+### CardTitle
+
+The heading of a Card. Renders a real heading; the default `h3` suits a card inside a section
+with an `h2`.
+
+- Category: layout
+- Base: Own component
+- Import: `import { CardTitle } from "@/ui";`
+- Renders: h3 by default; `as` sets the heading element
+- Composition: `as` sets the outline level (h2-h6) and `size` sets the look; it defaults to size 6.
+- Use when: The heading of a Card.
+- Avoid:
+  - Skipping heading levels to get a smaller look: change `size` instead.
+- Accessibility: A real heading, so it appears in the document outline.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `as` | `"h1" \| "h2" \| "h3" \| "h4" \| "h5" \| "h6"` | no | h3 | Heading level in the document outline. Keep the order of the page. |
+| `size` | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | no | 6 | Visual size from 1 (largest) to 6 (smallest). |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### CardDescription
+
+Supporting text below a `CardTitle`, in the muted body style.
+
+- Category: layout
+- Base: Own component
+- Import: `import { CardDescription } from "@/ui";`
+- Renders: p
+- Composition: Muted body text below `CardTitle`.
+- Use when: Supporting text directly under the card title.
+- Avoid:
+  - Long prose: put it in CardContent.
+- Accessibility: A plain paragraph.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+### CardAction
+
+A control at the top end of a Card, aligned with `CardTitle`.
+
+- Category: layout
+- Base: Own component
+- Import: `import { CardAction } from "@/ui";`
+- Renders: div
+- Composition: Holds a Button (with `href` for navigation) or Badge at the top end of `CardHeader`, aligned with the title.
+- Use when: A control that belongs to the whole card.
+- Avoid:
+  - Hiding the card title to make room for the action.
+- Accessibility: Adds no semantics; the control inside needs its own accessible name.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+### CardContent
+
+The main content region of a Card, aligned with the header and footer.
+Add `data-flush` to drop the side inset so the body can reach the card edges,
+for example when it holds a `Table`.
+
+- Category: layout
+- Base: Own component
+- Import: `import { CardContent } from "@/ui";`
+- Renders: div
+- Composition: The main body between `CardHeader` and `CardFooter`, aligned with both.
+- Use when: The body of a Card.
+- Avoid:
+  - Repeating the header or footer content.
+- Accessibility: A plain container.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+### CardFooter
+
+The bottom region of a Card, aligned with the header and content.
+
+- Category: layout
+- Base: Own component
+- Import: `import { CardFooter } from "@/ui";`
+- Renders: div
+- Composition: The bottom region for metadata or actions, aligned with the header and content.
+- Use when: Metadata or closing actions at the bottom of a Card.
+- Avoid:
+  - Putting the only primary action at the bottom when CardAction would do.
+- Accessibility: A plain container.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+## Alert
+
+An inline message about the state of the page or a form. `neutral` is the default; `error` and
+`warning` are announced immediately, the rest politely. Put optional actions in `children`;
+for short-lived feedback use `useToast` instead.
+
+- Category: feedback
+- Base: Own component
+- Import: `import { Alert } from "@/ui";`
+- Renders: div with role alert (error, warning) or role status (neutral, info, success)
+- Composition: Pass `tone` (default `neutral`), an optional `title` and optional content; both can appear alone. `action` reserves space on the right for a `Button size="xs"`; use it with `title`, not with `endIcon`. For several actions, put them in the content. `startIcon` replaces the tone glyph and `endIcon` adds a trailing icon (no `size`). Icon, title, border and background share one tone color; override `--alert-tone` to change it.
+- Use when: A message that stays on the page and the user must notice: a general note (neutral), relevant information (info), a completed operation (success), something that needs attention (warning) or a failed operation (error).
+- Avoid:
+  - Short-lived confirmations: use Toast.
+  - Using color alone: the tone also changes the icon and you should say it in the text.
+  - Blocking decisions: use Modal role=alertdialog.
+  - Adding visual variants or extra props before a concrete need exists.
+  - `action` without `title`.
+  - `action` together with `endIcon`.
+- Accessibility: Announced by screen readers on render. The icon is decorative, and the tone never relies on color alone: the text says what happened.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `action` | `ReactNode` | no |  | A button at the end of the alert, aligned with the title. Reserves space on the right for a `Button size="xs"`; for longer labels or several actions, put them in the content. Use it with `title`, not with `endIcon`. |
+| `endIcon` | `ReactNode` | no |  | Icon at the end, for example a link arrow. Pass a generated icon without `size`. |
+| `startIcon` | `ReactNode` | no |  | Replaces the tone icon at the start. Pass a generated icon without `size`. |
+| `title` | `ReactNode` | no |  | Short heading of the message. |
+| `tone` | `"neutral" \| "info" \| "success" \| "warning" \| "error"` | no | neutral | Meaning of the message. It changes the icon shape as well as the color, so it never relies on color alone. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Alert title="New dashboard">Take a look at your updated reports.</Alert>
+```
+
+## Avatar
+
+A round image of a person with an initials fallback, built on Base UI Avatar.
+The whole avatar is one image with the person's name as its label. Add a status or an avatar badge
+with an icon inside when needed; without them the markup and accessible name stay just the name.
+For bots, companies or systems, use `src` with the logo; without it the initials are shown.
+
+- Category: components
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Avatar } from "@/ui";`
+- Renders: span with role img and the name as aria-label
+- Composition: Pass `name` (required), `src` and `size` (`xs`, `sm`, `md`, `lg` or `xl`); initials are the fallback. For bots, companies or systems, use `src` with the logo; without it the initials are shown. `status` adds a solid dot at the bottom end with a page-colored ring and appends the state to the name; `badge` with `badgeLabel` adds an avatar badge with an icon inside and appends its label; `outline={false}` removes the avatar border. `status` and `badge` cannot be combined. Every feature scales with `size`.
+- Use when: Showing who a person or account is.
+- Avoid:
+  - Using it as a button: wrap it in a Button or Link.
+  - Omitting `name`.
+  - Combining `status` and `badge`: they are mutually exclusive.
+- Accessibility: The name is the accessible name. A status appends the state, and an avatar badge appends `badgeLabel`, such as "Ada Lovelace, online" or "Ada Lovelace, Verified". Initials, status dot and avatar badge are hidden from assistive technology; the status is a plain solid dot whose color is not the only signal, because the state is announced in the accessible name.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `name` | `string` | yes |  | Full name of the person or entity. It is the accessible name and the source of the initials. Required. |
+| `badge` | `ReactNode` | no |  | Avatar badge with an icon inside, at the bottom end. Pass a generated icon without `size`. Cannot be combined with `status`. |
+| `badgeLabel` | `string` | no |  | Accessible label for the avatar badge. Required with `badge`; appended to the accessible name. |
+| `className` | `string` | no |  |  |
+| `outline` | `boolean` | no | true | Whether the avatar keeps its visible border. Set to `false` for a borderless filled circle or image. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | no | md | Diameter: `xs` 1.5rem, `sm` 2rem, `md` 2.5rem, `lg` 3.5rem, `xl` 4.5rem. |
+| `src` | `string` | no |  | Image URL. If it is missing or fails to load, the initials are shown. |
+| `status` | `"online" \| "away" \| "busy" \| "offline"` | no |  | Presence state. Appended to the accessible name, such as "Ada Lovelace, online". Cannot be combined with `badge`. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Stack direction="row" gap="3" align="center">
+  <Avatar name="Ada Lovelace" />
+  <Avatar name="Grace Hopper" status="online" />
+  <AvatarGroup aria-label="Project members">
+    <Avatar name="Ada Lovelace" />
+    <Avatar name="Grace Hopper" />
+    <Avatar name="Alan Turing" />
+    <Avatar name="Katherine Johnson" />
+  </AvatarGroup>
+</Stack>
+```
+
+### Parts
+
+### AvatarGroup
+
+Overlapping avatars that share one size, with a page-colored ring so the overlaps stay clean.
+When there are more than `max`, the extra avatars collapse into a "+N" item labelled "and N more".
+Used outside a group, Avatar is unchanged.
+
+- Category: utility
+- Base: Own component
+- Import: `import { AvatarGroup } from "@/ui";`
+- Renders: div role="group" with overlapping Avatar elements
+- Composition: Pass `children` (Avatar elements), `max` (default 4) and shared `size` (default md). Avatars overlap by about 25% and each gets a 2px page-colored ring; later avatars stack on top. Avatars beyond `max` collapse into a "+N" item with the component background and label style, labelled "and N more".
+- Use when: A compact summary of several people or accounts.
+- Avoid:
+  - One avatar: use Avatar directly.
+  - Long lists where every person matters: show them in a list.
+- Accessibility: The group has role="group"; give it an `aria-label`. Each avatar keeps its own name, and the overflow item is announced as "and N more".
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | yes |  | Avatars in the group. They share the group's `size`. |
+| `className` | `string` | no |  |  |
+| `max` | `number` | no | 4 | How many avatars stay visible before the rest collapse into a "+N" item. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | no | md | Diameter shared by every avatar in the group. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<AvatarGroup max={3} aria-label="Project members">
+  <Avatar name="Ada Lovelace" />
+  <Avatar name="Grace Hopper" />
+  <Avatar name="Alan Turing" />
+  <Avatar name="Katherine Johnson" />
+</AvatarGroup>
+```
+
+## Popover
+
+Root of a popover: a small panel anchored to a button, for extra controls or details the user asked for.
+Use Popover for about 22rem of content and up to 3–4 fields; use Tooltip for supplementary hints,
+Menu for a list of actions, Modal for decisions, and Sheet for longer content.
+Built on Base UI Popover (focus management, Escape to close, outside click and positioning come from there).
+
+- Category: overlays
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Popover } from "@/ui";`
+- Renders: no element: it only holds the open state (Base UI Popover.Root)
+- Composition: Structure: Popover > PopoverTrigger + PopoverContent (title required, description optional, PopoverClose). Keep it around 22rem wide with up to 3–4 fields; use Tooltip for supplementary hints, Menu for a list of actions, Modal for decisions, and Sheet for longer content.
+- Use when: Small interactive content tied to a button, such as a form or extra options.
+- Avoid:
+  - Plain hints: use Tooltip.
+  - Blocking decisions: use Modal.
+- Accessibility: Focus moves into the popup and Escape closes it. Title is the accessible name.
+
+### Props
+_No props of its own._
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Popover>
+  <PopoverTrigger variant="secondary">Filters</PopoverTrigger>
+  <PopoverContent title="Filters" description="Narrow the results.">...</PopoverContent>
+</Popover>
+```
+
+### Parts
+
+### PopoverTrigger
+
+The button that opens the popover. It is rendered as a `Button`.
+
+- Category: overlays
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { PopoverTrigger } from "@/ui";`
+- Renders: button
+- Composition: Child of Popover. Accepts Button props.
+- Use when: The button that opens a Popover.
+- Avoid:
+  - Using it outside Popover.
+- Accessibility: A real button with aria-expanded and aria-controls.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `endIcon` | `ReactNode` | no |  | Icon after the label. Pass a generated icon without `size`. |
+| `pill` | `boolean` | no | false | Fully rounded trigger. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Button size of the trigger. |
+| `startIcon` | `ReactNode` | no |  | Icon before the label, or the icon for an icon-only trigger. Pass a generated icon without `size`. |
+| `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<PopoverTrigger variant="secondary">Filters</PopoverTrigger>
+```
+
+### PopoverContent
+
+The popover panel with its title and description. Place it inside `Popover`.
+
+- Category: overlays
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { PopoverContent } from "@/ui";`
+- Renders: div with role dialog in a portal, with a title
+- Composition: Child of Popover. Requires `title`; `description`, `side` and `align` are optional.
+- Use when: The panel shown by a Popover.
+- Avoid:
+  - Leaving out the title.
+- Accessibility: Labelled by its title. Focus is returned to the trigger on close.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `title` | `ReactNode` | yes |  | Heading of the panel. Required: it is the accessible name of the popover. |
+| `align` | `"center" \| "start" \| "end"` | no | center | Alignment against the trigger. |
+| `children` | `ReactNode` | no |  | The content: text, a form, or `PopoverClose` buttons. |
+| `className` | `string` | no |  |  |
+| `description` | `ReactNode` | no |  | Short explanation, announced as the accessible description. |
+| `side` | `"top" \| "bottom" \| "left" \| "right"` | no | bottom | Preferred side of the trigger. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<PopoverContent title="Filters" description="Narrow the results.">
+  <PopoverClose>Done</PopoverClose>
+</PopoverContent>
+```
+
+### PopoverClose
+
+A button that closes the popover. It is rendered as a `Button`.
+
+- Category: overlays
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { PopoverClose } from "@/ui";`
+- Renders: button
+- Composition: Inside PopoverContent. Children are the label.
+- Use when: A button that closes the Popover.
+- Avoid:
+  - Icon-only without a label.
+- Accessibility: A real button.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | sm | Button size. |
+| `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+#### Example
+```tsx
+<PopoverClose>Done</PopoverClose>
+```
+
+## Menu
+
+A dropdown list of actions, links, grouped items, selections and one-level submenus, built on Base UI
+Menu (arrow keys, typeahead, focus return and Escape come from there). Items with `href` are real
+links; items with `onSelect` are actions. The trigger icons follow its button size; menu items use
+clear, 20px icons for better scanability.
+
+- Category: overlays
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Menu } from "@/ui";`
+- Renders: button that opens a role menu with menuitems
+- Composition: Pass `label` (the button text) and `items`: `{ label, startIcon?, endIcon?, onSelect?, href?, disabled?, destructive? }` or `{ type: "separator" }`. Icons are generated icons without `size`; the trigger follows its button size and menu items are compact (16px).
+- Use when: A list of actions or links behind one button, such as account actions.
+- Avoid:
+  - Navigation between sections of the site: use links.
+  - Form choices: use Select.
+- Accessibility: Arrow keys, Home, End, typeahead and Escape come from Base UI. Items with `href` are real links.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `label` | `string` | yes |  | Text of the button that opens the menu. |
+| `align` | `"center" \| "start" \| "end"` | no | start | Alignment of the menu against the trigger. |
+| `className` | `string` | no |  |  |
+| `instant` | `boolean` | no | false | Removes the popup entrance transition when the menu is coordinated by MenuBar. |
+| `items` | `MenuEntry[]` | no | [] | Items in order. Use `{ type: "separator" }` to group them. |
+| `loading` | `boolean` | no | false | Shows a non-interactive loading state inside the popup. |
+| `placement` | `"bottom-start" \| "bottom-center" \| "bottom-end" \| "top-start" \| "top-center" \| "top-end" \| "left-start" \| "left-center" \| "left-end" \| "right-start" \| "right-center" \| "right-end"` | no | bottom-start | Placement relative to the trigger. Overrides `align` when provided. |
+| `singleSelection` | `MenuSingleSelection` | no |  | Enables a single-selection radio group for entries with `type: "radio"`. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | md | Button size of the trigger. |
+| `trigger` | `ReactElement<unknown, string \| JSXElementConstructor<any>>` | no |  | Optional custom trigger. It must be an accessible button-like element. |
+| `triggerVariant` | `"button" \| "tab"` | no | button | Uses a bordered text trigger, like an editor menubar, instead of the default button. |
+| `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
+| `width` | `"auto" \| "xs" \| "sm" \| "md" \| "lg" \| "xxs"` | no | auto | Content-sized by default, or one of the fixed semantic menu widths. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Menu label="Account" items={[
+  { label: "Profile", href: "/profile" },
+  { type: "separator" },
+  { label: "Sign out", onSelect: signOut },
+]} />
+```
+
+## MenuBar
+
+Coordinates several menus as one desktop-style menubar. Moving the pointer over another trigger
+switches the open menu without requiring another click; clicking outside closes the active menu.
+
+- Category: overlays
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { MenuBar } from "@/ui";`
+- Renders: horizontal navigation of menu triggers
+- Composition: Pass `menus`, an array of menu entries rendered as coordinated Menu controls.
+- Use when: A row of related menus for application navigation or grouped actions.
+- Avoid:
+  - A single menu: use `Menu`.
+  - Unrelated navigation links.
+- Accessibility: Keyboard navigation and menu behavior come from Base UI.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `menus` | `MenuProps[]` | yes |  | Menus that share hover, focus and outside-interaction behavior. |
+| `className` | `string` | no |  |  |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+## Accordion
+
+Collapsible sections built on Base UI Accordion. Each title is a button inside an `h3`
+(`aria-expanded` and `aria-controls` come from Base UI). Pass `items` instead of composing parts.
+The plus/minus sign sits at the end: its vertical stroke collapses while opening.
+
+- Category: navigation
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Accordion } from "@/ui";`
+- Renders: div with a heading (h3) and button per item and a region per panel
+- Composition: Pass `items` ({ value, title, content, startIcon?, endIcon?, disabled? }). Icons are generated icons without `size`. Use `multiple` to allow several open, `disabled` to disable every item and `bordered` for a border around the whole list. To place it inside a Card use `Card` + `CardContent`.
+- Use when: Showing long content in short sections, such as FAQs.
+- Avoid:
+  - Hiding content users must read.
+  - Navigation between pages.
+- Accessibility: Each title is a button in a heading with aria-expanded and aria-controls.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `items` | `AccordionItem[]` | yes |  | The items, in order. |
+| `bordered` | `boolean` | no | false | Draw a border and rounded corners around the whole list, not only between items. |
+| `className` | `string` | no |  |  |
+| `defaultValue` | `string[]` | no |  | Ids of the panels open at first. |
+| `disabled` | `boolean` | no | false | Disable every item. A per-item `disabled` still applies on top. |
+| `multiple` | `boolean` | no | false | Allow several panels open at once. |
+| `onValueChange` | `((value: string[]) => void)` | no |  |  |
+| `value` | `string[]` | no |  | Ids of the open panels, when you control it. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Accordion items={[
+  { value: "a", title: "Is it accessible?", content: <p>Yes.</p> },
+  { value: "b", title: "Is it themeable?", content: <p>Yes.</p> },
+]} />
+```
+
+## Table
+
+A responsive semantic table. Compose it with `TableCaption`, `TableHeader`, `TableBody`,
+`TableFooter`, `TableRow`, `TableHead` and `TableCell`; the wrapper stays horizontally scrollable
+and focusable on small screens.
+
+- Category: components
+- Base: Own component
+- Import: `import { Table } from "@/ui";`
+- Renders: table with caption, thead, tbody, th scope and a focusable scroll region
+- Composition: Compose `TableCaption`, `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead` and `TableCell`. Use `align="end"` for numeric columns. The responsive wrapper is focusable for horizontal scrolling.
+- Use when: Comparing data across rows and columns.
+- Avoid:
+  - Page layout: use Grid or Stack.
+  - Missing caption.
+- Accessibility: Real table semantics. The first column is a row header. The scroll wrapper is focusable and named.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `caption` | `string` | no |  | @deprecated Use TableCaption. |
+| `children` | `ReactNode` | no |  | Table content, composed from TableCaption, TableHeader, TableBody, TableFooter and their parts. |
+| `className` | `string` | no |  | Extra class for the scroll region. |
+| `columns` | `TableColumn[]` | no |  | @deprecated Compose TableHead and TableCell instead. |
+| `hideCaption` | `boolean` | no |  | @deprecated Use TableCaption with `hidden`. |
+| `rowKey` | `string` | no |  | @deprecated Use explicit row keys on composed rows. |
+| `rows` | `Record<string, ReactNode>[]` | no |  | @deprecated Compose TableRow and TableCell instead. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Table aria-label="Recent invoices">
+  <TableCaption>A list of your recent invoices.</TableCaption>
+  <TableHeader><TableRow><TableHead>Invoice</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
+  <TableBody><TableRow><TableCell>INV001</TableCell><TableCell>Paid</TableCell></TableRow></TableBody>
+</Table>
+```
+
+### Parts
+
+### TableCaption
+
+The accessible caption for a Table.
+
+- Category: components
+- Base: Own component
+- Import: `import { TableCaption } from "@/ui";`
+- Renders: caption
+- Composition: Child of Table; describes the table.
+- Use when: Naming a table.
+- Avoid:
+  - Omitting a caption.
+- Accessibility: Names the table for assistive technology.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+### TableHeader
+
+The column-heading section of a Table.
+
+- Category: components
+- Base: Own component
+- Import: `import { TableHeader } from "@/ui";`
+- Renders: thead
+- Composition: Contains TableRow and TableHead.
+- Use when: Column headings.
+- Avoid:
+  - Using it for body rows.
+- Accessibility: Native table header semantics.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+### TableBody
+
+The main data section of a Table.
+
+- Category: components
+- Base: Own component
+- Import: `import { TableBody } from "@/ui";`
+- Renders: tbody
+- Composition: Contains data TableRow elements.
+- Use when: The main table data.
+- Avoid:
+  - Putting headings here.
+- Accessibility: Native table body semantics.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+### TableFooter
+
+The summary section of a Table, rendered with a highlighted surface.
+
+- Category: components
+- Base: Own component
+- Import: `import { TableFooter } from "@/ui";`
+- Renders: tfoot
+- Composition: Contains summary TableRow elements.
+- Use when: Totals or summaries.
+- Avoid:
+  - Repeating the header.
+- Accessibility: Native table footer semantics.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+### TableRow
+
+A row inside a Table section.
+
+- Category: components
+- Base: Own component
+- Import: `import { TableRow } from "@/ui";`
+- Renders: tr
+- Composition: Contains TableHead or TableCell elements.
+- Use when: A table row.
+- Avoid:
+  - Using it outside a table section.
+- Accessibility: Native table row semantics.
+
+#### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+### TableHead
+
+A column or row header cell.
+
+- Category: components
+- Base: Own component
+- Import: `import { TableHead } from "@/ui";`
+- Renders: th
+- Composition: Use scope="col" for headers or scope="row" for the first cell in a data row.
+- Use when: Column or row headers.
+- Avoid:
+  - Using a td for a header.
+- Accessibility: Native th scope semantics.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `align` | `"start" \| "end"` | no |  |  |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### TableCell
+
+A data cell inside a TableRow.
+
+- Category: components
+- Base: Own component
+- Import: `import { TableCell } from "@/ui";`
+- Renders: td
+- Composition: A data cell inside TableRow.
+- Use when: Table values.
+- Avoid:
+  - Using it for headings.
+- Accessibility: Native table cell semantics.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `align` | `"start" \| "end"` | no |  |  |
+
+Also accepts the native props of the element it renders; they pass through.
+
+## Breadcrumb
+
+Where the current page sits in the site. Renders `nav > ol` and marks the last item with
+`aria-current="page"`. Links use whatever `LinkProvider` provides (`next/link` in this app).
+
+- Category: navigation
+- Base: Own component
+- Import: `import { Breadcrumb } from "@/ui";`
+- Renders: nav with an ordered list; the last item has aria-current page
+- Composition: Pass `items` ({ label, href?, startIcon?, endIcon? }) from root to current page. `separator` defaults to `>` and accepts any node, such as `/` or `·`; it is always hidden from assistive technology. Use `maxItems` (3 or more) to collapse the middle items into an ellipsis menu opened from an icon button labelled Show hidden pages and sized to its content; omit it to show every item. Icons are generated icons without `size`.
+- Use when: Hierarchical navigation: showing where a page sits in a site with 3 or more levels.
+- Avoid:
+  - Wizards or steps: not a breadcrumb.
+  - Using the current page as a link: it is a span with aria-current="page".
+- Accessibility: nav > ol; the nav is labelled Breadcrumb by default; the current page is a span with aria-current="page"; separators are hidden from assistive technology; plain links keep keyboard navigation and a visible focus ring.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `items` | `BreadcrumbItem[]` | yes |  | The trail from the root to the current page. The last item is marked as the current page. |
+| `aria-label` | `string` | no | Breadcrumb | Accessible name of the navigation. Change it when a page has more than one breadcrumb. |
+| `className` | `string` | no |  |  |
+| `maxItems` | `number` | no |  | How many items to show before collapsing the middle ones into an ellipsis menu. Values below 3 are ignored. Omit it to show every item. |
+| `separator` | `ReactNode` | no | > | Node between items. Any node is allowed; it is always hidden from assistive technology. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Breadcrumb items={[{ label: "Docs", href: "/docs" }, { label: "Components", href: "/docs/components" }, { label: "Button" }]} />
+<Breadcrumb maxItems={4} items={[{ label: "Docs", href: "/docs" }, { label: "Components", href: "/docs/components" }, { label: "Navigation", href: "/docs/components/navigation" }, { label: "Breadcrumb", href: "/docs/components/breadcrumb" }, { label: "Examples" }]} />
+```
+
+## Pagination
+
+Page links for content split across URLs. Every page is a real link, so it works without JavaScript and
+with `next/link` through `LinkProvider`. Previous and next are left out (not disabled) when unavailable.
+
+- Category: navigation
+- Base: Own component
+- Import: `import { Pagination } from "@/ui";`
+- Renders: nav with a list of links
+- Composition: Pass `page`, `pageCount` and `hrefTemplate` such as `/blog?page={page}`. Use `showPreviousNext={false}` for page numbers only, or `showPageNumbers={false}` with `iconSteps` for icon-only Previous and Next.
+- Use when: Moving through content split across URLs.
+- Avoid:
+  - Passing a function for the href (it breaks in Server Components).
+  - Infinite lists.
+- Accessibility: Every page is a link; the current one has aria-current. Previous and Next are removed, not disabled, when unavailable.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `hrefTemplate` | `string` | yes |  | URL of a page, with `{page}` where the number goes, for example `"/blog?page={page}"`. A string (not a function) so it works from Server Components. |
+| `page` | `number` | yes |  | Current page, starting at 1. |
+| `pageCount` | `number` | yes |  | Total number of pages. |
+| `aria-label` | `string` | no | Pagination | Accessible name of the navigation. |
+| `className` | `string` | no |  |  |
+| `iconSteps` | `boolean` | no | false | Render Previous and Next as icon-only links. |
+| `showPageNumbers` | `boolean` | no | true | Whether to render page-number links and ellipses. |
+| `showPreviousNext` | `boolean` | no | true | Whether to render the Previous and Next links. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Pagination page={2} pageCount={9} hrefTemplate="/blog?page={page}" />
+```
+
+## Progress
+
+Progress of a task, built on Base UI Progress (`role="progressbar"` with `aria-valuenow`).
+For a quick wait with no known end, prefer `Spinner`; for a value the user sets, use `Slider`.
+
+- Category: feedback
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Progress } from "@/ui";`
+- Renders: div with role progressbar
+- Composition: Pass `label` and `value` (number, or null when unknown). Optional `max`.
+- Use when: Showing how far a task has got.
+- Avoid:
+  - Values the user sets: use Slider.
+  - Short unknown waits: use Spinner.
+- Accessibility: role progressbar with aria-valuenow; the label is the accessible name.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `label` | `string` | yes |  | What is progressing. Required: it is the accessible name. |
+| `value` | `number \| null` | yes |  | Current value. Use `null` when the amount is unknown (indeterminate). |
+| `className` | `string` | no |  |  |
+| `max` | `number` | no | 100 | Maximum value. |
+| `showValue` | `boolean` | no | true | Show the percentage next to the label. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Progress label="Uploading" value={40} />
+```
+
+## Slider
+
+Pick a number, or a range, by dragging or with arrow keys. Built on Base UI Slider (each thumb is an
+`input type="range"`). For a short list of exact choices use `Select`; for typing a number, use `Input`.
+Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Slider } from "@/ui";`
+- Renders: div with one input type range per thumb
+- Composition: Pass `label` and `defaultValue` (number or [min, max]). Use `thumbLabels` for ranges and `orientation="vertical"` for a vertical track. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field. Disabled hides the visible label and value; the label remains the accessible name.
+- Use when: Choosing a number or range by dragging.
+- Avoid:
+  - Exact entry: use Input.
+  - A few named options: use Select.
+- Accessibility: Each thumb is a native range input with arrow-key support. The label is the accessible name. Invalid uses the danger border and an error linked with aria-describedby; required prints Required; read-only stays focusable and blocks changes; loading sets aria-busy and blocks changes.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `label` | `string` | yes |  | What the slider sets. Required: it is the accessible name. |
+| `className` | `string` | no |  |  |
+| `data-force` | `"focus" \| "hover" \| "active"` | no |  | Story/test hook: force the focus ring without moving focus. |
+| `defaultValue` | `number \| number[]` | no |  | Initial value, or `[min, max]` for a range. |
+| `disabled` | `boolean` | no |  |  |
+| `error` | `FieldErrorProp` | no |  | Error message. Marks the slider invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
+| `loading` | `boolean` | no | false | Shows a small spinner next to the value, sets `aria-busy`, and makes the slider not interactive. |
+| `max` | `number` | no |  |  |
+| `min` | `number` | no |  |  |
+| `onValueChange` | `((value: number \| number[]) => void)` | no |  |  |
+| `orientation` | `"horizontal" \| "vertical"` | no | horizontal | Direction of the track. Vertical needs a parent with height, or uses the slider's own height. |
+| `readOnly` | `boolean` | no | false | The slider can be focused and read but not changed. Uses the sunken track and keeps the label at full contrast. Distinct from `disabled`. |
+| `required` | `boolean` | no | false | The slider must have a value before the form can be submitted. The label prints "Required". Inside `Field`, omit it and pass `required` to the Field instead. |
+| `showValue` | `boolean` | no | true | Show the current value next to the label. Hidden when `disabled`. |
+| `step` | `number` | no |  |  |
+| `thumbLabels` | `string[]` | no |  | Names of the thumbs of a range, for example `["Minimum price", "Maximum price"]`. |
+| `value` | `number \| number[]` | no |  | Controlled value, or `[min, max]` for a range. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Slider label="Volume" defaultValue={40} />
+<Slider label="Price" defaultValue={[20, 80]} thumbLabels={["Minimum price", "Maximum price"]} />
+<Slider label="Volume" defaultValue={40} orientation="vertical" />
+<Slider label="Budget" error="Choose a budget" required />
+```
+
+## Label
+
+A visible label for a form control, in the shared `label` text style.
+Prefer `Field`, which also wires the description, error and required state.
+Use this when you build a custom composition outside Field.
+
+- Category: controls
+- Base: Own component
+- Import: `import { Label } from "@/ui";`
+- Renders: label
+- Composition: Text children, `htmlFor`, and optional `required` (prints "Required"; the control still needs its own required attribute) and `disabled`. Prefer Field, which wires description, error and ARIA.
+- Use when: A visible label for a custom control composition outside Field.
+- Avoid:
+  - Replacing Field for a standard form field.
+  - Using it as a heading or body text.
+  - Relying on an asterisk for required: Label spells out "Required".
+- Accessibility: Associate it with the control through `htmlFor`. Required state must also be on the control (native or ARIA).
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | yes |  | Text of the label. |
+| `className` | `string` | no |  |  |
+| `disabled` | `boolean` | no | false | Dims the label and removes the pointer cursor. Use only when the control is disabled. |
+| `htmlFor` | `string` | no |  | The id of the control this label belongs to. |
+| `required` | `boolean` | no | false | Prints "Required" after the text. The control still needs its own `required` attribute. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Label htmlFor="email">Email</Label>
+<Label htmlFor="name" required>Name</Label>
+```
+
+## EmptyState
+
+Explains why a region is empty and how to fill it.
+
+- Category: feedback
+- Base: Own component
+- Import: `import { EmptyState } from "@/ui";`
+- Renders: section with a labelled heading when `title` is present, otherwise a div
+- Composition: Pass required `description`, optional `title`, decorative `illustration`, `actions` (usually one or two Buttons), `size` (`md`, `sm` or `xs`) and `as` for the heading level (`h2`-`h4`, default `h3`).
+- Use when: A region without content that needs to explain why it is empty and how to fill it.
+- Avoid:
+  - Using it as a generic illustration component.
+  - Adding content beyond illustration, title, description and actions.
+  - Errors or failures: use Alert.
+  - Loading placeholders: use Skeleton.
+  - More than one primary button.
+- Accessibility: The illustration is decorative (`aria-hidden`); the description carries the meaning. Vary empty-state text within a page to avoid redundancy for screen readers, and keep it short but meaningful.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `description` | `ReactNode` | yes |  | Explains the current situation and, if possible, what to do next. Required. Keep it to one short paragraph. |
+| `actions` | `ReactNode` | no |  | Actions that resolve the empty state, usually one or two Buttons. Optional. |
+| `as` | `"h2" \| "h3" \| "h4"` | no | h3 | Heading level of the title. |
+| `className` | `string` | no |  |  |
+| `illustration` | `ReactNode` | no |  | Decorative illustration. Hidden from assistive technology and never shown at size `xs`. |
+| `size` | `"xs" \| "sm" \| "md"` | no | md | `md` for screens, tables and large cards; `sm` for cards and panels; `xs` for nested containers. |
+| `style` | `CSSProperties` | no |  | One-off inline styles, for example to tune `--empty-state-padding`, `--empty-state-gap` or `--empty-state-illustration`. |
+| `title` | `ReactNode` | no |  | Short message that introduces the scenario. Optional. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+## Sidebar
+
+A vertical navigation panel for the side of an app layout. Items can be links or buttons;
+links use the component from `LinkProvider`. This is a layout piece, not a Base UI primitive.
+
+- Category: navigation
+- Base: Own component
+- Import: `import { Sidebar } from "@/ui";`
+- Renders: aside with a nav landmark and a list
+- Composition: Pass `label` (required), `items` ({ label, href?, onSelect?, startIcon?, active?, disabled? }), optional `header` and `footer`. Links render with the LinkProvider component; items without href are buttons.
+- Use when: Primary vertical navigation beside an app's content, especially on desktop.
+- Avoid:
+  - Main site navigation in a header: use SiteHeader or links.
+  - More than one primary sidebar on a page.
+  - Using it for unrelated actions: use Menu or a toolbar.
+- Accessibility: The nav landmark is named by `label`; the active item gets aria-current="page". Disabled items are not focusable links and are not clickable.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `items` | `SidebarItem[]` | yes |  | The navigation items, in order. |
+| `label` | `string` | yes |  | Accessible name of the navigation landmark. Required. |
+| `className` | `string` | no |  |  |
+| `footer` | `ReactNode` | no |  | Content below the navigation, pinned to the end. |
+| `header` | `ReactNode` | no |  | Content above the navigation, such as a title or a workspace switcher. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Sidebar
+  label="Workspace"
+  header={<Heading as="h2" size={6}>Acme</Heading>}
+  items={[
+    { label: "Overview", href: "/", startIcon: <HouseIcon />, active: true },
+    { label: "Settings", href: "/settings", startIcon: <GearIcon /> },
+  ]}
+/>
+```
+
+## Collapsible
+
+Root for a single disclosure. Compose it with `CollapsibleTrigger` and `CollapsibleContent`.
+
+- Category: navigation
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Collapsible } from "@/ui";`
+- Renders: div with a button trigger and a region panel
+- Composition: Pass `title` or a custom `trigger`, panel `children`, optional `startIcon`/`endIcon`, open state (`defaultOpen`, `open`, `onOpenChange`) and `disabled`.
+- Use when: A single section that shows or hides content, such as advanced options or extra details.
+- Avoid:
+  - Several sections that coordinate: use Accordion.
+  - Content the user must read without interaction.
+- Accessibility: The trigger is a button with aria-expanded and aria-controls; the panel is its region. Keyboard behavior comes from Base UI. The closed panel remains mounted in the DOM, so descendants such as form fields remain in the document and can be submitted by the surrounding form.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | yes |  | Content containing a `CollapsibleTrigger` and `CollapsibleContent`. |
+| `className` | `string` | no |  |  |
+| `defaultOpen` | `boolean` | no | false | Open at first render, when uncontrolled. |
+| `disabled` | `boolean` | no | false | Disables the trigger. |
+| `onOpenChange` | `((open: boolean) => void)` | no |  | Called when the open state changes. |
+| `open` | `boolean` | no |  | Controlled open state. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Parts
+
+### CollapsibleTrigger
+
+Button that toggles its parent `Collapsible`.
+
+- Category: navigation
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { CollapsibleTrigger } from "@/ui";`
+- Renders: button with aria-expanded and aria-controls
+- Composition: Child of Collapsible. Children are the label; accepts Button props.
+- Use when: The button that shows or hides a Collapsible panel.
+- Avoid:
+  - Using it outside Collapsible.
+  - Icon-only without an accessible name.
+- Accessibility: A real button; expanded state and the controlled region come from Base UI.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `active` | `boolean` | no | false |  |
+| `className` | `string` | no |  |  |
+| `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>>` | no |  |  |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### CollapsibleContent
+
+Expandable content for its parent `Collapsible`.
+
+- Category: navigation
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { CollapsibleContent } from "@/ui";`
+- Renders: div with role region
+- Composition: Child of Collapsible. Holds the content that is shown or hidden.
+- Use when: The panel of a Collapsible.
+- Avoid:
+  - Using it outside Collapsible.
+  - Hiding content users must read.
+- Accessibility: Labelled by its trigger. The closed panel stays mounted in the DOM.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `className` | `string` | no |  |  |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+## ToggleGroup
+
+A set of related toggles with shared state, built on Base UI Toggle Group. It handles arrow-key
+navigation and the selected values, so do not wire them by hand. Items inherit `size`.
+
+Selection is single by default; add `multiple` for several. `value` and `defaultValue` are always
+arrays of item values. A group needs an accessible name (`aria-label`), and each icon-only item
+needs its own. For a single independent on/off button, use `Toggle`.
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { ToggleGroup } from "@/ui";`
+- Renders: div role="group" with toggle buttons
+- Composition: Compose `ToggleGroupItem` children. Pass `aria-label` or `aria-labelledby`, `multiple`, `orientation`, `spacing` (`none`, `sm` or `md`), `size` (`xs`, `sm`, `md` or `lg`) and `variant` (`default` or `outline`). The variant is inherited by every item.
+- Use when: A set of two-state buttons that can be toggled independently or used as a single-choice group.
+- Avoid:
+  - Long content changes: use Tabs.
+  - One independent on/off choice: use Toggle.
+  - More than five options: use Select.
+  - Related actions that are not a choice: use ButtonGroup.
+- Accessibility: Arrow keys, group semantics and aria-pressed states come from Base UI. Give the group an accessible name.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | yes |  | Toggle buttons in the group. |
+| `className` | `string` | no |  |  |
+| `defaultValue` | `readonly string[]` | no |  | Initially selected values, when uncontrolled. |
+| `multiple` | `boolean` | no | false | Allow several items to be on at once. By default only one is. |
+| `onValueChange` | `((groupValue: string[], eventDetails: { reason: "none"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)` | no |  | Called when the selected values change. |
+| `orientation` | `"horizontal" \| "vertical"` | no | "horizontal" | Stack the items vertically instead of horizontally. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | md | Control height and icon size inherited by every item. |
+| `spacing` | `"none" \| "sm" \| "md"` | no | md | Space between items. `none` connects their borders. |
+| `value` | `readonly string[]` | no |  | Selected values, when controlled. |
+| `variant` | `"default" \| "outline"` | no | outline | Visual treatment inherited by every item. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<ToggleGroup aria-label="View" defaultValue={["list"]}>
+  <ToggleGroupItem value="list">List</ToggleGroupItem>
+  <ToggleGroupItem value="board">Board</ToggleGroupItem>
+</ToggleGroup>
+<ToggleGroup aria-label="Text style" multiple>...</ToggleGroup>
+```
+
+### Parts
+
+### ToggleGroupItem
+
+A toggle group item that composes the standalone Toggle with Base UI Toggle Group.
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { ToggleGroupItem } from "@/ui";`
+- Renders: button with aria-pressed
+- Composition: Child of ToggleGroup. Pass a required `value`, visible children or `startIcon`/`endIcon`, and `aria-label` for icon-only items.
+- Use when: One option inside ToggleGroup.
+- Avoid:
+  - Using it outside ToggleGroup.
+- Accessibility: The parent group provides keyboard navigation; icon-only items need an accessible name.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | no |  | Visible label. Omit it for an icon-only toggle and provide `aria-label`. |
+| `className` | `string` | no |  |  |
+| `endIcon` | `ReactNode` | no |  | Icon after the label. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Control height and icon size, following `Button`. |
+| `startIcon` | `ReactNode` | no |  | Icon before the label, or the icon for an icon-only toggle. |
+| `variant` | `"default" \| "outline"` | no | "default" | Visual treatment. `default` has no border; `outline` draws the control border. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+## Toggle
+
+A button with an on/off state (`aria-pressed`), built on Base UI Toggle. Use it for a state the
+person flips on the spot: bold, a filter, mute. For a setting that applies immediately and is
+read as a setting (dark mode, notifications), use `Switch`. To pick among related options, use
+`ToggleGroup`.
+
+Uncontrolled with `defaultPressed`, controlled with `pressed` and `onPressedChange`. Icon-only
+toggles need `aria-label` or `aria-labelledby`. Sizes follow `Button`.
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Toggle } from "@/ui";`
+- Renders: button with aria-pressed
+- Composition: Pass visible children or `startIcon`/`endIcon`; icon-only toggles require `aria-label` or `aria-labelledby`. Sizes are `xs`, `sm`, `md` and `lg`. `variant` is `default` (borderless) or `outline`.
+- Use when: A two-state formatting or preference control that can be toggled on or off.
+- Avoid:
+  - Navigation between panels: use Tabs.
+  - An action without persistent on/off state: use Button.
+  - Several related toggles: use ToggleGroup.
+- Accessibility: Base UI exposes the pressed state with aria-pressed. Icon-only toggles need an accessible name.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | no |  | Visible label. Omit it for an icon-only toggle and provide `aria-label`. |
+| `className` | `string` | no |  |  |
+| `endIcon` | `ReactNode` | no |  | Icon after the label. |
+| `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Control height and icon size, following `Button`. |
+| `startIcon` | `ReactNode` | no |  | Icon before the label, or the icon for an icon-only toggle. |
+| `variant` | `"default" \| "outline"` | no | "default" | Visual treatment. `default` has no border; `outline` draws the control border. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Toggle>Bold</Toggle>
+<Toggle defaultPressed startIcon={<ListIcon />}>List</Toggle>
+<Toggle aria-label="Bold" startIcon={<BoldIcon />} />
+```
+
+## ScrollArea
+
+A styled scroll container built on Base UI Scroll Area. Use it for a fixed-height panel, such as
+a list or a code area, where the page itself should not scroll. The viewport is keyboard focusable.
+
+- Category: layout
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { ScrollArea } from "@/ui";`
+- Renders: div frame with a focusable scroll viewport and custom scrollbars
+- Composition: Pass `children`, optional `label` (accessible name of the scroll region) and `className` to set the height. Default maximum block size is 12rem; override it with a layout class.
+- Use when: A fixed-height list, code area or panel that should scroll inside the page.
+- Avoid:
+  - The whole page scrolling: let the page scroll.
+  - Overflowing menus and popups: they handle it themselves.
+  - Horizontal-only swipe carousels with no keyboard alternative.
+- Accessibility: The viewport is keyboard focusable and shows a focus ring, so keyboard users can scroll it. Give it `label` when the content is not self-explanatory.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `children` | `ReactNode` | yes |  | The scrollable content. |
+| `className` | `string` | no |  | Class for the outer frame. Use it to set the height. |
+| `label` | `string` | no |  | Accessible name of the scrollable region. |
+| `viewportClassName` | `string` | no |  | Class for the scrolling viewport. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<ScrollArea label="Activity" className="h-64">
+  <Stack gap="3">{items}</Stack>
+</ScrollArea>
+```
+
+## Sheet
+
+A side sheet for secondary tasks and settings, built on Base UI Drawer. Left and right keep a
+fixed side width; top and bottom span the viewport width and fit their content height. Focus is
+trapped, Escape closes it, and it can be swiped away on touch. The footer stacks its actions,
+and every action fills the available width. For a centered decision use `Modal`.
+
+- Category: overlays
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Sheet } from "@/ui";`
+- Renders: a trigger button; when open, a backdrop and a side panel in a portal
+- Composition: Pass `trigger` (button text), `title`, optional `description`, `children`, `footer`, `side` (top, right, bottom or left; default right) and open state. One component, no parts. Left and right use a fixed side width and full height; top and bottom span the viewport width and fit their content height. Footer actions fill the available width and stack when there is more than one. The panel slides and fades on enter (from partial opacity, never 0) and on exit.
+- Use when: Secondary tasks, settings and filters that slide in from an edge.
+- Avoid:
+  - A centered decision: use Modal.
+  - Non-essential information: use Tooltip or inline content.
+  - Sheets without a title.
+- Accessibility: Focus is trapped and returned, Escape closes, the page behind is inert, and the title names the sheet. The close button has an accessible label.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `closeLabel` | `string` | yes |  | Accessible name of the close button. Keep the copy in the consuming example. |
+| `title` | `ReactNode` | yes |  | Accessible name of the sheet, shown at the top. |
+| `trigger` | `ReactNode` | yes |  | Text of the trigger button. |
+| `children` | `ReactNode` | no |  | Main content. |
+| `className` | `string` | no |  |  |
+| `defaultOpen` | `boolean` | no | false | Initially open, when uncontrolled. |
+| `description` | `ReactNode` | no |  | Optional explanation under the title. |
+| `footer` | `ReactNode` | no |  | Actions shown at the bottom, usually buttons. Each direct child fills the sheet width. |
+| `onOpenChange` | `((open: boolean) => void)` | no |  |  |
+| `open` | `boolean` | no |  | Controlled open state. |
+| `showCloseButton` | `boolean` | no | true | Whether to render the built-in close button. |
+| `side` | `"top" \| "bottom" \| "left" \| "right"` | no | right | Edge the sheet enters from. |
+| `triggerSize` | `"xs" \| "sm" \| "md" \| "lg"` | no | sm | Button size of the trigger. |
+| `triggerVariant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style of the trigger. |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Sheet
+  trigger="Filters"
+  closeLabel="Close filters"
+  title="Filters"
+  description="Narrow the results."
+  footer={<Button>Apply</Button>}
+>
+  <Field label="Status"><Select items={statuses} /></Field>
+</Sheet>
+```
+
+## Combobox
+
+Searchable single- or multi-choice field. Labels come from `Field`.
+
+- Category: controls
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { Combobox } from "@/ui";`
+- Renders: input role="combobox" with a filterable listbox popup
+- Composition: Pass `items` ({ value, label, description?, group?, startIcon?, disabled? }). `multiple` shows chips. `clearable` shows a button to clear the selection. `icon` is the end icon: omit for the caret, `null` to hide. Label through Field, or `aria-label`.
+- Use when: Choosing from a long list where typing to filter helps, or choosing several values.
+- Avoid:
+  - Short lists or no typing needed: use Select.
+  - Two or three options: use RadioGroup.
+  - Binary choices: use Checkbox or Switch.
+  - Free text with no fixed options: use Input.
+- Accessibility: Enter or Arrow Down opens; Arrow Up/Down navigate; Enter selects; Escape closes; Backspace removes the last chip in multiple mode. Keyboard, filtering and ARIA come from Base UI.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `items` | `ComboboxOption[]` | yes |  | The options. Each has a machine `value` and a visible `label`. |
+| `aria-label` | `string` | no |  | Accessible name when there is no `Field` label. |
+| `className` | `string` | no |  |  |
+| `clearable` | `boolean` | no | false | Shows a button to clear the selection. |
+| `defaultValue` | `string \| string[]` | no |  |  |
+| `disabled` | `boolean` | no |  |  |
+| `emptyMessage` | `string` | no | "No results." | Text shown when the filter matches nothing. |
+| `icon` | `ReactNode` | no |  | End icon. Omit for the caret, `null` to hide it. |
+| `id` | `string` | no |  |  |
+| `loading` | `boolean` | no |  | Shows a spinner and blocks editing. Inside `Field`, pass it to the Field. |
+| `multiple` | `boolean` | no |  |  |
+| `name` | `string` | no |  |  |
+| `onValueChange` | `((value: string) => void) \| ((value: string[]) => void)` | no |  |  |
+| `placeholder` | `string` | no |  |  |
+| `readOnly` | `boolean` | no |  |  |
+| `required` | `boolean` | no |  |  |
+| `size` | `"sm" \| "md" \| "lg"` | no | "md" | Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. |
+| `startIcon` | `ReactNode` | no |  |  |
+| `value` | `string \| string[]` | no |  |  |
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+## CodeBlock
+
+Preformatted code with syntax highlighting, an icon-only copy button and optional tabs for
+alternatives such as bun, pnpm and npm. Colors come from semantic `--syntax-*` tokens, so light
+and dark work without extra code. Unknown languages are shown as plain text.
+
+- Category: typography
+- Base: Own component
+- Import: `import { CodeBlock } from "@/ui/server";`
+- Renders: server component that highlights with Shiki, wrapped around a client view with an icon-only copy button, optional tabs and a focusable region
+- Composition: Pass `code` and a `language`. `tone` is `default`, `brand`, `success` or `danger`; `highlight={false}` shows plain text; `highlightLines` marks lines from 1; `lineNumbers` shows decorative line numbers. For alternatives, pass `tabs` instead of `code`.
+- Use when: Showing code or commands the user will copy.
+- Avoid:
+  - Long documents.
+  - Inline code: use Kbd or a code element.
+  - Expecting syntax color for unsupported languages.
+- Accessibility: The code region is focusable with a `label`; line numbers are decorative and the copy result is announced via role status.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `className` | `string` | no |  |  |
+| `code` | `string` | no |  | The code to show, as plain text. Use `tabs` instead when there are alternatives (bun, npm, pnpm). |
+| `highlight` | `boolean` | no | true | Highlight known languages on the server. Unknown languages fall back to plain text. |
+| `highlightLines` | `number[]` | no | undefined | 1-based line numbers to mark with a 2px left bar and a subtle background. No line numbers are rendered. The same lines apply to every tab. |
+| `label` | `string` | no | Code | Accessible name of the scrollable code region. |
+| `language` | `string` | no |  | Language name: bash, css, diff, html, json, ts or tsx; aliases include sh, shell, zsh, js, javascript and jsx. |
+| `lineNumbers` | `boolean` | no | false | Show decorative, non-copyable line numbers. |
+| `minimal` | `boolean` | no | false | Render only the code with a copy action overlaid at the trailing edge. |
+| `tabs` | `CodeTab[]` | no |  | Alternative versions of the same code, usually one command per package manager. The first tab is selected first. |
+| `tone` | `"success" \| "default" \| "brand" \| "danger"` | no | default | Color the frame for the kind of message: default, brand, success or danger. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Parts
+
+### CodeBlockView
+
+Presentation half of `CodeBlock`: tabs, copy button and the focusable code region.
+The server passes highlighted HTML; without it the code stays plain text.
+
+- Category: typography
+- Base: Own component
+- Import: `import { CodeBlockView } from "@/ui";`
+- Renders: client-only presentation of a CodeBlock: tabs, copy button and focusable code region
+- Composition: Internal to CodeBlock. Use it only in client components; pass pre-highlighted `html`/`tabHtml` when available, otherwise the code stays plain.
+- Use when: Client components that cannot render the server CodeBlock.
+- Avoid:
+  - Server pages: use CodeBlock, which highlights automatically.
+  - Coloring tokens by hand.
+- Accessibility: The code region is focusable and named; the copy result is announced via role status.
+
+#### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `className` | `string` | no |  |  |
+| `code` | `string` | no |  | The code to show, as plain text. Use `tabs` instead when there are alternatives (bun, npm, pnpm). |
+| `highlightLines` | `number[]` | no | undefined | 1-based line numbers to mark with a 2px left bar and a subtle background. No line numbers are rendered. The same lines apply to every tab. |
+| `html` | `string \| null` | no |  | Highlighted HTML for `code`, produced on the server. |
+| `label` | `string` | no | Code | Accessible name of the scrollable code region. |
+| `language` | `string` | no |  | Language name: bash, css, diff, html, json, ts or tsx; aliases include sh, shell, zsh, js, javascript and jsx. |
+| `lineNumbers` | `boolean` | no | false | Show decorative, non-copyable line numbers. |
+| `minimal` | `boolean` | no | false | Render only the code with a copy action overlaid at the trailing edge. |
+| `tabHtml` | `Record<string, string \| null>` | no |  | Highlighted HTML per tab label, produced on the server. |
+| `tabs` | `CodeTab[]` | no |  | Alternative versions of the same code, usually one command per package manager. The first tab is selected first. |
+| `tone` | `"success" \| "default" \| "brand" \| "danger"` | no | default | Color the frame for the kind of message: default, brand, success or danger. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+## Providers and hooks
+
+## LinkProvider
+
+Wires navigation once for the whole app. In Next.js pass `next/link` so every library link gets
+client-side navigation and prefetching, with no `render` prop on each one. Without it links are plain `a` elements.
+
+- Category: utility
+- Base: Own component
+- Import: `import { LinkProvider } from "@/ui";`
+- Renders: no element: it provides the link component through context
+- Composition: Place once near the app root: `<LinkProvider component={NextLink}>`. Link, Button with href, Menu link items, Breadcrumb and Pagination then render with it.
+- Use when: Making every link in the library use `next/link` (or another router link) from a single place.
+- Avoid:
+  - Passing a `render` prop to individual links.
+  - Nesting several providers.
+- Accessibility: No effect on semantics; the provided component must render an `a`.
+
+### Props
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `component` | `LinkComponent` | yes |  | The component every `Link`, `Breadcrumb`, `Pagination` and `Menu` link renders with. Pass `next/link` in a Next.js app. |
+
+Also accepts the native props of the element it renders; they pass through.
+
+### Example
+```tsx
+"use client";
+import NextLink from "next/link";
+<LinkProvider component={NextLink}>{children}</LinkProvider>
+```
+
+## TooltipProvider
+
+Shares the open delay between tooltips. The first tooltip waits `delay` ms; moving to the next
+one opens instantly (`data-instant` skips the animation). Put it once near the app root.
+
+- Category: overlays
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { TooltipProvider } from "@/ui";`
+- Renders: no element
+- Composition: Place once near the app root. Optional. `delay` (default 600) applies only to the first tooltip; the next ones open instantly.
+- Use when: Shared open delay across tooltips.
+- Avoid:
+  - Nesting several providers.
+- Accessibility: No effect on semantics.
+
+### Props
+_No props of its own._
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+## ToastProvider
+
+Place once near the root of the app (inside `Providers`). It renders the stack of toasts and makes
+`useToast` available. Built on Base UI Toast (live-region announcements, F6 to reach the toasts, swipe to
+dismiss, pause on hover and focus come from there).
+
+- Category: feedback
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { ToastProvider } from "@/ui";`
+- Renders: no visible element until a toast is shown; renders a viewport in a portal
+- Composition: Place once near the app root, inside Providers. Then call `useToast()` anywhere below it.
+- Use when: Short-lived feedback after an action.
+- Avoid:
+  - Messages that must stay: use Alert.
+  - Several providers.
+- Accessibility: Live-region announcements, F6 to reach toasts, pause on hover and focus. The dismiss button is labelled.
+
+### Props
+_No props of its own._
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<ToastProvider>{children}</ToastProvider>
+```
+
+## useLinkComponent
+
+The anchor component to render links with: the one from `LinkProvider`, or `a`.
+
+- Category: utility
+- Base: Own component
+- Import: `import { useLinkComponent } from "@/ui";`
+- Renders: hook, renders nothing
+- Composition: Only needed when building your own link components that should respect LinkProvider. `const LinkEl = useLinkComponent()` returns the provided link component, or `"a"`.
+- Use when: Building your own navigation component that should follow LinkProvider.
+- Avoid:
+  - Calling it in Server Components: it needs a client component.
+- Accessibility: The returned component must render an `a`.
+
+### Props
+_No props of its own._
+
+Also accepts the native props of the element it renders; they pass through.
+
+## useToast
+
+Show short-lived feedback after an action (saved, copied, failed). Returns `show` and `close`.
+For messages that must stay on the page, use `Alert`.
+
+- Category: feedback
+- Base: Built on Base UI (@base-ui/react)
+- Import: `import { useToast } from "@/ui";`
+- Renders: hook, renders nothing
+- Composition: `const { show, close } = useToast(); show({ title, description?, tone?, timeout?, startIcon?, endIcon? })`. Icons are generated icons without `size`.
+- Use when: Showing a toast after an action finishes.
+- Avoid:
+  - Calling it outside ToastProvider.
+  - Putting the only copy of important information in a toast.
+- Accessibility: The tone is never the only signal: write it in the title.
+
+### Props
+_No props of its own._
+
+Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+const { show } = useToast();
+show({ title: "Saved", tone: "success" });
+```
+
+## Design tokens
+
+- Components and pages use semantic tokens only (--color-page, --color-primary-foreground, --space-4, --text-body-size ...).
+- Never use --primitive-* tokens or hardcoded colors, sizes or fonts.
+- Light/dark is switched by data-theme="light|dark" on <html>; without it the OS preference applies.
+- Text styles are sets of variables named --text-<style>-<size|line|weight|tracking|style|family>.
+
+| Variable | Type | Value |
+|---|---|---|
+| `--font-family-sans` | fontFamily | `'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif` |
+| `--font-family-emphasis` | fontFamily | `'Source Serif 4', ui-serif, Georgia, 'Times New Roman', serif` |
+| `--font-family-mono` | fontFamily | `'Commit Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace` |
+| `--font-weight-regular` | fontWeight | `400` |
+| `--font-weight-medium` | fontWeight | `500` |
+| `--font-weight-semibold` | fontWeight | `600` |
+| `--font-style-body` |  | `normal` |
+| `--font-size-10` | dimension | `0.625rem` |
+| `--font-size-11` | dimension | `0.6875rem` |
+| `--font-size-12` | dimension | `0.75rem` |
+| `--font-size-13` | dimension | `0.8125rem` |
+| `--font-size-14` | dimension | `0.875rem` |
+| `--font-size-15` | dimension | `0.9375rem` |
+| `--font-size-18` | dimension | `1.125rem` |
+| `--font-size-20` | dimension | `1.25rem` |
+| `--font-size-24` | dimension | `1.5rem` |
+| `--font-size-28` | dimension | `1.75rem` |
+| `--font-size-36` | dimension | `2.25rem` |
+| `--font-size-44` | dimension | `2.75rem` |
+| `--font-size-56` | dimension | `3.5rem` |
+| `--text-heading-1-size` |  | `clamp(2.25rem, 1.8333rem + 2.0833vw, 3.5rem)` |
+| `--text-heading-1-line` |  | `1.05` |
+| `--text-heading-1-weight` |  | `var(--font-weight-semibold)` |
+| `--text-heading-1-tracking` |  | `-0.03em` |
+| `--text-heading-1-family` |  | `var(--font-family-sans)` |
+| `--text-heading-2-size` |  | `clamp(2rem, 1.7500rem + 1.2500vw, 2.75rem)` |
+| `--text-heading-2-line` |  | `1.1` |
+| `--text-heading-2-weight` |  | `var(--font-weight-semibold)` |
+| `--text-heading-2-tracking` |  | `-0.025em` |
+| `--text-heading-2-family` |  | `var(--font-family-sans)` |
+| `--text-heading-3-size` |  | `clamp(1.75rem, 1.5833rem + 0.8333vw, 2.25rem)` |
+| `--text-heading-3-line` |  | `1.15` |
+| `--text-heading-3-weight` |  | `var(--font-weight-semibold)` |
+| `--text-heading-3-tracking` |  | `-0.02em` |
+| `--text-heading-3-family` |  | `var(--font-family-sans)` |
+| `--text-heading-4-size` |  | `clamp(1.5rem, 1.4167rem + 0.4167vw, 1.75rem)` |
+| `--text-heading-4-line` |  | `1.2` |
+| `--text-heading-4-weight` |  | `var(--font-weight-semibold)` |
+| `--text-heading-4-tracking` |  | `-0.015em` |
+| `--text-heading-4-family` |  | `var(--font-family-sans)` |
+| `--text-heading-5-size` |  | `clamp(1.25rem, 1.1667rem + 0.4167vw, 1.5rem)` |
+| `--text-heading-5-line` |  | `1.25` |
+| `--text-heading-5-weight` |  | `var(--font-weight-semibold)` |
+| `--text-heading-5-tracking` |  | `-0.01em` |
+| `--text-heading-5-family` |  | `var(--font-family-sans)` |
+| `--text-heading-6-size` |  | `clamp(1.125rem, 1.0833rem + 0.2083vw, 1.25rem)` |
+| `--text-heading-6-line` |  | `1.3` |
+| `--text-heading-6-weight` |  | `var(--font-weight-semibold)` |
+| `--text-heading-6-tracking` |  | `-0.005em` |
+| `--text-heading-6-family` |  | `var(--font-family-sans)` |
+| `--text-body-lg-size` |  | `var(--font-size-18)` |
+| `--text-body-lg-line` |  | `1.6` |
+| `--text-body-lg-weight` |  | `var(--font-weight-regular)` |
+| `--text-body-lg-tracking` |  | `0em` |
+| `--text-body-lg-style` |  | `var(--font-style-body)` |
+| `--text-body-lg-family` |  | `var(--font-family-sans)` |
+| `--text-body-size` |  | `var(--font-size-15)` |
+| `--text-body-line` |  | `1.6` |
+| `--text-body-weight` |  | `var(--font-weight-regular)` |
+| `--text-body-tracking` |  | `0em` |
+| `--text-body-style` |  | `var(--font-style-body)` |
+| `--text-body-family` |  | `var(--font-family-sans)` |
+| `--text-body-sm-size` |  | `var(--font-size-14)` |
+| `--text-body-sm-line` |  | `1.5` |
+| `--text-body-sm-line-tight` |  | `1.4` |
+| `--text-body-sm-weight` |  | `var(--font-weight-regular)` |
+| `--text-body-sm-tracking` |  | `0.005em` |
+| `--text-body-sm-style` |  | `var(--font-style-body)` |
+| `--text-body-sm-family` |  | `var(--font-family-sans)` |
+| `--text-label-size` |  | `var(--font-size-13)` |
+| `--text-label-line` |  | `1.4` |
+| `--text-label-weight` |  | `var(--font-weight-medium)` |
+| `--text-label-tracking` |  | `0.01em` |
+| `--text-label-style` |  | `var(--font-style-body)` |
+| `--text-label-family` |  | `var(--font-family-sans)` |
+| `--text-caption-lg-size` |  | `var(--font-size-12)` |
+| `--text-caption-lg-line` |  | `1.4` |
+| `--text-caption-lg-weight` |  | `var(--font-weight-regular)` |
+| `--text-caption-lg-tracking` |  | `0.01em` |
+| `--text-caption-lg-style` |  | `var(--font-style-body)` |
+| `--text-caption-lg-family` |  | `var(--font-family-sans)` |
+| `--text-caption-size` |  | `var(--font-size-11)` |
+| `--text-caption-line` |  | `1.4` |
+| `--text-caption-weight` |  | `var(--font-weight-regular)` |
+| `--text-caption-tracking` |  | `0.01em` |
+| `--text-caption-style` |  | `var(--font-style-body)` |
+| `--text-caption-family` |  | `var(--font-family-sans)` |
+| `--text-caption-sm-size` |  | `var(--font-size-10)` |
+| `--text-caption-sm-line` |  | `1.4` |
+| `--text-caption-sm-weight` |  | `var(--font-weight-regular)` |
+| `--text-caption-sm-tracking` |  | `0.015em` |
+| `--text-caption-sm-style` |  | `var(--font-style-body)` |
+| `--text-caption-sm-family` |  | `var(--font-family-sans)` |
+| `--text-caption-uppercase-tracking` |  | `0.06em` |
+| `--text-emphasis-size` |  | `var(--font-size-24)` |
+| `--text-emphasis-line` |  | `1.4` |
+| `--text-emphasis-weight` |  | `var(--font-weight-regular)` |
+| `--text-emphasis-tracking` |  | `-0.005em` |
+| `--text-emphasis-style` |  | `italic` |
+| `--text-emphasis-family` |  | `var(--font-family-emphasis)` |
+| `--text-code-size` |  | `var(--font-size-14)` |
+| `--text-code-line` |  | `1.5` |
+| `--text-code-weight` |  | `var(--font-weight-regular)` |
+| `--text-code-tracking` |  | `0em` |
+| `--text-code-style` |  | `var(--font-style-body)` |
+| `--text-code-family` |  | `var(--font-family-mono)` |
+| `--text-code-sm-size` |  | `var(--font-size-13)` |
+| `--text-code-sm-line` |  | `1.5` |
+| `--text-code-sm-weight` |  | `var(--font-weight-regular)` |
+| `--text-code-sm-tracking` |  | `0em` |
+| `--text-code-sm-style` |  | `var(--font-style-body)` |
+| `--text-code-sm-family` |  | `var(--font-family-mono)` |
+| `--text-code-xs-size` |  | `var(--font-size-12)` |
+| `--text-code-xs-line` |  | `1.5` |
+| `--text-code-xs-weight` |  | `var(--font-weight-regular)` |
+| `--text-code-xs-tracking` |  | `0em` |
+| `--text-code-xs-style` |  | `var(--font-style-body)` |
+| `--text-code-xs-family` |  | `var(--font-family-mono)` |
+| `--space-0` | dimension | `0` |
+| `--space-1` | dimension | `0.25rem` |
+| `--space-2` | dimension | `0.5rem` |
+| `--space-3` | dimension | `0.75rem` |
+| `--space-4` | dimension | `1rem` |
+| `--space-5` | dimension | `1.25rem` |
+| `--space-6` | dimension | `1.5rem` |
+| `--space-8` | dimension | `2rem` |
+| `--space-10` | dimension | `2.5rem` |
+| `--space-12` | dimension | `3rem` |
+| `--space-16` | dimension | `4rem` |
+| `--space-20` | dimension | `5rem` |
+| `--space-24` | dimension | `6rem` |
+| `--space-28` | dimension | `7rem` |
+| `--space-36` | dimension | `9rem` |
+| `--space-1-5` | dimension | `0.375rem` |
+| `--space-2-5` | dimension | `0.6rem` |
+| `--radius-none` | dimension | `0` |
+| `--radius-base` | dimension | `0.5rem` |
+| `--radius-sm` | dimension | `calc(var(--radius-base) * 0.5)` |
+| `--radius-md` | dimension | `calc(var(--radius-base) * 1)` |
+| `--radius-lg` | dimension | `calc(var(--radius-base) * 1.5)` |
+| `--radius-xl` | dimension | `calc(var(--radius-base) * 2)` |
+| `--radius-full` | dimension | `9999px` |
+| `--border-width-thin` | dimension | `1px` |
+| `--border-width-thick` | dimension | `2px` |
+| `--border-width-overlay` | dimension | `0px` |
+| `--focus-ring-width` | dimension | `2px` |
+| `--focus-ring-offset` | dimension | `2px` |
+| `--focus-ring-width-small` | dimension | `3px` |
+| `--focus-ring-offset-small` | dimension | `3px` |
+| `--opacity-disabled` |  | `0.5` |
+| `--header-height` | dimension | `3.55rem` |
+| `--size-target-min` | dimension | `1.5rem` |
+| `--size-target-comfortable` | dimension | `2.75rem` |
+| `--size-control-xs` | dimension | `1.5rem` |
+| `--size-control-sm` | dimension | `1.75rem` |
+| `--size-control-md` | dimension | `2rem` |
+| `--size-control-lg` | dimension | `2.5rem` |
+| `--size-icon-xs` | dimension | `0.75rem` |
+| `--size-icon-sm` | dimension | `1rem` |
+| `--size-icon-md` | dimension | `1.25rem` |
+| `--size-icon-lg` | dimension | `1.5rem` |
+| `--size-icon-xl` | dimension | `2rem` |
+| `--icon-gap-xs` |  | `var(--space-1)` |
+| `--icon-gap-sm` |  | `var(--space-1-5)` |
+| `--icon-gap-md` |  | `var(--space-2)` |
+| `--icon-gap-lg` |  | `var(--space-2)` |
+| `--icon-gap-xl` |  | `var(--space-3)` |
+| `--container-xs` | dimension | `20rem` |
+| `--container-sm` | dimension | `40rem` |
+| `--container-md` | dimension | `48rem` |
+| `--container-lg` | dimension | `64rem` |
+| `--container-xl` | dimension | `80rem` |
+| `--dialog-width-xs` | dimension | `20rem` |
+| `--dialog-width-sm` | dimension | `24rem` |
+| `--dialog-width-md` | dimension | `28rem` |
+| `--dialog-width-lg` | dimension | `40rem` |
+| `--dialog-width-xl` | dimension | `56rem` |
+| `--dialog-height-md` | dimension | `36rem` |
+| `--menu-width-2xs` | dimension | `8rem` |
+| `--menu-width-xxs` | dimension | `6rem` |
+| `--menu-width-xs` | dimension | `12rem` |
+| `--menu-width-sm` | dimension | `15rem` |
+| `--menu-width-md` | dimension | `20rem` |
+| `--menu-width-lg` | dimension | `25rem` |
+| `--breakpoint-sm` | dimension | `40rem` |
+| `--breakpoint-md` | dimension | `48rem` |
+| `--breakpoint-lg` | dimension | `64rem` |
+| `--breakpoint-xl` | dimension | `80rem` |
+| `--z-base` |  | `0` |
+| `--z-dropdown` |  | `1000` |
+| `--z-sticky` |  | `1100` |
+| `--z-overlay` |  | `1200` |
+| `--z-modal` |  | `1300` |
+| `--z-popover` |  | `1400` |
+| `--z-tooltip` |  | `1500` |
+| `--motion-duration-fast` |  | `100ms` |
+| `--motion-duration-base` |  | `160ms` |
+| `--motion-duration-slow` |  | `240ms` |
+| `--motion-duration-sheet` |  | `288ms` |
+| `--motion-easing-standard` |  | `cubic-bezier(0.2, 0, 0, 1)` |
+| `--motion-easing-out` |  | `cubic-bezier(0.23, 1, 0.32, 1)` |
+| `--motion-easing-in` |  | `cubic-bezier(0.4, 0, 1, 1)` |
+| `--motion-easing-in-out` |  | `cubic-bezier(0.77, 0, 0.175, 1)` |
+| `--motion-opacity-sheet-in` |  | `0.5` |
+| `--motion-opacity-sheet-out` |  | `0` |
+| `--motion-scale-press` |  | `0.97` |
+| `--motion-scale-popup` |  | `0.95` |
+| `--motion-scale-tooltip` |  | `0.97` |
+| `--motion-scale-modal` |  | `0.96` |
+| `--color-page` | color | light `color-mix(in oklab, var(--primitive-color-white) 84%, var(--primitive-color-neutral-50))` / dark `color-mix(in oklab, var(--primitive-color-neutral-950) 70%, var(--primitive-color-black))` |
+| `--color-page-translucent` | color | light `color-mix(in oklab, var(--color-page) 94%, transparent)` / dark `undefined` |
+| `--color-card` | color | light `var(--primitive-color-white)` / dark `color-mix(in oklab, var(--color-primary-foreground) 8%, var(--color-page))` |
+| `--color-sunken` | color | light `oklch(0.97913 0 0)` / dark `color-mix(in oklab, var(--primitive-color-black) 40%, var(--color-page))` |
+| `--color-surface-solid` | color | light `color-mix(in oklab, var(--color-primary-foreground) 10%, var(--color-card))` / dark `undefined` |
+| `--color-highlight` | color | light `color-mix(in oklab, var(--color-primary-foreground) 3%, var(--color-card))` / dark `color-mix(in oklab, var(--color-primary-foreground) 4%, var(--color-card))` |
+| `--color-modal` | color | light `var(--primitive-color-white)` / dark `color-mix(in oklab, var(--color-primary-foreground) 6%, var(--color-page))` |
+| `--color-component` | color | light `oklch(0 0 0 / 0.05)` / dark `oklch(1 0 0 / 0.102)` |
+| `--color-component-hover` | color | light `color-mix(in oklab, var(--color-primary-foreground) 8%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 14%, transparent)` |
+| `--color-component-hover-subtle` | color | light `color-mix(in oklab, var(--color-primary-foreground) 3%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` |
+| `--color-component-hover-faint` | color | light `color-mix(in oklab, var(--color-primary-foreground) 2%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 4%, transparent)` |
+| `--color-component-active` | color | light `color-mix(in oklab, var(--color-primary-foreground) 12%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 18%, transparent)` |
+| `--color-component-on-sunken` | color | light `var(--color-card)` / dark `var(--color-card)` |
+| `--color-control` | color | light `transparent` / dark `var(--color-component-hover)` |
+| `--color-control-hover` | color | light `var(--color-component-hover-subtle)` / dark `var(--color-component)` |
+| `--color-field` | color | light `transparent` / dark `var(--color-transparent-hover)` |
+| `--color-transparent-hover` | color | light `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 8%, transparent)` |
+| `--color-transparent-active` | color | light `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 12%, transparent)` |
+| `--color-toggle-active` | color | light `color-mix(in oklab, var(--color-primary-foreground) 8%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 12%, transparent)` |
+| `--color-neutral-subtle` | color | light `color-mix(in oklab, var(--color-primary-foreground) 12%, transparent)` / dark `undefined` |
+| `--color-primary-foreground` | color | light `var(--primitive-color-neutral-950)` / dark `color-mix(in oklab, var(--primitive-color-white) 60%, var(--primitive-color-neutral-100))` |
+| `--color-secondary-foreground` | color | light `color-mix(in oklch, var(--color-primary-foreground) 70%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 70%, transparent)` |
+| `--color-tertiary-foreground` | color | light `color-mix(in oklch, var(--color-primary-foreground) 62%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 54%, transparent)` |
+| `--color-disabled-foreground` | color | light `color-mix(in oklab, var(--color-primary-foreground) 62%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 50%, transparent)` |
+| `--color-inverted-solid` | color | light `var(--primitive-color-neutral-950)` / dark `#e5e5e6` |
+| `--color-inverted-solid-hover` | color | light `color-mix(in oklab, var(--color-inverted-solid) 82%, var(--color-page))` / dark `color-mix(in oklab, var(--color-inverted-solid) 40%, var(--primitive-color-white))` |
+| `--color-inverted-solid-active` | color | light `color-mix(in oklab, var(--color-inverted-solid) 72%, var(--color-page))` / dark `color-mix(in oklab, var(--color-inverted-solid) 72%, var(--color-page))` |
+| `--color-on-inverted-foreground` | color | light `var(--primitive-color-neutral-50)` / dark `var(--primitive-color-neutral-950)` |
+| `--color-brand-solid` | color | light `var(--primitive-color-accent-500)` / dark `var(--primitive-color-accent-500)` |
+| `--color-brand-solid-hover` | color | light `color-mix(in oklab, var(--color-brand-solid) 88%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-brand-solid) 88%, var(--color-primary-foreground))` |
+| `--color-brand-subtle` | color | light `color-mix(in oklab, var(--color-brand-solid) 12%, transparent)` / dark `color-mix(in oklab, var(--color-brand-solid) 12%, transparent)` |
+| `--color-brand-foreground` | color | light `color-mix(in oklab, var(--color-brand-solid) 75%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-brand-solid) 75%, var(--color-primary-foreground))` |
+| `--color-brand-foreground-soft` | color | light `color-mix(in oklab, var(--color-brand-solid) 60%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-brand-solid) 60%, var(--color-primary-foreground))` |
+| `--color-on-brand-solid-foreground` | color | light `var(--primitive-color-white)` / dark `var(--primitive-color-white)` |
+| `--color-positive-solid` | color | light `var(--primitive-color-success-700)` / dark `var(--primitive-color-success-400)` |
+| `--color-positive-solid-hover` | color | light `color-mix(in oklab, var(--color-positive-solid) 88%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-positive-solid) 88%, var(--color-primary-foreground))` |
+| `--color-positive-subtle` | color | light `color-mix(in oklab, var(--color-positive-solid) 12%, transparent)` / dark `color-mix(in oklab, var(--color-positive-solid) 12%, transparent)` |
+| `--color-positive-foreground` | color | light `var(--color-positive-solid)` / dark `var(--color-positive-solid)` |
+| `--color-on-positive-solid-foreground` | color | light `var(--primitive-color-white)` / dark `var(--color-page)` |
+| `--color-warning-solid` | color | light `var(--primitive-color-warning-700)` / dark `var(--primitive-color-warning-400)` |
+| `--color-warning-solid-hover` | color | light `color-mix(in oklab, var(--color-warning-solid) 88%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-warning-solid) 88%, var(--color-primary-foreground))` |
+| `--color-warning-subtle` | color | light `color-mix(in oklab, var(--color-warning-solid) 12%, transparent)` / dark `color-mix(in oklab, var(--color-warning-solid) 12%, transparent)` |
+| `--color-warning-foreground` | color | light `var(--color-warning-solid)` / dark `var(--color-warning-solid)` |
+| `--color-warning-bright` | color | light `oklch(0.62 0.16 88)` / dark `oklch(0.82 0.15 88)` |
+| `--color-on-warning-solid-foreground` | color | light `var(--primitive-color-white)` / dark `var(--color-page)` |
+| `--color-info-solid` | color | light `var(--primitive-color-info-700)` / dark `var(--primitive-color-info-400)` |
+| `--color-info-solid-hover` | color | light `color-mix(in oklab, var(--color-info-solid) 88%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-info-solid) 88%, var(--color-primary-foreground))` |
+| `--color-info-subtle` | color | light `color-mix(in oklab, var(--color-info-solid) 12%, transparent)` / dark `color-mix(in oklab, var(--color-info-solid) 12%, transparent)` |
+| `--color-info-foreground` | color | light `var(--color-info-solid)` / dark `var(--color-info-solid)` |
+| `--color-on-info-solid-foreground` | color | light `var(--primitive-color-white)` / dark `var(--color-page)` |
+| `--color-danger-solid` | color | light `var(--primitive-color-danger-700)` / dark `var(--primitive-color-danger-400)` |
+| `--color-danger-solid-hover` | color | light `color-mix(in oklab, var(--color-danger-solid) 88%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-danger-solid) 88%, var(--color-primary-foreground))` |
+| `--color-danger-solid-active` | color | light `color-mix(in oklab, var(--color-danger-solid) 78%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-danger-solid) 78%, var(--color-primary-foreground))` |
+| `--color-danger-subtle` | color | light `color-mix(in oklab, var(--color-danger-solid) 12%, transparent)` / dark `color-mix(in oklab, var(--color-danger-solid) 12%, transparent)` |
+| `--color-danger-subtle-hover` | color | light `color-mix(in oklab, var(--color-danger-solid) 20%, transparent)` / dark `color-mix(in oklab, var(--color-danger-solid) 20%, transparent)` |
+| `--color-danger-foreground` | color | light `var(--color-danger-solid)` / dark `var(--color-danger-solid)` |
+| `--color-on-danger-solid-foreground` | color | light `var(--primitive-color-white)` / dark `var(--color-page)` |
+| `--color-border-default` | color | light `color-mix(in oklch, var(--color-primary-foreground) 7%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 7%, transparent)` |
+| `--color-border-strong` | color | light `color-mix(in oklch, var(--color-primary-foreground) 9%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 9%, transparent)` |
+| `--color-border-emphasis` | color | light `color-mix(in oklch, var(--color-primary-foreground) 12%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 12%, transparent)` |
+| `--color-border-disabled` | color | light `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 10%, transparent)` |
+| `--color-tab-indicator-border` | color | light `color-mix(in oklab, var(--color-primary-foreground) 16%, transparent)` / dark `var(--color-component-hover)` |
+| `--color-brand-border-default` | color | light `color-mix(in oklab, var(--color-brand-solid) 40%, transparent)` / dark `color-mix(in oklab, var(--color-brand-solid) 40%, transparent)` |
+| `--color-brand-border-focus` | color | light `var(--color-brand-solid)` / dark `var(--color-brand-solid)` |
+| `--color-positive-border-default` | color | light `color-mix(in oklab, var(--color-positive-solid) 40%, transparent)` / dark `color-mix(in oklab, var(--color-positive-solid) 40%, transparent)` |
+| `--color-warning-border-default` | color | light `color-mix(in oklab, var(--color-warning-solid) 40%, transparent)` / dark `color-mix(in oklab, var(--color-warning-solid) 40%, transparent)` |
+| `--color-info-border-default` | color | light `color-mix(in oklab, var(--color-info-solid) 40%, transparent)` / dark `color-mix(in oklab, var(--color-info-solid) 40%, transparent)` |
+| `--color-danger-border-default` | color | light `color-mix(in oklab, var(--color-danger-solid) 40%, transparent)` / dark `color-mix(in oklab, var(--color-danger-solid) 40%, transparent)` |
+| `--color-disabled` | color | light `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` / dark `color-mix(in oklab, var(--color-primary-foreground) 6%, transparent)` |
+| `--color-overlay` | color | light `oklch(0 0 0 / 0.4)` / dark `oklch(0 0 0 / 0.6)` |
+| `--syntax-text` | color | light `var(--color-primary-foreground)` / dark `var(--color-primary-foreground)` |
+| `--syntax-keyword` | color | light `var(--color-brand-foreground-soft)` / dark `var(--color-brand-foreground-soft)` |
+| `--syntax-string` | color | light `var(--color-positive-foreground)` / dark `var(--color-positive-foreground)` |
+| `--syntax-number` | color | light `color-mix(in oklab, var(--color-warning-foreground) 88%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-warning-foreground) 88%, var(--color-primary-foreground))` |
+| `--syntax-function` | color | light `color-mix(in oklab, var(--color-info-foreground) 88%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-info-foreground) 88%, var(--color-primary-foreground))` |
+| `--syntax-comment` | color | light `var(--color-tertiary-foreground)` / dark `var(--color-tertiary-foreground)` |
+| `--syntax-punctuation` | color | light `var(--color-secondary-foreground)` / dark `var(--color-secondary-foreground)` |
+| `--syntax-danger` | color | light `var(--color-danger-foreground)` / dark `var(--color-danger-foreground)` |
+| `--syntax-diff-added-bg` | color | light `var(--color-positive-subtle)` / dark `var(--color-positive-subtle)` |
+| `--syntax-diff-removed-bg` | color | light `var(--color-danger-subtle)` / dark `var(--color-danger-subtle)` |
+| `--shadow-inset-ring` | shadow | light `inset 0 0 0 1px #00000014` / dark `inset 0 0 0 1px #ffffff14` |
+| `--shadow-default` | shadow | light `0 0 0 1px #0000000f, 0 1px 2px #0000001a` / dark `0 0 0 1px #ffffff12, 0 1px 2px #00000066` |
+| `--shadow-control` | shadow | light `var(--shadow-default)` / dark `0 0 1px 1px rgb(105 105 105 / 0.6)` |
+| `--shadow-field` | shadow | light `var(--shadow-default)` / dark `0 0 1px 1px rgb(161 161 161 / 0.42)` |
+| `--shadow-raised` | shadow | light `inset 0 0 0 1px transparent, inset 0 1px #ffffffb3, 0 0 0 1px #00000014` / dark `inset 0 0 0 1px #ffffff06, inset 0 1px #ffffff08, 0 0 0 1px #0009, 0 4px 4px #0000001a` |
+| `--shadow-large` | shadow | light `0 0 0 1px #00000014, 0 2px 3px -2px #0000001a, 0 3px 8px -2px #00000014, 0 4px 12px -4px #0000001f` / dark `0 0 0 1px color-mix(in oklab, #ffffff12, #3a3a3a 25%), 0 2px 3px -2px #00000026, 0 3px 8px -2px #0006, 0 4px 12px -4px #00000080` |
+| `--shadow-extra-large` | shadow | light `0 0 0 .5px #00000014, 0 8px 40px 0px #0000001a, 0 12px 32px -16px #00000040` / dark `0 0 0 .5px #ffffff12 inset, 0 0 0 .5px #0000, 0 8px 40px 0px #0000000d, 0 12px 32px -16px #00000026` |

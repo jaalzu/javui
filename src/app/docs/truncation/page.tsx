@@ -1,5 +1,0 @@
-import type { Metadata } from "next";
-import { Text, Stack } from "@/ui";
-import { UtilityGuide } from "@/app/docs/_page/UtilityGuide";
-export const metadata: Metadata = { title: "Truncation" };
-export default function Truncation() { return <UtilityGuide href="/docs/truncation" title="Truncation" description="Control how long text is shortened when its available space is limited." rule="Truncation and line clamp are opt-in. Apply them directly to a text element, never to a container with nested HTML. Line clamp is not supported in IE11." code={`<Text truncate>One line ends with an ellipsis.</Text>\n<Text lineClamp={3}>Direct text can use three lines.</Text>\n<Text hyphenate>Long words can break.</Text>`} example={<Stack gap="3"><Text truncate>One line ends with an ellipsis when its available width is limited.</Text><Text lineClamp={3}>Direct text can use three lines when the available width is limited. This remains opt-in.</Text><Text hyphenate>Supercalifragilisticexpialidocious</Text></Stack>} />; }

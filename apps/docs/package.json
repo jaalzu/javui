@@ -1,0 +1,14 @@
+{
+  "name": "@javui/docs",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build --webpack",
+    "typecheck": "next typegen && tsc --noEmit"
+  },
+  "dependencies": {
+    "@javui/ui": "workspace:*",
+    "next": "16.4.4",
+    "next-themes": "^0.4.6"
+  }
+}

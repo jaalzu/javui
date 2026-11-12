@@ -8,6 +8,8 @@
     "./server": "./src/server.ts",
     "./tokens.css": "./src/tokens/tokens.css",
     "./global.css": "./src/styles/global.css",
+    "./base.css": "./src/styles/base.css",
+    "./fonts.css": "./src/styles/fonts.css",
     "./tailwind.css": "./src/tokens/tailwind.css",
     "./styles/*": "./src/styles/*",
     "./package.json": "./package.json"

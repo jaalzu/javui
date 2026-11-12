@@ -50,3 +50,14 @@ Fase 0 auditada. La Fase 1 queda pendiente de la confirmación del usuario.
 - Se corrigió el bloque desbalanceado de `apps/docs/src/app/uitest/ui-test.module.css`; la página `/uitest` sí se usa y no se eliminó. También se corrigieron selectores CSS Modules no puros y rutas de CSS de ejemplos.
 - Build con Webpack: `bun run --filter @javui/docs build` pasó con permisos elevados. En el sandbox falla por `EPERM` al crear `.next`; sin `--webpack` falla por `Access is denied` al crear la junction de `shiki`. Se conserva `next build --webpack` y la causa está en `DECISIONS.md`.
 - Tests comparativos en worktree del commit base `de8bb68`: base y migración fallan exactamente en 3 tests: `Button.test.tsx`, `Input.test.tsx` y `Slider.test.tsx`; pasan 52 suites y 275 tests. Son preexistentes, no causados por la migración. El sandbox añade además fallos `ENOENT` de archivos temporales al ejecutar sin permisos elevados.
+
+## Tanda B — Fase 3: CSS separado
+
+- `packages/ui/src/tokens/tokens.css`: variables generadas únicamente desde los JSON DTCG; no se editó manualmente.
+- `packages/ui/src/styles/base.css`: reset (`box-sizing`), `html`, `body`, tipografía base, `code/kbd/pre/samp`, numeración tabular, `[data-surface="sunken"]`, `:focus-visible`, `::selection`, scrollbar contextual y `prefers-reduced-motion`, además de las utilities existentes.
+- `packages/ui/src/styles/fonts.css`: entrada opt-in con `@fontsource-variable/dm-sans` y `@fontsource/commit-mono`; los tokens conservan pilas de respaldo. Source Serif 4 queda como fallback serif hasta incorporar una fuente distribuible equivalente.
+- CSS de componentes: no se movieron reglas de componentes; sus CSS Modules permanecen junto a cada componente. Los CSS de ejemplos permanecen en `apps/docs/src/examples`.
+- Docs: no necesita reglas nuevas; `apps/docs` importa `@javui/ui/global.css`, alias de compatibilidad que compone tokens + base + fonts.
+- `tailwind.css` sigue siendo bridge `@theme inline`; no se implementó `@layer` nuevo (queda como mejora futura).
+- `TOKENS.md` documenta las familias de tokens sin enumerar las 321 variables.
+- Gate Fase 3: `typecheck` OK y `bun run build` OK fuera del sandbox con permisos elevados.

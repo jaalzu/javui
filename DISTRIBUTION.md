@@ -1,14 +1,13 @@
 # Distribution plan
 
-The v1 system is intentionally an internal design system first. It is not published as a stable
-npm package and it does not expose a source-install CLI yet.
+The package is consumed from its built `dist` output and public exports.
 
 ## Current consumption
 
-The repository consumes the library through the `@/ui` path alias. A consumer app must import the
-semantic token stylesheet, global styles and fonts, and must provide `LinkProvider` when its
-navigation should use framework links. Static primitives remain Server Component-compatible;
-interactive Base UI components require a client boundary.
+Consumer apps import `@javui/ui` or `@javui/ui/server`, never `@/ui`. Import `tokens.css` and optionally
+`base.css`, `fonts.css`, `tailwind.css` or `styles.css`; `CodeBlock` exists only in the server entry.
+The package has no Next-specific directives and works with or without `cacheComponents`. In Next App
+Router, mount `LinkProvider` inside a `use client` provider because `next/link` is a function.
 
 ## Package gate
 

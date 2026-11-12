@@ -85,3 +85,4 @@ Fase 0 auditada. La Fase 1 queda pendiente de la confirmación del usuario.
 - `bun run test:consumer`: empaquetado OK; instalación/build bloqueados por `EBADF accessing temporary directory` del sandbox. Pendiente del usuario: `bun run test:consumer`.
 - Tarball: 0.28 MB packed, 1.42 MB unpacked (349 archivos).
 - Auditoría de APIs: no quedan `use cache`, `use server`, `unstable_cache`, `cacheLife` ni `cacheTag` en `packages/ui/src`. Select se corrigió a su API real (`items`/`placeholder`); el manifest y los ejemplos bastaron, sin hueco de documentación para agentes.
+- Fase 7a: se actualizaron AGENTS/AGENT_GUIDE/README/DISTRIBUTION a `packages/ui`, `dist`, exports y CSS públicos; se regeneró `agent/*` y no quedan `@/ui` allí. Queda sin resolver la discrepancia existente entre CHANGELOG (Box/Container/Divider removidos) y el barrel, que aún exporta Box y Container.

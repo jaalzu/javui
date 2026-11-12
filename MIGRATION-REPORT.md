@@ -23,3 +23,11 @@
 ## Estado
 
 Fase 0 auditada. La Fase 1 queda pendiente de la confirmación del usuario.
+
+## Tanda A — Fase 1: limpieza de acoples
+
+- Los 9 archivos restantes con `@/` son fixtures, demos o ejemplos; no hay imports reales del alias en componentes, hooks, utils, tests o stories que deban convertirse en esta fase.
+- Se añadió una regla ESLint para `src/ui` que prohíbe `@/*`, `next`, `next/*`, `next-themes` y `server-only`, excluyendo ejemplos/demos y la cadena explícita de `CodeBlock`/`server.ts`.
+- El análisis de contextos y APIs interactivas no encontró una ausencia evidente de `"use client"`; los 45 archivos existentes se conservan sin añadir directivas a presentacionales.
+- Madge sigue sin ciclos y `LinkProvider` ya tiene fallback a `<a>`; no se cambió comportamiento público.
+- Gate de Fase 1: `typecheck` OK; `lint` OK con 6 warnings preexistentes; `test` reproduce el fallo de sandbox (`54` suites fallidas, `1` pasada, 2 tests pasaron).

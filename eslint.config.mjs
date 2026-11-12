@@ -7,6 +7,26 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
   {
+    files: ["src/ui/**/*.{js,jsx,ts,tsx}"],
+    ignores: [
+      "src/ui/**/*.examples.*",
+      "src/ui/**/*Example*.{js,jsx,ts,tsx}",
+      "src/ui/**/*Demo.{js,jsx,ts,tsx}",
+      "src/ui/components/CodeBlock/CodeBlock.tsx",
+      "src/ui/server.ts",
+    ],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            { group: ["@/*", "next", "next/*", "next-themes", "server-only"], message: "JavUI library code must not depend on app aliases, Next.js, next-themes, or server-only." },
+          ],
+        },
+      ],
+    },
+  },
+  {
     // eslint-config-next already registers the jsx-a11y plugin with a few rules;
     // here we turn on the full recommended set (patterns that break accessibility in JSX).
     files: ["**/*.{jsx,tsx}"],

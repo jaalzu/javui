@@ -231,7 +231,7 @@
     },
     "body-sm": {
       "size": {
-        "$value": "{font.size.13}"
+        "$value": "{font.size.14}"
       },
       "line": {
         "$value": "1.5"

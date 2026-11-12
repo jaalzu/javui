@@ -8,6 +8,7 @@ import styles from "./Examples.module.css";
 
 const centeredExamples = new Set(["Alert", "Avatar", "Badge", "Breadcrumb", "Button", "Checkbox", "Input", "InputGroup", "InputOTP", "Kbd", "Label", "Link", "Menu", "Modal", "Pagination", "Popover", "RadioGroup", "Separator", "Sheet", "Spinner", "Textarea", "Select", "Combobox", "Switch", "Toggle", "ToggleGroup", "Tooltip"]);
 const constrainedExamples = new Set(["Input", "InputGroup", "InputOTP", "Textarea", "Select", "Combobox"]);
+const cardSurfaceExamples = new Set(["Table"]);
 
 const componentImports = new Map(
   [...manifest.components, ...manifest.providersAndHooks, ...manifest.components.flatMap((entry) => entry.parts ?? [])]
@@ -35,7 +36,7 @@ export function ExampleFrame({ name, children, code, full = false, fixed = false
   const sizeClass = stageHeight === "sm" ? styles.exampleStageSm : stageHeight === "md" ? styles.exampleStageMd : stageHeight === "lg" ? styles.exampleStageLg : "";
   return (
     <div className={styles.example} data-doc-example>
-      <div className={`${styles.exampleStage} ${full ? styles.exampleStageFull : ""} ${fixed ? styles.exampleStageFixed : ""} ${center ? styles.exampleStageCentered : ""} ${constrained ? styles.exampleStageConstrained : ""} ${sizeClass}`}>{children}</div>
+      <div className={`${styles.exampleStage} ${full ? styles.exampleStageFull : ""} ${fixed ? styles.exampleStageFixed : ""} ${center ? styles.exampleStageCentered : ""} ${constrained ? styles.exampleStageConstrained : ""} ${sizeClass}`} data-surface={cardSurfaceExamples.has(name) ? "card" : undefined}>{children}</div>
       {code && (
         <details className={styles.exampleCode}>
           <summary>

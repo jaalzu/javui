@@ -1,11 +1,10 @@
 import type { CSSProperties } from "react";
-import { Badge, Button, Field, Grid, InfoIcon, Input, InputGroup, InputGroupAddon, InputGroupInput, InputGroupText, MagnifyingGlassIcon, Select, Stack } from "@/ui";
+import { Badge, Button, Field, Grid, InfoIcon, Input, InputGroup, InputGroupAddon, InputGroupInput, InputGroupText, Select, Stack } from "@/ui";
 import { defineHero, ex, type Example } from "@/docs/example";
 import styles from "./Input.examples.module.css";
 
 const smallInfoIconStyle = { "--icon-size": "var(--size-icon-sm)" } as CSSProperties;
 const compactInputGroupStyle = { "--input-px": "calc(var(--space-3) - var(--space-1) / 2 - var(--space-1) / 4)" } as CSSProperties;
-const searchButtonStyle = { "--icon-size": "var(--size-icon-sm)" } as CSSProperties;
 const departments = [
   { value: "design", label: "Design" },
   { value: "engineering", label: "Engineering" },
@@ -73,13 +72,13 @@ export const examples: Example[] = [
     `<Field label="Search">
   <Stack direction="row" gap="3" align="center" className="searchRow" style={{ gap: "calc(var(--space-3) - var(--space-1) / 4)" }}>
     <Input type="search" placeholder="Search projects" size="md" />
-    <Button className={styles.searchButton} endIcon={<MagnifyingGlassIcon />} size="md" variant="primary" style={{ "--icon-size": "var(--size-icon-sm)" }}>Search</Button>
+    <Button className={styles.searchButton} size="md" variant="primary">Search</Button>
   </Stack>
 </Field>`,
     <Field label="Search">
       <Stack direction="row" gap="3" align="center" className="searchRow" style={{ gap: "calc(var(--space-3) - var(--space-1) / 4)" }}>
         <Input type="search" placeholder="Search projects" size="md" />
-        <Button className={styles.searchButton} endIcon={<MagnifyingGlassIcon />} size="md" variant="primary" style={searchButtonStyle}>Search</Button>
+        <Button className={styles.searchButton} size="md" variant="primary">Search</Button>
       </Stack>
     </Field>,
   ),

@@ -1,7 +1,17 @@
+.root {
+  --_px: var(--input-px, calc(var(--space-3) - var(--space-1) / 2));
+  --icon-size: var(--size-icon-md);
+  --textarea-icon-gap: var(--icon-gap-md);
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
 .textarea {
-  padding-block: var(--space-2);
-  resize: vertical;
+  composes: surface from "../../styles/field-surface.module.css";
   min-height: var(--size-control-lg);
+  padding: var(--space-2) var(--_px);
+  resize: vertical;
 }
 
 .textarea[data-resize="none"] {
@@ -13,9 +23,31 @@
   field-sizing: content;
 }
 
-.slot {
+.startSlot,
+.endSlot,
+.spinnerSlot {
+  position: absolute;
+  top: 0;
+  bottom: 0;
   align-items: flex-start;
   padding-block-start: var(--space-2);
+  color: var(--color-secondary-foreground);
+  pointer-events: none;
+}
+
+.startSlot { inset-inline-start: var(--_px); }
+.endSlot,
+.spinnerSlot { inset-inline-end: var(--_px); }
+.spinnerSlot { display: flex; }
+
+.root[data-icon="start"] .textarea,
+.root[data-icon="both"] .textarea {
+  padding-inline-start: calc(var(--_px) + var(--icon-size) + var(--textarea-icon-gap));
+}
+
+.root[data-icon="end"] .textarea,
+.root[data-icon="both"] .textarea {
+  padding-inline-end: calc(var(--_px) + var(--icon-size) + var(--textarea-icon-gap));
 }
 
 /* inline and ghost: nothing visible at rest. */
@@ -24,7 +56,7 @@
   background: transparent;
 }
 
-/* Invalid keeps its danger ring (set in Input.module.css). */
+/* Invalid keeps its danger ring from the shared field surface. */
 .root[data-appearance="inline"]
   .textarea:not([data-invalid]):not([aria-invalid="true"]),
 .root[data-appearance="ghost"]
@@ -35,10 +67,10 @@
 /* inline: hover comes from Input's own hover rule; focus keeps the same background. */
 .root[data-appearance="inline"] .textarea:focus-visible,
 .root[data-appearance="inline"] .textarea[data-force="focus"] {
-  background: var(--input-hover-background);
+  background: var(--field-hover-background);
 }
 
 /* ghost: no hover background and none on focus. Only the focus ring remains. */
 .root[data-appearance="ghost"] .textarea {
-  --input-hover-background: transparent;
+  --field-hover-background: transparent;
 }

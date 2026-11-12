@@ -493,7 +493,7 @@
     "a11y": "The returned component must render an `a`."
   },
   "Card": {
-    "category": "layout",
+    "category": "components",
     "base": "own",
     "renders": "div by default; `as` can be article, section or li",
     "composition": "`CardHeader`, `CardContent` and `CardFooter` are all optional. `size` covers the common insets; set `--card-spacing` on the card for another step of the scale (`--space-5`, `--space-8`). For a full-bleed table, add `data-flush` to `CardContent`. Width is fluid: the container decides it. A link in the title goes as `Link` inside `CardTitle`. For an icon, put an element with `data-card-media` inside `CardHeader`.",
@@ -589,7 +589,7 @@
     "a11y": "Announced by screen readers on render. The icon is decorative, and the tone never relies on color alone: the text says what happened."
   },
   "Avatar": {
-    "category": "utility",
+    "category": "components",
     "base": "base-ui",
     "renders": "span with role img and the name as aria-label",
     "composition": "Pass `name` (required), `src` and `size` (`xs`, `sm`, `md`, `lg` or `xl`); initials are the fallback. For bots, companies or systems, use `src` with the logo; without it the initials are shown. `status` adds a solid dot at the bottom end with a page-colored ring and appends the state to the name; `badge` with `badgeLabel` adds an avatar badge with an icon inside and appends its label; `outline={false}` removes the avatar border. `status` and `badge` cannot be combined. Every feature scales with `size`.",
@@ -719,10 +719,10 @@
     "a11y": "Each title is a button in a heading with aria-expanded and aria-controls."
   },
   "Table": {
-    "category": "layout",
+    "category": "components",
     "base": "own",
     "renders": "table with caption, thead, tbody, th scope and a focusable scroll region",
-    "composition": "Pass `caption`, `columns` ({ key, header, align? }) and `rows` (objects by key). Use `align: \"end\"` for numeric columns: they align end and use tabular numbers.",
+    "composition": "Compose `TableCaption`, `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead` and `TableCell`. Use `align=\"end\"` for numeric columns. The responsive wrapper is focusable for horizontal scrolling.",
     "whenToUse": "Comparing data across rows and columns.",
     "avoid": [
       "Page layout: use Grid or Stack.",
@@ -730,6 +730,13 @@
     ],
     "a11y": "Real table semantics. The first column is a row header. The scroll wrapper is focusable and named."
   },
+  "TableCaption": { "category": "components", "base": "own", "renders": "caption", "composition": "Child of Table; describes the table.", "whenToUse": "Naming a table.", "avoid": ["Omitting a caption."], "a11y": "Names the table for assistive technology." },
+  "TableHeader": { "category": "components", "base": "own", "renders": "thead", "composition": "Contains TableRow and TableHead.", "whenToUse": "Column headings.", "avoid": ["Using it for body rows."], "a11y": "Native table header semantics." },
+  "TableBody": { "category": "components", "base": "own", "renders": "tbody", "composition": "Contains data TableRow elements.", "whenToUse": "The main table data.", "avoid": ["Putting headings here."], "a11y": "Native table body semantics." },
+  "TableFooter": { "category": "components", "base": "own", "renders": "tfoot", "composition": "Contains summary TableRow elements.", "whenToUse": "Totals or summaries.", "avoid": ["Repeating the header."], "a11y": "Native table footer semantics." },
+  "TableRow": { "category": "components", "base": "own", "renders": "tr", "composition": "Contains TableHead or TableCell elements.", "whenToUse": "A table row.", "avoid": ["Using it outside a table section."], "a11y": "Native table row semantics." },
+  "TableHead": { "category": "components", "base": "own", "renders": "th", "composition": "Use scope=\"col\" for headers or scope=\"row\" for the first cell in a data row.", "whenToUse": "Column or row headers.", "avoid": ["Using a td for a header."], "a11y": "Native th scope semantics." },
+  "TableCell": { "category": "components", "base": "own", "renders": "td", "composition": "A data cell inside TableRow.", "whenToUse": "Table values.", "avoid": ["Using it for headings."], "a11y": "Native table cell semantics." },
   "Breadcrumb": {
     "category": "navigation",
     "base": "own",

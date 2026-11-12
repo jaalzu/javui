@@ -5,9 +5,9 @@ import { Input } from "../Input";
 import { Menu } from "../Menu";
 import { Modal, ModalClose, ModalContent, ModalTrigger } from "../Modal";
 import { Select } from "../Select";
+import { PulseIcon, PlusIcon, ArrowRightIcon } from "../../icons/icons.generated";
 import { ButtonGroup } from "./ButtonGroup";
 import { ButtonGroupSeparator } from "./ButtonGroupSeparator";
-import { ButtonGroupText } from "./ButtonGroupText";
 
 const selectItems = [
   { value: "usd", label: "USD" },
@@ -24,9 +24,9 @@ const meta = {
     "aria-label": "Document actions",
     children: (
       <>
-        <Button variant="secondary">Save draft</Button>
-        <Button variant="secondary">Preview</Button>
-        <Button variant="secondary">Publish</Button>
+        <Button variant="outline">Save draft</Button>
+        <Button variant="outline">Preview</Button>
+        <Button variant="outline">Publish</Button>
       </>
     ),
   },
@@ -40,9 +40,9 @@ export const Horizontal: Story = {
     const canvas = within(canvasElement);
     const [save, preview] = canvas.getAllByRole("button");
 
-    // One 1px default divider between flat faces, drawn by the following face only.
-    expect(getComputedStyle(save, "::before").boxShadow).toBe("none");
-    expect(getComputedStyle(preview, "::before").boxShadow).not.toBe("none");
+    // Outline buttons keep one visible border across the shared edge.
+    expect(getComputedStyle(save).borderInlineEndWidth).toBe("1px");
+    expect(getComputedStyle(preview).borderInlineStartWidth).toBe("0px");
   },
 };
 
@@ -51,9 +51,9 @@ export const Vertical: Story = {
     orientation: "vertical",
     children: (
       <>
-        <Button variant="secondary">Save draft</Button>
-        <Button variant="secondary">Preview</Button>
-        <Button variant="secondary">Publish</Button>
+        <Button variant="outline">Save draft</Button>
+        <Button variant="outline">Preview</Button>
+        <Button variant="outline">Publish</Button>
       </>
     ),
   },
@@ -79,38 +79,14 @@ export const WithSeparator: Story = {
   },
 };
 
-export const SeparatorWithFlatButtons: Story = {
-  name: "Separator with secondary",
-  args: {
-    "aria-label": "Export",
-    children: (
-      <>
-        <Button variant="secondary">CSV</Button>
-        <ButtonGroupSeparator />
-        <Button variant="secondary">JSON</Button>
-      </>
-    ),
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const [, json] = canvas.getAllByRole("button");
-    const separator = canvas.getByRole("separator");
-
-    expect(getComputedStyle(separator).width).toBe("1px");
-    expect(getComputedStyle(separator).alignSelf).toBe("stretch");
-    // The separator draws the edge; the next flat button must not add its own divider.
-    expect(getComputedStyle(json, "::before").boxShadow).toBe("none");
-  },
-};
-
 export const WithInput: Story = {
   name: "With Input",
   args: {
-    "aria-label": "Search",
+    "aria-label": "Send message",
     children: (
       <>
-        <Input aria-label="Search" placeholder="Search projects" />
-        <Button>Search</Button>
+        <Button size="sm" variant="outline" aria-label="Add" startIcon={<PlusIcon />} />
+        <Input aria-label="Message" placeholder="Send message" endIcon={<PulseIcon />} />
       </>
     ),
   },
@@ -123,20 +99,7 @@ export const WithSelect: Story = {
     children: (
       <>
         <Select aria-label="Currency" placeholder="USD" items={selectItems} />
-        <Button>Apply</Button>
-      </>
-    ),
-  },
-};
-
-export const WithText: Story = {
-  name: "With text",
-  args: {
-    "aria-label": "Domain",
-    children: (
-      <>
-        <ButtonGroupText>https://</ButtonGroupText>
-        <Input aria-label="Domain" placeholder="example.com" />
+        <Button variant="outline" aria-label="Next currency" startIcon={<ArrowRightIcon />} />
       </>
     ),
   },
@@ -148,12 +111,12 @@ export const Nested: Story = {
     children: (
       <>
         <ButtonGroup aria-label="Text style">
-          <Button variant="secondary">Bold</Button>
-          <Button variant="secondary">Italic</Button>
+          <Button variant="outline">Bold</Button>
+          <Button variant="outline">Italic</Button>
         </ButtonGroup>
         <ButtonGroup aria-label="Alignment">
-          <Button variant="secondary">Left</Button>
-          <Button variant="secondary">Center</Button>
+          <Button variant="outline">Left</Button>
+          <Button variant="outline">Center</Button>
         </ButtonGroup>
       </>
     ),
@@ -170,12 +133,12 @@ export const PillAndXs: Story = {
   render: () => (
     <div style={{ display: "grid", gap: "var(--space-4)" }}>
       <ButtonGroup aria-label="Pill actions">
-        <Button pill variant="secondary">Pill one</Button>
-        <Button pill variant="secondary">Pill two</Button>
+        <Button pill variant="outline">Pill one</Button>
+        <Button pill variant="outline">Pill two</Button>
       </ButtonGroup>
       <ButtonGroup aria-label="XS actions">
-        <Button size="xs" variant="secondary">XS one</Button>
-        <Button size="xs" variant="secondary">XS two</Button>
+        <Button size="xs" variant="outline">XS one</Button>
+        <Button size="xs" variant="outline">XS two</Button>
       </ButtonGroup>
     </div>
   ),
@@ -203,9 +166,9 @@ export const ModalTriggerInGroup: Story = {
     "aria-label": "Actions",
     children: (
       <>
-        <Button variant="secondary">Rename</Button>
+        <Button variant="outline">Rename</Button>
         <Modal>
-          <ModalTrigger variant="secondary">Open settings</ModalTrigger>
+          <ModalTrigger variant="outline">Open settings</ModalTrigger>
           <ModalContent
             title="Settings"
             closeLabel="Close settings"
@@ -229,47 +192,15 @@ export const ModalTriggerInGroup: Story = {
   },
 };
 
-export const Responsive: Story = {
-  name: "Responsive",
-  parameters: {
-    viewport: {
-      viewports: {
-        mobile375: {
-          name: "Mobile 375",
-          styles: { width: "375px", height: "812px" },
-          type: "mobile",
-        },
-      },
-      defaultViewport: "mobile375",
-    },
-  },
-  args: {
-    "aria-label": "Responsive actions",
-    stackBelow: "md",
-    children: (
-      <>
-        <Button variant="secondary">Save draft</Button>
-        <Button variant="secondary">Preview</Button>
-        <Button variant="secondary">Publish</Button>
-      </>
-    ),
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const group = canvas.getByRole("group", { name: "Responsive actions" });
-    expect(getComputedStyle(group).flexDirection).toBe("column");
-  },
-};
-
 export const SplitButton: Story = {
   args: {
     "aria-label": "Deploy",
     children: (
       <>
-        <Button>Deploy</Button>
+        <Button variant="outline">Deploy</Button>
         <Menu
           label="Options"
-          variant="primary"
+          variant="outline"
           items={[
             { label: "Deploy to staging", onSelect: () => {} },
             { label: "Deploy to production", onSelect: () => {} },

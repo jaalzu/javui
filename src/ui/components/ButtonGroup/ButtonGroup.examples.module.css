@@ -1,9 +1,34 @@
+/* Centers every example horizontally and vertically in the preview. */
+.stage {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: var(--space-24);
+}
+
 .constrained {
   width: 100%;
   max-width: var(--container-sm);
 }
 
-.currency {
-  width: 100%;
-  max-width: var(--container-xs);
+.menuGroup :global(button) {
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+}
+
+.fieldButton {
+  --btn-bg: var(--color-field);
+  --btn-bg-hover: var(--color-component-hover);
+}
+
+.currencySelect {
+  width: fit-content;
+  min-width: 0;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
 }

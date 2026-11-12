@@ -150,7 +150,7 @@ export const examples: Example[] = [
   </InputGroup>
   <Card variant="surface" size="sm">
     <CardContent>
-      <Textarea aria-label="Reply" rows={3} placeholder="Write a reply…" disabled />
+    <Textarea aria-label="Reply" rows={3} placeholder="Write a reply…" variant="ghost" disabled />
     </CardContent>
     <CardFooter>
       <Stack direction="row" gap="3" align="center" justify="between" style={{ flex: 1 }}>
@@ -172,7 +172,7 @@ export const examples: Example[] = [
       </InputGroup>
       <Card variant="surface" size="sm">
         <CardContent>
-          <Textarea aria-label="Reply" rows={3} placeholder="Write a reply…" disabled />
+          <Textarea aria-label="Reply" rows={3} placeholder="Write a reply…" variant="ghost" disabled />
         </CardContent>
         <CardFooter>
           <Stack direction="row" gap="3" align="center" justify="between" style={{ flex: 1 }}>

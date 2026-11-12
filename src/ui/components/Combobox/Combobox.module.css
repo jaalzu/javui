@@ -8,41 +8,17 @@
 
 .group {
   composes: control from "../../styles/control.module.css";
+  composes: surface from "../../styles/field-surface.module.css";
   --icon-size: var(--size-icon-md);
-  box-sizing: border-box;
   display: flex;
   align-items: center;
   gap: var(--icon-gap-md);
-  width: 100%;
   min-height: var(--size-control-md);
   padding: 0 var(--space-3);
-  border: 0;
-  border-radius: var(--radius-md);
-  background: transparent;
-  box-shadow: var(--shadow-default);
-  --combobox-hover-background: var(--color-component-hover-subtle);
-  color: var(--color-primary-foreground);
-  transition:
-    background-color var(--motion-duration-fast) var(--motion-easing-standard),
-    border-color var(--motion-duration-fast) var(--motion-easing-standard);
 }
 
 .group:hover:not([data-disabled], [data-readonly], [data-loading]) {
-  background: var(--combobox-hover-background);
-}
-
-:global([data-theme="dark"]) .group {
-  background: var(--color-transparent-hover);
-  box-shadow: 0 0 1px 2px rgb(161 161 161 / 0.58);
-  --combobox-hover-background: var(--color-component);
-}
-
-@media (prefers-color-scheme: dark) {
-  :global(html:not([data-theme="light"])) .group {
-    background: var(--color-transparent-hover);
-    box-shadow: 0 0 1px 1px rgb(105 105 105 / 0.6);
-    --combobox-hover-background: var(--color-component);
-  }
+  background: var(--field-hover-background);
 }
 
 .group:active:not([data-disabled], [data-readonly], [data-loading]) {
@@ -54,23 +30,9 @@
   outline-offset: var(--focus-ring-offset);
 }
 
-.group[data-invalid] {
-  box-shadow: 0 0 0 var(--border-width-thick) var(--color-danger-solid);
-}
-
-.group[data-readonly],
-.group[data-loading] {
-  background: var(--color-sunken);
-}
-
-.group[data-loading] {
-  cursor: progress;
-}
-
-.group[data-disabled] {
-  background: var(--color-disabled);
-  color: var(--color-disabled-foreground);
-  cursor: not-allowed;
+.group[data-invalid]:has(.input:focus-visible):not([data-pointer-action]) {
+  outline-width: var(--border-width-thin);
+  outline-color: var(--color-danger-solid);
 }
 
 /* ---------- Sizes ---------- */
@@ -126,7 +88,14 @@
 }
 
 .input::placeholder {
-  color: var(--color-secondary-foreground);
+  color: var(--color-tertiary-foreground);
+}
+
+.input:-webkit-autofill,
+.input:autofill {
+  -webkit-text-fill-color: var(--color-primary-foreground);
+  caret-color: var(--color-primary-foreground);
+  box-shadow: 0 0 0 100rem var(--color-card) inset;
 }
 
 .input:disabled {

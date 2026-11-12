@@ -15,6 +15,10 @@
   min-height: calc(var(--space-16) * 4);
 }
 
+.exampleStage[data-surface="card"] {
+  background: var(--color-card);
+}
+
 .exampleStageCentered {
   align-items: center;
 }

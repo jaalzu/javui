@@ -51,6 +51,11 @@
       "$type": "color",
       "$description": "Very subtle component hover for quiet controls."
     },
+    "component-hover-faint": {
+      "$value": "color-mix(in oklab, {color.primary-foreground} 2%, transparent)",
+      "$type": "color",
+      "$description": "Barely visible hover for large non-interactive surfaces such as table rows."
+    },
     "component-active": {
       "$value": "color-mix(in oklab, {color.primary-foreground} 12%, transparent)",
       "$type": "color",
@@ -70,6 +75,11 @@
       "$value": "{color.component-hover-subtle}",
       "$type": "color",
       "$description": "Neutral control surface on hover."
+    },
+    "field": {
+      "$value": "transparent",
+      "$type": "color",
+      "$description": "Resting background of text fields (Input, Textarea). Transparent in light, a soft tint in dark."
     },
     "transparent-hover": {
       "$value": "color-mix(in oklab, {color.primary-foreground} 6%, transparent)",
@@ -411,6 +421,11 @@
       "$value": "{shadow.default}",
       "$type": "shadow",
       "$description": "Shared control elevation."
+    },
+    "field": {
+      "$value": "{shadow.default}",
+      "$type": "shadow",
+      "$description": "Resting edge of text fields (Input, Textarea). Same as default in light; a brighter ring in dark so the field reads on the page."
     },
     "raised": {
       "$value": "inset 0 0 0 1px transparent, inset 0 1px #ffffffb3, 0 0 0 1px #00000014",

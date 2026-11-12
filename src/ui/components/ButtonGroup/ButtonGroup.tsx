@@ -23,7 +23,12 @@ export type ButtonGroupProps = {
 } & Omit<ComponentProps<"div">, "color">;
 
 /**
- * Joins 2-4 related actions into one control. Children draw their border and radius; the group only zeros the inner edges. It never inherits `size` or `variant`.
+ * Joins 2-4 related actions into one control. Children draw their border and radius; the group
+ * only zeros the inner edges. It never sets the `size` or `variant` of its buttons.
+ *
+ * Use `ButtonGroup` for buttons that perform an action. To group buttons that switch a state on
+ * and off, use `ToggleGroup`. The group has `role="group"`: name it with `aria-label` or
+ * `aria-labelledby`. Tab moves between the buttons.
  *
  * @example
  * <ButtonGroup aria-label="Document actions">

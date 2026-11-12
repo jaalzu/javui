@@ -6,7 +6,6 @@ import { cx } from "../../utils/cx";
 import { IconSlot, getIconSlots } from "../Icon/IconSlot";
 import { Spinner } from "../Spinner";
 import { useFieldControlState } from "../Field/FieldContext";
-import inputStyles from "../Input/Input.module.css";
 import styles from "./Textarea.module.css";
 
 export type TextareaProps = {
@@ -67,16 +66,16 @@ export function Textarea({
 
   return (
     <span
-      className={cx(inputStyles.wrapper, styles.root)}
+      className={styles.root}
       data-icon={position}
       data-appearance={variant}
     >
-      <IconSlot className={cx(inputStyles.startSlot, styles.slot)}>
+      <IconSlot className={styles.startSlot}>
         {startIcon}
       </IconSlot>
       <BaseInput
         render={<textarea rows={rows} />}
-        className={cx(inputStyles.input, styles.textarea, className)}
+        className={cx(styles.textarea, className)}
         readOnly={readOnly || loading}
         required={required}
         aria-busy={loading || undefined}
@@ -88,15 +87,13 @@ export function Textarea({
       {loading ? (
         <span
           className={cx(
-            inputStyles.endSlot,
-            styles.slot,
-            inputStyles.spinnerSlot,
+            styles.spinnerSlot,
           )}
         >
           <Spinner size="sm" label="" role="presentation" aria-hidden="true" />
         </span>
       ) : (
-        <IconSlot className={cx(inputStyles.endSlot, styles.slot)}>
+        <IconSlot className={styles.endSlot}>
           {endIcon}
         </IconSlot>
       )}

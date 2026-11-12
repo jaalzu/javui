@@ -26,6 +26,7 @@ export const hero = defineHero(
   `<Stack direction="row" gap="3" wrap align="center" justify="center">
   <Button>Primary</Button>
   <Button variant="secondary">Secondary</Button>
+  <Button variant="outline">Outline</Button>
   <Button variant="ghost">Ghost</Button>
   <Button variant="danger">Danger</Button>
   <Button variant="secondary" startIcon={<PlusIcon />}>New</Button>
@@ -34,6 +35,7 @@ export const hero = defineHero(
   <Stack direction="row" gap="3" wrap align="center" justify="center">
     <Button>Primary</Button>
     <Button variant="secondary">Secondary</Button>
+    <Button variant="outline">Outline</Button>
     <Button variant="ghost">Ghost</Button>
     <Button variant="danger">Danger</Button>
     <Button variant="secondary" startIcon={plus}>

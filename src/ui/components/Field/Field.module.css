@@ -6,10 +6,6 @@
   width: 100%;
 }
 
-.field:has(input:disabled) {
-  opacity: 0.6;
-}
-
 .control {
   display: contents;
 }

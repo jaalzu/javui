@@ -12,6 +12,7 @@
   --color-sunken: var(--color-sunken);
   --color-component: var(--color-component);
   --color-control: var(--color-control);
+  --color-field: var(--color-field);
   --color-warning-bright: var(--color-warning-bright);
   --color-overlay: var(--color-overlay);
   --color-page: var(--color-page);
@@ -35,6 +36,7 @@
   --color-highlight: var(--color-highlight);
   --color-component-hover: var(--color-component-hover);
   --color-component-hover-subtle: var(--color-component-hover-subtle);
+  --color-component-hover-faint: var(--color-component-hover-faint);
   --color-component-active: var(--color-component-active);
   --color-component-on-sunken: var(--color-component-on-sunken);
   --color-transparent-hover: var(--color-transparent-hover);
@@ -90,6 +92,7 @@
   --shadow-large: var(--shadow-large);
   --shadow-extra-large: var(--shadow-extra-large);
   --shadow-control: var(--shadow-control);
+  --shadow-field: var(--shadow-field);
   --font-sans: var(--font-family-sans);
   --font-mono: var(--font-family-mono);
   --font-emphasis: var(--font-family-emphasis);

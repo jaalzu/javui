@@ -152,8 +152,17 @@ export type { ToastOptions, ToastTone } from "./components/Toast";
 // Content, data and navigation helpers
 export { Accordion } from "./components/Accordion";
 export type { AccordionProps, AccordionItem } from "./components/Accordion";
-export { Table } from "./components/Table";
-export type { TableProps, TableColumn } from "./components/Table";
+export {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "./components/Table";
+export type { TableProps, TableColumn, TableCaptionProps, TableHeadProps, TableCellProps } from "./components/Table";
 export { Breadcrumb } from "./components/Breadcrumb";
 export type { BreadcrumbProps, BreadcrumbItem } from "./components/Breadcrumb";
 export { Pagination } from "./components/Pagination";

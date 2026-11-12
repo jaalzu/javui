@@ -3,15 +3,17 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "files": ["dist", "agent", "README.md", "LICENSE"],
   "exports": {
-    ".": "./src/index.ts",
-    "./server": "./src/server.ts",
-    "./tokens.css": "./src/tokens/tokens.css",
-    "./global.css": "./src/styles/global.css",
-    "./base.css": "./src/styles/base.css",
-    "./fonts.css": "./src/styles/fonts.css",
-    "./tailwind.css": "./src/tokens/tailwind.css",
-    "./styles/*": "./src/styles/*",
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./server": { "types": "./dist/server.d.ts", "import": "./dist/server.js" },
+    "./tokens.css": "./dist/tokens/tokens.css",
+    "./global.css": "./dist/styles/global.css",
+    "./base.css": "./dist/styles/base.css",
+    "./fonts.css": "./dist/styles/fonts.css",
+    "./tailwind.css": "./dist/tokens/tailwind.css",
+    "./styles.css": "./dist/styles.css",
+    "./styles/*": "./dist/styles/*",
     "./package.json": "./package.json"
   },
   "scripts": {
@@ -23,6 +25,8 @@
     "tokens": "bun scripts/build-tokens.mjs",
     "icons": "bun scripts/generate-icons.mjs",
     "agent-docs": "bun scripts/build-agent-docs.mjs",
+    "build": "bun scripts/build-dist.mjs",
+    "verify:dist": "bun scripts/verify-dist.mjs",
     "mcp": "bun mcp/server.mjs",
     "mcp:test": "bun mcp/smoke-test.mjs"
   }

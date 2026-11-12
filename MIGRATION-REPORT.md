@@ -61,3 +61,11 @@ Fase 0 auditada. La Fase 1 queda pendiente de la confirmación del usuario.
 - `tailwind.css` sigue siendo bridge `@theme inline`; no se implementó `@layer` nuevo (queda como mejora futura).
 - `TOKENS.md` documenta las familias de tokens sin enumerar las 321 variables.
 - Gate Fase 3: `typecheck` OK y `bun run build` OK fuera del sandbox con permisos elevados.
+
+## Tanda B — Fase 4: build a dist
+
+- El paquete se compila con `tsc` dedicado (`tsconfig.dist.json`) a ESM y `.d.ts`, conservando un archivo por módulo y las rutas de CSS Modules.
+- `build-dist.mjs` limpia `dist`, regenera tokens/icons/agent-docs, compila, copia CSS y genera `dist/styles.css` como entrada consolidada opcional.
+- `verify:dist` comprueba ausencia de `@/`, stories/tests/examples, conservación de `"use client"` y ausencia de `shiki`/`server-only` en `dist/index.js`.
+- Gate Fase 4: `bun run --filter @javui/ui build` y `bun run --filter @javui/ui verify:dist` OK (346 archivos, 38 módulos client).
+- `publint`, `attw` y `pack --dry-run` se ejecutarán al cerrar Fase 5, después de completar la metadata publicable.

@@ -17,18 +17,7 @@
     "mcp": "bun run --filter @javui/ui mcp",
     "mcp:test": "bun run --filter @javui/ui mcp:test"
   },
-  "dependencies": {
-    "@base-ui/react": "1.9.0",
-    "@fontsource-variable/dm-sans": "^5.3.0",
-    "@fontsource-variable/newsreader": "^5.3.0",
-    "@fontsource/commit-mono": "^5.3.0",
-    "@modelcontextprotocol/sdk": "^1.32.1",
-    "react": "19.3.0",
-    "react-dom": "19.3.0",
-    "server-only": "^0.0.1",
-    "shiki": "^4.5.0",
-    "zod": "^4.6.6"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@chromatic-com/storybook": "latest",
     "@phosphor-icons/core": "^2.1.1",
@@ -56,7 +45,6 @@
     "react-docgen-typescript": "^2.4.0",
     "storybook": "^10.6.1",
     "style-dictionary": "^5.6.1",
-    "tsup": "^9.0.0",
     "typescript": "^5",
     "vite": "latest",
     "vitest": "^5.0.3",

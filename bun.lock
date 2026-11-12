@@ -4,18 +4,6 @@
   "workspaces": {
     "": {
       "name": "ui-lib",
-      "dependencies": {
-        "@base-ui/react": "1.9.0",
-        "@fontsource-variable/dm-sans": "^5.3.0",
-        "@fontsource-variable/newsreader": "^5.3.0",
-        "@fontsource/commit-mono": "^5.3.0",
-        "@modelcontextprotocol/sdk": "^1.32.1",
-        "react": "19.3.0",
-        "react-dom": "19.3.0",
-        "server-only": "^0.0.1",
-        "shiki": "^4.5.0",
-        "zod": "^4.6.6",
-      },
       "devDependencies": {
         "@chromatic-com/storybook": "latest",
         "@phosphor-icons/core": "^2.1.1",
@@ -56,11 +44,42 @@
         "@javui/ui": "workspace:*",
         "next": "16.4.4",
         "next-themes": "^0.4.6",
+        "react": "19.3.0",
+        "react-dom": "19.3.0",
       },
     },
     "packages/ui": {
       "name": "@javui/ui",
       "version": "0.0.0",
+      "dependencies": {
+        "@fontsource-variable/dm-sans": "^5.3.0",
+        "@fontsource/commit-mono": "^5.3.0",
+        "server-only": "^0.0.1",
+      },
+      "devDependencies": {
+        "@base-ui/react": "1.9.0",
+        "@modelcontextprotocol/sdk": "^1.32.1",
+        "@types/node": "^20",
+        "@types/react": "^19",
+        "@types/react-dom": "^19",
+        "react": "19.3.0",
+        "react-dom": "19.3.0",
+        "shiki": "^4.5.0",
+        "style-dictionary": "^5.6.1",
+        "tsup": "^9.0.0",
+        "typescript": "^5",
+        "vitest": "^5.0.3",
+        "zod": "^4.6.6",
+      },
+      "peerDependencies": {
+        "@base-ui/react": "^1.9.0",
+        "react": "^18.2.0 || ^19.0.0",
+        "react-dom": "^18.2.0 || ^19.0.0",
+        "shiki": "^4.5.0",
+      },
+      "optionalPeers": [
+        "shiki",
+      ],
     },
   },
   "trustedDependencies": [
@@ -229,8 +248,6 @@
     "@floating-ui/utils": ["@floating-ui/utils@0.2.12", "", {}, "sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww=="],
 
     "@fontsource-variable/dm-sans": ["@fontsource-variable/dm-sans@5.3.0", "", {}, "sha512-BpUG5bqePiDFMBM4ZtLSlPdAIOM990uB1dlXzIf4aw21yQR7BmykedLXXXMqGWsR18aMLOsbWccwJNh3ztTQaA=="],
-
-    "@fontsource-variable/newsreader": ["@fontsource-variable/newsreader@5.3.0", "", {}, "sha512-rrzYi43qMpbzwuFtf9OkWH8sxAPVPcQQQEwXpPtwaKYeJ8yVg5aLs5kawmo1f2Q1t1M38TLmEKCkGVDsYwgdFw=="],
 
     "@fontsource/commit-mono": ["@fontsource/commit-mono@5.3.0", "", {}, "sha512-Bs+zlEWHDgk/cCVWEMJJaA7LbBU3Ixi5Zums+SSwMKdm2N7RJ4P7jCJTwsMHRt5WFiXYB0tu0q9HMfkn0YsLsQ=="],
 

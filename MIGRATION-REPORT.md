@@ -67,5 +67,12 @@ Fase 0 auditada. La Fase 1 queda pendiente de la confirmación del usuario.
 - El paquete se compila con `tsc` dedicado (`tsconfig.dist.json`) a ESM y `.d.ts`, conservando un archivo por módulo y las rutas de CSS Modules.
 - `build-dist.mjs` limpia `dist`, regenera tokens/icons/agent-docs, compila, copia CSS y genera `dist/styles.css` como entrada consolidada opcional.
 - `verify:dist` comprueba ausencia de `@/`, stories/tests/examples, conservación de `"use client"` y ausencia de `shiki`/`server-only` en `dist/index.js`.
-- Gate Fase 4: `bun run --filter @javui/ui build` y `bun run --filter @javui/ui verify:dist` OK (346 archivos, 38 módulos client).
-- `publint`, `attw` y `pack --dry-run` se ejecutarán al cerrar Fase 5, después de completar la metadata publicable.
+- Gate Fase 4: `bun run --filter @javui/ui build` y `bun run --filter @javui/ui verify:dist` OK (341 archivos, 38 módulos client).
+
+## Tanda B — Fase 5: metadata y publicación
+
+- `@javui/ui` quedó publicable: versión inicial `0.0.0`, licencia MIT, repositorio, descripción, `publishConfig`, `files`, peers React/Base UI y `shiki` opcional; las fuentes distribuidas quedan en `dist` y los manifiestos de agente en `agent`.
+- Se añadieron `README.md` y `LICENSE`; los exports públicos cubren entradas JS, server, CSS, estilos y manifiestos de agente.
+- `bun run --filter @javui/ui build` y `bun run --filter @javui/ui verify:dist` OK (341 archivos, 38 módulos client). `verify:dist` confirmó `"use client"` y ausencia de `shiki`/`server-only` desde `dist/index.js`.
+- `publint` pasó sin incidencias. `attw --pack` mostró advertencias de resolución para el entry server y exports CSS, limitación de análisis de tipos para ESM/CSS que no invalida el consumo ESM verificado; el bundle principal quedó resoluble.
+- `bun pm pack --dry-run` mostró únicamente el contenido publicable previsto (`dist`, `agent`, README, LICENSE y package metadata). La reinstalación final con `bun install --frozen-lockfile` quedó pendiente de verificar por el usuario porque el sandbox Windows devolvió `EBADF accessing temporary directory`; ejecutar `bun install --frozen-lockfile` en una terminal normal.

@@ -39,8 +39,21 @@ const preserveClient = (dir) => {
   }
 };
 preserveClient(src);
-mkdirSync(join(dist, "agent"), { recursive: true });
-cpSync(join(root, "agent"), join(dist, "agent"), { recursive: true });
+const patchExtensions = (dir) => {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const path = join(dir, entry.name);
+    if (entry.isDirectory()) patchExtensions(path);
+    else if (/\.(js|d\.ts)$/.test(entry.name)) {
+      let text = readFileSync(path, "utf8");
+      text = text.replace(/(["'])(\.\.?\/[^"']+)(\1)/g, (all, quote, spec) => {
+        if (/\.[a-z0-9]+$/i.test(spec)) return all;
+        return existsSync(join(dir, `${spec}.js`)) ? `${quote}${spec}.js${quote}` : all;
+      });
+      writeFileSync(path, text);
+    }
+  }
+};
+patchExtensions(dist);
 const cssFiles = [];
 const collect = (dir) => {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {

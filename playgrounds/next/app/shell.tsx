@@ -2,7 +2,7 @@
 
 import { Breadcrumb, Button, Sidebar, Stack, Text } from "@javui/ui";
 import type { ReactNode } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const links = [
   ["/", "Inicio"], ["/forms", "Forms"], ["/overlays", "Overlays"],
@@ -11,8 +11,11 @@ const links = [
 
 export function Shell({ children }: { children: ReactNode }) {
   const [dark, setDark] = useState(false);
+  useEffect(() => {
+    document.documentElement.dataset.theme = dark ? "dark" : "light";
+  }, [dark]);
   return (
-    <div data-theme={dark ? "dark" : "light"}>
+    <div>
       <Sidebar label="Secciones" header={<Text weight="medium">JavUI consumer</Text>}
         items={links.map(([href, label], index) => ({ href, label, active: index === 0 }))}
         footer={<Button size="sm" variant="secondary" onClick={() => setDark((value) => !value)}>{dark ? "Tema claro" : "Tema oscuro"}</Button>} />

@@ -53,3 +53,7 @@ playgrounds/next/node_modules
 playgrounds/next/.next
 playgrounds/next/*.tgz
 next-env.d.ts
+
+playgrounds/next/bun.lock
+playgrounds/next/bun.lockb
+*.tgz

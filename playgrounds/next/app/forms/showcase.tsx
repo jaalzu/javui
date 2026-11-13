@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Checkbox, Combobox, Field, Input, InputOTP, Radio, RadioGroup, Select, Slider, Spinner, Stack, Switch, Textarea, ToastProvider, useToast } from "@javui/ui";
+import { Button, Checkbox, Combobox, Field, Input, InputOTP, Radio, RadioGroup, Select, Slider, Stack, Switch, Textarea, ToastProvider, useToast } from "@javui/ui";
 
 const countries = [{ value: "ar", label: "Argentina" }, { value: "uy", label: "Uruguay" }, { value: "cl", label: "Chile" }];
 const timezones = countries.map(({ value, label }) => ({ value, label: `America/${label}` }));
@@ -16,9 +16,9 @@ function FormContent() {
     <Checkbox label="Quiero recibir novedades" defaultChecked />
     <RadioGroup legend="Plan" defaultValue="starter"><Radio value="starter" label="Starter" /><Radio value="business" label="Business" /></RadioGroup>
     <Switch label="Notificaciones" defaultChecked />
-    <Field label="Volumen" readOnly><Slider label="Volumen" defaultValue={40} readOnly /></Field>
+    <Field readOnly><Slider label="Volumen" defaultValue={40} /></Field>
     <Field label="Código de verificación" loading><InputOTP length={4} /></Field>
-    <Button type="submit" loading startIcon={<Spinner />}>Guardar ajustes</Button>
+    <Button type="submit" loading>Guardar ajustes</Button>
   </Stack>;
 }
 

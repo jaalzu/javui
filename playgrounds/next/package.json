@@ -10,6 +10,7 @@
     "next": "16.4.4",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "@javui/ui": "file:./javui-ui-0.0.0.tgz"
+    "@javui/ui": "file:./javui-ui-0.0.0.tgz",
+    "shiki": "^4.5.0"
   }
 }

@@ -1,0 +1,6 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": { "types": ["vitest/globals", "node"] },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "vitest.setup.ts", "vitest.shims.d.ts", "vitest-axe.d.ts", "css-modules.d.ts"],
+  "exclude": ["node_modules", "src/**/*.examples.tsx"]
+}

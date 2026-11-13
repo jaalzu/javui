@@ -8,16 +8,21 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
+## Reglas del monorepo
+
+- Cada paquete declara en su propio `package.json` todo lo que importa, aunque otro paquete ya lo tenga instalado. Lo que funciona por hoisting se rompe en un clon limpio o en CI. Al añadir un import externo, añádelo también a `dependencies`, `devDependencies` o `peerDependencies` del paquete que lo usa, con la misma versión exacta del repo (por ejemplo, `@base-ui/react`) para evitar dos copias.
+- `apps/docs` consume `@javui/ui` desde `dist`: después de `bun install`, ejecuta `bun run --filter @javui/ui build` antes de `typecheck` o `dev`.
+
 ## ui-lib conventions
 
-- Library code lives in `src/ui`. Tokens are DTCG JSON in `src/ui/tokens/*.json`; `bun run tokens` generates `tokens.css` and `tailwind.css`. Never edit those by hand, and rerun `bun run tokens` after every JSON change (the JSON is the source, the CSS is not regenerated automatically).
+- Library code lives in `packages/ui/src`. Tokens are DTCG JSON in `packages/ui/src/tokens/*.json`; `bun run tokens` generates `tokens.css` and `tailwind.css`. Never edit those by hand, and rerun `bun run tokens` after every JSON change.
 - Components use only semantic tokens. Never use `--primitive-*` or hardcoded colors, sizes or fonts.
 - New controls must compose the shared `src/ui/styles/control.module.css` size/face contract instead of introducing local height, padding, icon, shadow or hover values.
 - Controls with behavior (Button, Input, Checkbox, Radio, Switch, Select, Modal, Tooltip, Tabs, Field, Menu, Popover, Slider...) are built on Base UI (`@base-ui/react`); do not reimplement its keyboard, focus or ARIA logic.
 - Own components (Text, Heading, Card, Stack, Grid, ...) render correct semantic HTML. `as` only accepts elements valid for that component.
 - Every component needs: TSDoc on props, a story (light and dark), a Testing Library test, and passing axe checks.
 - Breakpoints: mobile first with `min-width`. `--breakpoint-sm|md|lg|xl` (40/48/64/80rem) are documentation only, since CSS cannot read variables in `@media`; write the rem value. Max-width queries use `value - 0.01rem`.
-- Commands: `bun run storybook`, `bun run typecheck`, `bun run lint`, `bun run test`, `bun run icons`.
+- Commands: `bun run typecheck`, `bun run lint`, `bun run test`, `bun run build`, `bun run test:consumer`, `bun run tokens`, `bun run icons`, `bun run agent-docs`.
 
 ## Foundations (tokens)
 
@@ -109,13 +114,14 @@ Every interactive control must have a hit area of at least 44px on touch devices
 - `Input` cannot host a pseudo-element (replaced element): it renders an internal wrapper that carries `.touchTarget`. `Link` only gets a hit area with `standalone`, not when inline in a sentence. Modal's close control is a `Button` and is covered by it.
 - Verify touch stories with `[data-touch-debug]`, which draws the hit areas.
 
-## Component catalog (src/ui, import from `@/ui`)
+## Component catalog (packages/ui/src, import from `@javui/ui`)
 
-- Typography/content: `Text`, `Heading`, `Link`, `Kbd`, `Badge`, `Label`, `CodeBlock` (server entry `@/ui/server`)
-- Layout: `Stack`, `Grid`, `AspectRatio`, `Card` (+ `CardHeader`, `CardTitle`, `CardDescription`, `CardAction`, `CardContent`, `CardFooter`), `Table`, `ScrollArea`
-- Utilities/feedback: `VisuallyHidden`, `Icon`, `Spinner`, `Skeleton`, `Progress`, `Alert`, `Toast`, `Avatar` (+ `AvatarGroup`), `EmptyState`
-- Controls (Base UI): `Button`, `ButtonGroup` (+ `ButtonGroupSeparator`), `Field`, `Input`, `Textarea`, `Checkbox`, `RadioGroup` + `Radio`, `Switch`, `Select`, `Combobox`, `Slider`, `ToggleGroup`
-- Overlays/navigation (Base UI): `Modal`, `Tooltip` (+ `TooltipProvider`), `Popover`, `Menu`, `Tabs`, `Accordion`, `Collapsible`, `Sheet`, `Breadcrumb`, `Pagination`, `Sidebar`
+- Typography/content: `Text`, `Heading`, `Link`, `Kbd`, `Badge`, `Label`, `CodeBlockView` (server entry `@javui/ui/server`)
+- Layout: `Stack`, `Grid`, `Container`, `Box`, `AspectRatio`, `Card` (+ its parts), `ScrollArea`
+- Utilities/feedback: `VisuallyHidden`, `Icon`, `Spinner`, `Skeleton`, `Progress`, `Alert`, `Avatar`, `AvatarGroup`, `EmptyState`, `ToastProvider`, `useToast`
+- Controls: `Button`, `ButtonGroup` (+ `ButtonGroupSeparator`, `ButtonGroupText`), `Field`, `FieldSet`, `FieldSeparator`, `Separator`, `Input`, `InputOTP`, `InputGroup` (+ parts), `Textarea`, `Checkbox`, `CheckboxGroup`, `Radio`, `RadioGroup`, `Switch`, `Select`, `Slider`, `Toggle`, `ToggleGroup`, `Combobox`
+- Overlays/navigation: `Modal` (+ `ModalTrigger`, `ModalContent`, `ModalClose`), `Tooltip` (+ `TooltipProvider`), `Popover` (+ parts), `Menu`, `MenuBar`, `Tabs`, `Accordion`, `Collapsible` (+ parts), `Sheet`, `Breadcrumb`, `Pagination`, `Sidebar`
+- Navigation wiring: `LinkProvider`, `useLinkComponent`
 
 Rules that matter when using them:
 
@@ -125,14 +131,14 @@ Rules that matter when using them:
 - `Stack`/`Grid` with `as="ul"` or `"ol"` require `li` children.
 - `Tooltip` content is supplementary: the trigger needs its own accessible name.
 - Do not use `--color-tertiary-foreground` for placeholders or required text without checking contrast.
-- `CodeBlock` is a Server Component: import it from `@/ui/server`, not `@/ui`. It highlights known languages with Shiki through the semantic `--syntax-*` tokens. Never color code or tokens by hand; unknown languages fall back to plain text, and `highlight={false}` opts out.
+- `CodeBlock` is a Server Component: import it from `@javui/ui/server`, not `@javui/ui`. It highlights known languages with Shiki through semantic tokens. Never color code or tokens by hand; unknown languages fall back to plain text.
 - Verification: `bun run typecheck && bun run lint && bun run test`; stories (axe, light and dark) run with `bunx vitest run --project storybook`.
 
 ## Agent layer
 
-- Consumers (other agents) read `public/agent/manifest.json`, `public/agent/tokens.json`, `public/agent/icons.json`, `public/llms.txt`, `public/llms-full.txt` or the MCP server in `mcp/` (`search_icons`, `get_icon`). See `AGENT_GUIDE.md`.
-- These files are generated by `bun run agent-docs` (and `bun run icons` for the icon set) from types, TSDoc, tokens and `src/ui/agent-meta.json`. Never edit them by hand.
-- When you add or change a component: write TSDoc with `@example` and `@default`, add or update its entry in `src/ui/agent-meta.json`, run `bun run agent-docs` and `bun mcp/smoke-test.mjs`, and commit the regenerated files. When you add an icon, add its name to `src/ui/icons/icons.config.json` and run `bun run icons`.
+- Consumers (other agents) read `packages/ui/agent/manifest.json`, `packages/ui/agent/tokens.json`, `packages/ui/agent/icons.json`, `packages/ui/agent/llms.txt`, `packages/ui/agent/llms-full.txt` or the MCP server in `packages/ui/mcp/`. See `AGENT_GUIDE.md`.
+- These files are generated by `bun run agent-docs` (and `bun run icons` for the icon set) from types, TSDoc, tokens and `packages/ui/src/agent-meta.json`. Never edit them by hand.
+- When you add or change a component: write TSDoc with `@example` and `@default`, add or update its entry in `packages/ui/src/agent-meta.json`, run `bun run agent-docs` and `bun run mcp:test`, and commit the regenerated files. When you add an icon, add its name to `packages/ui/src/icons/icons.config.json` and run `bun run icons`.
 
 ## Theming and color gotchas
 
@@ -164,3 +170,5 @@ Components that navigate read the link component from `LinkProvider` (`src/ui/co
 - `lint` solo antes de commitear, no en cada paso.
 - Storybook global solo al cerrar un componente o antes de release; es el único que revisa contraste y ARIA reales.
 - Un fallo ajeno al cambio no se arregla en el mismo paso: se anota y se hace aparte.
+
+La librería vive en `packages/ui`; sus consumidores importan el paquete compilado desde `dist` mediante sus exports. No uses `@/` dentro de `packages/ui`. Los ejemplos viven solo en `apps/docs`.

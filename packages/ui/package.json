@@ -1,0 +1,69 @@
+{
+  "name": "@javui/ui",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "license": "MIT",
+  "description": "React-first accessible UI components built on semantic CSS tokens and Base UI.",
+  "repository": { "type": "git", "url": "git+https://github.com/jaalzu/javui.git" },
+  "sideEffects": ["**/*.css"],
+  "publishConfig": { "access": "public", "provenance": true },
+  "files": ["dist", "agent", "README.md", "LICENSE"],
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./server": { "types": "./dist/server.d.ts", "import": "./dist/server.js" },
+    "./tokens.css": "./dist/tokens/tokens.css",
+    "./global.css": "./dist/styles/global.css",
+    "./base.css": "./dist/styles/base.css",
+    "./fonts.css": "./dist/styles/fonts.css",
+    "./tailwind.css": "./dist/tokens/tailwind.css",
+    "./styles.css": "./dist/styles.css",
+    "./agent/*.json": "./agent/*.json",
+    "./agent/llms*.txt": "./agent/llms*.txt",
+    "./styles/*": "./dist/styles/*",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@base-ui/react": "^1.9.0",
+    "react": "^18.2.0 || ^19.0.0",
+    "react-dom": "^18.2.0 || ^19.0.0",
+    "shiki": "^4.5.0"
+  },
+  "peerDependenciesMeta": {
+    "shiki": { "optional": true }
+  },
+  "dependencies": {
+    "@fontsource-variable/dm-sans": "^5.3.0",
+    "@fontsource/commit-mono": "^5.3.0",
+    "server-only": "^0.0.1"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --project unit",
+    "dev": "bun scripts/dev.mjs",
+    "storybook": "bun run tokens && storybook dev -p 6006",
+    "build-storybook": "bun run tokens && storybook build",
+    "tokens": "bun scripts/build-tokens.mjs",
+    "icons": "bun scripts/generate-icons.mjs",
+    "agent-docs": "bun scripts/build-agent-docs.mjs",
+    "build": "bun scripts/build-dist.mjs",
+    "verify:dist": "bun scripts/verify-dist.mjs",
+    "mcp": "bun mcp/server.mjs",
+    "mcp:test": "bun mcp/smoke-test.mjs"
+  },
+  "devDependencies": {
+    "@base-ui/react": "1.9.0",
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "shiki": "^4.5.0",
+    "style-dictionary": "^5.6.1",
+    "typescript": "^5",
+    "vitest": "^5.0.3",
+    "zod": "^4.6.6"
+  }
+}

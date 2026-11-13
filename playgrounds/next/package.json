@@ -1,0 +1,16 @@
+{
+  "name": "javui-next-consumer",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build"
+  },
+  "dependencies": {
+    "@base-ui/react": "1.9.0",
+    "next": "16.4.4",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "@javui/ui": "file:./javui-ui-0.0.0.tgz",
+    "shiki": "^4.5.0"
+  }
+}

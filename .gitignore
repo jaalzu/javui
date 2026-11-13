@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/apps/*/node_modules
+/packages/*/node_modules
 /.pnp
 .pnp.*
 .yarn/*
@@ -15,10 +17,15 @@
 
 # next.js
 /.next/
+/apps/*/.next/
 /out/
 
 # production
 /build
+packages/*/dist
+dist
+*.tgz
+playgrounds/next/node_modules
 
 # misc
 .DS_Store
@@ -42,3 +49,11 @@ next-env.d.ts
 
 *storybook.log
 storybook-static
+playgrounds/next/node_modules
+playgrounds/next/.next
+playgrounds/next/*.tgz
+next-env.d.ts
+
+playgrounds/next/bun.lock
+playgrounds/next/bun.lockb
+*.tgz

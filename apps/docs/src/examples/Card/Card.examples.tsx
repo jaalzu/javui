@@ -93,7 +93,11 @@ const loginNode = (
       <CardContent>
         <Stack gap="4">
           <Field label="Email">
-            <Input type="email" autoComplete="email" placeholder="you@example.com" />
+            <Input
+              type="email"
+              autoComplete="email"
+              placeholder="you@example.com"
+            />
           </Field>
           <Field label="Password">
             <Input type="password" autoComplete="current-password" />
@@ -115,10 +119,13 @@ export const hero = defineHero(heroCode, heroNode);
 /** Prose shown above the examples: the spacing scale behind `--card-spacing`. */
 export const extras = (
   <>
-    <Heading as="h2" size={6}>Spacing</Heading>
+    <Heading as="h2" size={6}>
+      Spacing
+    </Heading>
     <p>
-      <code>size</code> covers the common cases. For another inset, set <code>--card-spacing</code> on
-      the card: it controls the padding of the parts and the space between sections.
+      <code>size</code> covers the common cases. For another inset, set{" "}
+      <code>--card-spacing</code> on the card: it controls the padding of the
+      parts and the space between sections.
     </p>
     <Table
       caption="Card spacing values"
@@ -146,8 +153,8 @@ export const extras = (
       code={`<Card style={{ "--card-spacing": "var(--space-8)" }}>`}
     />
     <p>
-      An inline <code>--card-spacing</code> overrides <code>size</code>. Use spacing tokens only,
-      never raw pixels.
+      An inline <code>--card-spacing</code> overrides <code>size</code>. Use
+      spacing tokens only, never raw pixels.
     </p>
   </>
 );
@@ -280,7 +287,9 @@ export const examples: Example[] = [
     <Card variant="surface" aria-busy="true">
       <CardHeader>
         <CardTitle>Loading card</CardTitle>
-        <CardDescription>Placeholders hold the layout while content loads.</CardDescription>
+        <CardDescription>
+          Placeholders hold the layout while content loads.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Stack gap="2">

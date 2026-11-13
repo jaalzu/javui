@@ -1,9 +1,9 @@
-import { Accordion, Breadcrumb, Collapsible, Pagination, Stack, Tabs, ToggleGroup } from "@javui/ui";
+import { Accordion, Breadcrumb, Collapsible, CollapsibleContent, CollapsibleTrigger, Pagination, Stack, Tabs, Text, ToggleGroup, ToggleGroupItem } from "@javui/ui";
 export default function NavigationPage() { return <Stack gap="5">
   <Breadcrumb items={[{ label: "Inicio", href: "/" }, { label: "Navigation" }]} />
-  <Tabs defaultValue="one" items={[{ value: "one", label: "Overview" }, { value: "two", label: "Details" }]} />
+  <Tabs aria-label="Secciones" items={[{ value: "one", label: "Overview", content: <Text>Vista general.</Text> }, { value: "two", label: "Details", content: <Text>Detalles.</Text> }]} />
   <Accordion items={[{ value: "one", title: "¿Qué incluye?", content: "Componentes publicados." }]} />
-  <Collapsible><Collapsible.Trigger>Mostrar detalles</Collapsible.Trigger><Collapsible.Panel>Detalles adicionales.</Collapsible.Panel></Collapsible>
-  <Pagination count={3} page={1} />
-  <ToggleGroup aria-label="Vista" defaultValue="grid" items={[{ value: "grid", label: "Grid" }, { value: "list", label: "List" }]} />
+  <Collapsible><CollapsibleTrigger>Mostrar detalles</CollapsibleTrigger><CollapsibleContent><Text>Detalles adicionales.</Text></CollapsibleContent></Collapsible>
+  <Pagination page={1} pageCount={3} hrefTemplate="/navigation?page={page}" />
+  <ToggleGroup aria-label="Vista" defaultValue={["grid"]}><ToggleGroupItem value="grid">Grid</ToggleGroupItem><ToggleGroupItem value="list">List</ToggleGroupItem></ToggleGroup>
 </Stack>; }

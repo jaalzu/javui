@@ -1,12 +1,12 @@
 "use client";
 
-import { Breadcrumb, Button, Sidebar, Stack, Text } from "@javui/ui";
+import { Breadcrumb, Button, Link, Stack, Text } from "@javui/ui";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 
 const links = [
   ["/", "Inicio"], ["/forms", "Forms"], ["/overlays", "Overlays"],
-  ["/navigation", "Navigation"], ["/data", "Data"], ["/layout", "Layout"],
+  ["/navigation", "Navigation"], ["/data", "Data"], ["/layout", "Layout"], ["/dashboard", "Dashboard"],
 ] as const;
 
 export function Shell({ children }: { children: ReactNode }) {
@@ -16,12 +16,18 @@ export function Shell({ children }: { children: ReactNode }) {
   }, [dark]);
   return (
     <div>
-      <Sidebar label="Secciones" header={<Text weight="medium">JavUI consumer</Text>}
-        items={links.map(([href, label], index) => ({ href, label, active: index === 0 }))}
-        footer={<Button size="sm" variant="secondary" onClick={() => setDark((value) => !value)}>{dark ? "Tema claro" : "Tema oscuro"}</Button>} />
       <main style={{ maxWidth: "var(--container-lg)", marginInline: "auto", padding: "var(--space-6) var(--space-4)" }}>
-        <Breadcrumb items={[{ label: "Inicio", href: "/" }]} />
-        {children}
+        <Stack gap="5">
+          <Stack direction="row" gap="3" wrap align="center" justify="between">
+            <Text weight="medium">JavUI consumer</Text>
+            <Stack direction="row" gap="3" wrap align="center">
+              {links.map(([href, label]) => <Link key={href} href={href} standalone>{label}</Link>)}
+              <Button size="sm" variant="secondary" onClick={() => setDark((value) => !value)}>{dark ? "Tema claro" : "Tema oscuro"}</Button>
+            </Stack>
+          </Stack>
+          <Breadcrumb items={[{ label: "Inicio", href: "/" }]} />
+          {children}
+        </Stack>
       </main>
     </div>
   );

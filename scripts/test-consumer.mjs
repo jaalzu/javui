@@ -35,4 +35,5 @@ rmSync(join(playground, "node_modules", "@javui"), {
   force: true,
 });
 run("bun", ["install"], playground);
+run("bun", ["run", "scripts/check-exports.mjs"], playground);
 run("bun", ["run", "build"], playground);

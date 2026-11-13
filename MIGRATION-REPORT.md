@@ -97,6 +97,8 @@ Fase 0 auditada. La Fase 1 queda pendiente de la confirmación del usuario.
 - Discrepancia sin resolver: Changelog marca Box/Container/Divider removidos, pero el barrel aún exporta Box y Container.
 - Pendientes opcionales: Storybook sin verificar; Vite/Tailwind sin probar; `@layer`, `./form`, `./table`, registry/CLI y los tres tests preexistentes.
 
+Playground: no quedaron usados en una página los componentes `Kbd`, `LinkProvider`, `Toast` y `VisuallyHidden`; son utilidades/contexto o piezas auxiliares cubiertas indirectamente por otros controles.
+
 ## Resumen solicitado
 
 - `test:consumer`: pack OK; instalación/build bloqueados por el sandbox de Windows.

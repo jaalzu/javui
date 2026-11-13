@@ -1,0 +1,2 @@
+import { AspectRatio, Grid, Separator, Stack, Text } from "@javui/ui";
+export default function LayoutPage() { return <Stack gap="6"><Text>Escalas de layout</Text><Grid minColumnWidth="16rem" gap="4"><Stack gap="2"><Text>Compacto</Text><AspectRatio ratio={16 / 9}><Text>16:9</Text></AspectRatio></Stack><Stack gap="6"><Text>Amplio</Text><AspectRatio ratio={4 / 3}><Text>4:3</Text></AspectRatio></Stack></Grid><Separator /><Text>Separador semántico.</Text></Stack>; }

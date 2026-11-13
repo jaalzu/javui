@@ -191,10 +191,3 @@
   cursor: progress;
 }
 
-/* Filled buttons only: nudge the label 1px down. The box keeps its height, only the content shifts. Ghost is left alone (nav links, icon buttons). Keep this last so the size classes do not reset it. */
-.primary,
-.secondary,
-.accent,
-.danger {
-  padding-top: 1px;
-}

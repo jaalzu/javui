@@ -6,8 +6,8 @@ import { Button } from "./Button";
 import styles from "./Button.module.css";
 import { ArrowRightIcon, CheckIcon } from "../../icons/icons.generated";
 
-// These suites fail from the base commit; the migration does not change their behavior.
-it.skip("preexisting Button failures: base commit mismatch", () => {});
+// falla desde el commit base
+it.skip("preexisting Button failures", () => {});
 describe.skip("Button loading", () => {
   it("shows busy state, keeps the label and ignores clicks", async () => {
     const onClick = vi.fn();

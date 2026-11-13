@@ -4,8 +4,8 @@ import { axe } from "vitest-axe";
 import { describe, expect, it } from "vitest";
 import { Input } from "./Input";
 
-// This suite fails from the base commit; the migration does not change its behavior.
-it.skip("preexisting Input failures: base commit mismatch", () => {});
+// falla desde el commit base
+it.skip("preexisting Input failures", () => {});
 describe.skip("Input", () => {
   it("renders a native input and accepts typing", async () => {
     const user = userEvent.setup();

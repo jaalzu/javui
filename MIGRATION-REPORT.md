@@ -96,3 +96,10 @@ Fase 0 auditada. La Fase 1 queda pendiente de la confirmación del usuario.
 - Acciones del usuario: registrar la org `javui` en npm y verificar el nombre; activar 2FA; confirmar titular de LICENSE y URL de repository; configurar publicación desde CI; publicar 0.1.0.
 - Discrepancia sin resolver: Changelog marca Box/Container/Divider removidos, pero el barrel aún exporta Box y Container.
 - Pendientes opcionales: Storybook sin verificar; Vite/Tailwind sin probar; `@layer`, `./form`, `./table`, registry/CLI y los tres tests preexistentes.
+
+## Resumen solicitado
+
+- `test:consumer`: pack OK; instalación/build bloqueados por el sandbox de Windows.
+- Tarball: 0.28 MB comprimido; 1.42 MB descomprimido (349 archivos).
+- Discrepancias sin resolver: Box/Container/Divider según el Changelog frente a exports existentes.
+- Discrepancias sin resolver: los 3 tests preexistentes de Button, Input y Slider.

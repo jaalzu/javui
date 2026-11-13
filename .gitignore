@@ -52,3 +52,4 @@ storybook-static
 playgrounds/next/node_modules
 playgrounds/next/.next
 playgrounds/next/*.tgz
+next-env.d.ts

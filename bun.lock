@@ -40,6 +40,7 @@
     "apps/docs": {
       "name": "@javui/docs",
       "dependencies": {
+        "@base-ui/react": "1.9.0",
         "@javui/ui": "workspace:*",
         "next": "16.4.4",
         "next-themes": "^0.4.6",

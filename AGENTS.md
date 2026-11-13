@@ -8,6 +8,11 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
+## Reglas del monorepo
+
+- Cada paquete declara en su propio `package.json` todo lo que importa, aunque otro paquete ya lo tenga instalado. Lo que funciona por hoisting se rompe en un clon limpio o en CI. Al añadir un import externo, añádelo también a `dependencies`, `devDependencies` o `peerDependencies` del paquete que lo usa, con la misma versión exacta del repo (por ejemplo, `@base-ui/react`) para evitar dos copias.
+- `apps/docs` consume `@javui/ui` desde `dist`: después de `bun install`, ejecuta `bun run --filter @javui/ui build` antes de `typecheck` o `dev`.
+
 ## ui-lib conventions
 
 - Library code lives in `packages/ui/src`. Tokens are DTCG JSON in `packages/ui/src/tokens/*.json`; `bun run tokens` generates `tokens.css` and `tailwind.css`. Never edit those by hand, and rerun `bun run tokens` after every JSON change.

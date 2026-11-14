@@ -19,13 +19,15 @@ export const hero = defineHero(
     <Skeleton width="35%" />
   </Stack>
 </Stack>`,
-  <Stack direction="row" gap="3" align="center" aria-busy="true">
-    <Skeleton shape="circle" />
-    <Stack gap="2" className={styles.content}>
-      <Skeleton width="60%" />
-      <Skeleton width="35%" />
+  <div className={styles.stage}>
+    <Stack direction="row" gap="3" align="center" aria-busy="true">
+      <Skeleton shape="circle" />
+      <Stack gap="2" className={styles.content}>
+        <Skeleton width="60%" />
+        <Skeleton width="35%" />
+      </Stack>
     </Stack>
-  </Stack>,
+  </div>,
 );
 
 export const examples: Example[] = [

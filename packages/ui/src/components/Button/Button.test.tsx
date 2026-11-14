@@ -6,9 +6,7 @@ import { Button } from "./Button";
 import styles from "./Button.module.css";
 import { ArrowRightIcon, CheckIcon } from "../../icons/icons.generated";
 
-// falla desde el commit base
-it.skip("preexisting Button failures", () => {});
-describe.skip("Button loading", () => {
+describe("Button loading", () => {
   it("shows busy state, keeps the label and ignores clicks", async () => {
     const onClick = vi.fn();
     const user = userEvent.setup();
@@ -20,7 +18,7 @@ describe.skip("Button loading", () => {
   });
 });
 
-describe.skip("Button", () => {
+describe("Button", () => {
   it("renders a native button that does not submit by default", () => {
     render(<Button>Save</Button>);
     const el = screen.getByRole("button", { name: "Save" });

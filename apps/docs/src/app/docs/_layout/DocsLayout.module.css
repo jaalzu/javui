@@ -125,7 +125,7 @@ a.sideLink.sideDisclosureTrigger {
 }
 
 .sideDisclosureList {
-  gap: 0;
+  gap: var(--space-1);
 }
 
 .sideTitle {

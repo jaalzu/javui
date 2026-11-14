@@ -2972,7 +2972,7 @@
       "name": "MenuBar",
       "category": "overlays",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "Coordinates several menus as one desktop-style menubar. Moving the pointer over another trigger\nswitches the open menu without requiring another click; clicking outside closes the active menu.",
+      "description": null,
       "import": "import { MenuBar } from \"@javui/ui\";",
       "renders": "horizontal navigation of menu triggers",
       "composition": "Pass `menus`, an array of menu entries rendered as coordinated Menu controls.",
@@ -2986,8 +2986,7 @@
         {
           "name": "menus",
           "type": "MenuProps[]",
-          "required": true,
-          "description": "Menus that share hover, focus and outside-interaction behavior."
+          "required": true
         },
         {
           "name": "className",

@@ -51,6 +51,7 @@ function DisclosureGroup({ title, href, links, pathname }: { title: string; href
         endIcon={<CaretDownIcon />}
         className={`${layout.sideLink} ${layout.sideDisclosureTrigger}`}
         aria-expanded={open}
+        aria-current={pathname === href ? "page" : undefined}
         aria-controls={contentId}
         onClick={(event) => {
           if (pathname === href) {

@@ -1,5 +1,4 @@
 import "@javui/ui/tokens.css";
-import "@javui/ui/base.css";
 import "@javui/ui/fonts.css";
 import { Providers } from "./providers";
 import type { ReactNode } from "react";

@@ -5,9 +5,7 @@ import { describe, expect, it } from "vitest";
 import { Slider } from "./Slider";
 import { Field } from "../Field";
 
-// falla desde el commit base
-it.skip("preexisting Slider failures", () => {});
-describe.skip("Slider", () => {
+describe("Slider", () => {
   it("exposes a named slider with its value", () => {
     render(<Slider label="Volume" defaultValue={40} />);
     const input = screen.getByRole("slider", { name: /Volume/ });

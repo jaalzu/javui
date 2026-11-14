@@ -2236,8 +2236,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## MenuBar
 
-Coordinates several menus as one desktop-style menubar. Moving the pointer over another trigger
-switches the open menu without requiring another click; clicking outside closes the active menu.
+
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
@@ -2253,7 +2252,7 @@ switches the open menu without requiring another click; clicking outside closes 
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `menus` | `MenuProps[]` | yes |  | Menus that share hover, focus and outside-interaction behavior. |
+| `menus` | `MenuProps[]` | yes |  |  |
 | `className` | `string` | no |  |  |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.

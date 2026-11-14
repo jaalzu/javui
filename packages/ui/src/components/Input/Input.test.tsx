@@ -4,9 +4,7 @@ import { axe } from "vitest-axe";
 import { describe, expect, it } from "vitest";
 import { Input } from "./Input";
 
-// falla desde el commit base
-it.skip("preexisting Input failures", () => {});
-describe.skip("Input", () => {
+describe("Input", () => {
   it("renders a native input and accepts typing", async () => {
     const user = userEvent.setup();
     render(<Input aria-label="Name" />);

@@ -6,7 +6,7 @@
   "types": "./dist/index.d.ts",
   "license": "MIT",
   "description": "React-first accessible UI components built on semantic CSS tokens and Base UI.",
-  "author": "Tu Nombre",
+  "author": "Javier Alzú",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jaalzu/javui.git",
@@ -18,8 +18,7 @@
     "**/*.css"
   ],
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   },
   "files": [
     "dist",
@@ -44,13 +43,12 @@
     "./styles.css": "./dist/styles.css",
     "./agent/*.json": "./agent/*.json",
     "./agent/llms*.txt": "./agent/llms*.txt",
-    "./styles/*": "./dist/styles/*",
     "./package.json": "./package.json"
   },
   "peerDependencies": {
     "@base-ui/react": "^1.9.0",
-    "react": "^18.2.0 || ^19.0.0",
-    "react-dom": "^18.2.0 || ^19.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "shiki": "^4.5.0"
   },
   "peerDependenciesMeta": {

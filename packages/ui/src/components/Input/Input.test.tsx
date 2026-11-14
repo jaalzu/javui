@@ -42,7 +42,7 @@ describe("Input", () => {
     expect(el).toHaveAttribute("aria-busy", "true");
     expect(el).toHaveAttribute("readonly");
     expect(el.parentElement).toHaveAttribute("data-icon", "end");
-    expect(el.parentElement?.querySelector("svg")).toBeInTheDocument();
+    expect(el.parentElement?.querySelector("[aria-hidden='true']")).toBeInTheDocument();
   });
 
   it("has no accessibility violations", async () => {

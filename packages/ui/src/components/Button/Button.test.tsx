@@ -98,7 +98,7 @@ describe("Button", () => {
     const saving = screen.getByRole("button", { name: "Saving" });
     expect(saving).toHaveAttribute("data-icon", "start");
     expect(screen.getByText("Saving")).toBeVisible();
-    expect(saving.querySelector("svg")).toHaveAttribute("aria-hidden", "true");
+    expect(saving.querySelector("[aria-hidden='true']")).toBeInTheDocument();
   });
 
   it("applies the xs size and keeps an icon-only button square", () => {

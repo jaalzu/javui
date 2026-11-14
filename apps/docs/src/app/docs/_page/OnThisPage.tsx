@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Popover } from "@base-ui/react/popover";
 import { Link } from "@javui/ui";
-import touchTarget from "@javui/ui/styles/touchTarget.module.css";
+import touchTarget from "./touchTarget.module.css";
 import layout from "../_layout/DocsLayout.module.css";
 import styles from "./OnThisPage.module.css";
 
@@ -152,9 +152,7 @@ export function OnThisPage() {
                       href={`#${item.id}`}
                       tone="inherit"
                       data-level={item.level}
-                      aria-current={
-                        active === item.id ? "location" : undefined
-                      }
+                      aria-current={active === item.id ? "location" : undefined}
                       onClick={() => setOpen(false)}
                     >
                       {item.label}

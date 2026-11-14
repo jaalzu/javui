@@ -23,7 +23,7 @@ bun run dev                # Next.js app, http://localhost:3000
 
 ## Theme
 
-Tokens switch on `data-theme="light|dark"` on `<html>`; without it the OS preference applies. The demo app sets it with `next-themes` (`src/app/providers.tsx`, `src/app/ThemeSwitcher.tsx`), which also avoids the flash on load. The library does not depend on it, so any other mechanism that sets the attribute works.
+Tokens switch on `data-theme="light|dark"` on `<html>`; without it the OS preference applies. Set `data-theme` in the server-rendered HTML (or use `next-themes` with `attribute="data-theme"`) before the first paint to avoid a dark-theme flash. The library does not depend on it, so any other mechanism that sets the attribute works.
 
 ## Layout
 
@@ -51,7 +51,7 @@ After adding or changing a component: update its TSDoc, add its entry to `agent-
 
 ## CSS and Next providers
 
-Import `@javui/ui/tokens.css` (required) and optionally `base.css`, `fonts.css`, `tailwind.css`, or `styles.css`. `CodeBlock` exists only in `@javui/ui/server`; the package has no Next directives and works with or without `cacheComponents`.
+Import `@javui/ui/tokens.css` (required) and optionally `base.css`, `fonts.css`, `tailwind.css`, or `styles.css`. `CodeBlock` exists only in `@javui/ui/server` and needs the optional peer: `bun add shiki`. The package has no Next directives and works with or without `cacheComponents`. When integrating Tailwind CSS v4, note that its `--radius-*` theme namespace overlaps with this library's radius tokens; map or rename one namespace in the integration layer if both are consumed together.
 
 In Next App Router, mount routing in a client provider because `next/link` is a function:
 

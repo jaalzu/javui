@@ -2,6 +2,13 @@
   flex: 1;
 }
 
+.stage {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: var(--space-24);
+}
+
 .card {
   max-width: 24rem;
 }

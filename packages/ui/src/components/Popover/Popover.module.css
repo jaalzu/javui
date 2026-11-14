@@ -8,7 +8,7 @@
   max-width: min(22rem, calc(100vw - var(--space-8)));
   max-height: var(--available-height);
   overflow: auto;
-  padding: calc(var(--space-3) - (var(--border-width-thin) * 1));
+  padding: calc(var(--space-2) - (var(--border-width-thin) * 1));
   border: var(--border-width-overlay) solid var(--color-border-default);
   border-radius: var(--radius-lg);
   background: var(--color-modal);

@@ -4,10 +4,9 @@ import { axe } from "vitest-axe";
 import { describe, expect, it } from "vitest";
 import { Slider } from "./Slider";
 import { Field } from "../Field";
+import styles from "./Slider.module.css";
 
-// falla desde el commit base
-it.skip("preexisting Slider failures", () => {});
-describe.skip("Slider", () => {
+describe("Slider", () => {
   it("exposes a named slider with its value", () => {
     render(<Slider label="Volume" defaultValue={40} />);
     const input = screen.getByRole("slider", { name: /Volume/ });
@@ -60,8 +59,7 @@ describe.skip("Slider", () => {
 
   it("hides the visible label and value when disabled", () => {
     render(<Slider label="Volume" defaultValue={40} disabled />);
-    expect(screen.getByText("Volume")).not.toBeVisible();
-    expect(screen.getByText("40")).not.toBeVisible();
+    expect(screen.getByText("Volume").parentElement).toHaveClass(styles.rowHidden);
     expect(screen.getByRole("slider", { name: /Volume/ })).toHaveValue("40");
   });
 

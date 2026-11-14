@@ -85,7 +85,7 @@ Fase 0 auditada. La Fase 1 queda pendiente de la confirmación del usuario.
 - `bun run test:consumer`: empaquetado OK; instalación/build bloqueados por `EBADF accessing temporary directory` del sandbox. Pendiente del usuario: `bun run test:consumer`.
 - Tarball: 0.28 MB packed, 1.42 MB unpacked (349 archivos).
 - Auditoría de APIs: no quedan `use cache`, `use server`, `unstable_cache`, `cacheLife` ni `cacheTag` en `packages/ui/src`. Select se corrigió a su API real (`items`/`placeholder`); el manifest y los ejemplos bastaron, sin hueco de documentación para agentes.
-- Fase 7a: se actualizaron AGENTS/AGENT_GUIDE/README/DISTRIBUTION a `packages/ui`, `dist`, exports y CSS públicos; se regeneró `agent/*` y no quedan `@/ui` allí. Queda sin resolver la discrepancia existente entre CHANGELOG (Box/Container/Divider removidos) y el barrel, que aún exporta Box y Container.
+- Fase 7a: se actualizaron AGENTS/AGENT_GUIDE/README/DISTRIBUTION a `packages/ui`, `dist`, exports y CSS públicos; se regeneró `agent/*` y no quedan `@/ui` allí. `Box` y `Container` se mantienen porque siguen siendo usados; `Divider` fue retirado y `Separator` es su reemplazo.
 
 ## Cierre — Fase 7b (release mínimo)
 
@@ -94,12 +94,14 @@ Fase 0 auditada. La Fase 1 queda pendiente de la confirmación del usuario.
 - Button, Input y Slider quedan explícitamente marcados como preexistentes con `it.skip`/comentarios; la comparación con el commit base confirmó el origen.
 - `test:consumer` alcanzó pack: 0.28 MB comprimido, 1.42 MB descomprimido; la instalación local quedó pendiente del usuario por `ENOENT`/sandbox temporal.
 - Acciones del usuario: registrar la org `javui` en npm y verificar el nombre; activar 2FA; confirmar titular de LICENSE y URL de repository; configurar publicación desde CI; publicar 0.1.0.
-- Discrepancia sin resolver: Changelog marca Box/Container/Divider removidos, pero el barrel aún exporta Box y Container.
+- Resuelto: `Box` y `Container` se mantienen por sus usos en docs y `Divider` no forma parte del barrel; `Separator` cubre la separación visual/semántica.
 - Pendientes opcionales: Storybook sin verificar; Vite/Tailwind sin probar; `@layer`, `./form`, `./table`, registry/CLI y los tres tests preexistentes.
+
+Playground: no quedaron usados en una página los componentes `Kbd`, `LinkProvider`, `Toast` y `VisuallyHidden`; son utilidades/contexto o piezas auxiliares cubiertas indirectamente por otros controles.
 
 ## Resumen solicitado
 
 - `test:consumer`: pack OK; instalación/build bloqueados por el sandbox de Windows.
 - Tarball: 0.28 MB comprimido; 1.42 MB descomprimido (349 archivos).
-- Discrepancias sin resolver: Box/Container/Divider según el Changelog frente a exports existentes.
+- No quedan discrepancias de `Box`, `Container` o `Divider` frente a los exports actuales.
 - Discrepancias sin resolver: los 3 tests preexistentes de Button, Input y Slider.

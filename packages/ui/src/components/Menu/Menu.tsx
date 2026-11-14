@@ -94,10 +94,10 @@ export type MenuProps = {
 };
 
 export type MenuBarProps = {
-  /** Menus that share hover, focus and outside-interaction behavior. */
   menus: MenuProps[];
   className?: string;
 };
+
 
 /**
  * A dropdown list of actions, links, grouped items, selections and one-level submenus, built on Base UI
@@ -185,11 +185,6 @@ export function Menu({ label, items = [], variant = "secondary", size = "md", al
     </BaseMenu.Root>
   );
 }
-
-/**
- * Coordinates several menus as one desktop-style menubar. Moving the pointer over another trigger
- * switches the open menu without requiring another click; clicking outside closes the active menu.
- */
 export function MenuBar({ menus, className }: MenuBarProps) {
   return (
     <BaseMenubar modal={false} className={cx(styles.menubar, className)}>

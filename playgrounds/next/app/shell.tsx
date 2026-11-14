@@ -1,6 +1,6 @@
 "use client";
 
-import { Breadcrumb, Button, Link, Stack, Text } from "@javui/ui";
+import { Breadcrumb, Button, Container, Link, Separator, Stack, Text } from "@javui/ui";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 
@@ -16,7 +16,7 @@ export function Shell({ children }: { children: ReactNode }) {
   }, [dark]);
   return (
     <div>
-      <main style={{ maxWidth: "var(--container-lg)", marginInline: "auto", padding: "var(--space-6) var(--space-4)" }}>
+      <Container as="main" size="xl" gutter={{ base: "4", md: "6" }} style={{ paddingBlock: "var(--space-6)" }}>
         <Stack gap="5">
           <Stack direction="row" gap="3" wrap align="center" justify="between">
             <Text weight="medium">JavUI consumer</Text>
@@ -25,10 +25,11 @@ export function Shell({ children }: { children: ReactNode }) {
               <Button size="sm" variant="secondary" onClick={() => setDark((value) => !value)}>{dark ? "Tema claro" : "Tema oscuro"}</Button>
             </Stack>
           </Stack>
+          <Separator />
           <Breadcrumb items={[{ label: "Inicio", href: "/" }]} />
           {children}
         </Stack>
-      </main>
+      </Container>
     </div>
   );
 }

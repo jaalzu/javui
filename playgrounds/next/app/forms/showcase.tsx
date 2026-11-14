@@ -1,10 +1,23 @@
 "use client";
 
 import {
+  Alert,
+  Badge,
   Button,
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
   Checkbox,
   Combobox,
+  DescriptionList,
+  DescriptionListDetails,
+  DescriptionListTerm,
   Field,
+  Grid,
   Input,
   InputOTP,
   Radio,
@@ -13,6 +26,8 @@ import {
   Slider,
   Stack,
   Switch,
+  Separator,
+  Text,
   Textarea,
   ToastProvider,
   useToast,
@@ -41,13 +56,13 @@ function FormContent() {
         });
       }}
     >
-      <Stack gap="5">
-        <Field label="Nombre" required>
+      <Grid minColumnWidth="22rem" gap="5">
+      <Card as="section" variant="surface"><CardHeader><div><CardTitle>Perfil público</CardTitle><CardDescription>Esta información aparece para las personas de tu espacio.</CardDescription></div><CardAction><Badge variant="success">Activo</Badge></CardAction></CardHeader><CardContent><Stack gap="5">
+        <Grid minColumnWidth="14rem" gap="4"><Field label="Nombre" required>
         <Input defaultValue="Ada Lovelace" />
-        </Field>
-        <Field label="Correo" error="Usa un correo corporativo" required>
+        </Field><Field label="Correo" error="Usa un correo corporativo" required>
         <Input type="email" defaultValue="ada@example.com" />
-        </Field>
+        </Field></Grid>
         <Field label="Biografía" description="Una frase sobre tu trabajo">
         <Textarea defaultValue="Construyo herramientas para equipos." />
         </Field>
@@ -61,22 +76,22 @@ function FormContent() {
           placeholder="Busca una zona"
         />
         </Field>
+        <Separator />
         <Checkbox label="Quiero recibir novedades" defaultChecked />
-        <RadioGroup legend="Plan" defaultValue="starter">
+        <RadioGroup legend="Plan de facturación" defaultValue="business">
         <Radio value="starter" label="Starter" />
         <Radio value="business" label="Business" />
         </RadioGroup>
-        <Switch label="Notificaciones" defaultChecked />
-        <Field readOnly>
-        <Slider label="Volumen" defaultValue={40} />
-        </Field>
-        <Field label="Código de verificación" loading>
+      </Stack></CardContent><CardFooter><Button type="submit">Guardar cambios</Button><Text size="sm" tone="muted">Los cambios se guardan para todo tu perfil.</Text></CardFooter></Card>
+      <Stack gap="5">
+      <Card as="section" variant="surface" size="sm"><CardHeader><CardTitle>Notificaciones</CardTitle><CardDescription>Elige qué actividad requiere tu atención.</CardDescription></CardHeader><CardContent><Stack gap="4"><Switch label="Notificaciones de equipo" defaultChecked /><Switch label="Resumen semanal" defaultChecked /><Switch label="Alertas de facturación" /><Field readOnly>
+        <Slider label="Volumen de alertas" defaultValue={40} />
+        </Field></Stack></CardContent></Card>
+      <Card as="section" variant="surface" size="sm"><CardHeader><CardTitle>Seguridad</CardTitle><CardDescription>Completa la verificación de dos pasos para proteger la cuenta.</CardDescription></CardHeader><CardContent><Stack gap="4"><Alert tone="warning" title="Verificación pendiente">Confirma el código enviado a tu correo de trabajo.</Alert><Field label="Código de verificación">
         <InputOTP length={4} />
-        </Field>
-        <Button type="submit" loading>
-        Guardar ajustes
-        </Button>
+        </Field><DescriptionList layout="horizontal"><DescriptionListTerm>Último acceso</DescriptionListTerm><DescriptionListDetails>Hoy, 09:42</DescriptionListDetails><DescriptionListTerm>Dispositivos</DescriptionListTerm><DescriptionListDetails>3 activos</DescriptionListDetails></DescriptionList></Stack></CardContent></Card>
       </Stack>
+      </Grid>
     </form>
   );
 }

@@ -14,6 +14,14 @@ const run = (cmd, args, cwd = root) => {
 };
 
 run("bun", ["run", "--filter", "@javui/ui", "build"]);
+
+// Remove stale tarballs so the consumer test always installs the one just packed.
+for (const name of readdirSync(playground)) {
+  if (/^javui-ui-.*\.tgz$/.test(name)) {
+    rmSync(join(playground, name), { force: true });
+  }
+}
+
 run(
   "bun",
   ["pm", "pack", "--destination", playground],

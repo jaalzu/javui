@@ -32,6 +32,15 @@ const nextConfig: NextConfig = {
         destination: "/docs/components/ButtonGroup",
         permanent: true,
       },
+      { source: "/docs/utilities", destination: "/docs/layout", permanent: true },
+      { source: "/docs/alignment", destination: "/docs/layout", permanent: true },
+      { source: "/docs/box", destination: "/docs/layout", permanent: true },
+      { source: "/docs/margin", destination: "/docs/layout", permanent: true },
+      { source: "/docs/padding", destination: "/docs/layout", permanent: true },
+      { source: "/docs/position", destination: "/docs/layout", permanent: true },
+      { source: "/docs/sizing", destination: "/docs/layout", permanent: true },
+      { source: "/docs/truncation", destination: "/docs/layout", permanent: true },
+      { source: "/docs/visibility", destination: "/docs/layout", permanent: true },
     ];
   },
 };

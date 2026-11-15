@@ -99,7 +99,7 @@ such as `--card-spacing` or `--alert-tone` over selectors that reach into compon
 Hooks default to semantic tokens; internal variables such as generated responsive variables and
 `--icon-size` are not public API.
 
-## 9. Layout utilities
+## 9. Layout primitives and components
 
 ### Component taxonomy
 
@@ -107,26 +107,13 @@ The catalog separates primitives from composition patterns:
 
 - `typography`: content primitives such as `Text`, `Heading` and `Link`.
 - `layout`: structural primitives such as `Stack`, `Grid`, `Container` and `Box`.
-- `patterns`: semantic/data-display utilities such as `DescriptionList` and `NameValueList`.
+- `patterns`: semantic/data-display patterns such as `DescriptionList` and `NameValueList`.
 - `utility`: behavior-free helpers such as `VisuallyHidden`, `Icon`, `Spinner` and `Skeleton`.
 
 `DescriptionList` is not an atom and is not a layout grid. It owns the semantic `dl`/`dt`/`dd`
 relationship. `NameValueList` is a data-driven presentation pattern built on that structure.
 Keep these patterns independent from page layout so they can be composed inside cards, grids or
 forms without imposing a container strategy.
-
-Global composition utilities use the `ui-` prefix and semantic tokens. Use `Container`, `Stack`,
-`Grid` and `Box` when their typed API expresses the intent; use utilities for a small external
-composition or a one-off modifier. Common utilities include `ui-flex`, `ui-grid`, `ui-col`,
-`ui-flex-wrap`, `ui-items-center`, `ui-justify-between`, `ui-size-1-of-2`, `ui-md-size-1-of-3`,
-`ui-m-4`, `ui-p-4`, `ui-max-w-md`, `ui-is-relative` and `ui-is-absolute`. Logical edge
-utilities use `ms`/`me` and `ps`/`pe`; use these instead of left/right-specific rules. The
-`ui-has-top-magnet` and `ui-has-bottom-magnet` utilities are reserved for adjacent card-like
-surfaces that should visually connect.
-
-`ui-is-absolute` requires a deliberate `ui-is-relative` ancestor. Prefer logical spacing classes
-and layout gaps over margins between siblings. The grid fraction and order utilities are
-mobile-first; visual reordering must preserve the reading order in the DOM.
 
 ## 10. Semantic lists and text overflow
 
@@ -136,12 +123,12 @@ tabular data rather than term/description data.
 
 Text truncation is opt-in. `Text truncate` is for one line; `Text lineClamp={2}` through `{5}`
 is for direct text content only. Do not apply line clamp to a container that contains nested HTML.
-`hyphenate` and the matching `ui-hyphenate` utility are also opt-in. Line clamp is not supported
+`hyphenate` is also opt-in. Line clamp is not supported
 in IE11, which is outside the library's browser support target.
 
 ## 11. Package and CSS entry points
 
-Import `@javui/ui/tokens.css` (required), with optional `base.css`, `fonts.css`, `tailwind.css`, or `styles.css`.
+Import `@javui/ui/tokens.css` (required), with optional `base.css`, `fonts.css` or `tailwind.css`.
 `CodeBlock` exists only at `@javui/ui/server`. `ModalContent` requires `closeLabel`, for example
 `<ModalContent title="Confirm" closeLabel="Close">...</ModalContent>`. The package has no Next-specific
 directives, so it works with or without `cacheComponents`.

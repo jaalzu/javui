@@ -23,9 +23,14 @@ Optional, after the tokens:
 - `@javui/ui/base.css` — document reset: `box-sizing`, page background and body typography from tokens, the global `:focus-visible` ring, `::selection`, tabular numbers and the reduced-motion block.
 - `@javui/ui/fonts.css` — `@font-face` rules for DM Sans (with optical sizing and italics) and Commit Mono. Skip it to keep the system font fallbacks defined in the tokens.
 
-`@javui/ui/global.css` is the shortcut that imports `tokens.css`, `base.css`, `utilities.css` and `fonts.css` for you. `@javui/ui/tailwind.css` is separate and optional (see [Tailwind](#tailwind-optional)).
+`@javui/ui/global.css` is the shortcut that imports `tokens.css`, `base.css` and `fonts.css` for you. `@javui/ui/tailwind.css` is separate and optional (see [Tailwind](#tailwind-optional)).
 
-Component styles live in CSS Modules and load automatically when you import the component. The package needs a bundler that processes CSS, such as Next.js or Vite. If your setup cannot follow per-component imports, `@javui/ui/styles.css` is a single stylesheet entry containing the package's CSS.
+Component styles live in CSS Modules and load automatically when you import the component. The package needs a bundler that processes CSS, such as Next.js or Vite.
+
+### Tailwind v4
+
+Import in this order: `tailwindcss`, then `@javui/ui/tokens.css`, then `@javui/ui/tailwind.css`.
+Component CSS ships in `@layer components`, and the package declares the layer order, so this works regardless of whether the library CSS loads before or after Tailwind. Preflight sits in `base`, below components; Tailwind utilities sit in `utilities`, above them, so utilities such as `p-8` or `rounded-none` override component styles. Tokens stay unlayered, so `tokens.css` values win over Tailwind theme variables. Without Tailwind the components look the same.
 
 ## Next.js (App Router)
 
@@ -87,7 +92,7 @@ Semantic token names are the public API. Override them in your own CSS after imp
 }
 ```
 
-`--primitive-*` values and component-level variables such as `--btn-*` are internal and may change. Prefer overriding semantic tokens.
+`--primitive-*` values and component-level variables such as `--btn-*` are internal and may change. Prefer overriding semantic tokens. The full reference is in [TOKENS.md](https://github.com/jaalzu/javui/blob/main/packages/ui/TOKENS.md).
 
 ## Usage
 

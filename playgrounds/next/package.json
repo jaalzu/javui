@@ -7,10 +7,12 @@
   },
   "dependencies": {
     "@base-ui/react": "1.9.0",
+    "@javui/ui": "file:./javui-ui-0.1.0.tgz",
+    "@tailwindcss/postcss": "^4.3.5",
     "next": "16.4.4",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "@javui/ui": "file:./javui-ui-0.0.0.tgz",
-    "shiki": "^4.5.0"
+    "shiki": "^4.5.0",
+    "tailwindcss": "^4.3.5"
   }
 }

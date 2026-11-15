@@ -51,7 +51,7 @@ After adding or changing a component: update its TSDoc, add its entry to `agent-
 
 ## CSS and Next providers
 
-Import `@javui/ui/tokens.css` (required) and optionally `base.css`, `fonts.css`, `tailwind.css`, or `styles.css`. `CodeBlock` exists only in `@javui/ui/server` and needs the optional peer: `bun add shiki`. The package has no Next directives and works with or without `cacheComponents`. When integrating Tailwind CSS v4, note that its `--radius-*` theme namespace overlaps with this library's radius tokens; map or rename one namespace in the integration layer if both are consumed together.
+Import `@javui/ui/tokens.css` (required) and optionally `base.css`, `fonts.css`, or `tailwind.css`. `CodeBlock` exists only in `@javui/ui/server` and needs the optional peer: `bun add shiki`. The package has no Next directives and works with or without `cacheComponents`. When integrating Tailwind CSS v4, note that its `--radius-*` theme namespace overlaps with this library's radius tokens; map or rename one namespace in the integration layer if both are consumed together.
 
 In Next App Router, mount routing in a client provider because `next/link` is a function:
 

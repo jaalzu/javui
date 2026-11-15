@@ -16,12 +16,64 @@ const compile = spawnSync("bun", ["x", "tsc", "-p", "tsconfig.dist.json"], { cwd
 if (compile.status !== 0) process.exit(compile.status ?? 1);
 
 const src = join(root, "src");
+const layerOrder = "@layer properties, theme, base, components, utilities;";
+const unwrapLayer = (css, layer) => {
+  const marker = new RegExp(`@layer\\s+${layer}\\s*\\{`);
+  let out = "";
+  let i = 0;
+  while (i < css.length) {
+    const match = marker.exec(css.slice(i));
+    if (!match) {
+      out += css.slice(i);
+      break;
+    }
+    const start = i + match.index;
+    const open = start + match[0].length - 1;
+    let depth = 0;
+    let end = -1;
+    for (let j = open; j < css.length; j++) {
+      if (css[j] === "{") depth++;
+      else if (css[j] === "}") {
+        depth--;
+        if (depth === 0) {
+          end = j;
+          break;
+        }
+      }
+    }
+    if (end === -1) {
+      out += css.slice(i);
+      break;
+    }
+    out += css.slice(i, start) + css.slice(open + 1, end);
+    i = end + 1;
+  }
+  return out;
+};
+const wrapModuleCss = (file) => {
+  let css = unwrapLayer(readFileSync(file, "utf8"), "ui").trim();
+  const composes = [];
+  css = css.replace(/(^|\n)([^{}\n]+)\{([^{}]*)\}/g, (match, lead, selector, body) => {
+    if (!/composes\s*:/.test(body)) return match;
+    const lines = body.split("\n");
+    const declarations = lines.filter((line) => /composes\s*:/.test(line));
+    const rest = lines.filter((line) => !/composes\s*:/.test(line));
+    composes.push(`${selector.trim()} {\n${declarations.join("\n")}\n}`);
+    if (!rest.join("").trim()) return "";
+    return `${lead}${selector}{${rest.join("\n")}}`;
+  });
+  const prelude = composes.length ? `${composes.join("\n")}\n` : "";
+  return `${prelude}${layerOrder}\n@layer components {\n${css}\n}\n`;
+};
 const copyCss = (dir) => {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const from = join(dir, entry.name);
     const to = join(dist, relative(src, from));
     if (entry.isDirectory()) copyCss(from);
-    else if (entry.name.endsWith(".css") && !/\.(stories|test|examples)\./i.test(entry.name)) {
+    else if (entry.name.endsWith(".module.css") && !/\.(stories|test|examples)\./i.test(entry.name)) {
+      mkdirSync(resolve(to, ".."), { recursive: true });
+      writeFileSync(to, wrapModuleCss(from));
+    } else if (entry.name.endsWith(".css") && !/\.(stories|test|examples)\./i.test(entry.name)) {
       mkdirSync(resolve(to, ".."), { recursive: true });
       cpSync(from, to);
     }
@@ -54,13 +106,3 @@ const patchExtensions = (dir) => {
   }
 };
 patchExtensions(dist);
-const cssFiles = [];
-const collect = (dir) => {
-  for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    const path = join(dir, entry.name);
-    if (entry.isDirectory()) collect(path);
-    else if (entry.name.endsWith(".css")) cssFiles.push(path);
-  }
-};
-collect(src);
-writeFileSync(join(dist, "styles.css"), cssFiles.map((file) => readFileSync(file, "utf8")).join("\n"));

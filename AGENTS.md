@@ -118,7 +118,7 @@ Every interactive control must have a hit area of at least 44px on touch devices
 
 - Typography/content: `Text`, `Heading`, `Link`, `Kbd`, `Badge`, `Label`, `CodeBlockView` (server entry `@javui/ui/server`)
 - Layout: `Stack`, `Grid`, `Container`, `Box`, `AspectRatio`, `Card` (+ its parts), `ScrollArea`
-- Utilities/feedback: `VisuallyHidden`, `Icon`, `Spinner`, `Skeleton`, `Progress`, `Alert`, `Avatar`, `AvatarGroup`, `EmptyState`, `ToastProvider`, `useToast`
+- Feedback: `VisuallyHidden`, `Icon`, `Spinner`, `Skeleton`, `Progress`, `Alert`, `Avatar`, `AvatarGroup`, `EmptyState`, `ToastProvider`, `useToast`
 - Controls: `Button`, `ButtonGroup` (+ `ButtonGroupSeparator`, `ButtonGroupText`), `Field`, `FieldSet`, `FieldSeparator`, `Separator`, `Input`, `InputOTP`, `InputGroup` (+ parts), `Textarea`, `Checkbox`, `CheckboxGroup`, `Radio`, `RadioGroup`, `Switch`, `Select`, `Slider`, `Toggle`, `ToggleGroup`, `Combobox`
 - Overlays/navigation: `Modal` (+ `ModalTrigger`, `ModalContent`, `ModalClose`), `Tooltip` (+ `TooltipProvider`), `Popover` (+ parts), `Menu`, `MenuBar`, `Tabs`, `Accordion`, `Collapsible` (+ parts), `Sheet`, `Breadcrumb`, `Pagination`, `Sidebar`
 - Navigation wiring: `LinkProvider`, `useLinkComponent`

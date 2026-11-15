@@ -19,15 +19,6 @@ export const foundationSections: NavLink[] = [
 
 export const layoutSections: NavLink[] = [
   { href: "/docs/layout", label: "Layout" },
-  { href: "/docs/utilities", label: "Utilities" },
-  { href: "/docs/alignment", label: "Alignment" },
-  { href: "/docs/box", label: "Box" },
-  { href: "/docs/margin", label: "Margin" },
-  { href: "/docs/padding", label: "Padding" },
-  { href: "/docs/position", label: "Position" },
-  { href: "/docs/sizing", label: "Sizing" },
-  { href: "/docs/truncation", label: "Truncation" },
-  { href: "/docs/visibility", label: "Visibility" },
 ];
 
 export const generalSectionsEnd: NavLink[] = [

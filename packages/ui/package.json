@@ -24,6 +24,7 @@
     "dist",
     "agent",
     "README.md",
+    "TOKENS.md",
     "LICENSE"
   ],
   "exports": {
@@ -40,7 +41,6 @@
     "./base.css": "./dist/styles/base.css",
     "./fonts.css": "./dist/styles/fonts.css",
     "./tailwind.css": "./dist/tokens/tailwind.css",
-    "./styles.css": "./dist/styles.css",
     "./agent/*.json": "./agent/*.json",
     "./agent/llms*.txt": "./agent/llms*.txt",
     "./package.json": "./package.json"
@@ -58,6 +58,7 @@
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "^5.3.0",
+    "@fontsource-variable/source-serif-4": "^5.3.0",
     "@fontsource/commit-mono": "^5.3.0",
     "server-only": "^0.0.1"
   },

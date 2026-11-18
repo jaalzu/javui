@@ -9,12 +9,17 @@
 - One way to do each thing: links are Link, actions are Button, headings are Heading, body text is Text.
 - Keep heading levels in order, one h1 per page.
 
+## Integration
+- Tailwind v4 import order: `tailwindcss` -> `@javui/ui/tokens.css` -> `@javui/ui/base.css` -> `@javui/ui/tailwind.css`. `base.css` is optional but stays between tokens and tailwind.
+- Next.js + Tailwind: use `@tailwindcss/postcss` in `postcss.config.mjs`. Do not apply a Tailwind loader to every `*.css` (for example `turbopack.rules` with `@tailwindcss/turbopack`): it strips the library's CSS Modules, the HTML loses its `class` attributes and components render unstyled.
+- Theme: set `data-theme="light|dark"` on `<html>` before the first paint. With `next-themes` use `attribute="data-theme"`; a `system` theme resolves to `light` or `dark`, never `system`. Add `suppressHydrationWarning` to `<html>`.
+
 ## Foundations
 - **Text**: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls (buttons, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
 - **Heading**: Page and section titles.
 
 ## Machine-readable
-- [Component manifest](/agent/manifest.json): every component with props, examples and accessibility notes
+- [Component manifest](/agent/manifest.json): every component with props, examples and accessibility notes; its `exports` array lists every public export with its import path
 - [Design tokens](/agent/tokens.json): every CSS variable with its meaning
 - [Icons](/agent/icons.json): every available icon with its component name and tags
 - [Full documentation](/llms-full.txt): everything above in one Markdown file
@@ -721,7 +726,7 @@ Icon-only controls need an accessible name (`aria-label` or `aria-labelledby`).
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { Button } from "@javui/ui";`
 - Renders: button without `href`; a (or the LinkProvider component) with `href`
-- Composition: `href` decides the element: a Base UI button (`type="button"` by default) or a link from `LinkProvider` that rejects `disabled`, `loading` and `type`. Put icons in `startIcon`/`endIcon` (no `size`). Icon-only needs `startIcon` and one of `aria-label` or `aria-labelledby`. Sizes: xs 1.5rem/12px icon, sm 1.75rem/16px, md 2.25rem/20px, lg 2.75rem/24px. `pill` uses `--radius-full`; inside ButtonGroup only the outer corners keep it.
+- Composition: `href` decides the element: a Base UI button (`type="button"` by default) or a link from `LinkProvider` that rejects `disabled`, `loading` and `type`. Put icons in `startIcon`/`endIcon` (no `size`). Icon-only needs `startIcon` and one of `aria-label` or `aria-labelledby`. Sizes: xs 1.5rem/12px icon, sm 1.75rem/16px, md 2rem/20px, lg 2.5rem/24px. `pill` uses `--radius-full`; inside ButtonGroup only the outer corners keep it.
 - Use when: An action with onClick (submit, open, confirm, cancel), or navigation that looks like a button with href. Pass `loading` while an action runs.
 - Avoid:
   - Navigation as inline text: use Link.
@@ -736,9 +741,12 @@ Icon-only controls need an accessible name (`aria-label` or `aria-labelledby`).
 | `children` | `ReactNode` | no |  | The visible label. Icon-only controls have no visible children. |
 | `className` | `string` | no |  |  |
 | `endIcon` | `ReactNode` | no | undefined | Icon after the label. Pass a generated icon without `size`; the control sizes it. |
+| `focusableWhenDisabled` | `boolean` | no | false | Whether the button should be focusable when disabled. |
 | `href` | `string` | no |  | Never on an action button. Pass `href` to render a link instead. Where the link goes. To navigate, pass `href`; do not wire `onClick` to `router.push`, which loses right-click and new-tab semantics. |
 | `loading` | `boolean` | no | false | Shows a spinner and ignores clicks while an action is running. The button keeps its label and stays focusable, and `aria-busy` tells assistive technology it is working. |
+| `nativeButton` | `boolean` | no | true | Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`). |
 | `pill` | `boolean` | no | false | Fully rounded shape (`--radius-full`). Inside `ButtonGroup` only the outer corners keep it. |
+| `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>> \| ComponentRenderFn<HTMLProps, ButtonState>` | no |  | Allows you to replace the component's HTML element with a different tag, or compose it with another component.  Accepts a `ReactElement` or a function that returns the element to render. |
 | `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Control height and icon size: `xs` 1.5rem and 12px, `sm` 1.75rem and 16px, `md` 2rem and 20px, `lg` 2.5rem and 24px. |
 | `startIcon` | `ReactNode` | no | undefined | Icon before the label. Pass a generated icon without `size`; the control sizes it. The visible icon and accessible name. Pass a generated icon without `size`. |
 | `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | "primary" | Visual emphasis. `primary` is the main action (one per view), `secondary` for other actions, `outline` for bordered actions, `ghost` for low-emphasis actions, `accent` for brand emphasis, `danger` for destructive actions. |
@@ -889,16 +897,25 @@ Errors are shown after the field is blurred or the form is submitted, not on the
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `children` | `ReactNode` | yes |  | The control: `Input`, `Textarea`, `Select`, `Checkbox`, `RadioGroup`, `Switch` or `Slider`. Controls that carry their own label or legend also accept these validation props directly. |
+| `actionsRef` | `RefObject<FieldRootActions \| null>` | no |  | A ref to imperative actions. - `validate`: Validates the field when called. |
 | `className` | `string` | no |  |  |
 | `data-invalid` | `boolean` | no | false | Marks the field invalid for styling without an error message. Prefer `error` so the reason is announced. Renders `data-invalid` on the field root. |
 | `description` | `ReactNode` | no |  | Help text shown under the control and linked with `aria-describedby`. |
+| `dirty` | `boolean` | no |  | Whether the field's value has been changed from its initial value. Useful when the field state is controlled by an external library. |
+| `disabled` | `boolean` | no | false | Whether the component should ignore user interaction. Takes precedence over the `disabled` prop on the `<Field.Control>` component. |
 | `error` | `FieldErrorProp` | no |  | Error message. When set, the field is marked invalid and the message is linked to the control. Pass an empty string when there is no error. Show it from validation that runs on blur or submit, not on the first keystroke (Field defaults to `validationMode="onBlur"`). |
 | `label` | `ReactNode` | no |  | Visible label. Required unless the control renders its own label or legend (Checkbox, RadioGroup, Switch, Slider). |
 | `loading` | `boolean` | no | false | Shows a small spinner at the end of the control, marks it `aria-busy`, and makes it not editable. |
+| `name` | `string` | no |  | Identifies the field when a form is submitted. Takes precedence over the `name` prop on the `<Field.Control>` component. |
 | `orientation` | `"horizontal" \| "vertical"` | no | vertical | Layout with label beside the control. Ignored when `label` is omitted. |
 | `readOnly` | `boolean` | no | false | Makes the control read-only: sunken background, no hover, text not dimmed, still focusable and selectable. Distinct from `disabled`. |
+| `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>> \| ComponentRenderFn<HTMLProps, FieldRootState>` | no |  | Allows you to replace the component's HTML element with a different tag, or compose it with another component.  Accepts a `ReactElement` or a function that returns the element to render. |
 | `required` | `boolean` | no | false | Marks the control as required and prints "Required" next to the label. The control also gets `required` so browsers and assistive technology enforce it. |
 | `stackBelow` | `"sm" \| "md"` | no |  | Return to vertical below this breakpoint (`sm` = 40rem, `md` = 48rem). |
+| `touched` | `boolean` | no |  | Whether the field has been touched. Useful when the field state is controlled by an external library. |
+| `validate` | `((value: unknown, formValues: Record<string, any>) => string \| void \| string[] \| Promise<string \| void \| string[] \| null> \| null)` | no |  | A function for custom validation. Return a string or an array of strings with the error message(s) if the value is invalid. Returning nothing, `null`, an empty string, or an empty array means the value is valid. Asynchronous functions are supported, but they do not prevent form submission when using `validationMode="onSubmit"`. |
+| `validationDebounceTime` | `number` | no | 0 | How long to wait between `validate` callbacks if `validationMode="onChange"` is used. Specified in milliseconds. |
+| `validationMode` | `"onBlur" \| "onChange" \| "onSubmit"` | no | onBlur | Determines when the field should be validated. This takes precedence over the `validationMode` prop on `<Form>`.  - `onSubmit`: triggers validation when the form is submitted, and re-validates on change after submission. - `onBlur`: triggers validation when the control loses focus. - `onChange`: triggers validation on every change to the control value. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -987,6 +1004,8 @@ component: use the parent `gap` or a margin on `className`.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `decorative` | `boolean` | no | true | Hides the line from assistive technology when true. Set it to false when the line conveys a real section boundary that screen readers should announce. |
+| `orientation` | `"horizontal" \| "vertical"` | no | horizontal | The orientation of the separator. |
+| `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>> \| ComponentRenderFn<HTMLProps, SeparatorState>` | no |  | Allows you to replace the component's HTML element with a different tag, or compose it with another component.  Accepts a `ReactElement` or a function that returns the element to render. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1022,10 +1041,14 @@ default to `--radius-md` and `--space-3` and are useful when composing with Butt
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `className` | `string` | no |  |  |
+| `defaultValue` | `string \| number \| readonly string[]` | no |  | The default value of the input. Use when uncontrolled. |
 | `endIcon` | `ReactNode` | no |  | Icon after the text. Pass a generated icon without `size`; the input sizes it. |
 | `loading` | `boolean` | no | false | Shows a small spinner at the end and makes the input not editable. `aria-busy` is set. Inside `Field`, omit it and pass `loading` to the Field instead. |
+| `onValueChange` | `((value: string, eventDetails: { reason: "none"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)` | no |  | Callback fired when the `value` changes. Use when controlled. |
+| `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>> \| ComponentRenderFn<HTMLProps, InputState>` | no |  | Allows you to replace the component's HTML element with a different tag, or compose it with another component.  Accepts a `ReactElement` or a function that returns the element to render. |
 | `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. |
 | `startIcon` | `ReactNode` | no |  | Icon before the text. Pass a generated icon without `size`; the input sizes it. |
+| `value` | `string \| number \| readonly string[]` | no |  | The value of the input. Use when controlled. |
 | `variant` | `"inline" \| "default" \| "ghost"` | no | default | Visual treatment: `inline` removes the resting chrome for fields composed inside another control. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -1067,12 +1090,28 @@ Styling hook: `--input-radius` (default `--radius-md`).
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
+| `autoComplete` | `string` | no | 'one-time-code' | The input autocomplete attribute. Applied to the first slot and hidden validation input. |
+| `autoSubmit` | `boolean` | no | false | Whether to submit the owning form when the OTP becomes complete. |
 | `className` | `string` | no |  |  |
+| `defaultValue` | `string` | no |  | The uncontrolled OTP value when the component is initially rendered. |
+| `disabled` | `boolean` | no | false | Whether the component should ignore user interaction. |
+| `form` | `string` | no |  | A string specifying the `form` element with which the hidden input is associated. This string's value must match the id of a `form` element in the same document. |
 | `getSlotLabel` | `((slot: number, length: number) => string)` | no | (slot: number, length: number) => `Character ${slot} of ${length}` | Accessible name of each slot after the first, which uses the `Field` label. Pass it to translate the default "Character 2 of 6". |
 | `groups` | `readonly number[]` | no |  | Splits the slots into visual chunks with a separator between them, e.g. `[3, 3]` for `123-456`. The numbers must add up to `length`; otherwise they are ignored. |
+| `inputMode` | `"search" \| "text" \| "none" \| "tel" \| "url" \| "email" \| "numeric" \| "decimal"` | no |  | The virtual keyboard hint applied to the slot inputs and hidden validation input.  Built-in validation modes provide sensible defaults, but you can override them when needed. |
 | `length` | `number` | no | 6 | Number of character slots. |
 | `loading` | `boolean` | no | false | Makes the slots not editable, marks the field `aria-busy` and shows a spinner after the last slot. Use it while the code is being verified. Inside `Field`, pass `loading` to the Field instead. |
+| `mask` | `boolean` | no | false | Whether the slot inputs should mask entered characters. Pass `type` directly to individual `<OTPField.Input>` parts to use a custom input type. |
+| `name` | `string` | no |  | Identifies the field when a form is submitted. |
+| `normalizeValue` | `((value: string) => string)` | no |  | Function that normalizes the OTP value after whitespace and `validationType` filtering. It runs whenever OTP Field normalizes a value, including initial/default values, controlled values, and user edits.  The returned value is filtered by `validationType` again, then clamped to `length`. It should be idempotent because OTP Field may normalize the same value more than once while handling edits, storing state, and rendering controlled or uncontrolled values. Non-idempotent normalizers can compound across those normalization passes. Characters rejected while normalizing typed or pasted text are reported through `onValueInvalid`. |
+| `onValueChange` | `((value: string, eventDetails: OTPFieldRootChangeEventDetails) => void)` | no |  | Callback fired when the OTP value changes.  The `eventDetails.reason` indicates what triggered the change: - `'input-change'` for typing or autofill - `'input-clear'` when a character is removed by text input - `'input-paste'` for paste interactions - `'keyboard'` for keyboard interactions that change the value |
+| `onValueComplete` | `((value: string, eventDetails: OTPFieldRootCompleteEventDetails) => void)` | no |  | Callback function that is fired when the OTP value becomes complete, or when a complete value is pasted while the OTP is already complete.  When the value changes, it runs later than `onValueChange`, after the internal value update is applied. If a complete pasted value matches the current value, `onValueChange` does not fire.  If `autoSubmit` is enabled, it runs immediately before the owning form is submitted. |
+| `onValueInvalid` | `((value: string, eventDetails: OTPFieldRootInvalidEventDetails) => void)` | no |  | Callback fired when entered text contains characters that are rejected by validation or normalization before the OTP value updates.  The `value` argument is the attempted user-entered string before normalization. |
+| `readOnly` | `boolean` | no | false | Whether the user should be unable to change the field value. |
+| `required` | `boolean` | no | false | Whether the user must enter a value before submitting a form. |
 | `size` | `"sm" \| "md"` | no | md | Slot size: `sm` 2.25rem, `md` 2.75rem. |
+| `validationType` | `"none" \| "numeric" \| "alpha" \| "alphanumeric"` | no | 'numeric' | The type of input validation to apply to the OTP value. |
+| `value` | `string` | no |  | The OTP value. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1161,6 +1200,10 @@ Inherits `required`, `readOnly` and `loading` from the group and `Field`. Needs 
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `className` | `string` | no |  |  |
+| `defaultValue` | `string \| number \| readonly string[]` | no |  | The default value of the input. Use when uncontrolled. |
+| `onValueChange` | `((value: string, eventDetails: { reason: "none"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)` | no |  | Callback fired when the `value` changes. Use when controlled. |
+| `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>> \| ComponentRenderFn<HTMLProps, InputState>` | no |  | Allows you to replace the component's HTML element with a different tag, or compose it with another component.  Accepts a `ReactElement` or a function that returns the element to render. |
+| `value` | `string \| number \| readonly string[]` | no |  | The value of the input. Use when controlled. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1243,8 +1286,11 @@ changes, e.g. "Show password" / "Hide password").
 | `children` | `ReactNode` | no |  | The visible label. Icon-only controls have no visible children. |
 | `className` | `string` | no |  |  |
 | `endIcon` | `ReactNode` | no | undefined | Icon after the label. Pass a generated icon without `size`; the control sizes it. |
+| `focusableWhenDisabled` | `boolean` | no | false | Whether the button should be focusable when disabled. |
 | `href` | `string` | no |  | Never on an action button. Pass `href` to render a link instead. Where the link goes. To navigate, pass `href`; do not wire `onClick` to `router.push`, which loses right-click and new-tab semantics. |
 | `loading` | `boolean` | no | false | Shows a spinner and ignores clicks while an action is running. The button keeps its label and stays focusable, and `aria-busy` tells assistive technology it is working. |
+| `nativeButton` | `boolean` | no | true | Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`). |
+| `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>> \| ComponentRenderFn<HTMLProps, ButtonState>` | no |  | Allows you to replace the component's HTML element with a different tag, or compose it with another component.  Accepts a `ReactElement` or a function that returns the element to render. |
 | `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Control height and icon size: `xs` 1.5rem and 12px, `sm` 1.75rem and 16px, `md` 2rem and 20px, `lg` 2.5rem and 24px. |
 | `startIcon` | `ReactNode` | no | undefined | Icon before the label. Pass a generated icon without `size`; the control sizes it. The visible icon and accessible name. Pass a generated icon without `size`. |
 | `variant` | `"primary" \| "secondary" \| "ghost"` | no | ghost |  |
@@ -1320,14 +1366,26 @@ message; `error` adds a linked message. `description` renders help text below th
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
+| `checked` | `boolean` | no | undefined | Whether the checkbox is currently ticked.  To render an uncontrolled checkbox, use the `defaultChecked` prop instead. |
 | `className` | `string` | no |  |  |
+| `defaultChecked` | `boolean` | no | false | Whether the checkbox is initially ticked.  To render a controlled checkbox, use the `checked` prop instead. |
 | `description` | `ReactNode` | no |  | Help text below the label, linked to it with `aria-describedby`. Inside `Field`, use the Field `description` instead. |
+| `disabled` | `boolean` | no | false | Whether the component should ignore user interaction. |
 | `error` | `FieldErrorProp` | no |  | Error message. Marks the checkbox invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
+| `form` | `string` | no |  | Identifies the form that owns the hidden input. Useful when the checkbox is rendered outside the form. |
+| `inputRef` | `Ref<HTMLInputElement>` | no |  | A ref to access the hidden `<input>` element. |
 | `invalid` | `boolean` | no | false | Marks the checkbox invalid without an error message and tints the label and box with the danger color. Prefer `error` so the reason is announced; use this only when the label itself explains the problem. Inside `Field`, pass `error` to the Field instead. |
 | `label` | `ReactNode` | no |  | Visible label, rendered next to the box. In the card variant it fills the card. Omit the visible label and the wrapping `<label>`; only the box is rendered. |
 | `loading` | `boolean` | no | false | Shows a small spinner next to the label, sets `aria-busy`, and makes the checkbox not interactive. |
+| `name` | `string` | no | undefined | Identifies the field when a form is submitted. |
+| `nativeButton` | `boolean` | no | true | Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`). |
+| `onCheckedChange` | `((checked: boolean, eventDetails: { reason: "none"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)` | no |  | Event handler called when the checkbox is ticked or unticked. |
+| `parent` | `boolean` | no | false | Whether the checkbox controls a group of child checkboxes.  Must be used in a [Checkbox Group](https://base-ui.com/react/components/checkbox-group). |
 | `readOnly` | `boolean` | no | false | The checkbox can be focused and read but not changed. Uses the sunken background and keeps the label text at full contrast. Distinct from `disabled`. |
+| `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>> \| ComponentRenderFn<HTMLProps, CheckboxRootState>` | no |  | Allows you to replace the component's HTML element with a different tag, or compose it with another component.  Accepts a `ReactElement` or a function that returns the element to render. |
 | `required` | `boolean` | no | false | The checkbox must be ticked before the form can be submitted. The label prints "Required". Without a visible label there is nowhere to print it: let `Field` show it instead. Inside `Field`, omit it and pass `required` to the Field instead. |
+| `uncheckedValue` | `string` | no |  | The value submitted with the form when the checkbox is unchecked. By default, unchecked checkboxes do not submit any value, matching native checkbox behavior. |
+| `value` | `string` | no |  | The checkbox's value. Identifies it within a [Checkbox Group](https://base-ui.com/react/components/checkbox-group), falling back to `name` when omitted. When submitting a form, a checked box submits `value`; with no `value`, it submits the native "on". |
 | `variant` | `"default" \| "card"` | no | default | Visual presentation. `card` turns the whole label into a clickable card with a border and background; use it instead of wrapping a Checkbox in a Card. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -1366,11 +1424,17 @@ Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.
 |---|---|---|---|---|
 | `children` | `ReactNode` | yes |  | The `Checkbox` options. |
 | `legend` | `ReactNode` | yes |  | Visible group label, rendered as the `legend` of a `fieldset`. Required: the group needs a name. |
+| `allValues` | `string[]` | no |  | Names of all checkboxes in the group. Use this when creating a parent checkbox. |
 | `className` | `string` | no |  |  |
+| `defaultValue` | `string[]` | no |  | Names of the checkboxes in the group that should be initially ticked.  To render a controlled checkbox group, use the `value` prop instead. |
+| `disabled` | `boolean` | no | false | Whether the component should ignore user interaction. |
 | `error` | `FieldErrorProp` | no |  | Error message. Marks the group invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
 | `loading` | `boolean` | no | false | Shows a small spinner next to the legend, sets `aria-busy`, and makes the group not interactive. |
+| `onValueChange` | `((value: string[], eventDetails: { reason: "none"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)` | no |  | Event handler called when a checkbox in the group is ticked or unticked. Provides the new value as an argument. |
 | `readOnly` | `boolean` | no | false | The group can be focused and read but not changed. Keeps the options at full contrast. Distinct from `disabled`. |
+| `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>> \| ComponentRenderFn<HTMLProps, CheckboxGroupState>` | no |  | Allows you to replace the component's HTML element with a different tag, or compose it with another component.  Accepts a `ReactElement` or a function that returns the element to render. |
 | `required` | `boolean` | no | false | The group must include at least one ticked option before the form can be submitted. The legend prints "Required". Inside `Field`, omit it and pass `required` to the Field. |
+| `value` | `string[]` | no |  | Names of the checkboxes in the group that should be ticked.  To render an uncontrolled checkbox group, use the `defaultValue` prop instead. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1408,12 +1472,20 @@ RadioGroup. Inside `Field` it inherits `error`, `required`, `readOnly` and `load
 | `children` | `ReactNode` | yes |  | The `Radio` options. |
 | `legend` | `ReactNode` | yes |  | Visible group label, rendered as the `legend` of a `fieldset`. Required: the group needs a name. |
 | `className` | `string` | no |  |  |
+| `defaultValue` | `any` | no |  | The uncontrolled value of the radio button that should be initially selected.  To render a controlled radio group, use the `value` prop instead. |
 | `description` | `ReactNode` | no |  | Supporting text announced with the group. |
+| `disabled` | `boolean` | no | false | Whether the component should ignore user interaction. |
 | `error` | `FieldErrorProp` | no |  | Error message. Marks the group invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
+| `form` | `string` | no |  | Identifies the form that owns the radio inputs. Useful when the radio group is rendered outside the form. |
+| `inputRef` | `Ref<HTMLInputElement>` | no |  | A ref to access the hidden input element. |
 | `loading` | `boolean` | no | false | Shows a small spinner next to the legend, sets `aria-busy`, and makes the group not interactive. |
+| `name` | `string` | no |  | Identifies the field when a form is submitted. |
+| `onValueChange` | `((value: any, eventDetails: { reason: "none"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)` | no |  | Callback fired when the value changes. |
 | `orientation` | `"horizontal" \| "vertical"` | no | vertical | Layout of the options. |
 | `readOnly` | `boolean` | no | false | The group can be focused and read but not changed. Keeps the options at full contrast. Distinct from `disabled`. |
+| `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>> \| ComponentRenderFn<HTMLProps, RadioGroupState>` | no |  | Allows you to replace the component's HTML element with a different tag, or compose it with another component.  Accepts a `ReactElement` or a function that returns the element to render. |
 | `required` | `boolean` | no | false | The group must have a selection before the form can be submitted. The legend prints "Required". Inside `Field`, omit it and pass `required` to the Field instead. |
+| `value` | `any` | no |  | The controlled value of the radio item that should be currently selected.  To render an uncontrolled radio group, use the `defaultValue` prop instead. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1453,6 +1525,12 @@ Validation state comes from the `RadioGroup` (`error`, `required`, `readOnly`, `
 | `value` | `string` | yes |  | Value submitted and reported when this option is selected. |
 | `className` | `string` | no |  |  |
 | `description` | `ReactNode` | no |  | Supporting text shown below the option label. |
+| `disabled` | `boolean` | no |  | Whether the component should ignore user interaction. |
+| `inputRef` | `Ref<HTMLInputElement>` | no |  | A ref to access the hidden input element. |
+| `nativeButton` | `boolean` | no | true | Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`). |
+| `readOnly` | `boolean` | no |  | Whether the user should be unable to select the radio button. |
+| `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>> \| ComponentRenderFn<HTMLProps, RadioRootState>` | no |  | Allows you to replace the component's HTML element with a different tag, or compose it with another component.  Accepts a `ReactElement` or a function that returns the element to render. |
+| `required` | `boolean` | no |  | Whether the user must choose a value before submitting a form. |
 | `variant` | `"default" \| "card"` | no | default | Visual treatment of the option. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -1481,15 +1559,26 @@ renders help text below the label.
 ### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
+| `checked` | `boolean` | no |  | Whether the switch is currently active.  To render an uncontrolled switch, use the `defaultChecked` prop instead. |
 | `className` | `string` | no |  |  |
+| `defaultChecked` | `boolean` | no | false | Whether the switch is initially active.  To render a controlled switch, use the `checked` prop instead. |
 | `description` | `ReactNode` | no |  | Help text below the label, linked to it with `aria-describedby`. Inside `Field`, use the Field `description` instead. |
+| `disabled` | `boolean` | no | false | Whether the component should ignore user interaction. |
 | `error` | `FieldErrorProp` | no |  | Error message. Marks the switch invalid and links the message with `aria-describedby`. Inside `Field`, omit it and pass `error` to the Field instead. |
+| `form` | `string` | no |  | Identifies the form that owns the hidden input. Useful when the switch is rendered outside the form. |
+| `inputRef` | `Ref<HTMLInputElement>` | no |  | A ref to access the hidden `<input>` element. |
 | `invalid` | `boolean` | no | false | Marks the switch invalid without an error message and tints the track with the danger color. Prefer `error` so the reason is announced; use this only when the label itself explains the problem. `aria-invalid` also works. Inside `Field`, pass `error` to the Field instead. |
 | `label` | `ReactNode` | no |  | Visible label, rendered next to the switch. In the card variant it fills the card. Omit the visible label and the wrapping `<label>`; only the track is rendered. |
 | `loading` | `boolean` | no | false | Shows a small spinner next to the label, sets `aria-busy`, and makes the switch not interactive. |
+| `name` | `string` | no |  | Identifies the field when a form is submitted. |
+| `nativeButton` | `boolean` | no | true | Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`). |
+| `onCheckedChange` | `((checked: boolean, eventDetails: { reason: "none"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)` | no |  | Event handler called when the switch is activated or deactivated. |
 | `readOnly` | `boolean` | no | false | The switch can be focused and read but not changed. Uses the sunken background when off and keeps the label text at full contrast. Distinct from `disabled`. |
+| `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>> \| ComponentRenderFn<HTMLProps, SwitchRootState>` | no |  | Allows you to replace the component's HTML element with a different tag, or compose it with another component.  Accepts a `ReactElement` or a function that returns the element to render. |
 | `required` | `boolean` | no | false | The switch must be on before the form can be submitted. The label prints "Required". Inside `Field`, omit it and pass `required` to the Field instead. |
 | `size` | `"sm" \| "md"` | no | md | Track size. `sm` is 2rem × 1.25rem and `md` is 2.5rem × 1.5rem. |
+| `uncheckedValue` | `string` | no |  | The value submitted with the form when the switch is off. By default, unchecked switches do not submit any value, matching native checkbox behavior. |
+| `value` | `string` | no |  | The value submitted with the form when the switch is on. By default, switch submits the "on" value, matching native checkbox behavior. |
 | `variant` | `"default" \| "card"` | no | default | Visual presentation. `card` turns the whole label into a clickable card with a border and background, with the label and description on the left and the switch on the right. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -1534,12 +1623,19 @@ not become part of the group's control row.
 | `aria-label` | `string` | no |  | Accessible name when there is no visible label. |
 | `className` | `string` | no |  |  |
 | `data-force` | `"focus"` | no |  | Story/test hook: force the focus ring without moving focus. |
+| `defaultValue` | `string \| null` | no |  | The uncontrolled value of the select when it's initially rendered.  To render a controlled select, use the `value` prop instead. |
+| `disabled` | `boolean` | no | false | Whether the component should ignore user interaction. |
 | `endIcon` | `ReactNode` | no |  | Icon after the value, before the caret. Pass a generated icon without `size`; the select sizes it. |
 | `label` | `string` | no |  | Visible label. Provide it, or `aria-label`, or put the Select inside `Field`: every control needs an accessible name. |
 | `loading` | `boolean` | no | false | Shows a small spinner at the end and makes the select not editable. `aria-busy` is set. Inside `Field`, omit it and pass `loading` to the Field instead. |
+| `name` | `string` | no |  | Identifies the field when a form is submitted. |
+| `onValueChange` | `((value: string \| null, eventDetails: SelectRootChangeEventDetails) => void)` | no |  | Event handler called when the value of the select changes. |
 | `placeholder` | `string` | no |  | Text shown when nothing is selected. |
+| `readOnly` | `boolean` | no | false | Whether the user should be unable to choose a different option from the select popup. |
+| `required` | `boolean` | no | false | Whether the user must choose a value before submitting a form. |
 | `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. |
 | `startIcon` | `ReactNode` | no |  | Icon before the value. Pass a generated icon without `size`; the select sizes it. |
+| `value` | `string \| null` | no |  | The value of the select. Use when controlled. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1625,6 +1721,9 @@ The button that opens the modal. It renders a `Button` and inherits the behavior
 #### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
+| `handle` | `DialogHandle<unknown>` | no |  | A handle to associate the trigger with a dialog. Can be created with the Dialog.createHandle() method. |
+| `nativeButton` | `boolean` | no | true | Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`). |
+| `payload` | `unknown` | no |  | A payload to pass to the dialog when it is opened. |
 | `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | sm | Button size of the trigger. |
 | `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | primary | Button style of the trigger. |
 
@@ -1697,6 +1796,7 @@ with `initialFocus`; otherwise the first secondary action receives focus.
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `initialFocus` | `boolean` | no | false | Marks the safe action that receives initial focus in `role="alertdialog"`. |
+| `nativeButton` | `boolean` | no | true | Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`). |
 | `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | sm | Button size. |
 | `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style. Use `danger` for a destructive action. |
 
@@ -1760,7 +1860,11 @@ Tabs are compact: icons use the 16px small size.
 | `items` | `TabItem[]` | yes |  | The tabs and their panels, in order. |
 | `aria-label` | `string` | no |  | Accessible name of the tab list, for example "Account sections". Required when there is no visible heading for it. |
 | `className` | `string` | no |  |  |
+| `defaultValue` | `any` | no | 0 | The default value. Use when the component is not controlled. When the value is `null`, no Tab will be active. |
+| `onValueChange` | `((value: any, eventDetails: TabsRootChangeEventDetails) => void)` | no |  | Callback invoked when new value is being set.  The event `reason` is `'none'` for user-initiated changes, such as a click or keyboard navigation; `'initial'` for the first automatic selection or fallback in uncontrolled roots when `defaultValue` is omitted or `undefined`, including when the implicit initial value is disabled or missing; `'disabled'` for automatic fallback when the selected tab becomes disabled in uncontrolled roots; or `'missing'` for automatic fallback when the selected tab is removed, or when an explicit `defaultValue` never matches a mounted tab in uncontrolled roots.  For automatic changes, the selected value can be `null` when no enabled Tab is available as a fallback.  Automatic changes cannot be canceled; calling `eventDetails.cancel()` for `'initial'`, `'disabled'`, or `'missing'` has no effect. |
+| `orientation` | `"horizontal" \| "vertical"` | no | 'horizontal' | The component orientation (layout flow direction). |
 | `size` | `"sm" \| "md" \| "lg" \| "xl" \| "2xl"` | no | md | Tab size. |
+| `value` | `any` | no |  | The value of the currently active `Tab`. Use when the component is controlled. When the value is `null`, no Tab will be active. |
 | `variant` | `"line" \| "default"` | no | default | Visual treatment for the active tab indicator. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -2084,7 +2188,17 @@ Built on Base UI Popover (focus management, Escape to close, outside click and p
 - Accessibility: Focus moves into the popup and Escape closes it. Title is the accessible name.
 
 ### Props
-_No props of its own._
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `actionsRef` | `RefObject<PopoverRootActions \| null>` | no |  | A ref to imperative actions. - `unmount`: Ends the closing phase of the popover after an externally controlled closing animation finishes. Call `preventUnmountOnClose()` in `onOpenChange` first, otherwise the popover completes closing on its own. Whether it leaves the DOM is decided by `keepMounted` on the portal. - `close`: Closes the popover imperatively when called. |
+| `defaultOpen` | `boolean` | no | false | Whether the popover is initially open.  To render a controlled popover, use the `open` prop instead. |
+| `defaultTriggerId` | `string \| null` | no |  | ID of the trigger that the popover is associated with. This is useful in conjunction with the `defaultOpen` prop to create an initially open popover. |
+| `handle` | `PopoverHandle<Payload>` | no |  | A handle to associate the popover with a trigger. If specified, allows external triggers to control the popover's open state. |
+| `modal` | `boolean \| "trap-focus"` | no | false | Determines if the popover enters a modal state when open. - `true`: user interaction is limited to the popover: document page scroll is locked, and pointer interactions on outside elements are disabled. - `false`: user interaction with the rest of the document is allowed. - `'trap-focus'`: focus is trapped inside the popover, but document page scroll is not locked and pointer interactions outside of it remain enabled.  On touch devices, a `true` modal blocks outside taps but leaves the page scrollable unless the popup spans nearly the full viewport width, matching native iOS behavior.  When `modal` is `true`, focus trapping is enabled only if `<Popover.Close>` is rendered inside `<Popover.Popup>`. It can be visually hidden with your own CSS if needed, such as Tailwind's `sr-only` utility.  When `modal` is `'trap-focus'`, render `<Popover.Close>` inside `<Popover.Popup>` so touch screen readers can escape the popup. |
+| `onOpenChange` | `((open: boolean, eventDetails: PopoverRootChangeEventDetails) => void)` | no |  | Event handler called when the popover is opened or closed. |
+| `onOpenChangeComplete` | `((open: boolean) => void)` | no |  | Event handler called after any animations complete when the popover is opened or closed. |
+| `open` | `boolean` | no |  | Whether the popover is currently open. |
+| `triggerId` | `string \| null` | no |  | ID of the trigger that the popover is associated with. This is useful in conjunction with the `open` prop to create a controlled popover. There's no need to specify this prop when the popover is uncontrolled (that is, when the `open` prop is not set). |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -2115,7 +2229,13 @@ The button that opens the popover. It is rendered as a `Button`.
 #### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
+| `closeDelay` | `number` | no | 0 | How long to wait before closing the popover that was opened on hover. Specified in milliseconds.  Requires the `openOnHover` prop. |
+| `delay` | `number` | no | 300 | How long to wait before the popover may be opened on hover. Specified in milliseconds.  Requires the `openOnHover` prop. |
 | `endIcon` | `ReactNode` | no |  | Icon after the label. Pass a generated icon without `size`. |
+| `handle` | `PopoverHandle<unknown>` | no |  | A handle to associate the trigger with a popover. |
+| `nativeButton` | `boolean` | no | true | Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`). |
+| `openOnHover` | `boolean` | no | false | Whether the popover should also open when the trigger is hovered. |
+| `payload` | `unknown` | no |  | A payload to pass to the popover when it is opened. |
 | `pill` | `boolean` | no | false | Fully rounded trigger. |
 | `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Button size of the trigger. |
 | `startIcon` | `ReactNode` | no |  | Icon before the label, or the icon for an icon-only trigger. Pass a generated icon without `size`. |
@@ -2178,6 +2298,7 @@ A button that closes the popover. It is rendered as a `Button`.
 #### Props
 | Prop | Type | Required | Default | Description |
 |---|---|---|---|---|
+| `nativeButton` | `boolean` | no | true | Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`). |
 | `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | sm | Button size. |
 | `variant` | `"outline" \| "danger" \| "primary" \| "secondary" \| "ghost" \| "accent"` | no | secondary | Button style. |
 
@@ -2832,9 +2953,12 @@ needs its own. For a single independent on/off button, use `Toggle`.
 | `children` | `ReactNode` | yes |  | Toggle buttons in the group. |
 | `className` | `string` | no |  |  |
 | `defaultValue` | `readonly string[]` | no |  | Initially selected values, when uncontrolled. |
+| `disabled` | `boolean` | no | false | Whether the toggle group should ignore user interaction. |
+| `loopFocus` | `boolean` | no | true | Whether to loop keyboard focus back to the first item when the end of the list is reached while using the arrow keys. |
 | `multiple` | `boolean` | no | false | Allow several items to be on at once. By default only one is. |
 | `onValueChange` | `((groupValue: string[], eventDetails: { reason: "none"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)` | no |  | Called when the selected values change. |
 | `orientation` | `"horizontal" \| "vertical"` | no | "horizontal" | Stack the items vertically instead of horizontally. |
+| `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>> \| ComponentRenderFn<HTMLProps, ToggleGroupState>` | no |  | Allows you to replace the component's HTML element with a different tag, or compose it with another component.  Accepts a `ReactElement` or a function that returns the element to render. |
 | `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | md | Control height and icon size inherited by every item. |
 | `spacing` | `"none" \| "sm" \| "md"` | no | md | Space between items. `none` connects their borders. |
 | `value` | `readonly string[]` | no |  | Selected values, when controlled. |
@@ -2872,9 +2996,16 @@ A toggle group item that composes the standalone Toggle with Base UI Toggle Grou
 |---|---|---|---|---|
 | `children` | `ReactNode` | no |  | Visible label. Omit it for an icon-only toggle and provide `aria-label`. |
 | `className` | `string` | no |  |  |
+| `defaultPressed` | `boolean` | no | false | Whether the toggle button is currently pressed. This is the uncontrolled counterpart of `pressed`. |
+| `disabled` | `boolean` | no | false | Whether the component should ignore user interaction. |
 | `endIcon` | `ReactNode` | no |  | Icon after the label. |
+| `nativeButton` | `boolean` | no | true | Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`). |
+| `onPressedChange` | `((pressed: boolean, eventDetails: { reason: "none"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)` | no |  | Callback fired when the pressed state is changed. |
+| `pressed` | `boolean` | no |  | Whether the toggle button is currently pressed. This is the controlled counterpart of `defaultPressed`. |
+| `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>> \| ComponentRenderFn<HTMLProps, ToggleState>` | no |  | Allows you to replace the component's HTML element with a different tag, or compose it with another component.  Accepts a `ReactElement` or a function that returns the element to render. |
 | `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Control height and icon size, following `Button`. |
 | `startIcon` | `ReactNode` | no |  | Icon before the label, or the icon for an icon-only toggle. |
+| `value` | `string` | no |  | A unique string that identifies the toggle when used inside a toggle group. |
 | `variant` | `"default" \| "outline"` | no | "default" | Visual treatment. `default` has no border; `outline` draws the control border. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -2906,9 +3037,16 @@ toggles need `aria-label` or `aria-labelledby`. Sizes follow `Button`.
 |---|---|---|---|---|
 | `children` | `ReactNode` | no |  | Visible label. Omit it for an icon-only toggle and provide `aria-label`. |
 | `className` | `string` | no |  |  |
+| `defaultPressed` | `boolean` | no | false | Whether the toggle button is currently pressed. This is the uncontrolled counterpart of `pressed`. |
+| `disabled` | `boolean` | no | false | Whether the component should ignore user interaction. |
 | `endIcon` | `ReactNode` | no |  | Icon after the label. |
+| `nativeButton` | `boolean` | no | true | Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`). |
+| `onPressedChange` | `((pressed: boolean, eventDetails: { reason: "none"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)` | no |  | Callback fired when the pressed state is changed. |
+| `pressed` | `boolean` | no |  | Whether the toggle button is currently pressed. This is the controlled counterpart of `defaultPressed`. |
+| `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>> \| ComponentRenderFn<HTMLProps, ToggleState>` | no |  | Allows you to replace the component's HTML element with a different tag, or compose it with another component.  Accepts a `ReactElement` or a function that returns the element to render. |
 | `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Control height and icon size, following `Button`. |
 | `startIcon` | `ReactNode` | no |  | Icon before the label, or the icon for an icon-only toggle. |
+| `value` | `string` | no |  | A unique string that identifies the toggle when used inside a toggle group. |
 | `variant` | `"default" \| "outline"` | no | "default" | Visual treatment. `default` has no border; `outline` draws the control border. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -3042,7 +3180,7 @@ Searchable single- or multi-choice field. Labels come from `Field`.
 | `placeholder` | `string` | no |  |  |
 | `readOnly` | `boolean` | no |  |  |
 | `required` | `boolean` | no |  |  |
-| `size` | `"sm" \| "md" \| "lg"` | no | "md" | Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. |
+| `size` | `"sm" \| "md" \| "lg"` | no | "md" | Control height: `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. |
 | `startIcon` | `ReactNode` | no |  |  |
 | `value` | `string \| string[]` | no |  |  |
 
@@ -3165,7 +3303,11 @@ one opens instantly (`data-instant` skips the animation). Put it once near the a
 - Accessibility: No effect on semantics.
 
 ### Props
-_No props of its own._
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `closeDelay` | `number` | no |  | How long to wait before closing a tooltip. Specified in milliseconds. |
+| `delay` | `number` | no | 600 | How long to wait before opening the tooltip on hover. Specified in milliseconds. |
+| `timeout` | `number` | no | 400 | Another tooltip will open instantly if the previous tooltip is closed within this timeout. Specified in milliseconds. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 

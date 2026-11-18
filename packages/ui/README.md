@@ -20,7 +20,7 @@ Import the token sheet first. Everything the library renders reads these variabl
 
 Optional, after the tokens:
 
-- `@javui/ui/base.css` — document reset: `box-sizing`, page background and body typography from tokens, the global `:focus-visible` ring, `::selection`, tabular numbers and the reduced-motion block.
+- `@javui/ui/base.css` — document reset in `@layer base`: `box-sizing`, page background and body typography from tokens, the global `:focus-visible` ring, `::selection`, tabular numbers and the reduced-motion block.
 - `@javui/ui/fonts.css` — `@font-face` rules for DM Sans (with optical sizing and italics) and Commit Mono. Skip it to keep the system font fallbacks defined in the tokens.
 
 `@javui/ui/global.css` is the shortcut that imports `tokens.css`, `base.css` and `fonts.css` for you. `@javui/ui/tailwind.css` is separate and optional (see [Tailwind](#tailwind-optional)).
@@ -29,8 +29,25 @@ Component styles live in CSS Modules and load automatically when you import the 
 
 ### Tailwind v4
 
-Import in this order: `tailwindcss`, then `@javui/ui/tokens.css`, then `@javui/ui/tailwind.css`.
-Component CSS ships in `@layer components`, and the package declares the layer order, so this works regardless of whether the library CSS loads before or after Tailwind. Preflight sits in `base`, below components; Tailwind utilities sit in `utilities`, above them, so utilities such as `p-8` or `rounded-none` override component styles. Tokens stay unlayered, so `tokens.css` values win over Tailwind theme variables. Without Tailwind the components look the same.
+Import in this canonical order: `tailwindcss`, `@javui/ui/tokens.css`, `@javui/ui/base.css`, `@javui/ui/tailwind.css`.
+
+```css
+@import "tailwindcss";
+@import "@javui/ui/tokens.css";
+@import "@javui/ui/base.css";
+@import "@javui/ui/tailwind.css";
+```
+
+`base.css` is optional; when you use it, it goes after `tokens.css` and before `tailwind.css`. `@javui/ui/global.css` (`tokens.css` + `base.css` + `fonts.css`) replaces the middle two imports.
+
+Component CSS ships in `@layer components`, and the package declares the layer order, so this works regardless of whether the library CSS loads before or after Tailwind. `base.css` is wrapped in `@layer base`; preflight sits there too, below components. Tailwind utilities sit in `utilities`, above both, so utilities such as `p-8` or `rounded-none` override component styles and document defaults. Tokens stay unlayered, so `tokens.css` values win over Tailwind theme variables. Without Tailwind the components look the same.
+
+In Next.js use `@tailwindcss/postcss`; do **not** apply a Tailwind loader to every `*.css` (for example `turbopack.rules` with `@tailwindcss/turbopack`). That loader swallows the library's CSS Modules: the HTML loses its `class` attributes and components render unstyled.
+
+```js
+// postcss.config.mjs
+export default { plugins: { "@tailwindcss/postcss": {} } };
+```
 
 ## Next.js (App Router)
 
@@ -80,6 +97,30 @@ Set `data-theme` on the root element: `light` or `dark`. The tokens also follow 
 
 Set the attribute before the first paint (server render or a blocking script) to avoid a flash of the wrong theme.
 
+## Dark mode with next-themes
+
+`next-themes` sets `data-theme` before hydration with its blocking script. Add `suppressHydrationWarning` to `<html>` because that script changes the attribute before React hydrates:
+
+```tsx
+"use client";
+import { ThemeProvider } from "next-themes";
+import type { ReactNode } from "react";
+
+export function Providers({ children }: { children: ReactNode }) {
+  return (
+    <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem disableTransitionOnChange>
+      {children}
+    </ThemeProvider>
+  );
+}
+```
+
+```tsx
+<html lang="en" suppressHydrationWarning>
+```
+
+With `defaultTheme="system"` and `enableSystem`, the attribute is never `"system"`: `next-themes` resolves it to `"light"` or `"dark"` before the first paint, matching the OS preference. Keep the provider in the root layout so the theme is fixed before the first render.
+
 ## Customizing
 
 Semantic token names are the public API. Override them in your own CSS after importing the tokens:
@@ -117,7 +158,7 @@ export function SignIn() {
 
 ## AI agents
 
-Machine-readable docs ship in the package: `@javui/ui/agent/manifest.json`, `tokens.json`, `icons.json`, `llms.txt` and `llms-full.txt`. Import components from `@javui/ui`, and `CodeBlock` from `@javui/ui/server`.
+Machine-readable docs ship in the package: `@javui/ui/agent/manifest.json`, `tokens.json`, `icons.json`, `llms.txt` and `llms-full.txt`. The manifest's `exports` array is the flat index of every public export with its import path (`@javui/ui`, or `@javui/ui/server` for `CodeBlock`); `components` and `foundations` group them for documentation.
 
 ## Compatibility and versioning
 

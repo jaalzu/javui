@@ -28,7 +28,7 @@ type BaseProps = {
   /** Text shown when the filter matches nothing. @default "No results." */
   emptyMessage?: string;
   name?: string;
-  /** Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem. @default "md" */
+  /** Control height: `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. @default "md" */
   size?: "sm" | "md" | "lg";
   startIcon?: ReactNode;
   /** End icon. Omit for the caret, `null` to hide it. */

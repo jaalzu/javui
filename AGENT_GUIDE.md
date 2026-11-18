@@ -77,6 +77,8 @@ export function Contact() {
 
 Set `data-theme="light"` or `"dark"` on `<html>`. Without it the OS preference applies. Components need no changes: they only read semantic tokens.
 
+To set it before the first paint, use `next-themes` with `attribute="data-theme"`, `defaultTheme="system"`, `enableSystem` and `suppressHydrationWarning` on `<html>`. When the theme is `system`, the attribute receives the resolved `"light"` or `"dark"`, never `"system"`.
+
 ## 6. Links and navigation
 
 In Next App Router, mount `LinkProvider` inside a client `Providers` component; a Server Component cannot pass the `next/link` function across the boundary. Copy `playgrounds/next/app/providers.tsx`. Then `Link`, `Button` with `href`, `Menu` link items, `Breadcrumb` and `Pagination` all render with `next/link`. Never pass a `render` prop per link.
@@ -129,6 +131,12 @@ in IE11, which is outside the library's browser support target.
 ## 11. Package and CSS entry points
 
 Import `@javui/ui/tokens.css` (required), with optional `base.css`, `fonts.css` or `tailwind.css`.
+With Tailwind v4 the canonical order is `tailwindcss` → `@javui/ui/tokens.css` → `@javui/ui/base.css`
+→ `@javui/ui/tailwind.css`. In Next.js use `@tailwindcss/postcss` in `postcss.config.mjs`; do not apply
+a Tailwind loader to every `*.css` (for example `turbopack.rules` with `@tailwindcss/turbopack`).
+That loader strips the library's CSS Modules: the HTML loses its `class` attributes and components
+render unstyled.
+
 `CodeBlock` exists only at `@javui/ui/server`. `ModalContent` requires `closeLabel`, for example
 `<ModalContent title="Confirm" closeLabel="Close">...</ModalContent>`. The package has no Next-specific
 directives, so it works with or without `cacheComponents`.

@@ -19,6 +19,7 @@ const outDir = join(root, "agent");
 mkdirSync(outDir, { recursive: true });
 
 const meta = JSON.parse(readFileSync(join(uiDir, "agent-meta.json"), "utf8"));
+const integration = meta.$integration ?? [];
 for (const k of Object.keys(meta)) if (k.startsWith("$")) delete meta[k];
 
 // ---- 1. Public exports (values only) must match the meta file exactly ----
@@ -51,12 +52,36 @@ const componentFiles = componentRoots.flatMap((rootName) =>
     ),
 );
 
+// Base UI declares the props a control actually forwards (`name`, `defaultValue`,
+// `onValueChange`, `open`, `onOpenChange` ...). Include those declarations, but drop the generic
+// HTML plumbing that would bloat the manifest without telling an agent anything useful.
+const genericHtmlProps = new Set([
+  "className",
+  "style",
+  "id",
+  "children",
+  "ref",
+  "title",
+  "role",
+  "tabIndex",
+  "dir",
+  "lang",
+  "hidden",
+  "slot",
+  "dangerouslySetInnerHTML",
+  "suppressHydrationWarning",
+]);
 const parser = withCustomConfig(join(root, "tsconfig.json"), {
   savePropValueAsString: true,
   shouldExtractLiteralValuesFromEnum: true,
   shouldRemoveUndefinedFromOptional: true,
-  // Only props declared in this repo. Native HTML/Base UI props are described in `extends`.
-  propFilter: (prop) => !prop.declarations?.length || prop.declarations.some((d) => !d.fileName.includes("node_modules")),
+  propFilter: (prop) => {
+    const declarations = prop.declarations ?? [];
+    if (!declarations.length) return false;
+    if (declarations.some((d) => !d.fileName.includes("node_modules"))) return true;
+    if (!declarations.some((d) => d.fileName.includes("@base-ui/react"))) return false;
+    return !genericHtmlProps.has(prop.name);
+  },
 });
 const docs = parser.parse(componentFiles);
 const docByName = new Map(docs.map((d) => [d.displayName, d]));
@@ -228,6 +253,14 @@ const tokensOut = {
 writeFileSync(join(outDir, "tokens.json"), JSON.stringify(tokensOut, null, 2));
 
 // ---- 4. Manifest ----
+const importFor = (name) =>
+  `import { ${name} } from "${serverExported.includes(name) ? "@javui/ui/server" : "@javui/ui"}";`;
+const exportIndex = allExported.map((name) => ({
+  name,
+  category: meta[name].category ?? null,
+  import: importFor(name),
+}));
+
 const manifest = {
   name: "ui-lib",
   description: "React component library. Next.js, TypeScript, CSS variables + CSS Modules. Controls are built on Base UI.",
@@ -242,6 +275,8 @@ const manifest = {
   components: topLevelComponents,
   foundations: foundationsManifest,
   providersAndHooks,
+  exports: exportIndex,
+  integration,
 };
 writeFileSync(join(outDir, "manifest.json"), JSON.stringify(manifest, null, 2));
 
@@ -255,11 +290,12 @@ const llms = [
   "## Principles",
   list(manifest.principles),
   "",
+  ...(integration.length ? ["## Integration", list(integration), ""] : []),
   "## Foundations",
   ...foundationsManifest.map((c) => `- **${c.name}**: ${c.whenToUse}`),
   "",
   "## Machine-readable",
-  "- [Component manifest](/agent/manifest.json): every component with props, examples and accessibility notes",
+  "- [Component manifest](/agent/manifest.json): every component with props, examples and accessibility notes; its `exports` array lists every public export with its import path",
   "- [Design tokens](/agent/tokens.json): every CSS variable with its meaning",
   "- [Icons](/agent/icons.json): every available icon with its component name and tags",
   "- [Full documentation](/llms-full.txt): everything above in one Markdown file",

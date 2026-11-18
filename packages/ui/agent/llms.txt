@@ -9,12 +9,17 @@
 - One way to do each thing: links are Link, actions are Button, headings are Heading, body text is Text.
 - Keep heading levels in order, one h1 per page.
 
+## Integration
+- Tailwind v4 import order: `tailwindcss` -> `@javui/ui/tokens.css` -> `@javui/ui/base.css` -> `@javui/ui/tailwind.css`. `base.css` is optional but stays between tokens and tailwind.
+- Next.js + Tailwind: use `@tailwindcss/postcss` in `postcss.config.mjs`. Do not apply a Tailwind loader to every `*.css` (for example `turbopack.rules` with `@tailwindcss/turbopack`): it strips the library's CSS Modules, the HTML loses its `class` attributes and components render unstyled.
+- Theme: set `data-theme="light|dark"` on `<html>` before the first paint. With `next-themes` use `attribute="data-theme"`; a `system` theme resolves to `light` or `dark`, never `system`. Add `suppressHydrationWarning` to `<html>`.
+
 ## Foundations
 - **Text**: Any paragraph, label, caption or inline code that is not a heading. Small styles: `label` for controls (buttons, tabs); `body-sm` for secondary reading text (descriptions, helper text); `caption` for metadata (timestamps, counters, footnotes).
 - **Heading**: Page and section titles.
 
 ## Machine-readable
-- [Component manifest](/agent/manifest.json): every component with props, examples and accessibility notes
+- [Component manifest](/agent/manifest.json): every component with props, examples and accessibility notes; its `exports` array lists every public export with its import path
 - [Design tokens](/agent/tokens.json): every CSS variable with its meaning
 - [Icons](/agent/icons.json): every available icon with its component name and tags
 - [Full documentation](/llms-full.txt): everything above in one Markdown file

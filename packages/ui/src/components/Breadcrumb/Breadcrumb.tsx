@@ -36,7 +36,7 @@ export type BreadcrumbProps = {
 };
 
 /**
- * Where the current page sits in the site. Renders `nav > ol` and marks the last item with
+ * Displays the path to the current resource using a hierarchy of links.Renders `nav > ol` and marks the last item with
  * `aria-current="page"`. Links use whatever `LinkProvider` provides (`next/link` in this app).
  *
  * @example
@@ -51,7 +51,8 @@ export function Breadcrumb({
   className,
 }: BreadcrumbProps) {
   const LinkEl = useLinkComponent() as ElementType<ComponentProps<"a">>;
-  const limit = typeof maxItems === "number" && maxItems >= 3 ? maxItems : undefined;
+  const limit =
+    typeof maxItems === "number" && maxItems >= 3 ? maxItems : undefined;
   const shouldCollapse = limit !== undefined && items.length > limit;
 
   function renderItem(item: BreadcrumbItem, index: number) {
@@ -64,7 +65,11 @@ export function Breadcrumb({
     return (
       <li key={`${item.href ?? item.label}-${index}`} className={styles.item}>
         {last ? (
-          <span aria-current="page" className={styles.current} data-icon={position}>
+          <span
+            aria-current="page"
+            className={styles.current}
+            data-icon={position}
+          >
             <IconSlot>{item.startIcon}</IconSlot>
             {item.label}
             <IconSlot>{item.endIcon}</IconSlot>
@@ -85,7 +90,10 @@ export function Breadcrumb({
         {!last ? (
           <span
             aria-hidden="true"
-            className={cx(styles.separator, separator === ">" && styles.separatorGlyph)}
+            className={cx(
+              styles.separator,
+              separator === ">" && styles.separatorGlyph,
+            )}
           >
             {separator}
           </span>
@@ -97,11 +105,18 @@ export function Breadcrumb({
   function renderHiddenMenu(hidden: BreadcrumbItem[]) {
     return (
       <BaseMenu.Root>
-        <BaseMenu.Trigger className={styles.ellipsis} aria-label="Show hidden pages">
+        <BaseMenu.Trigger
+          className={styles.ellipsis}
+          aria-label="Show hidden pages"
+        >
           <DotsThreeIcon />
         </BaseMenu.Trigger>
         <BaseMenu.Portal>
-          <BaseMenu.Positioner sideOffset={6} align="start" className={styles.positioner}>
+          <BaseMenu.Positioner
+            sideOffset={6}
+            align="start"
+            className={styles.positioner}
+          >
             <BaseMenu.Popup className={styles.popup}>
               {hidden.map((item, i) => {
                 const position = iconPosition({
@@ -112,12 +127,15 @@ export function Breadcrumb({
                   <>
                     <IconSlot>{item.startIcon}</IconSlot>
                     {item.label}
-                    <IconSlot className={styles.menuSlotEnd}>{item.endIcon}</IconSlot>
+                    <IconSlot className={styles.menuSlotEnd}>
+                      {item.endIcon}
+                    </IconSlot>
                   </>
                 );
 
                 if (item.href) {
-                  const render = LinkEl === "a" ? undefined : <LinkEl href={item.href} />;
+                  const render =
+                    LinkEl === "a" ? undefined : <LinkEl href={item.href} />;
                   return (
                     <BaseMenu.LinkItem
                       key={`${item.href}-${i}`}
@@ -161,12 +179,17 @@ export function Breadcrumb({
             {renderHiddenMenu(hidden)}
             <span
               aria-hidden="true"
-              className={cx(styles.separator, separator === ">" && styles.separatorGlyph)}
+              className={cx(
+                styles.separator,
+                separator === ">" && styles.separatorGlyph,
+              )}
             >
               {separator}
             </span>
           </li>
-          {items.slice(tailStart).map((item, i) => renderItem(item, tailStart + i))}
+          {items
+            .slice(tailStart)
+            .map((item, i) => renderItem(item, tailStart + i))}
         </ol>
       </nav>
     );

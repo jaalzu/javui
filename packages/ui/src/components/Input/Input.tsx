@@ -27,7 +27,7 @@ export type InputProps = {
 } & Omit<BaseInput.Props, "className" | "size" | "color">;
 
 /**
- * A native text input built on Base UI Input. Inside `Field` it is labelled and wired to its
+ *A text input component for forms and user data entry with built-in styling and accessibility features. Inside `Field` it is labelled and wired to its
  * description and error automatically, and it inherits `required`, `readOnly` and `loading`.
  * Outside `Field` it needs an accessible name (`aria-label` or an associated `label`).
  * Icons follow the control size: xs 12px, sm 16px, md 20px, lg 24px.
@@ -64,7 +64,12 @@ export function Input({
   });
 
   return (
-    <span className={styles.wrapper} data-icon={position} data-size={size} data-variant={variant}>
+    <span
+      className={styles.wrapper}
+      data-icon={position}
+      data-size={size}
+      data-variant={variant}
+    >
       <IconSlot className={styles.startSlot}>{startIcon}</IconSlot>
       <BaseInput
         className={cx(styles.input, styles[size], className)}
@@ -77,12 +82,7 @@ export function Input({
       />
       {loading ? (
         <span className={cx(styles.endSlot, styles.spinnerSlot)}>
-          <Spinner
-            size="sm"
-            label=""
-            role="presentation"
-            aria-hidden="true"
-          />
+          <Spinner size="sm" label="" role="presentation" aria-hidden="true" />
         </span>
       ) : (
         <IconSlot className={styles.endSlot}>{endIcon}</IconSlot>

@@ -59,7 +59,9 @@
 }
 
 .button:hover:not([data-disabled])::before,
-.button[data-force="hover"]:not([data-disabled])::before {
+.button[data-force="hover"]:not([data-disabled])::before,
+.button[data-popup-open]:not([data-disabled])::before,
+.button[aria-expanded="true"]:not([data-disabled])::before {
   background-color: var(--btn-bg-hover);
 }
 
@@ -190,4 +192,3 @@
   opacity: 1;
   cursor: progress;
 }
-

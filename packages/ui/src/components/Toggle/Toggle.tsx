@@ -28,7 +28,7 @@ export type ToggleProps = Omit<BaseToggleProps, "children" | "className"> & {
 export type ToggleVariant = "default" | "outline";
 
 /**
- * A button with an on/off state (`aria-pressed`), built on Base UI Toggle. Use it for a state the
+ * A two-state button that can be either on or off. Use it for a state the
  * person flips on the spot: bold, a filter, mute. For a setting that applies immediately and is
  * read as a setting (dark mode, notifications), use `Switch`. To pick among related options, use
  * `ToggleGroup`.
@@ -53,7 +53,8 @@ export function Toggle({
   const group = useToggleGroupContext();
   const resolvedSize = size ?? group?.size ?? "md";
   const resolvedVariant = variant ?? group?.variant ?? "default";
-  const hasLabel = children !== undefined && children !== null && children !== false;
+  const hasLabel =
+    children !== undefined && children !== null && children !== false;
   const position = iconPosition({ startIcon, endIcon, hasLabel });
   const ariaLabel = rest["aria-label"];
   const ariaLabelledBy = rest["aria-labelledby"];

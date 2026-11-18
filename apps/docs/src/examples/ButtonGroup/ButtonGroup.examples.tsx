@@ -25,9 +25,9 @@ import { ButtonGroupActionsExample } from "./ButtonGroupActionsExample";
 import styles from "./ButtonGroup.examples.module.css";
 
 const currencies = [
-  { value: "usd", label: "USD" },
-  { value: "eur", label: "EUR" },
-  { value: "ars", label: "ARS" },
+  { value: "usd", label: "$" },
+  { value: "eur", label: "€" },
+  { value: "gbp", label: "£" },
 ];
 
 /** Centers an example in the preview. */
@@ -48,24 +48,13 @@ export const hero = defineHero(
 
 export const examples: Example[] = [
   ex(
-    "Actions",
-    `<ButtonGroup aria-label="Preview actions">
-  <Button variant="outline">Preview</Button>
-  <Button variant="outline">Publish</Button>
-</ButtonGroup>`,
-    <Stage>
-      <ButtonGroupActionsExample />
-    </Stage>,
-    "Outline buttons draw the border and the group overlaps each inner edge, so it is drawn once.",
-  ),
-  ex(
     "Orientation",
     `<ButtonGroup aria-label="Quantity" orientation="vertical">
   <Button variant="outline" aria-label="Increase" startIcon={<PlusIcon />} />
   <Button variant="outline" aria-label="Decrease" startIcon={<MinusIcon />} />
 </ButtonGroup>`,
     <Stage>
-      <ButtonGroup aria-label="Quantity" orientation="vertical">
+      <ButtonGroup aria-label="Quantity" orientation="vertical" size="sm">
         <Button
           variant="outline"
           aria-label="Increase"
@@ -78,24 +67,25 @@ export const examples: Example[] = [
         />
       </ButtonGroup>
     </Stage>,
-    "Use a vertical group for compact increment and decrement actions.",
+    "Set the orientation prop to change the button group layout.",
   ),
   ex(
     "Size",
     `<ButtonGroup aria-label="Small" size="sm">
-  <Button size="sm" variant="outline">Save</Button>
-  <Button size="sm" variant="outline">Preview</Button>
+  <Button variant="outline">Save</Button>
+  <Button variant="outline">Preview</Button>
 </ButtonGroup>`,
     <Stage>
       <div className={styles.stack}>
         {(["xs", "sm", "md", "lg"] as const).map((size) => (
           <ButtonGroup key={size} aria-label={`${size} actions`} size={size}>
-            <Button size={size} variant="outline">
-              Save
-            </Button>
-            <Button size={size} variant="outline">
-              Preview
-            </Button>
+            <Button variant="outline">Save</Button>
+            <Button variant="outline">Preview</Button>
+            <Button
+              variant="outline"
+              aria-label="Add"
+              startIcon={<PlusIcon />}
+            />
           </ButtonGroup>
         ))}
       </div>
@@ -132,94 +122,74 @@ export const examples: Example[] = [
     "Input",
     `<ButtonGroup aria-label="Send message">
   <Button variant="outline" aria-label="Add" startIcon={<PlusIcon />} />
-  <ButtonGroupSeparator />
   <Input aria-label="Message" placeholder="Send message" endIcon={<PulseIcon />} />
 </ButtonGroup>`,
     <Stage>
       <div className={styles.constrained}>
-        <ButtonGroup aria-label="Send message">
-          <Button variant="outline" className={styles.fieldButton} aria-label="Add" startIcon={<PlusIcon />} />
-          <ButtonGroupSeparator />
+        <div className={styles.row}>
+          <Button
+            pill
+            variant="outline"
+            aria-label="Add"
+            startIcon={<PlusIcon />}
+          />
           <Input
             aria-label="Message"
             placeholder="Send message"
             endIcon={<PulseIcon />}
           />
-        </ButtonGroup>
+        </div>
       </div>
     </Stage>,
     "The input fills the row and shares one edge with the button. Do not pass a `size` to a child: the group sets it.",
   ),
   ex(
-    "Search",
+    "Search button",
     `<ButtonGroup aria-label="Search">
-  <Button variant="outline" aria-label="Search" startIcon={<MagnifyingGlassIcon />} />
-  <ButtonGroupSeparator />
   <Input aria-label="Search" placeholder="Search" />
+  <Button variant="outline">Search</Button>
 </ButtonGroup>`,
     <Stage>
       <div className={styles.constrained}>
         <ButtonGroup aria-label="Search">
+          <Input aria-label="Search" placeholder="Type anything" />
           <Button
             variant="outline"
-            className={styles.fieldButton}
-            aria-label="Search"
-            startIcon={<MagnifyingGlassIcon />}
-          />
-          <ButtonGroupSeparator />
-          <Input aria-label="Search" placeholder="Search" />
+            aria-label="search"
+            startIcon={<ArrowRightIcon />}
+          ></Button>
         </ButtonGroup>
       </div>
     </Stage>,
-  ),
-  ex(
-    "Search with separator",
-    `<ButtonGroup aria-label="Search">
-  <Button variant="outline" aria-label="Search" startIcon={<MagnifyingGlassIcon />} />
-  <ButtonGroupSeparator />
-  <Input aria-label="Search" placeholder="Search" />
-</ButtonGroup>`,
-    <Stage>
-      <div className={styles.constrained}>
-        <ButtonGroup aria-label="Search">
-          <Button
-            variant="outline"
-            className={styles.fieldButton}
-            aria-label="Search"
-            startIcon={<MagnifyingGlassIcon />}
-          />
-          <ButtonGroupSeparator />
-          <Input aria-label="Search" placeholder="Search" />
-        </ButtonGroup>
-      </div>
-    </Stage>,
-    "The separator and the input border share one pixel: the input overlaps the separator.",
   ),
   ex(
     "Select",
     `<ButtonGroup aria-label="Currency">
-  <Select className={styles.currencySelect} aria-label="Currency" placeholder="USD" items={currencies} />
   <Input aria-label="Amount" placeholder="10.00" inputMode="decimal" />
-  <ButtonGroupSeparator />
-  <Button variant="outline" className={styles.fieldButton} aria-label="Next currency" startIcon={<ArrowRightIcon />} />
 </ButtonGroup>`,
     <Stage>
       <div className={styles.constrained}>
-        <ButtonGroup aria-label="Currency">
-          <Select className={styles.currencySelect} aria-label="Currency" placeholder="USD" items={currencies} />
-          <Input aria-label="Amount" placeholder="10.00" inputMode="decimal" />
-          <ButtonGroupSeparator />
+        <div className={styles.row}>
+          <ButtonGroup aria-label="Amount">
+            <Select aria-label="Currency" placeholder="$" items={currencies} />
+            <Input
+              aria-label="Amount"
+              placeholder="10.00"
+              inputMode="decimal"
+            />
+          </ButtonGroup>
           <Button
             variant="outline"
-            className={styles.fieldButton}
+            pill
             aria-label="Next currency"
             startIcon={<ArrowRightIcon />}
           />
-        </ButtonGroup>
+        </div>
       </div>
     </Stage>,
     "The select keeps its content width, the input takes the rest and the button keeps its size.",
   ),
+
   ex(
     "Separator",
     `<ButtonGroup aria-label="Export">

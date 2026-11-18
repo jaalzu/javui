@@ -38,7 +38,7 @@ export type AccordionProps = {
 };
 
 /**
- * Collapsible sections built on Base UI Accordion. Each title is a button inside an `h3`
+ * A vertically stacked set of interactive headings that each reveal a section of content. Each title is a button inside an `h3`
  * (`aria-expanded` and `aria-controls` come from Base UI). Pass `items` instead of composing parts.
  * The plus/minus sign sits at the end: its vertical stroke collapses while opening.
  *
@@ -72,10 +72,17 @@ export function Accordion({
       disabled={disabled}
       defaultValue={value === undefined ? defaultValue : undefined}
       value={value}
-      onValueChange={onValueChange ? (v) => onValueChange(v as string[]) : undefined}
+      onValueChange={
+        onValueChange ? (v) => onValueChange(v as string[]) : undefined
+      }
     >
       {items.map((item) => (
-        <BaseAccordion.Item key={item.value} value={item.value} disabled={item.disabled} className={styles.item}>
+        <BaseAccordion.Item
+          key={item.value}
+          value={item.value}
+          disabled={item.disabled}
+          className={styles.item}
+        >
           <BaseAccordion.Header className={styles.header}>
             <BaseAccordion.Trigger
               className={styles.trigger}

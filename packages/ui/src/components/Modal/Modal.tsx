@@ -15,6 +15,7 @@ import { useControllableState } from "../../hooks/useControllableState";
 import { Button, type ButtonSize, type ButtonVariant } from "../Button";
 import { XIcon } from "../../icons/icons.generated";
 import styles from "./Modal.module.css";
+import { useButtonGroupSize } from "../ButtonGroup/ButtonGroupContext";
 
 export type ModalRole = "dialog" | "alertdialog";
 export type ModalSize = "xs" | "sm" | "md" | "lg" | "xl";
@@ -72,7 +73,9 @@ type ModalCommonProps = {
 
 export type ModalProps = ModalCommonProps &
   (
-    | { /** Behavior only. Use dialog for content and forms. @default "dialog" */ role?: "dialog" }
+    | {
+        /** Behavior only. Use dialog for content and forms. @default "dialog" */ role?: "dialog";
+      }
     | {
         /** Behavior only. Use alertdialog for a decision that interrupts. */
         role: "alertdialog";
@@ -162,7 +165,10 @@ export function Modal({
         if (allowed) commitOpenChange(false);
       })
       .catch((error: unknown) => {
-        console.error("Modal onBeforeClose failed; the modal stays open.", error);
+        console.error(
+          "Modal onBeforeClose failed; the modal stays open.",
+          error,
+        );
       });
   };
 
@@ -212,10 +218,12 @@ export type ModalTriggerProps = {
  */
 export function ModalTrigger({
   variant = "primary",
-  size = "sm",
+  size: sizeProp,
   children,
   ...rest
 }: ModalTriggerProps) {
+  const groupSize = useButtonGroupSize();
+  const size = sizeProp ?? groupSize ?? "sm";
   return (
     <BaseDialog.Trigger
       render={
@@ -268,7 +276,14 @@ export function ModalContent({
   closeLabel,
   className,
 }: ModalContentProps) {
-  const { role, size, color, dismissible, description: rootDescription, returnFocusTo } = useModalContext();
+  const {
+    role,
+    size,
+    color,
+    dismissible,
+    description: rootDescription,
+    returnFocusTo,
+  } = useModalContext();
   const description = contentDescription ?? rootDescription;
   const popupRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -288,24 +303,25 @@ export function ModalContent({
       const footer = footerRef.current;
       return (
         footer?.querySelector<HTMLElement>("[data-modal-initial-focus]") ??
-        footer?.querySelector<HTMLElement>('[data-modal-variant="secondary"]') ??
+        footer?.querySelector<HTMLElement>(
+          '[data-modal-variant="secondary"]',
+        ) ??
         footer?.querySelector<HTMLElement>("button") ??
         true
       );
     }
 
     const form = bodyRef.current?.querySelector("form");
-    const field =
-      (form ?? bodyRef.current)?.querySelector<HTMLElement>(
-        'input:not([type="hidden"]), textarea, select, [contenteditable="true"]',
-      );
+    const field = (form ?? bodyRef.current)?.querySelector<HTMLElement>(
+      'input:not([type="hidden"]), textarea, select, [contenteditable="true"]',
+    );
     return field ?? true;
   };
 
   const finalFocus =
     typeof returnFocusTo === "string"
       ? () => document.getElementById(returnFocusTo)
-      : returnFocusTo ?? undefined;
+      : (returnFocusTo ?? undefined);
 
   return (
     <BaseDialog.Portal>
@@ -322,7 +338,9 @@ export function ModalContent({
         <div className={styles.header}>
           <div className={styles.heading}>
             {tagline ? <p className={styles.tagline}>{tagline}</p> : null}
-            <BaseDialog.Title className={styles.title}>{title}</BaseDialog.Title>
+            <BaseDialog.Title className={styles.title}>
+              {title}
+            </BaseDialog.Title>
             {description ? (
               <BaseDialog.Description className={styles.description}>
                 {description}

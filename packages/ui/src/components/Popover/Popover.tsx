@@ -7,7 +7,7 @@ import { Button, type ButtonSize, type ButtonVariant } from "../Button";
 import styles from "./Popover.module.css";
 
 /**
- * Root of a popover: a small panel anchored to a button, for extra controls or details the user asked for.
+ * Displays rich content in a portal, triggered by a button.
  * Use Popover for about 22rem of content and up to 3–4 fields; use Tooltip for supplementary hints,
  * Menu for a list of actions, Modal for decisions, and Sheet for longer content.
  * Built on Base UI Popover (focus management, Escape to close, outside click and positioning come from there).
@@ -89,12 +89,24 @@ export type PopoverContentProps = {
  *   <PopoverClose>Done</PopoverClose>
  * </PopoverContent>
  */
-export function PopoverContent({ title, description, children, side = "bottom", align = "center", className }: PopoverContentProps) {
+export function PopoverContent({
+  title,
+  description,
+  children,
+  side = "bottom",
+  align = "center",
+  className,
+}: PopoverContentProps) {
   const popupRef = useRef<HTMLDivElement>(null);
 
   return (
     <BasePopover.Portal>
-      <BasePopover.Positioner side={side} align={align} sideOffset={4} className={styles.positioner}>
+      <BasePopover.Positioner
+        side={side}
+        align={align}
+        sideOffset={4}
+        className={styles.positioner}
+      >
         <BasePopover.Popup
           ref={popupRef}
           className={cx(styles.popup, className)}
@@ -104,8 +116,14 @@ export function PopoverContent({ title, description, children, side = "bottom", 
             ) ?? true
           }
         >
-          <BasePopover.Title className={styles.title}>{title}</BasePopover.Title>
-          {description ? <BasePopover.Description className={styles.description}>{description}</BasePopover.Description> : null}
+          <BasePopover.Title className={styles.title}>
+            {title}
+          </BasePopover.Title>
+          {description ? (
+            <BasePopover.Description className={styles.description}>
+              {description}
+            </BasePopover.Description>
+          ) : null}
           {children ? <div className={styles.body}>{children}</div> : null}
         </BasePopover.Popup>
       </BasePopover.Positioner>
@@ -126,7 +144,12 @@ export type PopoverCloseProps = {
  * @example
  * <PopoverClose>Done</PopoverClose>
  */
-export function PopoverClose({ variant = "secondary", size = "sm", children, ...rest }: PopoverCloseProps) {
+export function PopoverClose({
+  variant = "secondary",
+  size = "sm",
+  children,
+  ...rest
+}: PopoverCloseProps) {
   return (
     <BasePopover.Close
       render={

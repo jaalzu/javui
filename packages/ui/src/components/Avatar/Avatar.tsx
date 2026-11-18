@@ -46,8 +46,12 @@ export type AvatarProps = AvatarBaseProps &
 
 function initials(name: string) {
   const words = name.trim().split(/\s+/).filter(Boolean);
-  const letters = words.length > 1 ? [words[0], words[words.length - 1]] : [words[0] ?? ""];
-  return letters.map((w) => Array.from(w)[0] ?? "").join("").toUpperCase();
+  const letters =
+    words.length > 1 ? [words[0], words[words.length - 1]] : [words[0] ?? ""];
+  return letters
+    .map((w) => Array.from(w)[0] ?? "")
+    .join("")
+    .toUpperCase();
 }
 
 const statusClass: Record<AvatarStatus, string> = {
@@ -58,7 +62,7 @@ const statusClass: Record<AvatarStatus, string> = {
 };
 
 /**
- * A round image of a person with an initials fallback, built on Base UI Avatar.
+ * An image element with a fallback for representing the user.
  * The whole avatar is one image with the person's name as its label. Add a status or an avatar badge
  * with an icon inside when needed; without them the markup and accessible name stay just the name.
  * For bots, companies or systems, use `src` with the logo; without it the initials are shown.
@@ -86,7 +90,11 @@ export function Avatar({
   className,
 }: AvatarProps) {
   const activeBadge = status ? null : badge;
-  const label = status ? `${name}, ${status}` : activeBadge ? `${name}, ${badgeLabel}` : name;
+  const label = status
+    ? `${name}, ${status}`
+    : activeBadge
+      ? `${name}, ${badgeLabel}`
+      : name;
 
   return (
     <BaseAvatar.Root
@@ -95,7 +103,9 @@ export function Avatar({
       data-outline={outline}
       className={cx(styles.avatar, styles[size], className)}
     >
-      {src ? <BaseAvatar.Image src={src} alt="" className={styles.image} /> : null}
+      {src ? (
+        <BaseAvatar.Image src={src} alt="" className={styles.image} />
+      ) : null}
       <BaseAvatar.Fallback aria-hidden="true" className={styles.fallback}>
         {initials(name)}
       </BaseAvatar.Fallback>

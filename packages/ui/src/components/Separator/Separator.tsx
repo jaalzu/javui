@@ -14,7 +14,7 @@ export type SeparatorProps = BaseSeparator.Props & {
 };
 
 /**
- * A 1px line that visually or semantically divides content, built on Base UI Separator.
+ * Visually or semantically separates content.
  * Horizontal by default; use `orientation="vertical"` inside a row. Spacing is not part of the
  * component: use the parent `gap` or a margin on `className`.
  *
@@ -37,7 +37,10 @@ export function Separator({
       role={decorative ? "presentation" : "separator"}
       aria-orientation={decorative ? undefined : orientation}
       className={(state) =>
-        cx(styles.separator, typeof className === "function" ? className(state) : className)
+        cx(
+          styles.separator,
+          typeof className === "function" ? className(state) : className,
+        )
       }
     />
   );

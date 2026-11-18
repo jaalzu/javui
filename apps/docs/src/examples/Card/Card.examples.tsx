@@ -241,9 +241,6 @@ export const examples: Example[] = [
         <CardTitle>Weekly summary</CardTitle>
         <CardDescription>Your numbers for the last seven days.</CardDescription>
       </CardHeader>
-      <CardContent>
-        <Text>A leading media column aligns with the title.</Text>
-      </CardContent>
     </Card>,
     "Mark an icon or avatar with `data-card-media` in the header to get a leading column.",
   ),

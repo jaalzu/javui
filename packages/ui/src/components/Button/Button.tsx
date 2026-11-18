@@ -17,7 +17,12 @@ import styles from "./Button.module.css";
 import { useButtonGroupSize } from "../ButtonGroup/ButtonGroupContext";
 
 export type ButtonVariant =
-  "primary" | "secondary" | "outline" | "ghost" | "accent" | "danger";
+  | "primary"
+  | "secondary"
+  | "outline"
+  | "ghost"
+  | "accent"
+  | "danger";
 export type ButtonSize = "xs" | "sm" | "md" | "lg";
 
 type ButtonSharedProps = {
@@ -58,9 +63,9 @@ type ButtonAnchorBaseProps = ButtonSharedProps & {
   /** Where the link goes. To navigate, pass `href`; do not wire `onClick` to `router.push`, which loses right-click and new-tab semantics. */
   href: string;
 } & Omit<
-  ComponentProps<"a">,
-  "href" | "color" | "children" | "type" | "disabled" | "loading"
->;
+    ComponentProps<"a">,
+    "href" | "color" | "children" | "type" | "disabled" | "loading"
+  >;
 
 type ButtonSlots = {
   /** Icon before the label. Pass a generated icon without `size`; the control sizes it. @default undefined */
@@ -100,7 +105,7 @@ export type ButtonIconOnlyProps = (
 export type ButtonProps = ButtonWithLabelProps | ButtonIconOnlyProps;
 
 /**
- * Action button, or a link when given `href`.
+ * Displays a button or a component that looks like a button.
  *
  * Icon-only controls need an accessible name (`aria-label` or `aria-labelledby`).
  *
@@ -115,9 +120,7 @@ export type ButtonProps = ButtonWithLabelProps | ButtonIconOnlyProps;
  */
 export function Button(props: ButtonProps) {
   const groupSize = useButtonGroupSize();
-  const LinkComponent = useLinkComponent() as ElementType<
-    ComponentProps<"a">
-  >;
+  const LinkComponent = useLinkComponent() as ElementType<ComponentProps<"a">>;
   const isLink = props.href !== undefined;
   const loading = props.href === undefined && props.loading === true;
   const hasLabel =
@@ -171,9 +174,7 @@ export function Button(props: ButtonProps) {
         href={href}
         target={target}
         rel={
-          target === "_blank" && rel === undefined
-            ? "noopener noreferrer"
-            : rel
+          target === "_blank" && rel === undefined ? "noopener noreferrer" : rel
         }
         className={cx(
           styles.button,
@@ -186,11 +187,7 @@ export function Button(props: ButtonProps) {
         data-variant={variant}
         data-icon={position}
       >
-        <ButtonContent
-          startIcon={startIcon}
-          endIcon={endIcon}
-          loading={false}
-        >
+        <ButtonContent startIcon={startIcon} endIcon={endIcon} loading={false}>
           {children}
         </ButtonContent>
       </LinkComponent>
@@ -199,7 +196,7 @@ export function Button(props: ButtonProps) {
 
   const {
     variant = "primary",
-      size = groupSize ?? "md",
+    size = groupSize ?? "md",
     pill = false,
     type = "button",
     loading: isLoading = false,
@@ -215,7 +212,13 @@ export function Button(props: ButtonProps) {
     <BaseButton
       {...rest}
       type={type}
-      className={cx(styles.button, styles[variant], styles[size], pill && styles.pill, className)}
+      className={cx(
+        styles.button,
+        styles[variant],
+        styles[size],
+        pill && styles.pill,
+        className,
+      )}
       disabled={disabled || isLoading}
       focusableWhenDisabled={isLoading || rest.focusableWhenDisabled}
       aria-busy={isLoading || undefined}
@@ -223,7 +226,11 @@ export function Button(props: ButtonProps) {
       data-variant={variant}
       data-icon={position}
     >
-      <ButtonContent startIcon={startIcon} endIcon={endIcon} loading={isLoading}>
+      <ButtonContent
+        startIcon={startIcon}
+        endIcon={endIcon}
+        loading={isLoading}
+      >
         {children}
       </ButtonContent>
     </BaseButton>

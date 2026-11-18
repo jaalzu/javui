@@ -2,7 +2,12 @@ import type { ComponentProps, ReactNode } from "react";
 import { cx } from "../../utils/cx";
 import { iconPosition } from "../../utils/iconPosition";
 import { IconSlot } from "../Icon/IconSlot";
-import { CheckCircleIcon, InfoIcon, WarningIcon, XCircleIcon } from "../../icons/icons.generated";
+import {
+  CheckCircleIcon,
+  InfoIcon,
+  WarningIcon,
+  XCircleIcon,
+} from "../../icons/icons.generated";
 import styles from "./Alert.module.css";
 
 export type AlertTone = "neutral" | "info" | "success" | "warning" | "error";
@@ -29,7 +34,7 @@ const glyph = {
 } satisfies Record<AlertTone, typeof InfoIcon>;
 
 /**
- * An inline message about the state of the page or a form. `neutral` is the default; `error` and
+ * Displays a callout for user attention. `neutral` is the default; `error` and
  * `warning` are announced immediately, the rest politely. Put optional actions in `children`;
  * for short-lived feedback use `useToast` instead.
  *

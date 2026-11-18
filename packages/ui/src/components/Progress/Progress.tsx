@@ -15,17 +15,29 @@ export type ProgressProps = {
 };
 
 /**
- * Progress of a task, built on Base UI Progress (`role="progressbar"` with `aria-valuenow`).
+ * Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
  * For a quick wait with no known end, prefer `Spinner`; for a value the user sets, use `Slider`.
  *
  * @example
  * <Progress label="Uploading" value={40} />
  */
-export function Progress({ label, value, max = 100, showValue = true, className }: ProgressProps) {
+export function Progress({
+  label,
+  value,
+  max = 100,
+  showValue = true,
+  className,
+}: ProgressProps) {
   return (
-    <BaseProgress.Root className={cx(styles.root, className)} value={value} max={max}>
+    <BaseProgress.Root
+      className={cx(styles.root, className)}
+      value={value}
+      max={max}
+    >
       <div className={styles.row}>
-        <BaseProgress.Label className={styles.label}>{label}</BaseProgress.Label>
+        <BaseProgress.Label className={styles.label}>
+          {label}
+        </BaseProgress.Label>
         {showValue && <BaseProgress.Value className={styles.value} />}
       </div>
       <BaseProgress.Track className={styles.track}>

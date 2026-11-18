@@ -35,8 +35,7 @@ export type TabsProps = {
 >;
 
 /**
- * Tabs that switch between panels, built on Base UI Tabs (arrow-key navigation, roles and
- * `aria-controls` come from there). Pass `items` instead of composing parts.
+ * A set of layered sections of content—known as tab panels—that are displayed one at a time. Pass `items` instead of composing parts.
  * Tabs are compact: icons use the 16px small size.
  *
  * @example

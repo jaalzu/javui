@@ -68,7 +68,7 @@ export type SliderProps = {
 };
 
 /**
- * Pick a number, or a range, by dragging or with arrow keys. Built on Base UI Slider (each thumb is an
+ * An input where the user selects a value from within a given range. Built on Base UI Slider (each thumb is an
  * `input type="range"`). For a short list of exact choices use `Select`; for typing a number, use `Input`.
  * Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.
  *
@@ -172,7 +172,12 @@ export function Slider({
               <BaseSlider.Thumb
                 key={i}
                 index={range ? i : undefined}
-                aria-label={range ? (thumbLabels?.[i] ?? `${label} ${i === 0 ? "minimum" : "maximum"}`) : undefined}
+                aria-label={
+                  range
+                    ? (thumbLabels?.[i] ??
+                      `${label} ${i === 0 ? "minimum" : "maximum"}`)
+                    : undefined
+                }
                 aria-describedby={state.describedBy}
                 inputRef={setInputState}
                 className={styles.thumb}

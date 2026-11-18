@@ -3,7 +3,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-6);
-  padding-block: calc(var(--space-6) + var(--space-8)) var(--space-8);
+  padding-block: calc(var(--space-3) + var(--space-6)) var(--space-8);
 }
 
 .content {
@@ -117,7 +117,8 @@ a.sideLink.sideDisclosureTrigger {
 
 .sideDisclosureTrigger svg {
   color: var(--color-tertiary-foreground);
-  transition: transform var(--motion-duration-fast) var(--motion-easing-standard);
+  transition: transform var(--motion-duration-fast)
+    var(--motion-easing-standard);
 }
 
 .sideDisclosureTrigger[aria-expanded="true"] svg {
@@ -172,4 +173,3 @@ a.sideLink:hover {
 a.sideLink[aria-current="page"] {
   background: var(--color-component);
 }
-

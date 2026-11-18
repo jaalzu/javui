@@ -19,23 +19,68 @@ export type CollapsibleProps = {
   className?: string;
 };
 
-/** Root for a single disclosure. Compose it with `CollapsibleTrigger` and `CollapsibleContent`. */
-export function Collapsible({ children, defaultOpen = false, open, onOpenChange, disabled = false, className }: CollapsibleProps) {
-  return <BaseCollapsible.Root className={cx(styles.root, className)} defaultOpen={open === undefined ? defaultOpen : undefined} open={open} onOpenChange={(nextOpen) => onOpenChange?.(nextOpen)} disabled={disabled}>{children}</BaseCollapsible.Root>;
+/** An interactive component which expands/collapses a panel. Compose it with `CollapsibleTrigger` and `CollapsibleContent`. */
+export function Collapsible({
+  children,
+  defaultOpen = false,
+  open,
+  onOpenChange,
+  disabled = false,
+  className,
+}: CollapsibleProps) {
+  return (
+    <BaseCollapsible.Root
+      className={cx(styles.root, className)}
+      defaultOpen={open === undefined ? defaultOpen : undefined}
+      open={open}
+      onOpenChange={(nextOpen) => onOpenChange?.(nextOpen)}
+      disabled={disabled}
+    >
+      {children}
+    </BaseCollapsible.Root>
+  );
 }
 
-export type CollapsibleTriggerProps = { children?: ReactNode; className?: string; render?: ReactElement; active?: boolean };
+export type CollapsibleTriggerProps = {
+  children?: ReactNode;
+  className?: string;
+  render?: ReactElement;
+  active?: boolean;
+};
 
 /** Button that toggles its parent `Collapsible`. */
-export function CollapsibleTrigger({ children, className, render, active = false }: CollapsibleTriggerProps) {
-  return render
-    ? <BaseCollapsible.Trigger className={className} render={render}>{children}</BaseCollapsible.Trigger>
-    : <BaseCollapsible.Trigger className={cx(styles.trigger, active && styles.activeTrigger, className)}>{children}</BaseCollapsible.Trigger>;
+export function CollapsibleTrigger({
+  children,
+  className,
+  render,
+  active = false,
+}: CollapsibleTriggerProps) {
+  return render ? (
+    <BaseCollapsible.Trigger className={className} render={render}>
+      {children}
+    </BaseCollapsible.Trigger>
+  ) : (
+    <BaseCollapsible.Trigger
+      className={cx(styles.trigger, active && styles.activeTrigger, className)}
+    >
+      {children}
+    </BaseCollapsible.Trigger>
+  );
 }
 
-export type CollapsibleContentProps = { children: ReactNode; className?: string };
+export type CollapsibleContentProps = {
+  children: ReactNode;
+  className?: string;
+};
 
 /** Expandable content for its parent `Collapsible`. */
-export function CollapsibleContent({ children, className }: CollapsibleContentProps) {
-  return <BaseCollapsible.Panel className={cx(styles.panel, className)}><div className={styles.content}>{children}</div></BaseCollapsible.Panel>;
+export function CollapsibleContent({
+  children,
+  className,
+}: CollapsibleContentProps) {
+  return (
+    <BaseCollapsible.Panel className={cx(styles.panel, className)}>
+      <div className={styles.content}>{children}</div>
+    </BaseCollapsible.Panel>
+  );
 }

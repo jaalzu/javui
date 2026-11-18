@@ -6,14 +6,15 @@
  *    - Input and Select draw a real border too (--group-edge, same color as an outline Button).
  *      Outside a group they draw a ring with box-shadow; inside one the ring is replaced, so every
  *      face has the same box and the same height.
- *    - A bordered face overlaps the previous bordered face by one border width, so the shared edge
- *      is drawn once. The group never changes a border width.
+ *    - A bordered face that follows another bordered face collapses its start border
+ *      (--g-bs-inline / --g-bs-block hold the resulting width), so the shared edge is drawn once.
+ *      The group never uses negative margins.
  * 3. Corners: the group squares inner corners with --fa-* (after another face) and --fb-* (before
  *    another face). The control reads them.
  * 4. The axis (horizontal, vertical, stacked) is a bundle of --g-* variables. Rules below never
  *    mention an axis; only the bundles do.
- * Ignored on purpose: nested groups (they get a gap) and hidden siblings (Base UI Select renders
- * an aria-hidden <input> next to its trigger).
+ * Ignored on purpose: nested groups (they get a gap) and the hidden <input aria-hidden> that
+ * Base UI Select renders next to its trigger. Other aria-hidden siblings are NOT ignored.
  */
 
 .group {
@@ -26,8 +27,8 @@
   gap: 0;
 
   /* Axis bundle: horizontal (default). */
-  --g-overlap-inline: calc(var(--border-width-thin) * -1);
-  --g-overlap-block: 0px;
+  --g-bs-inline: 0px;
+  --g-bs-block: var(--border-width-thin);
   --g-after-ss: 0;
   --g-after-se: initial;
   --g-after-es: 0;
@@ -56,8 +57,8 @@
 /* Axis bundle: vertical, and the stacked state below the breakpoint. */
 .group[data-orientation="vertical"],
 .group[data-stack-below] {
-  --g-overlap-inline: 0px;
-  --g-overlap-block: calc(var(--border-width-thin) * -1);
+  --g-bs-inline: var(--border-width-thin);
+  --g-bs-block: 0px;
   --g-after-ss: 0;
   --g-after-se: 0;
   --g-after-es: initial;
@@ -90,11 +91,6 @@
   gap: var(--space-2);
 }
 
-.group > [data-popup-open],
-.group > [aria-expanded="true"] {
-  border-radius: var(--btn-radius, var(--group-radius));
-}
-
 /* Secondary is flat inside a group: no raised ring and no backdrop blur. */
 .group > [data-variant="secondary"] {
   --btn-ring: none;
@@ -103,20 +99,46 @@
 
 /* ---- Corners ---- */
 
-/* A face that has any earlier neighbour squares the corners that touch it. */
+/* A face that follows another face (or a separator) squares the corners that touch it. */
 .group
-  > :not(.group, [aria-hidden="true"], [hidden])
-  ~ :not(.group, .separator, [aria-hidden="true"], [hidden]) {
+  > :is(
+    button,
+    a,
+    [data-button-group-text],
+    span:has(> input),
+    div:has(> [role="combobox"]),
+    .separator
+  )
+  ~ :is(
+    button,
+    a,
+    [data-button-group-text],
+    span:has(> input),
+    div:has(> [role="combobox"])
+  ) {
   --fa-ss: var(--g-after-ss);
   --fa-se: var(--g-after-se);
   --fa-es: var(--g-after-es);
   --fa-ee: var(--g-after-ee);
 }
 
-/* A face that has any later neighbour squares the corners that touch it. */
+/* A face that is followed by another face (or a separator) squares the corners that touch it. */
 .group
-  > :not(.group, .separator, [aria-hidden="true"], [hidden]):has(
-    ~ :not(.group, [aria-hidden="true"], [hidden])
+  > :is(
+    button,
+    a,
+    [data-button-group-text],
+    span:has(> input),
+    div:has(> [role="combobox"])
+  ):has(
+    ~ :is(
+      button,
+      a,
+      [data-button-group-text],
+      span:has(> input),
+      div:has(> [role="combobox"]),
+      .separator
+    )
   ) {
   --fb-ss: var(--g-before-ss);
   --fb-se: var(--g-before-se);
@@ -160,24 +182,44 @@
   border-color: var(--group-edge);
 }
 
-/* A bordered face (or a separator) overlaps the previous one, so the shared edge is drawn once. */
+/* A bordered face that follows another bordered face drops its start border. */
 .group
   > :is(
     [data-variant="outline"],
     [data-button-group-text],
     span:has(> input),
-    div:has(> [role="combobox"]),
-    .separator
+    div:has(> [role="combobox"])
   )
-  ~ :is(
+  ~ :is([data-variant="outline"], [data-button-group-text]) {
+  border-inline-start-width: var(--g-bs-inline);
+  border-block-start-width: var(--g-bs-block);
+}
+
+/* Input and Select draw the border on the control, not on the wrapper. */
+.group
+  > :is(
     [data-variant="outline"],
     [data-button-group-text],
     span:has(> input),
-    div:has(> [role="combobox"]),
-    .separator
-  ) {
-  margin-inline-start: var(--g-overlap-inline);
-  margin-block-start: var(--g-overlap-block);
+    div:has(> [role="combobox"])
+  )
+  ~ :is(span:has(> input), div:has(> [role="combobox"]))
+  > :is(input, [role="combobox"]) {
+  border-inline-start-width: var(--g-bs-inline);
+  border-block-start-width: var(--g-bs-block);
+}
+
+/* The Button background layer must not paint over the neighbour's border. */
+.group
+  > :is(
+    [data-variant="outline"],
+    [data-button-group-text],
+    span:has(> input),
+    div:has(> [role="combobox"])
+  )
+  ~ [data-variant="outline"]::before {
+  inset-inline-start: calc(var(--g-bs-inline) * -1);
+  inset-block-start: calc(var(--g-bs-block) * -1);
 }
 
 /* Secondary buttons have no border: their divider is a hairline inside the face. */
@@ -185,12 +227,13 @@
   --btn-divider: var(--g-divider);
 }
 
-/* The overlapped edge and the invalid ring sit above their neighbours, with the focus ring. */
+/* Focus, invalid and open triggers sit above their neighbours so their ring is never clipped. */
 .group
   :is(button, a, input, [role="combobox"]):is(
     :focus-visible,
     [data-force="focus"],
-    [data-invalid]
+    [data-invalid],
+    [data-popup-open]
   ) {
   position: relative;
   z-index: 1;
@@ -236,8 +279,8 @@
   .group[data-stack-below="sm"][data-orientation="horizontal"] {
     flex-direction: row;
     width: auto;
-    --g-overlap-inline: calc(var(--border-width-thin) * -1);
-    --g-overlap-block: 0px;
+    --g-bs-inline: 0px;
+    --g-bs-block: var(--border-width-thin);
     --g-after-ss: 0;
     --g-after-se: initial;
     --g-after-es: 0;
@@ -260,8 +303,8 @@
   .group[data-stack-below="md"][data-orientation="horizontal"] {
     flex-direction: row;
     width: auto;
-    --g-overlap-inline: calc(var(--border-width-thin) * -1);
-    --g-overlap-block: 0px;
+    --g-bs-inline: 0px;
+    --g-bs-block: var(--border-width-thin);
     --g-after-ss: 0;
     --g-after-se: initial;
     --g-after-es: 0;
@@ -281,7 +324,7 @@
 }
 
 @media (pointer: coarse) {
-  .group > :is(button, a, span:has(> input))::after,
+  .group > :is(button, a)::after,
   .group > div > [role="combobox"]::after {
     width: var(--g-hit-w);
     height: var(--g-hit-h);

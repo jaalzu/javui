@@ -55,7 +55,10 @@ type SwitchSharedProps = {
    */
   loading?: boolean;
   className?: string;
-} & Omit<BaseSwitch.Root.Props, "className" | "children" | "color" | "required" | "readOnly">;
+} & Omit<
+  BaseSwitch.Root.Props,
+  "className" | "children" | "color" | "required" | "readOnly"
+>;
 
 /** A switch with a visible label. */
 export type SwitchWithLabelProps = SwitchSharedProps & {
@@ -76,7 +79,7 @@ export type SwitchWithoutLabelProps = SwitchSharedProps &
 export type SwitchProps = SwitchWithLabelProps | SwitchWithoutLabelProps;
 
 /**
- * An on/off switch for a setting that applies immediately, built on Base UI Switch.
+ * A control that allows the user to toggle between checked and not checked.
  * For choices that are submitted with a form, prefer `Checkbox`. Inside `Field` it inherits
  * `error`, `required`, `readOnly` and `loading`.
  *
@@ -118,7 +121,8 @@ export function Switch({
     ariaInvalidProp === true ||
     ariaInvalidProp === "true";
   const hasLabel = label !== undefined && label !== null;
-  const hasDescription = description !== undefined && description !== null && description !== "";
+  const hasDescription =
+    description !== undefined && description !== null && description !== "";
   const descriptionId = useId();
   const describedBy =
     [hasDescription ? descriptionId : undefined, state.describedBy]
@@ -187,7 +191,11 @@ export function Switch({
   return (
     <>
       <label
-        className={cx(styles.label, variant === "card" && styles.card, className)}
+        className={cx(
+          styles.label,
+          variant === "card" && styles.card,
+          className,
+        )}
         data-variant={variant}
         data-size={size}
         data-invalid={invalid ? "" : undefined}

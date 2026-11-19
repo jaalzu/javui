@@ -185,6 +185,7 @@ export function Button(props: ButtonProps) {
           className,
         )}
         data-variant={variant}
+        data-group-face=""
         data-icon={position}
       >
         <ButtonContent startIcon={startIcon} endIcon={endIcon} loading={false}>
@@ -224,6 +225,7 @@ export function Button(props: ButtonProps) {
       aria-busy={isLoading || undefined}
       data-loading={isLoading ? "" : undefined}
       data-variant={variant}
+      data-group-face=""
       data-icon={position}
     >
       <ButtonContent

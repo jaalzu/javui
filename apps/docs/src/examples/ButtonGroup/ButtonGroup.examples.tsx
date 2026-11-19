@@ -23,6 +23,7 @@ import {
 import { defineHero, ex, type Example } from "@/docs/example";
 import { ButtonGroupActionsExample } from "./ButtonGroupActionsExample";
 import styles from "./ButtonGroup.examples.module.css";
+import { ButtonGroupDropdownExample } from "./ButtonGroupDropdownExample";
 
 const currencies = [
   { value: "usd", label: "$" },
@@ -117,6 +118,22 @@ export const examples: Example[] = [
       </ButtonGroup>
     </Stage>,
     "Nest `ButtonGroup` components to create button groups with spacing.",
+  ),
+  ex(
+    "Dropdown menu",
+    `<ButtonGroup aria-label="Follow">
+  <Button variant="outline">Follow</Button>
+  <Menu
+    label="More follow options"
+    placement="bottom-end"
+    trigger={<Button variant="outline" aria-label="More follow options" startIcon={<CaretDownIcon />} />}
+    items={[/* ... */]}
+  />
+</ButtonGroup>`,
+    <Stage>
+      <ButtonGroupDropdownExample />
+    </Stage>,
+    "A split button whose secondary action opens a menu with icons.",
   ),
   ex(
     "Input",

@@ -107,7 +107,7 @@ export function Select({
       required={required}
       {...rest}
     >
-      <div className={cx(styles.wrapper, className)}>
+      <div className={cx(styles.wrapper, className)} data-group-face="select">
         {label ? (
           <BaseSelect.Label className={styles.label}>{label}</BaseSelect.Label>
         ) : null}

@@ -66,6 +66,7 @@ export function Input({
   return (
     <span
       className={styles.wrapper}
+      data-group-face="input"
       data-icon={position}
       data-size={size}
       data-variant={variant}

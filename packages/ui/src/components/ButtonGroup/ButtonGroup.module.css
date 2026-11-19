@@ -11,10 +11,11 @@
  *      The group never uses negative margins.
  * 3. Corners: the group squares inner corners with --fa-* (after another face) and --fb-* (before
  *    another face). The control reads them.
- * 4. The axis (horizontal, vertical, stacked) is a bundle of --g-* variables. Rules below never
+ * 4. Faces are marked with [data-group-face] (Button, ButtonGroupText, Input, Select). The CSS
+ *    never detects a face by looking inside it, and never nests :has().
+ * 5. The axis (horizontal, vertical, stacked) is a bundle of --g-* variables. Rules below never
  *    mention an axis; only the bundles do.
- * Ignored on purpose: nested groups (they get a gap) and the hidden <input aria-hidden> that
- * Base UI Select renders next to its trigger. Other aria-hidden siblings are NOT ignored.
+ * Ignored on purpose: nested groups (they get a gap) and any node without [data-group-face].
  */
 
 .group {
@@ -82,7 +83,7 @@
 }
 
 /* Input fields fill the row. Action-only groups stay content-sized. */
-.group[data-orientation="horizontal"]:has(> span:has(> input)) {
+.group[data-orientation="horizontal"]:has(> [data-group-face="input"]) {
   width: 100%;
 }
 
@@ -100,57 +101,25 @@
 /* ---- Corners ---- */
 
 /* A face that follows another face (or a separator) squares the corners that touch it. */
-.group
-  > :is(
-    button,
-    a,
-    [data-button-group-text],
-    span:has(> input),
-    div:has(> [role="combobox"]),
-    .separator
-  )
-  ~ :is(
-    button,
-    a,
-    [data-button-group-text],
-    span:has(> input),
-    div:has(> [role="combobox"])
-  ) {
+.group > :is([data-group-face], .separator) ~ [data-group-face] {
   --fa-ss: var(--g-after-ss);
   --fa-se: var(--g-after-se);
   --fa-es: var(--g-after-es);
   --fa-ee: var(--g-after-ee);
 }
 
-/* A face that is followed by another face (or a separator) squares the corners that touch it. */
-.group
-  > :is(
-    button,
-    a,
-    [data-button-group-text],
-    span:has(> input),
-    div:has(> [role="combobox"])
-  ):has(
-    ~ :is(
-      button,
-      a,
-      [data-button-group-text],
-      span:has(> input),
-      div:has(> [role="combobox"]),
-      .separator
-    )
-  ) {
+/* A face followed by another face (or a separator) squares the corners that touch it. */
+.group > [data-group-face]:has(~ :is([data-group-face], .separator)) {
   --fb-ss: var(--g-before-ss);
   --fb-se: var(--g-before-se);
   --fb-es: var(--g-before-es);
   --fb-ee: var(--g-before-ee);
 }
 
-/* The four faces. Input and Select get the radius on the control, not on its wrapper.
-   :where() keeps the specificity of the Select trigger rule low, so invalid and disabled still win. */
+/* The four faces. Input and Select get the radius on the control, not on its wrapper. */
 .group > :is(button, a, [data-button-group-text]),
-.group > span > input,
-.group > div > :where([role="combobox"]) {
+.group > [data-group-face="input"] > input,
+.group > [data-group-face="select"] > [role="combobox"] {
   border-start-start-radius: var(
     --fa-ss,
     var(--fb-ss, var(--btn-radius, var(--group-radius)))
@@ -172,8 +141,8 @@
 /* ---- Edges ---- */
 
 /* Input and Select: a real border instead of the resting ring. */
-.group > span > input,
-.group > div > :where([role="combobox"]) {
+.group > [data-group-face="input"] > input,
+.group > [data-group-face="select"] > [role="combobox"] {
   border: var(--border-width-thin) solid var(--group-edge);
   box-shadow: none;
 }
@@ -187,23 +156,23 @@
   > :is(
     [data-variant="outline"],
     [data-button-group-text],
-    span:has(> input),
-    div:has(> [role="combobox"])
+    [data-group-face="input"],
+    [data-group-face="select"]
   )
   ~ :is([data-variant="outline"], [data-button-group-text]) {
   border-inline-start-width: var(--g-bs-inline);
   border-block-start-width: var(--g-bs-block);
 }
 
-/* Input and Select draw the border on the control, not on the wrapper. */
+/* Same for Input and Select: the border lives on the control, not on the wrapper. */
 .group
   > :is(
     [data-variant="outline"],
     [data-button-group-text],
-    span:has(> input),
-    div:has(> [role="combobox"])
+    [data-group-face="input"],
+    [data-group-face="select"]
   )
-  ~ :is(span:has(> input), div:has(> [role="combobox"]))
+  ~ :is([data-group-face="input"], [data-group-face="select"])
   > :is(input, [role="combobox"]) {
   border-inline-start-width: var(--g-bs-inline);
   border-block-start-width: var(--g-bs-block);
@@ -214,8 +183,8 @@
   > :is(
     [data-variant="outline"],
     [data-button-group-text],
-    span:has(> input),
-    div:has(> [role="combobox"])
+    [data-group-face="input"],
+    [data-group-face="select"]
   )
   ~ [data-variant="outline"]::before {
   inset-inline-start: calc(var(--g-bs-inline) * -1);
@@ -242,16 +211,16 @@
 /* ---- Sizing ---- */
 
 /* Input fills the remaining space. Select stays content-sized. Both match the row height. */
-.group > span:has(> input) {
+.group > [data-group-face="input"] {
   flex: var(--g-field-flex);
   min-width: 0;
 }
 
-.group > span > input {
+.group > [data-group-face="input"] > input {
   height: 100%;
 }
 
-.group > div:has(> [role="combobox"]) {
+.group > [data-group-face="select"] {
   flex: 0 0 auto;
   width: auto;
 }
@@ -325,7 +294,7 @@
 
 @media (pointer: coarse) {
   .group > :is(button, a)::after,
-  .group > div > [role="combobox"]::after {
+  .group > [data-group-face="select"] > [role="combobox"]::after {
     width: var(--g-hit-w);
     height: var(--g-hit-h);
   }

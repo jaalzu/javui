@@ -259,7 +259,7 @@
       "A loose red error text below the control: use Field `error`.",
       "Wiring aria-describedby or aria-invalid by hand."
     ],
-    "a11y": "Field wires the label, aria-describedby and aria-invalid; the error is announced politely. `required` sets the native/ARIA required state and prints Required next to the label, or in the control's own label when Field has no label. Errors show after blur or submit, not on the first keystroke (validationMode defaults to onBlur)."
+    "a11y": "Field wires the label, aria-describedby and aria-invalid; the error is announced politely. `required` sets the native/ARIA required state and marks the label with a red asterisk, or in the control's own label when Field has no label. Errors show after blur or submit, not on the first keystroke (validationMode defaults to onBlur)."
   },
   "FieldSet": {
     "category": "controls",
@@ -396,7 +396,7 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "fieldset with a legend and a radiogroup",
-    "composition": "`legend` is required. Children are Radio elements. Use `description` for group guidance and `orientation` for horizontal layouts. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend. Radio is documented under Parts.",
+    "composition": "`legend` is required. Children are Radio elements. Use `description` for group guidance and `orientation` for horizontal layouts. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required adds a red asterisk to the legend. Radio is documented under Parts.",
     "whenToUse": "Choosing exactly one option from a short list.",
     "avoid": [
       "Long lists: use Select."
@@ -423,7 +423,7 @@
     "avoid": [
       "Choices that need a Save button: use Checkbox."
     ],
-    "a11y": "Announced as a switch with on/off state. Invalid uses the danger border and an error linked with aria-describedby; required prints Required; read-only stays focusable and uses the sunken background; loading sets aria-busy and blocks changes."
+    "a11y": "Announced as a switch with on/off state. Invalid uses the danger border and an error linked with aria-describedby; required adds a red asterisk; read-only stays focusable and uses the sunken background; loading sets aria-busy and blocks changes."
   },
   "Select": {
     "category": "controls",
@@ -712,13 +712,13 @@
     "category": "feedback",
     "base": "base-ui",
     "renders": "hook, renders nothing",
-    "composition": "`const { show, close } = useToast(); show({ title, description?, tone?, timeout?, startIcon?, endIcon? })`. Icons are generated icons without `size`.",
+    "composition": "`const { show, add, close, update, promise } = useToast(); show({ title, description?, type?, tone?, timeout?, priority?, startIcon?, endIcon?, actionProps? })`. `type` renders the status icon for success, info, warning, danger and loading. `actionProps` adds an action button; `promise(value, { loading, success, error })` keeps one toast in sync with a promise. Icons are generated icons without `size`.",
     "whenToUse": "Showing a toast after an action finishes.",
     "avoid": [
       "Calling it outside ToastProvider.",
       "Putting the only copy of important information in a toast."
     ],
-    "a11y": "The tone is never the only signal: write it in the title."
+    "a11y": "The type is never the only signal: write it in the title. Toasts are announced in a live region, F6 reaches them, and hover or focus pauses dismissal. The dismiss button is labelled; action button copy comes from `actionProps.children`."
   },
   "Accordion": {
     "category": "navigation",
@@ -797,7 +797,7 @@
       "Exact entry: use Input.",
       "A few named options: use Select."
     ],
-    "a11y": "Each thumb is a native range input with arrow-key support. The label is the accessible name. Invalid uses the danger border and an error linked with aria-describedby; required prints Required; read-only stays focusable and blocks changes; loading sets aria-busy and blocks changes."
+    "a11y": "Each thumb is a native range input with arrow-key support. The label is the accessible name. Invalid uses the danger border and an error linked with aria-describedby; required adds a red asterisk; read-only stays focusable and blocks changes; loading sets aria-busy and blocks changes."
   },
   "CodeBlock": {
     "category": "typography",

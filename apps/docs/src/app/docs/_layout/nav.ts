@@ -72,8 +72,8 @@ export const pageOrder: NavLink[] = [
   ...layoutSections,
   ...generalSectionsEnd,
   componentsIndex,
-  ...layoutComponentLinks,
   ...componentLinks,
+  ...layoutComponentLinks,
   ...providerLinks,
 ];
 

@@ -717,6 +717,7 @@ Also accepts the native props of the element it renders; they pass through.
 ```
 
 ## Button
+
 Displays a button or a component that looks like a button.
 
 Icon-only controls need an accessible name (`aria-label` or `aria-labelledby`).
@@ -765,7 +766,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## ButtonGroup
 
-A container that groups related buttons together with consistent styling. Children draw their border and radius; the group
+A container that groups related buttons together with consistent styling.Children draw their border and radius; the group
 only zeros the inner edges. It never sets the `size` or `variant` of its buttons.
 
 Use `ButtonGroup` for buttons that perform an action. To group buttons that switch a state on
@@ -985,8 +986,6 @@ Also accepts the native props of the element it renders; they pass through.
 ## Separator
 
 Visually or semantically separates content.
-
-
 Horizontal by default; use `orientation="vertical"` inside a row. Spacing is not part of the
 component: use the parent `gap` or a margin on `className`.
 
@@ -1020,11 +1019,11 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 ## Input
 
 A text input component for forms and user data entry with built-in styling and accessibility features. Inside `Field` it is labelled and wired to its
-description and error automatically, and it inherits `required`, `readOnly` and `loading`.
-Outside `Field` it needs an accessible name (`aria-label` or an associated `label`).
-Icons follow the control size: xs 12px, sm 16px, md 20px, lg 24px.
-Styling hooks: set `--input-radius` or `--input-px` on the input wrapper or an ancestor; they
-default to `--radius-md` and `--space-3` and are useful when composing with ButtonGroup.
+ description and error automatically, and it inherits `required`, `readOnly` and `loading`.
+ Outside `Field` it needs an accessible name (`aria-label` or an associated `label`).
+ Icons follow the control size: xs 12px, sm 16px, md 20px, lg 24px.
+ Styling hooks: set `--input-radius` or `--input-px` on the input wrapper or an ancestor; they
+ default to `--radius-md` and `--space-3` and are useful when composing with ButtonGroup.
 
 - Category: controls
 - Base: Built on Base UI (@base-ui/react)
@@ -1306,7 +1305,7 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## Textarea
 
-Displays a form textarea or a component that looks like a textarea. Needs an accessible name inside or outside `Field`.
+Displays a form textarea or a component that looks like a textarea.. Needs an accessible name inside or outside `Field`.
 Icons use the 20px medium size (the textarea has no size variants).
 
 - Category: controls
@@ -1737,8 +1736,8 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 ### ModalContent
 
 The modal panel: header, scrollable body and footer. It reads the role and description from
-`Modal`. The footer stacks on mobile with the primary action on top, and sits in one row from
-the `md` breakpoint.
+`Modal`. The footer stays in one row and only stacks with the primary action on top when the
+dialog itself is narrower than 300px, not when the viewport is small.
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
@@ -1810,7 +1809,12 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## Tooltip
 
+A short, supplementary label shown on hover or keyboard focus. The trigger is the single child:
+it must be focusable and keep its own accessible name. Use it to clarify an icon button or add a
+hint, never to hold information the user needs to complete the task.
 
+The tooltip flips to the opposite side when there is no room. Put it under a `TooltipProvider`
+to share one open delay across the page.
 
 - Category: overlays
 - Base: Built on Base UI (@base-ui/react)
@@ -1828,7 +1832,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 |---|---|---|---|---|
 | `children` | `ReactElement<unknown, string \| JSXElementConstructor<any>>` | yes |  | The element that triggers the tooltip. It must be focusable and already have its own accessible name (visible text or `aria-label`). |
 | `content` | `ReactNode` | yes |  | Short supplementary text. Never put essential information only here. |
-| `className` | `string` | no |  |  |
+| `className` | `string` | no |  | Extra class for the popup, for example to widen the text. |
 | `closeDelay` | `number` | no |  | Milliseconds to wait before closing. |
 | `defaultOpen` | `boolean` | no |  | Opens the tooltip initially. |
 | `delay` | `number` | no |  | Milliseconds to wait before opening. Overrides the provider's delay for this tooltip. |
@@ -1836,6 +1840,19 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 | `side` | `"top" \| "bottom" \| "left" \| "right"` | no | top | Preferred side of the trigger. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
+
+### Example
+```tsx
+<Tooltip content="Saved">
+  <Button variant="secondary" aria-label="Saved" startIcon={<CheckIcon />} />
+</Tooltip>
+<Tooltip content="Add to library" side="right">
+  <Button variant="secondary">Hover</Button>
+</Tooltip>
+<Tooltip content="This feature is not available yet">
+  <span><Button disabled>Disabled</Button></span>
+</Tooltip>
+```
 
 ## Tabs
 
@@ -2595,7 +2612,7 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## Breadcrumb
 
-Displays the path to the current resource using a hierarchy of links. Renders `nav > ol` and marks the last item with
+Displays the path to the current resource using a hierarchy of links.Renders `nav > ol` and marks the last item with
 `aria-current="page"`. Links use whatever `LinkProvider` provides (`next/link` in this app).
 
 - Category: navigation
@@ -2925,7 +2942,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## ToggleGroup
 
-A set of related toggles with shared state. It handles arrow-key
+A set of related toggles with shared state, built on Base UI Toggle Group. It handles arrow-key
 navigation and the selected values, so do not wire them by hand. Items inherit `size`.
 
 Selection is single by default; add `multiple` for several. `value` and `defaultValue` are always
@@ -3092,7 +3109,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## Sheet
 
-A side sheet for secondary tasks and settings, built on Base UI Drawer. Left and right keep a
+A panel that slides in from the edge of the screen to display additional content or actions. Left and right keep a
 fixed side width; top and bottom span the viewport width and fit their content height. Focus is
 trapped, Escape closes it, and it can be swiped away on touch. The footer stacks its actions,
 and every action fills the available width. For a centered decision use `Modal`.
@@ -3187,7 +3204,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 ## CodeBlock
 
 Displays code, terminal output and diffs with an optional header, line numbers and a copy button. Colors come from semantic `--syntax-*` tokens, so light
-and dark work without extra code. Unknown languages are shown as plain text.
+ and dark work without extra code. Unknown languages are shown as plain text.
 
 - Category: typography
 - Base: Own component
@@ -3442,6 +3459,7 @@ show({ title: "Saved", tone: "success" });
 | `--text-heading-6-family` |  | `var(--font-family-sans)` |
 | `--text-body-lg-size` |  | `var(--font-size-18)` |
 | `--text-body-lg-line` |  | `1.6` |
+| `--text-body-lg-line-tight` |  | `1.4` |
 | `--text-body-lg-weight` |  | `var(--font-weight-regular)` |
 | `--text-body-lg-tracking` |  | `0em` |
 | `--text-body-lg-style` |  | `var(--font-style-body)` |

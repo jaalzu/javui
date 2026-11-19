@@ -8,7 +8,7 @@ import { Spinner } from "../Spinner";
 import { FieldError } from "../Field/FieldError";
 import type { FieldErrorProp } from "../Field/fieldErrors";
 import { useControlValidation } from "../Field/useControlValidation";
-import fieldStyles from "../Field/Field.module.css";
+import { RequiredMark } from "../Field/RequiredMark";
 import styles from "./Switch.module.css";
 
 type SwitchSharedProps = {
@@ -40,7 +40,7 @@ type SwitchSharedProps = {
    */
   error?: FieldErrorProp;
   /**
-   * The switch must be on before the form can be submitted. The label prints "Required".
+   * The switch must be on before the form can be submitted. The label adds a red asterisk.
    * Inside `Field`, omit it and pass `required` to the Field instead. @default false
    */
   required?: boolean;
@@ -207,7 +207,7 @@ export function Switch({
             {state.showRequired ? (
               <>
                 {" "}
-                <span className={fieldStyles.required}>Required</span>
+                <RequiredMark />
               </>
             ) : null}
           </span>

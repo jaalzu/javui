@@ -9,6 +9,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-1);
+  max-inline-size: 100%;
   min-width: var(--size-target-min);
   border: var(--border-width-thin) solid transparent;
   border-radius: var(--radius-md);
@@ -17,8 +18,9 @@
   color: var(--color-primary-foreground);
   font-family: var(--text-label-family);
   font-weight: var(--text-label-weight);
-  line-height: 1;
-  white-space: nowrap;
+  line-height: var(--text-label-line);
+  overflow-wrap: anywhere;
+  text-align: center;
   cursor: pointer;
   user-select: none;
   transition:

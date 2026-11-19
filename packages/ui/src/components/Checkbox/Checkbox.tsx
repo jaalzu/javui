@@ -9,7 +9,7 @@ import { Spinner } from "../Spinner";
 import { FieldError } from "../Field/FieldError";
 import type { FieldErrorProp } from "../Field/fieldErrors";
 import { useControlValidation } from "../Field/useControlValidation";
-import fieldStyles from "../Field/Field.module.css";
+import { RequiredMark } from "../Field/RequiredMark";
 import { useCheckboxGroupControlState } from "./CheckboxGroup";
 import styles from "./Checkbox.module.css";
 
@@ -36,7 +36,7 @@ type CheckboxSharedProps = {
    */
   error?: FieldErrorProp;
   /**
-   * The checkbox must be ticked before the form can be submitted. The label prints "Required".
+   * The checkbox must be ticked before the form can be submitted. The label adds a red asterisk.
    * Without a visible label there is nowhere to print it: let `Field` show it instead.
    * Inside `Field`, omit it and pass `required` to the Field instead. @default false
    */
@@ -160,7 +160,7 @@ export function Checkbox({
       {state.showRequired ? (
         <>
           {" "}
-          <span className={fieldStyles.required}>Required</span>
+          <RequiredMark />
         </>
       ) : null}
     </span>

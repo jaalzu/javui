@@ -66,6 +66,7 @@
   --text-heading-6-line: 1.3;
   --text-heading-6-tracking: -0.005em;
   --text-body-lg-line: 1.6;
+  --text-body-lg-line-tight: 1.4; /** Tighter leading for a short lead sentence under a page title. */
   --text-body-lg-tracking: 0em;
   --text-body-line: 1.6;
   --text-body-tracking: 0em;

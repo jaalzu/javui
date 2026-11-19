@@ -744,7 +744,7 @@
       "description": "Displays a button or a component that looks like a button.\n\nIcon-only controls need an accessible name (`aria-label` or `aria-labelledby`).",
       "import": "import { Button } from \"@javui/ui\";",
       "renders": "button without `href`; a (or the LinkProvider component) with `href`",
-      "composition": "`href` decides the element: a Base UI button (`type=\"button\"` by default) or a link from `LinkProvider` that rejects `disabled`, `loading` and `type`. Put icons in `startIcon`/`endIcon` (no `size`). Icon-only needs `startIcon` and one of `aria-label` or `aria-labelledby`. Sizes: xs 1.5rem/12px icon, sm 1.75rem/16px, md 2.25rem/20px, lg 2.75rem/24px. `pill` uses `--radius-full`; inside ButtonGroup only the outer corners keep it.",
+      "composition": "`href` decides the element: a Base UI button (`type=\"button\"` by default) or a link from `LinkProvider` that rejects `disabled`, `loading` and `type`. Put icons in `startIcon`/`endIcon` (no `size`). Icon-only needs `startIcon` and one of `aria-label` or `aria-labelledby`. Sizes: xs 1.5rem/12px icon, sm 1.75rem/16px, md 2rem/20px, lg 2.5rem/24px. `pill` uses `--radius-full`; inside ButtonGroup only the outer corners keep it.",
       "whenToUse": "An action with onClick (submit, open, confirm, cancel), or navigation that looks like a button with href. Pass `loading` while an action runs.",
       "avoid": [
         "Navigation as inline text: use Link.",
@@ -773,6 +773,13 @@
           "description": "Icon after the label. Pass a generated icon without `size`; the control sizes it."
         },
         {
+          "name": "focusableWhenDisabled",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether the button should be focusable when disabled."
+        },
+        {
           "name": "href",
           "type": "string",
           "required": false,
@@ -786,11 +793,24 @@
           "description": "Shows a spinner and ignores clicks while an action is running. The button keeps its label and stays\nfocusable, and `aria-busy` tells assistive technology it is working."
         },
         {
+          "name": "nativeButton",
+          "type": "boolean",
+          "required": false,
+          "default": "true",
+          "description": "Whether the component renders a native `<button>` element when replacing it\nvia the `render` prop.\nSet to `false` if the rendered element is not a button (for example, `<div>`)."
+        },
+        {
           "name": "pill",
           "type": "boolean",
           "required": false,
           "default": "false",
           "description": "Fully rounded shape (`--radius-full`). Inside `ButtonGroup` only the outer corners keep it."
+        },
+        {
+          "name": "render",
+          "type": "ReactElement<unknown, string | JSXElementConstructor<any>> | ComponentRenderFn<HTMLProps, ButtonState>",
+          "required": false,
+          "description": "Allows you to replace the component's HTML element\nwith a different tag, or compose it with another component.\n\nAccepts a `ReactElement` or a function that returns the element to render."
         },
         {
           "name": "size",
@@ -824,7 +844,7 @@
       "name": "ButtonGroup",
       "category": "controls",
       "base": "Own component",
-      "description": "A container that groups related buttons together with consistent styling. Children draw their border and radius; the group\nonly zeros the inner edges. It never sets the `size` or `variant` of its buttons.\n\nUse `ButtonGroup` for buttons that perform an action. To group buttons that switch a state on\nand off, use `ToggleGroup`. The group has `role=\"group\"`: name it with `aria-label` or\n`aria-labelledby`. Tab moves between the buttons.",
+      "description": "A container that groups related buttons together with consistent styling.Children draw their border and radius; the group\nonly zeros the inner edges. It never sets the `size` or `variant` of its buttons.\n\nUse `ButtonGroup` for buttons that perform an action. To group buttons that switch a state on\nand off, use `ToggleGroup`. The group has `role=\"group\"`: name it with `aria-label` or\n`aria-labelledby`. Tab moves between the buttons.",
       "import": "import { ButtonGroup } from \"@javui/ui\";",
       "renders": "div role=\"group\"",
       "composition": "One group of related children: `Button`, a `Menu` trigger, `Input`, `Select` or `ButtonGroupText`. The group does not inherit `size` or `variant`; set both on every child. `stackBelow` stacks it below `sm` or `md`. Children draw the internal 1px line.",
@@ -956,6 +976,12 @@
           "description": "The control: `Input`, `Textarea`, `Select`, `Checkbox`, `RadioGroup`, `Switch` or `Slider`.\nControls that carry their own label or legend also accept these validation props directly."
         },
         {
+          "name": "actionsRef",
+          "type": "RefObject<FieldRootActions | null>",
+          "required": false,
+          "description": "A ref to imperative actions.\n- `validate`: Validates the field when called."
+        },
+        {
           "name": "className",
           "type": "string",
           "required": false
@@ -972,6 +998,19 @@
           "type": "ReactNode",
           "required": false,
           "description": "Help text shown under the control and linked with `aria-describedby`."
+        },
+        {
+          "name": "dirty",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the field's value has been changed from its initial value.\nUseful when the field state is controlled by an external library."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether the component should ignore user interaction.\nTakes precedence over the `disabled` prop on the `<Field.Control>` component."
         },
         {
           "name": "error",
@@ -993,6 +1032,12 @@
           "description": "Shows a small spinner at the end of the control, marks it `aria-busy`, and makes it not editable."
         },
         {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Identifies the field when a form is submitted.\nTakes precedence over the `name` prop on the `<Field.Control>` component."
+        },
+        {
           "name": "orientation",
           "type": "\"horizontal\" | \"vertical\"",
           "required": false,
@@ -1007,6 +1052,12 @@
           "description": "Makes the control read-only: sunken background, no hover, text not dimmed, still focusable and\nselectable. Distinct from `disabled`."
         },
         {
+          "name": "render",
+          "type": "ReactElement<unknown, string | JSXElementConstructor<any>> | ComponentRenderFn<HTMLProps, FieldRootState>",
+          "required": false,
+          "description": "Allows you to replace the component's HTML element\nwith a different tag, or compose it with another component.\n\nAccepts a `ReactElement` or a function that returns the element to render."
+        },
+        {
           "name": "required",
           "type": "boolean",
           "required": false,
@@ -1018,6 +1069,32 @@
           "type": "\"sm\" | \"md\"",
           "required": false,
           "description": "Return to vertical below this breakpoint (`sm` = 40rem, `md` = 48rem)."
+        },
+        {
+          "name": "touched",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the field has been touched.\nUseful when the field state is controlled by an external library."
+        },
+        {
+          "name": "validate",
+          "type": "((value: unknown, formValues: Record<string, any>) => string | void | string[] | Promise<string | void | string[] | null> | null)",
+          "required": false,
+          "description": "A function for custom validation. Return a string or an array of strings with\nthe error message(s) if the value is invalid. Returning nothing, `null`, an empty\nstring, or an empty array means the value is valid.\nAsynchronous functions are supported, but they do not prevent form submission\nwhen using `validationMode=\"onSubmit\"`."
+        },
+        {
+          "name": "validationDebounceTime",
+          "type": "number",
+          "required": false,
+          "default": "0",
+          "description": "How long to wait between `validate` callbacks if\n`validationMode=\"onChange\"` is used. Specified in milliseconds."
+        },
+        {
+          "name": "validationMode",
+          "type": "\"onBlur\" | \"onChange\" | \"onSubmit\"",
+          "required": false,
+          "default": "onBlur",
+          "description": "Determines when the field should be validated.\nThis takes precedence over the `validationMode` prop on `<Form>`.\n\n- `onSubmit`: triggers validation when the form is submitted, and re-validates on change after submission.\n- `onBlur`: triggers validation when the control loses focus.\n- `onChange`: triggers validation on every change to the control value."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
@@ -1111,6 +1188,19 @@
           "required": false,
           "default": "true",
           "description": "Hides the line from assistive technology when true. Set it to false when the line conveys a\nreal section boundary that screen readers should announce."
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "default": "horizontal",
+          "description": "The orientation of the separator."
+        },
+        {
+          "name": "render",
+          "type": "ReactElement<unknown, string | JSXElementConstructor<any>> | ComponentRenderFn<HTMLProps, SeparatorState>",
+          "required": false,
+          "description": "Allows you to replace the component's HTML element\nwith a different tag, or compose it with another component.\n\nAccepts a `ReactElement` or a function that returns the element to render."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
@@ -1123,7 +1213,7 @@
       "name": "Input",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A text input component for forms and user data entry with built-in styling and accessibility features. Inside `Field` it is labelled and wired to its\ndescription and error automatically, and it inherits `required`, `readOnly` and `loading`.\nOutside `Field` it needs an accessible name (`aria-label` or an associated `label`).\nIcons follow the control size: xs 12px, sm 16px, md 20px, lg 24px.\nStyling hooks: set `--input-radius` or `--input-px` on the input wrapper or an ancestor; they\ndefault to `--radius-md` and `--space-3` and are useful when composing with ButtonGroup.",
+      "description": "A text input component for forms and user data entry with built-in styling and accessibility features. Inside `Field` it is labelled and wired to its\n description and error automatically, and it inherits `required`, `readOnly` and `loading`.\n Outside `Field` it needs an accessible name (`aria-label` or an associated `label`).\n Icons follow the control size: xs 12px, sm 16px, md 20px, lg 24px.\n Styling hooks: set `--input-radius` or `--input-px` on the input wrapper or an ancestor; they\n default to `--radius-md` and `--space-3` and are useful when composing with ButtonGroup.",
       "import": "import { Input } from \"@javui/ui\";",
       "renders": "input",
       "composition": "Native input props pass through (type, autoComplete, name, required...). `variant=\"ghost\"` removes resting chrome for low-emphasis fields. Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Icons follow the size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.",
@@ -1141,6 +1231,12 @@
           "required": false
         },
         {
+          "name": "defaultValue",
+          "type": "string | number | readonly string[]",
+          "required": false,
+          "description": "The default value of the input. Use when uncontrolled."
+        },
+        {
           "name": "endIcon",
           "type": "ReactNode",
           "required": false,
@@ -1154,6 +1250,18 @@
           "description": "Shows a small spinner at the end and makes the input not editable. `aria-busy` is set.\nInside `Field`, omit it and pass `loading` to the Field instead."
         },
         {
+          "name": "onValueChange",
+          "type": "((value: string, eventDetails: { reason: \"none\"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)",
+          "required": false,
+          "description": "Callback fired when the `value` changes. Use when controlled."
+        },
+        {
+          "name": "render",
+          "type": "ReactElement<unknown, string | JSXElementConstructor<any>> | ComponentRenderFn<HTMLProps, InputState>",
+          "required": false,
+          "description": "Allows you to replace the component's HTML element\nwith a different tag, or compose it with another component.\n\nAccepts a `ReactElement` or a function that returns the element to render."
+        },
+        {
           "name": "size",
           "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
           "required": false,
@@ -1165,6 +1273,12 @@
           "type": "ReactNode",
           "required": false,
           "description": "Icon before the text. Pass a generated icon without `size`; the input sizes it."
+        },
+        {
+          "name": "value",
+          "type": "string | number | readonly string[]",
+          "required": false,
+          "description": "The value of the input. Use when controlled."
         },
         {
           "name": "variant",
@@ -1196,9 +1310,42 @@
       "accessibility": "Inside Field, the first slot uses the Field label and the remaining slots announce their character position. Outside Field, provide aria-label. Loading is read-only with aria-busy=true.",
       "props": [
         {
+          "name": "autoComplete",
+          "type": "string",
+          "required": false,
+          "default": "'one-time-code'",
+          "description": "The input autocomplete attribute. Applied to the first slot and hidden validation input."
+        },
+        {
+          "name": "autoSubmit",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether to submit the owning form when the OTP becomes complete."
+        },
+        {
           "name": "className",
           "type": "string",
           "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": "The uncontrolled OTP value when the component is initially rendered."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether the component should ignore user interaction."
+        },
+        {
+          "name": "form",
+          "type": "string",
+          "required": false,
+          "description": "A string specifying the `form` element with which the hidden input is associated.\nThis string's value must match the id of a `form` element in the same document."
         },
         {
           "name": "getSlotLabel",
@@ -1212,6 +1359,12 @@
           "type": "readonly number[]",
           "required": false,
           "description": "Splits the slots into visual chunks with a separator between them, e.g. `[3, 3]` for `123-456`.\nThe numbers must add up to `length`; otherwise they are ignored."
+        },
+        {
+          "name": "inputMode",
+          "type": "\"search\" | \"text\" | \"none\" | \"tel\" | \"url\" | \"email\" | \"numeric\" | \"decimal\"",
+          "required": false,
+          "description": "The virtual keyboard hint applied to the slot inputs and hidden validation input.\n\nBuilt-in validation modes provide sensible defaults, but you can override them when needed."
         },
         {
           "name": "length",
@@ -1228,11 +1381,75 @@
           "description": "Makes the slots not editable, marks the field `aria-busy` and shows a spinner after the last\nslot. Use it while the code is being verified. Inside `Field`, pass `loading` to the Field\ninstead."
         },
         {
+          "name": "mask",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether the slot inputs should mask entered characters.\nPass `type` directly to individual `<OTPField.Input>` parts to use a custom\ninput type."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Identifies the field when a form is submitted."
+        },
+        {
+          "name": "normalizeValue",
+          "type": "((value: string) => string)",
+          "required": false,
+          "description": "Function that normalizes the OTP value after whitespace and `validationType` filtering.\nIt runs whenever OTP Field normalizes a value, including initial/default values, controlled\nvalues, and user edits.\n\nThe returned value is filtered by `validationType` again, then clamped to `length`.\nIt should be idempotent because OTP Field may normalize the same value more than once while\nhandling edits, storing state, and rendering controlled or uncontrolled values. Non-idempotent\nnormalizers can compound across those normalization passes. Characters rejected while\nnormalizing typed or pasted text are reported through `onValueInvalid`."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string, eventDetails: OTPFieldRootChangeEventDetails) => void)",
+          "required": false,
+          "description": "Callback fired when the OTP value changes.\n\nThe `eventDetails.reason` indicates what triggered the change:\n- `'input-change'` for typing or autofill\n- `'input-clear'` when a character is removed by text input\n- `'input-paste'` for paste interactions\n- `'keyboard'` for keyboard interactions that change the value"
+        },
+        {
+          "name": "onValueComplete",
+          "type": "((value: string, eventDetails: OTPFieldRootCompleteEventDetails) => void)",
+          "required": false,
+          "description": "Callback function that is fired when the OTP value becomes complete, or when a complete value\nis pasted while the OTP is already complete.\n\nWhen the value changes, it runs later than `onValueChange`, after the internal value update is\napplied. If a complete pasted value matches the current value, `onValueChange` does not fire.\n\nIf `autoSubmit` is enabled, it runs immediately before the owning form is submitted."
+        },
+        {
+          "name": "onValueInvalid",
+          "type": "((value: string, eventDetails: OTPFieldRootInvalidEventDetails) => void)",
+          "required": false,
+          "description": "Callback fired when entered text contains characters that are rejected by validation or\nnormalization before the OTP value updates.\n\nThe `value` argument is the attempted user-entered string before normalization."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether the user should be unable to change the field value."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether the user must enter a value before submitting a form."
+        },
+        {
           "name": "size",
           "type": "\"sm\" | \"md\"",
           "required": false,
           "default": "md",
           "description": "Slot size: `sm` 2.25rem, `md` 2.75rem."
+        },
+        {
+          "name": "validationType",
+          "type": "\"none\" | \"numeric\" | \"alpha\" | \"alphanumeric\"",
+          "required": false,
+          "default": "'numeric'",
+          "description": "The type of input validation to apply to the OTP value."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "The OTP value."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
@@ -1298,6 +1515,30 @@
               "name": "className",
               "type": "string",
               "required": false
+            },
+            {
+              "name": "defaultValue",
+              "type": "string | number | readonly string[]",
+              "required": false,
+              "description": "The default value of the input. Use when uncontrolled."
+            },
+            {
+              "name": "onValueChange",
+              "type": "((value: string, eventDetails: { reason: \"none\"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)",
+              "required": false,
+              "description": "Callback fired when the `value` changes. Use when controlled."
+            },
+            {
+              "name": "render",
+              "type": "ReactElement<unknown, string | JSXElementConstructor<any>> | ComponentRenderFn<HTMLProps, InputState>",
+              "required": false,
+              "description": "Allows you to replace the component's HTML element\nwith a different tag, or compose it with another component.\n\nAccepts a `ReactElement` or a function that returns the element to render."
+            },
+            {
+              "name": "value",
+              "type": "string | number | readonly string[]",
+              "required": false,
+              "description": "The value of the input. Use when controlled."
             }
           ],
           "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
@@ -1391,6 +1632,13 @@
               "description": "Icon after the label. Pass a generated icon without `size`; the control sizes it."
             },
             {
+              "name": "focusableWhenDisabled",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Whether the button should be focusable when disabled."
+            },
+            {
               "name": "href",
               "type": "string",
               "required": false,
@@ -1402,6 +1650,19 @@
               "required": false,
               "default": "false",
               "description": "Shows a spinner and ignores clicks while an action is running. The button keeps its label and stays\nfocusable, and `aria-busy` tells assistive technology it is working."
+            },
+            {
+              "name": "nativeButton",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": "Whether the component renders a native `<button>` element when replacing it\nvia the `render` prop.\nSet to `false` if the rendered element is not a button (for example, `<div>`)."
+            },
+            {
+              "name": "render",
+              "type": "ReactElement<unknown, string | JSXElementConstructor<any>> | ComponentRenderFn<HTMLProps, ButtonState>",
+              "required": false,
+              "description": "Allows you to replace the component's HTML element\nwith a different tag, or compose it with another component.\n\nAccepts a `ReactElement` or a function that returns the element to render."
             },
             {
               "name": "size",
@@ -1437,7 +1698,7 @@
       "name": "Textarea",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "Displays a form textarea or a component that looks like a textarea. Needs an accessible name inside or outside `Field`.\nIcons use the 20px medium size (the textarea has no size variants).",
+      "description": "Displays a form textarea or a component that looks like a textarea.. Needs an accessible name inside or outside `Field`.\nIcons use the 20px medium size (the textarea has no size variants).",
       "import": "import { Textarea } from \"@javui/ui\";",
       "renders": "textarea",
       "composition": "Native textarea props pass through; `rows` defaults to 3. Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Inside Field, omit required/readOnly/loading and pass them to Field.",
@@ -1511,9 +1772,23 @@
       "accessibility": "Groups use fieldset and legend; every checkbox without a visible label needs an accessible name. `invalid` tints the label and box; use `error` or Field when the reason should be announced.",
       "props": [
         {
+          "name": "checked",
+          "type": "boolean",
+          "required": false,
+          "default": "undefined",
+          "description": "Whether the checkbox is currently ticked.\n\nTo render an uncontrolled checkbox, use the `defaultChecked` prop instead."
+        },
+        {
           "name": "className",
           "type": "string",
           "required": false
+        },
+        {
+          "name": "defaultChecked",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether the checkbox is initially ticked.\n\nTo render a controlled checkbox, use the `checked` prop instead."
         },
         {
           "name": "description",
@@ -1522,10 +1797,29 @@
           "description": "Help text below the label, linked to it with `aria-describedby`. Inside `Field`, use the\nField `description` instead."
         },
         {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether the component should ignore user interaction."
+        },
+        {
           "name": "error",
           "type": "FieldErrorProp",
           "required": false,
           "description": "Error message. Marks the checkbox invalid and links the message with `aria-describedby`.\nInside `Field`, omit it and pass `error` to the Field instead."
+        },
+        {
+          "name": "form",
+          "type": "string",
+          "required": false,
+          "description": "Identifies the form that owns the hidden input.\nUseful when the checkbox is rendered outside the form."
+        },
+        {
+          "name": "inputRef",
+          "type": "Ref<HTMLInputElement>",
+          "required": false,
+          "description": "A ref to access the hidden `<input>` element."
         },
         {
           "name": "invalid",
@@ -1548,6 +1842,33 @@
           "description": "Shows a small spinner next to the label, sets `aria-busy`, and makes the checkbox not\ninteractive."
         },
         {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "default": "undefined",
+          "description": "Identifies the field when a form is submitted."
+        },
+        {
+          "name": "nativeButton",
+          "type": "boolean",
+          "required": false,
+          "default": "true",
+          "description": "Whether the component renders a native `<button>` element when replacing it\nvia the `render` prop.\nSet to `false` if the rendered element is not a button (for example, `<div>`)."
+        },
+        {
+          "name": "onCheckedChange",
+          "type": "((checked: boolean, eventDetails: { reason: \"none\"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)",
+          "required": false,
+          "description": "Event handler called when the checkbox is ticked or unticked."
+        },
+        {
+          "name": "parent",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether the checkbox controls a group of child checkboxes.\n\nMust be used in a [Checkbox Group](https://base-ui.com/react/components/checkbox-group)."
+        },
+        {
           "name": "readOnly",
           "type": "boolean",
           "required": false,
@@ -1555,11 +1876,29 @@
           "description": "The checkbox can be focused and read but not changed. Uses the sunken background and keeps\nthe label text at full contrast. Distinct from `disabled`."
         },
         {
+          "name": "render",
+          "type": "ReactElement<unknown, string | JSXElementConstructor<any>> | ComponentRenderFn<HTMLProps, CheckboxRootState>",
+          "required": false,
+          "description": "Allows you to replace the component's HTML element\nwith a different tag, or compose it with another component.\n\nAccepts a `ReactElement` or a function that returns the element to render."
+        },
+        {
           "name": "required",
           "type": "boolean",
           "required": false,
           "default": "false",
           "description": "The checkbox must be ticked before the form can be submitted. The label prints \"Required\".\nWithout a visible label there is nowhere to print it: let `Field` show it instead.\nInside `Field`, omit it and pass `required` to the Field instead."
+        },
+        {
+          "name": "uncheckedValue",
+          "type": "string",
+          "required": false,
+          "description": "The value submitted with the form when the checkbox is unchecked.\nBy default, unchecked checkboxes do not submit any value, matching native checkbox behavior."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "The checkbox's value. Identifies it within a [Checkbox Group](https://base-ui.com/react/components/checkbox-group), falling back to `name` when omitted.\nWhen submitting a form, a checked box submits `value`; with no `value`, it submits the native \"on\"."
         },
         {
           "name": "variant",
@@ -1600,9 +1939,28 @@
               "description": "Visible group label, rendered as the `legend` of a `fieldset`. Required: the group needs a name."
             },
             {
+              "name": "allValues",
+              "type": "string[]",
+              "required": false,
+              "description": "Names of all checkboxes in the group. Use this when creating a parent checkbox."
+            },
+            {
               "name": "className",
               "type": "string",
               "required": false
+            },
+            {
+              "name": "defaultValue",
+              "type": "string[]",
+              "required": false,
+              "description": "Names of the checkboxes in the group that should be initially ticked.\n\nTo render a controlled checkbox group, use the `value` prop instead."
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Whether the component should ignore user interaction."
             },
             {
               "name": "error",
@@ -1618,6 +1976,12 @@
               "description": "Shows a small spinner next to the legend, sets `aria-busy`, and makes the group not\ninteractive."
             },
             {
+              "name": "onValueChange",
+              "type": "((value: string[], eventDetails: { reason: \"none\"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)",
+              "required": false,
+              "description": "Event handler called when a checkbox in the group is ticked or unticked.\nProvides the new value as an argument."
+            },
+            {
               "name": "readOnly",
               "type": "boolean",
               "required": false,
@@ -1625,11 +1989,23 @@
               "description": "The group can be focused and read but not changed. Keeps the options at full contrast.\nDistinct from `disabled`."
             },
             {
+              "name": "render",
+              "type": "ReactElement<unknown, string | JSXElementConstructor<any>> | ComponentRenderFn<HTMLProps, CheckboxGroupState>",
+              "required": false,
+              "description": "Allows you to replace the component's HTML element\nwith a different tag, or compose it with another component.\n\nAccepts a `ReactElement` or a function that returns the element to render."
+            },
+            {
               "name": "required",
               "type": "boolean",
               "required": false,
               "default": "false",
               "description": "The group must include at least one ticked option before the form can be submitted.\nThe legend prints \"Required\". Inside `Field`, omit it and pass `required` to the Field."
+            },
+            {
+              "name": "value",
+              "type": "string[]",
+              "required": false,
+              "description": "Names of the checkboxes in the group that should be ticked.\n\nTo render an uncontrolled checkbox group, use the `defaultValue` prop instead."
             }
           ],
           "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
@@ -1671,10 +2047,23 @@
           "required": false
         },
         {
+          "name": "defaultValue",
+          "type": "any",
+          "required": false,
+          "description": "The uncontrolled value of the radio button that should be initially selected.\n\nTo render a controlled radio group, use the `value` prop instead."
+        },
+        {
           "name": "description",
           "type": "ReactNode",
           "required": false,
           "description": "Supporting text announced with the group."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether the component should ignore user interaction."
         },
         {
           "name": "error",
@@ -1683,11 +2072,35 @@
           "description": "Error message. Marks the group invalid and links the message with `aria-describedby`.\nInside `Field`, omit it and pass `error` to the Field instead."
         },
         {
+          "name": "form",
+          "type": "string",
+          "required": false,
+          "description": "Identifies the form that owns the radio inputs.\nUseful when the radio group is rendered outside the form."
+        },
+        {
+          "name": "inputRef",
+          "type": "Ref<HTMLInputElement>",
+          "required": false,
+          "description": "A ref to access the hidden input element."
+        },
+        {
           "name": "loading",
           "type": "boolean",
           "required": false,
           "default": "false",
           "description": "Shows a small spinner next to the legend, sets `aria-busy`, and makes the group not\ninteractive."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Identifies the field when a form is submitted."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: any, eventDetails: { reason: \"none\"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)",
+          "required": false,
+          "description": "Callback fired when the value changes."
         },
         {
           "name": "orientation",
@@ -1704,11 +2117,23 @@
           "description": "The group can be focused and read but not changed. Keeps the options at full contrast.\nDistinct from `disabled`."
         },
         {
+          "name": "render",
+          "type": "ReactElement<unknown, string | JSXElementConstructor<any>> | ComponentRenderFn<HTMLProps, RadioGroupState>",
+          "required": false,
+          "description": "Allows you to replace the component's HTML element\nwith a different tag, or compose it with another component.\n\nAccepts a `ReactElement` or a function that returns the element to render."
+        },
+        {
           "name": "required",
           "type": "boolean",
           "required": false,
           "default": "false",
           "description": "The group must have a selection before the form can be submitted. The legend prints \"Required\".\nInside `Field`, omit it and pass `required` to the Field instead."
+        },
+        {
+          "name": "value",
+          "type": "any",
+          "required": false,
+          "description": "The controlled value of the radio item that should be currently selected.\n\nTo render an uncontrolled radio group, use the `defaultValue` prop instead."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
@@ -1753,6 +2178,43 @@
               "description": "Supporting text shown below the option label."
             },
             {
+              "name": "disabled",
+              "type": "boolean",
+              "required": false,
+              "description": "Whether the component should ignore user interaction."
+            },
+            {
+              "name": "inputRef",
+              "type": "Ref<HTMLInputElement>",
+              "required": false,
+              "description": "A ref to access the hidden input element."
+            },
+            {
+              "name": "nativeButton",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": "Whether the component renders a native `<button>` element when replacing it\nvia the `render` prop.\nSet to `false` if the rendered element is not a button (for example, `<div>`)."
+            },
+            {
+              "name": "readOnly",
+              "type": "boolean",
+              "required": false,
+              "description": "Whether the user should be unable to select the radio button."
+            },
+            {
+              "name": "render",
+              "type": "ReactElement<unknown, string | JSXElementConstructor<any>> | ComponentRenderFn<HTMLProps, RadioRootState>",
+              "required": false,
+              "description": "Allows you to replace the component's HTML element\nwith a different tag, or compose it with another component.\n\nAccepts a `ReactElement` or a function that returns the element to render."
+            },
+            {
+              "name": "required",
+              "type": "boolean",
+              "required": false,
+              "description": "Whether the user must choose a value before submitting a form."
+            },
+            {
               "name": "variant",
               "type": "\"default\" | \"card\"",
               "required": false,
@@ -1780,9 +2242,22 @@
       "accessibility": "Announced as a switch with on/off state. Invalid uses the danger border and an error linked with aria-describedby; required prints Required; read-only stays focusable and uses the sunken background; loading sets aria-busy and blocks changes.",
       "props": [
         {
+          "name": "checked",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the switch is currently active.\n\nTo render an uncontrolled switch, use the `defaultChecked` prop instead."
+        },
+        {
           "name": "className",
           "type": "string",
           "required": false
+        },
+        {
+          "name": "defaultChecked",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether the switch is initially active.\n\nTo render a controlled switch, use the `checked` prop instead."
         },
         {
           "name": "description",
@@ -1791,10 +2266,29 @@
           "description": "Help text below the label, linked to it with `aria-describedby`. Inside `Field`, use the\nField `description` instead."
         },
         {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether the component should ignore user interaction."
+        },
+        {
           "name": "error",
           "type": "FieldErrorProp",
           "required": false,
           "description": "Error message. Marks the switch invalid and links the message with `aria-describedby`.\nInside `Field`, omit it and pass `error` to the Field instead."
+        },
+        {
+          "name": "form",
+          "type": "string",
+          "required": false,
+          "description": "Identifies the form that owns the hidden input.\nUseful when the switch is rendered outside the form."
+        },
+        {
+          "name": "inputRef",
+          "type": "Ref<HTMLInputElement>",
+          "required": false,
+          "description": "A ref to access the hidden `<input>` element."
         },
         {
           "name": "invalid",
@@ -1817,11 +2311,36 @@
           "description": "Shows a small spinner next to the label, sets `aria-busy`, and makes the switch not\ninteractive."
         },
         {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Identifies the field when a form is submitted."
+        },
+        {
+          "name": "nativeButton",
+          "type": "boolean",
+          "required": false,
+          "default": "true",
+          "description": "Whether the component renders a native `<button>` element when replacing it\nvia the `render` prop.\nSet to `false` if the rendered element is not a button (for example, `<div>`)."
+        },
+        {
+          "name": "onCheckedChange",
+          "type": "((checked: boolean, eventDetails: { reason: \"none\"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)",
+          "required": false,
+          "description": "Event handler called when the switch is activated or deactivated."
+        },
+        {
           "name": "readOnly",
           "type": "boolean",
           "required": false,
           "default": "false",
           "description": "The switch can be focused and read but not changed. Uses the sunken background when off and\nkeeps the label text at full contrast. Distinct from `disabled`."
+        },
+        {
+          "name": "render",
+          "type": "ReactElement<unknown, string | JSXElementConstructor<any>> | ComponentRenderFn<HTMLProps, SwitchRootState>",
+          "required": false,
+          "description": "Allows you to replace the component's HTML element\nwith a different tag, or compose it with another component.\n\nAccepts a `ReactElement` or a function that returns the element to render."
         },
         {
           "name": "required",
@@ -1836,6 +2355,18 @@
           "required": false,
           "default": "md",
           "description": "Track size. `sm` is 2rem × 1.25rem and `md` is 2.5rem × 1.5rem."
+        },
+        {
+          "name": "uncheckedValue",
+          "type": "string",
+          "required": false,
+          "description": "The value submitted with the form when the switch is off.\nBy default, unchecked switches do not submit any value, matching native checkbox behavior."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "The value submitted with the form when the switch is on.\nBy default, switch submits the \"on\" value, matching native checkbox behavior."
         },
         {
           "name": "variant",
@@ -1892,6 +2423,19 @@
           "description": "Story/test hook: force the focus ring without moving focus."
         },
         {
+          "name": "defaultValue",
+          "type": "string | null",
+          "required": false,
+          "description": "The uncontrolled value of the select when it's initially rendered.\n\nTo render a controlled select, use the `value` prop instead."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether the component should ignore user interaction."
+        },
+        {
           "name": "endIcon",
           "type": "ReactNode",
           "required": false,
@@ -1911,10 +2455,36 @@
           "description": "Shows a small spinner at the end and makes the select not editable. `aria-busy` is set.\nInside `Field`, omit it and pass `loading` to the Field instead."
         },
         {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Identifies the field when a form is submitted."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string | null, eventDetails: SelectRootChangeEventDetails) => void)",
+          "required": false,
+          "description": "Event handler called when the value of the select changes."
+        },
+        {
           "name": "placeholder",
           "type": "string",
           "required": false,
           "description": "Text shown when nothing is selected."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether the user should be unable to choose a different option from the select popup."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether the user must choose a value before submitting a form."
         },
         {
           "name": "size",
@@ -1928,6 +2498,12 @@
           "type": "ReactNode",
           "required": false,
           "description": "Icon before the value. Pass a generated icon without `size`; the select sizes it."
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "required": false,
+          "description": "The value of the select. Use when controlled."
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
@@ -2019,7 +2595,7 @@
           "type": "\"dialog\" | \"alertdialog\"",
           "required": false,
           "default": "dialog",
-          "description": "Behavior only. Use alertdialog for a decision that interrupts."
+          "description": "Behavior only. Use dialog for content and forms.\nBehavior only. Use alertdialog for a decision that interrupts."
         },
         {
           "name": "size",
@@ -2048,10 +2624,29 @@
           "accessibility": "Gets aria-haspopup and expanded state from Base UI.",
           "props": [
             {
+              "name": "handle",
+              "type": "DialogHandle<unknown>",
+              "required": false,
+              "description": "A handle to associate the trigger with a dialog.\nCan be created with the Dialog.createHandle() method."
+            },
+            {
+              "name": "nativeButton",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": "Whether the component renders a native `<button>` element when replacing it\nvia the `render` prop.\nSet to `false` if the rendered element is not a button (for example, `<div>`)."
+            },
+            {
+              "name": "payload",
+              "type": "unknown",
+              "required": false,
+              "description": "A payload to pass to the dialog when it is opened."
+            },
+            {
               "name": "size",
               "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
               "required": false,
-              "default": "sm",
+              "default": "\"sm\"",
               "description": "Button size of the trigger."
             },
             {
@@ -2073,7 +2668,7 @@
           "name": "ModalContent",
           "category": "overlays",
           "base": "Built on Base UI (@base-ui/react)",
-          "description": "The modal panel: header, scrollable body and footer. It reads the role and description from\n`Modal`. The footer stacks on mobile with the primary action on top, and sits in one row from\nthe `md` breakpoint.",
+          "description": "The modal panel: header, scrollable body and footer. It reads the role and description from\n`Modal`. The footer stays in one row and only stacks with the primary action on top when the\ndialog itself is narrower than 300px, not when the viewport is small.",
           "import": "import { ModalContent } from \"@javui/ui\";",
           "renders": "div role=\"dialog\" (or role=\"alertdialog\" from the root) in a portal, plus a backdrop",
           "composition": "`title` is required and children are the body. `description`, `tagline`, `icon`, `actions` and `closeLabel` are optional. The body scrolls while the header and footer stay visible. Actions stack on mobile with the primary on top.",
@@ -2156,6 +2751,13 @@
               "description": "Marks the safe action that receives initial focus in `role=\"alertdialog\"`."
             },
             {
+              "name": "nativeButton",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": "Whether the component renders a native `<button>` element when replacing it\nvia the `render` prop.\nSet to `false` if the rendered element is not a button (for example, `<div>`)."
+            },
+            {
               "name": "size",
               "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
               "required": false,
@@ -2183,7 +2785,7 @@
       "name": "Tooltip",
       "category": "overlays",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": null,
+      "description": "A short, supplementary label shown on hover or keyboard focus. The trigger is the single child:\nit must be focusable and keep its own accessible name. Use it to clarify an icon button or add a\nhint, never to hold information the user needs to complete the task.\n\nThe tooltip flips to the opposite side when there is no room. Put it under a `TooltipProvider`\nto share one open delay across the page.",
       "import": "import { Tooltip } from \"@javui/ui\";",
       "renders": "the child element as trigger; a popup div in a portal",
       "composition": "`content` is the text. The single child must be focusable and have its own accessible name.",
@@ -2209,7 +2811,8 @@
         {
           "name": "className",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Extra class for the popup, for example to widen the text."
         },
         {
           "name": "closeDelay",
@@ -2244,7 +2847,9 @@
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": [],
+      "examples": [
+        "<Tooltip content=\"Saved\">\r\n  <Button variant=\"secondary\" aria-label=\"Saved\" startIcon={<CheckIcon />} />\r\n</Tooltip>\r\n<Tooltip content=\"Add to library\" side=\"right\">\r\n  <Button variant=\"secondary\">Hover</Button>\r\n</Tooltip>\r\n<Tooltip content=\"This feature is not available yet\">\r\n  <span><Button disabled>Disabled</Button></span>\r\n</Tooltip>"
+      ],
       "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Tooltip/Tooltip.tsx"
     },
     {
@@ -2280,11 +2885,37 @@
           "required": false
         },
         {
+          "name": "defaultValue",
+          "type": "any",
+          "required": false,
+          "default": "0",
+          "description": "The default value. Use when the component is not controlled.\nWhen the value is `null`, no Tab will be active."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: any, eventDetails: TabsRootChangeEventDetails) => void)",
+          "required": false,
+          "description": "Callback invoked when new value is being set.\n\nThe event `reason` is `'none'` for user-initiated changes, such as a click\nor keyboard navigation; `'initial'` for the first automatic selection or\nfallback in uncontrolled roots when `defaultValue` is omitted or\n`undefined`, including when the implicit initial value is disabled or\nmissing; `'disabled'` for automatic fallback when the selected tab becomes\ndisabled in uncontrolled roots; or `'missing'` for automatic fallback when\nthe selected tab is removed, or when an explicit `defaultValue` never\nmatches a mounted tab in uncontrolled roots.\n\nFor automatic changes, the selected value can be `null` when no enabled Tab\nis available as a fallback.\n\nAutomatic changes cannot be canceled; calling `eventDetails.cancel()` for\n`'initial'`, `'disabled'`, or `'missing'` has no effect."
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "default": "'horizontal'",
+          "description": "The component orientation (layout flow direction)."
+        },
+        {
           "name": "size",
           "type": "\"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\"",
           "required": false,
           "default": "md",
           "description": "Tab size."
+        },
+        {
+          "name": "value",
+          "type": "any",
+          "required": false,
+          "description": "The value of the currently active `Tab`. Use when the component is controlled.\nWhen the value is `null`, no Tab will be active."
         },
         {
           "name": "variant",
@@ -2658,7 +3289,64 @@
       "whenToUse": "Small interactive content tied to a button, such as a form or extra options.",
       "avoid": ["Plain hints: use Tooltip.", "Blocking decisions: use Modal."],
       "accessibility": "Focus moves into the popup and Escape closes it. Title is the accessible name.",
-      "props": [],
+      "props": [
+        {
+          "name": "actionsRef",
+          "type": "RefObject<PopoverRootActions | null>",
+          "required": false,
+          "description": "A ref to imperative actions.\n- `unmount`: Ends the closing phase of the popover after an externally controlled closing animation finishes.\nCall `preventUnmountOnClose()` in `onOpenChange` first, otherwise the popover completes closing on its own.\nWhether it leaves the DOM is decided by `keepMounted` on the portal.\n- `close`: Closes the popover imperatively when called."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether the popover is initially open.\n\nTo render a controlled popover, use the `open` prop instead."
+        },
+        {
+          "name": "defaultTriggerId",
+          "type": "string | null",
+          "required": false,
+          "description": "ID of the trigger that the popover is associated with.\nThis is useful in conjunction with the `defaultOpen` prop to create an initially open popover."
+        },
+        {
+          "name": "handle",
+          "type": "PopoverHandle<Payload>",
+          "required": false,
+          "description": "A handle to associate the popover with a trigger.\nIf specified, allows external triggers to control the popover's open state."
+        },
+        {
+          "name": "modal",
+          "type": "boolean | \"trap-focus\"",
+          "required": false,
+          "default": "false",
+          "description": "Determines if the popover enters a modal state when open.\n- `true`: user interaction is limited to the popover: document page scroll is locked, and pointer interactions on outside elements are disabled.\n- `false`: user interaction with the rest of the document is allowed.\n- `'trap-focus'`: focus is trapped inside the popover, but document page scroll is not locked and pointer interactions outside of it remain enabled.\n\nOn touch devices, a `true` modal blocks outside taps but leaves the page scrollable unless the popup spans nearly the full viewport width, matching native iOS behavior.\n\nWhen `modal` is `true`, focus trapping is enabled only if `<Popover.Close>` is rendered\ninside `<Popover.Popup>`. It can be visually hidden with your own CSS if needed, such as\nTailwind's `sr-only` utility.\n\nWhen `modal` is `'trap-focus'`, render `<Popover.Close>` inside `<Popover.Popup>` so touch\nscreen readers can escape the popup."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean, eventDetails: PopoverRootChangeEventDetails) => void)",
+          "required": false,
+          "description": "Event handler called when the popover is opened or closed."
+        },
+        {
+          "name": "onOpenChangeComplete",
+          "type": "((open: boolean) => void)",
+          "required": false,
+          "description": "Event handler called after any animations complete when the popover is opened or closed."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the popover is currently open."
+        },
+        {
+          "name": "triggerId",
+          "type": "string | null",
+          "required": false,
+          "description": "ID of the trigger that the popover is associated with.\nThis is useful in conjunction with the `open` prop to create a controlled popover.\nThere's no need to specify this prop when the popover is uncontrolled (that is, when the `open` prop is not set)."
+        }
+      ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
         "<Popover>\r\n  <PopoverTrigger variant=\"secondary\">Filters</PopoverTrigger>\r\n  <PopoverContent title=\"Filters\" description=\"Narrow the results.\">...</PopoverContent>\r\n</Popover>"
@@ -2678,10 +3366,50 @@
           "accessibility": "A real button with aria-expanded and aria-controls.",
           "props": [
             {
+              "name": "closeDelay",
+              "type": "number",
+              "required": false,
+              "default": "0",
+              "description": "How long to wait before closing the popover that was opened on hover.\nSpecified in milliseconds.\n\nRequires the `openOnHover` prop."
+            },
+            {
+              "name": "delay",
+              "type": "number",
+              "required": false,
+              "default": "300",
+              "description": "How long to wait before the popover may be opened on hover. Specified in milliseconds.\n\nRequires the `openOnHover` prop."
+            },
+            {
               "name": "endIcon",
               "type": "ReactNode",
               "required": false,
               "description": "Icon after the label. Pass a generated icon without `size`."
+            },
+            {
+              "name": "handle",
+              "type": "PopoverHandle<unknown>",
+              "required": false,
+              "description": "A handle to associate the trigger with a popover."
+            },
+            {
+              "name": "nativeButton",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": "Whether the component renders a native `<button>` element when replacing it\nvia the `render` prop.\nSet to `false` if the rendered element is not a button (for example, `<div>`)."
+            },
+            {
+              "name": "openOnHover",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Whether the popover should also open when the trigger is hovered."
+            },
+            {
+              "name": "payload",
+              "type": "unknown",
+              "required": false,
+              "description": "A payload to pass to the popover when it is opened."
             },
             {
               "name": "pill",
@@ -2788,6 +3516,13 @@
           "accessibility": "A real button.",
           "props": [
             {
+              "name": "nativeButton",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": "Whether the component renders a native `<button>` element when replacing it\nvia the `render` prop.\nSet to `false` if the rendered element is not a button (for example, `<div>`)."
+            },
+            {
               "name": "size",
               "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
               "required": false,
@@ -2880,7 +3615,7 @@
           "name": "size",
           "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
           "required": false,
-          "default": "md",
+          "default": "\"md\"",
           "description": "Button size of the trigger."
         },
         {
@@ -2921,7 +3656,7 @@
       "name": "MenuBar",
       "category": "overlays",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "Coordinates several menus as one desktop-style menubar. Moving the pointer over another trigger\nswitches the open menu without requiring another click; clicking outside closes the active menu.",
+      "description": null,
       "import": "import { MenuBar } from \"@javui/ui\";",
       "renders": "horizontal navigation of menu triggers",
       "composition": "Pass `menus`, an array of menu entries rendered as coordinated Menu controls.",
@@ -2932,8 +3667,7 @@
         {
           "name": "menus",
           "type": "MenuProps[]",
-          "required": true,
-          "description": "Menus that share hover, focus and outside-interaction behavior."
+          "required": true
         },
         {
           "name": "className",
@@ -3211,7 +3945,7 @@
       "name": "Breadcrumb",
       "category": "navigation",
       "base": "Own component",
-      "description": "Displays the path to the current resource using a hierarchy of links. Renders `nav > ol` and marks the last item with\n`aria-current=\"page\"`. Links use whatever `LinkProvider` provides (`next/link` in this app).",
+      "description": "Displays the path to the current resource using a hierarchy of links.Renders `nav > ol` and marks the last item with\n`aria-current=\"page\"`. Links use whatever `LinkProvider` provides (`next/link` in this app).",
       "import": "import { Breadcrumb } from \"@javui/ui\";",
       "renders": "nav with an ordered list; the last item has aria-current page",
       "composition": "Pass `items` ({ label, href?, startIcon?, endIcon? }) from root to current page. `separator` defaults to `>` and accepts any node, such as `/` or `·`; it is always hidden from assistive technology. Use `maxItems` (3 or more) to collapse the middle items into an ellipsis menu opened from an icon button labelled Show hidden pages and sized to its content; omit it to show every item. Icons are generated icons without `size`.",
@@ -3809,7 +4543,7 @@
       "name": "ToggleGroup",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A set of related toggles with shared state. It handles arrow-key\nnavigation and the selected values, so do not wire them by hand. Items inherit `size`.\n\nSelection is single by default; add `multiple` for several. `value` and `defaultValue` are always\narrays of item values. A group needs an accessible name (`aria-label`), and each icon-only item\nneeds its own. For a single independent on/off button, use `Toggle`.",
+      "description": "A set of related toggles with shared state, built on Base UI Toggle Group. It handles arrow-key\nnavigation and the selected values, so do not wire them by hand. Items inherit `size`.\n\nSelection is single by default; add `multiple` for several. `value` and `defaultValue` are always\narrays of item values. A group needs an accessible name (`aria-label`), and each icon-only item\nneeds its own. For a single independent on/off button, use `Toggle`.",
       "import": "import { ToggleGroup } from \"@javui/ui\";",
       "renders": "div role=\"group\" with toggle buttons",
       "composition": "Compose `ToggleGroupItem` children. Pass `aria-label` or `aria-labelledby`, `multiple`, `orientation`, `spacing` (`none`, `sm` or `md`), `size` (`xs`, `sm`, `md` or `lg`) and `variant` (`default` or `outline`). The variant is inherited by every item.",
@@ -3840,6 +4574,20 @@
           "description": "Initially selected values, when uncontrolled."
         },
         {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether the toggle group should ignore user interaction."
+        },
+        {
+          "name": "loopFocus",
+          "type": "boolean",
+          "required": false,
+          "default": "true",
+          "description": "Whether to loop keyboard focus back to the first item\nwhen the end of the list is reached while using the arrow keys."
+        },
+        {
           "name": "multiple",
           "type": "boolean",
           "required": false,
@@ -3858,6 +4606,12 @@
           "required": false,
           "default": "\"horizontal\"",
           "description": "Stack the items vertically instead of horizontally."
+        },
+        {
+          "name": "render",
+          "type": "ReactElement<unknown, string | JSXElementConstructor<any>> | ComponentRenderFn<HTMLProps, ToggleGroupState>",
+          "required": false,
+          "description": "Allows you to replace the component's HTML element\nwith a different tag, or compose it with another component.\n\nAccepts a `ReactElement` or a function that returns the element to render."
         },
         {
           "name": "size",
@@ -3917,10 +4671,49 @@
               "required": false
             },
             {
+              "name": "defaultPressed",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Whether the toggle button is currently pressed.\nThis is the uncontrolled counterpart of `pressed`."
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Whether the component should ignore user interaction."
+            },
+            {
               "name": "endIcon",
               "type": "ReactNode",
               "required": false,
               "description": "Icon after the label."
+            },
+            {
+              "name": "nativeButton",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": "Whether the component renders a native `<button>` element when replacing it\nvia the `render` prop.\nSet to `false` if the rendered element is not a button (for example, `<div>`)."
+            },
+            {
+              "name": "onPressedChange",
+              "type": "((pressed: boolean, eventDetails: { reason: \"none\"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)",
+              "required": false,
+              "description": "Callback fired when the pressed state is changed."
+            },
+            {
+              "name": "pressed",
+              "type": "boolean",
+              "required": false,
+              "description": "Whether the toggle button is currently pressed.\nThis is the controlled counterpart of `defaultPressed`."
+            },
+            {
+              "name": "render",
+              "type": "ReactElement<unknown, string | JSXElementConstructor<any>> | ComponentRenderFn<HTMLProps, ToggleState>",
+              "required": false,
+              "description": "Allows you to replace the component's HTML element\nwith a different tag, or compose it with another component.\n\nAccepts a `ReactElement` or a function that returns the element to render."
             },
             {
               "name": "size",
@@ -3934,6 +4727,12 @@
               "type": "ReactNode",
               "required": false,
               "description": "Icon before the label, or the icon for an icon-only toggle."
+            },
+            {
+              "name": "value",
+              "type": "string",
+              "required": false,
+              "description": "A unique string that identifies the toggle when used\ninside a toggle group."
             },
             {
               "name": "variant",
@@ -3978,10 +4777,49 @@
           "required": false
         },
         {
+          "name": "defaultPressed",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether the toggle button is currently pressed.\nThis is the uncontrolled counterpart of `pressed`."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Whether the component should ignore user interaction."
+        },
+        {
           "name": "endIcon",
           "type": "ReactNode",
           "required": false,
           "description": "Icon after the label."
+        },
+        {
+          "name": "nativeButton",
+          "type": "boolean",
+          "required": false,
+          "default": "true",
+          "description": "Whether the component renders a native `<button>` element when replacing it\nvia the `render` prop.\nSet to `false` if the rendered element is not a button (for example, `<div>`)."
+        },
+        {
+          "name": "onPressedChange",
+          "type": "((pressed: boolean, eventDetails: { reason: \"none\"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)",
+          "required": false,
+          "description": "Callback fired when the pressed state is changed."
+        },
+        {
+          "name": "pressed",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the toggle button is currently pressed.\nThis is the controlled counterpart of `defaultPressed`."
+        },
+        {
+          "name": "render",
+          "type": "ReactElement<unknown, string | JSXElementConstructor<any>> | ComponentRenderFn<HTMLProps, ToggleState>",
+          "required": false,
+          "description": "Allows you to replace the component's HTML element\nwith a different tag, or compose it with another component.\n\nAccepts a `ReactElement` or a function that returns the element to render."
         },
         {
           "name": "size",
@@ -3995,6 +4833,12 @@
           "type": "ReactNode",
           "required": false,
           "description": "Icon before the label, or the icon for an icon-only toggle."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "A unique string that identifies the toggle when used\ninside a toggle group."
         },
         {
           "name": "variant",
@@ -4061,7 +4905,7 @@
       "name": "Sheet",
       "category": "overlays",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A side sheet for secondary tasks and settings, built on Base UI Drawer. Left and right keep a\nfixed side width; top and bottom span the viewport width and fit their content height. Focus is\ntrapped, Escape closes it, and it can be swiped away on touch. The footer stacks its actions,\nand every action fills the available width. For a centered decision use `Modal`.",
+      "description": "A panel that slides in from the edge of the screen to display additional content or actions. Left and right keep a\nfixed side width; top and bottom span the viewport width and fit their content height. Focus is\ntrapped, Escape closes it, and it can be swiped away on touch. The footer stacks its actions,\nand every action fills the available width. For a centered decision use `Modal`.",
       "import": "import { Sheet } from \"@javui/ui\";",
       "renders": "a trigger button; when open, a backdrop and a side panel in a portal",
       "composition": "Pass `trigger` (button text), `title`, optional `description`, `children`, `footer`, `side` (top, right, bottom or left; default right) and open state. One component, no parts. Left and right use a fixed side width and full height; top and bottom span the viewport width and fit their content height. Footer actions fill the available width and stack when there is more than one. The panel slides and fades on enter (from partial opacity, never 0) and on exit.",
@@ -4277,7 +5121,7 @@
           "type": "\"sm\" | \"md\" | \"lg\"",
           "required": false,
           "default": "\"md\"",
-          "description": "Control height: `sm` 1.75rem, `md` 2.25rem, `lg` 2.75rem."
+          "description": "Control height: `sm` 1.75rem, `md` 2rem, `lg` 2.5rem."
         },
         {
           "name": "startIcon",
@@ -4298,7 +5142,7 @@
       "name": "CodeBlock",
       "category": "typography",
       "base": "Own component",
-      "description": "Displays code, terminal output and diffs with an optional header, line numbers and a copy button. Colors come from semantic `--syntax-*` tokens, so light\nand dark work without extra code. Unknown languages are shown as plain text.",
+      "description": "Displays code, terminal output and diffs with an optional header, line numbers and a copy button. Colors come from semantic `--syntax-*` tokens, so light\n and dark work without extra code. Unknown languages are shown as plain text.",
       "import": "import { CodeBlock } from \"@javui/ui/server\";",
       "renders": "server component that highlights with Shiki, wrapped around a client view with an icon-only copy button, optional tabs and a focusable region",
       "composition": "Pass `code` and a `language`. `tone` is `default`, `brand`, `success` or `danger`; `highlight={false}` shows plain text; `highlightLines` marks lines from 1; `lineNumbers` shows decorative line numbers. For alternatives, pass `tabs` instead of `code`.",
@@ -4647,7 +5491,28 @@
       "whenToUse": "Shared open delay across tooltips.",
       "avoid": ["Nesting several providers."],
       "accessibility": "No effect on semantics.",
-      "props": [],
+      "props": [
+        {
+          "name": "closeDelay",
+          "type": "number",
+          "required": false,
+          "description": "How long to wait before closing a tooltip. Specified in milliseconds."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "required": false,
+          "default": "600",
+          "description": "How long to wait before opening the tooltip on hover. Specified in milliseconds."
+        },
+        {
+          "name": "timeout",
+          "type": "number",
+          "required": false,
+          "default": "400",
+          "description": "Another tooltip will open instantly if the previous tooltip\nis closed within this timeout. Specified in milliseconds."
+        }
+      ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [],
       "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Tooltip/Tooltip.tsx"
@@ -4707,5 +5572,487 @@
       ],
       "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Toast/Toast.tsx"
     }
+  ],
+  "exports": [
+    {
+      "name": "Text",
+      "category": "typography",
+      "import": "import { Text } from \"@javui/ui\";"
+    },
+    {
+      "name": "Heading",
+      "category": "typography",
+      "import": "import { Heading } from \"@javui/ui\";"
+    },
+    {
+      "name": "Link",
+      "category": "typography",
+      "import": "import { Link } from \"@javui/ui\";"
+    },
+    {
+      "name": "Kbd",
+      "category": "typography",
+      "import": "import { Kbd } from \"@javui/ui\";"
+    },
+    {
+      "name": "Badge",
+      "category": "typography",
+      "import": "import { Badge } from \"@javui/ui\";"
+    },
+    {
+      "name": "DescriptionList",
+      "category": "patterns",
+      "import": "import { DescriptionList } from \"@javui/ui\";"
+    },
+    {
+      "name": "DescriptionListDetails",
+      "category": "patterns",
+      "import": "import { DescriptionListDetails } from \"@javui/ui\";"
+    },
+    {
+      "name": "DescriptionListTerm",
+      "category": "patterns",
+      "import": "import { DescriptionListTerm } from \"@javui/ui\";"
+    },
+    {
+      "name": "NameValueList",
+      "category": "patterns",
+      "import": "import { NameValueList } from \"@javui/ui\";"
+    },
+    {
+      "name": "Stack",
+      "category": "layout",
+      "import": "import { Stack } from \"@javui/ui\";"
+    },
+    {
+      "name": "Grid",
+      "category": "layout",
+      "import": "import { Grid } from \"@javui/ui\";"
+    },
+    {
+      "name": "Container",
+      "category": "layout",
+      "import": "import { Container } from \"@javui/ui\";"
+    },
+    {
+      "name": "Box",
+      "category": "layout",
+      "import": "import { Box } from \"@javui/ui\";"
+    },
+    {
+      "name": "useControllableState",
+      "category": "utility",
+      "import": "import { useControllableState } from \"@javui/ui\";"
+    },
+    {
+      "name": "AspectRatio",
+      "category": "layout",
+      "import": "import { AspectRatio } from \"@javui/ui\";"
+    },
+    {
+      "name": "VisuallyHidden",
+      "category": "utility",
+      "import": "import { VisuallyHidden } from \"@javui/ui\";"
+    },
+    {
+      "name": "Icon",
+      "category": "utility",
+      "import": "import { Icon } from \"@javui/ui\";"
+    },
+    {
+      "name": "Spinner",
+      "category": "feedback",
+      "import": "import { Spinner } from \"@javui/ui\";"
+    },
+    {
+      "name": "Skeleton",
+      "category": "feedback",
+      "import": "import { Skeleton } from \"@javui/ui\";"
+    },
+    {
+      "name": "Button",
+      "category": "controls",
+      "import": "import { Button } from \"@javui/ui\";"
+    },
+    {
+      "name": "ButtonGroup",
+      "category": "controls",
+      "import": "import { ButtonGroup } from \"@javui/ui\";"
+    },
+    {
+      "name": "ButtonGroupSeparator",
+      "category": "controls",
+      "import": "import { ButtonGroupSeparator } from \"@javui/ui\";"
+    },
+    {
+      "name": "ButtonGroupText",
+      "category": "controls",
+      "import": "import { ButtonGroupText } from \"@javui/ui\";"
+    },
+    {
+      "name": "Field",
+      "category": "controls",
+      "import": "import { Field } from \"@javui/ui\";"
+    },
+    {
+      "name": "FieldSet",
+      "category": "controls",
+      "import": "import { FieldSet } from \"@javui/ui\";"
+    },
+    {
+      "name": "FieldSeparator",
+      "category": "controls",
+      "import": "import { FieldSeparator } from \"@javui/ui\";"
+    },
+    {
+      "name": "Separator",
+      "category": "controls",
+      "import": "import { Separator } from \"@javui/ui\";"
+    },
+    {
+      "name": "Input",
+      "category": "controls",
+      "import": "import { Input } from \"@javui/ui\";"
+    },
+    {
+      "name": "InputOTP",
+      "category": "controls",
+      "import": "import { InputOTP } from \"@javui/ui\";"
+    },
+    {
+      "name": "InputGroup",
+      "category": "controls",
+      "import": "import { InputGroup } from \"@javui/ui\";"
+    },
+    {
+      "name": "InputGroupAddon",
+      "category": "controls",
+      "import": "import { InputGroupAddon } from \"@javui/ui\";"
+    },
+    {
+      "name": "InputGroupButton",
+      "category": "controls",
+      "import": "import { InputGroupButton } from \"@javui/ui\";"
+    },
+    {
+      "name": "InputGroupInput",
+      "category": "controls",
+      "import": "import { InputGroupInput } from \"@javui/ui\";"
+    },
+    {
+      "name": "InputGroupText",
+      "category": "controls",
+      "import": "import { InputGroupText } from \"@javui/ui\";"
+    },
+    {
+      "name": "Textarea",
+      "category": "controls",
+      "import": "import { Textarea } from \"@javui/ui\";"
+    },
+    {
+      "name": "Checkbox",
+      "category": "controls",
+      "import": "import { Checkbox } from \"@javui/ui\";"
+    },
+    {
+      "name": "CheckboxGroup",
+      "category": "controls",
+      "import": "import { CheckboxGroup } from \"@javui/ui\";"
+    },
+    {
+      "name": "Radio",
+      "category": "controls",
+      "import": "import { Radio } from \"@javui/ui\";"
+    },
+    {
+      "name": "RadioGroup",
+      "category": "controls",
+      "import": "import { RadioGroup } from \"@javui/ui\";"
+    },
+    {
+      "name": "Switch",
+      "category": "controls",
+      "import": "import { Switch } from \"@javui/ui\";"
+    },
+    {
+      "name": "Select",
+      "category": "controls",
+      "import": "import { Select } from \"@javui/ui\";"
+    },
+    {
+      "name": "Modal",
+      "category": "overlays",
+      "import": "import { Modal } from \"@javui/ui\";"
+    },
+    {
+      "name": "ModalTrigger",
+      "category": "overlays",
+      "import": "import { ModalTrigger } from \"@javui/ui\";"
+    },
+    {
+      "name": "ModalContent",
+      "category": "overlays",
+      "import": "import { ModalContent } from \"@javui/ui\";"
+    },
+    {
+      "name": "ModalClose",
+      "category": "overlays",
+      "import": "import { ModalClose } from \"@javui/ui\";"
+    },
+    {
+      "name": "Tooltip",
+      "category": "overlays",
+      "import": "import { Tooltip } from \"@javui/ui\";"
+    },
+    {
+      "name": "TooltipProvider",
+      "category": "overlays",
+      "import": "import { TooltipProvider } from \"@javui/ui\";"
+    },
+    {
+      "name": "Tabs",
+      "category": "navigation",
+      "import": "import { Tabs } from \"@javui/ui\";"
+    },
+    {
+      "name": "LinkProvider",
+      "category": "utility",
+      "import": "import { LinkProvider } from \"@javui/ui\";"
+    },
+    {
+      "name": "useLinkComponent",
+      "category": "utility",
+      "import": "import { useLinkComponent } from \"@javui/ui\";"
+    },
+    {
+      "name": "Card",
+      "category": "components",
+      "import": "import { Card } from \"@javui/ui\";"
+    },
+    {
+      "name": "CardHeader",
+      "category": "layout",
+      "import": "import { CardHeader } from \"@javui/ui\";"
+    },
+    {
+      "name": "CardTitle",
+      "category": "layout",
+      "import": "import { CardTitle } from \"@javui/ui\";"
+    },
+    {
+      "name": "CardDescription",
+      "category": "layout",
+      "import": "import { CardDescription } from \"@javui/ui\";"
+    },
+    {
+      "name": "CardAction",
+      "category": "layout",
+      "import": "import { CardAction } from \"@javui/ui\";"
+    },
+    {
+      "name": "CardContent",
+      "category": "layout",
+      "import": "import { CardContent } from \"@javui/ui\";"
+    },
+    {
+      "name": "CardFooter",
+      "category": "layout",
+      "import": "import { CardFooter } from \"@javui/ui\";"
+    },
+    {
+      "name": "Alert",
+      "category": "feedback",
+      "import": "import { Alert } from \"@javui/ui\";"
+    },
+    {
+      "name": "Avatar",
+      "category": "components",
+      "import": "import { Avatar } from \"@javui/ui\";"
+    },
+    {
+      "name": "AvatarGroup",
+      "category": "utility",
+      "import": "import { AvatarGroup } from \"@javui/ui\";"
+    },
+    {
+      "name": "Popover",
+      "category": "overlays",
+      "import": "import { Popover } from \"@javui/ui\";"
+    },
+    {
+      "name": "PopoverTrigger",
+      "category": "overlays",
+      "import": "import { PopoverTrigger } from \"@javui/ui\";"
+    },
+    {
+      "name": "PopoverContent",
+      "category": "overlays",
+      "import": "import { PopoverContent } from \"@javui/ui\";"
+    },
+    {
+      "name": "PopoverClose",
+      "category": "overlays",
+      "import": "import { PopoverClose } from \"@javui/ui\";"
+    },
+    {
+      "name": "Menu",
+      "category": "overlays",
+      "import": "import { Menu } from \"@javui/ui\";"
+    },
+    {
+      "name": "MenuBar",
+      "category": "overlays",
+      "import": "import { MenuBar } from \"@javui/ui\";"
+    },
+    {
+      "name": "ToastProvider",
+      "category": "feedback",
+      "import": "import { ToastProvider } from \"@javui/ui\";"
+    },
+    {
+      "name": "useToast",
+      "category": "feedback",
+      "import": "import { useToast } from \"@javui/ui\";"
+    },
+    {
+      "name": "Accordion",
+      "category": "navigation",
+      "import": "import { Accordion } from \"@javui/ui\";"
+    },
+    {
+      "name": "Table",
+      "category": "components",
+      "import": "import { Table } from \"@javui/ui\";"
+    },
+    {
+      "name": "TableBody",
+      "category": "components",
+      "import": "import { TableBody } from \"@javui/ui\";"
+    },
+    {
+      "name": "TableCaption",
+      "category": "components",
+      "import": "import { TableCaption } from \"@javui/ui\";"
+    },
+    {
+      "name": "TableCell",
+      "category": "components",
+      "import": "import { TableCell } from \"@javui/ui\";"
+    },
+    {
+      "name": "TableFooter",
+      "category": "components",
+      "import": "import { TableFooter } from \"@javui/ui\";"
+    },
+    {
+      "name": "TableHead",
+      "category": "components",
+      "import": "import { TableHead } from \"@javui/ui\";"
+    },
+    {
+      "name": "TableHeader",
+      "category": "components",
+      "import": "import { TableHeader } from \"@javui/ui\";"
+    },
+    {
+      "name": "TableRow",
+      "category": "components",
+      "import": "import { TableRow } from \"@javui/ui\";"
+    },
+    {
+      "name": "Breadcrumb",
+      "category": "navigation",
+      "import": "import { Breadcrumb } from \"@javui/ui\";"
+    },
+    {
+      "name": "Pagination",
+      "category": "navigation",
+      "import": "import { Pagination } from \"@javui/ui\";"
+    },
+    {
+      "name": "Progress",
+      "category": "feedback",
+      "import": "import { Progress } from \"@javui/ui\";"
+    },
+    {
+      "name": "Slider",
+      "category": "controls",
+      "import": "import { Slider } from \"@javui/ui\";"
+    },
+    {
+      "name": "Label",
+      "category": "controls",
+      "import": "import { Label } from \"@javui/ui\";"
+    },
+    {
+      "name": "EmptyState",
+      "category": "feedback",
+      "import": "import { EmptyState } from \"@javui/ui\";"
+    },
+    {
+      "name": "Sidebar",
+      "category": "navigation",
+      "import": "import { Sidebar } from \"@javui/ui\";"
+    },
+    {
+      "name": "Collapsible",
+      "category": "navigation",
+      "import": "import { Collapsible } from \"@javui/ui\";"
+    },
+    {
+      "name": "CollapsibleContent",
+      "category": "navigation",
+      "import": "import { CollapsibleContent } from \"@javui/ui\";"
+    },
+    {
+      "name": "CollapsibleTrigger",
+      "category": "navigation",
+      "import": "import { CollapsibleTrigger } from \"@javui/ui\";"
+    },
+    {
+      "name": "ToggleGroup",
+      "category": "controls",
+      "import": "import { ToggleGroup } from \"@javui/ui\";"
+    },
+    {
+      "name": "ToggleGroupItem",
+      "category": "controls",
+      "import": "import { ToggleGroupItem } from \"@javui/ui\";"
+    },
+    {
+      "name": "Toggle",
+      "category": "controls",
+      "import": "import { Toggle } from \"@javui/ui\";"
+    },
+    {
+      "name": "ScrollArea",
+      "category": "layout",
+      "import": "import { ScrollArea } from \"@javui/ui\";"
+    },
+    {
+      "name": "Sheet",
+      "category": "overlays",
+      "import": "import { Sheet } from \"@javui/ui\";"
+    },
+    {
+      "name": "Combobox",
+      "category": "controls",
+      "import": "import { Combobox } from \"@javui/ui\";"
+    },
+    {
+      "name": "CodeBlockView",
+      "category": "typography",
+      "import": "import { CodeBlockView } from \"@javui/ui\";"
+    },
+    {
+      "name": "CodeBlock",
+      "category": "typography",
+      "import": "import { CodeBlock } from \"@javui/ui/server\";"
+    }
+  ],
+  "integration": [
+    "Tailwind v4 import order: `tailwindcss` -> `@javui/ui/tokens.css` -> `@javui/ui/base.css` -> `@javui/ui/tailwind.css`. `base.css` is optional but stays between tokens and tailwind.",
+    "Next.js + Tailwind: use `@tailwindcss/postcss` in `postcss.config.mjs`. Do not apply a Tailwind loader to every `*.css` (for example `turbopack.rules` with `@tailwindcss/turbopack`): it strips the library's CSS Modules, the HTML loses its `class` attributes and components render unstyled.",
+    "Theme: set `data-theme=\"light|dark\"` on `<html>` before the first paint. With `next-themes` use `attribute=\"data-theme\"`; a `system` theme resolves to `light` or `dark`, never `system`. Add `suppressHydrationWarning` to `<html>`."
   ]
 }

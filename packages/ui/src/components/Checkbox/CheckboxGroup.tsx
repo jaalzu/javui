@@ -7,7 +7,7 @@ import { Spinner } from "../Spinner";
 import { FieldError } from "../Field/FieldError";
 import type { FieldErrorProp } from "../Field/fieldErrors";
 import { useControlValidation } from "../Field/useControlValidation";
-import fieldStyles from "../Field/Field.module.css";
+import { RequiredMark } from "../Field/RequiredMark";
 import radioStyles from "../Radio/Radio.module.css";
 import styles from "./Checkbox.module.css";
 
@@ -36,7 +36,7 @@ export type CheckboxGroupProps = {
   error?: FieldErrorProp;
   /**
    * The group must include at least one ticked option before the form can be submitted.
-   * The legend prints "Required". Inside `Field`, omit it and pass `required` to the Field.
+   * The legend adds a red asterisk. Inside `Field`, omit it and pass `required` to the Field.
    * @default false
    */
   required?: boolean;
@@ -109,7 +109,7 @@ export function CheckboxGroup({
             {state.showRequired ? (
               <>
                 {" "}
-                <span className={fieldStyles.required}>Required</span>
+                <RequiredMark />
               </>
             ) : null}
             {state.loading ? (

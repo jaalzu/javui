@@ -27,6 +27,7 @@
     max-height: min(var(--dialog-height-md), calc(100dvh - 2 * var(--space-6)));
     min-height: 0;
     overflow: hidden;
+    container-type: inline-size;
     border: var(--border-width-overlay) solid var(--color-border-strong);
     border-radius: var(--radius-lg);
     background: var(--color-modal);
@@ -136,8 +137,10 @@
   .footer {
     display: flex;
     flex-shrink: 0;
-    flex-direction: column-reverse;
-    align-items: flex-end;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
     gap: var(--space-2);
     position: sticky;
     bottom: 0;
@@ -148,11 +151,12 @@
     background: var(--color-modal);
   }
 
-  @media (min-width: 48rem) {
+  /* The footer follows the dialog width, not the viewport: a compact desktop dialog
+     can still be too narrow for one row. */
+  @container (max-width: 18.75rem) {
     .footer {
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-end;
+      flex-direction: column-reverse;
+      align-items: flex-end;
     }
   }
 }

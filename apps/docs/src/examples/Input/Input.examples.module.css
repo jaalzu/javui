@@ -1,3 +1,8 @@
+.narrow {
+  width: 100%;
+  max-width: var(--container-xs); /* 20rem */
+}
+
 .searchRow > :global(span:has(> input)) {
   flex: 1 1 auto;
   min-width: 0;

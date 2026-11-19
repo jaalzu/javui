@@ -8,7 +8,7 @@
 //   agent/llms.txt              index for LLMs
 //   agent/llms-full.txt         full docs in one Markdown file
 // Run: bun run agent-docs
-import { readFileSync, writeFileSync, mkdirSync, readdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, copyFileSync, existsSync } from "node:fs";
 import { dirname, resolve, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { withCustomConfig } from "react-docgen-typescript";
@@ -377,6 +377,20 @@ const full = [
   "",
 ].join("\n");
 writeFileSync(join(root, "agent/llms-full.txt"), full);
+
+// The docs app imports the manifest at build time and serves these files from public.
+// Keep that copy in sync, but only in the monorepo (the package can be published alone).
+const docsPublicDir = resolve(root, "../../apps/docs/public");
+if (existsSync(docsPublicDir)) {
+  const docsAgentDir = join(docsPublicDir, "agent");
+  mkdirSync(docsAgentDir, { recursive: true });
+  for (const file of ["manifest.json", "tokens.json"]) {
+    copyFileSync(join(outDir, file), join(docsAgentDir, file));
+  }
+  for (const file of ["llms.txt", "llms-full.txt"]) {
+    copyFileSync(join(outDir, file), join(docsPublicDir, file));
+  }
+}
 
 const partCount = topLevelComponents.reduce((n, c) => n + (c.parts?.length ?? 0), 0);
 console.log(

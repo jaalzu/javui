@@ -9,7 +9,7 @@ import { Spinner } from "../Spinner";
 import { FieldError } from "../Field/FieldError";
 import type { FieldErrorProp } from "../Field/fieldErrors";
 import { useControlValidation } from "../Field/useControlValidation";
-import fieldStyles from "../Field/Field.module.css";
+import { RequiredMark } from "../Field/RequiredMark";
 import styles from "./Radio.module.css";
 
 export type RadioGroupProps = {
@@ -27,7 +27,7 @@ export type RadioGroupProps = {
    */
   error?: FieldErrorProp;
   /**
-   * The group must have a selection before the form can be submitted. The legend prints "Required".
+   * The group must have a selection before the form can be submitted. The legend adds a red asterisk.
    * Inside `Field`, omit it and pass `required` to the Field instead. @default false
    */
   required?: boolean;
@@ -115,7 +115,7 @@ export function RadioGroup({
           {state.showRequired ? (
             <>
               {" "}
-              <span className={fieldStyles.required}>Required</span>
+              <RequiredMark />
             </>
           ) : null}
           {state.loading ? (

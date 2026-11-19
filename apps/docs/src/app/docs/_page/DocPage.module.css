@@ -71,7 +71,8 @@ a.iconBtn {
   margin: 0;
   color: var(--color-secondary-foreground);
   font-size: var(--text-body-lg-size);
-  line-height: var(--text-body-line);
+
+  line-height: var(--text-body-lg-line-tight);
 }
 
 .pager {

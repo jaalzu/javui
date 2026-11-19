@@ -37,7 +37,7 @@ export type SheetProps = {
 };
 
 /**
- * A side sheet for secondary tasks and settings, built on Base UI Drawer. Left and right keep a
+ * A panel that slides in from the edge of the screen to display additional content or actions. Left and right keep a
  * fixed side width; top and bottom span the viewport width and fit their content height. Focus is
  * trapped, Escape closes it, and it can be swiped away on touch. The footer stacks its actions,
  * and every action fills the available width. For a centered decision use `Modal`.
@@ -87,11 +87,16 @@ export function Sheet({
       <BaseDrawer.Portal>
         <BaseDrawer.Backdrop className={styles.backdrop} />
         <BaseDrawer.Viewport className={styles.viewport} data-side={side}>
-          <BaseDrawer.Popup className={cx(styles.popup, className)} data-side={side}>
+          <BaseDrawer.Popup
+            className={cx(styles.popup, className)}
+            data-side={side}
+          >
             <BaseDrawer.Content className={styles.content}>
               <div className={styles.header}>
                 <div className={styles.heading}>
-                  <BaseDrawer.Title className={styles.title}>{title}</BaseDrawer.Title>
+                  <BaseDrawer.Title className={styles.title}>
+                    {title}
+                  </BaseDrawer.Title>
                   {description ? (
                     <BaseDrawer.Description className={styles.description}>
                       {description}
@@ -113,11 +118,15 @@ export function Sheet({
               </div>
               <div
                 className={styles.body}
-                data-base-ui-swipe-ignore={side === "top" || side === "bottom" ? "x" : "y"}
+                data-base-ui-swipe-ignore={
+                  side === "top" || side === "bottom" ? "x" : "y"
+                }
               >
                 {children}
               </div>
-              {footer ? <footer className={styles.footer}>{footer}</footer> : null}
+              {footer ? (
+                <footer className={styles.footer}>{footer}</footer>
+              ) : null}
             </BaseDrawer.Content>
           </BaseDrawer.Popup>
         </BaseDrawer.Viewport>

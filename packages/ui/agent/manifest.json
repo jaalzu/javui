@@ -844,7 +844,7 @@
       "name": "ButtonGroup",
       "category": "controls",
       "base": "Own component",
-      "description": "A container that groups related buttons together with consistent styling. Children draw their border and radius; the group\nonly zeros the inner edges. It never sets the `size` or `variant` of its buttons.\n\nUse `ButtonGroup` for buttons that perform an action. To group buttons that switch a state on\nand off, use `ToggleGroup`. The group has `role=\"group\"`: name it with `aria-label` or\n`aria-labelledby`. Tab moves between the buttons.",
+      "description": "A container that groups related buttons together with consistent styling.Children draw their border and radius; the group\nonly zeros the inner edges. It never sets the `size` or `variant` of its buttons.\n\nUse `ButtonGroup` for buttons that perform an action. To group buttons that switch a state on\nand off, use `ToggleGroup`. The group has `role=\"group\"`: name it with `aria-label` or\n`aria-labelledby`. Tab moves between the buttons.",
       "import": "import { ButtonGroup } from \"@javui/ui\";",
       "renders": "div role=\"group\"",
       "composition": "One group of related children: `Button`, a `Menu` trigger, `Input`, `Select` or `ButtonGroupText`. The group does not inherit `size` or `variant`; set both on every child. `stackBelow` stacks it below `sm` or `md`. Children draw the internal 1px line.",
@@ -1213,7 +1213,7 @@
       "name": "Input",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A text input component for forms and user data entry with built-in styling and accessibility features. `Field` it is labelled and wired to its\ndescription and error automatically, and it inherits `required`, `readOnly` and `loading`.\nOutside `Field` it needs an accessible name (`aria-label` or an associated `label`).\nIcons follow the control size: xs 12px, sm 16px, md 20px, lg 24px.\nStyling hooks: set `--input-radius` or `--input-px` on the input wrapper or an ancestor; they\ndefault to `--radius-md` and `--space-3` and are useful when composing with ButtonGroup.",
+      "description": "A text input component for forms and user data entry with built-in styling and accessibility features. Inside `Field` it is labelled and wired to its\n description and error automatically, and it inherits `required`, `readOnly` and `loading`.\n Outside `Field` it needs an accessible name (`aria-label` or an associated `label`).\n Icons follow the control size: xs 12px, sm 16px, md 20px, lg 24px.\n Styling hooks: set `--input-radius` or `--input-px` on the input wrapper or an ancestor; they\n default to `--radius-md` and `--space-3` and are useful when composing with ButtonGroup.",
       "import": "import { Input } from \"@javui/ui\";",
       "renders": "input",
       "composition": "Native input props pass through (type, autoComplete, name, required...). `variant=\"ghost\"` removes resting chrome for low-emphasis fields. Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Icons follow the size: sm 16px, md 20px, lg 24px. Inside Field, omit required/readOnly/loading and pass them to Field.",
@@ -1698,7 +1698,7 @@
       "name": "Textarea",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "Displays a form textarea or a component that looks like a textarea. Needs an accessible name inside or outside `Field`.\nIcons use the 20px medium size (the textarea has no size variants).",
+      "description": "Displays a form textarea or a component that looks like a textarea.. Needs an accessible name inside or outside `Field`.\nIcons use the 20px medium size (the textarea has no size variants).",
       "import": "import { Textarea } from \"@javui/ui\";",
       "renders": "textarea",
       "composition": "Native textarea props pass through; `rows` defaults to 3. Put decorative icons in `startIcon`/`endIcon` (generated icons, no `size`). `loading` replaces the end icon with a spinner. Inside Field, omit required/readOnly/loading and pass them to Field.",
@@ -2668,7 +2668,7 @@
           "name": "ModalContent",
           "category": "overlays",
           "base": "Built on Base UI (@base-ui/react)",
-          "description": "The modal panel: header, scrollable body and footer. It reads the role and description from\n`Modal`. The footer stacks on mobile with the primary action on top, and sits in one row from\nthe `md` breakpoint.",
+          "description": "The modal panel: header, scrollable body and footer. It reads the role and description from\n`Modal`. The footer stays in one row and only stacks with the primary action on top when the\ndialog itself is narrower than 300px, not when the viewport is small.",
           "import": "import { ModalContent } from \"@javui/ui\";",
           "renders": "div role=\"dialog\" (or role=\"alertdialog\" from the root) in a portal, plus a backdrop",
           "composition": "`title` is required and children are the body. `description`, `tagline`, `icon`, `actions` and `closeLabel` are optional. The body scrolls while the header and footer stay visible. Actions stack on mobile with the primary on top.",
@@ -2785,7 +2785,7 @@
       "name": "Tooltip",
       "category": "overlays",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": null,
+      "description": "A short, supplementary label shown on hover or keyboard focus. The trigger is the single child:\nit must be focusable and keep its own accessible name. Use it to clarify an icon button or add a\nhint, never to hold information the user needs to complete the task.\n\nThe tooltip flips to the opposite side when there is no room. Put it under a `TooltipProvider`\nto share one open delay across the page.",
       "import": "import { Tooltip } from \"@javui/ui\";",
       "renders": "the child element as trigger; a popup div in a portal",
       "composition": "`content` is the text. The single child must be focusable and have its own accessible name.",
@@ -2811,7 +2811,8 @@
         {
           "name": "className",
           "type": "string",
-          "required": false
+          "required": false,
+          "description": "Extra class for the popup, for example to widen the text."
         },
         {
           "name": "closeDelay",
@@ -2846,7 +2847,9 @@
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": [],
+      "examples": [
+        "<Tooltip content=\"Saved\">\r\n  <Button variant=\"secondary\" aria-label=\"Saved\" startIcon={<CheckIcon />} />\r\n</Tooltip>\r\n<Tooltip content=\"Add to library\" side=\"right\">\r\n  <Button variant=\"secondary\">Hover</Button>\r\n</Tooltip>\r\n<Tooltip content=\"This feature is not available yet\">\r\n  <span><Button disabled>Disabled</Button></span>\r\n</Tooltip>"
+      ],
       "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Tooltip/Tooltip.tsx"
     },
     {
@@ -3942,7 +3945,7 @@
       "name": "Breadcrumb",
       "category": "navigation",
       "base": "Own component",
-      "description": "Displays the path to the current resource using a hierarchy of links. Renders `nav > ol` and marks the last item with\n`aria-current=\"page\"`. Links use whatever `LinkProvider` provides (`next/link` in this app).",
+      "description": "Displays the path to the current resource using a hierarchy of links.Renders `nav > ol` and marks the last item with\n`aria-current=\"page\"`. Links use whatever `LinkProvider` provides (`next/link` in this app).",
       "import": "import { Breadcrumb } from \"@javui/ui\";",
       "renders": "nav with an ordered list; the last item has aria-current page",
       "composition": "Pass `items` ({ label, href?, startIcon?, endIcon? }) from root to current page. `separator` defaults to `>` and accepts any node, such as `/` or `·`; it is always hidden from assistive technology. Use `maxItems` (3 or more) to collapse the middle items into an ellipsis menu opened from an icon button labelled Show hidden pages and sized to its content; omit it to show every item. Icons are generated icons without `size`.",
@@ -4540,7 +4543,7 @@
       "name": "ToggleGroup",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A set of related toggles with shared state. It handles arrow-key\nnavigation and the selected values, so do not wire them by hand. Items inherit `size`.\n\nSelection is single by default; add `multiple` for several. `value` and `defaultValue` are always\narrays of item values. A group needs an accessible name (`aria-label`), and each icon-only item\nneeds its own. For a single independent on/off button, use `Toggle`.",
+      "description": "A set of related toggles with shared state, built on Base UI Toggle Group. It handles arrow-key\nnavigation and the selected values, so do not wire them by hand. Items inherit `size`.\n\nSelection is single by default; add `multiple` for several. `value` and `defaultValue` are always\narrays of item values. A group needs an accessible name (`aria-label`), and each icon-only item\nneeds its own. For a single independent on/off button, use `Toggle`.",
       "import": "import { ToggleGroup } from \"@javui/ui\";",
       "renders": "div role=\"group\" with toggle buttons",
       "composition": "Compose `ToggleGroupItem` children. Pass `aria-label` or `aria-labelledby`, `multiple`, `orientation`, `spacing` (`none`, `sm` or `md`), `size` (`xs`, `sm`, `md` or `lg`) and `variant` (`default` or `outline`). The variant is inherited by every item.",
@@ -4902,7 +4905,7 @@
       "name": "Sheet",
       "category": "overlays",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "A side sheet for secondary tasks and settings, built on Base UI Drawer. Left and right keep a\nfixed side width; top and bottom span the viewport width and fit their content height. Focus is\ntrapped, Escape closes it, and it can be swiped away on touch. The footer stacks its actions,\nand every action fills the available width. For a centered decision use `Modal`.",
+      "description": "A panel that slides in from the edge of the screen to display additional content or actions. Left and right keep a\nfixed side width; top and bottom span the viewport width and fit their content height. Focus is\ntrapped, Escape closes it, and it can be swiped away on touch. The footer stacks its actions,\nand every action fills the available width. For a centered decision use `Modal`.",
       "import": "import { Sheet } from \"@javui/ui\";",
       "renders": "a trigger button; when open, a backdrop and a side panel in a portal",
       "composition": "Pass `trigger` (button text), `title`, optional `description`, `children`, `footer`, `side` (top, right, bottom or left; default right) and open state. One component, no parts. Left and right use a fixed side width and full height; top and bottom span the viewport width and fit their content height. Footer actions fill the available width and stack when there is more than one. The panel slides and fades on enter (from partial opacity, never 0) and on exit.",
@@ -5139,7 +5142,7 @@
       "name": "CodeBlock",
       "category": "typography",
       "base": "Own component",
-      "description": "Displays code, terminal output and diffs with an optional header, line numbers and a copy button.Colors come from semantic `--syntax-*` tokens, so light\nand dark work without extra code. Unknown languages are shown as plain text.",
+      "description": "Displays code, terminal output and diffs with an optional header, line numbers and a copy button. Colors come from semantic `--syntax-*` tokens, so light\n and dark work without extra code. Unknown languages are shown as plain text.",
       "import": "import { CodeBlock } from \"@javui/ui/server\";",
       "renders": "server component that highlights with Shiki, wrapped around a client view with an icon-only copy button, optional tabs and a focusable region",
       "composition": "Pass `code` and a `language`. `tone` is `default`, `brand`, `success` or `danger`; `highlight={false}` shows plain text; `highlightLines` marks lines from 1; `lineNumbers` shows decorative line numbers. For alternatives, pass `tabs` instead of `code`.",

@@ -3,7 +3,8 @@
   "private": true,
   "workspaces": ["packages/*", "apps/*"],
   "scripts": {
-    "dev": "bun run --filter @javui/docs dev",
+    "dev": "bun scripts/dev.mjs",
+    "dev:dist": "bun scripts/dev.mjs --dist",
     "build": "bun run --filter @javui/docs build",
     "typecheck": "bun run --filter @javui/ui typecheck && bun run --filter @javui/docs typecheck",
     "start": "bun run --filter @javui/docs start",
@@ -17,7 +18,8 @@
     "mcp": "bun run --filter @javui/ui mcp",
     "mcp:test": "bun run --filter @javui/ui mcp:test",
     "verify:dist": "bun run --filter @javui/ui verify:dist",
-    "test:consumer": "bun scripts/test-consumer.mjs"
+    "test:consumer": "bun scripts/test-consumer.mjs",
+    "sync:app": "bun scripts/sync-app.mjs"
   },
   "dependencies": {},
   "devDependencies": {

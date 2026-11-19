@@ -1,6 +1,10 @@
 import type { ComponentProps, ElementType } from "react";
 import { cx } from "../../utils/cx";
-import { Heading, type HeadingElement, type HeadingSize } from "../../typography/Heading";
+import {
+  Heading,
+  type HeadingElement,
+  type HeadingSize,
+} from "../../typography/Heading";
 import { Text } from "../Text";
 import styles from "./Card.module.css";
 
@@ -27,7 +31,7 @@ export type CardProps<T extends CardElement = "div"> = {
 } & Omit<ComponentProps<T>, "as" | "color">;
 
 /**
- * A bordered container that groups related content into one idea, with a short title.
+ * Displays a card with header, content, and footer.
  * Its parts share one inset through `--card-spacing`, and an `img` as the first child is
  * full-bleed with rounded top corners.
  *
@@ -56,7 +60,12 @@ export function Card<T extends CardElement = "div">({
   const Component = (as ?? "div") as ElementType;
   return (
     <Component
-      className={cx(styles.card, size === "sm" && styles.sm, styles[variant], className)}
+      className={cx(
+        styles.card,
+        size === "sm" && styles.sm,
+        styles[variant],
+        className,
+      )}
       {...(rest as Record<string, unknown>)}
     />
   );
@@ -84,15 +93,33 @@ export type CardTitleProps = {
  * The heading of a Card. Renders a real heading; the default `h3` suits a card inside a section
  * with an `h2`.
  */
-export function CardTitle({ as = "h3", size = 6, className, ...rest }: CardTitleProps) {
-  return <Heading as={as} size={size} className={cx(styles.title, className)} {...rest} />;
+export function CardTitle({
+  as = "h3",
+  size = 6,
+  className,
+  ...rest
+}: CardTitleProps) {
+  return (
+    <Heading
+      as={as}
+      size={size}
+      className={cx(styles.title, className)}
+      {...rest}
+    />
+  );
 }
 
 export type CardDescriptionProps = Omit<ComponentProps<"p">, "color">;
 
 /** Supporting text below a `CardTitle`, in the muted body style. */
 export function CardDescription({ className, ...rest }: CardDescriptionProps) {
-  return <Text tone="muted" className={cx(styles.description, className)} {...rest} />;
+  return (
+    <Text
+      tone="muted"
+      className={cx(styles.description, className)}
+      {...rest}
+    />
+  );
 }
 
 export type CardActionProps = ComponentProps<"div">;

@@ -23,7 +23,7 @@ export type ButtonGroupProps = {
 } & Omit<ComponentProps<"div">, "color">;
 
 /**
- * Joins 2-4 related actions into one control. Children draw their border and radius; the group
+ * A container that groups related buttons together with consistent styling.Children draw their border and radius; the group
  * only zeros the inner edges. It never sets the `size` or `variant` of its buttons.
  *
  * Use `ButtonGroup` for buttons that perform an action. To group buttons that switch a state on
@@ -46,14 +46,14 @@ export function ButtonGroup({
 }: ButtonGroupProps) {
   return (
     <ButtonGroupSizeContext.Provider value={size}>
-    <div
-      {...rest}
-      role="group"
-      data-orientation={orientation}
-      data-stack-below={stackBelow}
-      data-size={size}
-      className={cx(styles.group, styles[orientation], className)}
-    />
+      <div
+        {...rest}
+        role="group"
+        data-orientation={orientation}
+        data-stack-below={stackBelow}
+        data-size={size}
+        className={cx(styles.group, styles[orientation], className)}
+      />
     </ButtonGroupSizeContext.Provider>
   );
 }

@@ -1,4 +1,35 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import type { NextConfig } from "next";
+
+const here = path.dirname(fileURLToPath(import.meta.url));
+const uiSrc = path.resolve(here, "../../packages/ui/src");
+// Turbopack on Windows rejects absolute alias targets ("windows imports are
+// not implemented yet"), so express them relative to this config file with
+// forward slashes.
+const src = (...segments: string[]) =>
+  path.relative(here, path.join(uiSrc, ...segments)).replaceAll("\\", "/");
+
+// Source mode: `next dev` resolves @javui/ui to packages/ui/src so edits show up
+// without rebuilding dist. `next build` keeps consuming dist through the package
+// exports, and JAVUI_SOURCE=0 forces dist even in dev.
+const sourceMode =
+  process.env.NODE_ENV !== "production" && process.env.JAVUI_SOURCE !== "0";
+
+/**
+ * CSS entry points cannot resolve through the `@javui/ui` package alias above,
+ * so each public stylesheet gets its own alias. Both Turbopack and webpack read
+ * these absolute paths.
+ */
+const sourceAliases: Record<string, string> = {
+  "@javui/ui": src("index.ts"),
+  "@javui/ui/server": src("server.ts"),
+  "@javui/ui/tokens.css": src("tokens/tokens.css"),
+  "@javui/ui/tailwind.css": src("tokens/tailwind.css"),
+  "@javui/ui/base.css": src("styles/base.css"),
+  "@javui/ui/fonts.css": src("styles/fonts.css"),
+  "@javui/ui/global.css": src("styles/global.css"),
+};
 
 const nextConfig: NextConfig = {
   transpilePackages: ["@javui/ui"],
@@ -6,6 +37,15 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["192.168.100.*"],
   cacheComponents: true,
   partialPrefetching: true,
+  ...(sourceMode
+    ? {
+        turbopack: { resolveAlias: sourceAliases },
+        webpack(config) {
+          config.resolve.alias = { ...config.resolve.alias, ...sourceAliases };
+          return config;
+        },
+      }
+    : {}),
   experimental: {
     // Set by `next upgrade --agent=security`: the upgrade fixes a published advisory.
     agentUpgrade: "security",

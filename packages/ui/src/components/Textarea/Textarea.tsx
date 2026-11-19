@@ -32,8 +32,7 @@ export type TextareaProps = {
 } & Omit<ComponentProps<"textarea">, "className" | "color">;
 
 /**
- * A native `textarea` that works with `Field` the same way `Input` does, including
- * `required`, `readOnly` and `loading`. Needs an accessible name inside or outside `Field`.
+ * Displays a form textarea or a component that looks like a textarea.. Needs an accessible name inside or outside `Field`.
  * Icons use the 20px medium size (the textarea has no size variants).
  *
  * @example
@@ -70,9 +69,7 @@ export function Textarea({
       data-icon={position}
       data-appearance={variant}
     >
-      <IconSlot className={styles.startSlot}>
-        {startIcon}
-      </IconSlot>
+      <IconSlot className={styles.startSlot}>{startIcon}</IconSlot>
       <BaseInput
         render={<textarea rows={rows} />}
         className={cx(styles.textarea, className)}
@@ -85,17 +82,11 @@ export function Textarea({
         {...(rest as Record<string, unknown>)}
       />
       {loading ? (
-        <span
-          className={cx(
-            styles.spinnerSlot,
-          )}
-        >
+        <span className={cx(styles.spinnerSlot)}>
           <Spinner size="sm" label="" role="presentation" aria-hidden="true" />
         </span>
       ) : (
-        <IconSlot className={styles.endSlot}>
-          {endIcon}
-        </IconSlot>
+        <IconSlot className={styles.endSlot}>{endIcon}</IconSlot>
       )}
     </span>
   );

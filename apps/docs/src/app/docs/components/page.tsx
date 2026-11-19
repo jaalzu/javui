@@ -16,7 +16,9 @@ export default function Components() {
       <ul className={lists.nameGrid}>
         {componentLinks.map((c) => (
           <li key={c.href}>
-            <Link href={c.href} tone="inherit" className={lists.nameLink}>{c.label}</Link>
+            <Link href={c.href} tone="inherit" className={lists.nameLink}>
+              {c.label}
+            </Link>
           </li>
         ))}
       </ul>

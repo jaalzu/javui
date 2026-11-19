@@ -2,7 +2,7 @@
   "name": "@javui/docs",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "bun ../../scripts/dev.mjs",
     "build": "next build --webpack",
     "typecheck": "next typegen && tsc --noEmit"
   },

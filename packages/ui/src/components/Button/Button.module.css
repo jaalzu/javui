@@ -59,7 +59,9 @@
 }
 
 .button:hover:not([data-disabled])::before,
-.button[data-force="hover"]:not([data-disabled])::before {
+.button[data-force="hover"]:not([data-disabled])::before,
+.button[data-popup-open]:not([data-disabled])::before,
+.button[aria-expanded="true"]:not([data-disabled])::before {
   background-color: var(--btn-bg-hover);
 }
 
@@ -94,7 +96,7 @@
 }
 
 .outline {
-  --btn-bg: transparent;
+  --btn-bg: var(--color-field);
   --btn-fg: var(--color-primary-foreground);
   --btn-bg-hover: var(--color-component-hover);
   border-color: var(--color-border-emphasis);
@@ -190,4 +192,3 @@
   opacity: 1;
   cursor: progress;
 }
-

@@ -42,10 +42,13 @@ export type RadioGroupProps = {
    */
   loading?: boolean;
   className?: string;
-} & Omit<BaseRadioGroup.Props, "className" | "children" | "color" | "required" | "readOnly">;
+} & Omit<
+  BaseRadioGroup.Props,
+  "className" | "children" | "color" | "required" | "readOnly"
+>;
 
 /**
- * A group of mutually exclusive options. Renders a `fieldset` with a `legend`, driven by Base UI
+ * A set of checkable buttons where no more than one of the buttons can be checked at a time. Renders a `fieldset` with a `legend`, driven by Base UI
  * RadioGroup. Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.
  *
  * @example
@@ -76,10 +79,13 @@ export function RadioGroup({
     readOnly: readOnlyProp,
     loading: loadingProp,
   });
-  const explicitInvalid = rest["aria-invalid"] === true || rest["aria-invalid"] === "true";
+  const explicitInvalid =
+    rest["aria-invalid"] === true || rest["aria-invalid"] === "true";
   const descriptionId = useId();
   const describedBy =
-    [description ? descriptionId : undefined, state.describedBy].filter(Boolean).join(" ") || undefined;
+    [description ? descriptionId : undefined, state.describedBy]
+      .filter(Boolean)
+      .join(" ") || undefined;
 
   return (
     <>
@@ -97,7 +103,11 @@ export function RadioGroup({
             data-invalid={state.invalid ? "" : undefined}
           />
         }
-        className={cx(styles.group, explicitInvalid || state.invalid ? styles.invalid : undefined, className)}
+        className={cx(
+          styles.group,
+          explicitInvalid || state.invalid ? styles.invalid : undefined,
+          className,
+        )}
         data-invalid={state.invalid || explicitInvalid ? "" : undefined}
       >
         <BaseFieldset.Legend className={styles.legend}>
@@ -118,8 +128,19 @@ export function RadioGroup({
             />
           ) : null}
         </BaseFieldset.Legend>
-        {description ? <p id={descriptionId} className={styles.groupDescription}>{description}</p> : null}
-        <div className={cx(styles.options, orientation === "horizontal" && styles.horizontal)}>{children}</div>
+        {description ? (
+          <p id={descriptionId} className={styles.groupDescription}>
+            {description}
+          </p>
+        ) : null}
+        <div
+          className={cx(
+            styles.options,
+            orientation === "horizontal" && styles.horizontal,
+          )}
+        >
+          {children}
+        </div>
       </BaseFieldset.Root>
       {state.showError && state.errors.length ? (
         <FieldError id={state.errorId} errors={state.errors} />
@@ -144,7 +165,14 @@ export type RadioProps = {
  * One option inside a `RadioGroup`, built on Base UI Radio. The whole label is clickable.
  * Validation state comes from the `RadioGroup` (`error`, `required`, `readOnly`, `loading`).
  */
-export function Radio({ value, label, description, variant = "default", className, ...rest }: RadioProps) {
+export function Radio({
+  value,
+  label,
+  description,
+  variant = "default",
+  className,
+  ...rest
+}: RadioProps) {
   const control = (
     <BaseRadio.Root value={value} className={styles.radio} {...rest}>
       <BaseRadio.Indicator className={styles.indicator} />
@@ -153,13 +181,27 @@ export function Radio({ value, label, description, variant = "default", classNam
   const text = (
     <span className={styles.text}>
       <span className={styles.optionLabel}>{label}</span>
-      {description ? <span className={styles.optionDescription}>{description}</span> : null}
+      {description ? (
+        <span className={styles.optionDescription}>{description}</span>
+      ) : null}
     </span>
   );
 
   return (
-    <label className={cx(styles.label, variant === "card" && styles.card, className)}>
-      {variant === "card" ? <>{text}{control}</> : <>{control}{text}</>}
+    <label
+      className={cx(styles.label, variant === "card" && styles.card, className)}
+    >
+      {variant === "card" ? (
+        <>
+          {text}
+          {control}
+        </>
+      ) : (
+        <>
+          {control}
+          {text}
+        </>
+      )}
     </label>
   );
 }

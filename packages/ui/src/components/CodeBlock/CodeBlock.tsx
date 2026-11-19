@@ -5,8 +5,7 @@ import { CodeBlockView } from "./CodeBlockView";
 import type { CodeBlockProps } from "./types";
 
 /**
- * Preformatted code with syntax highlighting, an icon-only copy button and optional tabs for
- * alternatives such as bun, pnpm and npm. Colors come from semantic `--syntax-*` tokens, so light
+ *Displays code, terminal output and diffs with an optional header, line numbers and a copy button. Colors come from semantic `--syntax-*` tokens, so light
  * and dark work without extra code. Unknown languages are shown as plain text.
  *
  * @example
@@ -29,13 +28,17 @@ export async function CodeBlock({
   minimal = false,
 }: CodeBlockProps) {
   const html = highlight ? await highlightCode(code, language) : null;
-  const tabHtml = tabs && highlight
-    ? Object.fromEntries(
-        await Promise.all(
-          tabs.map(async (tab) => [tab.label, await highlightCode(tab.code, language)] as const),
-        ),
-      )
-    : undefined;
+  const tabHtml =
+    tabs && highlight
+      ? Object.fromEntries(
+          await Promise.all(
+            tabs.map(
+              async (tab) =>
+                [tab.label, await highlightCode(tab.code, language)] as const,
+            ),
+          ),
+        )
+      : undefined;
 
   return (
     <CodeBlockView

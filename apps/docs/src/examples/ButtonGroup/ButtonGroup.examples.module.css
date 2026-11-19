@@ -1,37 +1,36 @@
 /* Centers every example horizontally and vertically in the preview. */
 .stage {
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  min-height: var(--space-24);
+  min-height: 10rem; /* altura fija: centra sin depender del wrapper */
+  padding-block: var(--space-6);
+  box-sizing: border-box;
 }
 
+/* Separate controls with a small gap, not a shared edge. */
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.row > :global(*:not(button)) {
+  min-width: 0;
+}
 .constrained {
   width: 100%;
-  max-width: var(--container-sm);
-}
-
-.menuGroup :global(button) {
-  border-start-start-radius: var(--radius-md);
-  border-end-start-radius: var(--radius-md);
+  max-width: 18rem;
 }
 
 .centeredRow {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-3);
+  gap: var(--space-4);
   flex-wrap: wrap;
-}
-
-.fieldButton {
-  --btn-bg: var(--color-field);
-  --btn-bg-hover: var(--color-component-hover);
-}
-
-.currencySelect {
-  width: fit-content;
-  min-width: 0;
 }
 
 .stack {

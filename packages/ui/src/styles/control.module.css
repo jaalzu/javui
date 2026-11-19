@@ -3,16 +3,21 @@
   --control-icon: var(--size-icon-md);
   --control-gap: var(--icon-gap-md);
   --control-px: var(--space-3);
-  --control-fs: var(--text-label-size);
+  --control-fs: var(--text-body-size);
   min-height: var(--control-h);
   padding-inline: var(--control-px);
   font-size: var(--control-fs);
   box-shadow: var(--shadow-control);
   background: var(--color-control);
-  transition: background var(--motion-fast) var(--motion-standard), color var(--motion-fast) var(--motion-standard), box-shadow var(--motion-fast) var(--motion-standard);
+  transition:
+    background-color var(--motion-duration-fast) var(--motion-easing-standard),
+    color var(--motion-duration-fast) var(--motion-easing-standard),
+    box-shadow var(--motion-duration-fast) var(--motion-easing-standard);
 }
 
-.control:hover:not(:disabled):not([aria-disabled="true"]) {
+.control:hover:not(:disabled):not([aria-disabled="true"]):not(
+    [data-readonly]
+  ):not([data-loading]) {
   background: var(--color-control-hover);
 }
 
@@ -21,7 +26,8 @@
   outline-offset: var(--focus-ring-offset);
 }
 
-.control[aria-invalid="true"] {
+.control[aria-invalid="true"],
+.control[data-invalid] {
   border-color: var(--color-danger-border-default);
 }
 
@@ -33,11 +39,12 @@
   cursor: not-allowed;
 }
 
-.control[readonly] {
+.control[readonly],
+.control[data-readonly] {
   background: var(--color-sunken);
 }
 
-.control[data-loading="true"] {
+.control[data-loading] {
   cursor: progress;
 }
 
@@ -46,25 +53,22 @@
   --control-icon: var(--size-icon-xs);
   --control-gap: var(--icon-gap-xs);
   --control-px: var(--space-2);
-  --control-fs: var(--text-caption-size);
+  --control-fs: var(--font-size-12);
 }
-
 .sm {
   --control-h: var(--size-control-sm);
   --control-icon: var(--size-icon-sm);
   --control-gap: var(--icon-gap-sm);
   --control-px: var(--space-2);
-  --control-fs: var(--text-label-size);
+  --control-fs: var(--font-size-13);
 }
-
 .md {
   --control-h: var(--size-control-md);
   --control-icon: var(--size-icon-md);
   --control-gap: var(--icon-gap-md);
   --control-px: var(--space-3);
-  --control-fs: var(--text-label-size);
+  --control-fs: var(--text-body-size);
 }
-
 .lg {
   --control-h: var(--size-control-lg);
   --control-icon: var(--size-icon-lg);
@@ -73,8 +77,9 @@
   --control-fs: var(--text-body-size);
 }
 
+/* Avoid the iOS zoom, only on native text entry. A Select trigger is a button, so it keeps its size. */
 @media (max-width: 40rem) {
-  .control {
+  .control:is(input, textarea, select) {
     font-size: max(1rem, var(--control-fs));
   }
 }

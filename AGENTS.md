@@ -11,7 +11,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## Reglas del monorepo
 
 - Cada paquete declara en su propio `package.json` todo lo que importa, aunque otro paquete ya lo tenga instalado. Lo que funciona por hoisting se rompe en un clon limpio o en CI. Al añadir un import externo, añádelo también a `dependencies`, `devDependencies` o `peerDependencies` del paquete que lo usa, con la misma versión exacta del repo (por ejemplo, `@base-ui/react`) para evitar dos copias.
-- `apps/docs` consume `@javui/ui` desde `dist`: después de `bun install`, ejecuta `bun run --filter @javui/ui build` antes de `typecheck` o `dev`.
+- `apps/docs` consume `@javui/ui` de dos formas: `bun run dev` resuelve el código fuente de `packages/ui/src` (sin build), y `next build` / `bun run dev:dist` consumen `dist` mediante los exports. No hace falta construir dist para `typecheck` ni para el `dev` normal.
 
 ## ui-lib conventions
 
@@ -22,7 +22,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Own components (Text, Heading, Card, Stack, Grid, ...) render correct semantic HTML. `as` only accepts elements valid for that component.
 - Every component needs: TSDoc on props, a story (light and dark), a Testing Library test, and passing axe checks.
 - Breakpoints: mobile first with `min-width`. `--breakpoint-sm|md|lg|xl` (40/48/64/80rem) are documentation only, since CSS cannot read variables in `@media`; write the rem value. Max-width queries use `value - 0.01rem`.
-- Commands: `bun run typecheck`, `bun run lint`, `bun run test`, `bun run build`, `bun run test:consumer`, `bun run tokens`, `bun run icons`, `bun run agent-docs`.
+- Commands: `bun run typecheck`, `bun run lint`, `bun run test`, `bun run build`, `bun run dev`, `bun run dev:dist`, `bun run sync:app`, `bun run test:consumer`, `bun run tokens`, `bun run icons`, `bun run agent-docs`.
 
 ## Foundations (tokens)
 
@@ -148,6 +148,14 @@ Rules that matter when using them:
 ## Navigation (LinkProvider)
 
 Components that navigate read the link component from `LinkProvider` (`src/ui/components/Link/LinkContext.tsx`) through `useLinkComponent()`. A new component that renders a link must use that hook instead of a bare `a`, and must be a client component. Do not add per-link `render` props.
+
+## Desarrollo de la librería desde docs
+
+- `bun run dev`: modo fuente. `apps/docs` resuelve `@javui/ui`, `@javui/ui/server` y las entradas CSS (`tokens.css`, `base.css`, `fonts.css`, `global.css`, `tailwind.css`) a `packages/ui/src` mediante `turbopack.resolveAlias` (y el alias de webpack si se usa webpack en dev). Además vigila `packages/ui/src/tokens/*.json` y regenera `tokens.css`. Editar un componente o un token se refleja sin reconstruir dist.
+- `bun run dev:dist`: construye `@javui/ui` y arranca docs contra `dist`, igual que producción.
+- `bun run sync:app [ruta]`: construye y empaqueta la librería, copia el `.tgz` a `<APP>/vendor` con nombre único, ejecuta `bun add ./vendor/<nombre>` en la app, borra su `.next` y deja solo el último `.tgz`. Ruta por argumento o `JAVUI_APP`; por defecto `~/Desktop/app-x`.
+
+**Advertencia:** en modo fuente el CSS no va envuelto en `@layer` (el envoltorio lo añade el build de dist). Antes de abrir un PR hay que verificar con `bun run dev:dist`; si el CSS se ve distinto, el problema está en las capas, no en el alias.
 
 ## Qué correr y cuándo
 

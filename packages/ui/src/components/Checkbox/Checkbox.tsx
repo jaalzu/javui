@@ -76,7 +76,7 @@ export type CheckboxWithoutLabelProps = CheckboxSharedProps &
 export type CheckboxProps = CheckboxWithLabelProps | CheckboxWithoutLabelProps;
 
 /**
- * A checkbox with an optional label, built on Base UI Checkbox. With a label, the whole label is
+ * A control that allows the user to toggle between checked and not checked. With a label, the whole label is
  * clickable. Without one, only the box renders: give it a name with `aria-label`/`aria-labelledby`
  * or let `Field` do it. Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.
  * Space toggles it, like a native checkbox.
@@ -113,7 +113,8 @@ export function Checkbox({
     loading: loadingProp,
   });
   const invalid = state.invalid || Boolean(invalidProp);
-  const hasDescription = description !== undefined && description !== null && description !== "";
+  const hasDescription =
+    description !== undefined && description !== null && description !== "";
   const descriptionId = useId();
   const describedBy =
     [hasDescription ? descriptionId : undefined, state.describedBy]

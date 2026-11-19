@@ -55,7 +55,6 @@ export const examples: Example[] = [
         <Switch size="sm" aria-label="Product updates" />
       </Field>
     </div>,
-    "The switch sits at the label height on the right, and clicking the label toggles it.",
   ),
   ex(
     "Choice card",

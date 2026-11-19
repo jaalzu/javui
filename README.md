@@ -6,13 +6,16 @@ React component library: Next.js 16, TypeScript, Bun, CSS variables + CSS Module
 
 ```bash
 bun install
-bun run dev                # Next.js app, http://localhost:3000
+bun run dev                # source mode: docs + components live, http://localhost:3000
 ```
 
 ## Commands
 
 | Command | What it does |
 |---|---|
+| `bun run dev` | Docs in source mode: edits in `packages/ui/src` show up instantly, and token JSON edits regenerate `tokens.css` |
+| `bun run dev:dist` | Builds `@javui/ui` and runs docs against `dist` (production parity) |
+| `bun run sync:app [path]` | Builds and packs the library, installs the `.tgz` into `<path>/vendor`, clears its `.next`. Defaults to `~/Desktop/app-x`; also read from `JAVUI_APP` |
 | `bun run tokens` | DTCG JSON in `packages/ui/src/tokens` to generated CSS |
 | `bun run agent-docs` | Generates `packages/ui/agent/*` |
 | `bun run mcp` | Starts the MCP server (stdio) |
@@ -22,6 +25,8 @@ bun run dev                # Next.js app, http://localhost:3000
 | `bunx vitest run --project storybook` | Every story in a real browser with axe, light and dark. Needs `bunx playwright install chromium` |
 
 ## Theme
+
+**Source mode vs dist:** `bun run dev` aliases `@javui/ui`, `@javui/ui/server` and every public stylesheet to `packages/ui/src`. In that mode the CSS is not wrapped in `@layer`; the wrapping happens when `dist` is built. Before opening a PR, verify with `bun run dev:dist` so you see the same cascade as production.
 
 Tokens switch on `data-theme="light|dark"` on `<html>`; without it the OS preference applies. Set `data-theme` in the server-rendered HTML (or use `next-themes` with `attribute="data-theme"`) before the first paint to avoid a dark-theme flash. The library does not depend on it, so any other mechanism that sets the attribute works.
 

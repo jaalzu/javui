@@ -240,7 +240,7 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## Badge
 
-Small status, category or count label. Text is always the primary signal; the
+Displays a badge or a component that looks like a badge. Text is always the primary signal; the
 variant only reinforces it.
 
 Keep the text to one or two words and truncate counts to two digits (`99+`).
@@ -640,7 +640,7 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## Spinner
 
-Indeterminate loading indicator. Twelve thick bars sit around a circle and light up in
+An indicator that can be used to show a loading state. Twelve thick bars sit around a circle and light up in
 sequence, leaving a fading trail that reads as rotation.
 
 Use it only when the wait is expected to last more than a second; for shorter operations it
@@ -713,7 +713,7 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## Button
 
-Action button, or a link when given `href`.
+Displays a button or a component that looks like a button.
 
 Icon-only controls need an accessible name (`aria-label` or `aria-labelledby`).
 
@@ -758,7 +758,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## ButtonGroup
 
-Joins 2-4 related actions into one control. Children draw their border and radius; the group
+A container that groups related buttons together with consistent styling. Children draw their border and radius; the group
 only zeros the inner edges. It never sets the `size` or `variant` of its buttons.
 
 Use `ButtonGroup` for buttons that perform an action. To group buttons that switch a state on
@@ -968,7 +968,9 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## Separator
 
-A 1px line that visually or semantically divides content, built on Base UI Separator.
+Visually or semantically separates content.
+
+
 Horizontal by default; use `orientation="vertical"` inside a row. Spacing is not part of the
 component: use the parent `gap` or a margin on `className`.
 
@@ -999,7 +1001,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## Input
 
-A native text input built on Base UI Input. Inside `Field` it is labelled and wired to its
+A text input component for forms and user data entry with built-in styling and accessibility features. Inside `Field` it is labelled and wired to its
 description and error automatically, and it inherits `required`, `readOnly` and `loading`.
 Outside `Field` it needs an accessible name (`aria-label` or an associated `label`).
 Icons follow the control size: xs 12px, sm 16px, md 20px, lg 24px.
@@ -1259,8 +1261,7 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## Textarea
 
-A native `textarea` that works with `Field` the same way `Input` does, including
-`required`, `readOnly` and `loading`. Needs an accessible name inside or outside `Field`.
+Displays a form textarea or a component that looks like a textarea. Needs an accessible name inside or outside `Field`.
 Icons use the 20px medium size (the textarea has no size variants).
 
 - Category: controls
@@ -1295,7 +1296,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## Checkbox
 
-A checkbox with an optional label, built on Base UI Checkbox. With a label, the whole label is
+A control that allows the user to toggle between checked and not checked. With a label, the whole label is
 clickable. Without one, only the box renders: give it a name with `aria-label`/`aria-labelledby`
 or let `Field` do it. Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.
 Space toggles it, like a native checkbox.
@@ -1389,7 +1390,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## RadioGroup
 
-A group of mutually exclusive options. Renders a `fieldset` with a `legend`, driven by Base UI
+A set of checkable buttons where no more than one of the buttons can be checked at a time. Renders a `fieldset` with a `legend`, driven by Base UI
 RadioGroup. Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.
 
 - Category: controls
@@ -1459,7 +1460,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## Switch
 
-An on/off switch for a setting that applies immediately, built on Base UI Switch.
+A control that allows the user to toggle between checked and not checked.
 For choices that are submitted with a form, prefer `Checkbox`. Inside `Field` it inherits
 `error`, `required`, `readOnly` and `loading`.
 
@@ -1505,7 +1506,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## Select
 
-A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).
+Displays a list of options for the user to pick from—triggered by a button.
 Pass `items` instead of composing parts; items can include `description` and a `group` heading.
 Groups are separated by space and a heading, never by a rule. Long lists keep a compact height
 and hide the scrollbar. Inside `Field` it inherits `required`, `readOnly` and `loading`.
@@ -1739,8 +1740,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## Tabs
 
-Tabs that switch between panels, built on Base UI Tabs (arrow-key navigation, roles and
-`aria-controls` come from there). Pass `items` instead of composing parts.
+A set of layered sections of content—known as tab panels—that are displayed one at a time. Pass `items` instead of composing parts.
 Tabs are compact: icons use the 16px small size.
 
 - Category: navigation
@@ -1775,7 +1775,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## Card
 
-A bordered container that groups related content into one idea, with a short title.
+Displays a card with header, content, and footer.
 Its parts share one inset through `--card-spacing`, and an `img` as the first child is
 full-bleed with rounded top corners.
 
@@ -1944,7 +1944,7 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## Alert
 
-An inline message about the state of the page or a form. `neutral` is the default; `error` and
+Displays a callout for user attention. `neutral` is the default; `error` and
 `warning` are announced immediately, the rest politely. Put optional actions in `children`;
 for short-lived feedback use `useToast` instead.
 
@@ -1981,7 +1981,7 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## Avatar
 
-A round image of a person with an initials fallback, built on Base UI Avatar.
+An image element with a fallback for representing the user.
 The whole avatar is one image with the person's name as its label. Add a status or an avatar badge
 with an icon inside when needed; without them the markup and accessible name stay just the name.
 For bots, companies or systems, use `src` with the logo; without it the initials are shown.
@@ -2066,8 +2066,7 @@ Also accepts the native props of the element it renders; they pass through.
 ```
 
 ## Popover
-
-Root of a popover: a small panel anchored to a button, for extra controls or details the user asked for.
+Displays rich content in a portal, triggered by a button.
 Use Popover for about 22rem of content and up to 3–4 fields; use Tooltip for supplementary hints,
 Menu for a list of actions, Modal for decisions, and Sheet for longer content.
 Built on Base UI Popover (focus management, Escape to close, outside click and positioning come from there).
@@ -2190,8 +2189,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## Menu
 
-A dropdown list of actions, links, grouped items, selections and one-level submenus, built on Base UI
-Menu (arrow keys, typeahead, focus return and Escape come from there). Items with `href` are real
+A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands. Items with `href` are real
 links; items with `onSelect` are actions. The trigger icons follow its button size; menu items use
 clear, 20px icons for better scanability.
 
@@ -2260,7 +2258,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## Accordion
 
-Collapsible sections built on Base UI Accordion. Each title is a button inside an `h3`
+A vertically stacked set of interactive headings that each reveal a section of content. Each title is a button inside an `h3`
 (`aria-expanded` and `aria-controls` come from Base UI). Pass `items` instead of composing parts.
 The plus/minus sign sits at the end: its vertical stroke collapses while opening.
 
@@ -2477,7 +2475,7 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## Breadcrumb
 
-Where the current page sits in the site. Renders `nav > ol` and marks the last item with
+Displays the path to the current resource using a hierarchy of links. Renders `nav > ol` and marks the last item with
 `aria-current="page"`. Links use whatever `LinkProvider` provides (`next/link` in this app).
 
 - Category: navigation
@@ -2545,7 +2543,7 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## Progress
 
-Progress of a task, built on Base UI Progress (`role="progressbar"` with `aria-valuenow`).
+Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
 For a quick wait with no known end, prefer `Spinner`; for a value the user sets, use `Slider`.
 
 - Category: feedback
@@ -2577,7 +2575,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## Slider
 
-Pick a number, or a range, by dragging or with arrow keys. Built on Base UI Slider (each thumb is an
+An input where the user selects a value from within a given range. Built on Base UI Slider (each thumb is an
 `input type="range"`). For a short list of exact choices use `Select`; for typing a number, use `Input`.
 Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.
 
@@ -2625,7 +2623,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## Label
 
-A visible label for a form control, in the shared `label` text style.
+Renders an accessible label associated with controls.
 Prefer `Field`, which also wires the description, error and required state.
 Use this when you build a custom composition outside Field.
 
@@ -2732,7 +2730,7 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## Collapsible
 
-Root for a single disclosure. Compose it with `CollapsibleTrigger` and `CollapsibleContent`.
+An interactive component which expands/collapses a panel. Compose it with `CollapsibleTrigger` and `CollapsibleContent`.
 
 - Category: navigation
 - Base: Built on Base UI (@base-ui/react)
@@ -2807,7 +2805,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## ToggleGroup
 
-A set of related toggles with shared state, built on Base UI Toggle Group. It handles arrow-key
+A set of related toggles with shared state. It handles arrow-key
 navigation and the selected values, so do not wire them by hand. Items inherit `size`.
 
 Selection is single by default; add `multiple` for several. `value` and `defaultValue` are always
@@ -2882,7 +2880,9 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## Toggle
 
-A button with an on/off state (`aria-pressed`), built on Base UI Toggle. Use it for a state the
+A two-state button that can be either on or off.
+
+ Use it for a state the
 person flips on the spot: bold, a filter, mute. For a setting that applies immediately and is
 read as a setting (dark mode, notifications), use `Switch`. To pick among related options, use
 `ToggleGroup`.
@@ -3051,8 +3051,7 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ## CodeBlock
 
-Preformatted code with syntax highlighting, an icon-only copy button and optional tabs for
-alternatives such as bun, pnpm and npm. Colors come from semantic `--syntax-*` tokens, so light
+Displays code, terminal output and diffs with an optional header, line numbers and a copy button.. Colors come from semantic `--syntax-*` tokens, so light
 and dark work without extra code. Unknown languages are shown as plain text.
 
 - Category: typography
@@ -3309,7 +3308,7 @@ show({ title: "Saved", tone: "success" });
 | `--text-body-lg-style` |  | `var(--font-style-body)` |
 | `--text-body-lg-family` |  | `var(--font-family-sans)` |
 | `--text-body-size` |  | `var(--font-size-15)` |
-| `--text-body-line` |  | `1.6` |
+| `--text-body-line` |  | `1.5` |
 | `--text-body-weight` |  | `var(--font-weight-regular)` |
 | `--text-body-tracking` |  | `0em` |
 | `--text-body-style` |  | `var(--font-style-body)` |

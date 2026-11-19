@@ -3,6 +3,18 @@
   position: relative;
 }
 
+.touchTarget::after,
+.touchTargetBefore::before {
+  content: "";
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100%, var(--size-target-comfortable));
+  height: max(100%, var(--size-target-comfortable));
+  transform: translate(-50%, -50%);
+}
+
 @media (pointer: coarse) {
   .touchTarget,
   .touchTargetBefore {
@@ -11,25 +23,13 @@
 
   .touchTarget::after,
   .touchTargetBefore::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: max(100%, var(--size-target-comfortable));
-    height: max(100%, var(--size-target-comfortable));
-    transform: translate(-50%, -50%);
+    display: block;
   }
 }
 
 [data-touch-debug] .touchTarget::after,
 [data-touch-debug] .touchTargetBefore::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: max(100%, var(--size-target-comfortable));
-  height: max(100%, var(--size-target-comfortable));
-  transform: translate(-50%, -50%);
+  display: block;
   outline: var(--border-width-thick) dashed var(--color-brand-solid);
   background: color-mix(in oklab, var(--color-brand-solid) 10%, transparent);
   pointer-events: none;

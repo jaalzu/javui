@@ -47,7 +47,7 @@ export type BadgeProps = {
 } & Omit<ComponentProps<"span">, "color" | "className" | "render">;
 
 /**
- * Small status, category or count label. Text is always the primary signal; the
+ * Displays a badge or a component that looks like a badge. Text is always the primary signal; the
  * variant only reinforces it.
  *
  * Keep the text to one or two words and truncate counts to two digits (`99+`).
@@ -95,7 +95,10 @@ export function Badge({
   const ariaLabel = rest["aria-label"];
   const role =
     rest.role ??
-    (!render && position === "only" && typeof ariaLabel === "string" && ariaLabel.trim()
+    (!render &&
+    position === "only" &&
+    typeof ariaLabel === "string" &&
+    ariaLabel.trim()
       ? "img"
       : undefined);
 

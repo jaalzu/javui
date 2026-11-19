@@ -15,7 +15,7 @@ export type LabelProps = {
 } & Omit<ComponentPropsWithoutRef<"label">, "className" | "children">;
 
 /**
- * A visible label for a form control, in the shared `label` text style.
+ * Renders an accessible label associated with controls.
  * Prefer `Field`, which also wires the description, error and required state.
  * Use this when you build a custom composition outside Field.
  *

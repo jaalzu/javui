@@ -19,7 +19,7 @@ export type SpinnerProps = {
 const BARS = 12;
 
 /**
- * Indeterminate loading indicator. Twelve thick bars sit around a circle and light up in
+ * An indicator that can be used to show a loading state. Twelve thick bars sit around a circle and light up in
  * sequence, leaving a fading trail that reads as rotation.
  *
  * Use it only when the wait is expected to last more than a second; for shorter operations it

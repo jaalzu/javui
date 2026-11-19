@@ -20,7 +20,7 @@ export const examples: Example[] = [
     <Alert title="A new dashboard is available">
       Your reports moved to the new overview.
     </Alert>,
-    "The neutral tone for a general message.",
+    "A basic alert with icon, title and description.",
   ),
   ex(
     "Error",
@@ -59,6 +59,6 @@ export const examples: Example[] = [
     <Alert title="Beta" className={styles.custom}>
       This page is part of the beta program.
     </Alert>,
-    "The example keeps its custom tone in Alert.examples.module.css, separate from the Alert component styles.",
+    "You can customize the alert colors by overwriting the css",
   ),
 ];

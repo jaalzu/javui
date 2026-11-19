@@ -18,12 +18,7 @@
 }
 
 .prose h2 {
-  margin-top: var(--space-12);
-  scroll-margin-top: 5rem;
-}
-
-.prose h3 {
-  margin-top: var(--space-8);
+  margin-top: var(--space-10);
   scroll-margin-top: 5rem;
 }
 
@@ -34,20 +29,12 @@
 
 .prose > ul:not([class]),
 .prose > ol:not([class]) {
-  padding-left: var(--space-6);
+  padding-left: var(--space-5);
 }
 
 .prose > ul:not([class]) > li + li,
 .prose > ol:not([class]) > li + li {
   margin-top: var(--space-2);
-}
-
-.prose code:not(pre code) {
-  padding: 0.1em 0.35em;
-  border-radius: var(--radius-sm);
-  background: var(--color-component);
-  font-family: var(--text-code-family);
-  font-size: 0.9em;
 }
 
 .docHeader {
@@ -59,6 +46,7 @@
 .docTitleRow {
   display: flex;
   align-items: center;
+
   justify-content: space-between;
   gap: var(--space-4);
   flex-wrap: wrap;
@@ -83,14 +71,7 @@ a.iconBtn {
   margin: 0;
   color: var(--color-secondary-foreground);
   font-size: var(--text-body-lg-size);
-  line-height: var(--text-body-lg-line);
-}
-
-.preview {
-  background: var(--color-card);
-  padding: var(--space-6);
-  border: var(--border-width-thin) solid var(--color-border-default);
-  border-radius: var(--radius-lg);
+  line-height: var(--text-body-line);
 }
 
 .pager {
@@ -103,8 +84,8 @@ a.iconBtn {
 a.pagerLink {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
-  padding: var(--space-5) var(--space-6);
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-6);
   border: var(--border-width-thin) solid var(--color-border-default);
   border-radius: var(--radius-lg);
   color: var(--color-primary-foreground);
@@ -127,7 +108,6 @@ a.pagerNext {
 .pagerLabel {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
   color: var(--color-secondary-foreground);
   font-size: var(--text-body-sm-size);
 }
@@ -159,8 +139,4 @@ a.pagerNext {
 .example :global(h5),
 .example :global(h6) {
   margin: 0;
-}
-
-.prose section > h3 {
-  margin-top: 0;
 }

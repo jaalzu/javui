@@ -48,11 +48,18 @@ export type SelectProps = {
   className?: string;
 } & Pick<
   BaseSelect.Root.Props<string, false>,
-  "value" | "defaultValue" | "onValueChange" | "name" | "disabled" | "required" | "readOnly" | "id"
+  | "value"
+  | "defaultValue"
+  | "onValueChange"
+  | "name"
+  | "disabled"
+  | "required"
+  | "readOnly"
+  | "id"
 >;
 
 /**
- * A custom select, built on Base UI Select (keyboard, typeahead, focus and form value come from there).
+ * Displays a list of options for the user to pick from triggered by a button.
  * Pass `items` instead of composing parts; items can include `description` and a `group` heading.
  * Groups are separated by space and a heading, never by a rule. Long lists keep a compact height
  * and hide the scrollbar. Inside `Field` it inherits `required`, `readOnly` and `loading`.
@@ -100,8 +107,10 @@ export function Select({
       required={required}
       {...rest}
     >
-      <div className={cx(styles.wrapper, className)}>
-        {label ? <BaseSelect.Label className={styles.label}>{label}</BaseSelect.Label> : null}
+      <div className={cx(styles.wrapper, className)} data-group-face="select">
+        {label ? (
+          <BaseSelect.Label className={styles.label}>{label}</BaseSelect.Label>
+        ) : null}
         <BaseSelect.Trigger
           className={cx(styles.trigger, styles[size])}
           aria-label={ariaLabel}
@@ -113,7 +122,10 @@ export function Select({
           data-size={size}
         >
           <IconSlot>{startIcon}</IconSlot>
-          <BaseSelect.Value className={styles.value} placeholder={placeholder} />
+          <BaseSelect.Value
+            className={styles.value}
+            placeholder={placeholder}
+          />
           {loading ? (
             <span className={styles.spinnerSlot}>
               <Spinner
@@ -132,9 +144,15 @@ export function Select({
         </BaseSelect.Trigger>
       </div>
       <BaseSelect.Portal>
-        <BaseSelect.Positioner className={styles.positioner} sideOffset={4} alignItemWithTrigger={false}>
+        <BaseSelect.Positioner
+          className={styles.positioner}
+          sideOffset={4}
+          alignItemWithTrigger={false}
+        >
           <BaseSelect.Popup className={styles.popup} data-size={size}>
-            <BaseSelect.List className={styles.list}>{renderItems(items)}</BaseSelect.List>
+            <BaseSelect.List className={styles.list}>
+              {renderItems(items)}
+            </BaseSelect.List>
           </BaseSelect.Popup>
         </BaseSelect.Positioner>
       </BaseSelect.Portal>
@@ -152,10 +170,17 @@ function renderItems(items: SelectItem[]) {
 
   return chunks.map((chunk, index) => {
     const itemNodes = chunk.items.map((item) => (
-      <BaseSelect.Item key={item.value} value={item.value} disabled={item.disabled} className={styles.item}>
+      <BaseSelect.Item
+        key={item.value}
+        value={item.value}
+        disabled={item.disabled}
+        className={styles.item}
+      >
         <BaseSelect.ItemText className={styles.itemText}>
           <span>{item.label}</span>
-          {item.description ? <span className={styles.itemDescription}>{item.description}</span> : null}
+          {item.description ? (
+            <span className={styles.itemDescription}>{item.description}</span>
+          ) : null}
         </BaseSelect.ItemText>
         <BaseSelect.ItemIndicator className={styles.itemIndicator}>
           <CheckIcon />
@@ -164,8 +189,15 @@ function renderItems(items: SelectItem[]) {
     ));
 
     return (
-      <BaseSelect.Group key={`${chunk.group ?? "ungrouped"}-${index}`} className={styles.group}>
-        {chunk.group ? <BaseSelect.GroupLabel className={styles.groupLabel}>{chunk.group}</BaseSelect.GroupLabel> : null}
+      <BaseSelect.Group
+        key={`${chunk.group ?? "ungrouped"}-${index}`}
+        className={styles.group}
+      >
+        {chunk.group ? (
+          <BaseSelect.GroupLabel className={styles.groupLabel}>
+            {chunk.group}
+          </BaseSelect.GroupLabel>
+        ) : null}
         {itemNodes}
       </BaseSelect.Group>
     );

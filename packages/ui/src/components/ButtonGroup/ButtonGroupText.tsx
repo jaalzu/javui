@@ -22,6 +22,7 @@ export function ButtonGroupText({ children, className }: ButtonGroupTextProps) {
   return (
     <div
       data-button-group-text=""
+      data-group-face=""
       className={cx(styles.text, className)}
     >
       {children}

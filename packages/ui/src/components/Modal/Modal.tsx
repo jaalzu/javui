@@ -254,8 +254,8 @@ export type ModalContentProps = {
 
 /**
  * The modal panel: header, scrollable body and footer. It reads the role and description from
- * `Modal`. The footer stacks on mobile with the primary action on top, and sits in one row from
- * the `md` breakpoint.
+ * `Modal`. The footer stays in one row and only stacks with the primary action on top when the
+ * dialog itself is narrower than 300px, not when the viewport is small.
  *
  * @example
  * <ModalContent

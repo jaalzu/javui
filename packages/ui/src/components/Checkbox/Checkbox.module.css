@@ -107,10 +107,17 @@
 
 .checkIcon {
   display: inline;
+  /* The glyph is 12px on a 256 grid: a 21.33 unit stroke adds 1px of weight. */
+  stroke: currentColor;
+  stroke-width: 21.33px;
+  stroke-linejoin: round;
 }
 
 .minusIcon {
   display: none;
+  stroke: currentColor;
+  stroke-width: 21.33px;
+  stroke-linejoin: round;
 }
 
 .box[data-indeterminate] .checkIcon {

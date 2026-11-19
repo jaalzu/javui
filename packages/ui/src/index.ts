@@ -147,7 +147,12 @@ export type { PopoverTriggerProps, PopoverContentProps, PopoverCloseProps } from
 export { Menu, MenuBar } from "./components/Menu";
 export type { MenuProps, MenuBarProps, MenuEntry, MenuItem, MenuSeparator } from "./components/Menu";
 export { ToastProvider, useToast } from "./components/Toast";
-export type { ToastOptions, ToastTone } from "./components/Toast";
+export type {
+  ToastOptions,
+  ToastPromiseOptions,
+  ToastProviderProps,
+  ToastTone,
+} from "./components/Toast";
 
 // Content, data and navigation helpers
 export { Accordion } from "./components/Accordion";

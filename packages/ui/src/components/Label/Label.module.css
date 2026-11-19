@@ -10,14 +10,6 @@
   letter-spacing: var(--text-label-tracking);
 }
 
-.required {
-  color: var(--color-secondary-foreground);
-  font-family: var(--text-caption-lg-family);
-  font-size: var(--text-caption-lg-size);
-  line-height: var(--text-caption-lg-line);
-  font-weight: var(--font-weight-regular);
-}
-
 .disabled {
   color: var(--color-disabled-foreground);
   cursor: not-allowed;

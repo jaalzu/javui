@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync } from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -43,5 +43,15 @@ mkdirSync(path.join(path.resolve(path.dirname(fileURLToPath(import.meta.url)), "
 writeFileSync(path.join(path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".."), "src/icons/icons.generated.tsx"), out);
 mkdirSync("agent", { recursive: true });
 writeFileSync(path.join(path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".."), "agent/icons.json"), JSON.stringify(meta, null, 2));
+
+// Keep the docs app copy in sync when this runs inside the workspace.
+const docsPublicDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../../apps/docs/public");
+if (existsSync(docsPublicDir)) {
+  mkdirSync(path.join(docsPublicDir, "agent"), { recursive: true });
+  copyFileSync(
+    path.join(path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".."), "agent/icons.json"),
+    path.join(docsPublicDir, "agent/icons.json"),
+  );
+}
 
 console.log(`generated ${meta.length} icons: src/icons/icons.generated.tsx + agent/icons.json`);

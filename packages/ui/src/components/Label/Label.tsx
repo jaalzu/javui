@@ -1,5 +1,6 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { cx } from "../../utils/cx";
+import { RequiredMark } from "../Field/RequiredMark";
 import styles from "./Label.module.css";
 
 export type LabelProps = {
@@ -7,7 +8,7 @@ export type LabelProps = {
   children: ReactNode;
   /** The id of the control this label belongs to. */
   htmlFor?: string;
-  /** Prints "Required" after the text. The control still needs its own `required` attribute. @default false */
+  /** Adds a red asterisk after the text. The control still needs its own `required` attribute. @default false */
   required?: boolean;
   /** Dims the label and removes the pointer cursor. Use only when the control is disabled. @default false */
   disabled?: boolean;
@@ -37,7 +38,7 @@ export function Label({
       {...rest}
     >
       {children}
-      {required ? <span className={styles.required}>Required</span> : null}
+      {required ? <RequiredMark /> : null}
     </label>
   );
 }

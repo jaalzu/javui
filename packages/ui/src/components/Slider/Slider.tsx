@@ -7,7 +7,7 @@ import { Spinner } from "../Spinner";
 import { FieldError } from "../Field/FieldError";
 import type { FieldErrorProp } from "../Field/fieldErrors";
 import { useControlValidation } from "../Field/useControlValidation";
-import fieldStyles from "../Field/Field.module.css";
+import { RequiredMark } from "../Field/RequiredMark";
 import styles from "./Slider.module.css";
 
 const valueKeys = new Set([
@@ -30,7 +30,7 @@ export type SliderProps = {
    */
   error?: FieldErrorProp;
   /**
-   * The slider must have a value before the form can be submitted. The label prints "Required".
+   * The slider must have a value before the form can be submitted. The label adds a red asterisk.
    * Inside `Field`, omit it and pass `required` to the Field instead. @default false
    */
   required?: boolean;
@@ -148,7 +148,7 @@ export function Slider({
             {state.showRequired ? (
               <>
                 {" "}
-                <span className={fieldStyles.required}>Required</span>
+                <RequiredMark />
               </>
             ) : null}
           </BaseSlider.Label>

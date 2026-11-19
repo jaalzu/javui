@@ -22,13 +22,27 @@
   line-height: var(--text-label-line);
   font-weight: var(--text-label-weight);
 }
+.required {
+  color: var(--color-danger-foreground);
+  font-family: var(--text-caption-lg-family);
+  font-size: var(--text-caption-lg-size);
+  line-height: var(--text-caption-lg-line);
+  font-weight: var(--font-weight-regular);
+}
 .fieldSeparator {
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  min-inline-size: 0;
 }
 .separatorLine {
   flex: 1;
+}
+.fieldSeparator .separatorLine[data-orientation="horizontal"] {
+  flex: 1 1 0;
+  inline-size: auto;
+  max-inline-size: none;
+  min-inline-size: 0;
 }
 
 .field[data-orientation="horizontal"] {

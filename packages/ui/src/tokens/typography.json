@@ -196,6 +196,10 @@
       "line": {
         "$value": "1.6"
       },
+      "line-tight": {
+        "$value": "1.4",
+        "$description": "Tighter leading for a short lead sentence under a page title."
+      },
       "weight": {
         "$value": "{font.weight.regular}"
       },

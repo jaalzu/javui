@@ -5,6 +5,7 @@ import { Field as BaseField } from "@base-ui/react/field";
 import { cx } from "../../utils/cx";
 import { FieldControlContext } from "./FieldContext";
 import { FieldErrorMessages } from "./FieldErrorMessages";
+import { RequiredMark } from "./RequiredMark";
 import { normalizeFieldErrors, type FieldErrorProp } from "./fieldErrors";
 import styles from "./Field.module.css";
 import labelStyles from "../Label/Label.module.css";
@@ -28,7 +29,7 @@ export type FieldProps = {
   /** Return to vertical below this breakpoint (`sm` = 40rem, `md` = 48rem). */
   stackBelow?: "sm" | "md";
   /**
-   * Marks the control as required and prints "Required" next to the label. The control also gets
+   * Marks the control as required and marks the label with a red asterisk. The control also gets
    * `required` so browsers and assistive technology enforce it. @default false
    */
   required?: boolean;
@@ -60,7 +61,7 @@ export type FieldProps = {
  * Wraps one control with its label, description and error, wired for accessibility by Field
  * (`label` association, `aria-describedby`, `aria-invalid`). Pass `error`, `required`, `readOnly` and
  * `loading` here; never wire `aria-describedby` or show a loose red error text by hand. When the
- * control renders its own label or legend, omit `label`; the control prints Required and keeps its
+ * control renders its own label or legend, omit `label`; the control marks its label with a red asterisk and keeps its
  * accessible name.
  *
  * Errors are shown after the field is blurred or the form is submitted, not on the first keystroke.
@@ -123,7 +124,7 @@ export function Field({
       {hasLabel ? (
         <BaseField.Label className={cx(labelStyles.label, styles.label)}>
           {label}
-          {required ? <span className={labelStyles.required}>Required</span> : null}
+          {required ? <RequiredMark /> : null}
         </BaseField.Label>
       ) : null}
       <FieldControlContext.Provider value={context}><div className={styles.control}>{children}</div></FieldControlContext.Provider>

@@ -1,3 +1,19 @@
-.separator { border: 0; flex: 0 0 auto; background: var(--color-border-default); }
-.separator[data-orientation="horizontal"] { inline-size: 100%; block-size: var(--border-width-thin); }
-.separator[data-orientation="vertical"] { inline-size: var(--border-width-thin); block-size: auto; align-self: stretch; }
+.separator {
+  box-sizing: border-box;
+  flex: 0 1 auto;
+  min-inline-size: 0;
+  border: 0;
+  background: var(--color-border-default);
+}
+.separator[data-orientation="horizontal"] {
+  inline-size: 100%;
+  max-inline-size: 100%;
+  block-size: var(--border-width-thin);
+}
+.separator[data-orientation="vertical"] {
+  flex: 0 0 auto;
+  inline-size: var(--border-width-thin);
+  max-inline-size: var(--border-width-thin);
+  block-size: auto;
+  align-self: stretch;
+}

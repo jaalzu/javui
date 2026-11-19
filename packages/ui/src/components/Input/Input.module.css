@@ -45,42 +45,43 @@
   box-shadow: var(--shadow-field);
 }
 
-.wrapper[data-variant="ghost"] .input:hover:not(:focus):not(:disabled):not(
+.wrapper[data-variant="ghost"]
+  .input:hover:not(:focus):not(:disabled):not([data-disabled]):not(
+    [data-readonly]
+  ):not([data-loading]),
+.wrapper[data-variant="ghost"]
+  .input[data-force="hover"]:not(:focus):not(:disabled):not(
     [data-disabled]
-  ):not([data-readonly]):not([data-loading]),
-.wrapper[data-variant="ghost"] .input[data-force="hover"]:not(:focus):not(
-    :disabled
-  ):not([data-disabled]):not([data-readonly]):not([data-loading]) {
+  ):not([data-readonly]):not([data-loading]) {
   background: var(--color-transparent-hover);
 }
 
-.wrapper[data-variant="inline"] .input:hover:not(:focus):not(:disabled):not(
-    [data-disabled]
-  ):not([data-readonly]):not([data-loading]) {
+.wrapper[data-variant="inline"]
+  .input:hover:not(:focus):not(:disabled):not([data-disabled]):not(
+    [data-readonly]
+  ):not([data-loading]) {
   background: transparent;
 }
 
 .input[type="file"] {
-  padding-block-start: calc(var(--space-1) / 8);
-  padding-block-end: 0;
+  padding-block: 0;
   padding-inline: var(--space-1);
-  line-height: var(--size-control-sm);
+  line-height: var(--control-h, var(--size-control-md));
   text-align: start;
-  text-align-last: start;
-  transform: translateY(calc(var(--space-1) / 4));
+  transform: none;
 }
 
 .input[type="file"]::file-selector-button {
-  margin-inline-end: var(--space-1);
-  padding-inline: var(--space-1);
+  margin-inline-end: var(--space-2);
+  padding-inline: var(--space-2);
   border: 0;
   background: transparent;
   color: inherit;
   font-family: var(--text-body-sm-family);
   font-size: var(--text-body-sm-size);
-  line-height: var(--text-body-sm-line);
-  vertical-align: middle;
-  transform: translateY(calc(var(--space-1) / 8));
+  line-height: var(--control-h, var(--size-control-md));
+  vertical-align: top;
+  cursor: pointer;
 }
 
 .wrapper[data-icon="start"] .input,
@@ -138,4 +139,3 @@
   composes: xs from "../../styles/control.module.css";
   min-height: var(--size-control-xs);
 }
-

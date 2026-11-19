@@ -31,6 +31,7 @@ export type TooltipProps = {
   delay?: number;
   /** Milliseconds to wait before closing. */
   closeDelay?: number;
+  /** Extra class for the popup, for example to widen the text. */
   className?: string;
   /** Keeps the tooltip open for documentation previews. */
   open?: boolean;
@@ -38,6 +39,25 @@ export type TooltipProps = {
   defaultOpen?: boolean;
 };
 
+/**
+ * A short, supplementary label shown on hover or keyboard focus. The trigger is the single child:
+ * it must be focusable and keep its own accessible name. Use it to clarify an icon button or add a
+ * hint, never to hold information the user needs to complete the task.
+ *
+ * The tooltip flips to the opposite side when there is no room. Put it under a `TooltipProvider`
+ * to share one open delay across the page.
+ *
+ * @example
+ * <Tooltip content="Saved">
+ *   <Button variant="secondary" aria-label="Saved" startIcon={<CheckIcon />} />
+ * </Tooltip>
+ * <Tooltip content="Add to library" side="right">
+ *   <Button variant="secondary">Hover</Button>
+ * </Tooltip>
+ * <Tooltip content="This feature is not available yet">
+ *   <span><Button disabled>Disabled</Button></span>
+ * </Tooltip>
+ */
 export function Tooltip({
   content,
   children,

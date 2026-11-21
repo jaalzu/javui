@@ -6,15 +6,13 @@
   text-decoration-thickness: var(--border-width-thin);
   text-underline-offset: 0.2em;
   border-radius: var(--radius-sm);
-  transition:
-    text-decoration-color var(--motion-duration-fast) var(--motion-easing-standard),
-    text-decoration-thickness var(--motion-duration-fast) var(--motion-easing-standard);
+  transition: text-decoration-color var(--motion-duration-slow)
+    var(--motion-easing-standard);
 }
 
 .link:hover,
 .link[data-force="hover"] {
-  text-decoration-color: currentColor;
-  text-decoration-thickness: var(--border-width-thick);
+  text-decoration-color: var(--color-primary-foreground);
 }
 
 .link[data-disabled] {
@@ -54,6 +52,10 @@
 
 .muted {
   color: var(--color-secondary-foreground);
+  transition:
+    color var(--motion-duration-slow) var(--motion-easing-standard),
+    text-decoration-color var(--motion-duration-slow)
+      var(--motion-easing-standard);
 }
 
 .muted:hover {

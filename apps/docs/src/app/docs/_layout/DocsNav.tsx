@@ -1,8 +1,8 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { usePathname } from "next/navigation";
-import { CaretDownIcon, Link } from "@javui/ui";
+import { Link } from "@javui/ui";
 import layout from "./DocsLayout.module.css";
 import {
   componentLinks,
@@ -38,9 +38,25 @@ function Group({ title, links, pathname, spaced = false }: { title: string; link
   );
 }
 
-function DisclosureGroup({ title, href, links, pathname }: { title: string; href: string; links: NavLink[]; pathname: string }) {
-  const active = pathname === href || links.some((link) => pathname === link.href);
-  const [open, setOpen] = useState(active);
+type DisclosureSection = { title: string; href: string; links: NavLink[] };
+
+const disclosureSections: DisclosureSection[] = [
+  { title: "Foundations", href: "/docs/foundations", links: foundationSections },
+  {
+    title: "Layout & Utilities",
+    href: "/docs/layout-utilities",
+    links: [...layoutSections, ...layoutComponentLinks],
+  },
+];
+
+function DisclosureGroup({
+  title,
+  href,
+  links,
+  pathname,
+  open,
+  onOpen,
+}: DisclosureSection & { pathname: string; open: boolean; onOpen: () => void }) {
   const contentId = useId();
 
   return (
@@ -48,36 +64,39 @@ function DisclosureGroup({ title, href, links, pathname }: { title: string; href
       <Link
         href={href}
         tone="inherit"
-        endIcon={<CaretDownIcon />}
-        className={`${layout.sideLink} ${layout.sideDisclosureTrigger}`}
+        className={layout.sideLink}
         aria-expanded={open}
         aria-current={pathname === href ? "page" : undefined}
         aria-controls={contentId}
         onClick={(event) => {
-          if (pathname === href) {
-            event.preventDefault();
-            setOpen((value) => !value);
-          } else {
-            setOpen(true);
-          }
+          // A second click on the current group does nothing: it never collapses.
+          if (pathname === href) event.preventDefault();
+          if (!open) onOpen();
         }}
       >{title}</Link>
-      {open && (
-        <ul id={contentId} className={`${layout.sideList} ${layout.sideDisclosureList}`}>
-          {links.map((l) => (
-            <li key={l.href}>
-              <Link
-                href={l.href}
-                tone="inherit"
-                className={layout.sideLink}
-                aria-current={pathname === l.href ? "page" : undefined}
-              >
-                {l.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
+      {/* Kept mounted so both opening and closing can animate smoothly. */}
+      <div
+        className={layout.sideDisclosurePanel}
+        data-open={open ? "" : undefined}
+        inert={!open}
+      >
+        <div className={layout.sideDisclosureClip}>
+          <ul id={contentId} className={`${layout.sideList} ${layout.sideDisclosureList}`}>
+            {links.map((l) => (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  tone="inherit"
+                  className={layout.sideLink}
+                  aria-current={pathname === l.href ? "page" : undefined}
+                >
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }
@@ -85,11 +104,34 @@ function DisclosureGroup({ title, href, links, pathname }: { title: string; href
 /** The documentation index: sections, components, then providers and hooks. */
 export function DocsNav() {
   const pathname = usePathname();
+  const activeDisclosureHref = disclosureSections.find(
+    (section) =>
+      pathname === section.href ||
+      section.links.some((link) => pathname === link.href),
+  )?.href;
+  // Only one group is open at a time: opening one closes the other.
+  const [openHref, setOpenHref] = useState<string | null>(
+    activeDisclosureHref ?? null,
+  );
+
+  // Follow the route: open the group that owns the page and close everything
+  // when the page does not belong to a disclosure group.
+  useEffect(() => {
+    setOpenHref(activeDisclosureHref ?? null);
+  }, [activeDisclosureHref, pathname]);
+
   return (
     <nav aria-label="Documentation">
       <Group title="Getting started" links={generalSections} pathname={pathname} />
-      <DisclosureGroup title="Foundations" href="/docs/foundations" links={foundationSections} pathname={pathname} />
-      <DisclosureGroup title="Layout & Utilities" href="/docs/layout-utilities" links={[...layoutSections, ...layoutComponentLinks]} pathname={pathname} />
+      {disclosureSections.map((section) => (
+        <DisclosureGroup
+          key={section.href}
+          {...section}
+          pathname={pathname}
+          open={openHref === section.href}
+          onOpen={() => setOpenHref(section.href)}
+        />
+      ))}
       <Group title="Components" links={[{ ...componentsIndex, label: "All components" }, ...componentLinks]} pathname={pathname} spaced />
       <Group title="Providers and hooks" links={providerLinks} pathname={pathname} spaced />
       <Group title="More" links={generalSectionsEnd} pathname={pathname} spaced />

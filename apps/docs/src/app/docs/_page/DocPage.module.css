@@ -86,7 +86,7 @@ a.pagerLink {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
-  padding: var(--space-4) var(--space-6);
+  padding: calc(var(--space-4) - 1px) var(--space-6);
   border: var(--border-width-thin) solid var(--color-border-default);
   border-radius: var(--radius-lg);
   color: var(--color-primary-foreground);
@@ -106,14 +106,10 @@ a.pagerNext {
   text-align: end;
 }
 
-.pagerLabel {
+.pagerTitle {
   display: inline-flex;
   align-items: center;
-  color: var(--color-secondary-foreground);
-  font-size: var(--text-body-sm-size);
-}
-
-.pagerTitle {
+  gap: var(--space-2);
   font-size: var(--font-size-18);
   font-weight: var(--font-weight-semibold);
   letter-spacing: -0.01em;

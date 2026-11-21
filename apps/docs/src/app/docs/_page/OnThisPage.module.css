@@ -1,5 +1,7 @@
 /* ---------- On this page rail ---------- */
 .trigger {
+  position: fixed;
+  top: 5rem;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -11,7 +13,6 @@
   color: inherit;
   cursor: pointer;
 }
-
 .trigger:focus-visible {
   outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
   outline-offset: var(--focus-ring-offset);
@@ -23,6 +24,8 @@
   height: var(--border-width-thick);
   border-radius: var(--radius-full);
   background-color: var(--color-border-strong);
+  transition: background-color var(--motion-duration-slow)
+    var(--motion-easing-standard);
 }
 
 .line[data-active] {
@@ -75,8 +78,7 @@
   line-height: var(--text-body-sm-line);
   text-decoration: none;
   transition:
-    background-color var(--motion-duration-fast)
-    var(--motion-easing-standard),
+    background-color var(--motion-duration-fast) var(--motion-easing-standard),
     color var(--motion-duration-fast) var(--motion-easing-standard);
 }
 

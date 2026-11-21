@@ -12,7 +12,7 @@ import {
 } from "@/app/docs/_layout/nav";
 import { MobileNav } from "@/app/_shell/MobileNav/MobileNav";
 import { Search, type SearchItem } from "@/app/_shell/Search/Search";
-import { Mark, Wordmark } from "@/app/_shell/Logo/Logo";
+import { Mark } from "@/app/_shell/Logo/Logo";
 import { repoUrl, siteName } from "@/app/_config/site-config";
 import { HideOnScroll } from "./HideOnScroll";
 import { ThemeSwitcher } from "@/app/_shell/ThemeSwitcher/ThemeSwitcher";
@@ -95,9 +95,6 @@ export function SiteHeader() {
           >
             <span className={styles.brandMark}>
               <Mark />
-            </span>
-            <span className={styles.brandWord}>
-              <Wordmark />
             </span>
           </Link>
           <nav aria-label="Main" className={styles.mainNav}>

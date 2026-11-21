@@ -1,5 +1,3 @@
-"use client";
-
 import type { ReactNode } from "react";
 import shell from "../../_shell/shell.module.css";
 import layout from "./DocsLayout.module.css";

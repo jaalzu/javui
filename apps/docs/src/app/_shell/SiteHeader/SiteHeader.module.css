@@ -79,6 +79,10 @@ a.brand {
 }
 
 @media (min-width: 48rem) {
+  .headerInner {
+    grid-template-columns: auto auto 1fr;
+    column-gap: var(--space-3);
+  }
   .menuSlot {
     display: none;
   }
@@ -90,6 +94,9 @@ a.brand {
     display: block;
     grid-column: 2;
     grid-row: 1;
+    justify-self: start;
+    position: relative;
+    top: 2px;
   }
   .githubLink {
     display: inline-flex;
@@ -106,29 +113,22 @@ a.brand {
 .navList {
   display: flex;
   gap: var(--space-1);
-  justify-content: center;
+  justify-content: flex-start;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.brandMark,
-.brandWord {
+.brandMark {
   display: inline-flex;
   align-items: center;
+  position: relative;
+  top: 1px;
 }
 
-/* Solo el isotipo hasta que la pantalla supera 90rem (1440px). */
-.brandWord {
-  display: none;
-}
-
-@media (min-width: 90rem) {
+@media (min-width: 48rem) {
   .brandMark {
-    display: none;
-  }
-  .brandWord {
-    display: inline-flex;
+    top: 0;
   }
 }
 

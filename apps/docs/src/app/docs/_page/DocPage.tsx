@@ -43,14 +43,12 @@ export function DocPage({ href, title, description, children }: DocPageProps) {
         <nav aria-label="Previous and next pages" className={styles.pager}>
           {prev ? (
             <Link href={prev.href} tone="inherit" className={styles.pagerLink}>
-              <span className={styles.pagerLabel}><CaretLeftIcon size="sm" />Previous</span>
-              <span className={styles.pagerTitle}>{prev.label}</span>
+              <span className={styles.pagerTitle}><CaretLeftIcon size="sm" />{prev.label}</span>
             </Link>
           ) : <span />}
           {next ? (
             <Link href={next.href} tone="inherit" className={`${styles.pagerLink} ${styles.pagerNext}`}>
-              <span className={styles.pagerLabel}>Next<CaretRightIcon size="sm" /></span>
-              <span className={styles.pagerTitle}>{next.label}</span>
+              <span className={styles.pagerTitle}>{next.label}<CaretRightIcon size="sm" /></span>
             </Link>
           ) : <span />}
         </nav>

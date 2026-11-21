@@ -16,8 +16,8 @@ export default function Home() {
             for humans and <span className={landing.heroMuted}>agents.</span>
           </p>
           <div className={landing.heroActions}>
-            <Button href="/docs/installation">Get started</Button>
-            <Button href="/docs/components" variant="secondary">
+            <Button href="/docs/installation" pill>Get started</Button>
+            <Button href="/docs/components" variant="secondary" pill>
               View components
             </Button>
           </div>

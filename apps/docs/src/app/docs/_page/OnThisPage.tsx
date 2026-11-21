@@ -33,6 +33,14 @@ export function OnThisPage() {
           current = item.id;
         }
       }
+      // At the bottom of the page the last headings can never reach the
+      // 120px line, so the last one is marked once the scroll is at the end.
+      const atBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 2;
+      if (atBottom && latest.length > 0) {
+        current = latest[latest.length - 1].id;
+      }
       setActive(current);
     };
 
@@ -135,10 +143,12 @@ export function OnThisPage() {
           ))}
         </Popover.Trigger>
         <Popover.Portal>
+          {/* The panel opens over the rail: its top-right corner sits on the rail's top-right corner. */}
           <Popover.Positioner
-            side="left"
-            align="start"
-            sideOffset={8}
+            side="bottom"
+            align="end"
+            sideOffset={({ anchor }) => -anchor.height}
+            positionMethod="fixed"
             className={styles.positioner}
           >
             <Popover.Popup className={styles.popup}>

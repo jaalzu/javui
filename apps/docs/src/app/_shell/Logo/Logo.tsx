@@ -8,11 +8,7 @@ type LogoImageProps = Omit<
 >;
 
 /**
- * Isotipo visible en todas las pantallas por debajo de 90rem (1440px),
- * además del diálogo del menú móvil.
- * Alterna entre `/logo/logo-white.svg` (tinta oscura, para tema claro)
- * y `/logo/logo-dark.svg` (tinta blanca, para tema oscuro) solo con CSS,
- * así no hay flash ni desajuste de hidratación con `next-themes`.
+ * Isotipo de la marca. Es el único logotipo del header (sin el texto "JAVUI").
  */
 export function Mark({ className, ...props }: LogoImageProps) {
   const cls = [styles.mark, className].filter(Boolean).join(" ");
@@ -42,37 +38,3 @@ export function Mark({ className, ...props }: LogoImageProps) {
   );
 }
 
-/**
- * Logotipo completo (icono + texto) solo en pantallas muy anchas.
- * Usa `bold1.svg` en tema claro y `bold.svg` en oscuro.
- * La visibilidad la sigue controlando `SiteHeader.module.css`
- * (`brandMark` / `brandWord` con breakpoint `90rem` = 1440px); por debajo
- * solo se muestra el isotipo.
- */
-export function Wordmark({ className, ...props }: LogoImageProps) {
-  const cls = [styles.wordmark, className].filter(Boolean).join(" ");
-  return (
-    <span className={cls} aria-hidden="true" data-testid="logo-wordmark">
-      <img
-        src="/logo/wordmark-light.svg"
-        alt=""
-        aria-hidden="true"
-        loading="eager"
-        decoding="async"
-        draggable={false}
-        className={styles.light}
-        {...props}
-      />
-      <img
-        src="/logo/wordmark.svg"
-        alt=""
-        aria-hidden="true"
-        loading="eager"
-        decoding="async"
-        draggable={false}
-        className={styles.dark}
-        {...props}
-      />
-    </span>
-  );
-}

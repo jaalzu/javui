@@ -32,15 +32,14 @@
     column-gap: var(--space-8);
   }
   .content {
+    grid-column: 2;
     padding-inline: var(--space-6);
   }
   .side {
-    width: 100%;
-    max-width: 15rem;
-    position: sticky;
-    /* The header is sticky, so its space stays reserved and the index must not shift. */
+    /* Fixed: it does not depend on the scroll. No left is set so it stays in its column. */
+    position: fixed;
     top: 5rem;
-    align-self: start;
+    width: 15rem;
     display: flex;
     height: calc(100vh - 7rem);
     max-height: 48rem;
@@ -67,13 +66,13 @@
     column-gap: var(--space-8);
     margin-inline: calc(-1 * var(--space-4) + 6px);
   }
+  .content {
+    grid-column: 2;
+  }
   .toc {
-    position: sticky;
-    top: 5rem;
-    align-self: start;
+    grid-column: 3;
     display: flex;
     justify-content: flex-end;
-    max-height: 42rem;
   }
 }
 
@@ -113,10 +112,11 @@ a.sideLink.sideDisclosureTrigger {
   justify-content: space-between;
   width: 100%;
   box-sizing: border-box;
+  font-size: var(--font-size-12);
 }
 
 .sideDisclosureTrigger svg {
-  color: var(--color-tertiary-foreground);
+  color: currentColor;
   transition: transform var(--motion-duration-fast)
     var(--motion-easing-standard);
 }
@@ -129,11 +129,58 @@ a.sideLink.sideDisclosureTrigger {
   gap: var(--space-1);
 }
 
+/* Tree guide: a trunk under the disclosure title with a branch into every child. */
+ul.sideDisclosureList {
+  position: relative;
+}
+
+ul.sideDisclosureList > li {
+  position: relative;
+}
+
+ul.sideDisclosureList > li::before,
+ul.sideDisclosureList > li::after {
+  content: "";
+  position: absolute;
+  background: var(--color-border-default);
+  pointer-events: none;
+}
+
+/* Vertical segment: from the previous item to the center of the last one. */
+ul.sideDisclosureList > li::before {
+  inset-inline-start: calc(-1 * var(--space-2));
+  top: calc(-1 * var(--space-1));
+  width: var(--border-width-thin);
+  height: calc(100% + var(--space-1));
+}
+
+ul.sideDisclosureList > li:first-child::before {
+  top: 0;
+  height: 100%;
+}
+
+ul.sideDisclosureList > li:last-child::before {
+  height: calc(50% + var(--space-1));
+}
+
+ul.sideDisclosureList > li:first-child:last-child::before {
+  top: 0;
+  height: 50%;
+}
+
+/* Horizontal branch into the item label. */
+ul.sideDisclosureList > li::after {
+  inset-inline-start: calc(-1 * var(--space-2));
+  top: 50%;
+  width: var(--space-2);
+  height: var(--border-width-thin);
+}
+
 .sideTitle {
-  margin: 0 0 var(--space-3) var(--space-3);
-  color: var(--color-secondary-foreground);
-  font-size: var(--text-body-sm-size);
-  font-weight: var(--font-weight-regular);
+  margin: 0 0 var(--space-3) calc(var(--space-3) - 4px);
+  color: var(--color-tertiary-foreground);
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-medium);
 }
 
 .sideTitleSpaced {
@@ -155,21 +202,20 @@ ul.sideList.sideDisclosureList {
 
 a.sideLink {
   display: block;
-  padding: var(--space-1) var(--space-3);
+  padding: var(--space-1) calc(var(--space-3) - 4px);
   border-radius: var(--radius-md);
-  color: var(--color-primary-foreground);
+  color: var(--color-tertiary-foreground);
   font-size: var(--text-body-sm-size);
   font-weight: var(--font-weight-medium);
   text-decoration: none;
-  transition: background-color var(--motion-duration-fast)
-    var(--motion-easing-standard);
+  transition: color var(--motion-duration-fast) var(--motion-easing-standard);
 }
 
 a.sideLink:hover {
-  background: var(--color-component);
+  color: var(--color-secondary-foreground);
   text-decoration: none;
 }
 
 a.sideLink[aria-current="page"] {
-  background: var(--color-component);
+  color: var(--color-primary-foreground);
 }

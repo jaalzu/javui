@@ -3,11 +3,12 @@ import { useLayoutEffect, type ReactNode } from 'react'
 import NextLink from 'next/link'
 import { LinkProvider } from '../src'
 
-// Same stylesheet as the app (src/app/layout.tsx): fonts, tokens and global body styles.
-// tokens.css is also pulled in by global.css; importing it again keeps this entry explicit.
-import '../src/tokens/tokens.css'
-import '../src/styles/global.css'
+import './globals.css'
 import '../src/tokens/tailwind.css'
+// The library ships no @font-face: Storybook loads the fonts the tokens reference.
+import '@fontsource-variable/dm-sans/opsz.css'
+import '@fontsource-variable/source-serif-4/opsz.css'
+import '@fontsource/commit-mono/400.css'
 
 /**
  * Mirrors `next-themes` in the app: `light`/`dark` set `data-theme` on <html>, `system`

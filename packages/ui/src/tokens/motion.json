@@ -10,7 +10,7 @@
       }
     },
     "easing": {
-      "$description": "Components must also respect prefers-reduced-motion (see global styles).",
+      "$description": "prefers-reduced-motion sets --motion-duration-* to ~0 in tokens.css so only library motion is affected. Spinner and Skeleton keep their own reduced-motion rules.",
       "standard": { "$value": "cubic-bezier(0.2, 0, 0, 1)" },
       "out": {
         "$value": "cubic-bezier(0.23, 1, 0.32, 1)",

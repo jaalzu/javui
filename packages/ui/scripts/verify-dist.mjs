@@ -39,6 +39,13 @@ for (const file of sourceClient) {
   if (!existsSync(target) || !/^\s*["']use client["']/.test(readFileSync(target, "utf8"))) failures.push(`${file}: missing use client directive`);
 }
 
+for (const file of files) {
+  const name = relative(dist, file).replaceAll("\\", "/");
+  if (name === "styles/base.css" || name === "styles/global.css" || name.endsWith("/base.css") || name.endsWith("/global.css")) {
+    failures.push(`${name}: must not ship`);
+  }
+}
+
 const index = existsSync(join(dist, "index.js")) ? readFileSync(join(dist, "index.js"), "utf8") : "";
 if (/\b(shiki|server-only)\b/.test(index)) failures.push("dist/index.js imports shiki or server-only");
 if (failures.length) {

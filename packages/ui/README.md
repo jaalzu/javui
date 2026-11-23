@@ -18,29 +18,25 @@ Import the token sheet first. Everything the library renders reads these variabl
 @import "@javui/ui/tokens.css";
 ```
 
-Optional, after the tokens:
+The package does not ship page styles: no `html`/`body` reset, no global `:focus-visible`, no fonts. Component CSS loads with each component. `@javui/ui/tailwind.css` is optional (see [Tailwind](#tailwind-optional)).
 
-- `@javui/ui/base.css` — document reset in `@layer base`: `box-sizing`, page background and body typography from tokens, the global `:focus-visible` ring, `::selection`, tabular numbers and the reduced-motion block.
-- `@javui/ui/fonts.css` — `@font-face` rules for DM Sans (with optical sizing and italics) and Commit Mono. Skip it to keep the system font fallbacks defined in the tokens.
-
-`@javui/ui/global.css` is the shortcut that imports `tokens.css`, `base.css` and `fonts.css` for you. `@javui/ui/tailwind.css` is separate and optional (see [Tailwind](#tailwind-optional)).
+The package ships no fonts and no `@font-face` rules. `--font-family-sans`, `--font-family-emphasis` and `--font-family-mono` name DM Sans, Source Serif 4 and Commit Mono first and fall back to the system stack, so load the fonts you want in your own app (this repository's docs use the `@fontsource` packages).
 
 Component styles live in CSS Modules and load automatically when you import the component. The package needs a bundler that processes CSS, such as Next.js or Vite.
 
 ### Tailwind v4
 
-Import in this canonical order: `tailwindcss`, `@javui/ui/tokens.css`, `@javui/ui/base.css`, `@javui/ui/tailwind.css`.
+Import in this canonical order: `tailwindcss`, `@javui/ui/tokens.css`, `@javui/ui/tailwind.css`.
 
 ```css
 @import "tailwindcss";
 @import "@javui/ui/tokens.css";
-@import "@javui/ui/base.css";
 @import "@javui/ui/tailwind.css";
 ```
 
-`base.css` is optional; when you use it, it goes after `tokens.css` and before `tailwind.css`. `@javui/ui/global.css` (`tokens.css` + `base.css` + `fonts.css`) replaces the middle two imports.
+Without Tailwind, import only `@javui/ui/tokens.css`.
 
-Component CSS ships in `@layer components`, and the package declares the layer order, so this works regardless of whether the library CSS loads before or after Tailwind. `base.css` is wrapped in `@layer base`; preflight sits there too, below components. Tailwind utilities sit in `utilities`, above both, so utilities such as `p-8` or `rounded-none` override component styles and document defaults. Tokens stay unlayered, so `tokens.css` values win over Tailwind theme variables. Without Tailwind the components look the same.
+Component CSS ships in `@layer components`, and the package declares the layer order, so this works regardless of whether the library CSS loads before or after Tailwind. Tailwind utilities sit in `utilities`, above components, so utilities such as `p-8` or `rounded-none` override component styles. Tokens stay unlayered, so `tokens.css` values win over Tailwind theme variables. Without Tailwind the components look the same.
 
 In Next.js use `@tailwindcss/postcss`; do **not** apply a Tailwind loader to every `*.css` (for example `turbopack.rules` with `@tailwindcss/turbopack`). That loader swallows the library's CSS Modules: the HTML loses its `class` attributes and components render unstyled.
 
@@ -71,7 +67,6 @@ export function Providers({ children }: { children: ReactNode }) {
 
 ```tsx
 import "@javui/ui/tokens.css";
-import "@javui/ui/fonts.css";
 import { Providers } from "./providers";
 import type { ReactNode } from "react";
 import { Shell } from "./shell";
@@ -210,7 +205,7 @@ awk '/^### ModalContent$/{p=1;print;next} p&&/^#{2,3} /{exit} p' node_modules/@j
 | Passing `next/link` from a Server Component | `LinkProvider` must live in a `"use client"` file. Use the complete `providers.tsx` below. |
 | `import { CodeBlock } from "@javui/ui"` | `import { CodeBlock } from "@javui/ui/server"`; it is server-only, highlights with Shiki and needs `shiki` installed. `<CodeBlock language="tsx" label="Example" lineNumbers code={code} />` (`examples/CodeBlock`). |
 | Applying a Tailwind loader to every `*.css` | In Next use `postcss.config.mjs` with `@tailwindcss/postcss`. A loader such as `@tailwindcss/turbopack` on all CSS strips the library's CSS Modules and components render unstyled. |
-| Importing CSS in arbitrary order | `tailwindcss` → `@javui/ui/tokens.css` → `@javui/ui/base.css` → `@javui/ui/tailwind.css`; or `tokens.css` plus `global.css`. Never skip `tokens.css`. |
+| Importing CSS in arbitrary order | `tailwindcss` → `@javui/ui/tokens.css` → `@javui/ui/tailwind.css`. Without Tailwind: only `tokens.css`. Never skip `tokens.css`. |
 | `Button variant="default" \| "destructive" \| "link"`, or `isLoading` | Variants: `primary`, `secondary`, `outline`, `ghost`, `accent`, `danger`. Use `loading`; use `href` for navigation. `<Button variant="secondary">Cancel</Button>` (`examples/Button`). |
 | `Field` with `hint`, `errorMessage`, or manual `aria-describedby` | `<Field label="Email" description="We only use it for receipts." error={errors.email} required><Input type="email" /></Field>`. Pass `required`, `readOnly`, `loading` to `Field`, not the control. Omit `label` for Checkbox, RadioGroup, Switch and Slider, which render their own. |
 | `<Input label="Email">`, `leftIcon`, or `size` as native width | `<Field label="Name"><Input autoComplete="name" /></Field>` or `<Input aria-label="Search" startIcon={<MagnifyingGlassIcon />} />`. `size` (`xs`–`lg`) is the control height; icons use `startIcon`/`endIcon`. |

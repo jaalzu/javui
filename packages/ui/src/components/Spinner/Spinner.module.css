@@ -125,7 +125,7 @@
     --spinner-duration: 2s;
   }
 
-  /* The global reduced-motion block stops every animation; keep the indicator alive, slower. */
+  /* Motion tokens go to ~0 under prefers-reduced-motion; keep the indicator alive, slower. */
   .bar {
     animation-duration: 2s !important;
     animation-iteration-count: infinite !important;

@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import "@javui/ui/global.css";
+import "./globals.css";
+// The library ships no @font-face: this app loads its own fonts, matching the
+// families the tokens reference (DM Sans, Source Serif 4, Commit Mono).
+import "@fontsource-variable/dm-sans/opsz.css";
+import "@fontsource-variable/source-serif-4/opsz.css";
+import "@fontsource/commit-mono/400.css";
 import { Providers } from "./providers";
 import { SiteHeader } from "@/app/_shell/SiteHeader/SiteHeader";
 import shell from "./_shell/shell.module.css";

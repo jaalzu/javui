@@ -1,0 +1,13 @@
+[1mdiff --git a/packages/ui/src/components/Spinner/Spinner.module.css b/packages/ui/src/components/Spinner/Spinner.module.css[m
+[1mindex 43e8dbe..4a73b22 100644[m
+[1m--- a/packages/ui/src/components/Spinner/Spinner.module.css[m
+[1m+++ b/packages/ui/src/components/Spinner/Spinner.module.css[m
+[36m@@ -125,7 +125,7 @@[m
+     --spinner-duration: 2s;[m
+   }[m
+ [m
+[31m-  /* The global reduced-motion block stops every animation; keep the indicator alive, slower. */[m
+[32m+[m[32m  /* Motion tokens go to ~0 under prefers-reduced-motion; keep the indicator alive, slower. */[m
+   .bar {[m
+     animation-duration: 2s !important;[m
+     animation-iteration-count: infinite !important;[m

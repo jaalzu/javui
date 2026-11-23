@@ -37,9 +37,6 @@
       "import": "./dist/server.js"
     },
     "./tokens.css": "./dist/tokens/tokens.css",
-    "./global.css": "./dist/styles/global.css",
-    "./base.css": "./dist/styles/base.css",
-    "./fonts.css": "./dist/styles/fonts.css",
     "./tailwind.css": "./dist/tokens/tailwind.css",
     "./agent/*.json": "./agent/*.json",
     "./agent/llms*.txt": "./agent/llms*.txt",
@@ -57,9 +54,6 @@
     }
   },
   "dependencies": {
-    "@fontsource-variable/dm-sans": "^5.3.0",
-    "@fontsource-variable/source-serif-4": "^5.3.0",
-    "@fontsource/commit-mono": "^5.3.0",
     "server-only": "^0.0.1"
   },
   "scripts": {
@@ -78,6 +72,9 @@
   },
   "devDependencies": {
     "@base-ui/react": "1.9.0",
+    "@fontsource-variable/dm-sans": "^5.3.0",
+    "@fontsource-variable/source-serif-4": "^5.3.0",
+    "@fontsource/commit-mono": "^5.3.0",
     "@modelcontextprotocol/sdk": "^1.32.1",
     "@types/node": "^20",
     "@types/react": "^19",

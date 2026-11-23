@@ -25,7 +25,7 @@ export function Providers({ children }: { children: ReactNode }) {
   );
 }`;
 
-const layout = `import "@javui/ui/global.css";
+const layout = `import "@javui/ui/tokens.css";
 import { Providers } from "./providers";
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -39,6 +39,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     </html>
   );
 }`;
+
+const fonts = `// The library ships no @font-face rules: the token families name these fonts first
+// and fall back to the system stack. Load them in your root layout if you want them.
+import "@fontsource-variable/dm-sans/opsz.css";
+import "@fontsource-variable/source-serif-4/opsz.css";
+import "@fontsource/commit-mono/400.css";`;
 
 const first = `import { Button, Heading, Stack, Text } from "@javui/ui";
 
@@ -55,15 +61,16 @@ export default function Page() {
 const prompt = `Read https://your-site.com/llms.txt (and /llms-full.txt for details), or AGENT_GUIDE.md if you have the repository.
 
 Then add ui-lib to this Next.js project:
-1. Copy src/ui and public/typography from the ui-lib repository into your app.
+1. Copy src/ui from the ui-lib repository into your app.
 2. Install: @base-ui/react next-themes
 3. Create the providers from /docs/installation (ThemeProvider, LinkProvider with next/link, TooltipProvider, ToastProvider).
-4. Import "@javui/ui/global.css" in the root layout.
+4. Import "@javui/ui/tokens.css" in the root layout.
+5. Load your own fonts. The library ships no font files: the token families list DM Sans, Source Serif 4 and Commit Mono first and fall back to the system stack, so import those fonts yourself (for example @fontsource packages) or write your own @font-face.
 
 Build the screen I ask for using only components from "@javui/ui" and semantic tokens. Follow get_guidelines / llms.txt rules.`;
 
 const tailwind = `@import "tailwindcss";
-@import "@javui/ui/global.css";
+@import "@javui/ui/tokens.css";
 @import "@javui/ui/tailwind.css";`;
 
 function installCommands(pkgs: string) {
@@ -82,53 +89,139 @@ export default function Installation() {
       title="Installation"
       description="How to add ui-lib to your app and wire it up. It is not on npm yet, so you copy the folder."
     >
-      <Alert tone="info" title="Requirements">Works with React 18+ in Next.js, Vite, Astro, React Router and TanStack Start.</Alert>
+      <Alert tone="info" title="Requirements">
+        Works with React 18+ in Next.js, Vite, Astro, React Router and TanStack
+        Start.
+      </Alert>
 
       <p>Choose the setup that matches how you work.</p>
       <ul className={lists.chooser}>
         <li>
-          <Link href="#copy-the-folder" tone="inherit" className={lists.chooseLink}>
+          <Link
+            href="#copy-the-folder"
+            tone="inherit"
+            className={lists.chooseLink}
+          >
             <span className={lists.chooseTitle}>Copy the folder</span>
-            <span className={lists.chooseText}>Add ui-lib to your app yourself, step by step.</span>
+            <span className={lists.chooseText}>
+              Add ui-lib to your app yourself, step by step.
+            </span>
           </Link>
         </li>
         <li>
-          <Link href="#use-an-agent" tone="inherit" className={lists.chooseLink}>
+          <Link
+            href="#use-an-agent"
+            tone="inherit"
+            className={lists.chooseLink}
+          >
             <span className={lists.chooseTitle}>Use an agent</span>
-            <span className={lists.chooseText}>Paste a prompt into Claude Code, Cursor or any coding agent.</span>
+            <span className={lists.chooseText}>
+              Paste a prompt into Claude Code, Cursor or any coding agent.
+            </span>
           </Link>
         </li>
       </ul>
 
-      <Heading as="h2" size={3} id="copy-the-folder">Copy the folder</Heading>
-      <Heading as="h3" size={6}>1. Copy the library</Heading>
-      <p>Copy the whole <code>src/ui</code> folder and <code>public/typography</code> from the ui-lib repository into your app. The library has the components, the tokens (<code>tokens.css</code> is already generated) and the global styles; the fonts are self-hosted from <code>public/typography</code>. Your <code>tsconfig.json</code> needs the alias <code>@/*</code> pointing to <code>./src/*</code>, which is the Next.js default.</p>
+      <Heading as="h2" size={3} id="copy-the-folder">
+        Copy the folder
+      </Heading>
+      <Heading as="h3" size={6}>
+        1. Copy the library
+      </Heading>
+      <p>
+        Copy the whole <code>src/ui</code> folder from the ui-lib repository
+        into your app. The library has the components, the tokens (
+        <code>tokens.css</code> is already generated) and the global styles. It
+        ships no font files: the font families in the tokens list DM Sans,
+        Source Serif 4 and Commit Mono first and fall back to the system stack,
+        so load the fonts you want in your own app (see step 5). Your{" "}
+        <code>tsconfig.json</code> needs the alias <code>@/*</code> pointing to{" "}
+        <code>./src/*</code>, which is the Next.js default.
+      </p>
 
-      <Heading as="h3" size={6}>2. Install the dependencies</Heading>
-      <CodeBlock language="bash" label="Install dependencies" tabs={installCommands("@base-ui/react next-themes")} />
+      <Heading as="h3" size={6}>
+        2. Install the dependencies
+      </Heading>
+      <CodeBlock
+        language="bash"
+        label="Install dependencies"
+        tabs={installCommands("@base-ui/react next-themes")}
+      />
 
-      <Heading as="h3" size={6}>3. Add the providers</Heading>
-      <p>Create <code>src/app/providers.tsx</code>. It sets the theme, makes every link use <code>next/link</code>, and enables tooltips and toasts.</p>
+      <Heading as="h3" size={6}>
+        3. Add the providers
+      </Heading>
+      <p>
+        Create <code>src/app/providers.tsx</code>. It sets the theme, makes
+        every link use <code>next/link</code>, and enables tooltips and toasts.
+      </p>
       <CodeBlock language="tsx" label="providers.tsx" code={providers} />
 
-      <Heading as="h3" size={6}>4. Load the styles</Heading>
-      <p>Import the global styles and the providers in your root layout. Keep <code>suppressHydrationWarning</code> on <code>html</code>: next-themes sets <code>data-theme</code> before React hydrates.</p>
+      <Heading as="h3" size={6}>
+        4. Load the styles
+      </Heading>
+      <p>
+        Import the global styles and the providers in your root layout. Keep{" "}
+        <code>suppressHydrationWarning</code> on <code>html</code>: next-themes
+        sets <code>data-theme</code> before React hydrates.
+      </p>
       <CodeBlock language="tsx" label="layout.tsx" code={layout} />
 
-      <Heading as="h3" size={6}>5. Use a component</Heading>
+      <Heading as="h3" size={6}>
+        5. Load your fonts
+      </Heading>
+      <p>
+        ui-lib ships no <code>@font-face</code> rules and no font files. The
+        font families in the tokens list DM Sans, Source Serif 4 and Commit Mono
+        first and fall back to the system stack, so the app works without them.
+        Load the fonts you want yourself; this is what this docs site does.
+      </p>
+      <CodeBlock language="tsx" label="fonts (optional)" code={fonts} />
+
+      <Heading as="h3" size={6}>
+        6. Use a component
+      </Heading>
       <CodeBlock language="tsx" label="page.tsx" code={first} />
 
-      <Heading as="h2" size={3} id="use-an-agent">Use an agent</Heading>
-      <p>Agents do not need to know ui-lib in advance: they read it. Deploy the site (or open the repository) and paste a prompt like this into Claude Code, Cursor or any coding agent. Replace the address with yours.</p>
+      <Heading as="h2" size={3} id="use-an-agent">
+        Use an agent
+      </Heading>
+      <p>
+        Agents do not need to know ui-lib in advance: they read it. Deploy the
+        site (or open the repository) and paste a prompt like this into Claude
+        Code, Cursor or any coding agent. Replace the address with yours.
+      </p>
       <CodeBlock language="text" label="Prompt for an agent" code={prompt} />
-      <p>If you add the MCP server, the agent can ask for guidelines, components and tokens instead of reading files. See <Link href="/docs/agents">For agents</Link>.</p>
+      <p>
+        If you add the MCP server, the agent can ask for guidelines, components
+        and tokens instead of reading files. See{" "}
+        <Link href="/docs/agents">For agents</Link>.
+      </p>
 
-      <Heading as="h2" size={3} id="tailwind">Tailwind (optional)</Heading>
-      <p>ui-lib does not need Tailwind. If your app uses Tailwind v4, the tokens are also available as utilities such as <code>bg-page</code>, <code>text-primary-foreground</code> and <code>border-border-default</code>. Import the generated bridge after Tailwind and the global styles, and keep <code>tokens.css</code> out of any <code>@layer</code>.</p>
+      <Heading as="h2" size={3} id="tailwind">
+        Tailwind (optional)
+      </Heading>
+      <p>
+        ui-lib does not need Tailwind. If your app uses Tailwind v4, the tokens
+        are also available as utilities such as <code>bg-page</code>,{" "}
+        <code>text-primary-foreground</code> and{" "}
+        <code>border-border-default</code>. Import the generated bridge after
+        Tailwind and the global styles, and keep <code>tokens.css</code> out of
+        any <code>@layer</code>.
+      </p>
       <CodeBlock language="css" label="Tailwind setup" code={tailwind} />
 
-      <Heading as="h2" size={3} id="rebuild-tokens">Rebuild tokens and agent docs</Heading>
-      <p>Only needed if you change tokens or add components. Copy the <code>scripts</code> folder too and install <code>style-dictionary</code>, <code>culori</code> and <code>react-docgen-typescript</code> as dev dependencies. <code>bun run dev</code> rebuilds the CSS when you save a token file; <code>bun run build</code> rebuilds the CSS and the agent files.</p>
+      <Heading as="h2" size={3} id="rebuild-tokens">
+        Rebuild tokens and agent docs
+      </Heading>
+      <p>
+        Only needed if you change tokens or add components. Copy the{" "}
+        <code>scripts</code> folder too and install{" "}
+        <code>style-dictionary</code>, <code>culori</code> and{" "}
+        <code>react-docgen-typescript</code> as dev dependencies.{" "}
+        <code>bun run dev</code> rebuilds the CSS when you save a token file;{" "}
+        <code>bun run build</code> rebuilds the CSS and the agent files.
+      </p>
     </DocPage>
   );
 }

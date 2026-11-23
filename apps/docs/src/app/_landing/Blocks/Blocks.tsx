@@ -6,19 +6,24 @@ import {
   Avatar,
   Badge,
   Button,
+  ButtonGroup,
   Card,
   ChartBarIcon,
   Checkbox,
   CheckIcon,
   Field,
   GearIcon,
+  RadioGroup,
   Heading,
   Input,
+  Radio,
+  Menu,
   Link,
   Stack,
   Switch,
   Text,
 } from "@javui/ui";
+import { CaretDownIcon } from "@javui/ui";
 import styles from "./Blocks.module.css";
 
 const cardPadding = {
@@ -98,9 +103,11 @@ function Controls() {
         </div>
         <Stack gap="2">
           <Checkbox label="Email updates" defaultChecked />
-          <Checkbox label="Share usage data" />
           <Switch label="Notifications" defaultChecked />
-          <Switch label="Public profile" />
+          <RadioGroup legend="" defaultValue="starter">
+            <Radio value="starter" label="Starter" />
+            <Radio value="business" label="Business" />
+          </RadioGroup>
         </Stack>
       </Stack>
     </Block>
@@ -126,7 +133,7 @@ function SavingsTargets() {
       <Stack gap="3">
         {goals.map((g) => (
           <div key={g.name} className={`${styles.goal} ${styles.highlight}`}>
-            <Text as="span" tone="muted">
+            <Text className={`${styles.caption}`} as="span" tone="muted">
               {g.name}
             </Text>
             <span className={styles.goalTotal}>{g.target}</span>
@@ -336,14 +343,14 @@ function Usage() {
 
 function SignIn() {
   return (
-    <Block id="blk-signin" title="Sign in" description="Welcome back.">
+    <Block id="blk-signin" title="Sign in">
       <form onSubmit={(e) => e.preventDefault()}>
-        <Stack gap="2">
-          <Field label="Email">
+        <Stack gap="3">
+          <Field label="Email Address">
             <Input
               type="email"
               autoComplete="email"
-              placeholder="you@example.com"
+              placeholder="javalzu@gmail.com"
             />
           </Field>
           <Field label="Password">

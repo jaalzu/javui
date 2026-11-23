@@ -5,7 +5,8 @@ The package is consumed from its built `dist` output and public exports.
 ## Current consumption
 
 Consumer apps import `@javui/ui` or `@javui/ui/server`, never `@/ui`. Import `tokens.css` and optionally
-`base.css`, `fonts.css`, `tailwind.css` or `styles.css`; `CodeBlock` exists only in the server entry.
+`tailwind.css`; `CodeBlock` exists only in the server entry. The package ships
+no fonts, so the consumer loads its own.
 The package has no Next-specific directives and works with or without `cacheComponents`. In Next App
 Router, mount `LinkProvider` inside a `use client` provider because `next/link` is a function.
 

@@ -65,10 +65,13 @@ const wrapModuleCss = (file) => {
   const prelude = composes.length ? `${composes.join("\n")}\n` : "";
   return `${prelude}${layerOrder}\n@layer components {\n${css}\n}\n`;
 };
+// Storybook-only CSS (imported only from `*.stories.tsx`) must not reach dist.
+const storyOnlyCss = new Set(["tokens/Typography.module.css"]);
 const copyCss = (dir) => {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const from = join(dir, entry.name);
     const to = join(dist, relative(src, from));
+    if (storyOnlyCss.has(relative(src, from).replaceAll("\\", "/"))) continue;
     if (entry.isDirectory()) copyCss(from);
     else if (entry.name.endsWith(".module.css") && !/\.(stories|test|examples)\./i.test(entry.name)) {
       mkdirSync(resolve(to, ".."), { recursive: true });

@@ -10,7 +10,7 @@
 - Keep heading levels in order, one h1 per page.
 
 ## Integration
-- Tailwind v4 import order: `tailwindcss` -> `@javui/ui/tokens.css` -> `@javui/ui/base.css` -> `@javui/ui/tailwind.css`. `base.css` is optional but stays between tokens and tailwind.
+- Tailwind v4 import order: `tailwindcss` -> `@javui/ui/tokens.css` -> `@javui/ui/tailwind.css`. Without Tailwind: only `@javui/ui/tokens.css`. The package does not ship page styles, fonts, `base.css` or `global.css`.
 - Next.js + Tailwind: use `@tailwindcss/postcss` in `postcss.config.mjs`. Do not apply a Tailwind loader to every `*.css` (for example `turbopack.rules` with `@tailwindcss/turbopack`): it strips the library's CSS Modules, the HTML loses its `class` attributes and components render unstyled.
 - Theme: set `data-theme="light|dark"` on `<html>` before the first paint. With `next-themes` use `attribute="data-theme"`; a `system` theme resolves to `light` or `dark`, never `system`. Add `suppressHydrationWarning` to `<html>`.
 

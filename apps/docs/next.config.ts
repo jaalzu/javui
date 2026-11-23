@@ -26,9 +26,6 @@ const sourceAliases: Record<string, string> = {
   "@javui/ui/server": src("server.ts"),
   "@javui/ui/tokens.css": src("tokens/tokens.css"),
   "@javui/ui/tailwind.css": src("tokens/tailwind.css"),
-  "@javui/ui/base.css": src("styles/base.css"),
-  "@javui/ui/fonts.css": src("styles/fonts.css"),
-  "@javui/ui/global.css": src("styles/global.css"),
 };
 
 const nextConfig: NextConfig = {

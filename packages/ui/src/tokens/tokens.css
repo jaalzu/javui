@@ -28,9 +28,9 @@
   --primitive-color-danger-700: oklch(0.54 0.1874 30.37);
   --primitive-color-white: oklch(1 0 0);
   --primitive-color-black: oklch(0 0 0);
-  --font-family-sans: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; /** The only family for UI and reading text. Used for headings, body, labels and captions. */
-  --font-family-emphasis: 'Source Serif 4', ui-serif, Georgia, 'Times New Roman', serif; /** Serif, used rarely: one lead sentence or a short quote. Never for headings, controls or long text. */
-  --font-family-mono: 'Commit Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; /** Code and keyboard keys only. */
+  --font-family-sans: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; /** The only family for UI and reading text. Used for headings, body, labels and captions. The library ships no @font-face: load DM Sans yourself or keep the system fallback. */
+  --font-family-emphasis: 'Source Serif 4', ui-serif, Georgia, 'Times New Roman', serif; /** Serif, used rarely: one lead sentence or a short quote. Never for headings, controls or long text. The library ships no @font-face: load Source Serif 4 yourself or keep the system fallback. */
+  --font-family-mono: 'Commit Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; /** Code and keyboard keys only. The library ships no @font-face: load Commit Mono yourself or keep the system fallback. */
   --font-weight-regular: 400; /** Body text. Do not use lighter weights; soften text with a muted color instead. */
   --font-weight-medium: 500; /** Labels and controls. */
   --font-weight-semibold: 600; /** Headings and emphasis. */
@@ -124,7 +124,6 @@
   --focus-ring-width-small: 3px; /** Focus ring width for controls whose box is 16px or less; use the -small variant for checkbox, radio and switch boxes. */
   --focus-ring-offset-small: 3px; /** Focus ring offset for controls whose box is 16px or less; use the -small variant for checkbox, radio and switch boxes. */
   --opacity-disabled: 0.5;
-  --header-height: 3.55rem; /** Height of the sticky site header. Used by the header and by scroll-padding. */
   --size-target-min: 1.5rem; /** WCAG 2.2 minimum pointer target (24px). */
   --size-target-comfortable: 2.75rem; /** Recommended hit area on touch devices. Controls may look smaller if they extend their hit area under `@media (pointer: coarse)`. */
   --size-control-xs: 1.5rem;
@@ -507,4 +506,19 @@
     --syntax-punctuation: var(--color-secondary-foreground); /** Braces, brackets, separators and other punctuation. */
     --syntax-diff-added-bg: var(--color-positive-subtle); /** Background of an added line in a diff. */
     --syntax-diff-removed-bg: var(--color-danger-subtle); /** Background of a removed line in a diff. */
+}
+
+/* Library contract: mark the sunken container, not each control. */
+[data-surface="sunken"] {
+  --color-component: var(--color-component-on-sunken);
+}
+
+/* Zero library motion tokens only. Does not touch the consumer's html/body. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-duration-fast: 0.01ms;
+    --motion-duration-base: 0.01ms;
+    --motion-duration-slow: 0.01ms;
+    --motion-duration-sheet: 0.01ms;
+  }
 }

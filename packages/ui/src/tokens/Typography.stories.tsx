@@ -62,8 +62,9 @@ function Page() {
       <section aria-labelledby="families">
         <h2 id="families" className={styles.sectionTitle}>Families</h2>
         <p className={styles.note}>
-          DM Sans for all text, Source Serif 4 for emphasis, Commit Mono for code and keys. All are self-hosted
-          from <code>public/typography</code>, so there is no network request to a font service.
+          DM Sans for all text, Source Serif 4 for emphasis, Commit Mono for code and keys. The tokens name them
+          first and fall back to the system stack; each app loads them itself, so there is no network request to a
+          font service and nothing to copy from <code>public/</code>.
         </p>
         <div className={styles.families}>
           <div className={styles.card}>

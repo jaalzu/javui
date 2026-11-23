@@ -130,8 +130,8 @@ in IE11, which is outside the library's browser support target.
 
 ## 11. Package and CSS entry points
 
-Import `@javui/ui/tokens.css` (required), with optional `base.css`, `fonts.css` or `tailwind.css`.
-With Tailwind v4 the canonical order is `tailwindcss` → `@javui/ui/tokens.css` → `@javui/ui/base.css`
+Import `@javui/ui/tokens.css` (required), with optional `tailwind.css`. The package ships no fonts and no page styles: the `--font-family-*` tokens name the preferred families first and fall back to the system stack, so the app loads its own fonts.
+With Tailwind v4 the canonical order is `tailwindcss` → `@javui/ui/tokens.css`
 → `@javui/ui/tailwind.css`. In Next.js use `@tailwindcss/postcss` in `postcss.config.mjs`; do not apply
 a Tailwind loader to every `*.css` (for example `turbopack.rules` with `@tailwindcss/turbopack`).
 That loader strips the library's CSS Modules: the HTML loses its `class` attributes and components

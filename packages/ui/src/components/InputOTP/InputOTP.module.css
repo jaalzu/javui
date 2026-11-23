@@ -16,10 +16,6 @@
   --_s: calc(var(--size-control-lg) + var(--space-1));
   --_fs: var(--font-size-20);
 }
-.exampleField {
-  align-items: center;
-  text-align: center;
-}
 .root {
   display: flex;
   align-items: center;

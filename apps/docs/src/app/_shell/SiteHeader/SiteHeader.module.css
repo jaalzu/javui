@@ -66,7 +66,7 @@ a.brand {
 /* Filete vertical entre acciones; los márgenes crean el aire a cada lado. */
 .divider {
   display: none;
-  height: var(--space-5);
+  height: var(--space-4);
   margin-inline: var(--space-3);
 }
 
@@ -75,7 +75,7 @@ a.brand {
 }
 
 .githubLink > span {
-  --icon-size: calc(var(--size-icon-md) + var(--border-width-thick));
+  --icon-size: var(--size-icon-sm);
 }
 
 @media (min-width: 48rem) {
@@ -96,7 +96,6 @@ a.brand {
     grid-row: 1;
     justify-self: start;
     position: relative;
-    top: 2px;
   }
   .githubLink {
     display: inline-flex;
@@ -112,7 +111,6 @@ a.brand {
 
 .navList {
   display: flex;
-  gap: var(--space-1);
   justify-content: flex-start;
   margin: 0;
   padding: 0;
@@ -128,11 +126,29 @@ a.brand {
 
 @media (min-width: 48rem) {
   .brandMark {
-    top: 0;
+    top: -2px;
+  }
+
+  .navList a {
+    font-size: var(--font-size-16);
+    transition: color var(--motion-duration-slow) var(--motion-easing-standard);
+  }
+
+  .navList a:hover,
+  .navList a[aria-current="page"] {
+    color: var(--color-primary-foreground);
   }
 }
 
 .iconButton {
   padding-inline: 0;
-  width: var(--size-control-sm);
+  width: var(--size-control-md);
+  border-color: var(--color-border-strong);
+  /* Hover fills with the border color so the face and the ring read as one solid circle. */
+  --btn-bg-hover: var(--color-border-strong);
+}
+
+/* The fill stays inside the border box, so the 1px ring is not painted twice. */
+.iconButton.iconButton::before {
+  inset: 0;
 }

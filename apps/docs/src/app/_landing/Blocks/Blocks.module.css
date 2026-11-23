@@ -83,27 +83,28 @@
   display: grid;
   gap: var(--space-2);
 }
+.features li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.featureIcon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-4);
+  height: var(--space-4);
+  border: 1px solid var(--color-positive-border-default);
+  border-radius: var(--radius-full);
+  color: var(--color-positive-foreground);
+}
 
-/* ---------- Sidebar ---------- */
-.sidebar {
-  display: grid;
-}
-.navTitle {
-  font-family: var(--text-label-family);
-  font-size: var(--text-label-size);
-  font-weight: var(--text-label-weight);
-  letter-spacing: var(--text-label-tracking);
-  color: var(--color-secondary-foreground);
-}
-.navList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: var(--space-1);
-}
-.navLink.navLink {
-  justify-content: flex-start;
+/* ---------- Controls ---------- */
+.buttonRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
 }
 
 /* ---------- Goals, amounts, big numbers ---------- */

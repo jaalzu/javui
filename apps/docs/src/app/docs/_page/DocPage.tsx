@@ -1,5 +1,11 @@
 import type { ReactNode } from "react";
-import { Button, CaretLeftIcon, CaretRightIcon, Heading, Link } from "@javui/ui";
+import {
+  Button,
+  CaretLeftIcon,
+  CaretRightIcon,
+  Heading,
+  Link,
+} from "@javui/ui";
 import styles from "./DocPage.module.css";
 import { CopyPage } from "./CopyPage";
 import { neighbors } from "@/app/docs/_layout/nav";
@@ -23,14 +29,30 @@ export function DocPage({ href, title, description, children }: DocPageProps) {
     <article className={styles.prose}>
       <header className={styles.docHeader}>
         <div className={styles.docTitleRow}>
-          <Heading as="h1" size={3}>{title}</Heading>
+          <Heading as="h1" size={3}>
+            {title}
+          </Heading>
           <div className={styles.docActions}>
             <CopyPage />
             {prev && (
-              <Button href={prev.href} variant="secondary" size="sm" aria-label={`Previous: ${prev.label}`} className={styles.iconBtn} startIcon={chevronLeft} />
+              <Button
+                href={prev.href}
+                variant="secondary"
+                size="sm"
+                aria-label={`Previous: ${prev.label}`}
+                className={styles.iconBtn}
+                startIcon={chevronLeft}
+              />
             )}
             {next && (
-              <Button href={next.href} variant="secondary" size="sm" aria-label={`Next: ${next.label}`} className={styles.iconBtn} startIcon={chevronRight} />
+              <Button
+                href={next.href}
+                variant="secondary"
+                size="sm"
+                aria-label={`Next: ${next.label}`}
+                className={styles.iconBtn}
+                startIcon={chevronRight}
+              />
             )}
           </div>
         </div>
@@ -43,14 +65,28 @@ export function DocPage({ href, title, description, children }: DocPageProps) {
         <nav aria-label="Previous and next pages" className={styles.pager}>
           {prev ? (
             <Link href={prev.href} tone="inherit" className={styles.pagerLink}>
-              <span className={styles.pagerTitle}><CaretLeftIcon size="sm" />{prev.label}</span>
+              <span className={styles.pagerTitle}>
+                <CaretLeftIcon size="sm" />
+                {prev.label}
+              </span>
             </Link>
-          ) : <span />}
+          ) : (
+            <span />
+          )}
           {next ? (
-            <Link href={next.href} tone="inherit" className={`${styles.pagerLink} ${styles.pagerNext}`}>
-              <span className={styles.pagerTitle}>{next.label}<CaretRightIcon size="sm" /></span>
+            <Link
+              href={next.href}
+              tone="inherit"
+              className={`${styles.pagerLink} ${styles.pagerNext}`}
+            >
+              <span className={styles.pagerTitle}>
+                {next.label}
+                <CaretRightIcon size="sm" />
+              </span>
             </Link>
-          ) : <span />}
+          ) : (
+            <span />
+          )}
         </nav>
       )}
     </article>

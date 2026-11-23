@@ -84,7 +84,9 @@
       "renders": "kbd",
       "composition": "One Kbd per key; join keys with text such as +.",
       "whenToUse": "Keyboard shortcuts in docs and UI.",
-      "avoid": ["Using it as a button."],
+      "avoid": [
+        "Using it as a button."
+      ],
       "accessibility": "Native kbd semantics. Spell out symbols that screen readers read poorly, for example add VisuallyHidden text.",
       "props": [
         {
@@ -103,7 +105,9 @@
         }
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
-      "examples": ["<Kbd>⌘</Kbd> + <Kbd>K</Kbd>"],
+      "examples": [
+        "<Kbd>⌘</Kbd> + <Kbd>K</Kbd>"
+      ],
       "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Kbd/Kbd.tsx"
     },
     {
@@ -237,7 +241,9 @@
           "renders": "dt",
           "composition": "Child of `DescriptionList`; accepts native dt props.",
           "whenToUse": "The name or term in a description list.",
-          "avoid": ["Using it outside a description list."],
+          "avoid": [
+            "Using it outside a description list."
+          ],
           "accessibility": "Native term semantics.",
           "props": [],
           "extends": "Also accepts the native props of the element it renders; they pass through.",
@@ -254,7 +260,9 @@
           "renders": "dd",
           "composition": "Child of `DescriptionList`; accepts native dd props.",
           "whenToUse": "The description or value paired with a term.",
-          "avoid": ["Using it outside a description list."],
+          "avoid": [
+            "Using it outside a description list."
+          ],
           "accessibility": "Native description semantics.",
           "props": [],
           "extends": "Also accepts the native props of the element it renders; they pass through.",
@@ -377,7 +385,9 @@
       "renders": "div (or `as`) with display:grid",
       "composition": "`columns` is a number (equal columns), a full grid-template-columns string, or a per-breakpoint object. `minColumnWidth` uses automatic columns and overrides `columns`.",
       "whenToUse": "Two-dimensional layouts and card grids.",
-      "avoid": ["One-dimensional layouts: use Stack."],
+      "avoid": [
+        "One-dimensional layouts: use Stack."
+      ],
       "accessibility": "Visual order should match DOM order.",
       "choosing": [
         "Cards, tiles and galleries: use `minColumnWidth` (for example `\"16rem\"`). Columns fit automatically, with no breakpoints.",
@@ -651,7 +661,9 @@
         }
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
-      "examples": ["<Icon label=\"Success\">{glyph}</Icon>"],
+      "examples": [
+        "<Icon label=\"Success\">{glyph}</Icon>"
+      ],
       "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Icon/Icon.tsx"
     },
     {
@@ -708,7 +720,9 @@
       "renders": "span (aria-hidden)",
       "composition": "Shape is text, rect or circle; set width and height with CSS values.",
       "whenToUse": "Placeholder for content whose layout is known while it loads.",
-      "avoid": ["Using it as the only loading signal."],
+      "avoid": [
+        "Using it as the only loading signal."
+      ],
       "accessibility": "Hidden from assistive technology. Put aria-busy=\"true\" on the container that is loading.",
       "props": [
         {
@@ -856,7 +870,9 @@
         "The `ghost` variant."
       ],
       "accessibility": "Renders role=\"group\"; add an `aria-label` that names the set of actions. Each child keeps its own accessible name and focus ring, which stays above its neighbours.",
-      "choosing": ["Actions → `ButtonGroup`; selection state → `ToggleGroup`."],
+      "choosing": [
+        "Actions → `ButtonGroup`; selection state → `ToggleGroup`."
+      ],
       "props": [
         {
           "name": "orientation",
@@ -958,7 +974,7 @@
       "name": "Field",
       "category": "controls",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "Combine labels, controls, and help text to compose accessible form fields and grouped inputs.\nWraps one control with its label, description and error, wired for accessibility by Field\n(`label` association, `aria-describedby`, `aria-invalid`). Pass `error`, `required`, `readOnly` and\n`loading` here; never wire `aria-describedby` or show a loose red error text by hand. When the\ncontrol renders its own label or legend, omit `label`; the control prints Required and keeps its\naccessible name.\n\nErrors are shown after the field is blurred or the form is submitted, not on the first keystroke.",
+      "description": "Combine labels, controls, and help text to compose accessible form fields and grouped inputs.\nWraps one control with its label, description and error, wired for accessibility by Field\n(`label` association, `aria-describedby`, `aria-invalid`). Pass `error`, `required`, `readOnly` and\n`loading` here; never wire `aria-describedby` or show a loose red error text by hand. When the\ncontrol renders its own label or legend, omit `label`; the control marks its label with a red asterisk and keeps its\naccessible name.\n\nErrors are shown after the field is blurred or the form is submitted, not on the first keystroke.",
       "import": "import { Field } from \"@javui/ui\";",
       "renders": "div containing an optional label, the control, a description and an error",
       "composition": "Wrap one control: Input, Textarea, Select, Checkbox, RadioGroup, Switch or Slider. `label` is optional: omit it when the control renders its own label or legend (Checkbox, RadioGroup, Switch, Slider). Pass `error`, `required`, `readOnly` and `loading` to Field instead of wiring the control. Controls that carry their own label or legend also accept these props directly.",
@@ -967,7 +983,7 @@
         "A loose red error text below the control: use Field `error`.",
         "Wiring aria-describedby or aria-invalid by hand."
       ],
-      "accessibility": "Field wires the label, aria-describedby and aria-invalid; the error is announced politely. `required` sets the native/ARIA required state and prints Required next to the label, or in the control's own label when Field has no label. Errors show after blur or submit, not on the first keystroke (validationMode defaults to onBlur).",
+      "accessibility": "Field wires the label, aria-describedby and aria-invalid; the error is announced politely. `required` sets the native/ARIA required state and marks the label with a red asterisk, or in the control's own label when Field has no label. Errors show after blur or submit, not on the first keystroke (validationMode defaults to onBlur).",
       "props": [
         {
           "name": "children",
@@ -1062,7 +1078,7 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Marks the control as required and prints \"Required\" next to the label. The control also gets\n`required` so browsers and assistive technology enforce it."
+          "description": "Marks the control as required and marks the label with a red asterisk. The control also gets\n`required` so browsers and assistive technology enforce it."
         },
         {
           "name": "stackBelow",
@@ -1508,7 +1524,9 @@
           "renders": "input",
           "composition": "Use only inside InputGroup. It inherits size, loading, required and readOnly from InputGroup and Field.",
           "whenToUse": "The editable control inside InputGroup.",
-          "avoid": ["Using it outside InputGroup; use Input instead."],
+          "avoid": [
+            "Using it outside InputGroup; use Input instead."
+          ],
           "accessibility": "Needs an accessible name from Field or aria-label; loading is read-only with aria-busy=true.",
           "props": [
             {
@@ -1591,11 +1609,15 @@
           "renders": "span",
           "composition": "Use inside InputGroupAddon.",
           "whenToUse": "A prefix, suffix or unit.",
-          "avoid": ["Using it as a standalone text style."],
+          "avoid": [
+            "Using it as a standalone text style."
+          ],
           "accessibility": "Repeat meaningful units in the Field label or description.",
           "props": [],
           "extends": "Also accepts the native props of the element it renders; they pass through.",
-          "examples": ["<InputGroupText>https://</InputGroupText>"],
+          "examples": [
+            "<InputGroupText>https://</InputGroupText>"
+          ],
           "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/InputGroup/InputGroup.tsx",
           "parent": "InputGroup"
         },
@@ -1886,7 +1908,7 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "The checkbox must be ticked before the form can be submitted. The label prints \"Required\".\nWithout a visible label there is nowhere to print it: let `Field` show it instead.\nInside `Field`, omit it and pass `required` to the Field instead."
+          "description": "The checkbox must be ticked before the form can be submitted. The label adds a red asterisk.\nWithout a visible label there is nowhere to print it: let `Field` show it instead.\nInside `Field`, omit it and pass `required` to the Field instead."
         },
         {
           "name": "uncheckedValue",
@@ -1923,7 +1945,9 @@
           "renders": "fieldset with a legend",
           "composition": "`legend` is required; children are Checkbox elements. For a working select-all, pass `allValues` to the group and mark one Checkbox as `parent`. Documented under Checkbox parts.",
           "whenToUse": "Grouping a short set of related checkboxes under one name.",
-          "avoid": ["One option among several: use RadioGroup."],
+          "avoid": [
+            "One option among several: use RadioGroup."
+          ],
           "accessibility": "The fieldset and legend name the group; each option keeps its own label.",
           "props": [
             {
@@ -1999,7 +2023,7 @@
               "type": "boolean",
               "required": false,
               "default": "false",
-              "description": "The group must include at least one ticked option before the form can be submitted.\nThe legend prints \"Required\". Inside `Field`, omit it and pass `required` to the Field."
+              "description": "The group must include at least one ticked option before the form can be submitted.\nThe legend adds a red asterisk. Inside `Field`, omit it and pass `required` to the Field."
             },
             {
               "name": "value",
@@ -2024,9 +2048,11 @@
       "description": "A set of checkable buttons where no more than one of the buttons can be checked at a time. Renders a `fieldset` with a `legend`, driven by Base UI\nRadioGroup. Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.",
       "import": "import { RadioGroup } from \"@javui/ui\";",
       "renders": "fieldset with a legend and a radiogroup",
-      "composition": "`legend` is required. Children are Radio elements. Use `description` for group guidance and `orientation` for horizontal layouts. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend. Radio is documented under Parts.",
+      "composition": "`legend` is required. Children are Radio elements. Use `description` for group guidance and `orientation` for horizontal layouts. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required adds a red asterisk to the legend. Radio is documented under Parts.",
       "whenToUse": "Choosing exactly one option from a short list.",
-      "avoid": ["Long lists: use Select."],
+      "avoid": [
+        "Long lists: use Select."
+      ],
       "accessibility": "Arrow keys move the selection. The legend names the group. Invalid uses the danger border and an error linked with aria-describedby; read-only stays focusable and blocks changes; loading sets aria-busy and blocks changes.",
       "props": [
         {
@@ -2127,7 +2153,7 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "The group must have a selection before the form can be submitted. The legend prints \"Required\".\nInside `Field`, omit it and pass `required` to the Field instead."
+          "description": "The group must have a selection before the form can be submitted. The legend adds a red asterisk.\nInside `Field`, omit it and pass `required` to the Field instead."
         },
         {
           "name": "value",
@@ -2151,7 +2177,9 @@
           "renders": "span role=\"radio\" with a hidden native input, inside a label",
           "composition": "Only inside RadioGroup; it is documented under Parts. `value` and `label` are required. Optional `description` adds supporting text and `variant=\"card\"` gives the option a choice-card treatment.",
           "whenToUse": "One option of a RadioGroup.",
-          "avoid": ["Using it outside a RadioGroup."],
+          "avoid": [
+            "Using it outside a RadioGroup."
+          ],
           "accessibility": "The whole label is clickable.",
           "props": [
             {
@@ -2238,8 +2266,10 @@
       "renders": "span role=\"switch\" with a hidden native input, inside a label",
       "composition": "`label` is required. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field.",
       "whenToUse": "A setting that turns on or off immediately.",
-      "avoid": ["Choices that need a Save button: use Checkbox."],
-      "accessibility": "Announced as a switch with on/off state. Invalid uses the danger border and an error linked with aria-describedby; required prints Required; read-only stays focusable and uses the sunken background; loading sets aria-busy and blocks changes.",
+      "avoid": [
+        "Choices that need a Save button: use Checkbox."
+      ],
+      "accessibility": "Announced as a switch with on/off state. Invalid uses the danger border and an error linked with aria-describedby; required adds a red asterisk; read-only stays focusable and uses the sunken background; loading sets aria-busy and blocks changes.",
       "props": [
         {
           "name": "checked",
@@ -2347,7 +2377,7 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "The switch must be on before the form can be submitted. The label prints \"Required\".\nInside `Field`, omit it and pass `required` to the Field instead."
+          "description": "The switch must be on before the form can be submitted. The label adds a red asterisk.\nInside `Field`, omit it and pass `required` to the Field instead."
         },
         {
           "name": "size",
@@ -2620,7 +2650,9 @@
           "renders": "button (a Button)",
           "composition": "Direct child of Modal. Accepts Button `variant` and `size`; use `danger` for the destructive trigger.",
           "whenToUse": "The button that opens the modal.",
-          "avoid": ["Using a plain Button to open it."],
+          "avoid": [
+            "Using a plain Button to open it."
+          ],
           "accessibility": "Gets aria-haspopup and expanded state from Base UI.",
           "props": [
             {
@@ -2985,7 +3017,9 @@
           "renders": "div",
           "composition": "Holds `CardTitle`, optional `CardDescription` and `CardAction`. The action aligns with the title at the top end.",
           "whenToUse": "The title region of a Card.",
-          "avoid": ["Using it without a CardTitle."],
+          "avoid": [
+            "Using it without a CardTitle."
+          ],
           "accessibility": "No role of its own; the heading comes from CardTitle.",
           "props": [],
           "extends": "Also accepts the native props of the element it renders; they pass through.",
@@ -3036,7 +3070,9 @@
           "renders": "p",
           "composition": "Muted body text below `CardTitle`.",
           "whenToUse": "Supporting text directly under the card title.",
-          "avoid": ["Long prose: put it in CardContent."],
+          "avoid": [
+            "Long prose: put it in CardContent."
+          ],
           "accessibility": "A plain paragraph.",
           "props": [],
           "extends": "Also accepts the native props of the element it renders; they pass through.",
@@ -3053,7 +3089,9 @@
           "renders": "div",
           "composition": "Holds a Button (with `href` for navigation) or Badge at the top end of `CardHeader`, aligned with the title.",
           "whenToUse": "A control that belongs to the whole card.",
-          "avoid": ["Hiding the card title to make room for the action."],
+          "avoid": [
+            "Hiding the card title to make room for the action."
+          ],
           "accessibility": "Adds no semantics; the control inside needs its own accessible name.",
           "props": [],
           "extends": "Also accepts the native props of the element it renders; they pass through.",
@@ -3070,7 +3108,9 @@
           "renders": "div",
           "composition": "The main body between `CardHeader` and `CardFooter`, aligned with both.",
           "whenToUse": "The body of a Card.",
-          "avoid": ["Repeating the header or footer content."],
+          "avoid": [
+            "Repeating the header or footer content."
+          ],
           "accessibility": "A plain container.",
           "props": [],
           "extends": "Also accepts the native props of the element it renders; they pass through.",
@@ -3287,7 +3327,10 @@
       "renders": "no element: it only holds the open state (Base UI Popover.Root)",
       "composition": "Structure: Popover > PopoverTrigger + PopoverContent (title required, description optional, PopoverClose). Keep it around 22rem wide with up to 3–4 fields; use Tooltip for supplementary hints, Menu for a list of actions, Modal for decisions, and Sheet for longer content.",
       "whenToUse": "Small interactive content tied to a button, such as a form or extra options.",
-      "avoid": ["Plain hints: use Tooltip.", "Blocking decisions: use Modal."],
+      "avoid": [
+        "Plain hints: use Tooltip.",
+        "Blocking decisions: use Modal."
+      ],
       "accessibility": "Focus moves into the popup and Escape closes it. Title is the accessible name.",
       "props": [
         {
@@ -3362,7 +3405,9 @@
           "renders": "button",
           "composition": "Child of Popover. Accepts Button props.",
           "whenToUse": "The button that opens a Popover.",
-          "avoid": ["Using it outside Popover."],
+          "avoid": [
+            "Using it outside Popover."
+          ],
           "accessibility": "A real button with aria-expanded and aria-controls.",
           "props": [
             {
@@ -3455,7 +3500,9 @@
           "renders": "div with role dialog in a portal, with a title",
           "composition": "Child of Popover. Requires `title`; `description`, `side` and `align` are optional.",
           "whenToUse": "The panel shown by a Popover.",
-          "avoid": ["Leaving out the title."],
+          "avoid": [
+            "Leaving out the title."
+          ],
           "accessibility": "Labelled by its title. Focus is returned to the trigger on close.",
           "props": [
             {
@@ -3512,7 +3559,9 @@
           "renders": "button",
           "composition": "Inside PopoverContent. Children are the label.",
           "whenToUse": "A button that closes the Popover.",
-          "avoid": ["Icon-only without a label."],
+          "avoid": [
+            "Icon-only without a label."
+          ],
           "accessibility": "A real button.",
           "props": [
             {
@@ -3538,7 +3587,9 @@
             }
           ],
           "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-          "examples": ["<PopoverClose>Done</PopoverClose>"],
+          "examples": [
+            "<PopoverClose>Done</PopoverClose>"
+          ],
           "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Popover/Popover.tsx",
           "parent": "Popover"
         }
@@ -3661,7 +3712,10 @@
       "renders": "horizontal navigation of menu triggers",
       "composition": "Pass `menus`, an array of menu entries rendered as coordinated Menu controls.",
       "whenToUse": "A row of related menus for application navigation or grouped actions.",
-      "avoid": ["A single menu: use `Menu`.", "Unrelated navigation links."],
+      "avoid": [
+        "A single menu: use `Menu`.",
+        "Unrelated navigation links."
+      ],
       "accessibility": "Keyboard navigation and menu behavior come from Base UI.",
       "props": [
         {
@@ -3688,7 +3742,10 @@
       "renders": "div with a heading (h3) and button per item and a region per panel",
       "composition": "Pass `items` ({ value, title, content, startIcon?, endIcon?, disabled? }). Icons are generated icons without `size`. Use `multiple` to allow several open, `disabled` to disable every item and `bordered` for a border around the whole list. To place it inside a Card use `Card` + `CardContent`.",
       "whenToUse": "Showing long content in short sections, such as FAQs.",
-      "avoid": ["Hiding content users must read.", "Navigation between pages."],
+      "avoid": [
+        "Hiding content users must read.",
+        "Navigation between pages."
+      ],
       "accessibility": "Each title is a button in a heading with aria-expanded and aria-controls.",
       "props": [
         {
@@ -3756,7 +3813,10 @@
       "renders": "table with caption, thead, tbody, th scope and a focusable scroll region",
       "composition": "Compose `TableCaption`, `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead` and `TableCell`. Use `align=\"end\"` for numeric columns. The responsive wrapper is focusable for horizontal scrolling.",
       "whenToUse": "Comparing data across rows and columns.",
-      "avoid": ["Page layout: use Grid or Stack.", "Missing caption."],
+      "avoid": [
+        "Page layout: use Grid or Stack.",
+        "Missing caption."
+      ],
       "accessibility": "Real table semantics. The first column is a row header. The scroll wrapper is focusable and named.",
       "props": [
         {
@@ -3817,7 +3877,9 @@
           "renders": "caption",
           "composition": "Child of Table; describes the table.",
           "whenToUse": "Naming a table.",
-          "avoid": ["Omitting a caption."],
+          "avoid": [
+            "Omitting a caption."
+          ],
           "accessibility": "Names the table for assistive technology.",
           "props": [],
           "extends": "Also accepts the native props of the element it renders; they pass through.",
@@ -3834,7 +3896,9 @@
           "renders": "thead",
           "composition": "Contains TableRow and TableHead.",
           "whenToUse": "Column headings.",
-          "avoid": ["Using it for body rows."],
+          "avoid": [
+            "Using it for body rows."
+          ],
           "accessibility": "Native table header semantics.",
           "props": [],
           "extends": "Also accepts the native props of the element it renders; they pass through.",
@@ -3851,7 +3915,9 @@
           "renders": "tbody",
           "composition": "Contains data TableRow elements.",
           "whenToUse": "The main table data.",
-          "avoid": ["Putting headings here."],
+          "avoid": [
+            "Putting headings here."
+          ],
           "accessibility": "Native table body semantics.",
           "props": [],
           "extends": "Also accepts the native props of the element it renders; they pass through.",
@@ -3868,7 +3934,9 @@
           "renders": "tfoot",
           "composition": "Contains summary TableRow elements.",
           "whenToUse": "Totals or summaries.",
-          "avoid": ["Repeating the header."],
+          "avoid": [
+            "Repeating the header."
+          ],
           "accessibility": "Native table footer semantics.",
           "props": [],
           "extends": "Also accepts the native props of the element it renders; they pass through.",
@@ -3885,7 +3953,9 @@
           "renders": "tr",
           "composition": "Contains TableHead or TableCell elements.",
           "whenToUse": "A table row.",
-          "avoid": ["Using it outside a table section."],
+          "avoid": [
+            "Using it outside a table section."
+          ],
           "accessibility": "Native table row semantics.",
           "props": [],
           "extends": "Also accepts the native props of the element it renders; they pass through.",
@@ -3902,7 +3972,9 @@
           "renders": "th",
           "composition": "Use scope=\"col\" for headers or scope=\"row\" for the first cell in a data row.",
           "whenToUse": "Column or row headers.",
-          "avoid": ["Using a td for a header."],
+          "avoid": [
+            "Using a td for a header."
+          ],
           "accessibility": "Native th scope semantics.",
           "props": [
             {
@@ -3925,7 +3997,9 @@
           "renders": "td",
           "composition": "A data cell inside TableRow.",
           "whenToUse": "Table values.",
-          "avoid": ["Using it for headings."],
+          "avoid": [
+            "Using it for headings."
+          ],
           "accessibility": "Native table cell semantics.",
           "props": [
             {
@@ -4115,7 +4189,9 @@
         }
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": ["<Progress label=\"Uploading\" value={40} />"],
+      "examples": [
+        "<Progress label=\"Uploading\" value={40} />"
+      ],
       "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Progress/Progress.tsx"
     },
     {
@@ -4127,8 +4203,11 @@
       "renders": "div with one input type range per thumb",
       "composition": "Pass `label` and `defaultValue` (number or [min, max]). Use `thumbLabels` for ranges and `orientation=\"vertical\"` for a vertical track. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field. Disabled hides the visible label and value; the label remains the accessible name.",
       "whenToUse": "Choosing a number or range by dragging.",
-      "avoid": ["Exact entry: use Input.", "A few named options: use Select."],
-      "accessibility": "Each thumb is a native range input with arrow-key support. The label is the accessible name. Invalid uses the danger border and an error linked with aria-describedby; required prints Required; read-only stays focusable and blocks changes; loading sets aria-busy and blocks changes.",
+      "avoid": [
+        "Exact entry: use Input.",
+        "A few named options: use Select."
+      ],
+      "accessibility": "Each thumb is a native range input with arrow-key support. The label is the accessible name. Invalid uses the danger border and an error linked with aria-describedby; required adds a red asterisk; read-only stays focusable and blocks changes; loading sets aria-busy and blocks changes.",
       "props": [
         {
           "name": "label",
@@ -4205,7 +4284,7 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "The slider must have a value before the form can be submitted. The label prints \"Required\".\nInside `Field`, omit it and pass `required` to the Field instead."
+          "description": "The slider must have a value before the form can be submitted. The label adds a red asterisk.\nInside `Field`, omit it and pass `required` to the Field instead."
         },
         {
           "name": "showValue",
@@ -4284,7 +4363,7 @@
           "type": "boolean",
           "required": false,
           "default": "false",
-          "description": "Prints \"Required\" after the text. The control still needs its own `required` attribute."
+          "description": "Adds a red asterisk after the text. The control still needs its own `required` attribute."
         }
       ],
       "extends": "Also accepts the native props of the element it renders; they pass through.",
@@ -4656,7 +4735,9 @@
           "renders": "button with aria-pressed",
           "composition": "Child of ToggleGroup. Pass a required `value`, visible children or `startIcon`/`endIcon`, and `aria-label` for icon-only items.",
           "whenToUse": "One option inside ToggleGroup.",
-          "avoid": ["Using it outside ToggleGroup."],
+          "avoid": [
+            "Using it outside ToggleGroup."
+          ],
           "accessibility": "The parent group provides keyboard navigation; icon-only items need an accessible name.",
           "props": [
             {
@@ -5489,7 +5570,9 @@
       "renders": "no element",
       "composition": "Place once near the app root. Optional. `delay` (default 600) applies only to the first tooltip; the next ones open instantly.",
       "whenToUse": "Shared open delay across tooltips.",
-      "avoid": ["Nesting several providers."],
+      "avoid": [
+        "Nesting several providers."
+      ],
       "accessibility": "No effect on semantics.",
       "props": [
         {
@@ -5526,11 +5609,37 @@
       "renders": "no visible element until a toast is shown; renders a viewport in a portal",
       "composition": "Place once near the app root, inside Providers. Then call `useToast()` anywhere below it.",
       "whenToUse": "Short-lived feedback after an action.",
-      "avoid": ["Messages that must stay: use Alert.", "Several providers."],
+      "avoid": [
+        "Messages that must stay: use Alert.",
+        "Several providers."
+      ],
       "accessibility": "Live-region announcements, F6 to reach toasts, pause on hover and focus. The dismiss button is labelled.",
-      "props": [],
+      "props": [
+        {
+          "name": "limit",
+          "type": "number",
+          "required": false,
+          "default": "3",
+          "description": "The maximum number of toasts that can be displayed at once.\nWhen the limit is exceeded, the oldest toasts are marked as `limited` (via the `data-limited`\nattribute) rather than removed, so they can be hidden or animated out."
+        },
+        {
+          "name": "timeout",
+          "type": "number",
+          "required": false,
+          "default": "5000",
+          "description": "The default amount of time (in ms) before a toast is auto dismissed.\nA value of `0` will prevent the toast from being dismissed automatically."
+        },
+        {
+          "name": "toastManager",
+          "type": "ToastManager<any>",
+          "required": false,
+          "description": "A global manager for toasts to use outside of a React component."
+        }
+      ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": ["<ToastProvider>{children}</ToastProvider>"],
+      "examples": [
+        "<ToastProvider>{children}</ToastProvider>"
+      ],
       "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Toast/Toast.tsx"
     },
     {
@@ -5555,20 +5664,20 @@
       "name": "useToast",
       "category": "feedback",
       "base": "Built on Base UI (@base-ui/react)",
-      "description": "Show short-lived feedback after an action (saved, copied, failed). Returns `show` and `close`.\nFor messages that must stay on the page, use `Alert`.",
+      "description": "Show short-lived feedback after an action (saved, copied, failed). Returns the toast manager:\n`show`/`add`, `close`, `update` and `promise`. For messages that must stay on the page, use `Alert`.\n\n`type` (or its alias `tone`) renders a status icon for `success`, `info`, `warning`, `danger`\nand `loading`. Pass `actionProps` for an inline action, and use `promise` to move one toast\nthrough loading, success and error states.",
       "import": "import { useToast } from \"@javui/ui\";",
       "renders": "hook, renders nothing",
-      "composition": "`const { show, close } = useToast(); show({ title, description?, tone?, timeout?, startIcon?, endIcon? })`. Icons are generated icons without `size`.",
+      "composition": "`const { show, add, close, update, promise } = useToast(); show({ title, description?, type?, tone?, timeout?, priority?, startIcon?, endIcon?, actionProps? })`. `type` renders the status icon for success, info, warning, danger and loading. `actionProps` adds an action button; `promise(value, { loading, success, error })` keeps one toast in sync with a promise. Icons are generated icons without `size`.",
       "whenToUse": "Showing a toast after an action finishes.",
       "avoid": [
         "Calling it outside ToastProvider.",
         "Putting the only copy of important information in a toast."
       ],
-      "accessibility": "The tone is never the only signal: write it in the title.",
+      "accessibility": "The type is never the only signal: write it in the title. Toasts are announced in a live region, F6 reaches them, and hover or focus pauses dismissal. The dismiss button is labelled; action button copy comes from `actionProps.children`.",
       "props": [],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "const { show } = useToast();\r\nshow({ title: \"Saved\", tone: \"success\" });"
+        "const { show, promise } = useToast();\r\nshow({ title: \"Saved\", type: \"success\" });\r\nshow({\r\n  title: \"Event created\",\r\n  description: \"Sunday, December 3 at 9:00 AM\",\r\n  actionProps: { children: \"Undo\", onClick: () => undo() },\r\n});\r\npromise(save(), {\r\n  loading: \"Saving…\",\r\n  success: \"Saved\",\r\n  error: \"Could not save\",\r\n});"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Toast/Toast.tsx"
     }

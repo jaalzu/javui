@@ -19,7 +19,6 @@
   letter-spacing: 0.01em;
   line-height: 1;
   font-variant-numeric: tabular-nums;
-  padding-block-end: 1px;
   white-space: nowrap;
   user-select: none;
   overflow: hidden;
@@ -88,4 +87,14 @@
 .danger {
   --badge-bg: var(--color-danger-subtle);
   --badge-fg: var(--color-danger-foreground);
+}
+
+.label {
+  text-box: trim-both cap alphabetic;
+}
+
+@supports not (text-box: trim-both cap alphabetic) {
+  .badge {
+    padding-block-end: 1px;
+  }
 }

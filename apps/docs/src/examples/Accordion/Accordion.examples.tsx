@@ -52,11 +52,4 @@ export const examples: Example[] = [
     "A border wraps the whole list, not only the space between items.",
     "lg",
   ),
-  ex(
-    "Bordered",
-    `<Accordion bordered items={items} />`,
-    <Accordion bordered items={accordionItems} />,
-    "A border wraps the whole list, not only the space between items.",
-    "lg",
-  ),
 ];

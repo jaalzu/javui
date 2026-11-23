@@ -42,7 +42,7 @@
 @media (min-width: 48rem) {
   .searchButton {
     height: calc(var(--size-control-sm) + var(--space-1));
-    width: 19rem;
+    width: 16rem;
     justify-content: flex-start;
     padding: 0 var(--space-2);
     border-color: var(--color-border-strong);

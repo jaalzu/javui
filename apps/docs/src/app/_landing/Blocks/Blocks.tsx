@@ -1,31 +1,23 @@
 "use client";
 
-import { useState, type CSSProperties, type ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import {
   Alert,
-  ArrowsLeftRightIcon,
   Avatar,
   Badge,
   Button,
   Card,
   ChartBarIcon,
-  ChartLineIcon,
-  ChartLineUpIcon,
-  ChartPieSliceIcon,
   Checkbox,
+  CheckIcon,
   Field,
   GearIcon,
   Heading,
   Input,
   Link,
-  Modal,
-  ModalClose,
-  ModalContent,
-  Select,
   Stack,
   Switch,
   Text,
-  WalletIcon,
 } from "@javui/ui";
 import styles from "./Blocks.module.css";
 
@@ -85,83 +77,33 @@ function Block({
   );
 }
 
-/* ---------- Navigation ---------- */
+/* ---------- Controls ---------- */
 
-const navItems = [
-  {
-    label: "Analytics",
-    description: "Traffic, revenue and conversion at a glance.",
-    icon: <ChartLineIcon />,
-  },
-  {
-    label: "Transactions",
-    description: "Every deposit, withdrawal and transfer.",
-    icon: <ArrowsLeftRightIcon />,
-  },
-  {
-    label: "Investments",
-    description: "Holdings, performance and allocation.",
-    icon: <ChartLineUpIcon />,
-  },
-  {
-    label: "Accounts",
-    description: "Connected accounts and balances.",
-    icon: <WalletIcon />,
-  },
-  {
-    label: "Spending",
-    description: "Where the money goes, by category.",
-    icon: <ChartPieSliceIcon />,
-  },
-];
-
-function Sidebar() {
-  const [active, setActive] = useState<(typeof navItems)[number] | null>(null);
+function Controls() {
   return (
-    <Card
-      as="section"
-      variant="surface"
-      className={styles.block}
-      style={cardPadding}
-      aria-label="Sidebar example"
+    <Block
+      id="blk-controls"
+      title="Controls"
+      description="Buttons, checkboxes and switches."
     >
-      <Stack gap="3">
-        <nav aria-label="Main" className={styles.sidebar}>
-          <span className={styles.navTitle}>Overview</span>
-          <ul className={styles.navList}>
-            {navItems.map((item) => (
-              <li key={item.label}>
-                <Button
-                  variant="ghost"
-                  size="md"
-                  className={styles.navLink}
-                  startIcon={item.icon}
-                >
-                  {item.label}
-                </Button>
-              </li>
-            ))}
-          </ul>
-        </nav>
+      <Stack gap="4">
+        <div className={styles.buttonRow}>
+          <Button size="sm">Save</Button>
+          <Button size="sm" variant="secondary">
+            Preview
+          </Button>
+          <Button size="sm" variant="danger">
+            Delete
+          </Button>
+        </div>
+        <Stack gap="2">
+          <Checkbox label="Email updates" defaultChecked />
+          <Checkbox label="Share usage data" />
+          <Switch label="Notifications" defaultChecked />
+          <Switch label="Public profile" />
+        </Stack>
       </Stack>
-      <Modal
-        open={active !== null}
-        onOpenChange={(open) => {
-          if (!open) setActive(null);
-        }}
-      >
-        {active && (
-          <ModalContent
-            title={active.label}
-            closeLabel={`Close ${active.label}`}
-            description={active.description}
-            actions={<ModalClose>Close</ModalClose>}
-          >
-            {null}
-          </ModalContent>
-        )}
-      </Modal>
-    </Card>
+    </Block>
   );
 }
 
@@ -274,7 +216,7 @@ function Claimable() {
         </div>
         <hr className={styles.ledgerDivider} />
         <div className={`${styles.ledgerRow} ${styles.ledgerTotal}`}>
-          <dt>Total Ready to Claim</dt>
+          <dt>Total</dt>
           <dd>$1,211.29 USD</dd>
         </div>
       </dl>
@@ -431,9 +373,24 @@ function Plan() {
       </p>
       <Text tone="muted">Everything to ship with a small team.</Text>
       <ul className={styles.features}>
-        <li>Unlimited projects</li>
-        <li>Ten team members</li>
-        <li>Priority support</li>
+        <li>
+          <span className={styles.featureIcon}>
+            <CheckIcon size="xs" />
+          </span>
+          Unlimited projects
+        </li>
+        <li>
+          <span className={styles.featureIcon}>
+            <CheckIcon size="xs" />
+          </span>
+          Ten team members
+        </li>
+        <li>
+          <span className={styles.featureIcon}>
+            <CheckIcon size="xs" />
+          </span>
+          Priority support
+        </li>
       </ul>
       <Button href="/docs/installation">Choose Pro</Button>
     </Block>
@@ -445,7 +402,7 @@ export function Blocks() {
   return (
     <div className={styles.blocks}>
       <div className={styles.col}>
-        <Sidebar />
+        <Controls />
         <SignIn />
       </div>
       <div className={styles.col}>

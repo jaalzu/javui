@@ -877,7 +877,7 @@ Combine labels, controls, and help text to compose accessible form fields and gr
 Wraps one control with its label, description and error, wired for accessibility by Field
 (`label` association, `aria-describedby`, `aria-invalid`). Pass `error`, `required`, `readOnly` and
 `loading` here; never wire `aria-describedby` or show a loose red error text by hand. When the
-control renders its own label or legend, omit `label`; the control prints Required and keeps its
+control renders its own label or legend, omit `label`; the control marks its label with a red asterisk and keeps its
 accessible name.
 
 Errors are shown after the field is blurred or the form is submitted, not on the first keystroke.
@@ -891,7 +891,7 @@ Errors are shown after the field is blurred or the form is submitted, not on the
 - Avoid:
   - A loose red error text below the control: use Field `error`.
   - Wiring aria-describedby or aria-invalid by hand.
-- Accessibility: Field wires the label, aria-describedby and aria-invalid; the error is announced politely. `required` sets the native/ARIA required state and prints Required next to the label, or in the control's own label when Field has no label. Errors show after blur or submit, not on the first keystroke (validationMode defaults to onBlur).
+- Accessibility: Field wires the label, aria-describedby and aria-invalid; the error is announced politely. `required` sets the native/ARIA required state and marks the label with a red asterisk, or in the control's own label when Field has no label. Errors show after blur or submit, not on the first keystroke (validationMode defaults to onBlur).
 
 ### Props
 | Prop | Type | Required | Default | Description |
@@ -910,7 +910,7 @@ Errors are shown after the field is blurred or the form is submitted, not on the
 | `orientation` | `"horizontal" \| "vertical"` | no | vertical | Layout with label beside the control. Ignored when `label` is omitted. |
 | `readOnly` | `boolean` | no | false | Makes the control read-only: sunken background, no hover, text not dimmed, still focusable and selectable. Distinct from `disabled`. |
 | `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>> \| ComponentRenderFn<HTMLProps, FieldRootState>` | no |  | Allows you to replace the component's HTML element with a different tag, or compose it with another component.  Accepts a `ReactElement` or a function that returns the element to render. |
-| `required` | `boolean` | no | false | Marks the control as required and prints "Required" next to the label. The control also gets `required` so browsers and assistive technology enforce it. |
+| `required` | `boolean` | no | false | Marks the control as required and marks the label with a red asterisk. The control also gets `required` so browsers and assistive technology enforce it. |
 | `stackBelow` | `"sm" \| "md"` | no |  | Return to vertical below this breakpoint (`sm` = 40rem, `md` = 48rem). |
 | `touched` | `boolean` | no |  | Whether the field has been touched. Useful when the field state is controlled by an external library. |
 | `validate` | `((value: unknown, formValues: Record<string, any>) => string \| void \| string[] \| Promise<string \| void \| string[] \| null> \| null)` | no |  | A function for custom validation. Return a string or an array of strings with the error message(s) if the value is invalid. Returning nothing, `null`, an empty string, or an empty array means the value is valid. Asynchronous functions are supported, but they do not prevent form submission when using `validationMode="onSubmit"`. |
@@ -1382,7 +1382,7 @@ message; `error` adds a linked message. `description` renders help text below th
 | `parent` | `boolean` | no | false | Whether the checkbox controls a group of child checkboxes.  Must be used in a [Checkbox Group](https://base-ui.com/react/components/checkbox-group). |
 | `readOnly` | `boolean` | no | false | The checkbox can be focused and read but not changed. Uses the sunken background and keeps the label text at full contrast. Distinct from `disabled`. |
 | `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>> \| ComponentRenderFn<HTMLProps, CheckboxRootState>` | no |  | Allows you to replace the component's HTML element with a different tag, or compose it with another component.  Accepts a `ReactElement` or a function that returns the element to render. |
-| `required` | `boolean` | no | false | The checkbox must be ticked before the form can be submitted. The label prints "Required". Without a visible label there is nowhere to print it: let `Field` show it instead. Inside `Field`, omit it and pass `required` to the Field instead. |
+| `required` | `boolean` | no | false | The checkbox must be ticked before the form can be submitted. The label adds a red asterisk. Without a visible label there is nowhere to print it: let `Field` show it instead. Inside `Field`, omit it and pass `required` to the Field instead. |
 | `uncheckedValue` | `string` | no |  | The value submitted with the form when the checkbox is unchecked. By default, unchecked checkboxes do not submit any value, matching native checkbox behavior. |
 | `value` | `string` | no |  | The checkbox's value. Identifies it within a [Checkbox Group](https://base-ui.com/react/components/checkbox-group), falling back to `name` when omitted. When submitting a form, a checked box submits `value`; with no `value`, it submits the native "on". |
 | `variant` | `"default" \| "card"` | no | default | Visual presentation. `card` turns the whole label into a clickable card with a border and background; use it instead of wrapping a Checkbox in a Card. |
@@ -1432,7 +1432,7 @@ Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.
 | `onValueChange` | `((value: string[], eventDetails: { reason: "none"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)` | no |  | Event handler called when a checkbox in the group is ticked or unticked. Provides the new value as an argument. |
 | `readOnly` | `boolean` | no | false | The group can be focused and read but not changed. Keeps the options at full contrast. Distinct from `disabled`. |
 | `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>> \| ComponentRenderFn<HTMLProps, CheckboxGroupState>` | no |  | Allows you to replace the component's HTML element with a different tag, or compose it with another component.  Accepts a `ReactElement` or a function that returns the element to render. |
-| `required` | `boolean` | no | false | The group must include at least one ticked option before the form can be submitted. The legend prints "Required". Inside `Field`, omit it and pass `required` to the Field. |
+| `required` | `boolean` | no | false | The group must include at least one ticked option before the form can be submitted. The legend adds a red asterisk. Inside `Field`, omit it and pass `required` to the Field. |
 | `value` | `string[]` | no |  | Names of the checkboxes in the group that should be ticked.  To render an uncontrolled checkbox group, use the `defaultValue` prop instead. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -1459,7 +1459,7 @@ RadioGroup. Inside `Field` it inherits `error`, `required`, `readOnly` and `load
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { RadioGroup } from "@javui/ui";`
 - Renders: fieldset with a legend and a radiogroup
-- Composition: `legend` is required. Children are Radio elements. Use `description` for group guidance and `orientation` for horizontal layouts. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required prints Required in the legend. Radio is documented under Parts.
+- Composition: `legend` is required. Children are Radio elements. Use `description` for group guidance and `orientation` for horizontal layouts. Accepts `error`, `required`, `readOnly` and `loading` directly, or inherits them from Field; required adds a red asterisk to the legend. Radio is documented under Parts.
 - Use when: Choosing exactly one option from a short list.
 - Avoid:
   - Long lists: use Select.
@@ -1483,7 +1483,7 @@ RadioGroup. Inside `Field` it inherits `error`, `required`, `readOnly` and `load
 | `orientation` | `"horizontal" \| "vertical"` | no | vertical | Layout of the options. |
 | `readOnly` | `boolean` | no | false | The group can be focused and read but not changed. Keeps the options at full contrast. Distinct from `disabled`. |
 | `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>> \| ComponentRenderFn<HTMLProps, RadioGroupState>` | no |  | Allows you to replace the component's HTML element with a different tag, or compose it with another component.  Accepts a `ReactElement` or a function that returns the element to render. |
-| `required` | `boolean` | no | false | The group must have a selection before the form can be submitted. The legend prints "Required". Inside `Field`, omit it and pass `required` to the Field instead. |
+| `required` | `boolean` | no | false | The group must have a selection before the form can be submitted. The legend adds a red asterisk. Inside `Field`, omit it and pass `required` to the Field instead. |
 | `value` | `any` | no |  | The controlled value of the radio item that should be currently selected.  To render an uncontrolled radio group, use the `defaultValue` prop instead. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
@@ -1553,7 +1553,7 @@ renders help text below the label.
 - Use when: A setting that turns on or off immediately.
 - Avoid:
   - Choices that need a Save button: use Checkbox.
-- Accessibility: Announced as a switch with on/off state. Invalid uses the danger border and an error linked with aria-describedby; required prints Required; read-only stays focusable and uses the sunken background; loading sets aria-busy and blocks changes.
+- Accessibility: Announced as a switch with on/off state. Invalid uses the danger border and an error linked with aria-describedby; required adds a red asterisk; read-only stays focusable and uses the sunken background; loading sets aria-busy and blocks changes.
 
 ### Props
 | Prop | Type | Required | Default | Description |
@@ -1574,7 +1574,7 @@ renders help text below the label.
 | `onCheckedChange` | `((checked: boolean, eventDetails: { reason: "none"; event: Event; cancel: () => void; allowPropagation: () => void; isCanceled: boolean; isPropagationAllowed: boolean; trigger: Element; }) => void)` | no |  | Event handler called when the switch is activated or deactivated. |
 | `readOnly` | `boolean` | no | false | The switch can be focused and read but not changed. Uses the sunken background when off and keeps the label text at full contrast. Distinct from `disabled`. |
 | `render` | `ReactElement<unknown, string \| JSXElementConstructor<any>> \| ComponentRenderFn<HTMLProps, SwitchRootState>` | no |  | Allows you to replace the component's HTML element with a different tag, or compose it with another component.  Accepts a `ReactElement` or a function that returns the element to render. |
-| `required` | `boolean` | no | false | The switch must be on before the form can be submitted. The label prints "Required". Inside `Field`, omit it and pass `required` to the Field instead. |
+| `required` | `boolean` | no | false | The switch must be on before the form can be submitted. The label adds a red asterisk. Inside `Field`, omit it and pass `required` to the Field instead. |
 | `size` | `"sm" \| "md"` | no | md | Track size. `sm` is 2rem × 1.25rem and `md` is 2.5rem × 1.5rem. |
 | `uncheckedValue` | `string` | no |  | The value submitted with the form when the switch is off. By default, unchecked switches do not submit any value, matching native checkbox behavior. |
 | `value` | `string` | no |  | The value submitted with the form when the switch is on. By default, switch submits the "on" value, matching native checkbox behavior. |
@@ -2725,7 +2725,7 @@ Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.
 - Avoid:
   - Exact entry: use Input.
   - A few named options: use Select.
-- Accessibility: Each thumb is a native range input with arrow-key support. The label is the accessible name. Invalid uses the danger border and an error linked with aria-describedby; required prints Required; read-only stays focusable and blocks changes; loading sets aria-busy and blocks changes.
+- Accessibility: Each thumb is a native range input with arrow-key support. The label is the accessible name. Invalid uses the danger border and an error linked with aria-describedby; required adds a red asterisk; read-only stays focusable and blocks changes; loading sets aria-busy and blocks changes.
 
 ### Props
 | Prop | Type | Required | Default | Description |
@@ -2742,7 +2742,7 @@ Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.
 | `onValueChange` | `((value: number \| number[]) => void)` | no |  |  |
 | `orientation` | `"horizontal" \| "vertical"` | no | horizontal | Direction of the track. Vertical needs a parent with height, or uses the slider's own height. |
 | `readOnly` | `boolean` | no | false | The slider can be focused and read but not changed. Uses the sunken track and keeps the label at full contrast. Distinct from `disabled`. |
-| `required` | `boolean` | no | false | The slider must have a value before the form can be submitted. The label prints "Required". Inside `Field`, omit it and pass `required` to the Field instead. |
+| `required` | `boolean` | no | false | The slider must have a value before the form can be submitted. The label adds a red asterisk. Inside `Field`, omit it and pass `required` to the Field instead. |
 | `showValue` | `boolean` | no | true | Show the current value next to the label. Hidden when `disabled`. |
 | `step` | `number` | no |  |  |
 | `thumbLabels` | `string[]` | no |  | Names of the thumbs of a range, for example `["Minimum price", "Maximum price"]`. |
@@ -2783,7 +2783,7 @@ Use this when you build a custom composition outside Field.
 | `className` | `string` | no |  |  |
 | `disabled` | `boolean` | no | false | Dims the label and removes the pointer cursor. Use only when the control is disabled. |
 | `htmlFor` | `string` | no |  | The id of the control this label belongs to. |
-| `required` | `boolean` | no | false | Prints "Required" after the text. The control still needs its own `required` attribute. |
+| `required` | `boolean` | no | false | Adds a red asterisk after the text. The control still needs its own `required` attribute. |
 
 Also accepts the native props of the element it renders; they pass through.
 
@@ -3343,7 +3343,11 @@ dismiss, pause on hover and focus come from there).
 - Accessibility: Live-region announcements, F6 to reach toasts, pause on hover and focus. The dismiss button is labelled.
 
 ### Props
-_No props of its own._
+| Prop | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `limit` | `number` | no | 3 | The maximum number of toasts that can be displayed at once. When the limit is exceeded, the oldest toasts are marked as `limited` (via the `data-limited` attribute) rather than removed, so they can be hidden or animated out. |
+| `timeout` | `number` | no | 5000 | The default amount of time (in ms) before a toast is auto dismissed. A value of `0` will prevent the toast from being dismissed automatically. |
+| `toastManager` | `ToastManager<any>` | no |  | A global manager for toasts to use outside of a React component. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -3373,19 +3377,23 @@ Also accepts the native props of the element it renders; they pass through.
 
 ## useToast
 
-Show short-lived feedback after an action (saved, copied, failed). Returns `show` and `close`.
-For messages that must stay on the page, use `Alert`.
+Show short-lived feedback after an action (saved, copied, failed). Returns the toast manager:
+`show`/`add`, `close`, `update` and `promise`. For messages that must stay on the page, use `Alert`.
+
+`type` (or its alias `tone`) renders a status icon for `success`, `info`, `warning`, `danger`
+and `loading`. Pass `actionProps` for an inline action, and use `promise` to move one toast
+through loading, success and error states.
 
 - Category: feedback
 - Base: Built on Base UI (@base-ui/react)
 - Import: `import { useToast } from "@javui/ui";`
 - Renders: hook, renders nothing
-- Composition: `const { show, close } = useToast(); show({ title, description?, tone?, timeout?, startIcon?, endIcon? })`. Icons are generated icons without `size`.
+- Composition: `const { show, add, close, update, promise } = useToast(); show({ title, description?, type?, tone?, timeout?, priority?, startIcon?, endIcon?, actionProps? })`. `type` renders the status icon for success, info, warning, danger and loading. `actionProps` adds an action button; `promise(value, { loading, success, error })` keeps one toast in sync with a promise. Icons are generated icons without `size`.
 - Use when: Showing a toast after an action finishes.
 - Avoid:
   - Calling it outside ToastProvider.
   - Putting the only copy of important information in a toast.
-- Accessibility: The tone is never the only signal: write it in the title.
+- Accessibility: The type is never the only signal: write it in the title. Toasts are announced in a live region, F6 reaches them, and hover or focus pauses dismissal. The dismiss button is labelled; action button copy comes from `actionProps.children`.
 
 ### Props
 _No props of its own._
@@ -3394,8 +3402,18 @@ Also accepts the native/Base UI props of the element it renders; they pass throu
 
 ### Example
 ```tsx
-const { show } = useToast();
-show({ title: "Saved", tone: "success" });
+const { show, promise } = useToast();
+show({ title: "Saved", type: "success" });
+show({
+  title: "Event created",
+  description: "Sunday, December 3 at 9:00 AM",
+  actionProps: { children: "Undo", onClick: () => undo() },
+});
+promise(save(), {
+  loading: "Saving…",
+  success: "Saved",
+  error: "Could not save",
+});
 ```
 
 ## Design tokens
@@ -3667,13 +3685,13 @@ show({ title: "Saved", tone: "success" });
 | `--color-info-subtle` | color | light `color-mix(in oklab, var(--color-info-solid) 12%, transparent)` / dark `color-mix(in oklab, var(--color-info-solid) 12%, transparent)` |
 | `--color-info-foreground` | color | light `var(--color-info-solid)` / dark `var(--color-info-solid)` |
 | `--color-on-info-solid-foreground` | color | light `var(--primitive-color-white)` / dark `var(--color-page)` |
-| `--color-danger-solid` | color | light `var(--primitive-color-danger-700)` / dark `var(--primitive-color-danger-400)` |
+| `--color-danger-solid` | color | light `var(--primitive-color-danger-700)` / dark `var(--primitive-color-danger-500)` |
 | `--color-danger-solid-hover` | color | light `color-mix(in oklab, var(--color-danger-solid) 88%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-danger-solid) 88%, var(--color-primary-foreground))` |
 | `--color-danger-solid-active` | color | light `color-mix(in oklab, var(--color-danger-solid) 78%, var(--color-primary-foreground))` / dark `color-mix(in oklab, var(--color-danger-solid) 78%, var(--color-primary-foreground))` |
 | `--color-danger-subtle` | color | light `color-mix(in oklab, var(--color-danger-solid) 12%, transparent)` / dark `color-mix(in oklab, var(--color-danger-solid) 12%, transparent)` |
 | `--color-danger-subtle-hover` | color | light `color-mix(in oklab, var(--color-danger-solid) 20%, transparent)` / dark `color-mix(in oklab, var(--color-danger-solid) 20%, transparent)` |
-| `--color-danger-foreground` | color | light `var(--color-danger-solid)` / dark `var(--color-danger-solid)` |
-| `--color-on-danger-solid-foreground` | color | light `var(--primitive-color-white)` / dark `var(--color-page)` |
+| `--color-danger-foreground` | color | light `var(--color-danger-solid)` / dark `var(--primitive-color-danger-400)` |
+| `--color-on-danger-solid-foreground` | color | light `var(--primitive-color-white)` / dark `var(--primitive-color-white)` |
 | `--color-border-default` | color | light `color-mix(in oklch, var(--color-primary-foreground) 7%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 7%, transparent)` |
 | `--color-border-strong` | color | light `color-mix(in oklch, var(--color-primary-foreground) 9%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 9%, transparent)` |
 | `--color-border-emphasis` | color | light `color-mix(in oklch, var(--color-primary-foreground) 12%, transparent)` / dark `color-mix(in oklch, var(--color-primary-foreground) 12%, transparent)` |

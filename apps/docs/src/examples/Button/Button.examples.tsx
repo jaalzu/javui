@@ -27,12 +27,17 @@ export const hero = defineHero(
   <Button>Primary</Button>
   <Button variant="secondary">Secondary</Button>
   <Button variant="ghost">Ghost</Button>
+  <Button variant="accent">Ghost</Button>
+  <Button variant="outline">Outline</Button>
   <Button variant="danger">Danger</Button>
 </Stack>`,
   <Stack direction="row" gap="3" wrap align="center" justify="center">
     <Button>Primary</Button>
     <Button variant="secondary">Secondary</Button>
     <Button variant="ghost">Ghost</Button>
+    <Button variant="accent">Accent</Button>
+    <Button variant="outline">Outline</Button>
+
     <Button variant="danger">Danger</Button>
   </Stack>,
 );
@@ -46,7 +51,6 @@ export const examples: Example[] = [
       <Button>Save</Button>
       <Button aria-label="Save" startIcon={floppyDisk} />
     </Stack>,
-    "The main action of a view, with its icon-only equivalent.",
   ),
   ex(
     "Secondary",
@@ -56,7 +60,15 @@ export const examples: Example[] = [
       <Button variant="secondary">Cancel</Button>
       <Button variant="secondary" aria-label="Cancel" startIcon={x} />
     </Stack>,
-    "For the actions next to the primary one.",
+  ),
+  ex(
+    "Outline",
+    `<Button variant="outline">Cancel</Button>
+<Button variant="outline" aria-label="Cancel" startIcon={<XIcon />} />`,
+    <Stack direction="row" gap="3" align="center" wrap>
+      <Button variant="outline">Cancel</Button>
+      <Button variant="outline" aria-label="Cancel" startIcon={x} />
+    </Stack>,
   ),
   ex(
     "Ghost",
@@ -66,7 +78,6 @@ export const examples: Example[] = [
       <Button variant="ghost">Skip</Button>
       <Button variant="ghost" aria-label="Skip" startIcon={skipForward} />
     </Stack>,
-    "Low emphasis, for actions that should not compete.",
   ),
   ex(
     "Accent",
@@ -76,7 +87,6 @@ export const examples: Example[] = [
       <Button variant="accent">Upgrade</Button>
       <Button variant="accent" aria-label="Upgrade" startIcon={sparkle} />
     </Stack>,
-    "Brand emphasis; this is the color you change for your brand.",
   ),
   ex(
     "Danger",
@@ -86,7 +96,6 @@ export const examples: Example[] = [
       <Button variant="danger">Delete</Button>
       <Button variant="danger" aria-label="Delete" startIcon={trash} />
     </Stack>,
-    "Destructive actions.",
   ),
   ex(
     "Disabled",
@@ -105,7 +114,6 @@ export const examples: Example[] = [
       <Button loading>Saving</Button>
       <Button loading aria-label="Saving" startIcon={floppyDisk} />
     </Stack>,
-    "Keeps its label, stays focusable and ignores clicks.",
   ),
   ex(
     "With icon",
@@ -113,7 +121,7 @@ export const examples: Example[] = [
     <Button variant="secondary" startIcon={check}>
       Done
     </Button>,
-    "Icons are decorative when there is text next to them.",
+    "You can place in the start or in the end.",
   ),
   ex(
     "As a link",

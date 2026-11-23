@@ -192,3 +192,8 @@
   opacity: 1;
   cursor: progress;
 }
+
+/* Centers the cap height of the label on the icon. */
+.label {
+  text-box: trim-both cap alphabetic;
+}

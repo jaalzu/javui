@@ -1,4 +1,4 @@
-import { Button, Link, Separator } from "@javui/ui";
+import { Button, Link, Separator, Tooltip } from "@javui/ui";
 import {
   componentLinks,
   componentsIndex,
@@ -113,16 +113,19 @@ export function SiteHeader() {
             <div className={styles.divider}>
               <Separator orientation="vertical" />
             </div>
-            <Button
-              href={repoUrl}
-              variant="ghost"
-              size="sm"
-              aria-label="GitHub repository"
-              className={`${styles.iconButton} ${styles.githubLink}`}
-              startIcon={githubMark}
-              target="_blank"
-              rel="noopener noreferrer"
-            />
+            <Tooltip content="GitHub repository" delay={1000} side="bottom">
+              <Button
+                href={repoUrl}
+                variant="ghost"
+                size="md"
+                pill
+                aria-label="GitHub repository"
+                className={`${styles.iconButton} ${styles.githubLink}`}
+                startIcon={githubMark}
+                target="_blank"
+                rel="noopener noreferrer"
+              />
+            </Tooltip>
             <div className={styles.divider}>
               <Separator orientation="vertical" />
             </div>

@@ -237,7 +237,7 @@
       "$description": "Text on info solid."
     },
     "danger-solid": {
-      "$value": "{primitive.color.danger.400}",
+      "$value": "{primitive.color.danger.500}",
       "$type": "color",
       "$description": "Danger background for strong feedback."
     },
@@ -262,12 +262,12 @@
       "$description": "Danger subtle hovered, e.g. destructive menu item."
     },
     "danger-foreground": {
-      "$value": "{color.danger-solid}",
+      "$value": "{primitive.color.danger.400}",
       "$type": "color",
       "$description": "Danger colored text and icons."
     },
     "on-danger-solid-foreground": {
-      "$value": "{color.page}",
+      "$value": "{primitive.color.white}",
       "$type": "color",
       "$description": "Text on danger solid."
     },

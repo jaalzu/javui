@@ -253,6 +253,8 @@ function ButtonContent({
   loading,
   children,
 }: ButtonContentProps) {
+  const hasLabel =
+    children !== undefined && children !== null && children !== false;
   return (
     <>
       {loading ? (
@@ -260,7 +262,7 @@ function ButtonContent({
       ) : (
         <IconSlot>{startIcon}</IconSlot>
       )}
-      {children}
+      {hasLabel ? <span className={styles.label}>{children}</span> : null}
       <IconSlot>{endIcon}</IconSlot>
     </>
   );

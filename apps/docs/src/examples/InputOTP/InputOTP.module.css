@@ -2,3 +2,14 @@
   align-items: center;
   text-align: center;
 }
+
+/*
+ * Field lays its children in a column with `align-items: stretch`. A stretched label is an
+ * inline-flex box, so its text sits at flex-start and `text-align` cannot move it. Center each
+ * child itself so the label, description and error line up with the centered slots.
+ */
+.exampleField > label,
+.exampleField > p,
+.exampleField > div {
+  align-self: center;
+}

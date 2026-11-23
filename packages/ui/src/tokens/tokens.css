@@ -24,6 +24,7 @@
   --primitive-color-info-400: oklch(0.7414 0.0995 250.16);
   --primitive-color-info-700: oklch(0.52 0.0995 250.16);
   --primitive-color-danger-400: oklch(0.69 0.198 27);
+  --primitive-color-danger-500: oklch(0.58 0.19 27);
   --primitive-color-danger-700: oklch(0.54 0.1874 30.37);
   --primitive-color-white: oklch(1 0 0);
   --primitive-color-black: oklch(0 0 0);
@@ -356,7 +357,9 @@
       --color-positive-solid: var(--primitive-color-success-400); /** Positive background for strong feedback. */
       --color-warning-solid: var(--primitive-color-warning-400); /** Warning background for strong feedback. */
       --color-info-solid: var(--primitive-color-info-400); /** Info background for strong feedback. */
-      --color-danger-solid: var(--primitive-color-danger-400); /** Danger background for strong feedback. */
+      --color-danger-solid: var(--primitive-color-danger-500); /** Danger background for strong feedback. */
+      --color-danger-foreground: var(--primitive-color-danger-400); /** Danger colored text and icons. */
+      --color-on-danger-solid-foreground: var(--primitive-color-white); /** Text on danger solid. */
       --color-card: color-mix(in oklab, var(--color-primary-foreground) 8%, var(--color-page)); /** Content blocks on the page: cards, panels, table rows. */
       --color-highlight: color-mix(in oklab, var(--color-primary-foreground) 4%, var(--color-card)); /** Highlighted panel inside a card: a metric, total or goal that should stand out. Lighter than the card in dark, soft gray in light. Never nest a highlight inside another highlight. */
       --color-modal: color-mix(in oklab, var(--color-primary-foreground) 6%, var(--color-page)); /** Layers above the page: dialog, menu, select list, popover. */
@@ -390,8 +393,6 @@
       --color-danger-solid-active: color-mix(in oklab, var(--color-danger-solid) 78%, var(--color-primary-foreground)); /** Danger solid pressed. */
       --color-danger-subtle: color-mix(in oklab, var(--color-danger-solid) 12%, transparent); /** Soft danger tint behind text or icons. */
       --color-danger-subtle-hover: color-mix(in oklab, var(--color-danger-solid) 20%, transparent); /** Danger subtle hovered, e.g. destructive menu item. */
-      --color-danger-foreground: var(--color-danger-solid); /** Danger colored text and icons. */
-      --color-on-danger-solid-foreground: var(--color-page); /** Text on danger solid. */
       --color-border-default: color-mix(in oklch, var(--color-primary-foreground) 7%, transparent); /** Default borders: inputs, cards, dividers you can see. */
       --color-border-strong: color-mix(in oklch, var(--color-primary-foreground) 9%, transparent); /** Emphasized borders and hover. */
       --color-border-emphasis: color-mix(in oklch, var(--color-primary-foreground) 12%, transparent); /** Slightly stronger borders for outline controls. */
@@ -404,6 +405,7 @@
       --color-danger-border-default: color-mix(in oklab, var(--color-danger-solid) 40%, transparent); /** Danger border. */
       --color-disabled: color-mix(in oklab, var(--color-primary-foreground) 6%, transparent); /** Background of disabled controls. */
       --syntax-text: var(--color-primary-foreground); /** Default code text: variables, operators, plain identifiers. */
+      --syntax-danger: var(--color-danger-foreground); /** Removed code in a diff. */
       --color-component-on-sunken: var(--color-card); /** Component placed on a sunken area, so it still stands out. */
       --color-control: var(--color-component-hover); /** Neutral control surface at rest. */
       --color-field: var(--color-transparent-hover); /** Resting background of text fields (Input, Textarea). Transparent in light, a soft tint in dark. */
@@ -414,7 +416,6 @@
       --syntax-function: color-mix(in oklab, var(--color-info-foreground) 88%, var(--color-primary-foreground)); /** Function and method names. */
       --syntax-comment: var(--color-tertiary-foreground); /** Comments, quieter than code. */
       --syntax-punctuation: var(--color-secondary-foreground); /** Braces, brackets, separators and other punctuation. */
-      --syntax-danger: var(--color-danger-foreground); /** Removed code in a diff. */
       --syntax-diff-added-bg: var(--color-positive-subtle); /** Background of an added line in a diff. */
       --syntax-diff-removed-bg: var(--color-danger-subtle); /** Background of a removed line in a diff. */
   }
@@ -445,7 +446,9 @@
     --color-positive-solid: var(--primitive-color-success-400); /** Positive background for strong feedback. */
     --color-warning-solid: var(--primitive-color-warning-400); /** Warning background for strong feedback. */
     --color-info-solid: var(--primitive-color-info-400); /** Info background for strong feedback. */
-    --color-danger-solid: var(--primitive-color-danger-400); /** Danger background for strong feedback. */
+    --color-danger-solid: var(--primitive-color-danger-500); /** Danger background for strong feedback. */
+    --color-danger-foreground: var(--primitive-color-danger-400); /** Danger colored text and icons. */
+    --color-on-danger-solid-foreground: var(--primitive-color-white); /** Text on danger solid. */
     --color-card: color-mix(in oklab, var(--color-primary-foreground) 8%, var(--color-page)); /** Content blocks on the page: cards, panels, table rows. */
     --color-highlight: color-mix(in oklab, var(--color-primary-foreground) 4%, var(--color-card)); /** Highlighted panel inside a card: a metric, total or goal that should stand out. Lighter than the card in dark, soft gray in light. Never nest a highlight inside another highlight. */
     --color-modal: color-mix(in oklab, var(--color-primary-foreground) 6%, var(--color-page)); /** Layers above the page: dialog, menu, select list, popover. */
@@ -479,8 +482,6 @@
     --color-danger-solid-active: color-mix(in oklab, var(--color-danger-solid) 78%, var(--color-primary-foreground)); /** Danger solid pressed. */
     --color-danger-subtle: color-mix(in oklab, var(--color-danger-solid) 12%, transparent); /** Soft danger tint behind text or icons. */
     --color-danger-subtle-hover: color-mix(in oklab, var(--color-danger-solid) 20%, transparent); /** Danger subtle hovered, e.g. destructive menu item. */
-    --color-danger-foreground: var(--color-danger-solid); /** Danger colored text and icons. */
-    --color-on-danger-solid-foreground: var(--color-page); /** Text on danger solid. */
     --color-border-default: color-mix(in oklch, var(--color-primary-foreground) 7%, transparent); /** Default borders: inputs, cards, dividers you can see. */
     --color-border-strong: color-mix(in oklch, var(--color-primary-foreground) 9%, transparent); /** Emphasized borders and hover. */
     --color-border-emphasis: color-mix(in oklch, var(--color-primary-foreground) 12%, transparent); /** Slightly stronger borders for outline controls. */
@@ -493,6 +494,7 @@
     --color-danger-border-default: color-mix(in oklab, var(--color-danger-solid) 40%, transparent); /** Danger border. */
     --color-disabled: color-mix(in oklab, var(--color-primary-foreground) 6%, transparent); /** Background of disabled controls. */
     --syntax-text: var(--color-primary-foreground); /** Default code text: variables, operators, plain identifiers. */
+    --syntax-danger: var(--color-danger-foreground); /** Removed code in a diff. */
     --color-component-on-sunken: var(--color-card); /** Component placed on a sunken area, so it still stands out. */
     --color-control: var(--color-component-hover); /** Neutral control surface at rest. */
     --color-field: var(--color-transparent-hover); /** Resting background of text fields (Input, Textarea). Transparent in light, a soft tint in dark. */
@@ -503,7 +505,6 @@
     --syntax-function: color-mix(in oklab, var(--color-info-foreground) 88%, var(--color-primary-foreground)); /** Function and method names. */
     --syntax-comment: var(--color-tertiary-foreground); /** Comments, quieter than code. */
     --syntax-punctuation: var(--color-secondary-foreground); /** Braces, brackets, separators and other punctuation. */
-    --syntax-danger: var(--color-danger-foreground); /** Removed code in a diff. */
     --syntax-diff-added-bg: var(--color-positive-subtle); /** Background of an added line in a diff. */
     --syntax-diff-removed-bg: var(--color-danger-subtle); /** Background of a removed line in a diff. */
 }

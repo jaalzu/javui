@@ -16,10 +16,24 @@ import {
   type NavLink,
 } from "./nav";
 
-function Group({ title, links, pathname, spaced = false }: { title: string; links: NavLink[]; pathname: string; spaced?: boolean }) {
+function Group({
+  title,
+  links,
+  pathname,
+  spaced = false,
+}: {
+  title: string;
+  links: NavLink[];
+  pathname: string;
+  spaced?: boolean;
+}) {
   return (
     <div className={layout.sideGroup}>
-      <p className={`${layout.sideTitle} ${spaced ? layout.sideTitleSpaced : ""}`}>{title}</p>
+      <p
+        className={`${layout.sideTitle} ${spaced ? layout.sideTitleSpaced : ""}`}
+      >
+        {title}
+      </p>
       <ul className={layout.sideList}>
         {links.map((l) => (
           <li key={l.href}>
@@ -41,7 +55,11 @@ function Group({ title, links, pathname, spaced = false }: { title: string; link
 type DisclosureSection = { title: string; href: string; links: NavLink[] };
 
 const disclosureSections: DisclosureSection[] = [
-  { title: "Foundations", href: "/docs/foundations", links: foundationSections },
+  {
+    title: "Foundations",
+    href: "/docs/foundations",
+    links: foundationSections,
+  },
   {
     title: "Layout & Utilities",
     href: "/docs/layout-utilities",
@@ -56,7 +74,11 @@ function DisclosureGroup({
   pathname,
   open,
   onOpen,
-}: DisclosureSection & { pathname: string; open: boolean; onOpen: () => void }) {
+}: DisclosureSection & {
+  pathname: string;
+  open: boolean;
+  onOpen: () => void;
+}) {
   const contentId = useId();
 
   return (
@@ -73,7 +95,9 @@ function DisclosureGroup({
           if (pathname === href) event.preventDefault();
           if (!open) onOpen();
         }}
-      >{title}</Link>
+      >
+        {title}
+      </Link>
       {/* Kept mounted so both opening and closing can animate smoothly. */}
       <div
         className={layout.sideDisclosurePanel}
@@ -81,7 +105,10 @@ function DisclosureGroup({
         inert={!open}
       >
         <div className={layout.sideDisclosureClip}>
-          <ul id={contentId} className={`${layout.sideList} ${layout.sideDisclosureList}`}>
+          <ul
+            id={contentId}
+            className={`${layout.sideList} ${layout.sideDisclosureList}`}
+          >
             {links.map((l) => (
               <li key={l.href}>
                 <Link
@@ -109,20 +136,28 @@ export function DocsNav() {
       pathname === section.href ||
       section.links.some((link) => pathname === link.href),
   )?.href;
+
   // Only one group is open at a time: opening one closes the other.
   const [openHref, setOpenHref] = useState<string | null>(
     activeDisclosureHref ?? null,
   );
+  const [prevPathname, setPrevPathname] = useState(pathname);
 
-  // Follow the route: open the group that owns the page and close everything
-  // when the page does not belong to a disclosure group.
-  useEffect(() => {
+  // Follow the route: when the page changes, open the group that owns it
+  // (or close everything). Adjusting state during render avoids an extra
+  // effect pass.
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
     setOpenHref(activeDisclosureHref ?? null);
-  }, [activeDisclosureHref, pathname]);
+  }
 
   return (
     <nav aria-label="Documentation">
-      <Group title="Getting started" links={generalSections} pathname={pathname} />
+      <Group
+        title="Getting started"
+        links={generalSections}
+        pathname={pathname}
+      />
       {disclosureSections.map((section) => (
         <DisclosureGroup
           key={section.href}
@@ -132,9 +167,27 @@ export function DocsNav() {
           onOpen={() => setOpenHref(section.href)}
         />
       ))}
-      <Group title="Components" links={[{ ...componentsIndex, label: "All components" }, ...componentLinks]} pathname={pathname} spaced />
-      <Group title="Providers and hooks" links={providerLinks} pathname={pathname} spaced />
-      <Group title="More" links={generalSectionsEnd} pathname={pathname} spaced />
+      <Group
+        title="Components"
+        links={[
+          { ...componentsIndex, label: "All components" },
+          ...componentLinks,
+        ]}
+        pathname={pathname}
+        spaced
+      />
+      <Group
+        title="Providers and hooks"
+        links={providerLinks}
+        pathname={pathname}
+        spaced
+      />
+      <Group
+        title="More"
+        links={generalSectionsEnd}
+        pathname={pathname}
+        spaced
+      />
     </nav>
   );
 }

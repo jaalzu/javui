@@ -8,3 +8,15 @@
   background: var(--color-sunken);
   border-radius: var(--radius-md);
 }
+
+.counter {
+  margin-inline-start: auto;
+}
+
+.counterValue.counterValue {
+  min-width: 5ch;
+  padding-inline: var(--space-2);
+  justify-content: center;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--font-size-12);
+}

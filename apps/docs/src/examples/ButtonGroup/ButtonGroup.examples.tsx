@@ -14,7 +14,6 @@ import {
 import {
   ArrowRightIcon,
   CaretDownIcon,
-  MagnifyingGlassIcon,
   MinusIcon,
   PlusIcon,
   PulseIcon,

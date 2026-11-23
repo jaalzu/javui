@@ -6,9 +6,9 @@
   align-items: center;
   justify-content: center;
   padding: 0 var(--space-3);
-  border: var(--border-width-thin) solid var(--color-border-default);
+  border: var(--border-width-thin) solid var(--color-border-emphasis);
   border-radius: var(--btn-radius);
-  background: var(--color-sunken);
+  background: var(--color-field);
   color: var(--color-secondary-foreground);
   font-family: var(--text-body-family);
   font-size: var(--text-body-size);

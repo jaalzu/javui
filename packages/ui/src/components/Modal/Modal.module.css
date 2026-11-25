@@ -101,6 +101,7 @@
 
   .title {
     margin: 0;
+    text-wrap: balance;
     color: var(--modal-tone);
     font-family: var(--text-heading-6-family);
     font-size: var(--text-heading-6-size);

@@ -17,6 +17,7 @@
 }
 .light {
   display: block;
+  filter: invert(1);
 }
 
 /* Antes de que next-themes hidrate (sin data-theme), respeta el SO. */

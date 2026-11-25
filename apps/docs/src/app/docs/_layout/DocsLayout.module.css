@@ -19,14 +19,14 @@
   min-width: 0;
 }
 
-@media (max-width: 55.99rem) {
+@media (max-width: 63.99rem) {
   .side,
   .toc {
     display: none;
   }
 }
 
-@media (min-width: 56rem) {
+@media (min-width: 64rem) {
   .docs {
     grid-template-columns: 15rem minmax(0, 1fr);
     column-gap: var(--space-8);
@@ -62,7 +62,7 @@
 
 @media (min-width: 80rem) {
   .docs {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 44rem) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 43rem) minmax(0, 1fr);
     column-gap: var(--space-8);
     margin-inline: calc(-1 * var(--space-4) + 6px);
   }

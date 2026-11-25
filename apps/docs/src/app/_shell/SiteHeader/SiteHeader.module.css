@@ -5,6 +5,9 @@
   background: var(--color-page-translucent);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
+  /* Línea suave inferior */
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--color-border-strong) 45%, transparent);
   transition: transform var(--motion-duration-slow)
     var(--motion-easing-standard);
 }
@@ -96,6 +99,7 @@ a.brand {
     grid-row: 1;
     justify-self: start;
     position: relative;
+    align-self: stretch; /* ocupa toda la altura del header */
   }
   .githubLink {
     display: inline-flex;
@@ -129,14 +133,80 @@ a.brand {
     top: -2px;
   }
 
-  .navList a {
+  .navList {
+    position: relative;
+    height: 100%;
+    align-items: stretch;
+  }
+
+  .navList li {
+    position: relative;
+    z-index: 1; /* texto por encima del glow */
+    display: flex;
+    align-items: stretch;
+  }
+
+  /* El link ocupa toda la altura del header: no hay zona muerta. */
+  .navList li .navLink {
+    height: 100%;
+    border-radius: 0;
     font-size: var(--font-size-16);
+    --btn-bg-hover: transparent;
     transition: color var(--motion-duration-slow) var(--motion-easing-standard);
   }
 
-  .navList a:hover,
-  .navList a[aria-current="page"] {
+  .navList li .navLink:hover,
+  .navList li .navLink[aria-current="page"] {
     color: var(--color-primary-foreground);
+  }
+
+  /* Un solo glow que se desliza entre tabs. */
+  .navList::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 0;
+    height: 100%;
+    width: var(--glow-w, 0px);
+    transform: translateX(var(--glow-x, 0px));
+    pointer-events: none;
+    /* Los costados suben más y el centro baja: la luz rodea el texto en vez de taparlo. */
+    background:
+      radial-gradient(
+        ellipse 55% 90% at 10% 100%,
+        color-mix(in srgb, var(--color-primary-foreground) 13%, transparent),
+        transparent 72%
+      ),
+      radial-gradient(
+        ellipse 55% 90% at 90% 100%,
+        color-mix(in srgb, var(--color-primary-foreground) 13%, transparent),
+        transparent 72%
+      ),
+      radial-gradient(
+        ellipse 45% 40% at 50% 100%,
+        color-mix(in srgb, var(--color-primary-foreground) 9%, transparent),
+        transparent 75%
+      ),
+      linear-gradient(
+        to top,
+        color-mix(in srgb, var(--color-primary-foreground) 6%, transparent),
+        transparent 35%
+      );
+    opacity: 0;
+    transition:
+      transform 380ms var(--motion-easing-out),
+      width 380ms var(--motion-easing-out),
+      opacity var(--motion-duration-slow) var(--motion-easing-standard);
+  }
+
+  .navList[data-glow]::after {
+    opacity: 1;
+  }
+
+  /* Primer posicionamiento: solo el fade, sin deslizar. */
+  .navList[data-instant]::after {
+    transition: opacity var(--motion-duration-slow) var(--motion-easing-standard);
   }
 }
 

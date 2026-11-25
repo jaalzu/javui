@@ -209,6 +209,8 @@
   font-family: var(--text-code-family);
   font-size: var(--text-code-sm-size);
   line-height: var(--text-heading-1-line);
+  /* Line numbers and numeric literals share one width, so the gutter stays straight. */
+  font-variant-numeric: tabular-nums;
   tab-size: 2;
 }
 
@@ -253,6 +255,8 @@
   font-family: var(--text-code-family);
   font-size: var(--text-code-sm-size);
   line-height: var(--text-heading-1-line);
+  /* Line numbers and numeric literals share one width, so the gutter stays straight. */
+  font-variant-numeric: tabular-nums;
   tab-size: 2;
 }
 

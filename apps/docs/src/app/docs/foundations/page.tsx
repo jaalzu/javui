@@ -19,7 +19,6 @@ export default function Foundations() {
         <li><Link href="/docs/surfaces">Surfaces</Link>: page, card, sunken, highlight and modal depth.</li>
         <li><Link href="/docs/typography">Typography</Link>: text styles, heading hierarchy and readable content.</li>
         <li><Link href="/docs/theming">Theming</Link>: CSS custom properties and light/dark themes.</li>
-        <li><Link href="/docs/animations">Motion</Link>: durations, easing and reduced-motion behavior.</li>
       </ul>
 
       <Heading as="h2" size={6}>The rule</Heading>

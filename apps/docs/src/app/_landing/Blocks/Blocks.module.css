@@ -107,6 +107,28 @@
   gap: var(--space-2);
 }
 
+/* Icon buttons like the header's, one step smaller: 28px box with a 14px glyph. */
+.iconButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.iconButton {
+  width: var(--size-control-sm);
+  padding-inline: 0;
+  border-color: var(--color-border-strong);
+  border-radius: var(--radius-full);
+  --btn-bg-hover: var(--color-border-strong);
+}
+/* The fill stays inside the border box, so the 1px ring is not painted twice. */
+.iconButton.iconButton::before {
+  inset: 0;
+}
+/* The slot inherits the control's glyph size; 14px is the 16px small icon minus 2px. */
+.iconButton > span {
+  --icon-size: calc(var(--size-icon-sm) - 2px);
+}
+
 /* ---------- Goals, amounts, big numbers ---------- */
 .targetsTitle {
   font-size: var(--text-body-lg-size);

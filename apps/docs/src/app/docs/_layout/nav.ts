@@ -6,7 +6,6 @@ export type NavLink = { href: string; label: string };
 export const generalSections: NavLink[] = [
   { href: "/docs", label: "Introduction" },
   { href: "/docs/installation", label: "Installation" },
-  { href: "/docs/usage", label: "Usage" },
 ];
 
 export const foundationSections: NavLink[] = [
@@ -14,15 +13,10 @@ export const foundationSections: NavLink[] = [
   { href: "/docs/colors", label: "Colors" },
   { href: "/docs/surfaces", label: "Surfaces" },
   { href: "/docs/typography", label: "Typography" },
-  { href: "/docs/animations", label: "Motion" },
 ];
 
 export const layoutSections: NavLink[] = [
   { href: "/docs/layout", label: "Layout" },
-];
-
-export const generalSectionsEnd: NavLink[] = [
-  { href: "/docs/agents", label: "For agents" },
 ];
 
 /** Flat list used by the global search and mobile header. The sidebar uses grouped navigation. */
@@ -30,7 +24,6 @@ export const sections: NavLink[] = [
   ...generalSections,
   ...foundationSections,
   ...layoutSections,
-  ...generalSectionsEnd,
 ];
 
 export const componentsIndex: NavLink = {
@@ -70,7 +63,6 @@ export const pageOrder: NavLink[] = [
   ...generalSections,
   ...foundationSections,
   ...layoutSections,
-  ...generalSectionsEnd,
   componentsIndex,
   ...componentLinks,
   ...layoutComponentLinks,

@@ -62,8 +62,8 @@ export const examples: Example[] = [
   { label: "Docs", href: "/docs" },
   { label: "Components", href: "/docs/components" },
   { label: "Navigation", href: "/docs/components/navigation" },
-  { label: "Breadcrumb", href: "/docs/components/breadcrumb" },
-  { label: "Examples", href: "/docs/components/breadcrumb#examples" },
+  { label: "Breadcrumb", href: "/docs/components/Breadcrumb" },
+  { label: "Examples", href: "/docs/components/Breadcrumb#examples" },
   { label: "Collapsed" },
 ]} />`,
     <Breadcrumb
@@ -72,8 +72,8 @@ export const examples: Example[] = [
         { label: "Docs", href: "/docs" },
         { label: "Components", href: "/docs/components" },
         { label: "Navigation", href: "/docs/components/navigation" },
-        { label: "Breadcrumb", href: "/docs/components/breadcrumb" },
-        { label: "Examples", href: "/docs/components/breadcrumb#examples" },
+        { label: "Breadcrumb", href: "/docs/components/Breadcrumb" },
+        { label: "Examples", href: "/docs/components/Breadcrumb#examples" },
         { label: "Collapsed" },
       ]}
     />,

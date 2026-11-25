@@ -35,19 +35,29 @@
   pointer-events: none;
 }
 
-.startSlot { inset-inline-start: var(--_px); }
+.startSlot {
+  inset-inline-start: var(--_px);
+}
 .endSlot,
-.spinnerSlot { inset-inline-end: var(--_px); }
-.spinnerSlot { display: flex; }
+.spinnerSlot {
+  inset-inline-end: var(--_px);
+}
+.spinnerSlot {
+  display: flex;
+}
 
 .root[data-icon="start"] .textarea,
 .root[data-icon="both"] .textarea {
-  padding-inline-start: calc(var(--_px) + var(--icon-size) + var(--textarea-icon-gap));
+  padding-inline-start: calc(
+    var(--_px) + var(--icon-size) + var(--textarea-icon-gap)
+  );
 }
 
 .root[data-icon="end"] .textarea,
 .root[data-icon="both"] .textarea {
-  padding-inline-end: calc(var(--_px) + var(--icon-size) + var(--textarea-icon-gap));
+  padding-inline-end: calc(
+    var(--_px) + var(--icon-size) + var(--textarea-icon-gap)
+  );
 }
 
 /* inline and ghost: nothing visible at rest. */

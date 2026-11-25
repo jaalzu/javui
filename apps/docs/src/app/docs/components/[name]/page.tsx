@@ -6,6 +6,7 @@ import { Alert, Heading, Skeleton, Stack } from "@javui/ui";
 import { CodeBlock } from "@javui/ui/server";
 import { Examples, Preview } from "@/app/_examples/Examples";
 import { DocPage } from "@/app/docs/_page/DocPage";
+import { PackageManagerCode } from "@/app/docs/_page/PackageManagerCode";
 
 type Prop = { name: string; type: string; required: boolean; default?: string; description?: string };
 type Entry = {
@@ -88,15 +89,7 @@ async function ComponentContent({ params }: ComponentPageProps) {
       <Preview name={c.name} />
 
       <Heading as="h2" size={6}>Installation</Heading>
-      <CodeBlock
-        language="bash"
-        label="Install"
-        tabs={[
-          { label: "npm", code: "npm install ui-lib" },
-          { label: "pnpm", code: "pnpm add ui-lib" },
-          { label: "bun", code: "bun add ui-lib" },
-        ]}
-      />
+      <PackageManagerCode npm="npm install ui-lib" label="Install" />
 
       <Heading as="h2" size={6}>Usage</Heading>
       <CodeBlock language="tsx" label="Import" code={c.import} minimal />

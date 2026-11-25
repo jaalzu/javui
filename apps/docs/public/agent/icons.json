@@ -1336,5 +1336,202 @@
       "regular",
       "fill"
     ]
+  },
+  {
+    "name": "file-css",
+    "component": "FileCssIcon",
+    "categories": [
+      "office",
+      "editor",
+      "technology & development"
+    ],
+    "tags": [
+      "documents",
+      "code"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "file-tsx",
+    "component": "FileTsxIcon",
+    "categories": [
+      "office",
+      "editor",
+      "technology & development"
+    ],
+    "tags": [
+      "documents",
+      "code",
+      "typescript"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "file-jsx",
+    "component": "FileJsxIcon",
+    "categories": [
+      "office",
+      "editor",
+      "technology & development"
+    ],
+    "tags": [
+      "documents",
+      "code",
+      "javascript"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "file-ts",
+    "component": "FileTsIcon",
+    "categories": [
+      "office",
+      "editor",
+      "technology & development"
+    ],
+    "tags": [
+      "documents",
+      "code",
+      "typescript"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "file-js",
+    "component": "FileJsIcon",
+    "categories": [
+      "office",
+      "editor",
+      "technology & development"
+    ],
+    "tags": [
+      "documents",
+      "code",
+      "javascript"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "file-html",
+    "component": "FileHtmlIcon",
+    "categories": [
+      "office",
+      "editor",
+      "technology & development"
+    ],
+    "tags": [
+      "*updated*",
+      "documents",
+      "code"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "file-md",
+    "component": "FileMdIcon",
+    "categories": [
+      "office",
+      "editor",
+      "technology & development"
+    ],
+    "tags": [
+      "*new*",
+      "documents",
+      "notes",
+      "markdown"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "file-code",
+    "component": "FileCodeIcon",
+    "categories": [
+      "office",
+      "editor",
+      "technology & development"
+    ],
+    "tags": [
+      "documents"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "file",
+    "component": "FileIcon",
+    "categories": [
+      "office",
+      "editor"
+    ],
+    "tags": [
+      "documents",
+      "files",
+      "save",
+      "write",
+      "page"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "puzzle-piece",
+    "component": "PuzzlePieceIcon",
+    "categories": [
+      "games",
+      "technology & development"
+    ],
+    "tags": [
+      "board game",
+      "element",
+      "component",
+      "extension",
+      "plugin"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
+  },
+  {
+    "name": "code",
+    "component": "CodeIcon",
+    "categories": [
+      "technology & development",
+      "editor"
+    ],
+    "tags": [
+      "angle brackets",
+      "angle braces",
+      "snippets"
+    ],
+    "weights": [
+      "regular",
+      "fill"
+    ]
   }
 ]

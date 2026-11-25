@@ -4,7 +4,6 @@ import {
   componentsIndex,
   foundationSections,
   generalSections,
-  generalSectionsEnd,
   layoutComponentLinks,
   layoutSections,
   providerLinks,
@@ -15,6 +14,7 @@ import { Search, type SearchItem } from "@/app/_shell/Search/Search";
 import { Mark } from "@/app/_shell/Logo/Logo";
 import { repoUrl, siteName } from "@/app/_config/site-config";
 import { HideOnScroll } from "./HideOnScroll";
+import { MainNav } from "./MainNav";
 import { ThemeSwitcher } from "@/app/_shell/ThemeSwitcher/ThemeSwitcher";
 import styles from "./SiteHeader.module.css";
 import shell from "../shell.module.css";
@@ -22,7 +22,6 @@ import shell from "../shell.module.css";
 const mainLinks = [
   { href: "/docs", label: "Docs" },
   { href: "/docs/components", label: "Components" },
-  { href: "/docs/agents", label: "Agents" },
 ];
 
 const githubMark = (
@@ -70,14 +69,10 @@ export function SiteHeader() {
     { title: "Getting started", links: generalSections },
     { title: "Foundations", links: [{ href: "/docs/foundations", label: "Foundations" }, ...foundationSections] },
     { title: "Layout & Utilities", links: [{ href: "/docs/layout-utilities", label: "Layout & Utilities" }, ...layoutSections, ...layoutComponentLinks] },
-    {
-      title: "Components",
-      links: [
+    { title: "Components", links: [
         { ...componentsIndex, label: "All components" },
         ...componentLinks,
-      ],
-    },
-    { title: "More", links: generalSectionsEnd },
+      ] },
     { title: "Providers and hooks", links: providerLinks },
   ];
   return (
@@ -97,17 +92,7 @@ export function SiteHeader() {
               <Mark />
             </span>
           </Link>
-          <nav aria-label="Main" className={styles.mainNav}>
-            <ul className={styles.navList}>
-              {mainLinks.map((l) => (
-                <li key={l.href}>
-                  <Button href={l.href} variant="ghost" size="md">
-                    {l.label}
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <MainNav links={mainLinks} />
           <div className={styles.actions}>
             <Search items={searchItems} />
             <div className={styles.divider}>

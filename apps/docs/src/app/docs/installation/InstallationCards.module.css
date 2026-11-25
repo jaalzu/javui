@@ -1,0 +1,57 @@
+.cards {
+  display: grid;
+  gap: var(--space-3);
+}
+
+@media (min-width: 40rem) {
+  .cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Two classes so the card wins over the Link underline. */
+.cards .card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--color-sunken);
+  color: var(--color-primary-foreground);
+  text-decoration: none;
+  transition: background-color var(--motion-duration-fast)
+    var(--motion-easing-standard);
+}
+
+.cards .card:hover {
+  background: var(--color-component-hover);
+  text-decoration: none;
+}
+
+/* Code-block gray in light; the card surface lifts it off the page in dark. */
+:global([data-theme="dark"]) .cards .card {
+  background: var(--color-card);
+}
+
+:global([data-theme="dark"]) .cards .card:hover {
+  background: var(--color-component-hover);
+}
+
+.cards .card:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.title {
+  font-family: var(--text-heading-6-family);
+  font-size: var(--text-heading-6-size);
+  line-height: var(--text-heading-6-line);
+  letter-spacing: var(--text-heading-6-tracking);
+  font-weight: var(--text-heading-6-weight);
+}
+
+.text {
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line);
+  color: var(--color-secondary-foreground);
+}

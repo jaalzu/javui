@@ -9,7 +9,6 @@ import {
   componentsIndex,
   foundationSections,
   generalSections,
-  generalSectionsEnd,
   layoutComponentLinks,
   layoutSections,
   providerLinks,
@@ -179,12 +178,6 @@ export function DocsNav() {
       <Group
         title="Providers and hooks"
         links={providerLinks}
-        pathname={pathname}
-        spaced
-      />
-      <Group
-        title="More"
-        links={generalSectionsEnd}
         pathname={pathname}
         spaced
       />

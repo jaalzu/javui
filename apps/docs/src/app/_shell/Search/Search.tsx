@@ -16,11 +16,24 @@ import {
   ArrowDownIcon,
   ArrowUpIcon,
   Button,
+  CodeIcon,
+  FileTextIcon,
   Kbd,
+  LayoutIcon,
   MagnifyingGlassIcon,
+  PuzzlePieceIcon,
+  VisuallyHidden,
   XIcon,
 } from "@javui/ui";
 import styles from "./Search.module.css";
+
+/** Glyph that stands in for each result group. The label stays for assistive technology. */
+const groupIcons: Record<string, typeof FileTextIcon> = {
+  Docs: FileTextIcon,
+  "Layout or utility": LayoutIcon,
+  Component: PuzzlePieceIcon,
+  "Provider or hook": CodeIcon,
+};
 
 export type SearchItem = {
   href: string;
@@ -170,21 +183,27 @@ export function Search({ items }: { items: SearchItem[] }) {
           aria-label="Results"
           className={styles.searchList}
         >
-          {results.map((item, i) => (
-            <li
-              key={item.href}
-              id={`${listId}-${i}`}
-              role="option"
-              aria-selected={i === active}
-              data-active={i === active ? "" : undefined}
-              className={styles.searchItem}
-              onMouseMove={() => setActive(i)}
-              onClick={() => go(item)}
-            >
-              <span className={styles.searchLabel}>{item.label}</span>
-              <span className={styles.searchGroup}>{item.group}</span>
-            </li>
-          ))}
+          {results.map((item, i) => {
+            const GroupIcon = groupIcons[item.group];
+            return (
+              <li
+                key={item.href}
+                id={`${listId}-${i}`}
+                role="option"
+                aria-selected={i === active}
+                data-active={i === active ? "" : undefined}
+                className={styles.searchItem}
+                onMouseMove={() => setActive(i)}
+                onClick={() => go(item)}
+              >
+                <span className={styles.searchLabel}>{item.label}</span>
+                <span className={styles.searchGroup}>
+                  {GroupIcon ? <GroupIcon size="md" /> : null}
+                  <VisuallyHidden>{item.group}</VisuallyHidden>
+                </span>
+              </li>
+            );
+          })}
         </ul>
         {results.length === 0 && (
           <p className={styles.searchEmpty}>No results for “{query}”.</p>

@@ -140,6 +140,7 @@
 
 .title {
   margin: 0;
+  text-wrap: balance;
   font-family: var(--text-label-family);
   font-size: var(--text-body-size);
   line-height: var(--text-label-line);

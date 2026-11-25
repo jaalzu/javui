@@ -15,7 +15,7 @@ export function Mark({ className, ...props }: LogoImageProps) {
   return (
     <span className={cls} aria-hidden="true" data-testid="logo-mark">
       <img
-        src="/logo/logo-light.svg"
+        src="/logo/logo.svg"
         alt=""
         aria-hidden="true"
         loading="eager"

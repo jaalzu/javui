@@ -15,7 +15,7 @@ const accordionItems = [
   {
     value: "c",
     title: "Can agents use it?",
-    content: <Text>There is a manifest and an MCP server.</Text>,
+    content: <Text>Yes: every prop is listed in the agent manifest.</Text>,
   },
 ];
 

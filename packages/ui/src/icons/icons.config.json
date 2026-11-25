@@ -48,22 +48,33 @@
   "skip-forward",
   "sparkle",
   "star",
-  "prohibit"
-  ,"house"
-  ,"user-circle"
-  ,"pulse"
-  ,"shield-check"
-  ,"sliders"
-  ,"question"
-  ,"book-open"
-  ,"lifebuoy"
-  ,"archive"
-  ,"file-pdf"
-  ,"file-csv"
-  ,"layout"
-  ,"sidebar"
-  ,"arrow-u-up-left"
-  ,"sign-out"
-  ,"export"
-  ,"paper-plane-tilt"
+  "prohibit",
+  "house",
+  "user-circle",
+  "pulse",
+  "shield-check",
+  "sliders",
+  "question",
+  "book-open",
+  "lifebuoy",
+  "archive",
+  "file-pdf",
+  "file-csv",
+  "layout",
+  "sidebar",
+  "arrow-u-up-left",
+  "sign-out",
+  "export",
+  "paper-plane-tilt",
+  "file-css",
+  "file-tsx",
+  "file-jsx",
+  "file-ts",
+  "file-js",
+  "file-html",
+  "file-md",
+  "file-code",
+  "file",
+  "puzzle-piece",
+  "code"
 ]

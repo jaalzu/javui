@@ -33,7 +33,9 @@ export function DocPage({ href, title, description, children }: DocPageProps) {
             {title}
           </Heading>
           <div className={styles.docActions}>
-            <CopyPage />
+            <div className={styles.copyPage}>
+              <CopyPage />
+            </div>
             {prev && (
               <Button
                 href={prev.href}

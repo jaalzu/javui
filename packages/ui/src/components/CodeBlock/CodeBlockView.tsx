@@ -2,10 +2,43 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
-import { CheckIcon, CopyIcon, TerminalWindowIcon } from "../../icons/icons.generated";
+import {
+  CheckIcon,
+  CopyIcon,
+  FileCodeIcon,
+  FileCssIcon,
+  FileHtmlIcon,
+  FileJsIcon,
+  FileJsxIcon,
+  FileMdIcon,
+  FileTsIcon,
+  FileTsxIcon,
+  TerminalWindowIcon,
+} from "../../icons/icons.generated";
+import type { IconComponent } from "../Icon/createIcon";
 import { cx } from "../../utils/cx";
 import type { CodeBlockProps } from "./types";
 import styles from "./CodeBlock.module.css";
+
+/** File glyph shown at the start of the header, by language. Unknown languages keep the text label. */
+const languageIcons: Record<string, IconComponent> = {
+  css: FileCssIcon,
+  scss: FileCssIcon,
+  sass: FileCssIcon,
+  less: FileCssIcon,
+  tsx: FileTsxIcon,
+  jsx: FileJsxIcon,
+  ts: FileTsIcon,
+  typescript: FileTsIcon,
+  js: FileJsIcon,
+  javascript: FileJsIcon,
+  html: FileHtmlIcon,
+  md: FileMdIcon,
+  markdown: FileMdIcon,
+  json: FileCodeIcon,
+  yaml: FileCodeIcon,
+  yml: FileCodeIcon,
+};
 
 export type CodeBlockViewProps = Omit<CodeBlockProps, "highlight"> & {
   /** Highlighted HTML for `code`, produced on the server. */
@@ -63,8 +96,12 @@ export function CodeBlockView({
     }
   }
 
+  const LeadIcon = language ? languageIcons[language] : undefined;
+
   const lead = language && terminalLanguages.has(language) ? (
     <TerminalWindowIcon size="md" className={styles.lead} />
+  ) : LeadIcon ? (
+    <LeadIcon size="md" className={styles.lead} />
   ) : (
     <span className={styles.language}>{language ?? ""}</span>
   );

@@ -17,6 +17,8 @@
   color: var(--color-primary-foreground);
   font-size: var(--text-body-sm-size);
   line-height: var(--text-body-sm-line);
+  /* Digits share one width, so numbers line up across every column, not only the end-aligned ones. */
+  font-variant-numeric: tabular-nums;
 }
 
 .caption {
@@ -81,5 +83,4 @@
 
 .end {
   text-align: end;
-  font-variant-numeric: tabular-nums;
 }

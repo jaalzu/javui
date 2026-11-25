@@ -21,6 +21,9 @@ import {
   Link,
   Stack,
   Switch,
+  SidebarIcon,
+  SlidersIcon,
+  StarIcon,
   Text,
 } from "@javui/ui";
 import { CaretDownIcon } from "@javui/ui";
@@ -100,6 +103,29 @@ function Controls() {
           <Button size="sm" variant="danger">
             Delete
           </Button>
+        </div>
+        <div className={styles.iconButtons}>
+          <Button
+            size="sm"
+            variant="ghost"
+            className={styles.iconButton}
+            aria-label="Filters"
+            startIcon={<SlidersIcon />}
+          />
+          <Button
+            size="sm"
+            variant="ghost"
+            className={styles.iconButton}
+            aria-label="Sidebar"
+            startIcon={<SidebarIcon />}
+          />
+          <Button
+            size="sm"
+            variant="ghost"
+            className={styles.iconButton}
+            aria-label="Favorites"
+            startIcon={<StarIcon />}
+          />
         </div>
         <Stack gap="2">
           <Checkbox label="Email updates" defaultChecked />

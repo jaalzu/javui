@@ -1,5 +1,7 @@
 import { Button, Checkbox, Field, FieldSeparator, FieldSet, Input, Select, Stack, Textarea } from "@javui/ui";
 import { defineHero, ex, type Example } from "@/docs/example";
+import { FieldValidationForm } from "./FieldValidation";
+import { fieldValidationCode } from "./FieldValidation.code";
 
 const countries = [{ value: "ar", label: "Argentina" }, { value: "uy", label: "Uruguay" }, { value: "cl", label: "Chile" }];
 const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"].map((value) => ({ value, label: value }));
@@ -27,4 +29,5 @@ export const hero = defineHero(
 export const examples: Example[] = [
   ex("Basic field", `<Field label="Email" description="We only use it for receipts."><Input type="email" autoComplete="email" /></Field>`, <Field label="Email" description="We only use it for receipts."><Input type="email" autoComplete="email" /></Field>),
   ex("Validation", `<Stack gap="4"><Field label="Name" error="Enter your name"><Input autoComplete="name" /></Field><Field label="Email" error={["Enter a valid address.", "This email is already in use."]}><Input type="email" /></Field></Stack>`, <Stack gap="4"><Field label="Name" error="Enter your name"><Input autoComplete="name" /></Field><Field label="Email" error={["Enter a valid address.", "This email is already in use."]}><Input type="email" /></Field></Stack>, "Errors appear after blur or submit, not on the first keystroke."),
+  ex("Validation on blur and submit", fieldValidationCode, <FieldValidationForm />, "The error clears while the user edits and appears on blur or submit. `required` stays on the label and the control, and `loading` marks both the field and the button while saving."),
 ];

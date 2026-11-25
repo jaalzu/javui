@@ -13,7 +13,7 @@ export type TextareaProps = {
    * Visual treatment. `inline` is invisible at rest and shows the Input hover background on hover
    * and focus. `ghost` shows nothing at all, only the focus ring. @default "default"
    */
-  variant?: "default" | "inline" | "ghost";
+  variant?: "default" | "inline" | "ghost" | "outline";
   /**
    * Resize behavior. `vertical` shows the drag handle, `none` fixes the height and `auto` grows
    * with the content (`field-sizing: content`; `rows` becomes the minimum height). @default "vertical"

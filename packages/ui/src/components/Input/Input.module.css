@@ -63,6 +63,21 @@
   background: transparent;
 }
 
+/* outline: transparent background, border only. */
+.wrapper[data-variant="outline"] .input {
+  background: transparent;
+  box-shadow: none;
+  border: var(--border-width-thin) solid var(--color-border-default);
+}
+
+/* outline hover: keep it transparent so only the border reads. */
+.wrapper[data-variant="outline"]
+  .input:hover:not(:focus):not(:disabled):not([data-disabled]):not(
+    [data-readonly]
+  ):not([data-loading]) {
+  background: transparent;
+}
+
 .input[type="file"] {
   padding-block: 0;
   padding-inline: var(--space-1);

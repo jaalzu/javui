@@ -1,10 +1,28 @@
 import type { CSSProperties } from "react";
-import { Badge, Button, Field, Grid, InfoIcon, Input, InputGroup, InputGroupAddon, InputGroupInput, InputGroupText, Select, Stack } from "@javui/ui";
+import {
+  Badge,
+  Button,
+  Field,
+  Grid,
+  InfoIcon,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InputGroupText,
+  Select,
+  Stack,
+} from "@javui/ui";
 import { defineHero, ex, type Example } from "@/docs/example";
 import styles from "./Input.examples.module.css";
 
-const smallInfoIconStyle = { "--icon-size": "var(--size-icon-sm)" } as CSSProperties;
-const compactInputGroupStyle = { "--input-px": "calc(var(--space-3) - var(--space-1) / 2 - var(--space-1) / 4)" } as CSSProperties;
+const smallInfoIconStyle = {
+  "--icon-size": "var(--size-icon-sm)",
+} as CSSProperties;
+const compactInputGroupStyle = {
+  "--input-px":
+    "calc(var(--space-3) - var(--space-1) / 2 - var(--space-1) / 4)",
+} as CSSProperties;
 const departments = [
   { value: "design", label: "Design" },
   { value: "engineering", label: "Engineering" },
@@ -15,7 +33,10 @@ export const hero = defineHero(
   `<Field label="Name" description="Use your full name as it appears on your account.">
   <Input autoComplete="name" size="md" />
 </Field>`,
-  <Field label="Name" description="Use your full name as it appears on your account.">
+  <Field
+    label="Name"
+    description="Use your full name as it appears on your account."
+  >
     <Input autoComplete="name" size="md" />
   </Field>,
 );
@@ -31,7 +52,10 @@ export const examples: Example[] = [
     `<Field label="Reset Password" description="Password should be at least 6 characters long.">
   <Input type="password" placeholder="Enter your password" size="md" />
 </Field>`,
-    <Field label="Reset Password" description="Password should be at least 6 characters long.">
+    <Field
+      label="Reset Password"
+      description="Password should be at least 6 characters long."
+    >
       <Input type="password" placeholder="Enter your password" size="md" />
     </Field>,
   ),
@@ -41,7 +65,13 @@ export const examples: Example[] = [
   <Input type="email" aria-invalid="true" size="md" />
 </Field>`,
     <Field label="Email" error="Enter a valid email address.">
-      <Input type="email" placeholder="Error" aria-invalid="true" data-force="focus" size="md" />
+      <Input
+        type="email"
+        placeholder="Error"
+        aria-invalid="true"
+        data-force="focus"
+        size="md"
+      />
     </Field>,
   ),
   ex(
@@ -54,18 +84,58 @@ export const examples: Example[] = [
     </Field>,
   ),
   ex(
+    "Outline",
+    `<Field label="Company" description="Transparent background with border only.">
+  <Input variant="outline" placeholder="Acme Inc." size="md" />
+</Field>`,
+    <Field
+      label="Company"
+      description="Transparent background with border only."
+    >
+      <Input variant="outline" placeholder="Acme Inc." size="md" />
+    </Field>,
+  ),
+  ex(
+    "Ghost",
+    `<Field label="Nickname" description="No border or background at rest.">
+  <Input variant="ghost" placeholder="Type here" size="md" />
+</Field>`,
+    <Field label="Nickname" description="No border or background at rest.">
+      <Input variant="ghost" placeholder="Type here" size="md" />
+    </Field>,
+  ),
+  ex(
     "Required",
     `<Field label={<><span>Required Field</span> <span aria-hidden="true">*</span>}>
   <Input aria-label="Name" placeholder="This field is required" required size="md" />
 </Field>`,
-    <Field label={<><span>Required Field</span> <span style={{ color: "var(--color-danger-foreground)" }} aria-hidden="true">*</span></>}>
-      <Input aria-label="Name" placeholder="This field is required" required size="md" />
+    <Field
+      label={
+        <>
+          <span>Required Field</span>{" "}
+          <span
+            style={{ color: "var(--color-danger-foreground)" }}
+            aria-hidden="true"
+          >
+            *
+          </span>
+        </>
+      }
+    >
+      <Input
+        aria-label="Name"
+        placeholder="This field is required"
+        required
+        size="md"
+      />
     </Field>,
   ),
   ex(
     "File",
     `<Field label="Avatar"><Input type="file" accept="image/*" size="md" /></Field>`,
-    <Field label="Avatar"><Input type="file" accept="image/*" size="md" /></Field>,
+    <Field label="Avatar">
+      <Input type="file" accept="image/*" size="md" />
+    </Field>,
   ),
   ex(
     "Button group",
@@ -76,9 +146,17 @@ export const examples: Example[] = [
   </Stack>
 </Field>`,
     <Field label="Search">
-  <Stack direction="row" gap="3" align="center" className={`${styles.searchRow} searchRow`} style={{ gap: "calc(var(--space-3) - var(--space-1) / 4)" }}>
+      <Stack
+        direction="row"
+        gap="3"
+        align="center"
+        className={`${styles.searchRow} searchRow`}
+        style={{ gap: "calc(var(--space-3) - var(--space-1) / 4)" }}
+      >
         <Input type="search" placeholder="Search projects" size="md" />
-        <Button className={styles.searchButton} size="md" variant="primary">Search</Button>
+        <Button className={styles.searchButton} size="md" variant="primary">
+          Search
+        </Button>
       </Stack>
     </Field>,
   ),
@@ -94,8 +172,14 @@ export const examples: Example[] = [
     <Field label="Website URL">
       <InputGroup size="md" style={compactInputGroupStyle}>
         <InputGroupInput placeholder="example.com" />
-        <InputGroupAddon><InputGroupText>https://</InputGroupText></InputGroupAddon>
-        <InputGroupAddon align="end"><span style={smallInfoIconStyle}><InfoIcon /></span></InputGroupAddon>
+        <InputGroupAddon>
+          <InputGroupText>https://</InputGroupText>
+        </InputGroupAddon>
+        <InputGroupAddon align="end">
+          <span style={smallInfoIconStyle}>
+            <InfoIcon />
+          </span>
+        </InputGroupAddon>
       </InputGroup>
     </Field>,
   ),
@@ -104,7 +188,22 @@ export const examples: Example[] = [
     `<Field label={<Stack direction="row" gap="2" align="center" justify="between" style={{ width: "100%" }}>Subscription plan <Badge variant="inverted" size="sm">Pro</Badge></Stack>}>
   <Input placeholder="Team plan" size="md" />
 </Field>`,
-    <Field label={<Stack direction="row" gap="2" align="center" justify="between" style={{ width: "100%" }}>Subscription plan <Badge variant="inverted" size="sm">Pro</Badge></Stack>}>
+    <Field
+      label={
+        <Stack
+          direction="row"
+          gap="2"
+          align="center"
+          justify="between"
+          style={{ width: "100%" }}
+        >
+          Subscription plan{" "}
+          <Badge variant="inverted" size="sm">
+            Pro
+          </Badge>
+        </Stack>
+      }
+    >
       <Input placeholder="Team plan" size="md" />
     </Field>,
   ),
@@ -115,8 +214,12 @@ export const examples: Example[] = [
   <Field label="Last name"><Input placeholder="Alzú" autoComplete="family-name" size="md" /></Field>
 </Grid>`,
     <Grid columns={{ base: 1, sm: 2 }} gap="3">
-      <Field label="First name"><Input placeholder="Javier" autoComplete="given-name" size="md" /></Field>
-      <Field label="Last name"><Input placeholder="Alzú" autoComplete="family-name" size="md" /></Field>
+      <Field label="First name">
+        <Input placeholder="Javier" autoComplete="given-name" size="md" />
+      </Field>
+      <Field label="Last name">
+        <Input placeholder="Alzú" autoComplete="family-name" size="md" />
+      </Field>
     </Grid>,
   ),
   ex(
@@ -138,16 +241,33 @@ export const examples: Example[] = [
 </form>`,
     <form style={{ paddingBlock: "var(--space-6)" }}>
       <Stack gap="6">
-        <Field label="Full name"><Input placeholder="María González" size="md" /></Field>
-        <Field label="Work email" description="We'll only use this for account updates."><Input type="email" placeholder="maria@company.com" size="md" /></Field>
+        <Field label="Full name">
+          <Input placeholder="María González" size="md" />
+        </Field>
+        <Field
+          label="Work email"
+          description="We'll only use this for account updates."
+        >
+          <Input type="email" placeholder="maria@company.com" size="md" />
+        </Field>
         <Grid columns={{ base: 1, sm: 2 }} gap="3">
-          <Field label="Phone"><Input type="tel" placeholder="+54 11 5555 0199" size="md" /></Field>
-          <Field label="Department"><Select items={departments} placeholder="Choose a team" size="md" /></Field>
+          <Field label="Phone">
+            <Input type="tel" placeholder="+54 11 5555 0199" size="md" />
+          </Field>
+          <Field label="Department">
+            <Select items={departments} placeholder="Choose a team" size="md" />
+          </Field>
         </Grid>
-        <Field label="City"><Input placeholder="Buenos Aires" size="md" /></Field>
+        <Field label="City">
+          <Input placeholder="Buenos Aires" size="md" />
+        </Field>
         <Stack direction="row" gap="2" justify="end">
-          <Button type="button" variant="ghost" size="sm">Cancel</Button>
-          <Button type="submit" size="sm">Save profile</Button>
+          <Button type="button" variant="ghost" size="sm">
+            Cancel
+          </Button>
+          <Button type="submit" size="sm">
+            Save profile
+          </Button>
         </Stack>
       </Stack>
     </form>,

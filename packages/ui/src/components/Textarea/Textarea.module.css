@@ -84,3 +84,18 @@
 .root[data-appearance="ghost"] .textarea {
   --field-hover-background: transparent;
 }
+
+/* outline: transparent with border only. */
+.root[data-appearance="outline"] .textarea {
+  background: transparent;
+  border: var(--border-width-thin) solid var(--color-border-default);
+}
+
+.root[data-appearance="outline"]
+  .textarea:not([data-invalid]):not([aria-invalid="true"]) {
+  box-shadow: none;
+}
+
+.root[data-appearance="outline"] .textarea {
+  --field-hover-background: transparent;
+}

@@ -1298,7 +1298,7 @@
         },
         {
           "name": "variant",
-          "type": "\"inline\" | \"default\" | \"ghost\"",
+          "type": "\"inline\" | \"default\" | \"outline\" | \"ghost\"",
           "required": false,
           "default": "default",
           "description": "Visual treatment: `inline` removes the resting chrome for fields composed inside another control."
@@ -1764,7 +1764,7 @@
         },
         {
           "name": "variant",
-          "type": "\"inline\" | \"default\" | \"ghost\"",
+          "type": "\"inline\" | \"default\" | \"outline\" | \"ghost\"",
           "required": false,
           "default": "default",
           "description": "Visual treatment. `inline` is invisible at rest and shows the Input hover background on hover\nand focus. `ghost` shows nothing at all, only the focus ring."

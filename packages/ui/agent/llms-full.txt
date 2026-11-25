@@ -1049,7 +1049,7 @@ A text input component for forms and user data entry with built-in styling and a
 | `size` | `"xs" \| "sm" \| "md" \| "lg"` | no | "md" | Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. |
 | `startIcon` | `ReactNode` | no |  | Icon before the text. Pass a generated icon without `size`; the input sizes it. |
 | `value` | `string \| number \| readonly string[]` | no |  | The value of the input. Use when controlled. |
-| `variant` | `"inline" \| "default" \| "ghost"` | no | default | Visual treatment: `inline` removes the resting chrome for fields composed inside another control. |
+| `variant` | `"inline" \| "default" \| "outline" \| "ghost"` | no | default | Visual treatment: `inline` removes the resting chrome for fields composed inside another control. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 
@@ -1327,7 +1327,7 @@ Icons use the 20px medium size (the textarea has no size variants).
 | `loading` | `boolean` | no | false | Shows a small spinner at the end and makes the textarea not editable. `aria-busy` is set. Inside `Field`, omit it and pass `loading` to the Field instead. |
 | `resize` | `"none" \| "auto" \| "vertical"` | no | vertical | Resize behavior. `vertical` shows the drag handle, `none` fixes the height and `auto` grows with the content (`field-sizing: content`; `rows` becomes the minimum height). |
 | `startIcon` | `ReactNode` | no |  | Icon before the text. Pass a generated icon without `size`; the textarea sizes it. |
-| `variant` | `"inline" \| "default" \| "ghost"` | no | default | Visual treatment. `inline` is invisible at rest and shows the Input hover background on hover and focus. `ghost` shows nothing at all, only the focus ring. |
+| `variant` | `"inline" \| "default" \| "outline" \| "ghost"` | no | default | Visual treatment. `inline` is invisible at rest and shows the Input hover background on hover and focus. `ghost` shows nothing at all, only the focus ring. |
 
 Also accepts the native/Base UI props of the element it renders; they pass through.
 

@@ -13,7 +13,7 @@ export type InputProps = {
   /** Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. @default "md" */
   size?: "xs" | "sm" | "md" | "lg";
   /** Visual treatment: `inline` removes the resting chrome for fields composed inside another control. @default "default" */
-  variant?: "default" | "inline" | "ghost";
+  variant?: "default" | "inline" | "ghost" | "outline";
   /** Icon before the text. Pass a generated icon without `size`; the input sizes it. */
   startIcon?: ReactNode;
   /** Icon after the text. Pass a generated icon without `size`; the input sizes it. */

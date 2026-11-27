@@ -1,4 +1,9 @@
-import { GithubLogoIcon, Link, Stack, Text } from "@javui/ui";
+import {
+  Link,
+  Stack,
+  Text
+} from "@javui/ui";
+import { GithubLogoIcon } from "@/icons";
 import { defineHero, ex, type Example } from "@/docs/example";
 
 export const hero = defineHero(

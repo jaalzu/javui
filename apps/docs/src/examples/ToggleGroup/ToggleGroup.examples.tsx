@@ -1,8 +1,4 @@
-import {
-  TextBIcon,
-  TextItalicIcon,
-  TextUnderlineIcon,
-} from "@javui/ui";
+import { TextBIcon, TextItalicIcon, TextUnderlineIcon } from "@/icons";
 import { Stack, ToggleGroup, ToggleGroupItem } from "@javui/ui";
 import { defineHero, ex, type Example } from "@/docs/example";
 import { ToggleGroupFontWeightExample } from "./ToggleGroupFontWeightExample";

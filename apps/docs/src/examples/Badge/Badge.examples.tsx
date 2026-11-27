@@ -1,5 +1,9 @@
 import type { CSSProperties } from "react";
-import { ArrowRightIcon, Badge, CheckIcon, Stack } from "@javui/ui";
+import {
+  Badge,
+  Stack
+} from "@javui/ui";
+import { ArrowRightIcon, CheckIcon } from "@/icons";
 import { defineHero, ex, type Example } from "@/docs/example";
 
 export const hero = defineHero(

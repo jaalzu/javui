@@ -1,24 +1,9 @@
 import {
-  ArchiveIcon,
-  BookOpenIcon,
-  DotsThreeIcon,
-  ExportIcon,
-  FileCsvIcon,
-  FilePdfIcon,
-  FileTextIcon,
-  GearIcon,
-  HouseIcon,
   Kbd,
-  LifebuoyIcon,
   Menu,
-  QuestionIcon,
-  ShieldCheckIcon,
-  SlidersIcon,
-  PulseIcon,
-  TrashIcon,
-  UserCircleIcon,
-  type MenuEntry,
+  type MenuEntry
 } from "@javui/ui";
+import { ArchiveIcon, BookOpenIcon, DotsThreeIcon, ExportIcon, FileCsvIcon, FilePdfIcon, FileTextIcon, GearIcon, HouseIcon, LifebuoyIcon, QuestionIcon, ShieldCheckIcon, SlidersIcon, PulseIcon, TrashIcon, UserCircleIcon } from "@/icons";
 import { MenuBar } from "@javui/ui";
 import { defineHero, ex, type Example } from "@/docs/example";
 import styles from "./Menu.examples.module.css";

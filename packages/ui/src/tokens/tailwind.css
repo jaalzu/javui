@@ -14,6 +14,7 @@
   --color-component: var(--color-component);
   --color-control: var(--color-control);
   --color-field: var(--color-field);
+  --color-brand-solid: var(--color-brand-solid);
   --color-warning-bright: var(--color-warning-bright);
   --color-overlay: var(--color-overlay);
   --color-page: var(--color-page);
@@ -22,7 +23,10 @@
   --color-primary-foreground: var(--color-primary-foreground);
   --color-inverted-solid: var(--color-inverted-solid);
   --color-on-inverted-foreground: var(--color-on-inverted-foreground);
-  --color-brand-solid: var(--color-brand-solid);
+  --color-brand-solid-hover: var(--color-brand-solid-hover);
+  --color-brand-subtle: var(--color-brand-subtle);
+  --color-brand-foreground: var(--color-brand-foreground);
+  --color-brand-foreground-soft: var(--color-brand-foreground-soft);
   --color-on-brand-solid-foreground: var(--color-on-brand-solid-foreground);
   --color-positive-solid: var(--color-positive-solid);
   --color-on-positive-solid-foreground: var(--color-on-positive-solid-foreground);
@@ -32,6 +36,8 @@
   --color-on-info-solid-foreground: var(--color-on-info-solid-foreground);
   --color-danger-solid: var(--color-danger-solid);
   --color-on-danger-solid-foreground: var(--color-on-danger-solid-foreground);
+  --color-brand-border-default: var(--color-brand-border-default);
+  --color-brand-border-focus: var(--color-brand-border-focus);
   --color-page-translucent: var(--color-page-translucent);
   --color-surface-solid: var(--color-surface-solid);
   --color-highlight: var(--color-highlight);
@@ -49,10 +55,6 @@
   --color-disabled-foreground: var(--color-disabled-foreground);
   --color-inverted-solid-hover: var(--color-inverted-solid-hover);
   --color-inverted-solid-active: var(--color-inverted-solid-active);
-  --color-brand-solid-hover: var(--color-brand-solid-hover);
-  --color-brand-subtle: var(--color-brand-subtle);
-  --color-brand-foreground: var(--color-brand-foreground);
-  --color-brand-foreground-soft: var(--color-brand-foreground-soft);
   --color-positive-solid-hover: var(--color-positive-solid-hover);
   --color-positive-subtle: var(--color-positive-subtle);
   --color-positive-foreground: var(--color-positive-foreground);
@@ -72,8 +74,6 @@
   --color-border-emphasis: var(--color-border-emphasis);
   --color-border-disabled: var(--color-border-disabled);
   --color-tab-indicator-border: var(--color-tab-indicator-border);
-  --color-brand-border-default: var(--color-brand-border-default);
-  --color-brand-border-focus: var(--color-brand-border-focus);
   --color-positive-border-default: var(--color-positive-border-default);
   --color-warning-border-default: var(--color-warning-border-default);
   --color-info-border-default: var(--color-info-border-default);

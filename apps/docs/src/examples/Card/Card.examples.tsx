@@ -14,11 +14,11 @@ import {
   Input,
   Link,
   Skeleton,
-  SparkleIcon,
   Stack,
   Table,
-  Text,
+  Text
 } from "@javui/ui";
+import { SparkleIcon } from "@/icons";
 import { CodeBlock } from "@javui/ui/server";
 import { defineHero, ex, type Example } from "@/docs/example";
 import { CardSizeExample } from "./CardSizeExample";

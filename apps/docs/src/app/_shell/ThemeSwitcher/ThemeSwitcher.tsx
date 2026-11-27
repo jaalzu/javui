@@ -1,8 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import {
+  useEffect } from "react";
 import { useTheme } from "next-themes";
-import { Button, Kbd, MoonIcon, SunIcon, Tooltip } from "@javui/ui";
+import { Button,
+  Kbd,
+  Tooltip
+} from "@javui/ui";
+import { MoonIcon, SunIcon } from "@/icons";
 import styles from "./ThemeSwitcher.module.css";
 
 /**

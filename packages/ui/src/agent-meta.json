@@ -159,10 +159,10 @@
     "category": "utility",
     "base": "own",
     "renders": "svg on a 256x256 viewBox, filled with currentColor",
-    "composition": "Do not pass paths. Import a named icon from `@javui/ui` (for example CheckIcon or ArrowRightIcon); each takes `size` (xs 12, sm 16, md 20, lg 24, xl 32) and `weight` (regular | fill). Do not pass `size` to icons inside `startIcon`/`endIcon`; `xs` is for standalone use, inline with text or in small badges.",
+    "composition": "Wrap an SVG glyph from your preferred icon library or design system. Each icon slot takes `size` (xs 12, sm 16, md 20, lg 24, xl 32). Do not pass `size` to icons inside `startIcon`/`endIcon`; the control sets it.",
     "whenToUse": "Any glyph. Named icons are decorative by default; pass `label` when the icon is the only carrier of meaning.",
     "avoid": [
-      "Hand-written <path> children: every icon comes from the generated set.",
+      "Hand-written <path> children when a maintained icon library or design-system glyph is available.",
       "Meaningful icons without a label.",
       "weight=\"fill\" unless it marks an active or selected state."
     ],

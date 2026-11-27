@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, ButtonGroup, ButtonGroupSeparator, Menu } from "@javui/ui";
-import { CaretDownIcon, CopyIcon } from "@javui/ui";
+import { CaretDownIcon, CopyIcon } from "@/icons";
 
 const items = [
   { label: "Deploy to staging", startIcon: <CopyIcon />, onSelect: () => {} },

@@ -1,17 +1,16 @@
 import type { ReactNode } from "react";
 import {
   Button,
-  CaretLeftIcon,
-  CaretRightIcon,
   Heading,
-  Link,
+  Link
 } from "@javui/ui";
+import { CaretLeftIcon, CaretRightIcon } from "@/icons";
 import styles from "./DocPage.module.css";
 import { CopyPage } from "./CopyPage";
 import { neighbors } from "@/app/docs/_layout/nav";
 
-const chevronLeft = <CaretLeftIcon />;
-const chevronRight = <CaretRightIcon />;
+const chevronLeft = <CaretLeftIcon size="sm" />;
+const chevronRight = <CaretRightIcon size="sm" />;
 
 type DocPageProps = {
   /** Path of the page, used to find Previous and Next. */

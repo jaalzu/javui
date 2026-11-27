@@ -8,11 +8,8 @@ import {
   Button,
   ButtonGroup,
   Card,
-  ChartBarIcon,
   Checkbox,
-  CheckIcon,
   Field,
-  GearIcon,
   RadioGroup,
   Heading,
   Input,
@@ -21,12 +18,10 @@ import {
   Link,
   Stack,
   Switch,
-  SidebarIcon,
-  SlidersIcon,
-  StarIcon,
-  Text,
+  Text
 } from "@javui/ui";
-import { CaretDownIcon } from "@javui/ui";
+import { ChartBarIcon, CheckIcon, GearIcon, SidebarIcon, SlidersIcon, StarIcon } from "@/icons";
+import { CaretDownIcon } from "@/icons";
 import styles from "./Blocks.module.css";
 
 const cardPadding = {

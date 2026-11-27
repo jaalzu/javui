@@ -13,7 +13,6 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  CheckIcon,
   Checkbox,
   Collapsible,
   CollapsibleContent,
@@ -35,8 +34,9 @@ import {
   ModalTrigger,
   Progress,
   Stack,
-  Text,
+  Text
 } from "@javui/ui";
+import { CheckIcon } from "@/icons";
 import { CodeBlock } from "@javui/ui/server";
 import styles from "./ui-test.module.css";
 

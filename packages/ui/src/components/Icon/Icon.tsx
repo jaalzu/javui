@@ -22,7 +22,7 @@ export type IconProps = {
 
 /**
  * Wrapper for a Phosphor glyph (256x256 grid, filled shapes, `currentColor`).
- * Do not use it with hand-written paths: import a named icon (`ArrowRightIcon`) instead.
+ * Use it to wrap an SVG glyph from your preferred icon library or your own design system.
  *
  * @example
  * <Icon label="Success">{glyph}</Icon>

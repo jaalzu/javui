@@ -11,14 +11,7 @@ import {
   Select,
   Textarea,
 } from "@javui/ui";
-import {
-  ArrowRightIcon,
-  CaretDownIcon,
-  MinusIcon,
-  PlusIcon,
-  PulseIcon,
-  SparkleIcon,
-} from "@javui/ui";
+import { ArrowRightIcon, CaretDownIcon, MinusIcon, PlusIcon, PulseIcon, SparkleIcon } from "@/icons";
 import { defineHero, ex, type Example } from "@/docs/example";
 import { ButtonGroupActionsExample } from "./ButtonGroupActionsExample";
 import styles from "./ButtonGroup.examples.module.css";

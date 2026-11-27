@@ -2,7 +2,8 @@
 
 import styles from "./Card.examples.module.css";
 import type { CSSProperties } from "react";
-import { useState } from "react";
+import {
+  useState } from "react";
 import {
   Badge,
   Button,
@@ -16,11 +17,10 @@ import {
   CardHeader,
   CardTitle,
   Link,
-  MinusIcon,
-  PlusIcon,
   Stack,
-  Text,
+  Text
 } from "@javui/ui";
+import { MinusIcon, PlusIcon } from "@/icons";
 
 const sizes = [
   { value: "sm", label: "Small" },

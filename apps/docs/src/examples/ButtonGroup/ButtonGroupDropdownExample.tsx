@@ -1,13 +1,7 @@
 "use client";
 
 import { Button, ButtonGroup, Menu } from "@javui/ui";
-import {
-  CaretDownIcon,
-  CheckIcon,
-  CopyIcon,
-  StarIcon,
-  TrashIcon,
-} from "@javui/ui";
+import { CaretDownIcon, CheckIcon, CopyIcon, StarIcon, TrashIcon } from "@/icons";
 
 export function ButtonGroupDropdownExample() {
   return (

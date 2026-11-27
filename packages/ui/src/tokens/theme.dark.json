@@ -127,7 +127,7 @@
       "$description": "Text on inverted solid surfaces."
     },
     "brand-solid": {
-      "$value": "{primitive.color.accent.500}",
+      "$value": "#6570d4",
       "$type": "color",
       "$description": "Brand background for key actions and selected states."
     },

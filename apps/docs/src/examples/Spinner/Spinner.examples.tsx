@@ -14,7 +14,7 @@ import {
   Text,
   Textarea,
 } from "@javui/ui";
-import { PaperPlaneTiltIcon } from "@javui/ui";
+import { PaperPlaneTiltIcon } from "@/icons";
 import { defineHero, ex, type Example } from "@/docs/example";
 
 const emptyStateStyle = {

@@ -2,7 +2,8 @@
 /* Options and the backdrop are mouse conveniences: the keyboard path is the combobox input (arrows, Enter, Escape). */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events, jsx-a11y/click-events-have-key-events */
 
-import { Mark } from "@/app/_shell/Logo/Logo";
+import {
+  Mark } from "@/app/_shell/Logo/Logo";
 import { useRouter } from "next/navigation";
 import {
   useEffect,
@@ -11,20 +12,9 @@ import {
   useRef,
   useState,
   useSyncExternalStore,
-} from "react";
-import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  Button,
-  CodeIcon,
-  FileTextIcon,
-  Kbd,
-  LayoutIcon,
-  MagnifyingGlassIcon,
-  PuzzlePieceIcon,
-  VisuallyHidden,
-  XIcon,
-} from "@javui/ui";
+  } from "react";
+import { Button, Kbd, VisuallyHidden } from "@javui/ui";
+import { ArrowDownIcon, ArrowUpIcon, CodeIcon, FileTextIcon, LayoutIcon, MagnifyingGlassIcon, PuzzlePieceIcon, XIcon } from "@/icons";
 import styles from "./Search.module.css";
 
 /** Glyph that stands in for each result group. The label stays for assistive technology. */

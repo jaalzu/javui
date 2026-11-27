@@ -1,5 +1,8 @@
 import type { ReactNode } from "react";
-import { CaretDownIcon, Heading } from "@javui/ui";
+import {
+  Heading
+} from "@javui/ui";
+import { CaretDownIcon } from "@/icons";
 import { CodeBlock } from "@javui/ui/server";
 import type { Example, Hero, StageHeight } from "@/docs/example";
 import manifest from "../../../public/agent/manifest.json";
@@ -37,7 +40,13 @@ function codeWithImport(name: string, code: string) {
     return componentImport ? `${componentImport}\n\n${code}` : code;
   }
 
-  return `import { ${used.join(", ")} } from "@javui/ui";\n\n${code}`;
+  const iconImports = used.filter((value) => value.endsWith("Icon"));
+  const usedComponents = used.filter((value) => !value.endsWith("Icon"));
+  return [
+    usedComponents.length ? `import { ${usedComponents.join(", ")} } from "@javui/ui";` : "",
+    iconImports.length ? `import { ${iconImports.join(", ")} } from "@/icons";` : "",
+    code,
+  ].filter(Boolean).join("\n\n");
 }
 
 /** A live preview with a collapsible "View code" underneath. Uses a native `details`, so it works without extra JavaScript. */

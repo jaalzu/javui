@@ -1,17 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useState } from "react";
 import {
   Button,
   ButtonGroup,
   ButtonGroupSeparator,
-  CaretDownIcon,
-  CheckIcon,
-  CopyIcon,
-  FileTextIcon,
   Menu,
-  type MenuEntry,
+  type MenuEntry
 } from "@javui/ui";
+import { CaretDownIcon, CheckIcon, CopyIcon, FileTextIcon } from "@/icons";
 import shell from "../../_shell/shell.module.css";
 import { articleToMarkdown } from "./articleToMarkdown";
 

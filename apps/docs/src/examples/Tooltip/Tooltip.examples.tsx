@@ -1,4 +1,10 @@
-import { Button, CheckIcon, Kbd, Stack, Tooltip } from "@javui/ui";
+import {
+  Button,
+  Kbd,
+  Stack,
+  Tooltip
+} from "@javui/ui";
+import { CheckIcon } from "@/icons";
 import { defineHero, ex, type Example } from "@/docs/example";
 import styles from "./Tooltip.examples.module.css";
 

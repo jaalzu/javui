@@ -8,8 +8,11 @@ import {
   Stack,
   Text,
 } from "@javui/ui";
-import { defineHero, ex, type Example } from "@/docs/example";
-import { CaretDownIcon, InfoIcon } from "@javui/ui";
+import {
+  defineHero,
+  ex,
+  type Example } from "@/docs/example";
+import { CaretDownIcon, InfoIcon } from "@/icons";
 import styles from "./Collapsible.examples.module.css";
 
 const heroCode = `<Collapsible>

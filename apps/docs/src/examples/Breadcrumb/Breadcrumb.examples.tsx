@@ -1,4 +1,8 @@
-import { Breadcrumb, FileTextIcon, Stack } from "@javui/ui";
+import {
+  Breadcrumb,
+  Stack
+} from "@javui/ui";
+import { FileTextIcon } from "@/icons";
 import { defineHero, ex, type Example } from "@/docs/example";
 
 export const hero = defineHero(

@@ -1,4 +1,4 @@
-import { GearIcon, ChartLineIcon } from "@javui/ui";
+import { GearIcon, ChartLineIcon } from "@/icons";
 import { Stack, Tabs, Text, type TabsProps } from "@javui/ui";
 import { defineHero, ex, type Example } from "@/docs/example";
 import styles from "./Tabs.examples.module.css";

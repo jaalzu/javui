@@ -1,6 +1,5 @@
 import {
   Button,
-  DotsThreeIcon,
   Menu,
   Table,
   TableBody,
@@ -9,8 +8,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  type MenuEntry,
+  type MenuEntry
 } from "@javui/ui";
+import { DotsThreeIcon } from "@/icons";
 import { defineHero, ex, type Example } from "@/docs/example";
 import styles from "./Table.examples.module.css";
 const people = [

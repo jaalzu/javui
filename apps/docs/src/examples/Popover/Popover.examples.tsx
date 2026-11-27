@@ -1,4 +1,11 @@
-import { FacebookLogoIcon, GithubLogoIcon, Link, Popover, PopoverContent, PopoverTrigger, Stack, XIcon } from "@javui/ui";
+import {
+  Link,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Stack
+} from "@javui/ui";
+import { FacebookLogoIcon, GithubLogoIcon, XIcon } from "@/icons";
 import { defineHero, ex, type Example } from "@/docs/example";
 import { FiltersExample, HelpExample, RenameTagExample } from "./PopoverExampleScenarios";
 

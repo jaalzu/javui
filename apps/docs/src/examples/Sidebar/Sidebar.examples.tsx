@@ -1,4 +1,8 @@
-import { ChartLineIcon, GearIcon, Sidebar, Text } from "@javui/ui";
+import {
+  Sidebar,
+  Text
+} from "@javui/ui";
+import { ChartLineIcon, GearIcon } from "@/icons";
 import { defineHero, type Example } from "@/docs/example";
 
 export const hero = defineHero(

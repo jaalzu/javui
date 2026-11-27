@@ -12,7 +12,7 @@ import {
   PopoverTrigger,
   Stack,
 } from "@javui/ui";
-import { QuestionIcon, SlidersIcon } from "@javui/ui";
+import { QuestionIcon, SlidersIcon } from "@/icons";
 
 export function RenameTagExample() {
   const [open, setOpen] = useState(false);

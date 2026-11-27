@@ -4,15 +4,15 @@ import {
   Button,
   Field,
   Grid,
-  InfoIcon,
   Input,
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
   InputGroupText,
   Select,
-  Stack,
+  Stack
 } from "@javui/ui";
+import { InfoIcon } from "@/icons";
 import { defineHero, ex, type Example } from "@/docs/example";
 import styles from "./Input.examples.module.css";
 

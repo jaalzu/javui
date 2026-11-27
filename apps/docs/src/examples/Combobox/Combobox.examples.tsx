@@ -1,4 +1,9 @@
-import { Combobox, Field, MagnifyingGlassIcon, Stack } from "@javui/ui";
+import {
+  Combobox,
+  Field,
+  Stack
+} from "@javui/ui";
+import { MagnifyingGlassIcon } from "@/icons";
 import { defineHero, ex, type Example } from "@/docs/example";
 import styles from "./Combobox.examples.module.css";
 

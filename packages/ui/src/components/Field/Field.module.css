@@ -16,6 +16,8 @@
   border: 0;
 }
 .legend {
+  margin-block-end: var(--space-2);
+  padding-inline: 0;
   color: var(--color-primary-foreground);
   font-family: var(--text-label-family);
   font-size: var(--text-label-size);

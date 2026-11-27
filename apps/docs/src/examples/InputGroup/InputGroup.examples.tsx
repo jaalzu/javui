@@ -1,7 +1,10 @@
 import type { CSSProperties } from "react";
 import { Field, InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText, Kbd, Spinner, Stack } from "@javui/ui";
-import { defineHero, ex, type Example } from "@/docs/example";
-import { CheckIcon, CopyIcon, EyeIcon, InfoIcon, MagnifyingGlassIcon, StarIcon } from "@javui/ui";
+import {
+  defineHero,
+  ex,
+  type Example } from "@/docs/example";
+import { CheckIcon, CopyIcon, EyeIcon, InfoIcon, MagnifyingGlassIcon, StarIcon } from "@/icons";
 
 const smallIconStyle = { "--icon-size": "var(--size-icon-sm)" } as CSSProperties;
 

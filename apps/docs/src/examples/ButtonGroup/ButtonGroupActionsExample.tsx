@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, ButtonGroup, Menu } from "@javui/ui";
-import { ArrowRightIcon, DotsThreeIcon } from "@javui/ui";
+import { ArrowRightIcon, DotsThreeIcon } from "@/icons";
 import styles from "./ButtonGroup.examples.module.css";
 
 export function ButtonGroupActionsExample() {

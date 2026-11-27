@@ -1,16 +1,8 @@
 import {
-  ArrowRightIcon,
   Button,
-  CheckIcon,
-  FloppyDiskIcon,
-  PlusIcon,
-  ProhibitIcon,
-  SkipForwardIcon,
-  SparkleIcon,
-  Stack,
-  TrashIcon,
-  XIcon,
+  Stack
 } from "@javui/ui";
+import { ArrowRightIcon, CheckIcon, FloppyDiskIcon, PlusIcon, ProhibitIcon, SkipForwardIcon, SparkleIcon, TrashIcon, XIcon } from "@/icons";
 import { defineHero, ex, type Example } from "@/docs/example";
 
 const check = <CheckIcon />;

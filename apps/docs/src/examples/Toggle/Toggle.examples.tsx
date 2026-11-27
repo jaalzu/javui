@@ -1,4 +1,4 @@
-import { FloppyDiskIcon, TextBIcon, TextItalicIcon } from "@javui/ui";
+import { FloppyDiskIcon, TextBIcon, TextItalicIcon } from "@/icons";
 import { Stack, Toggle } from "@javui/ui";
 import { defineHero, ex, type Example } from "@/docs/example";
 

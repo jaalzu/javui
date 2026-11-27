@@ -1,4 +1,9 @@
-import { Button, ChartLineIcon, EmptyState, Stack } from "@javui/ui";
+import {
+  Button,
+  EmptyState,
+  Stack
+} from "@javui/ui";
+import { ChartLineIcon } from "@/icons";
 import { defineHero, ex, type Example } from "@/docs/example";
 
 const heroCode = `<EmptyState illustration={<ChartLineIcon />} title="No reports yet" description="Connect a data source to see your first report." actions={<Button size="sm">Connect source</Button>} />`;

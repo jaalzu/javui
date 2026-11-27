@@ -1,4 +1,9 @@
-import { Avatar, AvatarGroup, CheckIcon, GearIcon, Stack } from "@javui/ui";
+import {
+  Avatar,
+  AvatarGroup,
+  Stack
+} from "@javui/ui";
+import { CheckIcon, GearIcon } from "@/icons";
 import { defineHero, ex, type Example } from "@/docs/example";
 
 export const hero = defineHero(

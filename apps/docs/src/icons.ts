@@ -1,4 +1,5 @@
 import { createElement, forwardRef } from "react";
+import type { Icon, IconProps } from "@phosphor-icons/react";
 
 import { Archive as ArchiveIconGlyph } from "@phosphor-icons/react/ssr";
 import { ArrowRight as ArrowRightIconGlyph } from "@phosphor-icons/react/ssr";
@@ -50,55 +51,74 @@ import { Trash as TrashIconGlyph } from "@phosphor-icons/react/ssr";
 import { UserCircle as UserCircleIconGlyph } from "@phosphor-icons/react/ssr";
 import { X as XIconGlyph } from "@phosphor-icons/react/ssr";
 
-const sizes = { xs: 12, sm: 16, md: 20, lg: 24, xl: 32 };
-const wrap = (Glyph: any) => forwardRef(({ size, ...props }: any, ref) => createElement(Glyph, { ...props, ref, size: typeof size === "string" && size in sizes ? sizes[size as keyof typeof sizes] : size }));
+const sizes = { xs: 12, sm: 16, md: 20, lg: 24, xl: 32 } as const;
 
-export const ArchiveIcon = wrap(ArchiveIconGlyph);
-export const ArrowRightIcon = wrap(ArrowRightIconGlyph);
-export const ArrowDownIcon = wrap(ArrowDownIconGlyph);
-export const ArrowUpIcon = wrap(ArrowUpIconGlyph);
-export const BookOpenIcon = wrap(BookOpenIconGlyph);
-export const CaretDownIcon = wrap(CaretDownIconGlyph);
-export const CaretLeftIcon = wrap(CaretLeftIconGlyph);
-export const CaretRightIcon = wrap(CaretRightIconGlyph);
-export const ChartBarIcon = wrap(ChartBarIconGlyph);
-export const ChartLineIcon = wrap(ChartLineIconGlyph);
-export const CheckIcon = wrap(CheckIconGlyph);
-export const CodeIcon = wrap(CodeIconGlyph);
-export const CopyIcon = wrap(CopyIconGlyph);
-export const DotsThreeIcon = wrap(DotsThreeIconGlyph);
-export const ExportIcon = wrap(ExportIconGlyph);
-export const EyeIcon = wrap(EyeIconGlyph);
-export const FacebookLogoIcon = wrap(FacebookLogoIconGlyph);
-export const FileCsvIcon = wrap(FileCsvIconGlyph);
-export const FilePdfIcon = wrap(FilePdfIconGlyph);
-export const FileTextIcon = wrap(FileTextIconGlyph);
-export const FloppyDiskIcon = wrap(FloppyDiskIconGlyph);
-export const GearIcon = wrap(GearIconGlyph);
-export const GithubLogoIcon = wrap(GithubLogoIconGlyph);
-export const HouseIcon = wrap(HouseIconGlyph);
-export const InfoIcon = wrap(InfoIconGlyph);
-export const LayoutIcon = wrap(LayoutIconGlyph);
-export const LifebuoyIcon = wrap(LifebuoyIconGlyph);
-export const MagnifyingGlassIcon = wrap(MagnifyingGlassIconGlyph);
-export const MinusIcon = wrap(MinusIconGlyph);
-export const MoonIcon = wrap(MoonIconGlyph);
-export const PaperPlaneTiltIcon = wrap(PaperPlaneTiltIconGlyph);
-export const PlusIcon = wrap(PlusIconGlyph);
-export const ProhibitIcon = wrap(ProhibitIconGlyph);
-export const PulseIcon = wrap(PulseIconGlyph);
-export const PuzzlePieceIcon = wrap(PuzzlePieceIconGlyph);
-export const QuestionIcon = wrap(QuestionIconGlyph);
-export const ShieldCheckIcon = wrap(ShieldCheckIconGlyph);
-export const SidebarIcon = wrap(SidebarIconGlyph);
-export const SkipForwardIcon = wrap(SkipForwardIconGlyph);
-export const SlidersIcon = wrap(SlidersIconGlyph);
-export const SparkleIcon = wrap(SparkleIconGlyph);
-export const StarIcon = wrap(StarIconGlyph);
-export const SunIcon = wrap(SunIconGlyph);
-export const TextBIcon = wrap(TextBIconGlyph);
-export const TextItalicIcon = wrap(TextItalicIconGlyph);
-export const TextUnderlineIcon = wrap(TextUnderlineIconGlyph);
-export const TrashIcon = wrap(TrashIconGlyph);
-export const UserCircleIcon = wrap(UserCircleIconGlyph);
-export const XIcon = wrap(XIconGlyph);
+type IconSize = keyof typeof sizes;
+
+/** Accepts the design-system size names in addition to Phosphor's numeric size. */
+type SizedIconProps = Omit<IconProps, "size"> & { size?: IconSize | number | string };
+
+const wrap = (Glyph: Icon, displayName: string): Icon => {
+  const SizedIcon = forwardRef<SVGSVGElement, SizedIconProps>(({ size, ...props }, ref) =>
+    createElement(Glyph, {
+      ...props,
+      ref,
+      size:
+        typeof size === "string" && size in sizes ? sizes[size as IconSize] : size,
+    }),
+  );
+
+  SizedIcon.displayName = displayName;
+
+  return SizedIcon;
+};
+
+export const ArchiveIcon = wrap(ArchiveIconGlyph, "ArchiveIcon");
+export const ArrowRightIcon = wrap(ArrowRightIconGlyph, "ArrowRightIcon");
+export const ArrowDownIcon = wrap(ArrowDownIconGlyph, "ArrowDownIcon");
+export const ArrowUpIcon = wrap(ArrowUpIconGlyph, "ArrowUpIcon");
+export const BookOpenIcon = wrap(BookOpenIconGlyph, "BookOpenIcon");
+export const CaretDownIcon = wrap(CaretDownIconGlyph, "CaretDownIcon");
+export const CaretLeftIcon = wrap(CaretLeftIconGlyph, "CaretLeftIcon");
+export const CaretRightIcon = wrap(CaretRightIconGlyph, "CaretRightIcon");
+export const ChartBarIcon = wrap(ChartBarIconGlyph, "ChartBarIcon");
+export const ChartLineIcon = wrap(ChartLineIconGlyph, "ChartLineIcon");
+export const CheckIcon = wrap(CheckIconGlyph, "CheckIcon");
+export const CodeIcon = wrap(CodeIconGlyph, "CodeIcon");
+export const CopyIcon = wrap(CopyIconGlyph, "CopyIcon");
+export const DotsThreeIcon = wrap(DotsThreeIconGlyph, "DotsThreeIcon");
+export const ExportIcon = wrap(ExportIconGlyph, "ExportIcon");
+export const EyeIcon = wrap(EyeIconGlyph, "EyeIcon");
+export const FacebookLogoIcon = wrap(FacebookLogoIconGlyph, "FacebookLogoIcon");
+export const FileCsvIcon = wrap(FileCsvIconGlyph, "FileCsvIcon");
+export const FilePdfIcon = wrap(FilePdfIconGlyph, "FilePdfIcon");
+export const FileTextIcon = wrap(FileTextIconGlyph, "FileTextIcon");
+export const FloppyDiskIcon = wrap(FloppyDiskIconGlyph, "FloppyDiskIcon");
+export const GearIcon = wrap(GearIconGlyph, "GearIcon");
+export const GithubLogoIcon = wrap(GithubLogoIconGlyph, "GithubLogoIcon");
+export const HouseIcon = wrap(HouseIconGlyph, "HouseIcon");
+export const InfoIcon = wrap(InfoIconGlyph, "InfoIcon");
+export const LayoutIcon = wrap(LayoutIconGlyph, "LayoutIcon");
+export const LifebuoyIcon = wrap(LifebuoyIconGlyph, "LifebuoyIcon");
+export const MagnifyingGlassIcon = wrap(MagnifyingGlassIconGlyph, "MagnifyingGlassIcon");
+export const MinusIcon = wrap(MinusIconGlyph, "MinusIcon");
+export const MoonIcon = wrap(MoonIconGlyph, "MoonIcon");
+export const PaperPlaneTiltIcon = wrap(PaperPlaneTiltIconGlyph, "PaperPlaneTiltIcon");
+export const PlusIcon = wrap(PlusIconGlyph, "PlusIcon");
+export const ProhibitIcon = wrap(ProhibitIconGlyph, "ProhibitIcon");
+export const PulseIcon = wrap(PulseIconGlyph, "PulseIcon");
+export const PuzzlePieceIcon = wrap(PuzzlePieceIconGlyph, "PuzzlePieceIcon");
+export const QuestionIcon = wrap(QuestionIconGlyph, "QuestionIcon");
+export const ShieldCheckIcon = wrap(ShieldCheckIconGlyph, "ShieldCheckIcon");
+export const SidebarIcon = wrap(SidebarIconGlyph, "SidebarIcon");
+export const SkipForwardIcon = wrap(SkipForwardIconGlyph, "SkipForwardIcon");
+export const SlidersIcon = wrap(SlidersIconGlyph, "SlidersIcon");
+export const SparkleIcon = wrap(SparkleIconGlyph, "SparkleIcon");
+export const StarIcon = wrap(StarIconGlyph, "StarIcon");
+export const SunIcon = wrap(SunIconGlyph, "SunIcon");
+export const TextBIcon = wrap(TextBIconGlyph, "TextBIcon");
+export const TextItalicIcon = wrap(TextItalicIconGlyph, "TextItalicIcon");
+export const TextUnderlineIcon = wrap(TextUnderlineIconGlyph, "TextUnderlineIcon");
+export const TrashIcon = wrap(TrashIconGlyph, "TrashIcon");
+export const UserCircleIcon = wrap(UserCircleIconGlyph, "UserCircleIcon");
+export const XIcon = wrap(XIconGlyph, "XIcon");

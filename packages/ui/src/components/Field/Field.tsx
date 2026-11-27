@@ -95,20 +95,19 @@ export function Field({
   className,
   ...rest
 }: FieldProps) {
-  const errors = normalizeFieldErrors(error);
-  const errorKey = errors.join("\n");
+  const errors = useMemo(() => normalizeFieldErrors(error), [error]);
   const hasError = errors.length > 0;
   const hasLabel = label !== undefined && label !== null;
   const context = useMemo(
     () => ({
-      errors: normalizeFieldErrors(error),
+      errors,
       invalid: hasError,
       required,
       readOnly,
       loading,
       hasLabel,
     }),
-    [errorKey, hasError, required, readOnly, loading, hasLabel],
+    [errors, hasError, required, readOnly, loading, hasLabel],
   );
 
   return (

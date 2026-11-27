@@ -39,7 +39,7 @@ const years = ["2026", "2027", "2028", "2029"].map((value) => ({
 
 export const hero = defineHero(
   `<form><Stack gap="4">
-  <FieldSet legend="Payment details" >
+  <FieldSet legend="Payment details" description="Your information is protected throughout checkout.">
     <Stack gap="4">
       <Field label="Cardholder name" required><Input placeholder="Alex Morgan" /></Field>
       <Field label="Card number" description="Use the 16 digits from your card." required><Input placeholder="4242 4242 4242 4242" /></Field>
@@ -54,9 +54,12 @@ export const hero = defineHero(
   <Stack direction="row" gap="2"><Button size="sm" type="submit">Submit</Button><Button size="sm" type="button" variant="secondary">Cancel</Button></Stack>
 </Stack></form>`,
   <form>
-    <Stack gap="5">
-      <FieldSet legend="Payment details">
-        <Stack gap="5">
+    <Stack gap="4">
+      <FieldSet
+        legend="Payment details"
+        description="Your information is protected throughout checkout."
+      >
+        <Stack gap="4">
           <Field label="Cardholder name" required>
             <Input placeholder="Alex Morgan" />
           </Field>

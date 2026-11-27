@@ -197,7 +197,7 @@ export function Menu({
               {entry.status ? (
                 <span className={styles.status}>{entry.status}</span>
               ) : null}
-              <IconSlot className={styles.slotEnd}>
+              <IconSlot className={cx(styles.slotEnd, styles.submenuCaret)}>
                 <CaretRightIcon />
               </IconSlot>
             </BaseMenu.SubmenuTrigger>
@@ -346,7 +346,7 @@ export function Menu({
             <Button
               variant={variant}
               size={size}
-              className={className}
+              className={cx(styles.trigger, className)}
               endIcon={<CaretDownIcon />}
             >
               {label}

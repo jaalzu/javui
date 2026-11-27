@@ -48,38 +48,30 @@ const longListCountries = [
 ];
 
 export const hero = defineHero(
-  `<Field label="Country">
-  <Select items={countries} placeholder="Choose one" />
-</Field>`,
-  <Field label="Country">
-    <Select items={countries} placeholder="Choose one" />
-  </Field>,
+  `<Field label="Country"><Select items={countries} placeholder="Choose one" /></Field>`,
+  <Field label="Country"><Select items={countries} placeholder="Choose one" /></Field>,
 );
 
 export const examples: Example[] = [
   ex(
     "Default",
-    `<Field label="Country">
-  <Select items={countries} placeholder="Choose one" />
-</Field>`,
+    `<Field label="Country"><Select items={countries} placeholder="Choose one" /></Field>`,
     <Stack align="center" justify="center">
       <Field label="Country">
         <Select items={countries} placeholder="Choose one" />
       </Field>
     </Stack>,
-    "A compact select for a short list of options.",
+    "A compact select for a short list of options."
   ),
   ex(
     "Description",
-    `<Field label="Country" description="Used for regional settings and billing.">
-  <Select items={countries} placeholder="Choose one" />
-</Field>`,
+    `<Field label="Country" description="Used for regional settings and billing."><Select items={countries} placeholder="Choose one" /></Field>`,
     <Stack align="center" justify="center">
       <Field label="Country" description="Used for regional settings and billing.">
         <Select items={countries} placeholder="Choose one" />
       </Field>
     </Stack>,
-    "Use Field when the select needs helper text or validation messaging.",
+    "Use Field when the select needs helper text or validation messaging."
   ),
   ex(
     "Grouped",
@@ -91,7 +83,8 @@ export const examples: Example[] = [
     { value: "engineering", label: "Engineering", group: "Teams" },
     { value: "personal", label: "Personal", group: "Other" },
   ]}
-/>`,
+/>
+`,
     <Stack align="center" justify="center">
       <Select
         aria-label="Workspace"
@@ -103,7 +96,7 @@ export const examples: Example[] = [
         ]}
       />
     </Stack>,
-    "Consecutive items with the same group render under a heading, with a little extra space between groups instead of a rule.",
+    "Consecutive items with the same group render under a heading, with a little extra space between groups instead of a rule."
   ),
   ex(
     "Long list",
@@ -111,7 +104,8 @@ export const examples: Example[] = [
   aria-label="Country"
   placeholder="Choose a country"
   items={longListCountries}
-/>`,
+/>
+`,
     <Stack align="center" justify="center">
       <Select
         aria-label="Country"
@@ -120,7 +114,7 @@ export const examples: Example[] = [
       />
     </Stack>,
     "Countries grouped by region, each with its timezone.",
-    "lg",
+    "lg"
   ),
   ex(
     "Item descriptions",
@@ -131,7 +125,8 @@ export const examples: Example[] = [
     { value: "production", label: "Production", description: "Live customer traffic." },
     { value: "staging", label: "Staging", description: "Pre-release testing." },
   ]}
-/>`,
+/>
+`,
     <Stack align="center" justify="center">
       <Select
         aria-label="Environment"
@@ -142,7 +137,7 @@ export const examples: Example[] = [
         ]}
       />
     </Stack>,
-    "Add supporting text to an option when the label alone is ambiguous.",
+    "Add supporting text to an option when the label alone is ambiguous."
   ),
   ex(
     "Disabled",
@@ -168,18 +163,30 @@ export const examples: Example[] = [
         />
       </Field>
     </Stack>,
-    "Disable the entire select or an individual option when it is unavailable.",
+    "Disable the entire select or an individual option when it is unavailable."
   ),
   ex(
     "Invalid",
-    `<Field label="Country" error="Choose a country">
-  <Select items={countries} placeholder="Choose one" />
-</Field>`,
+    `<Field label="Country" error="Choose a country"><Select items={countries} placeholder="Choose one" /></Field>`,
     <Stack align="center" justify="center">
       <Field label="Country" error="Choose a country">
         <Select items={countries} placeholder="Choose one" />
       </Field>
     </Stack>,
-    "Field wires the invalid state, error message and accessible description to the trigger.",
+    "Field wires the invalid state, error message and accessible description to the trigger."
+  ),
+  // Outline variant
+  ex(
+    "Outline",
+    `<Field label="Country"><Select variant="outline" items={countries} placeholder="Choose one" /></Field>`,
+    <Field label="Country"><Select variant="outline" items={countries} placeholder="Choose one" /></Field>,
+    "Select with outline variant"
+  ),
+  // Ghost variant
+  ex(
+    "Ghost",
+    `<Field label="Country"><Select variant="ghost" items={countries} placeholder="Choose one" /></Field>`,
+    <Field label="Country"><Select variant="ghost" items={countries} placeholder="Choose one" /></Field>,
+    "Select with ghost variant"
   ),
 ];

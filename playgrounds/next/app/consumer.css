@@ -1,0 +1,10 @@
+:root {
+  --font-family-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-family-emphasis: Georgia, ui-serif, serif;
+  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+body {
+  margin: 0;
+  font-family: var(--text-body-family);
+}

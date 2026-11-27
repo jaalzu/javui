@@ -73,6 +73,26 @@
   outline-offset: 0;
   box-shadow: none;
 }
+
+/* ghost variant: no resting background, no shadow */
+.wrapper[data-variant="ghost"] .slot {
+  background: transparent;
+  box-shadow: none;
+}
+
+.wrapper[data-variant="ghost"] .slot:hover:not(:disabled):not([data-disabled]):not([data-readonly]):not([data-loading]) {
+  background: var(--color-transparent-hover) !important;
+}
+
+/* outline variant: transparent background, border only */
+.wrapper[data-variant="outline"] .slot {
+  background: transparent;
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-border-default);
+}
+
+.wrapper[data-variant="outline"] .slot:hover:not(:disabled):not([data-disabled]):not([data-readonly]):not([data-loading]) {
+  background: transparent !important;
+}
 .slot::selection {
   background: transparent;
   color: inherit;

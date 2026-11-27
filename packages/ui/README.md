@@ -97,19 +97,9 @@ Keep this order in `app/globals.css`:
 `tailwind.css` turns the tokens into utilities such as `bg-card` and `text-secondary-foreground`. Two things to know:
 
 - Tailwind's `--radius-*` theme namespace overlaps with JavUI's radius tokens: map or rename one of the two if you use both.
-- If some components stay unstyled or the HTML has no `class` attributes, a Tailwind Turbopack loader is processing JavUI's CSS. Remove it and keep the PostCSS plugin (see Troubleshooting).
+- If some components stay unstyled or the HTML has no `class` attributes, a Tailwind Turbopack loader is processing JavUI's CSS. Remove it and keep the PostCSS plugin.
 
 The tokens only define variables. JavUI adds no page, reset or font styles, and each component loads its own CSS when you import it.
-
-### Troubleshooting
-
-| Symptom                                                | Fix                                                                                                                                             |
-| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| Everything is unstyled                                 | Import `@javui/ui/tokens.css` in `app/globals.css`. With Tailwind, keep the order `tailwindcss`, `tokens.css`, `tailwind.css`.                  |
-| The HTML has no `class` attributes                     | A Tailwind loader is applied to every `*.css` file (`turbopack.rules` with `@tailwindcss/turbopack`). Remove it and use `@tailwindcss/postcss`. |
-| `useToastManager must be used within <Toast.Provider>` | Mount `ToastProvider` in `app/providers.tsx`.                                                                                                   |
-| Functions cannot be passed to Client Components        | Keep `LinkProvider` inside a file marked `"use client"`.                                                                                        |
-| `Cannot find module 'shiki'`                           | Install `shiki` if you use `CodeBlock`.                                                                                                         |
 
 ### Update
 

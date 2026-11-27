@@ -34,6 +34,8 @@ export type SelectProps = {
   "aria-label"?: string;
   /** Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. @default "md" */
   size?: "xs" | "sm" | "md" | "lg";
+  /** Visual treatment: `ghost` removes resting chrome; `outline` uses a transparent background with border. @default "default" */
+  variant?: "default" | "ghost" | "outline";
   /** Icon before the value. Pass a generated icon without `size`; the select sizes it. */
   startIcon?: ReactNode;
   /** Icon after the value, before the caret. Pass a generated icon without `size`; the select sizes it. */
@@ -78,6 +80,7 @@ export function Select({
   label,
   "aria-label": ariaLabel,
   size: sizeProp,
+  variant = "default",
   startIcon,
   endIcon,
   loading: loadingProp,
@@ -120,6 +123,7 @@ export function Select({
           data-readonly={readOnly ? "" : undefined}
           data-loading={loading ? "" : undefined}
           data-size={size}
+          data-variant={variant}
         >
           <IconSlot>{startIcon}</IconSlot>
           <BaseSelect.Value

@@ -46,7 +46,7 @@ AGENT_GUIDE.md   rules for using the library
 
 ## Source of truth
 
-Types, TSDoc and tokens are the only things written by hand. The agent manifest, `llms.txt`, `tokens.css` and the MCP answers are generated from them. `bun run agent-docs` validates exports from `packages/ui/src/index.ts` against `agent-meta.json`.
+Types, TSDoc and tokens are the only things written by hand. The agent manifest, `tokens.css` and the MCP answers are generated from them. `bun run agent-docs` validates exports from `packages/ui/src/index.ts` against `agent-meta.json`.
 
 After adding or changing a component: update its TSDoc, add its entry to `agent-meta.json`, then run `bun run agent-docs`.
 

@@ -1,11 +1,12 @@
 "use client";
 
 import { Breadcrumb, Button, Container, Link, Separator, Stack, Text } from "@javui/ui";
+import { Sun } from "lucide-react";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 
 const links = [
-  ["/", "Inicio"], ["/forms", "Forms"], ["/overlays", "Overlays"],
+  ["/", "Checks"], ["/tailwind", "Tailwind"], ["/forms", "Forms"], ["/overlays", "Overlays"],
   ["/navigation", "Navigation"], ["/data", "Data"], ["/layout", "Layout"], ["/dashboard", "Dashboard"],
 ] as const;
 
@@ -22,7 +23,7 @@ export function Shell({ children }: { children: ReactNode }) {
             <Text weight="medium">JavUI consumer</Text>
             <Stack direction="row" gap="3" wrap align="center">
               {links.map(([href, label]) => <Link key={href} href={href} standalone>{label}</Link>)}
-              <Button size="sm" variant="secondary" onClick={() => setDark((value) => !value)}>{dark ? "Tema claro" : "Tema oscuro"}</Button>
+              <Button size="sm" variant="secondary" startIcon={<Sun size={16} strokeWidth={2} />} onClick={() => setDark((value) => !value)}>{dark ? "Tema claro" : "Tema oscuro"}</Button>
             </Stack>
           </Stack>
           <Separator />

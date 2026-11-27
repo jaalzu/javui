@@ -101,6 +101,11 @@
 }
 
 /* ---------- Controls ---------- */
+.signInForm {
+  width: min(100%, var(--container-xs));
+  margin-inline: auto;
+}
+
 .buttonRow {
   display: flex;
   flex-wrap: wrap;

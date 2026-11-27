@@ -1,17 +1,13 @@
-import { Alert, Badge, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Heading, Link, Stack, Text } from "@javui/ui";
-import { CodeBlock } from "@javui/ui/server";
-import ClientShowcase from "./client-showcase";
+import { Card, CardContent, CardHeader, CardTitle, Heading, Link, Stack, Text } from "@javui/ui";
+
+const scenarios = [
+  ["/", "1. Básico", "Tokens y componentes de JavUI en una app mínima."],
+  ["/tailwind", "2. Tailwind", "Tokens de JavUI usados como utilidades en una pantalla real."],
+] as const;
 
 export default function Home() {
   return <Stack gap="6">
-    <Heading as="h1">JavUI consumer</Heading>
-    <Text>Server Components can import the public package.</Text>
-    <CodeBlock language="tsx" code={'import { Stack, Text } from "@javui/ui";'} />
-    <Card variant="surface">
-      <CardHeader><CardTitle>Published package</CardTitle><CardDescription>A small server-rendered release overview.</CardDescription></CardHeader>
-      <CardContent><Stack gap="3"><Badge variant="brand">0.0.0</Badge><Alert title="Ready to explore">Choose a section to exercise the published components.</Alert></Stack></CardContent>
-      <CardFooter><Link href="/forms" standalone>Open the form showcase</Link></CardFooter>
-    </Card>
-    <ClientShowcase />
+    <div><Heading as="h1">Consumer checks</Heading><Text tone="muted">Tres pruebas pequeñas para validar una instalación real.</Text></div>
+    <Stack gap="3">{scenarios.map(([href, title, description]) => <Card key={href} variant="surface"><CardHeader><CardTitle>{title}</CardTitle></CardHeader><CardContent><Stack gap="3"><Text tone="muted">{description}</Text><Link href={href} standalone>Open test</Link></Stack></CardContent></Card>)}</Stack>
   </Stack>;
 }

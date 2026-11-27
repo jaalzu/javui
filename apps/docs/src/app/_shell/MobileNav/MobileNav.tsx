@@ -33,9 +33,13 @@ export function MobileNav({ groups }: { groups: Group[] }) {
     <BaseDialog.Root open={open} onOpenChange={setOpen} modal={false}>
       <BaseDialog.Trigger
         render={
-          <Button variant="ghost" size="sm" className={styles.menuButton}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className={styles.menuButton}
+            aria-label="Open menu"
+          >
             <span className={styles.menuIcon} aria-hidden="true" />
-            <span className={styles.menuLabel}>Menu</span>
           </Button>
         }
       />

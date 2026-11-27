@@ -10,9 +10,18 @@ const centeredExamples = new Set(["Alert", "Avatar", "Badge", "Breadcrumb", "But
 const constrainedExamples = new Set(["Input", "InputGroup", "InputOTP", "Textarea", "Select", "Combobox"]);
 const cardSurfaceExamples = new Set(["Table"]);
 
+type ImportEntry = { name: string; import: string };
+const manifestAny = manifest as unknown as {
+  components: ImportEntry[];
+  providersAndHooks: ImportEntry[];
+  parts?: ImportEntry[];
+};
 const componentImports = new Map(
-  [...manifest.components, ...manifest.providersAndHooks, ...manifest.components.flatMap((entry) => entry.parts ?? [])]
-    .map((entry) => [entry.name, entry.import]),
+  [
+    ...manifestAny.components,
+    ...(manifestAny.providersAndHooks ?? []),
+    ...((manifest.components as unknown as { parts?: ImportEntry[] }[]).flatMap((entry) => entry.parts ?? [])),
+  ].map((entry) => [entry.name, entry.import]),
 );
 
 function codeWithImport(name: string, code: string) {
@@ -54,6 +63,11 @@ type ExamplesModule = { hero?: Hero; examples: Example[]; extras?: ReactNode };
 
 /** The hero showcase of each component. The cases live next to the component that owns them. */
 const loaders: Record<string, () => Promise<ExamplesModule>> = {
+  // existing loaders...
+  // Add Toast component entry
+  Toast: () => import("@/examples/Toast/Toast.examples"),
+  // (keep existing entries)
+
   Accordion: () => import("@/examples/Accordion/Accordion.examples"),
   Alert: () => import("@/examples/Alert/Alert.examples"),
   AspectRatio: () => import("@/examples/AspectRatio/AspectRatio.examples"),
@@ -105,6 +119,7 @@ const loaders: Record<string, () => Promise<ExamplesModule>> = {
   ToggleGroup: () => import("@/examples/ToggleGroup/ToggleGroup.examples"),
   Tooltip: () => import("@/examples/Tooltip/Tooltip.examples"),
   VisuallyHidden: () => import("@/examples/VisuallyHidden/VisuallyHidden.examples"),
+  ToastProvider: () => import("@/examples/Toast/Toast.examples"),
   useToast: () => import("@/examples/Toast/Toast.examples"),
 };
 

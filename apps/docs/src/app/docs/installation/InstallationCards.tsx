@@ -21,7 +21,6 @@ export function InstallationCards() {
       {paths.map((path) => (
         <Link key={path.href} href={path.href} className={styles.card}>
           <span className={styles.title}>{path.title}</span>
-          <span className={styles.text}>{path.text}</span>
         </Link>
       ))}
     </nav>

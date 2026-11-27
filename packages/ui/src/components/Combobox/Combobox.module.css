@@ -35,6 +35,27 @@
   outline-color: var(--color-danger-solid);
 }
 
+/* ghost variant: no resting background, no shadow */
+.group[data-variant="ghost"] {
+  background: transparent;
+  box-shadow: none;
+}
+
+.group[data-variant="ghost"]:hover:not([data-disabled], [data-readonly], [data-loading]) {
+  background: var(--color-transparent-hover);
+}
+
+/* outline variant: transparent background with border */
+.group[data-variant="outline"] {
+  background: transparent;
+  box-shadow: none;
+  border: var(--border-width-thin) solid var(--color-border-default);
+}
+
+.group[data-variant="outline"]:hover:not([data-disabled], [data-readonly], [data-loading]) {
+  background: transparent;
+}
+
 /* ---------- Sizes ---------- */
 
 .xs {

@@ -30,6 +30,8 @@ type BaseProps = {
   name?: string;
   /** Control height: `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. @default "md" */
   size?: "sm" | "md" | "lg";
+  /** Visual treatment: `ghost` removes resting chrome; `outline` uses a transparent background with border. @default "default" */
+  variant?: "default" | "ghost" | "outline";
   startIcon?: ReactNode;
   /** End icon. Omit for the caret, `null` to hide it. */
   icon?: ReactNode | null;
@@ -126,6 +128,7 @@ export function Combobox(props: ComboboxProps) {
     emptyMessage = "No results.",
     name,
     size = "md",
+    variant = "default",
     startIcon,
     icon,
     clearable = false,
@@ -204,6 +207,7 @@ export function Combobox(props: ComboboxProps) {
             controlStyles[size],
             multiple && controlStyles.multiple,
           )}
+          data-variant={variant}
           data-invalid={invalid ? "" : undefined}
           data-readonly={readOnly ? "" : undefined}
           data-loading={loading ? "" : undefined}

@@ -370,7 +370,10 @@ function Usage() {
 function SignIn() {
   return (
     <Block id="blk-signin" title="Sign in">
-      <form onSubmit={(e) => e.preventDefault()}>
+        <form
+          className={styles.signInForm}
+          onSubmit={(e) => e.preventDefault()}
+        >
         <Stack gap="3">
           <Field label="Email Address">
             <Input
@@ -439,8 +442,8 @@ export function Blocks() {
         <SignIn />
       </div>
       <div className={styles.col}>
-        <SavingsTargets />
         <Contributions />
+        <Plan />
       </div>
       <div className={styles.col}>
         <Claimable />
@@ -448,7 +451,7 @@ export function Blocks() {
       </div>
       <div className={styles.col}>
         <Usage />
-        <Plan />
+        <SavingsTargets />
       </div>
     </div>
   );

@@ -2,6 +2,9 @@
 
 :root {
   --header-height: 3.55rem;
+  --font-family-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-family-emphasis: "Source Serif 4", ui-serif, Georgia, serif;
+  --font-family-mono: "Commit Mono", ui-monospace, monospace;
 }
 
 *,

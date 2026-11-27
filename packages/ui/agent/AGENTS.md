@@ -1,14 +1,14 @@
 # @javui/ui for agents
 
-Machine-readable docs ship in the package: `@javui/ui/agent/manifest.json`, `tokens.json`, `icons.json`, `llms.txt` and `llms-full.txt`. The manifest's `exports` array is the flat index of every public export with its import path (`@javui/ui`, or `@javui/ui/server` for `CodeBlock`); `components` and `foundations` group them for documentation. The same guide is in the package README.
+Machine-readable docs ship in the package: `@javui/ui/agent/manifest.json` and `tokens.json`. The manifest's `exports` array is the flat index of every public export with its import path (`@javui/ui`, or `@javui/ui/server` for `CodeBlock`); `components` and `foundations` group them for documentation. The same guide is in the package README.
 
-Use the shipped docs instead of guessing. Start with `README.md`, then `agent/llms.txt`, and look up each component in `agent/manifest.json`.
+Use the shipped docs instead of guessing. Start with `README.md`; consult `agent/manifest.json` for components and `agent/tokens.json` for the theme. They are the package's only machine-readable data.
 
 ## Copy this into your project's AGENTS.md or CLAUDE.md
 
 ```md
 ## @javui/ui
-- Read `node_modules/@javui/ui/README.md` and `node_modules/@javui/ui/agent/llms.txt` before writing UI.
+- Read `node_modules/@javui/ui/README.md`, then consult `node_modules/@javui/ui/agent/manifest.json` for components and `tokens.json` for theme values before writing UI.
 - Look up each component in `node_modules/@javui/ui/agent/manifest.json`; use only components, props and variants listed there.
 - Do not invent components, props, variants or CSS variables. Do not copy APIs from shadcn, Radix or MUI.
 - Import from `@javui/ui`; import `CodeBlock` only from `@javui/ui/server`.
@@ -32,12 +32,9 @@ node -e 'const c=require("@javui/ui/agent/manifest.json").components.find(c=>c.n
 # One part, provider, hook or foundation (compound parts are nested)
 node -e 'const m=require("@javui/ui/agent/manifest.json");const all=[...m.components.flatMap(c=>[c,...(c.parts??[])]),...m.foundations,...m.providersAndHooks];console.log(JSON.stringify(all.find(c=>c.name==="ModalContent"),null,2))'
 
-# One section of llms-full.txt, without loading the whole file
-awk '/^## Select$/{p=1;print;next} p&&/^## /{exit} p' node_modules/@javui/ui/agent/llms-full.txt
-awk '/^### ModalContent$/{p=1;print;next} p&&/^#{2,3} /{exit} p' node_modules/@javui/ui/agent/llms-full.txt
 ```
 
-`manifest.json` keeps `components` (top level), `.parts` inside compound components, `foundations`, `providersAndHooks` and `exports` (the flat index). `llms.txt` is the short index; `llms-full.txt` has every section. The `.d.ts` files under `node_modules/@javui/ui/dist/components/<Name>/` are the source of truth for types when the Markdown is ambiguous.
+`manifest.json` keeps `components` (top level), `.parts` inside compound components, `foundations`, `providersAndHooks` and `exports` (the flat index). The `.d.ts` files under `node_modules/@javui/ui/dist/components/<Name>/` are the source of truth for types when the JSON is ambiguous.
 
 ## Common mistakes
 
@@ -81,8 +78,6 @@ export function Providers({ children }: { children: ReactNode }) {
 ```
 
 ## Icons
-
-`agent/icons.json` lists every bundled Phosphor icon with its `component` name, categories, tags and weights.
 
 ```tsx
 import { Button, CheckIcon, Input, MagnifyingGlassIcon } from "@javui/ui";

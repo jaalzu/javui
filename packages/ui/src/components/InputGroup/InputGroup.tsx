@@ -14,6 +14,8 @@ const INTERACTIVE = 'button, a, input, select, textarea, [role="button"], [tabin
 export type InputGroupProps = {
   /** Control height: `xs` 1.5rem, `sm` 1.75rem, `md` 2rem, `lg` 2.5rem. Flows to every part. @default "md" */
   size?: "xs" | "sm" | "md" | "lg";
+  /** Visual treatment: `ghost` removes resting chrome; `outline` uses a transparent background with border. @default "default" */
+  variant?: "default" | "ghost" | "outline";
   /**
    * Shows a spinner after the last addon, marks the input `aria-busy` and makes it not editable.
    * Inside `Field`, omit it and pass `loading` to the Field instead. @default false
@@ -51,6 +53,7 @@ export type InputGroupProps = {
  */
 export function InputGroup({
   size = "md",
+  variant = "default",
   loading: loadingProp,
   className,
   children,
@@ -84,6 +87,7 @@ export function InputGroup({
         ref={ref}
         className={cx(styles.group, className)}
         data-size={size}
+        data-variant={variant}
         data-loading={loading ? "" : undefined}
         onMouseDown={handleMouseDown}
       >

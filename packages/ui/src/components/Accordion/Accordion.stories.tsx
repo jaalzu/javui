@@ -8,7 +8,7 @@ import styles from "./Accordion.module.css";
 const items = [
   { value: "a", title: "Is it accessible?", content: <p>Yes. Behavior comes from Base UI and every component is tested with axe.</p> },
   { value: "b", title: "Is it themeable?", content: <p>Light and dark come from semantic tokens.</p> },
-  { value: "c", title: "Can agents use it?", content: <p>There is a manifest, llms.txt and an MCP server.</p> },
+  { value: "c", title: "Can agents use it?", content: <p>There is a manifest and an MCP server.</p> },
 ];
 
 const meta = {

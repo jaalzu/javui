@@ -98,4 +98,16 @@ export const examples: Example[] = [
       <InputGroup><InputGroupInput aria-label="Draft profile" defaultValue="Draft profile" /><InputGroupAddon align="end"><InputGroupButton variant="secondary" size="xs">Save</InputGroupButton></InputGroupAddon></InputGroup>
     </Stack>,
   ),
+    ex(
+      "Outline",
+      `<Field label="Search"><InputGroup variant="outline"><InputGroupInput placeholder="Search..." /><InputGroupAddon><MagnifyingGlassIcon /></InputGroupAddon></InputGroup></Field>`,
+      <Field label="Search"><InputGroup variant="outline"><InputGroupInput placeholder="Search..." /><InputGroupAddon><MagnifyingGlassIcon /></InputGroupAddon></InputGroup></Field>,
+      "InputGroup with outline variant"
+    ),
+    ex(
+      "Ghost",
+      `<Field label="Search"><InputGroup variant="ghost"><InputGroupInput placeholder="Search..." /><InputGroupAddon><MagnifyingGlassIcon /></InputGroupAddon></InputGroup></Field>`,
+      <Field label="Search"><InputGroup variant="ghost"><InputGroupInput placeholder="Search..." /><InputGroupAddon><MagnifyingGlassIcon /></InputGroupAddon></InputGroup></Field>,
+      "InputGroup with ghost variant"
+    ),
 ];

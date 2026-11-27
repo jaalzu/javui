@@ -40,7 +40,6 @@
     "./tokens.css": "./dist/tokens/tokens.css",
     "./tailwind.css": "./dist/tokens/tailwind.css",
     "./agent/*.json": "./agent/*.json",
-    "./agent/llms*.txt": "./agent/llms*.txt",
     "./agent/AGENTS.md": "./agent/AGENTS.md",
     "./package.json": "./package.json"
   },

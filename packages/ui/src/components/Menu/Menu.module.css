@@ -220,6 +220,14 @@
   padding-inline-start: var(--space-20);
 }
 
+.submenuCaret {
+  --icon-size: var(--size-icon-sm);
+}
+
+.trigger {
+  --btn-icon: var(--size-icon-sm);
+}
+
 .destructive {
   color: var(--color-danger-solid);
 }

@@ -19,6 +19,16 @@ export function TimezoneCombobox() {
 export const examples: Example[] = [
   ex("Multiple", `<Field label="Assignees"><Combobox multiple defaultValue={["ada", "grace"]} items={people} /></Field>`, <Field label="Assignees"><Combobox multiple defaultValue={["ada", "grace"]} items={people} /></Field>),
   ex("Clearable", `<Field label="Assignee"><Combobox clearable defaultValue="ada" items={people} /></Field>`, <Field label="Assignee"><Combobox clearable defaultValue="ada" items={people} /></Field>),
-  ex("Custom icon", `<Stack gap="4"><Field label="Search"><Combobox icon={<MagnifyingGlassIcon />} items={people} /></Field><Field label="No end icon"><Combobox icon={null} items={people} /></Field></Stack>`, <Stack gap="4"><Field label="Search"><Combobox icon={<MagnifyingGlassIcon />} items={people} /></Field><Field label="No end icon"><Combobox icon={null} items={people} /></Field></Stack>),
-  ex("States", `<Stack gap="4"><Field label="Loading"><Combobox loading items={people} /></Field><Field label="Disabled"><Combobox disabled defaultValue="ada" items={people} /></Field></Stack>`, <Stack gap="4"><Field label="Loading"><Combobox loading items={people} /></Field><Field label="Disabled"><Combobox disabled defaultValue="ada" items={people} /></Field></Stack>),
+  ex("Custom icon", `<Stack gap="4"><Field label="Search"><Combobox icon={<MagnifyingGlassIcon />} items={people} /></Field><Field label="No end icon"><Combobox icon={null} items={people} /></Field></Stack>`,
+    <Stack gap="4"><Field label="Search"><Combobox icon={<MagnifyingGlassIcon />} items={people} /></Field><Field label="No end icon"><Combobox icon={null} items={people} /></Field></Stack>),
+  ex("States", `<Stack gap="4"><Field label="Loading"><Combobox loading items={people} /></Field><Field label="Disabled"><Combobox disabled defaultValue="ada" items={people} /></Field></Stack>`,
+    <Stack gap="4"><Field label="Loading"><Combobox loading items={people} /></Field><Field label="Disabled"><Combobox disabled defaultValue="ada" items={people} /></Field></Stack>),
+  // Outline variant example
+  ex("Outline", `<Field label="Assignee"><Combobox variant="outline" items={people} placeholder="Select a person" /></Field>`,
+    <Field label="Assignee"><Combobox variant="outline" items={people} placeholder="Select a person" /></Field>,
+    "Combobox with outline variant"),
+  // Ghost variant example
+  ex("Ghost", `<Field label="Assignee"><Combobox variant="ghost" items={people} placeholder="Select a person" /></Field>`,
+    <Field label="Assignee"><Combobox variant="ghost" items={people} placeholder="Select a person" /></Field>,
+    "Combobox with ghost variant"),
 ];

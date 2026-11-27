@@ -68,6 +68,35 @@
 .group[data-force="hover"]:not(:has(.control:focus)) {
   background: var(--field-hover-background);
 }
+
+/* ghost variant: no resting background, no shadow */
+.group[data-variant="ghost"] {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.group[data-variant="ghost"]:hover:not(:has(.control:focus)):not(
+    :has(
+      .control:is(:disabled, [data-disabled], [data-readonly], [data-loading])
+    )
+  ) {
+  background: var(--color-transparent-hover) !important;
+}
+
+/* outline variant: transparent background, border only */
+.group[data-variant="outline"] {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: var(--border-width-thin) solid var(--color-border-default);
+}
+
+.group[data-variant="outline"]:hover:not(:has(.control:focus)):not(
+    :has(
+      .control:is(:disabled, [data-disabled], [data-readonly], [data-loading])
+    )
+  ) {
+  background: transparent !important;
+}
 .group:has(.control:focus-visible),
 .group[data-force="focus"] {
   outline: var(--focus-ring-width) solid var(--color-brand-border-focus);

@@ -28,9 +28,9 @@
   --primitive-color-danger-700: oklch(0.54 0.1874 30.37);
   --primitive-color-white: oklch(1 0 0);
   --primitive-color-black: oklch(0 0 0);
-  --font-family-sans: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; /** The only family for UI and reading text. Used for headings, body, labels and captions. The library ships no @font-face: load DM Sans yourself or keep the system fallback. */
-  --font-family-emphasis: 'Source Serif 4', ui-serif, Georgia, 'Times New Roman', serif; /** Serif, used rarely: one lead sentence or a short quote. Never for headings, controls or long text. The library ships no @font-face: load Source Serif 4 yourself or keep the system fallback. */
-  --font-family-mono: 'Commit Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; /** Code and keyboard keys only. The library ships no @font-face: load Commit Mono yourself or keep the system fallback. */
+  --font-family-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; /** The only sans family for UI and reading text. Used for headings, body, labels and captions. Consumers may override it with their brand font. */
+  --font-family-emphasis: ui-serif, Georgia, 'Times New Roman', serif; /** Serif, used rarely: one lead sentence or a short quote. Never for headings, controls or long text. Consumers may override it with their brand font. */
+  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; /** Code and keyboard keys only. Consumers may override it with their preferred monospace font. */
   --font-weight-regular: 400; /** Body text. Do not use lighter weights; soften text with a muted color instead. */
   --font-weight-medium: 500; /** Labels and controls. */
   --font-weight-semibold: 600; /** Headings and emphasis. */

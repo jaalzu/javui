@@ -5,8 +5,6 @@
 // Outputs (never edit by hand):
 //   agent/manifest.json   component manifest
 //   agent/tokens.json     flattened design tokens
-//   agent/llms.txt              index for LLMs
-//   agent/llms-full.txt         full docs in one Markdown file
 // Run: bun run agent-docs
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, copyFileSync, existsSync } from "node:fs";
 import { dirname, resolve, join } from "node:path";
@@ -182,6 +180,7 @@ const compoundParts = {
   DescriptionList: ["DescriptionListTerm", "DescriptionListDetails"],
   ToggleGroup: ["ToggleGroupItem"],
   Table: ["TableCaption", "TableHeader", "TableBody", "TableFooter", "TableRow", "TableHead", "TableCell"],
+  Menu: ["MenuBar"],
 };
 const providerAndHookNames = ["LinkProvider", "TooltipProvider", "ToastProvider", "useLinkComponent", "useToast"];
 const byName = new Map(componentsManifest.map((c) => [c.name, c]));
@@ -280,104 +279,6 @@ const manifest = {
 };
 writeFileSync(join(outDir, "manifest.json"), JSON.stringify(manifest, null, 2));
 
-// ---- 5. llms.txt and llms-full.txt ----
-const list = (arr) => arr.map((x) => `- ${x}`).join("\n");
-const llms = [
-  "# ui-lib",
-  "",
-  `> ${manifest.description}`,
-  "",
-  "## Principles",
-  list(manifest.principles),
-  "",
-  ...(integration.length ? ["## Integration", list(integration), ""] : []),
-  "## Foundations",
-  ...foundationsManifest.map((c) => `- **${c.name}**: ${c.whenToUse}`),
-  "",
-  "## Machine-readable",
-  "- [Component manifest](/agent/manifest.json): every component with props, examples and accessibility notes; its `exports` array lists every public export with its import path",
-  "- [Design tokens](/agent/tokens.json): every CSS variable with its meaning",
-  "- [Icons](/agent/icons.json): every available icon with its component name and tags",
-  "- [Full documentation](/llms-full.txt): everything above in one Markdown file",
-  "",
-  "## Components",
-  ...manifest.categories.flatMap((cat) => [
-    `### ${cat}`,
-    ...topLevelComponents
-      .filter((c) => c.category === cat)
-      .map(
-        (c) =>
-          `- **${c.name}**${c.parts?.length ? ` (parts: ${c.parts.map((p) => p.name).join(", ")})` : ""}: ${c.whenToUse}`,
-      ),
-    "",
-  ]),
-  "## Providers and hooks",
-  ...providersAndHooks.map((c) => `- **${c.name}**: ${c.whenToUse}`),
-  "",
-].join("\n");
-writeFileSync(join(root, "agent/llms.txt"), llms + "\n");
-
-const propTable = (props) =>
-  props.length
-    ? ["| Prop | Type | Required | Default | Description |", "|---|---|---|---|---|", ...props.map((p) => `| \`${p.name}\` | \`${String(p.type).replace(/\|/g, "\\|")}\` | ${p.required ? "yes" : "no"} | ${p.default ?? ""} | ${(p.description ?? "").replace(/\n/g, " ").replace(/\|/g, "\\|")} |`)].join("\n")
-    : "_No props of its own._";
-
-const entryMarkdown = (c, level = 2) => {
-  const h = "#".repeat(level);
-  const sub = "#".repeat(level + 1);
-  return [
-    `${h} ${c.name}`,
-    "",
-    c.description ?? "",
-    "",
-    `- Category: ${c.category}`,
-    `- Base: ${c.base}`,
-    `- Import: \`${c.import}\``,
-    `- Renders: ${c.renders}`,
-    `- Composition: ${c.composition}`,
-    `- Use when: ${c.whenToUse}`,
-    ...(c.choosing?.length ? ["- Choosing:", ...c.choosing.map((a) => `  - ${a}`)] : []),
-    `- Avoid:`,
-    ...c.avoid.map((a) => `  - ${a}`),
-    `- Accessibility: ${c.accessibility}`,
-    "",
-    `${sub} Props`,
-    propTable(c.props),
-    "",
-    c.extends,
-    "",
-    ...(c.examples.length ? [`${sub} Example`, "```tsx", ...c.examples, "```", ""] : []),
-  ];
-};
-
-const full = [
-  llms,
-  "",
-  "---",
-  "",
-  ...foundationsManifest.flatMap((c) => [
-    ...entryMarkdown(c),
-  ]),
-  ...topLevelComponents.flatMap((c) => [
-    ...entryMarkdown(c),
-    ...(c.parts?.length
-      ? ["### Parts", "", ...c.parts.flatMap((p) => entryMarkdown(p, 3))]
-      : []),
-  ]),
-  "## Providers and hooks",
-  "",
-  ...providersAndHooks.flatMap((c) => entryMarkdown(c)),
-  "## Design tokens",
-  "",
-  list(tokensOut.usage),
-  "",
-  "| Variable | Type | Value |",
-  "|---|---|---|",
-  ...merged.filter((t) => t.group !== "primitive-color").map((t) => `| \`${t.cssVar}\` | ${t.type ?? ""} | ${t.value ? `\`${String(t.value).replace(/\|/g, "\\|")}\`` : `light \`${t.light}\` / dark \`${t.dark}\``} |`),
-  "",
-].join("\n");
-writeFileSync(join(root, "agent/llms-full.txt"), full);
-
 // The docs app imports the manifest at build time and serves these files from public.
 // Keep that copy in sync, but only in the monorepo (the package can be published alone).
 const docsPublicDir = resolve(root, "../../apps/docs/public");
@@ -386,9 +287,6 @@ if (existsSync(docsPublicDir)) {
   mkdirSync(docsAgentDir, { recursive: true });
   for (const file of ["manifest.json", "tokens.json"]) {
     copyFileSync(join(outDir, file), join(docsAgentDir, file));
-  }
-  for (const file of ["llms.txt", "llms-full.txt"]) {
-    copyFileSync(join(outDir, file), join(docsPublicDir, file));
   }
 }
 

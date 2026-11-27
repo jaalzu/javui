@@ -53,7 +53,6 @@ const expectedExports = {
   "./tokens.css": "./dist/tokens/tokens.css",
   "./tailwind.css": "./dist/tokens/tailwind.css",
   "./agent/*.json": "./agent/*.json",
-  "./agent/llms*.txt": "./agent/llms*.txt",
   "./agent/AGENTS.md": "./agent/AGENTS.md",
   "./package.json": "./package.json",
 };
@@ -83,6 +82,10 @@ for (const [key, expected] of Object.entries(expectedExports)) {
 for (const forbidden of ["./fonts.css", "./base.css", "./global.css", "./styles.css"]) {
   if (forbidden in (pkg.exports ?? {})) failures.push(`exports: must not expose ${forbidden}`);
 }
+
+const agentFiles = readdirSync(join(root, "agent"));
+const forbiddenAgentFiles = agentFiles.filter((file) => /^llms.*\.txt$|^icons\.json$/.test(file));
+if (forbiddenAgentFiles.length) failures.push(`agent: forbidden files ${forbiddenAgentFiles.join(", ")}`);
 if (Object.keys(pkg.exports ?? {}).some((key) => key.startsWith("./styles/"))) {
   failures.push("exports: must not expose ./styles/*");
 }

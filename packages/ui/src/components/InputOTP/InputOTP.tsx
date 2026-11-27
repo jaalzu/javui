@@ -12,6 +12,8 @@ export type InputOTPProps = {
   length?: number;
   /** Slot size: `sm` 2.25rem, `md` 2.75rem. @default "md" */
   size?: "sm" | "md";
+  /** Visual treatment: `ghost` removes resting chrome; `outline` uses a transparent background with border. @default "default" */
+  variant?: "default" | "ghost" | "outline";
   /**
    * Splits the slots into visual chunks with a separator between them, e.g. `[3, 3]` for `123-456`.
    * The numbers must add up to `length`; otherwise they are ignored.
@@ -63,6 +65,7 @@ const defaultSlotLabel = (slot: number, length: number) => `Character ${slot} of
 export function InputOTP({
   length = 6,
   size = "md",
+  variant = "default",
   groups,
   loading: loadingProp,
   readOnly: readOnlyProp,
@@ -98,6 +101,7 @@ export function InputOTP({
     <div
       className={cx(styles.wrapper, className)}
       data-size={size}
+      data-variant={variant}
       data-loading={loading ? "" : undefined}
     >
       <OTPField.Root

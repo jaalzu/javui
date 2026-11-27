@@ -1,11 +1,14 @@
 .menuButton {
+  --btn-bg-hover: transparent;
   display: inline-flex;
   align-items: center; /* centra el label verticalmente respecto al icono */
   justify-content: center;
-  padding-inline: var(--space-3);
-  gap: var(--space-2); /* más separación icono ↔ label */
-  font-size: var(--font-size-15);
+  padding-inline: var(--space-2);
+  min-inline-size: var(--size-target-comfortable);
+  min-block-size: var(--size-target-comfortable);
   line-height: 1; /* evita que el line-height descentre el texto */
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 :root:has(.menuPanel) {
   overflow: hidden;
@@ -111,9 +114,4 @@ a.menuLink {
 
 a.menuLink:hover {
   text-decoration: underline;
-}
-.menuLabel {
-  display: block;
-  line-height: 1;
-  transform: translateY(0.5px);
 }

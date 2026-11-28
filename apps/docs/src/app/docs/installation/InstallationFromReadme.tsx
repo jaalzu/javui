@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@javui/ui";
 import { CodeBlock } from "@javui/ui/server";
+import { WarningIcon } from "@/icons";
 import {
   PackageManagerCode,
   isPackageManagerBlock,
@@ -213,7 +214,12 @@ function renderBlock(block: Block, index: number): ReactNode {
     }
     case "paragraph":
       if (block.text.startsWith("Requires ")) {
-        return <p key={index} className={styles.requirements}>{inline(block.text)}</p>;
+        return (
+          <p key={index} className={styles.requirements}>
+            <WarningIcon size="sm" className={styles.requirementsIcon} />
+            <span>{inline(block.text)}</span>
+          </p>
+        );
       }
       return <p key={index}>{inline(block.text)}</p>;
     case "code":

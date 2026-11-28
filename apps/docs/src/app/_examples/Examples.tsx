@@ -9,21 +9,20 @@ import manifest from "../../../public/agent/manifest.json";
 import shell from "@/app/_shell/shell.module.css";
 import styles from "./Examples.module.css";
 
-const centeredExamples = new Set(["Alert", "Avatar", "Badge", "Breadcrumb", "Button", "Checkbox", "Input", "InputGroup", "InputOTP", "Kbd", "Label", "Link", "Menu", "Modal", "Pagination", "Popover", "RadioGroup", "Separator", "Sheet", "Spinner", "Textarea", "Select", "Combobox", "Switch", "Toggle", "ToggleGroup", "Tooltip"]);
+const centeredExamples = new Set(["Alert", "Avatar", "Badge", "Breadcrumb", "Button", "Checkbox", "Input", "InputGroup", "InputOTP", "Kbd", "Label", "Link", "Menu", "Modal", "Pagination", "Popover", "RadioGroup", "Separator", "Sheet", "Spinner", "Textarea", "Select", "Combobox", "Switch", "Toast", "Toggle", "ToggleGroup", "Tooltip"]);
 const constrainedExamples = new Set(["Input", "InputGroup", "InputOTP", "Textarea", "Select", "Combobox"]);
 const cardSurfaceExamples = new Set(["Table"]);
 
 type ImportEntry = { name: string; import: string };
 const manifestAny = manifest as unknown as {
   components: ImportEntry[];
-  providersAndHooks: ImportEntry[];
   parts?: ImportEntry[];
 };
 const componentImports = new Map(
   [
     ...manifestAny.components,
-    ...(manifestAny.providersAndHooks ?? []),
     ...((manifest.components as unknown as { parts?: ImportEntry[] }[]).flatMap((entry) => entry.parts ?? [])),
+    ...((manifest.components as unknown as { companions?: ImportEntry[] }[]).flatMap((entry) => entry.companions ?? [])),
   ].map((entry) => [entry.name, entry.import]),
 );
 
@@ -72,11 +71,6 @@ type ExamplesModule = { hero?: Hero; examples: Example[]; extras?: ReactNode };
 
 /** The hero showcase of each component. The cases live next to the component that owns them. */
 const loaders: Record<string, () => Promise<ExamplesModule>> = {
-  // existing loaders...
-  // Add Toast component entry
-  Toast: () => import("@/examples/Toast/Toast.examples"),
-  // (keep existing entries)
-
   Accordion: () => import("@/examples/Accordion/Accordion.examples"),
   Alert: () => import("@/examples/Alert/Alert.examples"),
   AspectRatio: () => import("@/examples/AspectRatio/AspectRatio.examples"),
@@ -128,8 +122,7 @@ const loaders: Record<string, () => Promise<ExamplesModule>> = {
   ToggleGroup: () => import("@/examples/ToggleGroup/ToggleGroup.examples"),
   Tooltip: () => import("@/examples/Tooltip/Tooltip.examples"),
   VisuallyHidden: () => import("@/examples/VisuallyHidden/VisuallyHidden.examples"),
-  ToastProvider: () => import("@/examples/Toast/Toast.examples"),
-  useToast: () => import("@/examples/Toast/Toast.examples"),
+  Toast: () => import("@/examples/Toast/Toast.examples"),
 };
 
 /** The hero of a component page: title and subtitle come from the page header; the showcase comes from the component's own examples. */

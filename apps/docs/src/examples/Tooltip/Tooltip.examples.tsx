@@ -1,5 +1,6 @@
 import {
   Button,
+  Heading,
   Kbd,
   Stack,
   Tooltip
@@ -15,6 +16,21 @@ export const hero = defineHero(
   <Tooltip content="Saved">
     <Button variant="secondary" aria-label="Saved" startIcon={<CheckIcon />} />
   </Tooltip>,
+);
+
+export const extras = (
+  <>
+    <Heading as="h2" size={6} id="shared-delay">
+      Shared delay
+    </Heading>
+    <p>
+      <code>TooltipProvider</code> is optional. Without it every tooltip waits its
+      own 600 ms. Mount it once at the app root, never inside a{" "}
+      <code>Tooltip</code>, and they share a single open delay: moving from one
+      trigger to the next opens the tooltip instantly. A tooltip&apos;s own{" "}
+      <code>delay</code> still wins.
+    </p>
+  </>
 );
 
 export const examples: Example[] = [

@@ -56,7 +56,7 @@ export type ToastPromiseOptions<Value> = {
   error: ToastOptions | string | ((error: unknown) => ToastOptions | string);
 };
 
-export type ToastProviderProps = ComponentProps<typeof BaseToast.Provider>;
+export type ToastProps = ComponentProps<typeof BaseToast.Provider>;
 
 type ToastData = {
   startIcon?: ReactNode;
@@ -134,14 +134,24 @@ function ToastList() {
 }
 
 /**
- * Place once near the root of the app (inside `Providers`). It renders the stack of toasts and makes
- * `useToast` available. Built on Base UI Toast (live-region announcements, F6 to reach the toasts, swipe to
- * dismiss, pause on hover and focus come from there).
+ * A succinct message that is displayed temporarily.
+ *
+ * The toast feature in one place: place `<Toast>` once near the root of the app (inside `Providers`)
+ * and call `useToast()` anywhere below it. Mounting the component renders the stack of toasts and
+ * provides the manager, so there is no separate provider to install.
+ *
+ * Built on [Base UI Toast](https://base-ui.com/react/components/toast): live-region announcements,
+ * F6 to reach the toasts, swipe to dismiss, and pause on hover and focus come from there.
  *
  * @example
- * <ToastProvider>{children}</ToastProvider>
+ * <Toast>{children}</Toast>
+ *
+ * function SaveButton() {
+ *   const { show } = useToast();
+ *   return <Button variant="secondary" onClick={() => show({ title: "Saved", type: "success" })}>Save</Button>;
+ * }
  */
-export function ToastProvider({ children, ...rest }: ToastProviderProps) {
+export function Toast({ children, ...rest }: ToastProps) {
   return (
     <BaseToast.Provider {...rest}>
       {children}
@@ -156,7 +166,8 @@ export function ToastProvider({ children, ...rest }: ToastProviderProps) {
 
 /**
  * Show short-lived feedback after an action (saved, copied, failed). Returns the toast manager:
- * `show`/`add`, `close`, `update` and `promise`. For messages that must stay on the page, use `Alert`.
+ * `show`/`add`, `close`, `update` and `promise`. It must be called below `<Toast>`. For messages
+ * that must stay on the page, use `Alert`.
  *
  * `type` (or its alias `tone`) renders a status icon for `success`, `info`, `warning`, `danger`
  * and `loading`. Pass `actionProps` for an inline action, and use `promise` to move one toast

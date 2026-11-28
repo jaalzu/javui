@@ -29,12 +29,12 @@ node -e 'const m=require("@javui/ui/agent/manifest.json");for(const e of m.expor
 # One top-level component: import, props, defaults, examples
 node -e 'const c=require("@javui/ui/agent/manifest.json").components.find(c=>c.name==="Select");console.log(JSON.stringify(c,null,2))'
 
-# One part, provider, hook or foundation (compound parts are nested)
-node -e 'const m=require("@javui/ui/agent/manifest.json");const all=[...m.components.flatMap(c=>[c,...(c.parts??[])]),...m.foundations,...m.providersAndHooks];console.log(JSON.stringify(all.find(c=>c.name==="ModalContent"),null,2))'
+# One part or companion (compound parts and companions are nested under their parent)
+node -e 'const m=require("@javui/ui/agent/manifest.json");const all=[...m.components.flatMap(c=>[c,...(c.parts??[]),...(c.companions??[])]),...m.foundations];console.log(JSON.stringify(all.find(c=>c.name==="ModalContent"),null,2))'
 
 ```
 
-`manifest.json` keeps `components` (top level), `.parts` inside compound components, `foundations`, `providersAndHooks` and `exports` (the flat index). The `.d.ts` files under `node_modules/@javui/ui/dist/components/<Name>/` are the source of truth for types when the JSON is ambiguous.
+`manifest.json` keeps `components` (top level), `.parts` (compound subcomponents) and `.companions` (providers and hooks that configure their parent, such as `LinkProvider` and `useLinkComponent` under `Link`) inside each component, plus `foundations` and `exports` (the flat index). The `.d.ts` files under `node_modules/@javui/ui/dist/components/<Name>/` are the source of truth for types when the JSON is ambiguous.
 
 ## Common mistakes
 
@@ -45,7 +45,7 @@ node -e 'const m=require("@javui/ui/agent/manifest.json");const all=[...m.compon
 | `description` or `color` on `ModalContent` for an alert dialog | Both go on the root: `<Modal role="alertdialog" color="critical" description="This permanently removes the project."><ModalContent title="Delete project?" closeLabel="Close delete confirmation" /></Modal>`. `ModalContent` has no `color`. |
 | `<Collapsible title="Advanced">` | There is no `title`. Compose: `<Collapsible><CollapsibleTrigger>Show more</CollapsibleTrigger><CollapsibleContent>…</CollapsibleContent></Collapsible>` (`examples/Collapsible`). |
 | `<Text variant="body-sm">` | `body-sm` is a CSS style, not a variant. Real variants: `body`, `label`, `caption`, `emphasis`, `code`. Use `<Text size="sm">Regular body text.</Text>` (`TextSize` is separate). |
-| Calling `useToast()` without a provider | Mount `<ToastProvider>` in `Providers`. Without it Base UI throws `useToastManager must be used within <Toast.Provider>.` See `examples/Toast/ToastDemo.tsx`. |
+| Calling `useToast()` without a provider | Mount `<Toast>` in `Providers`. Without it Base UI throws `useToastManager must be used within <Toast.Provider>.` See `examples/Toast/ToastDemo.tsx`. |
 | Passing `next/link` from a Server Component | `LinkProvider` must live in a `"use client"` file. Use the complete `providers.tsx` below. |
 | `import { CodeBlock } from "@javui/ui"` | `import { CodeBlock } from "@javui/ui/server"`; it is server-only, highlights with Shiki and needs `shiki` installed. `<CodeBlock language="tsx" label="Example" lineNumbers code={code} />` (`examples/CodeBlock`). |
 | Applying a Tailwind loader to every `*.css` | In Next use `postcss.config.mjs` with `@tailwindcss/postcss`. A loader such as `@tailwindcss/turbopack` on all CSS strips the library's CSS Modules and components render unstyled. |
@@ -55,7 +55,7 @@ node -e 'const m=require("@javui/ui/agent/manifest.json");const all=[...m.compon
 | `<Input label="Email">`, `leftIcon`, or `size` as native width | `<Field label="Name"><Input autoComplete="name" /></Field>` or `<Input aria-label="Search" startIcon={<MagnifyingGlassIcon />} />`. `size` (`xs`–`lg`) is the control height; icons use `startIcon`/`endIcon`. |
 | `TabsList` / `TabsTrigger` / `TabsContent` | `<Tabs aria-label="Account sections" items={[{ value: "overview", label: "Overview", content: <p>Overview</p> }]} />`. Each item needs `value`, `label` and `content`; give the root an `aria-label`. |
 | Table with `columns`/`rows`, or divs styled as a table | Compose semantic parts: `<Table aria-label="Team members"><TableHeader><TableRow><TableHead>Name</TableHead></TableRow></TableHeader><TableBody>…</TableBody></Table>`. `columns`/`rows` are deprecated; use `align="end"` for numbers. |
-| Assuming `TooltipProvider` is required | It is optional: it only shares the open delay across tooltips. `Tooltip` works without it. `ToastProvider` is required for `useToast`. |
+| Assuming `TooltipProvider` is required | It is optional: it only shares the open delay across tooltips. `Tooltip` works without it. `<Toast>` is required for `useToast`. |
 
 `app/providers.tsx` in Next.js:
 
@@ -64,13 +64,13 @@ node -e 'const m=require("@javui/ui/agent/manifest.json");const all=[...m.compon
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { LinkProvider, ToastProvider, TooltipProvider } from "@javui/ui";
+import { LinkProvider, Toast, TooltipProvider } from "@javui/ui";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <LinkProvider component={Link}>
       <TooltipProvider delay={600}>
-        <ToastProvider>{children}</ToastProvider>
+        <Toast>{children}</Toast>
       </TooltipProvider>
     </LinkProvider>
   );

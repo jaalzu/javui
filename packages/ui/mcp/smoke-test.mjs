@@ -57,8 +57,16 @@ check("groups compound parts under their parent", modal.parts?.map((p) => p.name
 r = await call("get_component", { name: "ModalContent" });
 check("gets a compound part by name", !r.error && JSON.parse(r.text).name === "ModalContent", r.text.slice(0, 120));
 
-r = await call("get_component", { name: "useToast" });
-check("gets providers and hooks by name", !r.error && JSON.parse(r.text).name === "useToast", r.text.slice(0, 120));
+r = await call("get_component", { name: "TooltipProvider" });
+check("gets companions by name", !r.error && JSON.parse(r.text).name === "TooltipProvider", r.text.slice(0, 120));
+
+r = await call("get_component", { name: "Link" });
+const link = JSON.parse(r.text);
+check(
+  "groups companions under their parent",
+  link.companions?.map((p) => p.name).join() === "LinkProvider,useLinkComponent",
+  r.text.slice(0, 120),
+);
 
 r = await call("get_examples", { name: "Heading" });
 check("examples are returned as tsx", /```tsx/.test(r.text) && /Heading/.test(r.text));

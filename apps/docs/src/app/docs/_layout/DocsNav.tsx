@@ -11,7 +11,6 @@ import {
   generalSections,
   layoutComponentLinks,
   layoutSections,
-  providerLinks,
   type NavLink,
 } from "./nav";
 
@@ -172,12 +171,6 @@ export function DocsNav() {
           { ...componentsIndex, label: "All components" },
           ...componentLinks,
         ]}
-        pathname={pathname}
-        spaced
-      />
-      <Group
-        title="Providers and hooks"
-        links={providerLinks}
         pathname={pathname}
         spaced
       />

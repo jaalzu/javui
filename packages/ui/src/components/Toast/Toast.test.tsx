@@ -2,7 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { axe } from "vitest-axe";
 import { describe, expect, it } from "vitest";
-import { ToastProvider, useToast } from "./Toast";
+import { Toast, useToast } from "./Toast";
 import { Button } from "../Button";
 
 function Trigger() {
@@ -16,9 +16,9 @@ function Trigger() {
 
 function Example() {
   return (
-    <ToastProvider>
+    <Toast>
       <Trigger />
-    </ToastProvider>
+    </Toast>
   );
 }
 
@@ -82,9 +82,9 @@ describe("Toast", () => {
   it("renders an action that can close its toast", async () => {
     const user = userEvent.setup();
     render(
-      <ToastProvider>
+      <Toast>
         <ActionTrigger />
-      </ToastProvider>,
+      </Toast>,
     );
     await user.click(screen.getByRole("button", { name: "Create event" }));
     await user.click(await screen.findByRole("button", { name: "Undo" }));
@@ -94,9 +94,9 @@ describe("Toast", () => {
   it("moves one toast from loading to success with promise", async () => {
     const user = userEvent.setup();
     render(
-      <ToastProvider>
+      <Toast>
         <PromiseTrigger />
-      </ToastProvider>,
+      </Toast>,
     );
     await user.click(screen.getByRole("button", { name: "Save changes" }));
     expect(await screen.findByText("Changes saved")).toBeInTheDocument();

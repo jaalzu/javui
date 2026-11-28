@@ -1,3 +1,4 @@
+@layer ui {
 .label {
   display: inline-flex;
   align-items: baseline;
@@ -17,4 +18,5 @@
 
 .checkboxLabel {
   padding-block-start: var(--space-1);
+}
 }

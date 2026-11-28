@@ -1,3 +1,4 @@
+@layer ui {
 .label {
   display: inline-flex;
   align-items: flex-start;
@@ -11,25 +12,32 @@
 }
 
 .box {
-  composes: touchTarget from "../../styles/touchTarget.module.css";
+  --checkbox-size: var(--size-icon-sm);
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: var(--size-icon-sm);
-  height: var(--size-icon-sm);
-  margin: var(--space-1) 0 0;
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
+  margin: calc(
+      (var(--text-body-size) * var(--text-body-line) - var(--checkbox-size)) / 2
+    )
+    0 0;
   padding: 0;
   border: var(--border-width-thin) solid var(--color-border-strong);
   border-radius: var(--radius-sm);
   background: var(--color-component);
-  color: var(--color-on-inverted-foreground);
+  color: var(--color-on-brand-solid-foreground);
   cursor: pointer;
   transition:
     background-color var(--motion-duration-fast) var(--motion-easing-standard),
     border-color var(--motion-duration-fast) var(--motion-easing-standard),
     color var(--motion-duration-fast) var(--motion-easing-standard);
+}
+
+.box[data-size="md"] {
+  --checkbox-size: var(--size-icon-md);
 }
 
 .box:hover:not([data-disabled]):not([data-readonly]):not([data-loading]),
@@ -50,24 +58,25 @@
 
 .box[data-checked],
 .box[data-indeterminate] {
-  border-color: var(--color-inverted-solid);
-  background: var(--color-inverted-solid);
+  border-color: var(--color-brand-solid);
+  background: var(--color-brand-solid);
+  color: var(--color-on-brand-solid-foreground);
 }
 
 .box[data-checked]:hover:not([data-disabled]):not([data-readonly]):not([data-loading]),
 .box[data-indeterminate]:hover:not([data-disabled]):not([data-readonly]):not([data-loading]),
 .box[data-checked][data-force="hover"]:not([data-disabled]):not([data-readonly]):not([data-loading]),
 .box[data-indeterminate][data-force="hover"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
-  border-color: var(--color-inverted-solid-hover);
-  background: var(--color-inverted-solid-hover);
+  border-color: var(--color-brand-solid-hover);
+  background: var(--color-brand-solid-hover);
 }
 
 .box[data-checked]:active:not([data-disabled]):not([data-readonly]):not([data-loading]),
 .box[data-indeterminate]:active:not([data-disabled]):not([data-readonly]):not([data-loading]),
 .box[data-checked][data-force="active"]:not([data-disabled]):not([data-readonly]):not([data-loading]),
 .box[data-indeterminate][data-force="active"]:not([data-disabled]):not([data-readonly]):not([data-loading]) {
-  border-color: var(--color-inverted-solid-active);
-  background: var(--color-inverted-solid-active);
+  border-color: var(--color-brand-solid);
+  background: var(--color-brand-solid);
 }
 
 .box[data-invalid][data-checked]:not([data-disabled]),
@@ -111,6 +120,12 @@
   stroke: currentColor;
   stroke-width: 21.33px;
   stroke-linejoin: round;
+}
+
+.box[data-size="md"] .checkIcon,
+.box[data-size="md"] .minusIcon {
+  /* The glyph is 16px on a 256 grid: a 16 unit stroke adds 1px of weight. */
+  stroke-width: 16px;
 }
 
 .minusIcon {
@@ -213,4 +228,11 @@
 
 .cardDescription {
   padding-inline-start: 0;
+}
+}
+
+/* `composes` must stay outside `@layer ui`: Turbopack rejects nested composes. */
+
+.box {
+  composes: touchTarget from "../../styles/touchTarget.module.css";
 }

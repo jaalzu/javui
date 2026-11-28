@@ -1,3 +1,4 @@
+@layer ui {
 .root {
   --_px: var(--input-px, calc(var(--space-3) - var(--space-1) / 2));
   --icon-size: var(--size-icon-md);
@@ -8,7 +9,6 @@
 }
 
 .textarea {
-  composes: surface from "../../styles/field-surface.module.css";
   min-height: var(--size-control-lg);
   padding: var(--space-2) var(--_px);
   resize: vertical;
@@ -98,4 +98,11 @@
 
 .root[data-appearance="outline"] .textarea {
   --field-hover-background: transparent;
+}
+}
+
+/* `composes` must stay outside `@layer ui`: Turbopack rejects nested composes. */
+
+.textarea {
+  composes: surface from "../../styles/field-surface.module.css";
 }

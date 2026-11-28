@@ -1,3 +1,4 @@
+@layer ui {
 .text {
   --btn-radius: var(--radius-base);
   box-sizing: border-box;
@@ -14,4 +15,5 @@
   font-size: var(--text-body-size);
   line-height: 1;
   white-space: nowrap;
+}
 }

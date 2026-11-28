@@ -1,3 +1,4 @@
+@layer ui {
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -7,8 +8,6 @@
 /* ---------- Group (input + acciones) ---------- */
 
 .group {
-  composes: control from "../../styles/control.module.css";
-  composes: surface from "../../styles/field-surface.module.css";
   --icon-size: var(--size-icon-md);
   display: flex;
   align-items: center;
@@ -59,14 +58,12 @@
 /* ---------- Sizes ---------- */
 
 .xs {
-  composes: xs from "../../styles/control.module.css";
   --icon-size: var(--size-icon-xs);
   gap: var(--icon-gap-xs);
   min-height: var(--size-control-xs);
 }
 
 .sm {
-  composes: sm from "../../styles/control.module.css";
   --icon-size: var(--size-icon-sm);
   gap: var(--icon-gap-sm);
   min-height: var(--size-control-sm);
@@ -74,14 +71,12 @@
 }
 
 .md {
-  composes: md from "../../styles/control.module.css";
   --icon-size: var(--size-icon-md);
   gap: var(--icon-gap-md);
   min-height: var(--size-control-md);
 }
 
 .lg {
-  composes: lg from "../../styles/control.module.css";
   --icon-size: var(--size-icon-lg);
   gap: var(--icon-gap-lg);
   min-height: var(--size-control-lg);
@@ -226,4 +221,32 @@
 .chipRemove:focus-visible {
   outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
   outline-offset: 0;
+}
+}
+
+/* `composes` must stay outside `@layer ui`: Turbopack rejects nested composes. */
+
+/* ---------- Group (input + acciones) ---------- */
+
+.group {
+  composes: control from "../../styles/control.module.css";
+  composes: surface from "../../styles/field-surface.module.css";
+}
+
+/* ---------- Sizes ---------- */
+
+.xs {
+  composes: xs from "../../styles/control.module.css";
+}
+
+.sm {
+  composes: sm from "../../styles/control.module.css";
+}
+
+.md {
+  composes: md from "../../styles/control.module.css";
+}
+
+.lg {
+  composes: lg from "../../styles/control.module.css";
 }

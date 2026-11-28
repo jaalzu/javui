@@ -29,7 +29,7 @@ import {
   Separator,
   Text,
   Textarea,
-  ToastProvider,
+  Toast,
   useToast,
 } from "@javui/ui";
 import type { FormEvent } from "react";
@@ -98,8 +98,8 @@ function FormContent() {
 
 export function FormsShowcase() {
   return (
-    <ToastProvider>
+    <Toast>
       <FormContent />
-    </ToastProvider>
+    </Toast>
   );
 }

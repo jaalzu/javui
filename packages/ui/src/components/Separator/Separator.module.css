@@ -1,3 +1,4 @@
+@layer ui {
 .separator {
   box-sizing: border-box;
   flex: 0 1 auto;
@@ -16,4 +17,5 @@
   max-inline-size: var(--border-width-thin);
   block-size: auto;
   align-self: stretch;
+}
 }

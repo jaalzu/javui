@@ -1,3 +1,4 @@
+@layer ui {
 .icon {
   width: var(--icon-size, var(--size-icon-md));
   height: var(--icon-size, var(--size-icon-md));
@@ -24,4 +25,5 @@
 
 .xl {
   --icon-size: var(--size-icon-xl);
+}
 }

@@ -1,3 +1,4 @@
+@layer ui {
 /*
  * Contract (read before editing):
  * 1. The group never sets size or variant. Size flows through ButtonGroupSizeContext.
@@ -298,4 +299,5 @@
     width: var(--g-hit-w);
     height: var(--g-hit-h);
   }
+}
 }

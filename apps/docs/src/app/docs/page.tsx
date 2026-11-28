@@ -11,12 +11,12 @@ export default function Introduction() {
     <DocPage
       href="/docs"
       title="Introduction"
-      description="JavUI is a React component library for Next.js: calm, readable and accessible by default."
     >
       <p>
-        JavUI is a set of React components for Next.js. It aims to look good
-        without effort: soft surfaces, clear type, careful spacing and motion
-        that stays out of the way, in light and dark.
+        JavUI is a set of React components for Next.js, calm and accessible by
+        default. It looks good without effort: soft surfaces, clear type,
+        careful spacing and motion that stays out of the way, in both light and
+        dark.
       </p>
       <p>
         Every component works with the keyboard and screen readers. Behavior

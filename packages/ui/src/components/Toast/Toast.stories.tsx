@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { ToastProvider, useToast } from "./Toast";
+import { Toast, useToast } from "./Toast";
 import { Button } from "../Button";
 import { Stack } from "../Stack";
 import { StateMatrix } from "../../stories/StateMatrix";
@@ -81,7 +81,7 @@ const meta = {
   title: "Feedback/Toast",
   tags: ["autodocs"],
   parameters: { layout: "padded" },
-  decorators: [(Story) => <ToastProvider><Story /></ToastProvider>],
+  decorators: [(Story) => <Toast><Story /></Toast>],
 } satisfies Meta;
 
 export default meta;

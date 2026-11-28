@@ -1,3 +1,4 @@
+@layer ui {
 .slot {
   display: inline-flex;
   flex-shrink: 0;
@@ -9,4 +10,5 @@
 .slot > svg {
   width: var(--icon-size, var(--size-icon-md));
   height: var(--icon-size, var(--size-icon-md));
+}
 }

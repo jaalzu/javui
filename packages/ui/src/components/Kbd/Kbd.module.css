@@ -1,3 +1,4 @@
+@layer ui {
 .kbd {
   --_kbd-size: var(--size-icon-md);
   display: inline-flex;
@@ -44,4 +45,5 @@
 
 @media (pointer: coarse) {
   .kbd { display: none; }
+}
 }

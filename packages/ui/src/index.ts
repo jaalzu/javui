@@ -144,11 +144,11 @@ export { Popover, PopoverTrigger, PopoverContent, PopoverClose } from "./compone
 export type { PopoverTriggerProps, PopoverContentProps, PopoverCloseProps } from "./components/Popover";
 export { Menu, MenuBar } from "./components/Menu";
 export type { MenuProps, MenuBarProps, MenuEntry, MenuItem, MenuSeparator } from "./components/Menu";
-export { ToastProvider, useToast } from "./components/Toast";
+export { Toast, useToast } from "./components/Toast";
 export type {
   ToastOptions,
   ToastPromiseOptions,
-  ToastProviderProps,
+  ToastProps,
   ToastTone,
 } from "./components/Toast";
 

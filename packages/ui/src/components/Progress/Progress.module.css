@@ -1,3 +1,4 @@
+@layer ui {
 .root {
   display: flex;
   flex-direction: column;
@@ -54,4 +55,5 @@
 @media (prefers-reduced-motion: reduce) {
   .indicator { transition: none; }
   .root[data-indeterminate] .indicator { animation: none; width: 100%; opacity: 0.5; }
+}
 }

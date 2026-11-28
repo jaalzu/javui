@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import manifest from "../../../../../public/agent/manifest.json";
-import { Alert, Heading, Skeleton, Stack } from "@javui/ui";
+import { Alert, Heading, Link, Skeleton, Stack } from "@javui/ui";
 import { CodeBlock } from "@javui/ui/server";
 import { Examples, Preview } from "@/app/_examples/Examples";
 import { DocPage } from "@/app/docs/_page/DocPage";
@@ -14,18 +15,36 @@ type Entry = {
   composition: string; whenToUse: string; avoid: string[]; accessibility: string; props: Prop[]; extends: string; examples: string[];
   callout?: string;
   choosing?: string[];
+  setup?: { description: string; code: string };
+  reference?: { label: string; url: string; description?: string };
   parts?: Entry[];
 };
-type Manifest = { components: Entry[]; providersAndHooks: Entry[] };
 const components = manifest.components as unknown as Entry[];
-const providersAndHooks = (manifest as unknown as Manifest).providersAndHooks ?? [];
-const pages = [...components, ...providersAndHooks];
+const pages = components;
 
 type ComponentPageProps = { params: Promise<{ name: string }> };
 
-/** Renders `code` spans written with backticks in the generated text. */
+/** Renders `code` spans written with backticks and Markdown links in the generated text. */
 function Inline({ text }: { text: string }) {
-  return text.split("`").map((part, i) => (i % 2 ? <code key={i}>{part}</code> : part));
+  const parts: ReactNode[] = [];
+  const pattern = /`([^`]+)`|\[([^\]]+)\]\(([^)]+)\)/g;
+  let last = 0;
+  let match: RegExpExecArray | null;
+  while ((match = pattern.exec(text))) {
+    if (match.index > last) parts.push(text.slice(last, match.index));
+    parts.push(
+      match[1] !== undefined ? (
+        <code key={match.index}>{match[1]}</code>
+      ) : (
+        <Link key={match.index} href={match[3]} target="_blank" rel="noreferrer">
+          {match[2]}
+        </Link>
+      ),
+    );
+    last = pattern.lastIndex;
+  }
+  if (last < text.length) parts.push(text.slice(last));
+  return <>{parts}</>;
 }
 
 /** First sentence of a description (the lead) and the rest. */
@@ -45,6 +64,16 @@ const usageSnippets: Record<string, string> = {
   <Button>Save</Button>
   <Button>Publish</Button>
 </ButtonGroup>`,
+  Toast: `import { useToast } from "@javui/ui";
+
+function SaveButton() {
+  const { show } = useToast();
+  return (
+    <Button variant="secondary" onClick={() => show({ title: "Saved", type: "success" })}>
+      Save
+    </Button>
+  );
+}`,
 };
 
 export function generateStaticParams() {
@@ -80,7 +109,8 @@ async function ComponentContent({ params }: ComponentPageProps) {
   const c = pages.find((x) => x.name === name);
   if (!c) notFound();
   const [lead] = splitLead(c.description);
-  const usage = usageSnippets[c.name] ?? c.examples[0] ?? `<${c.name} />`;
+  const usage =
+    usageSnippets[c.name] ?? c.examples[0] ?? (c.name.startsWith("use") ? null : `<${c.name} />`);
 
   return (
     <DocPage href={`/docs/components/${c.name}`} title={c.name} description={<Inline text={lead} />}>
@@ -91,9 +121,17 @@ async function ComponentContent({ params }: ComponentPageProps) {
       <Heading as="h2" size={6}>Installation</Heading>
       <PackageManagerCode npm="npm install ui-lib" label="Install" />
 
+      {c.setup ? (
+        <>
+          <Heading as="h2" size={6}>Setup</Heading>
+          <p><Inline text={c.setup.description} /></p>
+          <CodeBlock language="tsx" label="app/providers.tsx" code={c.setup.code} minimal />
+        </>
+      ) : null}
+
       <Heading as="h2" size={6}>Usage</Heading>
       <CodeBlock language="tsx" label="Import" code={c.import} minimal />
-      <CodeBlock language="tsx" label="Usage" code={usage} minimal />
+      {usage && <CodeBlock language="tsx" label="Usage" code={usage} minimal />}
 
       <Examples name={c.name} />
 
@@ -101,6 +139,19 @@ async function ComponentContent({ params }: ComponentPageProps) {
         <>
           <Heading as="h2" size={6}>Choosing</Heading>
           <ul>{c.choosing.map((a) => <li key={a}><Inline text={a} /></li>)}</ul>
+        </>
+      ) : null}
+
+      {c.reference ? (
+        <>
+          <Heading as="h2" size={6}>API Reference</Heading>
+          <p>
+            See the{" "}
+            <Link href={c.reference.url} target="_blank" rel="noreferrer">
+              {c.reference.label}
+            </Link>{" "}
+            {c.reference.description}
+          </p>
         </>
       ) : null}
 

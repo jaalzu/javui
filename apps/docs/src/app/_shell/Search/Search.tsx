@@ -177,7 +177,7 @@ export function Search({ items }: { items: SearchItem[] }) {
             const GroupIcon = groupIcons[item.group];
             return (
               <li
-                key={item.href}
+                key={`${item.href}-${item.label}`}
                 id={`${listId}-${i}`}
                 role="option"
                 aria-selected={i === active}

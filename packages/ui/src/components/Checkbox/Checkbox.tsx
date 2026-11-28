@@ -20,6 +20,11 @@ type CheckboxSharedProps = {
    */
   variant?: "default" | "card";
   /**
+   * Box size. `sm` renders a 1rem box and `md` a 1.25rem box, matching the size of a Radio.
+   * @default "sm"
+   */
+  size?: "sm" | "md";
+  /**
    * Marks the checkbox invalid without an error message and tints the label and box with the
    * danger color. Prefer `error` so the reason is announced; use this only when the label itself
    * explains the problem. Inside `Field`, pass `error` to the Field instead. @default false
@@ -91,12 +96,14 @@ export type CheckboxProps = CheckboxWithLabelProps | CheckboxWithoutLabelProps;
  * <Checkbox label="Accept the terms" invalid />
  * <Checkbox label="Email notifications" description="We only email about product changes." />
  * <Checkbox label="Product updates" description="New features and improvements." variant="card" />
+ * <Checkbox label="Email updates" defaultChecked size="md" />
  * <Checkbox aria-label="Select row 3" />
  */
 export function Checkbox({
   label,
   className,
   variant = "default",
+  size = "sm",
   invalid: invalidProp,
   description,
   error,
@@ -146,10 +153,11 @@ export function Checkbox({
       data-readonly={state.readOnly ? "" : undefined}
       data-loading={state.loading ? "" : undefined}
       data-invalid={invalid ? "" : undefined}
+      data-size={size}
     >
       <BaseCheckbox.Indicator className={styles.indicator}>
-        <CheckIcon size="xs" className={styles.checkIcon} />
-        <MinusIcon size="xs" className={styles.minusIcon} />
+        <CheckIcon size={size === "md" ? "sm" : "xs"} className={styles.checkIcon} />
+        <MinusIcon size={size === "md" ? "sm" : "xs"} className={styles.minusIcon} />
       </BaseCheckbox.Indicator>
     </BaseCheckbox.Root>
   );

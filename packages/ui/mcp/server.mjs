@@ -23,8 +23,7 @@ const fail = (message) => ({ isError: true, content: [{ type: "text", text: mess
 const allEntries = [
   ...manifest.components,
   ...(manifest.foundations ?? []),
-  ...manifest.components.flatMap((c) => c.parts ?? []),
-  ...manifest.providersAndHooks,
+  ...manifest.components.flatMap((c) => [...(c.parts ?? []), ...(c.companions ?? [])]),
 ];
 const find = (name) => allEntries.find((c) => c.name.toLowerCase() === String(name).toLowerCase());
 const suggest = (name) => {
@@ -46,7 +45,9 @@ server.registerTool(
       principles: manifest.principles,
       tokenUsage: tokens.usage,
       categories: manifest.categories,
-      providersAndHooks: manifest.providersAndHooks.map((c) => ({ name: c.name, whenToUse: c.whenToUse })),
+      companions: manifest.components.flatMap((c) =>
+        (c.companions ?? []).map((x) => ({ name: x.name, parent: c.name, whenToUse: x.whenToUse })),
+      ),
     }),
 );
 
@@ -66,6 +67,7 @@ server.registerTool(
         base: c.base,
         whenToUse: c.whenToUse,
         ...(c.parts?.length ? { parts: c.parts.map((p) => p.name) } : {}),
+        ...(c.companions?.length ? { companions: c.companions.map((p) => p.name) } : {}),
       }));
     if (!items.length) return fail(`No components in category "${category}". Categories: ${manifest.categories.join(", ")}`);
     return text(items);

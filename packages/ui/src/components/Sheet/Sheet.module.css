@@ -1,3 +1,4 @@
+@layer ui {
 .backdrop {
   position: fixed;
   inset: 0;
@@ -197,4 +198,5 @@
 /* Every action fills the sheet width, even when the footer holds several. */
 .footer > * {
   width: 100%;
+}
 }

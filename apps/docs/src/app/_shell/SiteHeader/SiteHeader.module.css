@@ -34,6 +34,8 @@
   align-items: center;
   gap: var(--space-1);
   height: var(--header-height);
+  /* The extra height is added at the top, so the items move down with it instead of re-centering. */
+  padding-block-start: 2px;
 }
 
 /* Mobile: menu button, logo in the middle, actions on the right. */
@@ -167,7 +169,7 @@ a.brand {
     left: 0;
     bottom: 0;
     z-index: 0;
-    height: 100%;
+    height: calc(100% - var(--space-1));
     width: var(--glow-w, 0px);
     transform: translateX(var(--glow-x, 0px));
     pointer-events: none;

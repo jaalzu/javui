@@ -1,3 +1,4 @@
+@layer ui {
 .root {
   --shiki-foreground: var(--syntax-text);
   --shiki-background: transparent;
@@ -276,4 +277,5 @@
 .highlight :global(.line.diff-removed) {
   --shiki-token-deleted: var(--syntax-text);
   background: var(--syntax-diff-removed-bg);
+}
 }

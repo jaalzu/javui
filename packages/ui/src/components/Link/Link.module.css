@@ -1,3 +1,4 @@
+@layer ui {
 .link {
   --icon-size: var(--size-icon-sm);
   color: var(--color-primary-foreground);
@@ -27,9 +28,7 @@
   outline-offset: var(--focus-ring-offset);
 }
 
-.standalone {
-  composes: touchTarget from "../../styles/touchTarget.module.css";
-}
+.standalone {}
 
 .startIcon {
   margin-inline-end: var(--icon-gap-sm);
@@ -64,4 +63,11 @@
 
 .inherit {
   color: inherit;
+}
+}
+
+/* `composes` must stay outside `@layer ui`: Turbopack rejects nested composes. */
+
+.standalone {
+  composes: touchTarget from "../../styles/touchTarget.module.css";
 }

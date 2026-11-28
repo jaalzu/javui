@@ -35,6 +35,15 @@
         "Button-styled navigation: use Button with href."
       ],
       "accessibility": "Always underlined so it does not rely on color (the underline gets stronger on hover). Use `target=\"_blank\"` only with `rel=\"noopener noreferrer\"`.",
+      "choosing": [
+        "Navigating to another page or resource: use `Link`, inline in text or with `standalone`.",
+        "Navigation styled as a button: use `Button` with `href`.",
+        "Building your own link component that must respect `LinkProvider`: call `useLinkComponent()` in a client component and render the returned component."
+      ],
+      "setup": {
+        "description": "Mount `<LinkProvider>` once inside a `\"use client\"` file near the app root; never inside a `<Link>`. Every library link then uses your router (`next/link`). Without it links render as plain `a` elements.",
+        "code": "\"use client\";\nimport NextLink from \"next/link\";\nimport { LinkProvider } from \"@javui/ui\";\n\nexport function Providers({ children }) {\n  return <LinkProvider component={NextLink}>{children}</LinkProvider>;\n}"
+      },
       "props": [
         {
           "name": "href",
@@ -73,7 +82,59 @@
       "examples": [
         "<Link href=\"/docs\">Read the docs</Link>\r\n<Link href=\"/docs\" endIcon={<ArrowRightIcon />}>Read the docs</Link>\r\n<Link href=\"/next\" aria-label=\"Next page\" startIcon={<ArrowRightIcon />} />"
       ],
-      "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Link/Link.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Link/Link.tsx",
+      "companions": [
+        {
+          "name": "LinkProvider",
+          "category": "utility",
+          "base": "Own component",
+          "description": "Wires navigation once for the whole app. In Next.js pass `next/link` so every library link gets\nclient-side navigation and prefetching, with no `render` prop on each one. Without it links are plain `a` elements.\n\nMount it once at the app root, never inside a `<Link>`.",
+          "import": "import { LinkProvider } from \"@javui/ui\";",
+          "renders": "no element: it provides the link component through context",
+          "composition": "Mount once at the app root, in a `\"use client\"` file; never inside a `<Link>`. `<LinkProvider component={NextLink}>`. Link, Button with href, Menu link items, Breadcrumb and Pagination then render with it.",
+          "whenToUse": "Making every link in the library use `next/link` (or another router link) from a single place.",
+          "avoid": [
+            "Passing a `render` prop to individual links.",
+            "Nesting several providers."
+          ],
+          "accessibility": "No effect on semantics; the provided component must render an `a`.",
+          "props": [
+            {
+              "name": "component",
+              "type": "LinkComponent",
+              "required": true,
+              "description": "The component every `Link`, `Breadcrumb`, `Pagination` and `Menu` link renders with. Pass `next/link` in a Next.js app."
+            }
+          ],
+          "extends": "Also accepts the native props of the element it renders; they pass through.",
+          "examples": [
+            "\"use client\";\r\nimport NextLink from \"next/link\";\r\n<LinkProvider component={NextLink}>{children}</LinkProvider>"
+          ],
+          "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Link/LinkContext.tsx",
+          "parent": "Link"
+        },
+        {
+          "name": "useLinkComponent",
+          "category": "utility",
+          "base": "Own component",
+          "description": "The anchor component to render links with: the one from `LinkProvider`, or `a`.\n\nOnly needed when building your own link components that should follow `LinkProvider`.\nRun it in a client component and never inside a `<Link>`.",
+          "import": "import { useLinkComponent } from \"@javui/ui\";",
+          "renders": "hook, renders nothing",
+          "composition": "Only needed when building your own link components that should respect LinkProvider. `const LinkEl = useLinkComponent()` returns the provided link component, or `\"a\"`. Use it inside your own client component; never inside a `<Link>`.",
+          "whenToUse": "Building your own navigation component that should follow LinkProvider.",
+          "avoid": [
+            "Calling it in Server Components: it needs a client component."
+          ],
+          "accessibility": "The returned component must render an `a`.",
+          "props": [],
+          "extends": "Also accepts the native props of the element it renders; they pass through.",
+          "examples": [
+            "\"use client\";\r\nimport { useLinkComponent } from \""
+          ],
+          "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Link/LinkContext.tsx",
+          "parent": "Link"
+        }
+      ]
     },
     {
       "name": "Kbd",
@@ -1797,7 +1858,7 @@
       "description": "A control that allows the user to toggle between checked and not checked. With a label, the whole label is\nclickable. Without one, only the box renders: give it a name with `aria-label`/`aria-labelledby`\nor let `Field` do it. Inside `Field` it inherits `error`, `required`, `readOnly` and `loading`.\nSpace toggles it, like a native checkbox.\n\nThe dash is only for the `parent` of a `CheckboxGroup`; Base UI derives it from the group.\n`variant=\"card\"` turns the label into a card. `invalid` tints the box and label without a\nmessage; `error` adds a linked message. `description` renders help text below the label.",
       "import": "import { Checkbox } from \"@javui/ui\";",
       "renders": "span role=\"checkbox\" with a hidden native input, optionally inside a label",
-      "composition": "`variant=\"card\"` turns the label into a card; the dash exists only on the `parent` of a `CheckboxGroup`; `invalid` paints without a message, while `error` adds a message. `label` is optional, but then it needs `aria-label` or `aria-labelledby`; `description` adds helper text below the label.",
+      "composition": "`variant=\"card\"` turns the label into a card; `size=\"md\"` renders a larger box that matches a Radio; the dash exists only on the `parent` of a `CheckboxGroup`; `invalid` paints without a message, while `error` adds a message. `label` is optional, but then it needs `aria-label` or `aria-labelledby`; `description` adds helper text below the label.",
       "whenToUse": "Choosing several independent options, or one confirmation that is saved when the form is submitted.",
       "avoid": [
         "A single option among several: use RadioGroup.",
@@ -1925,6 +1986,13 @@
           "description": "The checkbox must be ticked before the form can be submitted. The label adds a red asterisk.\nWithout a visible label there is nowhere to print it: let `Field` show it instead.\nInside `Field`, omit it and pass `required` to the Field instead."
         },
         {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "default": "sm",
+          "description": "Box size. `sm` renders a 1rem box and `md` a 1.25rem box, matching the size of a Radio."
+        },
+        {
           "name": "uncheckedValue",
           "type": "string",
           "required": false,
@@ -1946,7 +2014,7 @@
       ],
       "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
       "examples": [
-        "<Checkbox label=\"Send me product updates\" defaultChecked />\r\n<Checkbox label=\"Accept terms\" error=\"You must accept the terms\" required />\r\n<Checkbox label=\"Accept the terms\" invalid />\r\n<Checkbox label=\"Email notifications\" description=\"We only email about product changes.\" />\r\n<Checkbox label=\"Product updates\" description=\"New features and improvements.\" variant=\"card\" />\r\n<Checkbox aria-label=\"Select row 3\" />"
+        "<Checkbox label=\"Send me product updates\" defaultChecked />\r\n<Checkbox label=\"Accept terms\" error=\"You must accept the terms\" required />\r\n<Checkbox label=\"Accept the terms\" invalid />\r\n<Checkbox label=\"Email notifications\" description=\"We only email about product changes.\" />\r\n<Checkbox label=\"Product updates\" description=\"New features and improvements.\" variant=\"card\" />\r\n<Checkbox label=\"Email updates\" defaultChecked size=\"md\" />\r\n<Checkbox aria-label=\"Select row 3\" />"
       ],
       "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Checkbox/Checkbox.tsx",
       "parts": [
@@ -2848,6 +2916,10 @@
         "Interactive content in the tooltip."
       ],
       "accessibility": "Shows on hover and keyboard focus, hides on Escape. The trigger needs aria-label when it has no text.",
+      "setup": {
+        "description": "Mount `<TooltipProvider>` once near the app root; never inside a `<Tooltip>`. It shares one open delay (600 ms by default), so moving between tooltips opens the next one instantly.",
+        "code": "import { TooltipProvider } from \"@javui/ui\";\n\nexport function Providers({ children }) {\n  return <TooltipProvider delay={600}>{children}</TooltipProvider>;\n}"
+      },
       "props": [
         {
           "name": "children",
@@ -2903,7 +2975,49 @@
       "examples": [
         "<Tooltip content=\"Saved\">\r\n  <Button variant=\"secondary\" aria-label=\"Saved\" startIcon={<CheckIcon />} />\r\n</Tooltip>\r\n<Tooltip content=\"Add to library\" side=\"right\">\r\n  <Button variant=\"secondary\">Hover</Button>\r\n</Tooltip>\r\n<Tooltip content=\"This feature is not available yet\">\r\n  <span><Button disabled>Disabled</Button></span>\r\n</Tooltip>"
       ],
-      "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Tooltip/Tooltip.tsx"
+      "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Tooltip/Tooltip.tsx",
+      "companions": [
+        {
+          "name": "TooltipProvider",
+          "category": "overlays",
+          "base": "Built on Base UI (@base-ui/react)",
+          "description": "Shares the open delay between tooltips. The first tooltip waits `delay` ms; moving to the next\none opens instantly (`data-instant` skips the animation). Mount it once at the app root, never inside a `<Tooltip>`.",
+          "import": "import { TooltipProvider } from \"@javui/ui\";",
+          "renders": "no element",
+          "composition": "Mount once at the app root; never inside a `<Tooltip>`. Optional. `delay` (default 600) applies only to the first tooltip; the next ones open instantly.",
+          "whenToUse": "Shared open delay across tooltips.",
+          "avoid": [
+            "Nesting several providers."
+          ],
+          "accessibility": "No effect on semantics.",
+          "props": [
+            {
+              "name": "closeDelay",
+              "type": "number",
+              "required": false,
+              "description": "How long to wait before closing a tooltip. Specified in milliseconds."
+            },
+            {
+              "name": "delay",
+              "type": "number",
+              "required": false,
+              "default": "600",
+              "description": "How long to wait before opening the tooltip on hover. Specified in milliseconds."
+            },
+            {
+              "name": "timeout",
+              "type": "number",
+              "required": false,
+              "default": "400",
+              "description": "Another tooltip will open instantly if the previous tooltip\nis closed within this timeout. Specified in milliseconds."
+            }
+          ],
+          "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+          "examples": [],
+          "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Tooltip/Tooltip.tsx",
+          "parent": "Tooltip"
+        }
+      ]
     },
     {
       "name": "Tabs",
@@ -3756,6 +3870,57 @@
           "parent": "Menu"
         }
       ]
+    },
+    {
+      "name": "Toast",
+      "category": "feedback",
+      "base": "Built on Base UI (@base-ui/react)",
+      "description": "A succinct message that is displayed temporarily.\n\nThe toast feature in one place: place `<Toast>` once near the root of the app (inside `Providers`)\nand call `useToast()` anywhere below it. Mounting the component renders the stack of toasts and\nprovides the manager, so there is no separate provider to install.\n\nBuilt on [Base UI Toast](https://base-ui.com/react/components/toast): live-region announcements,\nF6 to reach the toasts, swipe to dismiss, and pause on hover and focus come from there.",
+      "import": "import { Toast } from \"@javui/ui\";",
+      "renders": "no visible element until a toast is shown; renders a viewport in a portal",
+      "composition": "Place `<Toast>` once near the app root, inside Providers. Then call `useToast()` anywhere below it: `const { show, add, close, update, promise } = useToast()`. `show({ title, description?, type?, tone?, timeout?, priority?, startIcon?, endIcon?, actionProps? })`; `type` renders the status icon for success, info, warning, danger and loading. `actionProps` adds an action button, and `promise(value, { loading, success, error })` keeps one toast in sync with a promise. Icons are generated icons without `size`.",
+      "whenToUse": "Short-lived feedback after an action.",
+      "avoid": [
+        "Messages that must stay: use Alert.",
+        "Mounting more than one `<Toast>`."
+      ],
+      "accessibility": "Live-region announcements, F6 to reach toasts, pause on hover and focus. The dismiss button is labelled. The type is never the only signal: write it in the title.",
+      "setup": {
+        "description": "Mount `<Toast>` once in your root layout, inside `Providers`. It renders the stack of toasts and provides the manager, so `useToast()` works anywhere below it.",
+        "code": "import { Toast } from \"@javui/ui\";\n\nexport function Providers({ children }) {\n  return <Toast>{children}</Toast>;\n}"
+      },
+      "reference": {
+        "label": "Base UI Toast documentation",
+        "url": "https://base-ui.com/react/components/toast",
+        "description": "for details about manager options, stacking, swipe dismissal, and the primitive API."
+      },
+      "props": [
+        {
+          "name": "limit",
+          "type": "number",
+          "required": false,
+          "default": "3",
+          "description": "The maximum number of toasts that can be displayed at once.\nWhen the limit is exceeded, the oldest toasts are marked as `limited` (via the `data-limited`\nattribute) rather than removed, so they can be hidden or animated out."
+        },
+        {
+          "name": "timeout",
+          "type": "number",
+          "required": false,
+          "default": "5000",
+          "description": "The default amount of time (in ms) before a toast is auto dismissed.\nA value of `0` will prevent the toast from being dismissed automatically."
+        },
+        {
+          "name": "toastManager",
+          "type": "ToastManager<any>",
+          "required": false,
+          "description": "A global manager for toasts to use outside of a React component."
+        }
+      ],
+      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
+      "examples": [
+        "<Toast>{children}</Toast>\r\n\r\nfunction SaveButton() {\r\n  const { show } = useToast();\r\n  return <Button variant=\"secondary\" onClick={() => show({ title: \"Saved\", type: \"success\" })}>Save</Button>;\r\n}"
+      ],
+      "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Toast/Toast.tsx"
     },
     {
       "name": "Accordion",
@@ -5563,156 +5728,6 @@
       "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/typography/Heading/Heading.tsx"
     }
   ],
-  "providersAndHooks": [
-    {
-      "name": "LinkProvider",
-      "category": "utility",
-      "base": "Own component",
-      "description": "Wires navigation once for the whole app. In Next.js pass `next/link` so every library link gets\nclient-side navigation and prefetching, with no `render` prop on each one. Without it links are plain `a` elements.",
-      "import": "import { LinkProvider } from \"@javui/ui\";",
-      "renders": "no element: it provides the link component through context",
-      "composition": "Place once near the app root: `<LinkProvider component={NextLink}>`. Link, Button with href, Menu link items, Breadcrumb and Pagination then render with it.",
-      "whenToUse": "Making every link in the library use `next/link` (or another router link) from a single place.",
-      "avoid": [
-        "Passing a `render` prop to individual links.",
-        "Nesting several providers."
-      ],
-      "accessibility": "No effect on semantics; the provided component must render an `a`.",
-      "props": [
-        {
-          "name": "component",
-          "type": "LinkComponent",
-          "required": true,
-          "description": "The component every `Link`, `Breadcrumb`, `Pagination` and `Menu` link renders with. Pass `next/link` in a Next.js app."
-        }
-      ],
-      "extends": "Also accepts the native props of the element it renders; they pass through.",
-      "examples": [
-        "\"use client\";\r\nimport NextLink from \"next/link\";\r\n<LinkProvider component={NextLink}>{children}</LinkProvider>"
-      ],
-      "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Link/LinkContext.tsx"
-    },
-    {
-      "name": "TooltipProvider",
-      "category": "overlays",
-      "base": "Built on Base UI (@base-ui/react)",
-      "description": "Shares the open delay between tooltips. The first tooltip waits `delay` ms; moving to the next\none opens instantly (`data-instant` skips the animation). Put it once near the app root.",
-      "import": "import { TooltipProvider } from \"@javui/ui\";",
-      "renders": "no element",
-      "composition": "Place once near the app root. Optional. `delay` (default 600) applies only to the first tooltip; the next ones open instantly.",
-      "whenToUse": "Shared open delay across tooltips.",
-      "avoid": [
-        "Nesting several providers."
-      ],
-      "accessibility": "No effect on semantics.",
-      "props": [
-        {
-          "name": "closeDelay",
-          "type": "number",
-          "required": false,
-          "description": "How long to wait before closing a tooltip. Specified in milliseconds."
-        },
-        {
-          "name": "delay",
-          "type": "number",
-          "required": false,
-          "default": "600",
-          "description": "How long to wait before opening the tooltip on hover. Specified in milliseconds."
-        },
-        {
-          "name": "timeout",
-          "type": "number",
-          "required": false,
-          "default": "400",
-          "description": "Another tooltip will open instantly if the previous tooltip\nis closed within this timeout. Specified in milliseconds."
-        }
-      ],
-      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": [],
-      "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Tooltip/Tooltip.tsx"
-    },
-    {
-      "name": "ToastProvider",
-      "category": "feedback",
-      "base": "Built on Base UI (@base-ui/react)",
-      "description": "Place once near the root of the app (inside `Providers`). It renders the stack of toasts and makes\n`useToast` available. Built on Base UI Toast (live-region announcements, F6 to reach the toasts, swipe to\ndismiss, pause on hover and focus come from there).",
-      "import": "import { ToastProvider } from \"@javui/ui\";",
-      "renders": "no visible element until a toast is shown; renders a viewport in a portal",
-      "composition": "Place once near the app root, inside Providers. Then call `useToast()` anywhere below it.",
-      "whenToUse": "Short-lived feedback after an action.",
-      "avoid": [
-        "Messages that must stay: use Alert.",
-        "Several providers."
-      ],
-      "accessibility": "Live-region announcements, F6 to reach toasts, pause on hover and focus. The dismiss button is labelled.",
-      "props": [
-        {
-          "name": "limit",
-          "type": "number",
-          "required": false,
-          "default": "3",
-          "description": "The maximum number of toasts that can be displayed at once.\nWhen the limit is exceeded, the oldest toasts are marked as `limited` (via the `data-limited`\nattribute) rather than removed, so they can be hidden or animated out."
-        },
-        {
-          "name": "timeout",
-          "type": "number",
-          "required": false,
-          "default": "5000",
-          "description": "The default amount of time (in ms) before a toast is auto dismissed.\nA value of `0` will prevent the toast from being dismissed automatically."
-        },
-        {
-          "name": "toastManager",
-          "type": "ToastManager<any>",
-          "required": false,
-          "description": "A global manager for toasts to use outside of a React component."
-        }
-      ],
-      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": [
-        "<ToastProvider>{children}</ToastProvider>"
-      ],
-      "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Toast/Toast.tsx"
-    },
-    {
-      "name": "useLinkComponent",
-      "category": "utility",
-      "base": "Own component",
-      "description": "The anchor component to render links with: the one from `LinkProvider`, or `a`.",
-      "import": "import { useLinkComponent } from \"@javui/ui\";",
-      "renders": "hook, renders nothing",
-      "composition": "Only needed when building your own link components that should respect LinkProvider. `const LinkEl = useLinkComponent()` returns the provided link component, or `\"a\"`.",
-      "whenToUse": "Building your own navigation component that should follow LinkProvider.",
-      "avoid": [
-        "Calling it in Server Components: it needs a client component."
-      ],
-      "accessibility": "The returned component must render an `a`.",
-      "props": [],
-      "extends": "Also accepts the native props of the element it renders; they pass through.",
-      "examples": [],
-      "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Link/LinkContext.tsx"
-    },
-    {
-      "name": "useToast",
-      "category": "feedback",
-      "base": "Built on Base UI (@base-ui/react)",
-      "description": "Show short-lived feedback after an action (saved, copied, failed). Returns the toast manager:\n`show`/`add`, `close`, `update` and `promise`. For messages that must stay on the page, use `Alert`.\n\n`type` (or its alias `tone`) renders a status icon for `success`, `info`, `warning`, `danger`\nand `loading`. Pass `actionProps` for an inline action, and use `promise` to move one toast\nthrough loading, success and error states.",
-      "import": "import { useToast } from \"@javui/ui\";",
-      "renders": "hook, renders nothing",
-      "composition": "`const { show, add, close, update, promise } = useToast(); show({ title, description?, type?, tone?, timeout?, priority?, startIcon?, endIcon?, actionProps? })`. `type` renders the status icon for success, info, warning, danger and loading. `actionProps` adds an action button; `promise(value, { loading, success, error })` keeps one toast in sync with a promise. Icons are generated icons without `size`.",
-      "whenToUse": "Showing a toast after an action finishes.",
-      "avoid": [
-        "Calling it outside ToastProvider.",
-        "Putting the only copy of important information in a toast."
-      ],
-      "accessibility": "The type is never the only signal: write it in the title. Toasts are announced in a live region, F6 reaches them, and hover or focus pauses dismissal. The dismiss button is labelled; action button copy comes from `actionProps.children`.",
-      "props": [],
-      "extends": "Also accepts the native/Base UI props of the element it renders; they pass through.",
-      "examples": [
-        "const { show, promise } = useToast();\r\nshow({ title: \"Saved\", type: \"success\" });\r\nshow({\r\n  title: \"Event created\",\r\n  description: \"Sunday, December 3 at 9:00 AM\",\r\n  actionProps: { children: \"Undo\", onClick: () => undo() },\r\n});\r\npromise(save(), {\r\n  loading: \"Saving…\",\r\n  success: \"Saved\",\r\n  error: \"Could not save\",\r\n});"
-      ],
-      "source": "C:/Users/user/Desktop/uifinal1/packages/ui/src/components/Toast/Toast.tsx"
-    }
-  ],
   "exports": [
     {
       "name": "Text",
@@ -6045,9 +6060,9 @@
       "import": "import { MenuBar } from \"@javui/ui\";"
     },
     {
-      "name": "ToastProvider",
+      "name": "Toast",
       "category": "feedback",
-      "import": "import { ToastProvider } from \"@javui/ui\";"
+      "import": "import { Toast } from \"@javui/ui\";"
     },
     {
       "name": "useToast",
@@ -6195,6 +6210,6 @@
     "Next.js + Tailwind: use `@tailwindcss/postcss` in `postcss.config.mjs`. Do not apply a Tailwind loader to every `*.css` (for example `turbopack.rules` with `@tailwindcss/turbopack`): it strips the library's CSS Modules, the HTML loses its `class` attributes and components render unstyled.",
     "Theme: set `data-theme=\"light|dark\"` on `<html>` before the first paint. With `next-themes` use `attribute=\"data-theme\"`; a `system` theme resolves to `light` or `dark`, never `system`. Add `suppressHydrationWarning` to `<html>.",
     "Troubleshooting: if everything is unstyled, import `@javui/ui/tokens.css` and keep the Tailwind order `tailwindcss`, `tokens.css`, `tailwind.css`. If HTML has no `class` attributes, remove any Tailwind loader applied to every `*.css` (such as `@tailwindcss/turbopack`) and keep `@tailwindcss/postcss`.",
-    "Troubleshooting: mount `ToastProvider` in `app/providers.tsx` for `useToastManager must be used within <Toast.Provider>`. Keep `LinkProvider` inside a `\"use client\"` file when passing `next/link`. Install `shiki` if using `CodeBlock`."
+    "Troubleshooting: mount `<Toast>` in `app/providers.tsx` for `useToastManager must be used within <Toast.Provider>`. Keep `LinkProvider` inside a `\"use client\"` file when passing `next/link`. Install `shiki` if using `CodeBlock`."
   ]
 }

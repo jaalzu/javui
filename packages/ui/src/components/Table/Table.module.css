@@ -1,3 +1,4 @@
+@layer ui {
 .wrapper {
   overflow-x: auto;
   border: var(--border-width-thin) solid var(--color-border-strong);
@@ -83,4 +84,5 @@
 
 .end {
   text-align: end;
+}
 }

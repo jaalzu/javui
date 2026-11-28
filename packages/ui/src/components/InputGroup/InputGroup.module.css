@@ -1,5 +1,5 @@
+@layer ui {
 .group {
-  composes: control from "../../styles/control.module.css";
   --_px: var(--input-px, calc(var(--space-3) - var(--space-1) / 4));
   --_h: var(--size-control-md);
   --icon-size: var(--size-icon-md);
@@ -242,4 +242,11 @@
   .control {
     font-size: max(1rem, var(--text-body-size));
   }
+}
+}
+
+/* `composes` must stay outside `@layer ui`: Turbopack rejects nested composes. */
+
+.group {
+  composes: control from "../../styles/control.module.css";
 }

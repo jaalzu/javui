@@ -1,3 +1,4 @@
+@layer ui {
 .control {
   --control-h: var(--size-control-md);
   --control-icon: var(--size-icon-md);
@@ -82,4 +83,5 @@
   .control:is(input, textarea, select) {
     font-size: max(1rem, var(--control-fs));
   }
+}
 }

@@ -1,3 +1,4 @@
+@layer ui {
 .group {
   margin: 0;
   padding: 0;
@@ -38,7 +39,7 @@
 .label {
   display: inline-flex;
   align-items: flex-start;
-  gap: var(--space-3);
+  gap: calc(var(--space-3) - 3px);
   min-height: var(--size-target-min);
   color: var(--color-primary-foreground);
   font-family: var(--text-body-family);
@@ -49,7 +50,10 @@
 
 .label:not(.card) .radio {
   margin-block-start: calc(
-    (var(--text-body-size) * var(--text-body-line) - var(--size-icon-md)) / 2
+    (
+        var(--text-body-size) * var(--text-body-line) -
+          (var(--size-icon-md) - (var(--border-width-thin) * 2))
+      ) / 2
   );
 }
 
@@ -80,7 +84,6 @@
 }
 
 .radio {
-  composes: touchTarget from "../../styles/touchTarget.module.css";
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
@@ -203,7 +206,7 @@
 }
 
 .optionLabel {
-  font-weight: var(--text-label-weight);
+  font-weight: var(--text-body-weight);
 }
 
 .optionDescription {
@@ -223,4 +226,11 @@
 .spinner {
   margin-inline-start: var(--space-2);
   color: var(--color-secondary-foreground);
+}
+}
+
+/* `composes` must stay outside `@layer ui`: Turbopack rejects nested composes. */
+
+.radio {
+  composes: touchTarget from "../../styles/touchTarget.module.css";
 }

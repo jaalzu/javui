@@ -80,7 +80,7 @@
   flex: 1;
   min-width: 0;
   overflow-y: auto;
-  padding: calc(var(--space-8) + var(--space-2)) var(--space-4) var(--space-4) 0;
+  padding: calc(var(--space-8) + var(--space-2)) var(--space-4) var(--space-16) 0;
   scrollbar-width: none;
   -webkit-mask-image: linear-gradient(
     to bottom,
@@ -186,6 +186,11 @@ ul.sideDisclosureList > li::after {
   font-weight: var(--font-weight-medium);
 }
 
+/* Same rhythm as the links inside a list: the disclosure titles are links, not captions. */
+.sideGroup + .sideGroup {
+  margin-top: var(--space-1);
+}
+
 .sideTitleSpaced {
   margin-top: var(--space-8);
 }
@@ -201,6 +206,7 @@ ul.sideDisclosureList > li::after {
 
 ul.sideList.sideDisclosureList {
   padding-inline-start: var(--space-4);
+  margin-block-start: var(--space-1);
 }
 
 a.sideLink {

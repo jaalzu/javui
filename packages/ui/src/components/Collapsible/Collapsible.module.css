@@ -1,9 +1,9 @@
+@layer ui {
 .root {
   color: var(--color-primary-foreground);
 }
 
 .trigger {
-  composes: touchTarget from "../../styles/touchTarget.module.css";
   --icon-size: var(--size-icon-sm);
   display: flex;
   align-items: center;
@@ -102,4 +102,11 @@
 
 .contentBackground {
   background: inherit;
+}
+}
+
+/* `composes` must stay outside `@layer ui`: Turbopack rejects nested composes. */
+
+.trigger {
+  composes: touchTarget from "../../styles/touchTarget.module.css";
 }

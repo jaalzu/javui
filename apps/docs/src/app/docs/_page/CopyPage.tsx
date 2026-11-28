@@ -63,7 +63,7 @@ export function CopyPage() {
           startIcon={copied === "text" ? <CheckIcon /> : <CopyIcon />}
           onClick={() => copy("text")}
         >
-          {copied === "text" ? "Copied" : "Copy page"}
+          Copy page
         </Button>
         <ButtonGroupSeparator />
         <Menu

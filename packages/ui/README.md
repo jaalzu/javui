@@ -1,6 +1,6 @@
 ## Installation
 
-Requires Next.js 16 (App Router), React 19 and `@base-ui/react` `^1.9.0`. Tested with Next.js 16.4.4 and React 19.3.0.
+Requires Next.js 16 (App Router), React 19 and `@base-ui/react` `^1.9.0`.
 
 ### New project
 
@@ -27,12 +27,12 @@ In `app/globals.css`:
 
 import NextLink from "next/link";
 import type { ReactNode } from "react";
-import { LinkProvider, ToastProvider } from "@javui/ui";
+import { LinkProvider, Toast } from "@javui/ui";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <LinkProvider component={NextLink}>
-      <ToastProvider>{children}</ToastProvider>
+      <Toast>{children}</Toast>
     </LinkProvider>
   );
 }
@@ -72,7 +72,7 @@ Add `@import "@javui/ui/tokens.css";` to your `app/globals.css`. Do not replace 
 
 #### 3. Wrap your providers
 
-If you already have `app/providers.tsx`, wrap your children with `LinkProvider` and `ToastProvider` (same imports as above) instead of creating another file. Keep it marked `"use client"`.
+If you already have `app/providers.tsx`, wrap your children with `LinkProvider` and `Toast` (same imports as above) instead of creating another file. Keep it marked `"use client"`.
 
 #### 4. Tailwind v4 (optional)
 

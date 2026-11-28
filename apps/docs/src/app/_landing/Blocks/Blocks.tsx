@@ -16,6 +16,7 @@ import {
   Radio,
   Menu,
   Link,
+  Slider,
   Stack,
   Switch,
   Text
@@ -123,12 +124,17 @@ function Controls() {
           />
         </div>
         <Stack gap="2">
-          <Checkbox label="Email updates" defaultChecked />
+          <Checkbox label="Email updates" defaultChecked size="md" />
           <Switch label="Notifications" defaultChecked />
           <RadioGroup legend="" defaultValue="starter">
             <Radio value="starter" label="Starter" />
             <Radio value="business" label="Business" />
           </RadioGroup>
+          <Slider
+            label="Volume"
+            defaultValue={40}
+            className={styles.shortSlider}
+          />
         </Stack>
       </Stack>
     </Block>

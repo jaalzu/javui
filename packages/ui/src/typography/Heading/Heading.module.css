@@ -1,3 +1,4 @@
+@layer ui {
 .heading {
   margin: 0;
   color: var(--color-primary-foreground);
@@ -56,3 +57,4 @@
 .weight-regular { font-weight: var(--font-weight-regular); }
 .weight-medium { font-weight: var(--font-weight-medium); }
 .weight-semibold { font-weight: var(--font-weight-semibold); }
+}

@@ -1,3 +1,4 @@
+@layer ui {
 .card {
   --card-spacing: var(--space-6);
   box-sizing: border-box;
@@ -98,4 +99,5 @@
   align-items: center;
   gap: var(--space-3);
   padding-inline: var(--card-spacing);
+}
 }

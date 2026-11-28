@@ -3,7 +3,7 @@
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 import NextLink from "next/link";
-import { LinkProvider, ToastProvider, TooltipProvider } from "@javui/ui";
+import { LinkProvider, Toast, TooltipProvider } from "@javui/ui";
 
 /**
  * App-level providers. next-themes sets data-theme="light|dark" on <html> before first paint
@@ -24,7 +24,7 @@ export function Providers({ children }: { children: ReactNode }) {
     >
       <LinkProvider component={NextLink}>
         <TooltipProvider delay={600}>
-          <ToastProvider>{children}</ToastProvider>
+          <Toast>{children}</Toast>
         </TooltipProvider>
       </LinkProvider>
     </ThemeProvider>

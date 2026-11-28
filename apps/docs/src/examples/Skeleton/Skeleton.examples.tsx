@@ -12,20 +12,34 @@ import { defineHero, ex, type Example } from "@/docs/example";
 import styles from "./Skeleton.examples.module.css";
 
 export const hero = defineHero(
-  `<Stack direction="row" gap="3" align="center" aria-busy="true">
-  <Skeleton shape="circle" />
-  <Stack gap="2" className={styles.content}>
-    <Skeleton width="60%" />
-    <Skeleton width="35%" />
+  `<Stack gap="4" aria-busy="true">
+  <Stack direction="row" gap="3" align="center">
+    <Skeleton shape="circle" width="3rem" height="3rem" />
+    <Stack gap="2" className={styles.content}>
+      <Skeleton width="9rem" height="1.25rem" />
+      <Skeleton width="6rem" />
+    </Stack>
   </Stack>
+  <Stack gap="2">
+    <Skeleton width="4rem" height="0.875rem" />
+    <Skeleton height="2.25rem" />
+  </Stack>
+  <Skeleton width="7rem" height="2.25rem" />
 </Stack>`,
   <div className={styles.stage}>
-    <Stack direction="row" gap="3" align="center" aria-busy="true">
-      <Skeleton shape="circle" />
-      <Stack gap="2" className={styles.content}>
-        <Skeleton width="60%" />
-        <Skeleton width="35%" />
+    <Stack gap="4" aria-busy="true" className={styles.profile}>
+      <Stack direction="row" gap="3" align="center">
+        <Skeleton shape="circle" width="3rem" height="3rem" />
+        <Stack gap="2" className={styles.content}>
+          <Skeleton width="9rem" height="1.25rem" />
+          <Skeleton width="6rem" />
+        </Stack>
       </Stack>
+      <Stack gap="2">
+        <Skeleton width="4rem" height="0.875rem" />
+        <Skeleton height="2.25rem" />
+      </Stack>
+      <Skeleton width="7rem" height="2.25rem" />
     </Stack>
   </div>,
 );

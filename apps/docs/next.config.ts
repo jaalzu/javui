@@ -69,6 +69,21 @@ const nextConfig: NextConfig = {
         destination: "/docs/components/ButtonGroup",
         permanent: true,
       },
+      {
+        source: "/docs/components/LinkProvider",
+        destination: "/docs/components/Link",
+        permanent: true,
+      },
+      {
+        source: "/docs/components/useLinkComponent",
+        destination: "/docs/components/Link",
+        permanent: true,
+      },
+      {
+        source: "/docs/components/TooltipProvider",
+        destination: "/docs/components/Tooltip",
+        permanent: true,
+      },
       { source: "/docs/usage", destination: "/docs/installation", permanent: true },
       { source: "/docs/agents", destination: "/docs/installation", permanent: true },
       { source: "/docs/utilities", destination: "/docs/layout", permanent: true },      { source: "/docs/alignment", destination: "/docs/layout", permanent: true },

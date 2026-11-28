@@ -7,7 +7,7 @@ export type TooltipProviderProps = ComponentProps<typeof BaseTooltip.Provider>;
 
 /**
  * Shares the open delay between tooltips. The first tooltip waits `delay` ms; moving to the next
- * one opens instantly (`data-instant` skips the animation). Put it once near the app root.
+ * one opens instantly (`data-instant` skips the animation). Mount it once at the app root, never inside a `<Tooltip>`.
  *
  * @default delay 600
  */

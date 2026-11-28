@@ -1,6 +1,5 @@
+@layer ui {
 .toggle {
-  composes: control from "../../styles/control.module.css";
-  composes: touchTarget from "../../styles/touchTarget.module.css";
   --color-control: transparent;
   --color-control-hover: var(--color-toggle-active);
   --icon-size: var(--control-icon);
@@ -60,6 +59,22 @@
 .toggle[data-icon="only"] {
   padding-inline: 0;
   aspect-ratio: 1;
+}
+
+.xs {}
+
+.sm {}
+
+.md {}
+
+.lg {}
+}
+
+/* `composes` must stay outside `@layer ui`: Turbopack rejects nested composes. */
+
+.toggle {
+  composes: control from "../../styles/control.module.css";
+  composes: touchTarget from "../../styles/touchTarget.module.css";
 }
 
 .xs {

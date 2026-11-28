@@ -133,6 +133,8 @@ const componentsManifest = allExported.map((name) => {
     accessibility: m.a11y,
     callout: m.callout,
     choosing: m.choosing,
+    setup: m.setup,
+    reference: m.reference,
     props,
     extends: m.base === "base-ui" ? "Also accepts the native/Base UI props of the element it renders; they pass through." : "Also accepts the native props of the element it renders; they pass through.",
     examples: examplesFor(name, file),
@@ -164,7 +166,7 @@ for (const c of componentsManifest) {
   }
 }
 
-// ---- 2b. Group compound parts, and keep providers/hooks out of the component list ----
+// ---- 2b. Group compound parts and companions, and keep them out of the component list ----
 const compoundParts = {
   Modal: ["ModalTrigger", "ModalContent", "ModalClose"],
   Popover: ["PopoverTrigger", "PopoverContent", "PopoverClose"],
@@ -182,16 +184,26 @@ const compoundParts = {
   Table: ["TableCaption", "TableHeader", "TableBody", "TableFooter", "TableRow", "TableHead", "TableCell"],
   Menu: ["MenuBar"],
 };
-const providerAndHookNames = ["LinkProvider", "TooltipProvider", "ToastProvider", "useLinkComponent", "useToast"];
+/** Non-visual APIs documented with the component they configure: providers and hooks. */
+const companionParts = {
+  Link: ["LinkProvider", "useLinkComponent"],
+  Tooltip: ["TooltipProvider"],
+};
+/** Documented inside the page of the feature they belong to, without an entry of their own. */
+const embeddedDocNames = ["useToast"];
 const byName = new Map(componentsManifest.map((c) => [c.name, c]));
 const partNames = new Set(Object.values(compoundParts).flat());
 for (const [parent, names] of Object.entries(compoundParts)) {
   const entry = byName.get(parent);
   entry.parts = names.map((name) => ({ ...byName.get(name), parent }));
 }
-const providersAndHooks = providerAndHookNames.map((name) => byName.get(name));
+const companionNames = new Set(Object.values(companionParts).flat());
+for (const [parent, names] of Object.entries(companionParts)) {
+  const entry = byName.get(parent);
+  entry.companions = names.map((name) => ({ ...byName.get(name), parent }));
+}
 const topLevelComponents = componentsManifest.filter(
-  (c) => !partNames.has(c.name) && !providerAndHookNames.includes(c.name),
+  (c) => !partNames.has(c.name) && !companionNames.has(c.name) && !embeddedDocNames.includes(c.name),
 ).filter((c) => !foundationNames.has(c.name));
 
 // ---- 3. Tokens ----
@@ -273,7 +285,6 @@ const manifest = {
   categories: [...new Set(topLevelComponents.map((c) => c.category))],
   components: topLevelComponents,
   foundations: foundationsManifest,
-  providersAndHooks,
   exports: exportIndex,
   integration,
 };
@@ -291,6 +302,7 @@ if (existsSync(docsPublicDir)) {
 }
 
 const partCount = topLevelComponents.reduce((n, c) => n + (c.parts?.length ?? 0), 0);
+const companionCount = topLevelComponents.reduce((n, c) => n + (c.companions?.length ?? 0), 0);
 console.log(
-  `agent docs: ${topLevelComponents.length} components (${partCount} parts), ${providersAndHooks.length} providers and hooks, ${merged.length} tokens`,
+  `agent docs: ${topLevelComponents.length} components (${partCount} parts, ${companionCount} companions), ${merged.length} tokens`,
 );

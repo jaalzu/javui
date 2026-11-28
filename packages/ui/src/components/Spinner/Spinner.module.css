@@ -1,3 +1,4 @@
+@layer ui {
 .spinner {
   --spinner-icon-size: var(--size-icon-md);
   /* 1px wider than the icon token, so the ring reads bigger. */
@@ -130,4 +131,5 @@
     animation-duration: 2s !important;
     animation-iteration-count: infinite !important;
   }
+}
 }

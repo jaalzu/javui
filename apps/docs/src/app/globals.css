@@ -1,7 +1,7 @@
 @import "@javui/ui/tokens.css";
 
 :root {
-  --header-height: 3.55rem;
+  --header-height: 3.8625rem; /* 61.8px: 3.55rem + 5px */
   --font-family-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
   --font-family-emphasis: "Source Serif 4", ui-serif, Georgia, serif;
   --font-family-mono: "Commit Mono", ui-monospace, monospace;

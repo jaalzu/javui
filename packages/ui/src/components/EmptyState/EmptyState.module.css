@@ -1,3 +1,4 @@
+@layer ui {
 .root {
   --empty-state-padding: var(--space-10) var(--space-6);
   --empty-state-gap: var(--space-3);
@@ -59,4 +60,5 @@
   justify-content: center;
   gap: var(--space-2);
   margin-block-start: var(--space-2);
+}
 }

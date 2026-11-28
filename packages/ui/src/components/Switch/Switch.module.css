@@ -1,7 +1,8 @@
+@layer ui {
 .label {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: calc(var(--space-3) - 2px);
   min-height: var(--size-target-min);
   color: var(--color-primary-foreground);
   font-family: var(--text-body-family);
@@ -11,7 +12,6 @@
 }
 
 .track {
-  composes: touchTarget from "../../styles/touchTarget.module.css";
   --switch-width: calc(2.5rem - var(--border-width-thin));
   --switch-height: calc(1.5rem - var(--border-width-thin));
   --switch-thumb-size: calc(1.125rem - var(--border-width-thin));
@@ -210,4 +210,11 @@
 .card:has([data-disabled]) {
   border-color: var(--color-border-disabled);
   background: var(--color-disabled);
+}
+}
+
+/* `composes` must stay outside `@layer ui`: Turbopack rejects nested composes. */
+
+.track {
+  composes: touchTarget from "../../styles/touchTarget.module.css";
 }

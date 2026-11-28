@@ -49,15 +49,6 @@ export const componentLinks: NavLink[] = manifest.components
   .map((c) => ({ href: `/docs/components/${c.name}`, label: c.name }))
   .sort((a, b) => a.label.localeCompare(b.label));
 
-/** Providers and hooks: documented pages, but not components. */
-const providersAndHooks =
-  (manifest as unknown as { providersAndHooks?: { name: string }[] }).providersAndHooks ?? [];
-
-export const providerLinks: NavLink[] = providersAndHooks.map((c) => ({
-  href: `/docs/components/${c.name}`,
-  label: c.name,
-}));
-
 /** Reading order for Previous and Next. */
 export const pageOrder: NavLink[] = [
   ...generalSections,
@@ -66,7 +57,6 @@ export const pageOrder: NavLink[] = [
   componentsIndex,
   ...componentLinks,
   ...layoutComponentLinks,
-  ...providerLinks,
 ];
 
 export function neighbors(href: string): { prev?: NavLink; next?: NavLink } {

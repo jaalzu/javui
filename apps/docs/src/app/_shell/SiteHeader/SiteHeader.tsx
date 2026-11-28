@@ -6,7 +6,6 @@ import {
   generalSections,
   layoutComponentLinks,
   layoutSections,
-  providerLinks,
   sections,
 } from "@/app/docs/_layout/nav";
 import { MobileNav } from "@/app/_shell/MobileNav/MobileNav";
@@ -37,6 +36,14 @@ const githubMark = (
   </svg>
 );
 
+/** Providers and hooks that have no page of their own: they open the component they configure. */
+const apiAliases: SearchItem[] = [
+  { href: "/docs/components/Link", label: "LinkProvider", group: "Provider or hook" },
+  { href: "/docs/components/Link", label: "useLinkComponent", group: "Provider or hook" },
+  { href: "/docs/components/Tooltip", label: "TooltipProvider", group: "Provider or hook" },
+  { href: "/docs/components/Toast", label: "useToast", group: "Provider or hook" },
+];
+
 const searchItems: SearchItem[] = [
   ...sections.map((s) => ({ href: s.href, label: s.label, group: "Docs" })),
   ...layoutComponentLinks.map((c) => ({
@@ -49,11 +56,7 @@ const searchItems: SearchItem[] = [
     label: c.label,
     group: "Component",
   })),
-  ...providerLinks.map((c) => ({
-    href: c.href,
-    label: c.label,
-    group: "Provider or hook",
-  })),
+  ...apiAliases,
 ];
 
 export function SiteHeader() {
@@ -73,7 +76,6 @@ export function SiteHeader() {
         { ...componentsIndex, label: "All components" },
         ...componentLinks,
       ] },
-    { title: "Providers and hooks", links: providerLinks },
   ];
   return (
     <HideOnScroll className={styles.header}>

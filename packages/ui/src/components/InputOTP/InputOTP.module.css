@@ -1,3 +1,4 @@
+@layer ui {
 .wrapper {
   --_s: var(--size-control-lg);
   --_fs: var(--font-size-20);
@@ -30,7 +31,6 @@
   min-width: 0;
 }
 .slot {
-  composes: control from "../../styles/control.module.css";
   box-sizing: border-box;
   flex: 0 0 var(--_s);
   width: var(--_s);
@@ -163,4 +163,11 @@
   .slot {
     font-size: max(1rem, var(--_fs));
   }
+}
+}
+
+/* `composes` must stay outside `@layer ui`: Turbopack rejects nested composes. */
+
+.slot {
+  composes: control from "../../styles/control.module.css";
 }

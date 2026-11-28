@@ -1,3 +1,4 @@
+@layer ui {
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -16,9 +17,6 @@
 }
 
 .trigger {
-  composes: control from "../../styles/control.module.css";
-  composes: touchTarget from "../../styles/touchTarget.module.css";
-  composes: surface from "../../styles/field-surface.module.css";
   --icon-size: var(--control-icon);
   display: flex;
   align-items: center;
@@ -66,21 +64,13 @@
   background: transparent;
 }
 
-.xs {
-  composes: xs from "../../styles/control.module.css";
-}
+.xs {}
 
-.sm {
-  composes: sm from "../../styles/control.module.css";
-}
+.sm {}
 
-.md {
-  composes: md from "../../styles/control.module.css";
-}
+.md {}
 
-.lg {
-  composes: lg from "../../styles/control.module.css";
-}
+.lg {}
 
 .value {
   flex: 1;
@@ -265,4 +255,29 @@
   color: var(--color-secondary-foreground);
   font-size: var(--text-body-sm-size);
   line-height: var(--text-body-sm-line);
+}
+}
+
+/* `composes` must stay outside `@layer ui`: Turbopack rejects nested composes. */
+
+.trigger {
+  composes: control from "../../styles/control.module.css";
+  composes: touchTarget from "../../styles/touchTarget.module.css";
+  composes: surface from "../../styles/field-surface.module.css";
+}
+
+.xs {
+  composes: xs from "../../styles/control.module.css";
+}
+
+.sm {
+  composes: sm from "../../styles/control.module.css";
+}
+
+.md {
+  composes: md from "../../styles/control.module.css";
+}
+
+.lg {
+  composes: lg from "../../styles/control.module.css";
 }

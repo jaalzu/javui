@@ -112,6 +112,11 @@
   gap: var(--space-2);
 }
 
+/* Keeps the demo slider narrow so it reads as one more control, not a full-width one. */
+.shortSlider {
+  max-width: 12rem;
+}
+
 /* Icon buttons like the header's, one step smaller: 28px box with a 14px glyph. */
 .iconButtons {
   display: flex;

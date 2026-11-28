@@ -70,5 +70,16 @@
 
 /* ---------- Requirements ---------- */
 .requirements {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
   color: var(--color-secondary-foreground);
+}
+
+.requirementsIcon {
+  flex-shrink: 0;
+  /* Centers the 16px glyph on the first 24px text line. */
+  margin-block-start: calc(
+    (var(--text-body-size) * var(--text-body-line) - var(--size-icon-sm)) / 2
+  );
 }

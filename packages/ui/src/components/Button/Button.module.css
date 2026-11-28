@@ -1,5 +1,5 @@
+@layer ui {
 .button {
-  composes: touchTarget from "../../styles/touchTarget.module.css";
   --btn-bg: var(--color-inverted-solid);
   --btn-fg: var(--color-on-inverted-foreground);
   --btn-bg-hover: var(--color-inverted-solid-hover);
@@ -12,6 +12,7 @@
   --btn-gap: var(--icon-gap-md);
   --btn-icon: var(--size-icon-md);
   --btn-radius: var(--radius-md);
+  --btn-press-scale: 0.98; /* Overridden per size below. */
   --icon-size: var(--btn-icon); /* Slot icons follow the button size. */
   gap: var(--btn-gap);
   min-width: var(--size-target-min);
@@ -30,9 +31,11 @@
   white-space: nowrap;
   cursor: pointer;
   user-select: none;
+  transform-origin: center;
+  transition: transform var(--motion-duration-fast) var(--motion-easing-out);
 }
 
-/* The background and border live on a layer behind the content, so pressing shrinks only the box and not the label. */
+/* The background and border live on a layer behind the content, so the box paints without touching the label. */
 .button::before {
   content: "";
   position: absolute;
@@ -48,8 +51,7 @@
   background-color: var(--btn-bg);
   transition:
     background-color var(--motion-duration-fast) var(--motion-easing-standard),
-    box-shadow var(--motion-duration-fast) var(--motion-easing-standard),
-    transform var(--motion-duration-fast) var(--motion-easing-out);
+    box-shadow var(--motion-duration-fast) var(--motion-easing-standard);
 }
 
 /* The link branch: no underline and no inherited link color, only the button's own foreground. */
@@ -65,9 +67,10 @@
   background-color: var(--btn-bg-hover);
 }
 
-.button:active:not([data-disabled])::before,
-.button[data-force="active"]:not([data-disabled])::before {
-  transform: scale(var(--motion-scale-press));
+/* Press: the whole button compresses (box, icon and label together), so the text never drifts on its own. */
+.button:active:not([data-disabled]),
+.button[data-force="active"]:not([data-disabled]) {
+  transform: scale(var(--btn-press-scale));
 }
 
 .button:focus-visible,
@@ -125,40 +128,45 @@
 }
 
 .xs {
-  composes: xs from "../../styles/control.module.css";
   --btn-px: var(--space-2);
   --btn-gap: var(--icon-gap-xs);
   --btn-icon: var(--size-icon-xs);
+  --btn-press-scale: 0.96;
   height: var(--size-control-xs);
   font-size: var(--font-size-12);
 }
 
 .sm {
-  composes: sm from "../../styles/control.module.css";
   --btn-px: var(--space-3);
   --btn-gap: var(--icon-gap-sm);
   --btn-icon: var(--size-icon-sm);
+  --btn-press-scale: 0.97;
   height: var(--size-control-sm);
   font-size: var(--font-size-13);
 }
 
 .md {
-  composes: md from "../../styles/control.module.css";
   --btn-gap: var(--icon-gap-md);
   --btn-icon: var(--size-icon-md);
+  --btn-press-scale: 0.98;
   height: var(--size-control-md);
 }
 
 .lg {
-  composes: lg from "../../styles/control.module.css";
   --btn-px: var(--space-6);
   --btn-gap: var(--icon-gap-lg);
   --btn-icon: var(--size-icon-lg);
+  --btn-press-scale: 0.99;
   height: var(--size-control-lg);
 }
 
 .pill {
   --btn-radius: var(--radius-full);
+}
+
+/* Very wide buttons (full width, long rows): the softest press. */
+.fullWidth {
+  --btn-press-scale: 0.995;
 }
 
 /* Optical balance: Phosphor glyphs carry their own empty space and look heavier than a letter, so the
@@ -196,4 +204,22 @@
 /* Centers the cap height of the label on the icon. */
 .label {
   text-box: trim-both cap alphabetic;
+}
+}
+
+/* `composes` must stay outside `@layer ui`: Turbopack rejects nested composes. */
+.button {
+  composes: touchTarget from "../../styles/touchTarget.module.css";
+}
+.xs {
+  composes: xs from "../../styles/control.module.css";
+}
+.sm {
+  composes: sm from "../../styles/control.module.css";
+}
+.md {
+  composes: md from "../../styles/control.module.css";
+}
+.lg {
+  composes: lg from "../../styles/control.module.css";
 }

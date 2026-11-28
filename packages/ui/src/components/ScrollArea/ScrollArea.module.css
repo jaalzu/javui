@@ -1,3 +1,4 @@
+@layer ui {
 .root {
   position: relative;
   box-sizing: border-box;
@@ -82,4 +83,5 @@
   width: var(--space-2-5);
   height: var(--space-2-5);
   background: var(--color-sunken);
+}
 }

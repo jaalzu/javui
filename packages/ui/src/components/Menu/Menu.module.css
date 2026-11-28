@@ -1,3 +1,4 @@
+@layer ui {
 .positioner {
   z-index: var(--z-popover);
 }
@@ -245,4 +246,5 @@
   height: var(--border-width-thin);
   margin: var(--space-1) calc(var(--inner-gap) * -1);
   background: var(--color-border-default);
+}
 }

@@ -5,7 +5,7 @@
     "Next.js + Tailwind: use `@tailwindcss/postcss` in `postcss.config.mjs`. Do not apply a Tailwind loader to every `*.css` (for example `turbopack.rules` with `@tailwindcss/turbopack`): it strips the library's CSS Modules, the HTML loses its `class` attributes and components render unstyled.",
     "Theme: set `data-theme=\"light|dark\"` on `<html>` before the first paint. With `next-themes` use `attribute=\"data-theme\"`; a `system` theme resolves to `light` or `dark`, never `system`. Add `suppressHydrationWarning` to `<html>.",
     "Troubleshooting: if everything is unstyled, import `@javui/ui/tokens.css` and keep the Tailwind order `tailwindcss`, `tokens.css`, `tailwind.css`. If HTML has no `class` attributes, remove any Tailwind loader applied to every `*.css` (such as `@tailwindcss/turbopack`) and keep `@tailwindcss/postcss`.",
-    "Troubleshooting: mount `ToastProvider` in `app/providers.tsx` for `useToastManager must be used within <Toast.Provider>`. Keep `LinkProvider` inside a `\"use client\"` file when passing `next/link`. Install `shiki` if using `CodeBlock`."
+    "Troubleshooting: mount `<Toast>` in `app/providers.tsx` for `useToastManager must be used within <Toast.Provider>`. Keep `LinkProvider` inside a `\"use client\"` file when passing `next/link`. Install `shiki` if using `CodeBlock`."
   ],
   "$touchTargets": "Every interactive control must have a hit area of at least 44px on touch devices (pointer: coarse) and at least 24px otherwise. Use the shared mechanism; never enlarge the visible control for this.",
   "$surfaceComposition": "There are five surfaces. Card sits on page, sunken and highlight sit inside card, and modal floats above the page. Table: page = the base; card = content block on the page (cards, panels, table rows); sunken = recessed area inside a card (code, wells, inset fields); highlight = highlighted panel inside a card (a metric, total or goal; dark lighter than the card, light soft gray); modal = floating layer above the page (dialog, menu, select list, popover). Rules: max 3 nested levels; never put a card inside a card (use sunken, highlight or an `hr` hairline instead); highlight sits inside a card, is never nested, and is not for code or inputs (use sunken); modal is never a page background; mark the sunken container with data-surface=\"sunken\" so controls inside use --color-component-on-sunken; controls placed on highlight use --color-component; at rest use a border or a shadow, never both.",
@@ -52,7 +52,16 @@
       "Links without visible text.",
       "Button-styled navigation: use Button with href."
     ],
-    "a11y": "Always underlined so it does not rely on color (the underline gets stronger on hover). Use `target=\"_blank\"` only with `rel=\"noopener noreferrer\"`."
+    "a11y": "Always underlined so it does not rely on color (the underline gets stronger on hover). Use `target=\"_blank\"` only with `rel=\"noopener noreferrer\"`.",
+    "setup": {
+      "description": "Mount `<LinkProvider>` once inside a `\"use client\"` file near the app root; never inside a `<Link>`. Every library link then uses your router (`next/link`). Without it links render as plain `a` elements.",
+      "code": "\"use client\";\nimport NextLink from \"next/link\";\nimport { LinkProvider } from \"@javui/ui\";\n\nexport function Providers({ children }) {\n  return <LinkProvider component={NextLink}>{children}</LinkProvider>;\n}"
+    },
+    "choosing": [
+      "Navigating to another page or resource: use `Link`, inline in text or with `standalone`.",
+      "Navigation styled as a button: use `Button` with `href`.",
+      "Building your own link component that must respect `LinkProvider`: call `useLinkComponent()` in a client component and render the returned component."
+    ]
   },
   "Kbd": {
     "category": "typography",
@@ -372,7 +381,7 @@
     "category": "controls",
     "base": "base-ui",
     "renders": "span role=\"checkbox\" with a hidden native input, optionally inside a label",
-    "composition": "`variant=\"card\"` turns the label into a card; the dash exists only on the `parent` of a `CheckboxGroup`; `invalid` paints without a message, while `error` adds a message. `label` is optional, but then it needs `aria-label` or `aria-labelledby`; `description` adds helper text below the label.",
+    "composition": "`variant=\"card\"` turns the label into a card; `size=\"md\"` renders a larger box that matches a Radio; the dash exists only on the `parent` of a `CheckboxGroup`; `invalid` paints without a message, while `error` adds a message. `label` is optional, but then it needs `aria-label` or `aria-labelledby`; `description` adds helper text below the label.",
     "whenToUse": "Choosing several independent options, or one confirmation that is saved when the form is submitted.",
     "avoid": [
       "A single option among several: use RadioGroup.",
@@ -450,13 +459,17 @@
       "Essential information: it does not appear on touch and is not linked to the trigger for screen readers.",
       "Interactive content in the tooltip."
     ],
-    "a11y": "Shows on hover and keyboard focus, hides on Escape. The trigger needs aria-label when it has no text."
+    "a11y": "Shows on hover and keyboard focus, hides on Escape. The trigger needs aria-label when it has no text.",
+    "setup": {
+      "description": "Mount `<TooltipProvider>` once near the app root; never inside a `<Tooltip>`. It shares one open delay (600 ms by default), so moving between tooltips opens the next one instantly.",
+      "code": "import { TooltipProvider } from \"@javui/ui\";\n\nexport function Providers({ children }) {\n  return <TooltipProvider delay={600}>{children}</TooltipProvider>;\n}"
+    }
   },
   "TooltipProvider": {
     "category": "overlays",
     "base": "base-ui",
     "renders": "no element",
-    "composition": "Place once near the app root. Optional. `delay` (default 600) applies only to the first tooltip; the next ones open instantly.",
+    "composition": "Mount once at the app root; never inside a `<Tooltip>`. Optional. `delay` (default 600) applies only to the first tooltip; the next ones open instantly.",
     "whenToUse": "Shared open delay across tooltips.",
     "avoid": [
       "Nesting several providers."
@@ -479,7 +492,7 @@
     "category": "utility",
     "base": "own",
     "renders": "no element: it provides the link component through context",
-    "composition": "Place once near the app root: `<LinkProvider component={NextLink}>`. Link, Button with href, Menu link items, Breadcrumb and Pagination then render with it.",
+    "composition": "Mount once at the app root, in a `\"use client\"` file; never inside a `<Link>`. `<LinkProvider component={NextLink}>`. Link, Button with href, Menu link items, Breadcrumb and Pagination then render with it.",
     "whenToUse": "Making every link in the library use `next/link` (or another router link) from a single place.",
     "avoid": [
       "Passing a `render` prop to individual links.",
@@ -491,7 +504,7 @@
     "category": "utility",
     "base": "own",
     "renders": "hook, renders nothing",
-    "composition": "Only needed when building your own link components that should respect LinkProvider. `const LinkEl = useLinkComponent()` returns the provided link component, or `\"a\"`.",
+    "composition": "Only needed when building your own link components that should respect LinkProvider. `const LinkEl = useLinkComponent()` returns the provided link component, or `\"a\"`. Use it inside your own client component; never inside a `<Link>`.",
     "whenToUse": "Building your own navigation component that should follow LinkProvider.",
     "avoid": [
       "Calling it in Server Components: it needs a client component."
@@ -685,17 +698,26 @@
     "avoid": ["A single menu: use `Menu`.", "Unrelated navigation links."],
     "a11y": "Keyboard navigation and menu behavior come from Base UI."
   },
-  "ToastProvider": {
+  "Toast": {
     "category": "feedback",
     "base": "base-ui",
     "renders": "no visible element until a toast is shown; renders a viewport in a portal",
-    "composition": "Place once near the app root, inside Providers. Then call `useToast()` anywhere below it.",
+    "composition": "Place `<Toast>` once near the app root, inside Providers. Then call `useToast()` anywhere below it: `const { show, add, close, update, promise } = useToast()`. `show({ title, description?, type?, tone?, timeout?, priority?, startIcon?, endIcon?, actionProps? })`; `type` renders the status icon for success, info, warning, danger and loading. `actionProps` adds an action button, and `promise(value, { loading, success, error })` keeps one toast in sync with a promise. Icons are generated icons without `size`.",
     "whenToUse": "Short-lived feedback after an action.",
     "avoid": [
       "Messages that must stay: use Alert.",
-      "Several providers."
+      "Mounting more than one `<Toast>`."
     ],
-    "a11y": "Live-region announcements, F6 to reach toasts, pause on hover and focus. The dismiss button is labelled."
+    "a11y": "Live-region announcements, F6 to reach toasts, pause on hover and focus. The dismiss button is labelled. The type is never the only signal: write it in the title.",
+    "setup": {
+      "description": "Mount `<Toast>` once in your root layout, inside `Providers`. It renders the stack of toasts and provides the manager, so `useToast()` works anywhere below it.",
+      "code": "import { Toast } from \"@javui/ui\";\n\nexport function Providers({ children }) {\n  return <Toast>{children}</Toast>;\n}"
+    },
+    "reference": {
+      "label": "Base UI Toast documentation",
+      "url": "https://base-ui.com/react/components/toast",
+      "description": "for details about manager options, stacking, swipe dismissal, and the primitive API."
+    }
   },
   "useControllableState": {
     "category": "utility",
@@ -714,9 +736,9 @@
     "base": "base-ui",
     "renders": "hook, renders nothing",
     "composition": "`const { show, add, close, update, promise } = useToast(); show({ title, description?, type?, tone?, timeout?, priority?, startIcon?, endIcon?, actionProps? })`. `type` renders the status icon for success, info, warning, danger and loading. `actionProps` adds an action button; `promise(value, { loading, success, error })` keeps one toast in sync with a promise. Icons are generated icons without `size`.",
-    "whenToUse": "Showing a toast after an action finishes.",
+    "whenToUse": "Showing a toast after an action finishes. Call it below `<Toast>`.",
     "avoid": [
-      "Calling it outside ToastProvider.",
+      "Calling it outside `<Toast>`.",
       "Putting the only copy of important information in a toast."
     ],
     "a11y": "The type is never the only signal: write it in the title. Toasts are announced in a live region, F6 reaches them, and hover or focus pauses dismissal. The dismiss button is labelled; action button copy comes from `actionProps.children`."

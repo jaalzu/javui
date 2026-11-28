@@ -4,7 +4,7 @@ import { ToastAction, ToastDemo, ToastPromise, ToastTypes } from "./ToastDemo";
 export const hero = defineHero(
   `const { show } = useToast();
 
-<Button onClick={() => show({ title: "Saved", description: "Your changes are safe.", type: "success" })}>
+<Button variant="secondary" onClick={() => show({ title: "Saved", description: "Your changes are safe.", type: "success" })}>
   Show a toast
 </Button>`,
   <ToastDemo />,

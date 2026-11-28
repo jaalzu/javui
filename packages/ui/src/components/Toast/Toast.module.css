@@ -1,3 +1,4 @@
+@layer ui {
 .viewport {
   position: fixed;
   z-index: var(--z-tooltip);
@@ -35,8 +36,7 @@
   box-sizing: border-box;
   width: 100%;
   height: var(--height);
-  border: var(--border-width-thin) solid var(--color-border-strong);
-  border-left: 3px solid var(--toast-tone);
+  border: var(--border-width-thin) solid var(--color-border-default);
   border-radius: var(--radius-lg);
   background: var(--color-modal);
   color: var(--color-primary-foreground);
@@ -108,11 +108,11 @@
 }
 
 .content {
-  --icon-size: var(--size-icon-md);
+  --icon-size: var(--size-icon-sm);
   box-sizing: border-box;
   display: flex;
   align-items: flex-start;
-  gap: var(--space-3);
+  gap: var(--space-2);
   padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
   overflow: hidden;
   transition: opacity var(--motion-duration-base) var(--motion-easing-out);
@@ -127,14 +127,17 @@
 }
 
 .icon {
-  color: var(--color-secondary-foreground);
+  color: var(--toast-tone, var(--color-secondary-foreground));
+  margin-block-start: calc(
+    (var(--text-body-size) * var(--text-body-line) - var(--size-icon-sm)) / 2
+  );
 }
 
 .text {
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: 1px;
   min-width: 0;
 }
 
@@ -143,7 +146,7 @@
   text-wrap: balance;
   font-family: var(--text-label-family);
   font-size: var(--text-body-size);
-  line-height: var(--text-label-line);
+  line-height: var(--text-body-line);
   font-weight: var(--font-weight-semibold);
 }
 
@@ -163,7 +166,7 @@
   background: transparent;
   color: var(--color-brand-foreground);
   font-family: var(--text-label-family);
-  font-size: var(--text-label-size);
+  font-size: var(--text-body-size);
   font-weight: var(--font-weight-medium);
   letter-spacing: var(--text-label-tracking);
   cursor: pointer;
@@ -185,7 +188,7 @@
 }
 
 .close {
-  --icon-size: var(--size-icon-sm);
+  --icon-size: calc(var(--size-icon-xs) + 2 * var(--border-width-thin));
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -216,4 +219,5 @@
 .close[data-force="focus"] {
   outline: var(--focus-ring-width) solid var(--color-brand-border-focus);
   outline-offset: var(--focus-ring-offset);
+}
 }

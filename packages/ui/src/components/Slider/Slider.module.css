@@ -1,7 +1,8 @@
+@layer ui {
 .root {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: 0;
   width: 100%;
   color: var(--color-primary-foreground);
 }
@@ -40,6 +41,8 @@
   box-sizing: border-box;
   width: 100%;
   min-height: var(--size-target-min);
+  /* Pulls the track up under the label row: the 24px hit area is kept, the visual gap shrinks. */
+  margin-block-start: calc(var(--space-1) * -1);
   touch-action: none;
   user-select: none;
 }
@@ -60,7 +63,6 @@
 }
 
 .thumb {
-  composes: touchTarget from "../../styles/touchTarget.module.css";
   width: var(--size-icon-sm);
   height: var(--size-icon-sm);
   box-sizing: border-box;
@@ -91,12 +93,12 @@
 .root:not([data-disabled]):not([data-readonly]):not([data-loading]) .thumb:hover,
 .root:not([data-disabled]):not([data-readonly]):not([data-loading]) .thumb[data-force="hover"],
 .root[data-force="hover"]:not([data-disabled]) .thumb {
-  box-shadow: 0 0 0 var(--border-width-thick) var(--color-neutral-subtle);
+  box-shadow: 0 0 0 var(--border-width-thick) var(--color-brand-border-default);
 }
 
 .root:not([data-disabled]):not([data-readonly]):not([data-loading]) .thumb:active,
 .root:not([data-disabled]):not([data-readonly]):not([data-loading]) .thumb[data-force="active"] {
-  box-shadow: 0 0 0 var(--border-width-thick) var(--color-neutral-subtle);
+  box-shadow: 0 0 0 var(--border-width-thick) var(--color-brand-border-default);
 }
 
 .root[data-readonly] .control,
@@ -129,9 +131,7 @@
   color: var(--color-disabled-foreground);
 }
 
-.rowHidden {
-  composes: hidden from "../VisuallyHidden/VisuallyHidden.module.css";
-}
+.rowHidden {}
 
 .root[data-disabled] .thumb {
   background: var(--color-disabled);
@@ -162,4 +162,15 @@
 
 .root[data-disabled] .indicator {
   background: var(--color-disabled-foreground);
+}
+}
+
+/* `composes` must stay outside `@layer ui`: Turbopack rejects nested composes. */
+
+.thumb {
+  composes: touchTarget from "../../styles/touchTarget.module.css";
+}
+
+.rowHidden {
+  composes: hidden from "../VisuallyHidden/VisuallyHidden.module.css";
 }
